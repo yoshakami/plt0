@@ -1,0 +1,11 @@
+X:\yoshi\3D Objects\C#\mp9-updater\mp9-updater\bin\x64\updater_Release\mp9-updater.exe.config
+X:\yoshi\3D Objects\C#\mp9-updater\mp9-updater\bin\x64\updater_Release\mp9-updater.exe
+X:\yoshi\3D Objects\C#\mp9-updater\mp9-updater\bin\x64\updater_Release\mp9-updater.pdb
+X:\yoshi\3D Objects\C#\mp9-updater\mp9-updater\obj\x64\updater_Release\mp9-updater.csproj.AssemblyReference.cache
+X:\yoshi\3D Objects\C#\mp9-updater\mp9-updater\obj\x64\updater_Release\mp9-updater.csproj.SuggestedBindingRedirects.cache
+X:\yoshi\3D Objects\C#\mp9-updater\mp9-updater\obj\x64\updater_Release\mp9_updater.Form1.resources
+X:\yoshi\3D Objects\C#\mp9-updater\mp9-updater\obj\x64\updater_Release\mp9_updater.Properties.Resources.resources
+X:\yoshi\3D Objects\C#\mp9-updater\mp9-updater\obj\x64\updater_Release\mp9-updater.csproj.GenerateResource.cache
+X:\yoshi\3D Objects\C#\mp9-updater\mp9-updater\obj\x64\updater_Release\mp9-updater.csproj.CoreCompileInputs.cache
+X:\yoshi\3D Objects\C#\mp9-updater\mp9-updater\obj\x64\updater_Release\mp9-updater.exe
+X:\yoshi\3D Objects\C#\mp9-updater\mp9-updater\obj\x64\updater_Release\mp9-updater.pdb

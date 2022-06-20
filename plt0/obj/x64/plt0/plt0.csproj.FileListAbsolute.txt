@@ -1,0 +1,19 @@
+X:\yoshi\3D Objects\C#\plt0\mp9-updater\obj\x64\plt0\plt0.csproj.AssemblyReference.cache
+X:\yoshi\3D Objects\C#\plt0\mp9-updater\obj\x64\plt0\plt0.csproj.SuggestedBindingRedirects.cache
+X:\yoshi\3D Objects\C#\plt0\mp9-updater\obj\x64\plt0\mp9_updater.Form1.resources
+X:\yoshi\3D Objects\C#\plt0\mp9-updater\obj\x64\plt0\plt0.Properties.Resources.resources
+X:\yoshi\3D Objects\C#\plt0\mp9-updater\obj\x64\plt0\plt0.csproj.GenerateResource.cache
+X:\yoshi\3D Objects\C#\plt0\mp9-updater\obj\x64\plt0\plt0.csproj.CoreCompileInputs.cache
+X:\yoshi\3D Objects\C#\plt0\mp9-updater\obj\x64\plt0\plt0.exe
+X:\yoshi\3D Objects\C#\plt0\mp9-updater\obj\x64\plt0\plt0.pdb
+X:\root\Mario Party 9 [SSQP01]\DATA\files\common\bdresult\option2.brres_DECOMP\tex0\plt0.exe.config
+X:\root\Mario Party 9 [SSQP01]\DATA\files\common\bdresult\option2.brres_DECOMP\tex0\plt0.exe
+X:\root\Mario Party 9 [SSQP01]\DATA\files\common\bdresult\option2.brres_DECOMP\tex0\plt0.pdb
+X:\yoshi\3D Objects\C#\plt0\plt0\obj\x64\plt0\plt0.csproj.AssemblyReference.cache
+X:\yoshi\3D Objects\C#\plt0\plt0\obj\x64\plt0\plt0.csproj.SuggestedBindingRedirects.cache
+X:\yoshi\3D Objects\C#\plt0\plt0\obj\x64\plt0\mp9_updater.Form1.resources
+X:\yoshi\3D Objects\C#\plt0\plt0\obj\x64\plt0\plt0.Properties.Resources.resources
+X:\yoshi\3D Objects\C#\plt0\plt0\obj\x64\plt0\plt0.csproj.GenerateResource.cache
+X:\yoshi\3D Objects\C#\plt0\plt0\obj\x64\plt0\plt0.csproj.CoreCompileInputs.cache
+X:\yoshi\3D Objects\C#\plt0\plt0\obj\x64\plt0\plt0.exe
+X:\yoshi\3D Objects\C#\plt0\plt0\obj\x64\plt0\plt0.pdb
