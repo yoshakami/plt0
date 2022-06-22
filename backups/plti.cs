@@ -149,63 +149,52 @@ namespace plt0
     }
     class plt0_class
     {
-        bool bmd = false;
-        bool bmd_file = false;
-        bool bmp = false;
-        bool bti = false;
-        bool fill_height = false;
-        bool fill_width = false;
-        bool gif = false;
-        bool grey = true;
-        bool ico = false;
-        bool jpeg = false;
-        bool jpg = false;
-        bool png = false;
-        bool success;
-        bool tif = false;
-        bool tiff = false;
-        bool tpl = false;
-        bool user_palette = false;
-        bool warn = false;
+        byte[] texture_format_int32 = { 0, 0, 0, 8 };  // 8 = CI4   9 = CI8    10 = CI14x2
+        byte[] palette_format_int32 = { 0, 0, 0, 9 };  // 0 = AI8   1 = RGB565  2 = RGB5A3
+        byte[] colour_palette;
+        byte mipmaps_number = 0;
+        byte minificaction_filter = 1;  // 0 = Nearest Neighbour   1 = Linear
+        byte magnification_filter = 1;  // 0 = Nearest Neighbour   1 = Linear
         byte WrapS = 1; // 0 = Clamp   1 = Repeat   2 = Mirror
         byte WrapT = 1; // 0 = Clamp   1 = Repeat   2 = Mirror
-        byte algorithm = 0;  // 0 = CIE 601    1 = CIE 709     2 = custom RGBA
         byte alpha = 9;  // 0 = no alpha - 1 = alpha - 2 = mix 
-        byte color;
         byte diversity = 10;
+        // bool default_diversity = true;
         byte diversity2 = 0;
-        byte magnification_filter = 1;  // 0 = Nearest Neighbour   1 = Linear
-        byte minificaction_filter = 1;  // 0 = Nearest Neighbour   1 = Linear
-        byte mipmaps_number = 0;
+        // bool default_diversity2 = true;
+        byte algorithm = 0;  // 0 = CIE 601    1 = CIE 709     2 = custom RGBA
         byte pass = 0;
-        byte[] colour_palette;
-        byte[] palette_format_int32 = { 0, 0, 0, 9 };  // 0 = AI8   1 = RGB565  2 = RGB5A3
-        byte[] texture_format_int32 = { 0, 0, 0, 8 };  // 8 = CI4   9 = CI8    10 = CI14x2
-        double format_ratio = 1;
-        double percentage = 0;
-        double percentage2 = 0;
-        float[] custom_rgba = { 1, 1, 1, 1 };
-        int colour_number_x2;
-        int colour_number_x4;
-        int pixel_count;
-        sbyte block_height = -1;
         sbyte block_width = -1;
+        sbyte block_height = -1;
+        bool warn = false;
+        bool grey = true;
+        bool bti = false;
+        bool bmp = false;
+        bool bmd = false;
+        bool tpl = false;
+        bool success;
+        bool fill_height = false;
+        bool fill_width = false;
+        int pixel_count;
+        ushort bitmap_width;
+        ushort bitmap_height;
+        ushort colour_number = 0;
+        ushort colour_number_x2;
+        ushort max_colours = 0;
         string input_file = "";
         string input_file2 = "";
         string output_file = "";
         string swap = "";
-        ushort bitmap_height;
-        ushort bitmap_width;
-        ushort colour_number = 0;
-        ushort max_colours = 0;
-        ushort z;
-        List<byte> BGRA = new List<byte>();
+        float[] custom_rgba = { 1, 1, 1, 1 };
+        double percentage = 0;
+        double percentage2 = 0;
+        double format_ratio = 1;
 
         [MethodImpl(MethodImplOptions.NoOptimization)]
         public void parse_args()
         {
             string[] args = Environment.GetCommandLineArgs();
-            for (ushort i = 1; i < args.Length; i++)
+            for (int i = 1; i < args.Length; i++)
             {
                 if (pass > 0)
                 {
@@ -279,36 +268,22 @@ namespace plt0
                         }
                     case "CC":
                         {
-                            if (args.Length > i+5)
-                            {
-                                algorithm = 2;
-                                float.TryParse(args[i + 1], out custom_rgba[0]);
-                                float.TryParse(args[i + 2], out custom_rgba[1]);
-                                float.TryParse(args[i + 3], out custom_rgba[2]);
-                                float.TryParse(args[i + 4], out custom_rgba[3]);
-                                pass = 4;
-                            }
+                            algorithm = 2;
+                            float.TryParse(args[i + 1], out custom_rgba[0]);
+                            float.TryParse(args[i + 2], out custom_rgba[1]);
+                            float.TryParse(args[i + 3], out custom_rgba[2]);
+                            float.TryParse(args[i + 4], out custom_rgba[3]);
+                            pass = 4;
                             break;
                         }
                     case "ALPHA":
                     case "1BIT":
                     case "1-BIT":
                         {
-                            if (args.Length == i+1)
+                            success = byte.TryParse(args[i + 1], out alpha);
+                            if (!success)
                             {
                                 alpha = 1;
-                            }
-                            else
-                            {
-                                success = byte.TryParse(args[i + 1], out alpha);
-                                if (success)
-                                {
-                                    pass = 1;
-                                }
-                                else
-                                {
-                                    alpha = 1;
-                                }
                             }
                             break;
                         }
@@ -327,92 +302,39 @@ namespace plt0
                             bti = true;
                             break;
                         }
-                    case "PNG":
-                        {
-                            png = true;
-                            break;
-                        }
-                    case "TIF":
-                        {
-                            tif = true;
-                            break;
-                        }
-                    case "TIFF":
-                        {
-                            tiff = true;
-                            break;
-                        }
-                    case "ICO":
-                        {
-                            ico = true;
-                            break;
-                        }
-                    case "JPG":
-                        {
-                            jpg = true;
-                            break;
-                        }
-                    case "JPEG":
-                        {
-                            jpeg = true;
-                            break;
-                        }
-                    case "GIF":
-                        {
-                            gif = true;
-                            break;
-                        }
                     case "C":
                         {
-                            if (args.Length > i+1)
-                            {
-                                ushort.TryParse(args[i + 1], out colour_number); // colour_number is now a number 
-                                colour_number_x2 = colour_number << 1;
-                                colour_number_x4 = colour_number << 2;
-                                pass = 1;
-                            }
+                            ushort.TryParse(args[i + 1], out colour_number); // colour_number is now a number 
+                            colour_number_x2 = (ushort)(colour_number << 1);
+                            pass = 1;
                             break;
                         }
                     case "D":
                     case "DIVERSITY":
                         {
                             // default_diversity = false;
-                            if (args.Length > i + 1)
-                            {
-                                byte.TryParse(args[i + 1], out diversity); // diversity is now a number 
-                                pass = 1;
-                            }
+                            byte.TryParse(args[i + 1], out diversity); // diversity is now a number 
+                            pass = 1;
                             break;
                         }
                     case "D2":
                     case "DIVERSITY2":
                         {
                             // default_diversity2 = false;
-                            if (args.Length > i + 1)
-                            {
-                                byte.TryParse(args[i + 1], out diversity2); // diversity2 is now a number 
-                                pass = 1;
-                            }
+                            byte.TryParse(args[i + 1], out diversity2); // diversity2 is now a number 
+                            pass = 1;
                             break;
                         }
                     case "M":
                     case "N-MIPMAPS":
                     case "N-MM":
                         {
-                            if (args.Length > i + 1)
-                            {
-                                byte.TryParse(args[i + 1], out mipmaps_number); // mipmaps_number is now a number 
-                                pass = 1;
-                            }
+                            byte.TryParse(args[i + 1], out mipmaps_number); // mipmaps_number is now a number 
+                            pass = 1;
                             break;
                         }
                     case "MIN":
                         {
-
-                            if (args.Length < i + 2)
-                            {
-                                break;
-                            }
                             switch (args[i + 1].ToLower())
                             {
                                 case "NN":
@@ -459,10 +381,6 @@ namespace plt0
                         }
                     case "MAG":
                         {
-                            if (args.Length < i + 2)
-                            {
-                                break;
-                            }
                             switch (args[i + 1].ToLower())
                             {
                                 case "NN":
@@ -564,10 +482,6 @@ namespace plt0
                         }
                     case "NO":
                         {
-                            if (args.Length < i + 2)
-                            {
-                                break;
-                            }
                             if (args[i + 1].ToUpper() == "ALPHA")
                             {
                                 alpha = 0;
@@ -575,64 +489,10 @@ namespace plt0
                             pass = 1;
                             break;
                         }
-                    case "PAL":
-                        {
-                            z = i;
-                            while (z < args.Length)
-                            {
-                                z++;
-                                if (args[i + 1][0] == '#' && args[i + 1].Length > 6)  // #RRGGBB
-                                {
-                                    byte.TryParse(args[i + 1].Substring(4, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
-                                    BGRA.Add(color);
-                                    byte.TryParse(args[i + 1].Substring(2, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
-                                    BGRA.Add(color);
-                                    byte.TryParse(args[i + 1].Substring(0, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
-                                    BGRA.Add(color);
-                                    if (args[i + 1].Length > 8)  // #RRGGBBAA
-                                    {
-                                        byte.TryParse(args[i + 1].Substring(6, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
-                                        BGRA.Add(color);
-                                    }
-                                    else
-                                    {
-                                        BGRA.Add(0xff); // no alpha
-                                    }
-
-                                }
-                                else if (args[i + 1][0] == '#' && args[i + 1].Length > 3)  // #RGB
-                                {
-                                    byte.TryParse(args[i + 1].Substring(2, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
-                                    BGRA.Add((byte)(color << 4));
-                                    byte.TryParse(args[i + 1].Substring(1, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
-                                    BGRA.Add((byte)(color << 4));
-                                    byte.TryParse(args[i + 1].Substring(0, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
-                                    BGRA.Add((byte)(color << 4));
-                                    if (args[i + 1].Length > 4)  // #RGBA
-                                    {
-                                        byte.TryParse(args[i + 1].Substring(3, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
-                                        BGRA.Add((byte)(color << 4));
-                                    }
-                                    else
-                                    {
-                                        BGRA.Add(0xff); // no alpha
-                                    }
-                                }
-                                else  // no # means there are other arguments
-                                {
-                                    break;
-                                }
-                            }
-                            break;
-                        }
                     case "P":
                     case "PERCENTAGE":
                     case "THRESHOLD":
                         {
-                            if (args.Length < i + 2)
-                            {
-                                break;
-                            }
                             double.TryParse(args[i + 1], out percentage);  // percentage is now a double
                             pass = 1;
                             break;
@@ -641,10 +501,6 @@ namespace plt0
                     case "PERCENTAGE2":
                     case "THRESHOLD2":
                         {
-                            if (args.Length < i + 2)
-                            {
-                                break;
-                            }
                             double.TryParse(args[i + 1], out percentage2);  // percentage2 is now a double
                             pass = 1;
                             break;
@@ -656,17 +512,12 @@ namespace plt0
                         }
                     case "WARN":
                     case "W":
-                    case "VERBOSE":
                         {
                             warn = true;
                             break;
                         }
                     case "WRAP":
                         {
-                            if (args.Length < i + 3)
-                            {
-                                break;
-                            }
                             switch (args[i + 1].ToUpper().Substring(0, 1))
                             {
                                 case "C": // clamp
@@ -722,23 +573,30 @@ namespace plt0
                             }
                             else
                             {
-                                if (args[i].Contains(".") && args[i].Length > 1)
-                                {
-                                    output_file = args[i].Substring(0, args[i].Length - args[i].Split('.')[args[i].Split('.').Length - 1].Length - 1);
-                                }
-                                else
-                                {
-                                    output_file = args[i];
-                                }
+                                output_file = args[i].Substring(0, args[i].Length - args[i].Split('.')[args[i].Split('.').Length - 1].Length - 1);
                             }
                             break;
                         }
                 }
 
             }
+            /*
+            if (default_diversity)  // change this and add default diversity 2
+            {
+                pass = 0;
+                for (int i = 0; i < 400; i += 50)
+                {
+                    if (colour_number < i)
+                    {
+                        break;
+                    }
+                    diversity = (byte)(60 - pass);
+                    pass += 10;
+                }
+            }*/
             if (input_file == "")
             {
-                Console.WriteLine("no input file specified\nusage: PLT0 <file> [pal custom palette|bmp file|png file|jpeg file|tiff file|ico file|gif file|rle file] [dest] [tpl|bti|bmd|bmp|png] [Encoding Format] [Palette Format] [alpha|no alpha|mix] [c colour number] [d diversity] [d2 diversity2] [m mipmaps] [p percentage] [p2 percentage2] [g2|cc 0.7 0.369 0.4 1.0] [warn|w] [min nearest neighbour] [mag linear] [Wrap Clamp Clamp]\nthis is the usage format for parameters : [optional] <mandatory>\n\nthe order of the parameters doesn't matter, but the image to encode must be put before the second input file (bmd/image used as palette)\nif you don't specify tpl, this program will output by default a tex0 and a plt0 file.\nAvailable Encoding Formats: C4, CI4, C8, CI8, CI14x2, C14x2, default = CI8\nAvailable Palette Formats : IA8 (Black and White), RGB565 (RGB), RGB5A3 (RGBA), default = (auto)\n\nif the palette chosen is RGB5A3, you can force the image to have no alpha for all colours (so the RGB values will be stored on 5 bits each), or force all colours to use an alpha channel, by default it's set on 'mix'\n\nthe number of colours is stored on 2 bytes, but the index bit length of the colour encoding format limits the max number of colours to these:\nCI4 : from 0 to 16\nCI8 : from 0 to 256\nCI14x2 : from 0 to 16384\n\nbmd = inject directly the bti file in a bmd (if the bti filename isn't in the bmd or you haven't entered a bmd second input file, this will notice you of the failure).\n\npal #RRGGBB #RRGGBB #RRGGBB ... is used to directly input your colour palette to a tex0 so it'll encode it with this palette. (example creating a 2 colour palette:plt0 pal #000000 #FFFFFF)\nif you input two existing images, the second one will be taken as the input palette.\n\nd | diversity = a minimum amount of difference for at least one colour channel in the colour palette\n(prevents a palette from having colours close to each other) default : 16 colours -> diversity = 60 | 256 colours -> diversity = 20\nmust be between 0 and 255, if the program heaven't filled the colour table with this parameter on, it'll fill it again with diversity2, then it'll let you know and fill it with the most used colours\n\n d2 | diversity2 = the diversity parameter for the second loop that fills the colour table if it's not full after the first loop.\n\n-m | --n-mm | m | --n-mipmaps = mipmaps number (number of duplicates versions of lower resolution of the input image stored in the output texture) default = 0\n\n p | percentage | threshold = a double (64 bit float) between zero and 100. Alongside the diversity setting, if a colour counts for less than p % of the whole number of pixels, then it won't be added to the palette. default = 0 (0%)\n-p2 | p2 | percentage2 | threshold2 = the minimum percentage for the second loop that fills the colour table. default = 0 (0%)\nadd w or warn to make the program ask to you before overwriting the output file or tell you which parameters the program used.\n\ntype g2 to use grayscale recommendation CIE 709, the default one used is the recommendation CIE 601.\ntype cc then your float RGBA factors to multiply every pixel of the input image by this factor\n the order of parameters doesn't matter, though you must add a number after '-m', '-c' or '-d',\nmin or mag filters are used to choose the algorithm for downscaling/upscaling textures in a tpl file : (nearest neighbour, linear, NearestMipmapNearest, NearestMipmapLinear, LinearMipmapNearest, LinearMipmapLinear) you can just type nn or nearest instead of nearest neighbour or the filter number.\nwrap X Y is the syntax to define the wrap mode for both horizontal and vertical within the same option. X and Y can have these values (clamp, repeat, mirror) or just type the first letter. \nplease note that if a parameter corresponds to nothing described above and doesn't exists, it'll be taken as the output file name.\n\nExamples:\nplt0 rosalina.png -d 0 -x ci8 rgb5a3 --n-mipmaps 5 -w -c 256 (output name will be '-x.plt0' and '-x.tex0', as this is not an existing option)\nplt0 tpl ci4 rosalina.jpeg AI8 c 4 d 16 g2 m 1 warn texture.tex0");
+                Console.WriteLine("no input file specified\nusage: PLT0 [tpl|bti|bmd|bmp|png] [pal custom palette|bmp file|png file|jpeg file|tiff file|ico file|gif file|rle file] [Encoding Format] [Palette Format] [alpha|no alpha|mix] [c colour number] [d diversity] [d2 diversity2] [m mipmaps] [p percentage] [p2 percentage2] [g2|cc 0.7 0.369 0.4 1.0] [warn|w] [min nearest neighbour] [mag linear] [Wrap Clamp Clamp] <file> [dest]\nthis is the usage format for parameters : [optional] <mandatory>\n\nif you don't specify tpl, this program will output by default a tex0 and a plt0 file.\nAvailable Encoding Formats: C4, CI4, C8, CI8, CI14x2, C14x2, default = CI8\nAvailable Palette Formats : IA8 (Black and White), RGB565 (RGB), RGB5A3 (RGBA), default = (auto)\n\nif the palette chosen is RGB5A3, you can force the image to have no alpha for all colours (so the RGB values will be stored on 5 bits each), or force all colours to use an alpha channel, by default it's set on 'mix'\n\nthe number of colours is stored on 2 bytes, but the index bit length of the colour encoding format limits the max number of colours to these:\nCI4 : from 0 to 16\nCI8 : from 0 to 256\nCI14x2 : from 0 to 16384\n\nbmd = inject directly the bti file in a bmd (if the bti filename isn't in the bmd or you haven't entered a bmd second input file, this will notice you of the failure).\n\npal #RRGGBB #RRGGBB #RRGGBB ... is used to directly input your colour palette to a tex0 so it'll encode it with this palette. (example creating a 2 colour palette:plt0 pal #000000 #FFFFFF)\nif you input two existing images, the second one will be taken as the input palette.\n\nd | diversity = a minimum amount of difference for at least one colour channel in the colour palette\n(prevents a palette from having colours close to each other) default : 16 colours -> diversity = 60 | 256 colours -> diversity = 20\nmust be between 0 and 255, if the program heaven't filled the colour table with this parameter on, it'll fill it again with diversity2, then it'll let you know and fill it with the most used colours\n\n d2 | diversity2 = the diversity parameter for the second loop that fills the colour table if it's not full after the first loop.\n\n-m | --n-mm | m | --n-mipmaps = mipmaps number (number of duplicates versions of lower resolution of the input image stored in the output texture) default = 0\n\n p | percentage | threshold = a double (64 bit float) between zero and 100. Alongside the diversity setting, if a colour counts for less than p % of the whole number of pixels, then it won't be added to the palette. default = 0 (0%)\n-p2 | p2 | percentage2 | threshold2 = the minimum percentage for the second loop that fills the colour table. default = 0 (0%)\nadd -w or warn to make the program ask to you before overwriting the output file\n\ntype g2 to use grayscale recommendation CIE 709, the default one used is the recommendation CIE 601.\ntype cc then your float RGBA factors to multiply every pixel of the input image by this factor\n the order of parameters doesn't matter, though you must add a number after '-m', '-c' or '-d',\nmin or mag filters are used to choose the algorithm for downscaling/upscaling textures in a tpl file : (nearest neighbour, linear, NearestMipmapNearest, NearestMipmapLinear, LinearMipmapNearest, LinearMipmapLinear) you can just type nn or nearest instead of nearest neighbour or the filter number.\nwrap X Y is the syntax to define the wrap mode for both horizontal and vertical within the same option. X and Y can have these values (clamp, repeat, mirror) or just type the first letter. \nplease note that if a parameter corresponds to nothing described above and doesn't exists, it'll be taken as the output file name.\n\nExamples:\nplt0 rosalina.png -d 0 -x ci8 rgb5a3 --n-mipmaps 5 -w -c 256 (output name will be '-x.plt0' and '-x.tex0', as this is not an existing option)\nplt0 tpl ci4 rosalina.jpeg AI8 c 4 d 16 g2 m 1 warn texture.tex0");
                 return;
             }
             if (output_file == "")
@@ -786,19 +644,7 @@ namespace plt0
             if (colour_number == 0)
             {
                 colour_number = max_colours;
-                colour_number_x2 = colour_number << 1;
-                colour_number_x4 = colour_number << 2;
-            }
-            if (BGRA.Count != 0)
-            {
-                byte[] colors = BGRA.ToArray();
-                if (colors.Length > colour_number_x4)
-                {
-                    Console.WriteLine(colors.Length + " colours sent in the palette but colour number is set to " + colour_number + " trimming the palette to " + colour_number);
-                    Array.Resize(ref colors, colour_number_x4);
-                }
-                fill_palette(colors, 0, colors.Length);
-                user_palette = true;
+                colour_number_x2 = (ushort)(colour_number << 1);
             }
             try
             {
@@ -868,55 +714,9 @@ namespace plt0
                 }
                 ushort[] vanilla_size = { bitmap_width, bitmap_height };
                 Array.Resize(ref colour_palette, colour_number_x2);
-                try  // try to see what the second file is
-                {
-                    if (input_file2 != "")
-                    {
-                        using (System.IO.FileStream file = System.IO.File.Open(input_file2, System.IO.FileMode.Open, System.IO.FileAccess.Read))
-                        {
-                            byte[] id = new byte[8];
-                            file.Read(id, 0, 8);
-                            file.Close();
-                            if (id.ToString() == "J3D2bmd3")
-                            {
-                                bmd_file = true;
-                            }
-                            else
-                            {
-                                byte[] bmp_palette = Convert_to_bmp((Bitmap)Bitmap.FromFile(input_file));  // will fail if this isn't a supported image
-                                user_palette = true;
-                                ushort bitmap_w, bitmap_h, pixel;
-                                int array_size = bmp_image[2] | bmp_palette[3] << 8 | bmp_palette[4] << 16 | bmp_palette[5] << 24;
-                                int pixel_start_offset = bmp_palette[10] | bmp_palette[11] << 8 | bmp_palette[12] << 16 | bmp_palette[13] << 24;
-                                bitmap_w = (ushort)(bmp_palette[0x13] << 8 | bmp_palette[0x12]);
-                                bitmap_h = (ushort)(bmp_palette[0x17] << 8 | bmp_palette[0x16]);
-                                pixel = (ushort)(bitmap_w * bitmap_h);
-                                if (pixel != colour_number)
-                                {
-                                    Console.WriteLine("Second image input has " + pixel + " pixels while there are " + colour_number + " max colours in the palette.");
-                                    return;
-                                }
-                                fill_palette(bmp_palette, pixel_start_offset, array_size);
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    if (ex.Message == "Out of memory." && ex.Source == "System.Drawing")
-                        Console.WriteLine("Second image input format not supported (convert it to jpeg or png)");
-                    else
-                        throw ex;
-                    return;
-                }
                 List<List<byte[]>> index_list = new List<List<byte[]>>();
                 object v = create_PLT0(bmp_image, bmp_filesize, pixel_data_start_offset);
                 index_list.Add((List<byte[]>)v);
-
-                if (warn)
-                {
-                    Console.WriteLine("v-- bool --v\nbmd=" + bmd + " bmd_file=" + bmd_file + " bmp=" + bmp + " bti=" + bti + " fill_height=" + fill_height + " fill_width=" + fill_width + " gif=" + gif + " grey=" + grey + " ico=" + ico + " jpeg=" + jpeg + " jpg=" + jpg + " png=" + png + " success=" + success + " tif=" + tif + " tiff=" + tiff + " tpl=" + tpl + " user_palette=" + user_palette + " warn=" + warn + "\n\nv-- byte --v\nWrapS=" + WrapS + " WrapT=" + WrapT + " algorithm=" + algorithm + " alpha=" + alpha + " color=" + color + " diversity=" + diversity + " diversity2=" + diversity2 + " magnification_filter=" + magnification_filter + " minificaction_filter=" + minificaction_filter + " mipmaps_number=" + mipmaps_number + " pass=" + pass + "\n\nv-- byte[] --v\ncolour_palette=" + colour_palette + " palette_format_int32=" + palette_format_int32 + " texture_format_int32=" + texture_format_int32 + "\n\nv-- double --v\nformat_ratio=" + format_ratio + " percentage=" + percentage + " percentage2=" + percentage2 + "\n\nv-- float[] --v\ncustom_rgba=" + custom_rgba + "\n\nv-- int --v\ncolour_number_x2=" + colour_number_x2 + " colour_number_x4=" + colour_number_x4 + " pixel_count=" + pixel_count + "\n\nv-- signed byte --v\nblock_height=" + block_height + " block_width=" + block_width + "\n\nv-- string --v\ninput_file=" + input_file + " input_file2=" + input_file2 + " output_file=" + output_file + " swap=" + swap + "\n\nv-- unsigned short --v\nbitmap_height=" + bitmap_height + " bitmap_width=" + bitmap_width + " colour_number=" + colour_number + " max_colours=" + max_colours + " z=" + z + "\n\nv-- List<byte> --v\nBGRA=" + BGRA);
-                }
                 for (int i = 1; i < mipmaps_number; i++)
                 {
 
@@ -935,7 +735,7 @@ namespace plt0
                 }
                 bitmap_width = vanilla_size[0];
                 bitmap_height = vanilla_size[1];
-                if (bti || bmd)
+                if (bti)
                 {
                     write_BTI(index_list);
                 }
@@ -943,7 +743,7 @@ namespace plt0
                 {
                     write_TPL(index_list);
                 }
-                else if (bmp || png || tif || tiff || ico || jpg || jpeg || gif)
+                else if (bmp)
                 {
                     write_BMP(index_list);
                 }
@@ -994,310 +794,6 @@ namespace plt0
 
             return destImage;
         }
-
-        [MethodImpl(MethodImplOptions.NoOptimization)]
-        public void fill_palette(byte[] BGRA_array, int pixel_start_offset, int array_size)
-        {
-            byte red, green, blue, a;
-            switch (palette_format_int32[3])  // fills the colour table
-            {
-                case 0: // AI8
-                    {
-                        switch (algorithm)
-                        {
-                            case 0: // cie_601
-                                {
-                                    for (int i = pixel_start_offset, j = 0; i < array_size; i += 4, j += 2)  // process every pixel to fit the AAAA AAAA  CCCC CCCC  profile
-                                    {
-                                        colour_palette[j] = (BGRA_array[i + 3]);  // alpha value
-                                        if (BGRA_array[i + 3] != 0)
-                                        {
-                                            colour_palette[j + 1] = (byte)(BGRA_array[i] * 0.114 + BGRA_array[i + 1] * 0.587 + BGRA_array[i + 2] * 0.299);
-                                        }
-                                    }
-                                    break;
-                                }
-                            case 1: // cie_709
-                                {
-                                    for (int i = pixel_start_offset, j = 0; i < array_size; i += 4, j += 2)  // process every pixel to fit the AAAA AAAA  CCCC CCCC  profile
-                                    {
-                                        colour_palette[j] = (BGRA_array[i + 3]);  // alpha value
-                                        if (BGRA_array[i + 3] != 0)
-                                        {
-                                            colour_palette[j + 1] = (byte)(BGRA_array[i] * 0.0721 + BGRA_array[i + 1] * 0.7154 + BGRA_array[i + 2] * 0.2125);
-                                        }
-                                    }
-                                    break;
-                                }
-                            case 2:  // custom
-                                {
-                                    for (int i = pixel_start_offset, j = 0; i < array_size; i += 4, j += 2)  // process every pixel to fit the AAAA AAAA  CCCC CCCC  profile
-                                    {
-                                        colour_palette[j] = (BGRA_array[i + 3]);  // alpha value
-                                        if (BGRA_array[i + 3] != 0)
-                                        {
-                                            colour_palette[j + 1] = (byte)(BGRA_array[i] * custom_rgba[2] + BGRA_array[i + 1] * custom_rgba[1] + BGRA_array[i + 2] * custom_rgba[0]);
-                                        }
-                                    }
-                                    break;
-                                }
-                        }
-                        break;
-                    }
-
-                case 1:  // RGB565
-                    {
-
-                        switch (algorithm)
-                        {
-                            case 2:  // custom  RRRR RGGG GGGB BBBB
-                                {
-                                    for (int i = pixel_start_offset, j = 0; i < array_size; i += 4, j += 2)
-                                    {
-                                        red = (byte)(BGRA_array[i + 2] * custom_rgba[0]);
-                                        green = (byte)(BGRA_array[i + 1] * custom_rgba[1]);
-                                        blue = (byte)(BGRA_array[i] * custom_rgba[2]);
-                                        if ((red & 4) == 4 && red < 248)  // 5-bit max value on a trimmed byte
-                                        {
-                                            red += 4;
-                                        }
-                                        if ((green & 2) == 2 && green < 252)  // 6-bit max value on a trimmed byte
-                                        {
-                                            green += 2;
-                                        }
-                                        if ((blue & 4) == 4 && blue < 248)
-                                        {
-                                            blue += 4;
-                                        }
-                                        // pixel = (ushort)((((byte)(red) >> 3) << 11) + (((byte)(green) >> 2) << 5) + (byte)(blue) >> 3);
-                                        colour_palette[j] = (byte)(((red >> 3) << 11) + (green >> 5));
-                                        colour_palette[j + 1] = (byte)((green << 5) + (blue >> 3));
-                                    }
-                                    break;
-                                }
-                            default: // RRRR RGGG GGGB BBBB
-                                {
-                                    for (int i = pixel_start_offset, j = 0; i < array_size; i += 4, j += 2)
-                                    {
-                                        red = BGRA_array[i + 2];
-                                        green = BGRA_array[i + 1];
-                                        blue = BGRA_array[i];
-                                        if ((red & 4) == 4 && red < 248)  // 5-bit max value on a trimmed byte
-                                        {
-                                            red += 4;
-                                        }
-                                        if ((green & 2) == 2 && green < 252)  // 6-bit max value on a trimmed byte
-                                        {
-                                            green += 2;
-                                        }
-                                        if ((blue & 4) == 4 && blue < 248)
-                                        {
-                                            blue += 4;
-                                        }
-                                        // pixel = (ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3));
-                                        colour_palette[j] = (byte)(((red >> 3) << 11) + (green >> 5));
-                                        colour_palette[j + 1] = (byte)((green << 5) + (blue >> 3));
-                                    }
-                                    break;
-                                }
-                        }
-                        break;
-                    }
-                case 2:  // RGB5A3
-                    {
-                        switch (algorithm)
-                        {
-                            case 2:  // custom
-                                {
-                                    if (alpha == 1)  // 0AAA RRRR GGGG BBBB
-                                    {
-                                        for (int i = pixel_start_offset, j = 0; i < array_size; i += 4, j += 2)
-                                        {
-                                            a = (byte)(BGRA_array[i + 3] * custom_rgba[3]);
-                                            red = (byte)(BGRA_array[i + 2] * custom_rgba[0]);
-                                            green = (byte)(BGRA_array[i + 1] * custom_rgba[1]);
-                                            blue = (byte)(BGRA_array[i] * custom_rgba[2]);
-                                            if ((a & 16) == 16 && a < 224)  // 3-bit max value on a trimmed byte
-                                            {
-                                                a += 16;
-                                            }
-                                            if ((red & 8) == 8 && red < 240)  // 4-bit max value on a trimmed byte
-                                            {
-                                                red += 8;
-                                            }
-                                            if ((green & 8) == 8 && green < 240)
-                                            {
-                                                green += 8;
-                                            }
-                                            if ((blue & 8) == 8 && blue < 240)
-                                            {
-                                                blue += 8;
-                                            }
-                                            // pixel = (ushort)(((a >> 5) << 12) + ((red >> 4) << 8) + ((green >> 4) << 4) + (blue >> 4));
-                                            colour_palette[j] = (byte)((a & 0x70) | (red >> 4));
-                                            colour_palette[j + 1] = (byte)((green & 0xf0) | (blue >> 4));
-                                        }
-                                    }
-                                    else if (alpha == 0)  // 1RRR RRGG GGGB BBBB
-                                    {
-                                        for (int i = pixel_start_offset, j = 0; i < array_size; i += 4, j += 2)
-                                        {
-                                            red = (byte)(BGRA_array[i + 2] * custom_rgba[0]);
-                                            green = (byte)(BGRA_array[i + 1] * custom_rgba[1]);
-                                            blue = (byte)(BGRA_array[i] * custom_rgba[2]);
-                                            if ((red & 4) == 4 && red < 248)  // 5-bit max value on a trimmed byte
-                                            {
-                                                red += 4;
-                                            }
-                                            if ((green & 4) == 4 && green < 248)
-                                            {
-                                                green += 4;
-                                            }
-                                            if ((blue & 4) == 4 && blue < 248)
-                                            {
-                                                blue += 4;
-                                            }
-                                            // pixel = (ushort)((1 << 15) + ((red >> 3) << 10) + ((green >> 3) << 5) + (blue >> 3));
-                                            colour_palette[j] = (byte)(0x80 | ((red >> 1) & 0x78) | (green >> 6));
-                                            colour_palette[j + 1] = (byte)(((green & 0x38) << 2) | (blue >> 3));
-                                        }
-                                    }
-                                    else  // check for each colour if alpha trimmed to 3 bits is 255
-                                    {
-                                        for (int i = pixel_start_offset, j = 0; i < array_size; i += 4, j += 2)
-                                        {
-                                            a = (byte)(BGRA_array[i + 3] * custom_rgba[3]);
-                                            red = (byte)(BGRA_array[i + 2] * custom_rgba[0]);
-                                            green = (byte)(BGRA_array[i + 1] * custom_rgba[1]);
-                                            blue = (byte)(BGRA_array[i] * custom_rgba[2]);
-                                            if ((a & 16) == 16 && a < 224)  // 3-bit max value on a trimmed byte
-                                            {
-                                                a += 16;
-                                            }
-                                            if ((red & 8) == 8 && red < 240)  // 4-bit max value on a trimmed byte
-                                            {
-                                                red += 8;
-                                            }
-                                            if ((green & 8) == 8 && green < 240)
-                                            {
-                                                green += 8;
-                                            }
-                                            if ((blue & 8) == 8 && blue < 240)
-                                            {
-                                                blue += 8;
-                                            }
-                                            if (a > 223)  // no alpha
-                                            {
-                                                colour_palette[j] = (byte)(0x80 | ((red >> 1) & 0x78) | (green >> 6));
-                                                colour_palette[j + 1] = (byte)(((green & 0x38) << 2) | (blue >> 3));
-                                            }
-                                            else
-                                            {
-                                                colour_palette[j] = (byte)((a & 0x70) | (red >> 4));
-                                                colour_palette[j + 1] = (byte)((green & 0xf0) | (blue >> 4));
-                                            }
-                                        }
-                                    }
-                                    break;
-                                }
-                            default:
-                                {
-                                    if (alpha == 1)  // 0AAA RRRR GGGG BBBB
-                                    {
-                                        for (int i = pixel_start_offset, j = 0; i < array_size; i += 4, j += 2)
-                                        {
-                                            a = BGRA_array[i + 3];
-                                            red = BGRA_array[i + 2];
-                                            green = BGRA_array[i + 1];
-                                            blue = BGRA_array[i];
-                                            if ((a & 16) == 16 && a < 224)  // 3-bit max value on a trimmed byte
-                                            {
-                                                a += 16;
-                                            }
-                                            if ((red & 8) == 8 && red < 240)  // 4-bit max value on a trimmed byte
-                                            {
-                                                red += 8;
-                                            }
-                                            if ((green & 8) == 8 && green < 240)
-                                            {
-                                                green += 8;
-                                            }
-                                            if ((blue & 8) == 8 && blue < 240)
-                                            {
-                                                blue += 8;
-                                            }
-                                            // pixel = (ushort)(((a >> 5) << 12) + ((red >> 4) << 8) + ((green >> 4) << 4) + (blue >> 4));
-                                            colour_palette[j] = (byte)((a & 0x70) | (red >> 4));
-                                            colour_palette[j + 1] = (byte)((green & 0xf0) | (blue >> 4));
-                                        }
-                                    }
-                                    else if (alpha == 0)  // 1RRR RRGG GGGB BBBB
-                                    {
-                                        for (int i = pixel_start_offset, j = 0; i < array_size; i += 4, j += 2)
-                                        {
-                                            red = BGRA_array[i + 2];
-                                            green = BGRA_array[i + 1];
-                                            blue = BGRA_array[i];
-                                            if ((red & 4) == 4 && red < 248)  // 5-bit max value on a trimmed byte
-                                            {
-                                                red += 4;
-                                            }
-                                            if ((green & 4) == 4 && green < 248)
-                                            {
-                                                green += 4;
-                                            }
-                                            if ((blue & 4) == 4 && blue < 248)
-                                            {
-                                                blue += 4;
-                                            }
-                                            // pixel = (ushort)((1 << 15) + ((red >> 3) << 10) + ((green >> 3) << 5) + (blue >> 3));
-                                            colour_palette[j] = (byte)(0x80 | ((red >> 1) & 0x78) | (green >> 6));
-                                            colour_palette[j + 1] = (byte)(((green & 0x38) << 2) | (blue >> 3));
-                                        }
-                                    }
-                                    else  // mix up alpha and no alpha
-                                    {
-                                        for (int i = pixel_start_offset, j = 0; i < array_size; i += 4, j += 2)
-                                        {
-                                            a = BGRA_array[i + 3];
-                                            red = BGRA_array[i + 2];
-                                            green = BGRA_array[i + 1];
-                                            blue = BGRA_array[i];
-                                            if ((a & 16) == 16 && a < 224)  // 3-bit max value on a trimmed byte
-                                            {
-                                                a += 16;
-                                            }
-                                            if ((red & 8) == 8 && red < 240)  // 4-bit max value on a trimmed byte
-                                            {
-                                                red += 8;
-                                            }
-                                            if ((green & 8) == 8 && green < 240)
-                                            {
-                                                green += 8;
-                                            }
-                                            if ((blue & 8) == 8 && blue < 240)
-                                            {
-                                                blue += 8;
-                                            }
-                                            if (a > 223)  // no alpha
-                                            {
-                                                colour_palette[j] = (byte)(0x80 | ((red >> 1) & 0x78) | (green >> 6));
-                                                colour_palette[j + 1] = (byte)(((green & 0x38) << 2) | (blue >> 3));
-                                            }
-                                            else
-                                            {
-                                                colour_palette[j] = (byte)((a & 0x70) | (red >> 4));
-                                                colour_palette[j + 1] = (byte)((green & 0xf0) | (blue >> 4));
-                                            }
-                                        }
-                                    }
-                                    break;
-                                }
-                        }
-                        break;
-                    }
-            }
-        }
         [MethodImpl(MethodImplOptions.NoOptimization)]
         public void write_BMP(List<List<byte[]>> index_list)  // index_list contains all mipmaps.
         {
@@ -1307,6 +803,7 @@ namespace plt0
                 padding = 0;
             }
             int image_size = ((bitmap_width + padding) * bitmap_height);
+            int colour_number_x4 = colour_number << 2;
             int pixel_start_offset = 0x36 + colour_number_x4;
             int size = pixel_start_offset + image_size;  // fixed size at 1 image
             ushort ref_width = bitmap_width;
@@ -1328,21 +825,11 @@ namespace plt0
             int index;
             byte[] data = new byte[54];  // header data
             byte[] palette = new byte[colour_number_x4];
-            string end = ".bmp";
-            bool done = false;
             for (int i = 0; i < mipmaps_number + 1; i++)
             {
                 byte[] pixel = new byte[size];
-                if (i == 0)
-                {
-                    width = ref_width;
-                    height = bitmap_height;
-                }
-                else
-                {
-                    width = (ushort)(ref_width / Math.Pow(i, 2));  // of course in C# you can divide by zero, it outputs zero.
-                    height = (ushort)(bitmap_height / Math.Pow(i, 2));  // though it's my fault for letting this run
-                }
+                width = (ushort)(ref_width / Math.Pow(i, 2));
+                height = (ushort)(bitmap_height / Math.Pow(i, 2));
                 index = 0;
                 // fill header
                 data[0] = 0x42;  // B
@@ -1359,7 +846,7 @@ namespace plt0
                 data[11] = (byte)(pixel_start_offset >> 8);
                 data[12] = (byte)(pixel_start_offset >> 16);
                 data[13] = (byte)(pixel_start_offset >> 24);
-                data[14] = 0x28;  // DIB header size
+                data[14] = 28;  // DIB header size
                 data[15] = 0;
                 data[16] = 0;
                 data[17] = 0;
@@ -1437,7 +924,7 @@ namespace plt0
                             for (int j = 0, k = 0; j < colour_number_x2; j += 2, k += 4)
                             {
                                 palette[k] = (byte)(colour_palette[j + 1] << 3);  // Blue
-                                palette[k + 1] = (byte)(((colour_palette[j] << 5) | (colour_palette[j + 1] >> 3)) & 0xfc);  // Green
+                                palette[k + 1] = (byte)(((colour_palette[j] << 5) | (colour_palette[j + 1] << 5)) & 0xfc);  // Green
                                 palette[k + 2] = (byte)(colour_palette[j] & 0xf8);  // Red
                                 palette[k + 3] = 0xff;  // No Alpha
                             }
@@ -1461,7 +948,7 @@ namespace plt0
                                 for (int j = 0, k = 0; j < colour_number_x2; j += 2, k += 4)
                                 {  // 1RRR RRGG   GGGB BBBB
                                     palette[k] = (byte)(colour_palette[j + 1] << 3);  // Blue
-                                    palette[k + 1] = (byte)(((colour_palette[j] << 6) | (colour_palette[j + 1] >> 2)) & 0xf8);  // Green
+                                    palette[k + 1] = (byte)(((colour_palette[j] << 6) | (colour_palette[j + 1] << 6)) & 0xf8);  // Green
                                     palette[k + 2] = (byte)((colour_palette[j] << 1) & 0xf8);  // Red
                                     palette[k + 3] = 0xff;  // No Alpha
                                 }
@@ -1480,7 +967,7 @@ namespace plt0
                                     else  // no alpha
                                     {  // 1RRR RRGG   GGGB BBBB
                                         palette[k] = (byte)(colour_palette[j + 1] << 3);  // Blue
-                                        palette[k + 1] = (byte)(((colour_palette[j] << 6) | (colour_palette[j + 1] >> 2)) & 0xf8);  // Green
+                                        palette[k + 1] = (byte)(((colour_palette[j] << 6) | (colour_palette[j + 1] << 6)) & 0xf8);  // Green
                                         palette[k + 2] = (byte)((colour_palette[j] << 1) & 0xf8);  // Red
                                         palette[k + 3] = 0xff;  // No Alpha
                                     }
@@ -1502,61 +989,97 @@ namespace plt0
                         pixel[index] = 0x69;  // my signature XDDDD 
                     }
                 }
-                if (i != 0)
+                FileMode mode = System.IO.FileMode.CreateNew;
+                if (System.IO.File.Exists(output_file + ".bmp"))
                 {
-                    end = ".mm" + i + ".bmp";
+                    mode = System.IO.FileMode.Truncate;
+                    if (warn)
+                    {
+                        Console.WriteLine("Press enter to overwrite " + output_file + ".bmp");
+                        Console.ReadLine();
+                    }
                 }
-                index = 0;
-                done = false;
-                while (!done)
+                using (System.IO.FileStream file = System.IO.File.Open(output_file + ".bmp", mode, System.IO.FileAccess.Write))
                 {
-
-                    try
-                    {
-                        FileMode mode = System.IO.FileMode.CreateNew;
-                        if (System.IO.File.Exists(output_file + end))
-                        {
-                            mode = System.IO.FileMode.Truncate;
-                            if (warn)
-                            {
-                                Console.WriteLine("Press enter to overwrite " + output_file + end);
-                                Console.ReadLine();
-                            }
-                        }
-                        using (System.IO.FileStream file = System.IO.File.Open(output_file + end, mode, System.IO.FileAccess.Write))
-                        {
-                            file.Write(data, 0, data.Length);
-                            file.Write(palette, 0, colour_number_x4);
-                            file.Write(pixel, 0, pixel.Length);
-                            file.Close();
-                            Console.WriteLine(output_file + end);
-                        }
-                        if (!bmp)
-                        {
-
-                            ConvertAndSave((Bitmap)Bitmap.FromFile(output_file + end), i);
-                        }
-                        done = true;
-                    }
-                    catch (Exception ex)
-                    {
-                        index += 1;
-                        if (ex.Message.Substring(0, 34) == "The process cannot access the file")  // because it is being used by another process
-                        {
-                            if (index > 1)
-                            {
-                                output_file = output_file.Substring(output_file.Length - 2) + "-" + index;
-                            }
-                            else
-                            {
-                                output_file += "-" + index;
-                            }
-                        }
-                        continue;
-                    }
+                    file.Write(data, 0, data.Length);
+                    file.Write(colour_palette, 0, colour_palette.Length);
+                    file.Write(pixel, 0, pixel.Length);
+                    file.Close();
+                    Console.WriteLine(output_file + ".bti");
                 }
                 size = size >> 2;  // for next loop - divides by 4 because it's half the width size and half the height size
+            } /*
+            byte size2 = (byte)(4 + Math.Abs(16 - size) % 16);
+            byte len = (byte)output_file.Split('\\').Length;
+            string file_name = (output_file.Split('\\')[len - 1]);
+            byte[] data2 = new byte[size2 + len + (16 - len) % 16];
+            for (int i = 0; i < size2; i++)
+            {
+                data2[i] = 0;
             }
+            for (int i = 0; i < file_name.Length; i++)
+            {
+                data2[i + size2] = (byte)file_name[i];
+            }
+            for (int i = size2 + file_name.Length; i < data2.Length; i++)
+            {
+                data2[i] = 0;
+            }
+            if (mipmaps_number > 0)
+            {
+                data[16] = 1;
+            }
+            else
+            {
+                data[16] = 0;
+            }
+            // now's palette data, but it's already stored in colour_palette, so let's jump onto image data.
+            byte[] tex_data = new byte[size - 0x20 - colour_palette.Length];
+            int count = 0;
+            int height;
+            int width;
+            block_width = (sbyte)(block_width / format_ratio);
+            for (int i = 0; i < settings.Count; i++)  // mipmaps
+            {
+                height = settings[i][1] * block_height - 1;
+                width = 0;
+                for (int j = settings[i][1]; j > 0; j--)  // number of height blocks  (remember that the last line was added first)  AH I DIDNT REMEMBER 
+                {
+                    for (int k = 0; k < settings[i][0]; k++)  // number of width blocks
+                    {
+                        for (int h = 0; h < block_height; h++)  // height in the block
+                        {
+                            for (int w = 0; w < block_width; w++)  // width in the block
+                            {
+                                tex_data[count] = index_list[i][height - h][width + w];
+                                count++;
+                            }
+                        }
+                        width += block_width;
+                    } // end of the loop to go through number of horizontal blocks
+                    height -= block_height;
+                    width = 0;
+                }   // go through vertical blocks
+            }      // go through mipmaps
+            FileMode mode = System.IO.FileMode.CreateNew;
+            if (System.IO.File.Exists(output_file + ".bti"))
+            {
+                mode = System.IO.FileMode.Truncate;
+                if (warn)
+                {
+                    Console.WriteLine("Press enter to overwrite " + output_file + ".bti");
+                    Console.ReadLine();
+                }
+            }
+            using (System.IO.FileStream file = System.IO.File.Open(output_file + ".bti", mode, System.IO.FileAccess.Write))
+            {
+                file.Write(data, 0, 32);
+                file.Write(colour_palette, 0, colour_palette.Length);
+                file.Write(tex_data, 0, tex_data.Length);
+                file.Write(data2, 0, data2.Length);
+                file.Close();
+                Console.WriteLine(output_file + ".bti");
+            } */
         }
         [MethodImpl(MethodImplOptions.NoOptimization)]
         public void write_BTI(List<List<byte[]>> index_list)  // index_list contains all mipmaps.
@@ -3419,21 +2942,43 @@ namespace plt0
                                                 break;
                                             }
                                     }
-                                    if (!user_palette)  // if the user didn't add a palette
+                                    Colour_Table.Sort(new IntArrayComparer());  // sorts the table by the most used colour first
+                                    Console.WriteLine("findind most used Colours");
+                                    for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
                                     {
-
-                                        Colour_Table.Sort(new IntArrayComparer());  // sorts the table by the most used colour first
-                                        Console.WriteLine("findind most used Colours");
+                                        not_similar = true;
+                                        if (Colour_Table[i][0] / pixel_count < percentage / 100)
+                                        {
+                                            break;
+                                        }
+                                        for (int k = 0; k < j; k += 2)
+                                        {
+                                            if (Math.Abs((colour_palette[k] & 248) - ((Colour_Table[i][1] >> 8) & 248)) < diversity && Math.Abs(((colour_palette[k] & 7) << 5) + ((colour_palette[k + 1] >> 3) & 28) - ((Colour_Table[i][1] >> 3) & 252)) < diversity && Math.Abs(((colour_palette[k + 1] << 3) & 248) - (Colour_Table[i][1] << 3) & 248) < diversity)
+                                            {
+                                                not_similar = false;
+                                                break;
+                                            }
+                                        }
+                                        if (not_similar)
+                                        {
+                                            colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the RRRR RGGG value
+                                            colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the GGGB BBBB value
+                                            j += 2;
+                                        }
+                                    }
+                                    if (j < colour_number_x2) // if the colour palette is not full
+                                    {
+                                        Console.WriteLine("The colour palette was not full, starting second loop...\n");
                                         for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
                                         {
                                             not_similar = true;
-                                            if (Colour_Table[i][0] / pixel_count < percentage / 100)
+                                            if (Colour_Table[i][0] / pixel_count < percentage2 / 100)
                                             {
                                                 break;
                                             }
                                             for (int k = 0; k < j; k += 2)
                                             {
-                                                if (Math.Abs((colour_palette[k] & 248) - ((Colour_Table[i][1] >> 8) & 248)) < diversity && Math.Abs(((colour_palette[k] & 7) << 5) + ((colour_palette[k + 1] >> 3) & 28) - ((Colour_Table[i][1] >> 3) & 252)) < diversity && Math.Abs(((colour_palette[k + 1] << 3) & 248) - (Colour_Table[i][1] << 3) & 248) < diversity)
+                                                if (Math.Abs((colour_palette[k] & 248) - ((Colour_Table[i][1] >> 8) & 248)) < diversity2 && Math.Abs(((colour_palette[k] & 7) << 5) + ((colour_palette[k + 1] >> 3) & 28) - ((Colour_Table[i][1] >> 3) & 252)) < diversity2 && Math.Abs(((colour_palette[k + 1] << 3) & 248) - (Colour_Table[i][1] << 3) & 248) < diversity2)
                                                 {
                                                     not_similar = false;
                                                     break;
@@ -3441,48 +2986,23 @@ namespace plt0
                                             }
                                             if (not_similar)
                                             {
+                                                colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the Red and green value
+                                                colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the Green and blue value
+                                                j += 2;
+                                            }
+                                        }
+                                        if (j < colour_number_x2) // if the colour palette is still not full
+                                        {
+                                            Console.WriteLine("The colour palette is not full, this program will fill it with the most used colours\n");
+                                            for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
+                                            {
                                                 colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the RRRR RGGG value
                                                 colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the GGGB BBBB value
                                                 j += 2;
                                             }
                                         }
-                                        if (j < colour_number_x2) // if the colour palette is not full
-                                        {
-                                            Console.WriteLine("The colour palette was not full, starting second loop...\n");
-                                            for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
-                                            {
-                                                not_similar = true;
-                                                if (Colour_Table[i][0] / pixel_count < percentage2 / 100)
-                                                {
-                                                    break;
-                                                }
-                                                for (int k = 0; k < j; k += 2)
-                                                {
-                                                    if (Math.Abs((colour_palette[k] & 248) - ((Colour_Table[i][1] >> 8) & 248)) < diversity2 && Math.Abs(((colour_palette[k] & 7) << 5) + ((colour_palette[k + 1] >> 3) & 28) - ((Colour_Table[i][1] >> 3) & 252)) < diversity2 && Math.Abs(((colour_palette[k + 1] << 3) & 248) - (Colour_Table[i][1] << 3) & 248) < diversity2)
-                                                    {
-                                                        not_similar = false;
-                                                        break;
-                                                    }
-                                                }
-                                                if (not_similar)
-                                                {
-                                                    colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the Red and green value
-                                                    colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the Green and blue value
-                                                    j += 2;
-                                                }
-                                            }
-                                            if (j < colour_number_x2) // if the colour palette is still not full
-                                            {
-                                                Console.WriteLine("The colour palette is not full, this program will fill it with the most used colours\n");
-                                                for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
-                                                {
-                                                    colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the RRRR RGGG value
-                                                    colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the GGGB BBBB value
-                                                    j += 2;
-                                                }
-                                            }
-                                        }
                                     }
+
                                     Console.WriteLine("creating indexes");
                                     j = 0;
                                     switch (texture_format_int32[3])
@@ -4295,79 +3815,16 @@ namespace plt0
                 return ms.ToArray();
             }
         }
-        public bool ConvertAndSave(System.Drawing.Bitmap imageIn, int current_mipmap)
+        /*
+        public static Bitmap ConvertTo32bpp(Image img)
         {
-            string end = ".bmp";
-            using (var ms = new MemoryStream())
-            {
-                if (png)
-                {
-                    imageIn.Save(ms, ImageFormat.Png);
-                    end = ".png";
-                }
-                else if (tif)
-                {
-                    imageIn.Save(ms, ImageFormat.Tiff);
-                    end = ".tif";
-                }
-                else if (tiff)
-                {
-                    imageIn.Save(ms, ImageFormat.Tiff);
-                    end = ".tiff";
-                }
-                else if (ico)
-                {
-                    imageIn.Save(ms, ImageFormat.Icon);
-                    end = ".ico";
-                }
-                else if (jpg)
-                {
-                    imageIn.Save(ms, ImageFormat.Jpeg);
-                    end = ".jpg";
-                }
-                else if (jpeg)
-                {
-                    imageIn.Save(ms, ImageFormat.Jpeg);
-                    end = ".jpeg";
-                }
-                else if (gif)
-                {
-                    imageIn.Save(ms, ImageFormat.Gif);
-                    end = ".gif";
-                }
-                if (current_mipmap != 0)
-                {
-                    end = ".mm" + current_mipmap + end;
-                }
-                FileMode mode = System.IO.FileMode.CreateNew;
-                if (System.IO.File.Exists(output_file + end))
-                {
-                    mode = System.IO.FileMode.Truncate;
-                    if (warn)
-                    {
-                        Console.WriteLine("Press enter to overwrite " + output_file + end);
-                        Console.ReadLine();
-                    }
-                }
-                using (System.IO.FileStream file = System.IO.File.Open(output_file + end, mode, System.IO.FileAccess.Write))
-                {
-                    file.Write(ms.ToArray(), 0, (int)ms.Length);
-                    file.Close();
-                    Console.WriteLine(output_file + end);
-                }
-                return true;
-            }
-        }
-/*
-public static Bitmap ConvertTo32bpp(Image img)
-{
-    var bmp = new Bitmap(img.Width, img.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-    using (var gr = Graphics.FromImage(bmp))
-        gr.DrawImage(img, new Rectangle(0, 0, img.Width, img.Height));
-    return bmp;
-}*/
+            var bmp = new Bitmap(img.Width, img.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            using (var gr = Graphics.FromImage(bmp))
+                gr.DrawImage(img, new Rectangle(0, 0, img.Width, img.Height));
+            return bmp;
+        }*/
 
-    public byte[] ImageToByteArray(System.Drawing.Image imageIn)
+        public byte[] ImageToByteArray(System.Drawing.Image imageIn)
         {
             using (var ms = new MemoryStream())
             {

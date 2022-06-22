@@ -1,0 +1,51 @@
+bool bmd = false;
+bool bmd_file = false;
+bool bmp = false;
+bool bti = false;
+bool fill_height = false;
+bool fill_width = false;
+bool gif = false;
+bool grey = true;
+bool ico = false;
+bool jpeg = false;
+bool jpg = false;
+bool png = false;
+bool success;
+bool tif = false;
+bool tiff = false;
+bool tpl = false;
+bool user_palette = false;
+bool warn = false;
+byte WrapS = 1; // 0 = Clamp   1 = Repeat   2 = Mirror
+byte WrapT = 1; // 0 = Clamp   1 = Repeat   2 = Mirror
+byte algorithm = 0;  // 0 = CIE 601    1 = CIE 709     2 = custom RGBA
+byte alpha = 9;  // 0 = no alpha - 1 = alpha - 2 = mix 
+byte color;
+byte diversity = 10;
+byte diversity2 = 0;
+byte magnification_filter = 1;  // 0 = Nearest Neighbour   1 = Linear
+byte minificaction_filter = 1;  // 0 = Nearest Neighbour   1 = Linear
+byte mipmaps_number = 0;
+byte pass = 0;
+byte[] colour_palette;
+byte[] palette_format_int32 = { 0, 0, 0, 9 };  // 0 = AI8   1 = RGB565  2 = RGB5A3
+byte[] texture_format_int32 = { 0, 0, 0, 8 };  // 8 = CI4   9 = CI8    10 = CI14x2
+double format_ratio = 1;
+double percentage = 0;
+double percentage2 = 0;
+float[] custom_rgba = { 1, 1, 1, 1 };
+int colour_number_x2;
+int colour_number_x4;
+int pixel_count;
+sbyte block_height = -1;
+sbyte block_width = -1;
+string input_file = "";
+string input_file2 = "";
+string output_file = "";
+string swap = "";
+ushort bitmap_height;
+ushort bitmap_width;
+ushort colour_number = 0;
+ushort max_colours = 0;
+ushort z;
+List<byte> BGRA = new List<byte>();
