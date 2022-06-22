@@ -187,6 +187,7 @@ namespace plt0
         float[] custom_rgba = { 1, 1, 1, 1 };
         int colour_number_x2;
         int colour_number_x4;
+        int fill_palette_start_offset = 0;
         int pixel_count;
         sbyte block_height = -1;
         sbyte block_width = -1;
@@ -798,6 +799,7 @@ namespace plt0
                     Array.Resize(ref colors, colour_number_x4);
                 }
                 fill_palette(colors, 0, colors.Length);
+                fill_palette_start_offset = colors.Length;
                 user_palette = true;
             }
             try
@@ -3097,7 +3099,7 @@ namespace plt0
                     index_list.Add(index.ToArray());
                 }
             }
-            int j = 0;
+            int j = fill_palette_start_offset;
             byte red;
             byte green;
             byte blue;
@@ -3165,43 +3167,20 @@ namespace plt0
                                                 break;
                                             }
                                     }
-                                    Colour_Table.Sort(new IntArrayComparer());  // sorts the table by the most used colour first
-                                    Console.WriteLine("findind most used Colours");
-                                    for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
+                                    if (!user_palette || fill_palette_start_offset != 0)  // no input palette / partial user input palette = fill it with these colours
                                     {
-                                        not_similar = true;
-                                        if (Colour_Table[i][0] / pixel_count < percentage / 100)
-                                        {
-                                            break;
-                                        }
-                                        for (int k = 0; k < j; k += 2)
-                                        {
-                                            if (Math.Abs(colour_palette[k] - (byte)(Colour_Table[i][1] >> 8)) < diversity && Math.Abs(colour_palette[k + 1] - (byte)(Colour_Table[i][1])) < diversity)
-                                            {
-                                                not_similar = false;
-                                                break;
-                                            }
-                                        }
-                                        if (not_similar)
-                                        {
-                                            colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the Alpha value
-                                            colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the Grey value
-                                            j += 2;
-                                        }
-                                    }
-                                    if (j < colour_number_x2) // if the colour palette is not full
-                                    {
-                                        Console.WriteLine("The colour palette was not full, starting second loop...\n");
+                                        Colour_Table.Sort(new IntArrayComparer());  // sorts the table by the most used colour first
+                                        Console.WriteLine("findind most used Colours");
                                         for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
                                         {
                                             not_similar = true;
-                                            if (Colour_Table[i][0] / pixel_count < percentage2 / 100)
+                                            if (Colour_Table[i][0] / pixel_count < percentage / 100)
                                             {
                                                 break;
                                             }
                                             for (int k = 0; k < j; k += 2)
                                             {
-                                                if (Math.Abs(colour_palette[k] - (byte)(Colour_Table[i][1] >> 8)) < diversity2 && Math.Abs(colour_palette[k + 1] - (byte)(Colour_Table[i][1])) < diversity2)
+                                                if (Math.Abs(colour_palette[k] - (byte)(Colour_Table[i][1] >> 8)) < diversity && Math.Abs(colour_palette[k + 1] - (byte)(Colour_Table[i][1])) < diversity)
                                                 {
                                                     not_similar = false;
                                                     break;
@@ -3214,14 +3193,40 @@ namespace plt0
                                                 j += 2;
                                             }
                                         }
-                                        if (j < colour_number_x2) // if the colour palette is still not full
+                                        if (j < colour_number_x2) // if the colour palette is not full
                                         {
-                                            Console.WriteLine("The colour palette is not full, this program will fill it with the most used colours\n");
+                                            Console.WriteLine("The colour palette was not full, starting second loop...\n");
                                             for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
                                             {
-                                                colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the Alpha value
-                                                colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the Grey value
-                                                j += 2;
+                                                not_similar = true;
+                                                if (Colour_Table[i][0] / pixel_count < percentage2 / 100)
+                                                {
+                                                    break;
+                                                }
+                                                for (int k = 0; k < j; k += 2)
+                                                {
+                                                    if (Math.Abs(colour_palette[k] - (byte)(Colour_Table[i][1] >> 8)) < diversity2 && Math.Abs(colour_palette[k + 1] - (byte)(Colour_Table[i][1])) < diversity2)
+                                                    {
+                                                        not_similar = false;
+                                                        break;
+                                                    }
+                                                }
+                                                if (not_similar)
+                                                {
+                                                    colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the Alpha value
+                                                    colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the Grey value
+                                                    j += 2;
+                                                }
+                                            }
+                                            if (j < colour_number_x2) // if the colour palette is still not full
+                                            {
+                                                Console.WriteLine("The colour palette is not full, this program will fill it with the most used colours\n");
+                                                for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
+                                                {
+                                                    colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the Alpha value
+                                                    colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the Grey value
+                                                    j += 2;
+                                                }
                                             }
                                         }
                                     }
@@ -3419,9 +3424,8 @@ namespace plt0
                                                 break;
                                             }
                                     }
-                                    if (!user_palette)  // if the user didn't add a palette
+                                    if (!user_palette || fill_palette_start_offset != 0)  // no input palette / partial user input palette = fill it with these colours
                                     {
-
                                         Colour_Table.Sort(new IntArrayComparer());  // sorts the table by the most used colour first
                                         Console.WriteLine("findind most used Colours");
                                         for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
@@ -3811,194 +3815,144 @@ namespace plt0
                                                 break;
                                             }
                                     }
-                                    Colour_Table.Sort(new IntArrayComparer());  // sorts the table by the most used colour first
-                                    Console.WriteLine("findind most used Colours");
                                     byte a2;
                                     byte red2;
                                     byte green2;
                                     byte blue2;
-                                    if (alpha == 1)
-                                    {
-                                        for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
-                                        {
-                                            not_similar = true;
-                                            if (Colour_Table[i][0] / pixel_count < percentage/ 100)
-                                            {
-                                                break;
-                                            }
-                                            for (int k = 0; k < j; k += 2)
-                                            {
-                                                if (Math.Abs((colour_palette[k] & 112) - (Colour_Table[i][1] >> 8) & 112) < diversity && Math.Abs(((colour_palette[k] << 4) & 240) - ((Colour_Table[i][1] >> 4) & 240)) < diversity && Math.Abs((colour_palette[k + 1] & 240) - ((Colour_Table[i][1]) & 240)) < diversity && Math.Abs(((colour_palette[k + 1] << 4) & 240) - ((Colour_Table[i][1] << 4) & 240)) < diversity)
-                                                {
-                                                    not_similar = false;
-                                                    break;
-                                                }
-                                            }
-                                            if (not_similar)
-                                            {
-                                                colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the 0AAA RRRR value
-                                                colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the GGGG BBBB value
-                                                j += 2;
-                                            }
-                                        }
-                                        if (j < colour_number_x2) // if the colour palette is not full
-                                        {
-                                            Console.WriteLine("The colour palette was not full, starting second loop...\n");
-                                            for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
-                                            {
-                                                not_similar = true;
-                                                if (Colour_Table[i][0] / pixel_count < percentage2 / 100)
-                                                {
-                                                    break;
-                                                }
-                                                for (int k = 0; k < j; k += 2)
-                                                {
-                                                    if (Math.Abs((colour_palette[k] & 112) - (Colour_Table[i][1] >> 8) & 112) < diversity2 && Math.Abs(((colour_palette[k] << 4) & 240) - ((Colour_Table[i][1] >> 4) & 240)) < diversity2 && Math.Abs((colour_palette[k + 1] & 240) - ((Colour_Table[i][1]) & 240)) < diversity2 && Math.Abs(((colour_palette[k + 1] << 4) & 240) - ((Colour_Table[i][1] << 4) & 240)) < diversity2)
-                                                    {
-                                                        not_similar = false;
-                                                        break;
-                                                    }
-                                                }
-                                                if (not_similar)
-                                                {
-                                                    colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the 0AAA RRRR value
-                                                    colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the GGGG BBBB value
-                                                    j += 2;
-                                                }
-                                            }
-                                            if (j < colour_number_x2) // if the colour palette is still not full
-                                            {
-                                                Console.WriteLine("The colour palette is not full, this program will fill it with the most used colours\n");
-                                                for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
-                                                {
-                                                    colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the 0AAA RRRR value
-                                                    colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the GGGG BBBB value
-                                                    j += 2;
-                                                }
-                                            }
-                                        }
-                                    }
-                                    else if (alpha == 0)  // 1RRR RRGG GGGB BBBB
-                                    {
-                                        for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
-                                        {
-                                            not_similar = true;
-                                            if (Colour_Table[i][0] / pixel_count < percentage / 100)
-                                            {
-                                                break;
-                                            }
-                                            for (int k = 0; k < j; k += 2)
-                                            {
-                                                if (Math.Abs(((colour_palette[k] << 1) & 248) - ((Colour_Table[i][1] >> 7) & 248)) < diversity && Math.Abs(((colour_palette[k] & 3) << 6) + ((colour_palette[k + 1] >> 2) & 56) - ((Colour_Table[i][1] >> 2) & 248)) < diversity && Math.Abs(((colour_palette[k + 1] << 3) & 248) - (Colour_Table[i][1] << 3) & 248) < diversity)
-                                                {
-                                                    not_similar = false;
-                                                    break;
-                                                }
-                                            }
-                                            if (not_similar)
-                                            {
-                                                colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the 1RRR RRGG value
-                                                colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the GGGB BBBB value
-                                                j += 2;
-                                            }
-                                        }
-                                        if (j < colour_number_x2) // if the colour palette is not full
-                                        {
-                                            Console.WriteLine("The colour palette was not full, starting second loop...\n");
-                                            for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
-                                            {
-                                                not_similar = true;
-                                                if (Colour_Table[i][0] / pixel_count < percentage2 / 100)
-                                                {
-                                                    break;
-                                                }
-                                                for (int k = 0; k < j; k += 2)
-                                                {
-                                                    if (Math.Abs(((colour_palette[k] << 1) & 248) - ((Colour_Table[i][1] >> 7) & 248)) < diversity2 && Math.Abs(((colour_palette[k] & 3) << 6) + ((colour_palette[k + 1] >> 2) & 56) - ((Colour_Table[i][1] >> 2) & 248)) < diversity2 && Math.Abs(((colour_palette[k + 1] << 3) & 248) - (Colour_Table[i][1] << 3) & 248) < diversity2)
-                                                    {
-                                                        not_similar = false;
-                                                        break;
-                                                    }
-                                                }
-                                                if (not_similar)
-                                                {
-                                                    colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the Alpha and red value
-                                                    colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the Gren and blue value
-                                                    j += 2;
-                                                }
-                                            }
-                                            if (j < colour_number_x2) // if the colour palette is still not full
-                                            {
-                                                Console.WriteLine("The colour palette is not full, this program will fill it with the most used colours\n");
-                                                for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
-                                                {
-                                                    colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the Alpha and red value
-                                                    colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the Green and blue value
-                                                    j += 2;
-                                                }
-                                            }
-                                        }
-                                    }
-                                    else  // mix
+                                    if (!user_palette || fill_palette_start_offset != 0)  // no input palette / partial user input palette = fill it with these colours
                                     {
 
-                                        for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
+                                        Colour_Table.Sort(new IntArrayComparer());  // sorts the table by the most used colour first
+                                        Console.WriteLine("findind most used Colours");
+                                        if (alpha == 1)
                                         {
-                                            not_similar = true;
-                                            if (Colour_Table[i][0] / pixel_count < percentage / 100)
-                                            {
-                                                break;
-                                            }
-                                            for (int k = 0; k < j; k += 2)
-                                            {
-                                                if ((colour_palette[k] >> 7) == 1)  // no alpha - 1RRR RRGG GGGB BBBB
-                                                {
-                                                    a = 255;
-                                                    red = (byte)((colour_palette[k] << 1) & 248);
-                                                    green = (byte)(((colour_palette[k] & 3) << 6) + ((colour_palette[k + 1] >> 2) & 56));
-                                                    blue = (byte)((colour_palette[k + 1] << 3) & 248);
-                                                }
-                                                else  // alpha - 0AAA RRRR GGGG BBBB
-                                                {
-                                                    a = (byte)(colour_palette[k] & 112);
-                                                    red = (byte)((colour_palette[k] << 4) & 240);
-                                                    green = (byte)(colour_palette[k + 1] & 240);
-                                                    blue = (byte)((colour_palette[k + 1] << 4) & 240);
-                                                }
-                                                if (Colour_Table[i][1] >> 15 == 1)  // no alpha - 1RRR RRGG GGGB BBBB
-                                                {
-                                                    a2 = 255;
-                                                    red2 = (byte)((Colour_Table[i][1] >> 7) & 248);
-                                                    green2 = (byte)((Colour_Table[i][1] >> 2) & 248);
-                                                    blue2 = (byte)((Colour_Table[i][1] << 3) & 248);
-                                                }
-                                                else  // alpha - 0AAA RRRR GGGG BBBB
-                                                {
-                                                    a2 = (byte)((Colour_Table[i][1] >> 8) & 112);
-                                                    red2 = (byte)((Colour_Table[i][1] >> 4) & 240);
-                                                    green2 = (byte)((Colour_Table[i][1]) & 240);
-                                                    blue2 = (byte)((Colour_Table[i][1] << 4) & 240);
-                                                }
-                                                if (Math.Abs(a - a2) < diversity && Math.Abs(red - red2) < diversity && Math.Abs(green - green2) < diversity && Math.Abs(blue - blue2) < diversity)
-                                                {
-                                                    not_similar = false;
-                                                    break;
-                                                }
-                                            }
-                                            if (not_similar)
-                                            {
-                                                colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the Alpha and red value
-                                                colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the Green and blue value
-                                                j += 2;
-                                            }
-                                        }
-                                        if (j < colour_number_x2) // if the colour palette is not full
-                                        {
-                                            Console.WriteLine("The colour palette was not full, starting second loop...\n");
                                             for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
                                             {
                                                 not_similar = true;
-                                                if (Colour_Table[i][0] / pixel_count < percentage2 / 100)
+                                                if (Colour_Table[i][0] / pixel_count < percentage / 100)
+                                                {
+                                                    break;
+                                                }
+                                                for (int k = 0; k < j; k += 2)
+                                                {
+                                                    if (Math.Abs((colour_palette[k] & 112) - (Colour_Table[i][1] >> 8) & 112) < diversity && Math.Abs(((colour_palette[k] << 4) & 240) - ((Colour_Table[i][1] >> 4) & 240)) < diversity && Math.Abs((colour_palette[k + 1] & 240) - ((Colour_Table[i][1]) & 240)) < diversity && Math.Abs(((colour_palette[k + 1] << 4) & 240) - ((Colour_Table[i][1] << 4) & 240)) < diversity)
+                                                    {
+                                                        not_similar = false;
+                                                        break;
+                                                    }
+                                                }
+                                                if (not_similar)
+                                                {
+                                                    colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the 0AAA RRRR value
+                                                    colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the GGGG BBBB value
+                                                    j += 2;
+                                                }
+                                            }
+                                            if (j < colour_number_x2) // if the colour palette is not full
+                                            {
+                                                Console.WriteLine("The colour palette was not full, starting second loop...\n");
+                                                for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
+                                                {
+                                                    not_similar = true;
+                                                    if (Colour_Table[i][0] / pixel_count < percentage2 / 100)
+                                                    {
+                                                        break;
+                                                    }
+                                                    for (int k = 0; k < j; k += 2)
+                                                    {
+                                                        if (Math.Abs((colour_palette[k] & 112) - (Colour_Table[i][1] >> 8) & 112) < diversity2 && Math.Abs(((colour_palette[k] << 4) & 240) - ((Colour_Table[i][1] >> 4) & 240)) < diversity2 && Math.Abs((colour_palette[k + 1] & 240) - ((Colour_Table[i][1]) & 240)) < diversity2 && Math.Abs(((colour_palette[k + 1] << 4) & 240) - ((Colour_Table[i][1] << 4) & 240)) < diversity2)
+                                                        {
+                                                            not_similar = false;
+                                                            break;
+                                                        }
+                                                    }
+                                                    if (not_similar)
+                                                    {
+                                                        colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the 0AAA RRRR value
+                                                        colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the GGGG BBBB value
+                                                        j += 2;
+                                                    }
+                                                }
+                                                if (j < colour_number_x2) // if the colour palette is still not full
+                                                {
+                                                    Console.WriteLine("The colour palette is not full, this program will fill it with the most used colours\n");
+                                                    for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
+                                                    {
+                                                        colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the 0AAA RRRR value
+                                                        colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the GGGG BBBB value
+                                                        j += 2;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        else if (alpha == 0)  // 1RRR RRGG GGGB BBBB
+                                        {
+                                            for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
+                                            {
+                                                not_similar = true;
+                                                if (Colour_Table[i][0] / pixel_count < percentage / 100)
+                                                {
+                                                    break;
+                                                }
+                                                for (int k = 0; k < j; k += 2)
+                                                {
+                                                    if (Math.Abs(((colour_palette[k] << 1) & 248) - ((Colour_Table[i][1] >> 7) & 248)) < diversity && Math.Abs(((colour_palette[k] & 3) << 6) + ((colour_palette[k + 1] >> 2) & 56) - ((Colour_Table[i][1] >> 2) & 248)) < diversity && Math.Abs(((colour_palette[k + 1] << 3) & 248) - (Colour_Table[i][1] << 3) & 248) < diversity)
+                                                    {
+                                                        not_similar = false;
+                                                        break;
+                                                    }
+                                                }
+                                                if (not_similar)
+                                                {
+                                                    colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the 1RRR RRGG value
+                                                    colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the GGGB BBBB value
+                                                    j += 2;
+                                                }
+                                            }
+                                            if (j < colour_number_x2) // if the colour palette is not full
+                                            {
+                                                Console.WriteLine("The colour palette was not full, starting second loop...\n");
+                                                for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
+                                                {
+                                                    not_similar = true;
+                                                    if (Colour_Table[i][0] / pixel_count < percentage2 / 100)
+                                                    {
+                                                        break;
+                                                    }
+                                                    for (int k = 0; k < j; k += 2)
+                                                    {
+                                                        if (Math.Abs(((colour_palette[k] << 1) & 248) - ((Colour_Table[i][1] >> 7) & 248)) < diversity2 && Math.Abs(((colour_palette[k] & 3) << 6) + ((colour_palette[k + 1] >> 2) & 56) - ((Colour_Table[i][1] >> 2) & 248)) < diversity2 && Math.Abs(((colour_palette[k + 1] << 3) & 248) - (Colour_Table[i][1] << 3) & 248) < diversity2)
+                                                        {
+                                                            not_similar = false;
+                                                            break;
+                                                        }
+                                                    }
+                                                    if (not_similar)
+                                                    {
+                                                        colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the Alpha and red value
+                                                        colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the Gren and blue value
+                                                        j += 2;
+                                                    }
+                                                }
+                                                if (j < colour_number_x2) // if the colour palette is still not full
+                                                {
+                                                    Console.WriteLine("The colour palette is not full, this program will fill it with the most used colours\n");
+                                                    for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
+                                                    {
+                                                        colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the Alpha and red value
+                                                        colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the Green and blue value
+                                                        j += 2;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        else  // mix
+                                        {
+
+                                            for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
+                                            {
+                                                not_similar = true;
+                                                if (Colour_Table[i][0] / pixel_count < percentage / 100)
                                                 {
                                                     break;
                                                 }
@@ -4032,7 +3986,7 @@ namespace plt0
                                                         green2 = (byte)((Colour_Table[i][1]) & 240);
                                                         blue2 = (byte)((Colour_Table[i][1] << 4) & 240);
                                                     }
-                                                    if (Math.Abs(a - a2) < diversity2 && Math.Abs(red - red2) < diversity2 && Math.Abs(green - green2) < diversity2 && Math.Abs(blue - blue2) < diversity2)
+                                                    if (Math.Abs(a - a2) < diversity && Math.Abs(red - red2) < diversity && Math.Abs(green - green2) < diversity && Math.Abs(blue - blue2) < diversity)
                                                     {
                                                         not_similar = false;
                                                         break;
@@ -4040,19 +3994,73 @@ namespace plt0
                                                 }
                                                 if (not_similar)
                                                 {
-                                                    colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the Alpha value
-                                                    colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the Grey value
+                                                    colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the Alpha and red value
+                                                    colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the Green and blue value
                                                     j += 2;
                                                 }
                                             }
-                                            if (j < colour_number_x2) // if the colour palette is still not full
+                                            if (j < colour_number_x2) // if the colour palette is not full
                                             {
-                                                Console.WriteLine("The colour palette is not full, this program will fill it with the most used colours\n");
+                                                Console.WriteLine("The colour palette was not full, starting second loop...\n");
                                                 for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
                                                 {
-                                                    colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the Alpha value
-                                                    colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the Grey value
-                                                    j += 2;
+                                                    not_similar = true;
+                                                    if (Colour_Table[i][0] / pixel_count < percentage2 / 100)
+                                                    {
+                                                        break;
+                                                    }
+                                                    for (int k = 0; k < j; k += 2)
+                                                    {
+                                                        if ((colour_palette[k] >> 7) == 1)  // no alpha - 1RRR RRGG GGGB BBBB
+                                                        {
+                                                            a = 255;
+                                                            red = (byte)((colour_palette[k] << 1) & 248);
+                                                            green = (byte)(((colour_palette[k] & 3) << 6) + ((colour_palette[k + 1] >> 2) & 56));
+                                                            blue = (byte)((colour_palette[k + 1] << 3) & 248);
+                                                        }
+                                                        else  // alpha - 0AAA RRRR GGGG BBBB
+                                                        {
+                                                            a = (byte)(colour_palette[k] & 112);
+                                                            red = (byte)((colour_palette[k] << 4) & 240);
+                                                            green = (byte)(colour_palette[k + 1] & 240);
+                                                            blue = (byte)((colour_palette[k + 1] << 4) & 240);
+                                                        }
+                                                        if (Colour_Table[i][1] >> 15 == 1)  // no alpha - 1RRR RRGG GGGB BBBB
+                                                        {
+                                                            a2 = 255;
+                                                            red2 = (byte)((Colour_Table[i][1] >> 7) & 248);
+                                                            green2 = (byte)((Colour_Table[i][1] >> 2) & 248);
+                                                            blue2 = (byte)((Colour_Table[i][1] << 3) & 248);
+                                                        }
+                                                        else  // alpha - 0AAA RRRR GGGG BBBB
+                                                        {
+                                                            a2 = (byte)((Colour_Table[i][1] >> 8) & 112);
+                                                            red2 = (byte)((Colour_Table[i][1] >> 4) & 240);
+                                                            green2 = (byte)((Colour_Table[i][1]) & 240);
+                                                            blue2 = (byte)((Colour_Table[i][1] << 4) & 240);
+                                                        }
+                                                        if (Math.Abs(a - a2) < diversity2 && Math.Abs(red - red2) < diversity2 && Math.Abs(green - green2) < diversity2 && Math.Abs(blue - blue2) < diversity2)
+                                                        {
+                                                            not_similar = false;
+                                                            break;
+                                                        }
+                                                    }
+                                                    if (not_similar)
+                                                    {
+                                                        colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the Alpha value
+                                                        colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the Grey value
+                                                        j += 2;
+                                                    }
+                                                }
+                                                if (j < colour_number_x2) // if the colour palette is still not full
+                                                {
+                                                    Console.WriteLine("The colour palette is not full, this program will fill it with the most used colours\n");
+                                                    for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
+                                                    {
+                                                        colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the Alpha value
+                                                        colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the Grey value
+                                                        j += 2;
+                                                    }
                                                 }
                                             }
                                         }
