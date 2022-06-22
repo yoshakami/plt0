@@ -582,6 +582,7 @@ namespace plt0
                             while (z < args.Length)
                             {
                                 z++;
+                                pass++;
                                 if (args[i + 1][0] == '#' && args[i + 1].Length > 6)  // #RRGGBB
                                 {
                                     byte.TryParse(args[i + 1].Substring(4, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
@@ -799,11 +800,11 @@ namespace plt0
                     Array.Resize(ref colors, colour_number_x4);
                 }
                 fill_palette(colors, 0, colors.Length);
-                fill_palette_start_offset = colors.Length;
+                fill_palette_start_offset = colors.Length >> 1; // divides by two because PLT0 is two bytes per colour
                 user_palette = true;
             }
-            try
-            {
+            //try
+            //{
                 byte[] bmp_image = Convert_to_bmp((Bitmap)Bitmap.FromFile(input_file));
                 /* if (colour_number > max_colours && max_colours == 16385)
             {
@@ -954,15 +955,15 @@ namespace plt0
                     write_PLT0();
                     write_TEX0(index_list);
                 }
-            }
-            catch (Exception ex)
+            /*}
+            catch (Exception ex)  // remove this when debugging else it'll tell you every error were at this line lol
             {
                 if (ex.Message == "Out of memory." && ex.Source == "System.Drawing")
                     Console.WriteLine("Image input format not supported (convert it to jpeg or png)");
                 else
                     throw ex;
                 return;
-            }
+            }*/
             
         }
         /// <summary>
