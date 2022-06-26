@@ -5,7 +5,7 @@ with open("parameters.txt", 'r') as txt:
 lines = a.splitlines()
 for line in lines:
     param = line.split(' ')[1].split(';')[0]
-    output += f'" {param}=" + {param} + '
+    output += f'"\n{param}=" + {param} + '
 output = output[:-2] + ');'
 pyperclip.copy(output)
 input(output)

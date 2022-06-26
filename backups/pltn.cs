@@ -585,15 +585,15 @@ namespace plt0
                                 pass++;
                                 if (args[z][0] == '#' && args[z].Length > 6)  // #RRGGBB
                                 {
-                                    byte.TryParse(args[z].Substring(5, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
+                                    byte.TryParse(args[z].Substring(4, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
                                     BGRA.Add(color);
-                                    byte.TryParse(args[z].Substring(3, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
+                                    byte.TryParse(args[z].Substring(2, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
                                     BGRA.Add(color);
-                                    byte.TryParse(args[z].Substring(1, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
-                                    BGRA.Add(color);  // for god's sake, 0 is the hashtag, NOT A F-CKING INDEX START
+                                    byte.TryParse(args[z].Substring(0, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
+                                    BGRA.Add(color);
                                     if (args[z].Length > 8)  // #RRGGBBAA
                                     {
-                                        byte.TryParse(args[z].Substring(7, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
+                                        byte.TryParse(args[z].Substring(6, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
                                         BGRA.Add(color);
                                     }
                                     else
@@ -604,15 +604,15 @@ namespace plt0
                                 }
                                 else if (args[z][0] == '#' && args[z].Length > 3)  // #RGB
                                 {
-                                    byte.TryParse(args[z].Substring(3, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
-                                    BGRA.Add((byte)(color << 4));
                                     byte.TryParse(args[z].Substring(2, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
                                     BGRA.Add((byte)(color << 4));
                                     byte.TryParse(args[z].Substring(1, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
                                     BGRA.Add((byte)(color << 4));
+                                    byte.TryParse(args[z].Substring(0, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
+                                    BGRA.Add((byte)(color << 4));
                                     if (args[z].Length > 4)  // #RGBA
                                     {
-                                        byte.TryParse(args[z].Substring(4, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
+                                        byte.TryParse(args[z].Substring(3, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
                                         BGRA.Add((byte)(color << 4));
                                     }
                                     else
@@ -715,30 +715,22 @@ namespace plt0
                             {
                                 input_file = args[i];
                             }
-                            else if (System.IO.File.Exists(swap) && input_file2 == "")  // swap out args[i] and output file.
+                            else if (System.IO.File.Exists(output_file))  // swap out args[i] and output file.
                             {
+                                swap = output_file;
+                                output_file = args[i];
                                 input_file2 = swap;
-                                if (args[i].Contains(".") && args[i].Length > 1)
-                                {
-                                    output_file = args[i].Substring(0, args[i].Length - args[i].Split('.')[args[i].Split('.').Length - 1].Length - 1);
-                                }
-                                else
-                                {
-                                    output_file = args[i];
-                                }
-
+                                
                             }
                             else
                             {
                                 if (args[i].Contains(".") && args[i].Length > 1)
                                 {
                                     output_file = args[i].Substring(0, args[i].Length - args[i].Split('.')[args[i].Split('.').Length - 1].Length - 1);
-                                    swap = args[i];
                                 }
                                 else
                                 {
                                     output_file = args[i];
-                                    swap = args[i];
                                 }
                             }
                             break;
@@ -894,13 +886,14 @@ namespace plt0
                             }
                             else
                             {
-                                byte[] bmp_palette = Convert_to_bmp((Bitmap)Bitmap.FromFile(input_file2));  // will fail if this isn't a supported image
+                                byte[] bmp_palette = Convert_to_bmp((Bitmap)Bitmap.FromFile(input_file));  // will fail if this isn't a supported image
                                 user_palette = true;
-                                int array_size = bmp_palette[2] | bmp_palette[3] << 8 | bmp_palette[4] << 16 | bmp_palette[5] << 24;
+                                ushort bitmap_w, bitmap_h, pixel;
+                                int array_size = bmp_image[2] | bmp_palette[3] << 8 | bmp_palette[4] << 16 | bmp_palette[5] << 24;
                                 int pixel_start_offset = bmp_palette[10] | bmp_palette[11] << 8 | bmp_palette[12] << 16 | bmp_palette[13] << 24;
-                                ushort bitmap_w = (ushort)(bmp_palette[0x13] << 8 | bmp_palette[0x12]);
-                                ushort bitmap_h = (ushort)(bmp_palette[0x17] << 8 | bmp_palette[0x16]);
-                                ushort pixel = (ushort)(bitmap_w * bitmap_h);
+                                bitmap_w = (ushort)(bmp_palette[0x13] << 8 | bmp_palette[0x12]);
+                                bitmap_h = (ushort)(bmp_palette[0x17] << 8 | bmp_palette[0x16]);
+                                pixel = (ushort)(bitmap_w * bitmap_h);
                                 if (pixel != colour_number)
                                 {
                                     Console.WriteLine("Second image input has " + pixel + " pixels while there are " + colour_number + " max colours in the palette.");
@@ -1080,7 +1073,7 @@ namespace plt0
                                             blue += 4;
                                         }
                                         // pixel = (ushort)((((byte)(red) >> 3) << 11) + (((byte)(green) >> 2) << 5) + (byte)(blue) >> 3);
-                                        colour_palette[j] = (byte)((red & 0xf8) | (green >> 5));
+                                        colour_palette[j] = (byte)((red & 0xf8) | (green & 0x07));
                                         colour_palette[j + 1] = (byte)(((green << 3) & 0xe0) | (blue >> 3));
                                     }
                                     break;
@@ -1105,7 +1098,7 @@ namespace plt0
                                             blue += 4;
                                         }
                                         // pixel = (ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3));
-                                        colour_palette[j] = (byte)((red & 0xf8) | (green >> 5));
+                                        colour_palette[j] = (byte)((red & 0xf8) | (green & 0x07));
                                         colour_palette[j + 1] = (byte)(((green << 3) & 0xe0) | (blue >> 3));
                                     }
                                     break;
