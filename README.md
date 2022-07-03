@@ -3,7 +3,7 @@ Wii/GC texture encoder with palette support (png, jpeg, gif, bmp, tiff, tpl, tex
 
 v0.1 - support for all palette formats
 
-v0.2 - support input palette
+v0.2 - support input palette and mipmaps
 
 v0.3: inject into bmd files
 
