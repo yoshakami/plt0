@@ -153,7 +153,6 @@ namespace plt0
         bool bmd_file = false;
         bool bmp = false;
         bool bti = false;
-        bool exit = false;
         bool fill_height = false;
         bool fill_width = false;
         bool gif = false;
@@ -719,7 +718,7 @@ namespace plt0
                             {
                                 input_file = args[i];
                                 input_fil = args[i].Substring(0, args[i].Length - args[i].Split('.')[args[i].Split('.').Length - 1].Length - 1);  // removes the text after the extension dot.
-                                input_ext = args[i].Substring(args[i].Length - args[i].Split('.')[args[i].Split('.').Length - 1].Length - 1, args[i].Length - input_fil.Length);  // removes the text before the extension dot.
+                                input_ext = args[i].Substring(args[i].Length - args[i].Split('.')[args[i].Split('.').Length - 1].Length - 1, args[i].Length);  // removes the text after the extension dot.
                             }
                             else if (System.IO.File.Exists(swap) && input_file2 == "")  // swap out args[i] and output file.
                             {
@@ -805,8 +804,8 @@ namespace plt0
                 colour_number_x2 = colour_number << 1;
                 colour_number_x4 = colour_number << 2;
             }
-            try
-            {
+            //try
+            //{
                 byte[] bmp_image = Convert_to_bmp((Bitmap)Bitmap.FromFile(input_file));
                 /* if (colour_number > max_colours && max_colours == 16385)
             {
@@ -828,7 +827,7 @@ namespace plt0
                 pixel_count = bitmap_width * bitmap_height;
                 if (palette_format_int32[3] == 9)  // if a colour palette hasn't been selected by the user, this program will set it automatically to the most fitting one
                 {
-                    for (int i = 0; i < bitmap_width; i += 4)  // first row - or last one because it's a bmp lol
+                    for (int i = 0; i < bitmap_width; i += 4)
                     {
                         if (bmp_image[pixel_data_start_offset + i + 3] != 0xff && alpha > 1)
                         {
@@ -843,7 +842,7 @@ namespace plt0
                             break;
                         }
                     }
-                    for (int i = bitmap_width * (bitmap_height >> 1); i % bitmap_width != 0; i += 4)  // middle row
+                    for (int i = bitmap_width * (bitmap_height >> 1) + 1; i % bitmap_width != 0; i += 4)
                     {
                         if (bmp_image[pixel_data_start_offset + i + 3] != 0xff && alpha > 1)
                         {
@@ -933,64 +932,104 @@ namespace plt0
                 {
                     Console.WriteLine("v-- bool --v\nbmd=" + bmd + " bmd_file=" + bmd_file + " bmp=" + bmp + " bti=" + bti + " fill_height=" + fill_height + " fill_width=" + fill_width + " gif=" + gif + " grey=" + grey + " ico=" + ico + " jpeg=" + jpeg + " jpg=" + jpg + " png=" + png + " success=" + success + " tif=" + tif + " tiff=" + tiff + " tpl=" + tpl + " user_palette=" + user_palette + " warn=" + warn + "\n\nv-- byte --v\nWrapS=" + WrapS + " WrapT=" + WrapT + " algorithm=" + algorithm + " alpha=" + alpha + " color=" + color + " diversity=" + diversity + " diversity2=" + diversity2 + " magnification_filter=" + magnification_filter + " minificaction_filter=" + minificaction_filter + " mipmaps_number=" + mipmaps_number + "\n\nv-- byte[] --v\ncolour_palette=" + colour_palette + " palette_format_int32=" + palette_format_int32 + " texture_format_int32=" + texture_format_int32 + "\n\nv-- double --v\nformat_ratio=" + format_ratio + " percentage=" + percentage + " percentage2=" + percentage2 + "\n\nv-- float[] --v\ncustom_rgba=" + custom_rgba + "\n\nv-- int --v\ncolour_number_x2=" + colour_number_x2 + " colour_number_x4=" + colour_number_x4 + " pass=" + pass + " pixel_count=" + pixel_count + "\n\nv-- signed byte --v\nblock_height=" + block_height + " block_width=" + block_width + "\n\nv-- string --v\ninput_file=" + input_file + " input_file2=" + input_file2 + " output_file=" + output_file + " swap=" + swap + "\n\nv-- unsigned short --v\nbitmap_height=" + bitmap_height + " bitmap_width=" + bitmap_width + " colour_number=" + colour_number + " max_colours=" + max_colours + " z=" + z + "\n\nv-- List<byte> --v\nBGRA=" + BGRA);
                 }
-                for (z = 1; z <= mipmaps_number; z++)
+                for (int i = 1; i <= mipmaps_number; i++)
                 {
-                    if (warn)
-                    {
-                        Console.WriteLine("processing mipmap " + z);
-                    }
-                    if (System.IO.File.Exists(input_fil + ".mm" + z + input_ext))  // image with mipmap: input.png -> input.mm1.png -> input.mm2.png
-                    {
-                        byte[] bmp_mipmap = Convert_to_bmp((Bitmap)Bitmap.FromFile(input_fil + ".mm" + z + input_ext));
-                        if (bmp_mipmap[0x15] != 0 || bmp_mipmap[0x14] != 0 || bmp_mipmap[0x19] != 0 || bmp_mipmap[0x18] != 0)
-                        {
-                            Console.WriteLine("Textures Dimensions are too high for a TEX0. Maximum dimensions are the values of a 2 bytes integer (65535 x 65535)");
-                            return;
-                        }
-                        /***** BMP File Process *****/
-                        // process the bmp file
-                        int bmp_size = bmp_mipmap[2] | bmp_mipmap[3] << 8 | bmp_mipmap[4] << 16 | bmp_mipmap[5] << 24;
-                        int pixel_start_offset = bmp_mipmap[10] | bmp_mipmap[11] << 8 | bmp_mipmap[12] << 16 | bmp_mipmap[13] << 24;
-                        bitmap_width = (ushort)(bmp_mipmap[0x13] << 8 | bmp_mipmap[0x12]);
-                        bitmap_height = (ushort)(bmp_mipmap[0x17] << 8 | bmp_mipmap[0x16]);
-                        pixel_count = bitmap_width * bitmap_height;
-                        user_palette = true; // won't edit palette with mipmaps
-                        object w = create_PLT0(bmp_mipmap, bmp_size, pixel_start_offset);
-                        index_list.Add((List<byte[]>)w);
-                    }
-                    else
-                    {
-                        bitmap_width >>= 1; // divides by 2
-                        bitmap_height >>= 1; // divides by 2   - also YES 1 DIVIDED BY TWO IS ZERO
-                        if (bitmap_width == 0 || bitmap_height == 0)
-                        {
-                            Console.WriteLine("Too many mipmaps. " + (z - 1) + " is the maximum for this file");
-                            exit = true;
-                            return;
-                        }
-                        byte[] bmp_mipmap = Convert_to_bmp(ResizeImage((Bitmap)Bitmap.FromFile(input_file), bitmap_width, bitmap_height));
 
-
-                        if (bmp_mipmap[0x15] != 0 || bmp_mipmap[0x14] != 0 || bmp_mipmap[0x19] != 0 || bmp_mipmap[0x18] != 0)
-                        {
-                            Console.WriteLine("Textures Dimensions are too high for a TEX0. Maximum dimensions are the values of a 2 bytes integer (65535 x 65535)");
-                            return;
-                        }
-                        /***** BMP File Process *****/
-                        // process the bmp file
-                        int bmp_size = bmp_mipmap[2] | bmp_mipmap[3] << 8 | bmp_mipmap[4] << 16 | bmp_mipmap[5] << 24;
-                        int pixel_start_offset = bmp_mipmap[10] | bmp_mipmap[11] << 8 | bmp_mipmap[12] << 16 | bmp_mipmap[13] << 24;
-                        bitmap_width = (ushort)(bmp_mipmap[0x13] << 8 | bmp_mipmap[0x12]);
-                        bitmap_height = (ushort)(bmp_mipmap[0x17] << 8 | bmp_mipmap[0x16]);
-                        pixel_count = bitmap_width * bitmap_height;
-                        user_palette = true; // won't edit palette with mipmaps
-                        object w = create_PLT0(bmp_mipmap, bmp_size, pixel_start_offset);
-                        index_list.Add((List<byte[]>)w);
-                    }
+                /*
+                 using (var ms = new MemoryStream())
+                {
+                    ms.Read(bmp_image, 0, bmp_image.Length);
+                    Bitmap image = (Bitmap)Bitmap.FromStream(ms);
+                    image.Save(ms, ImageFormat.Bmp);
+                    bitmap_width = (ushort)(bitmap_width / Math.Pow(i, 2));
+                    bitmap_height = (ushort)(bitmap_height / Math.Pow(i, 2));
+                    image = ResizeImage(image, bitmap_width, bitmap_height);
+                    bmp_image = Convert_to_bmp((Bitmap)image);
                 }
-                if (exit)
+                why the hell have I written that
+                */
+                if (warn)
                 {
-                    return;
+                    Console.WriteLine("processing mipmap " + i);
+                }
+                if (System.IO.File.Exists(input_fil + ".mm" + i + input_ext))  // image with mipmap: input.png -> input.mm1.png -> input.mm2.png
+                {
+                    byte[] bmp_mipmap = Convert_to_bmp((Bitmap)Bitmap.FromFile(input_fil + ".mm" + i + input_ext));
+                    if (bmp_mipmap[0x15] != 0 || bmp_mipmap[0x14] != 0 || bmp_mipmap[0x19] != 0 || bmp_mipmap[0x18] != 0)
+                    {
+                        Console.WriteLine("Textures Dimensions are too high for a TEX0. Maximum dimensions are the values of a 2 bytes integer (65535 x 65535)");
+                        return;
+                    }
+                    /***** BMP File Process *****/
+                    // process the bmp file
+                    int bmp_size = bmp_mipmap[2] | bmp_mipmap[3] << 8 | bmp_mipmap[4] << 16 | bmp_mipmap[5] << 24;
+                    int pixel_start_offset = bmp_mipmap[10] | bmp_mipmap[11] << 8 | bmp_mipmap[12] << 16 | bmp_mipmap[13] << 24;
+                    bitmap_width = (ushort)(bmp_mipmap[0x13] << 8 | bmp_mipmap[0x12]);
+                    bitmap_height = (ushort)(bmp_mipmap[0x17] << 8 | bmp_mipmap[0x16]);
+                    pixel_count = bitmap_width * bitmap_height;
+                    user_palette = true; // won't edit palette with mipmaps
+                    object w = create_PLT0(bmp_mipmap, bmp_size, pixel_start_offset);
+                    index_list.Add((List<byte[]>)w);
+                    //using (System.IO.FileStream file = System.IO.File.Open(input_fil + ".mm" + i + input_ext, System.IO.FileMode.Open, System.IO.FileAccess.Write))
+                }
+                else
+                {
+                    // using (System.IO.FileStream file = System.IO.File.Open(input_fil + ".mm" + i + input_ext, System.IO.FileMode.CreateNew, System.IO.FileAccess.Write))
+                    bitmap_width = (ushort)(bitmap_width / Math.Pow(i, 2));
+                    bitmap_height = (ushort)(bitmap_height / Math.Pow(i, 2));
+                    byte[] bmp_mipmap = Convert_to_bmp(ResizeImage((Bitmap)Bitmap.FromFile(input_file), bitmap_width, bitmap_height));
+
+
+                    if (bmp_mipmap[0x15] != 0 || bmp_mipmap[0x14] != 0 || bmp_mipmap[0x19] != 0 || bmp_mipmap[0x18] != 0)
+                    {
+                        Console.WriteLine("Textures Dimensions are too high for a TEX0. Maximum dimensions are the values of a 2 bytes integer (65535 x 65535)");
+                        return;
+                    }
+                    /***** BMP File Process *****/
+                    // process the bmp file
+                    int bmp_size = bmp_mipmap[2] | bmp_mipmap[3] << 8 | bmp_mipmap[4] << 16 | bmp_mipmap[5] << 24;
+                    int pixel_start_offset = bmp_mipmap[10] | bmp_mipmap[11] << 8 | bmp_mipmap[12] << 16 | bmp_mipmap[13] << 24;
+                    bitmap_width = (ushort)(bmp_mipmap[0x13] << 8 | bmp_mipmap[0x12]);
+                    bitmap_height = (ushort)(bmp_mipmap[0x17] << 8 | bmp_mipmap[0x16]);
+                    pixel_count = bitmap_width * bitmap_height;
+                    user_palette = true; // won't edit palette with mipmaps
+                    object w = create_PLT0(bmp_mipmap, bmp_size, pixel_start_offset);
+                    index_list.Add((List<byte[]>)w);
+                    //using (System.IO.FileStream file = System.IO.File.Open(input_fil + ".mm" + i + input_ext, System.IO.FileMode.Open, System.IO.FileAccess.Write))
+                }
+                if (!System.IO.File.Exists(input_file))
+                {
+                        //For later I guess
+                }
+                /* 
+                    using (System.IO.FileStream fs = new System.IO.FileStream(inputImage, System.IO.FileMode.Open, System.IO.FileAccess.ReadWrite))
+                    {
+                        try
+                        {
+                            using (Bitmap bitmap = (Bitmap)Image.FromStream(fs, true, false))
+                            {
+                                try
+                                {
+                                    bitmap.Save(OutputImage + ".bmp", System.Drawing.Imaging.ImageFormat.Bmp);
+                                    GC.Collect();
+                                }
+                                catch (Exception ex)
+                                {
+                                    throw ex;
+                                }
+                            }
+                        }
+                        catch (ArgumentException aex)
+                        {
+                            throw new Exception("The file received from the Map Server is not a valid jpeg image", aex);
+                        }
+                    }
+                // thanks https://stackoverflow.com/a/1303804
+                // I guess I need to make a new bitmap for each mipmap :')
+                // F-CKING FROMSTREAM IS THE SAME AS FROMFILE I SWEAR
+                */
+                v = build_mipmap(bmp_image, bmp_filesize, pixel_data_start_offset);
+                    index_list.Add((List<byte[]>)v);
                 }
                 bitmap_width = vanilla_size[0];
                 bitmap_height = vanilla_size[1];
@@ -1011,7 +1050,7 @@ namespace plt0
                     write_PLT0();
                     write_TEX0(index_list);
                 }
-            }
+            /*}
             catch (Exception ex)  // remove this when debugging else it'll tell you every error were at this line lol
             {
                 if (ex.Message == "Out of memory." && ex.Source == "System.Drawing")
@@ -1019,7 +1058,7 @@ namespace plt0
                 else
                     throw ex;
                 return;
-            }
+            }*/
             
         }
         /// <summary>
@@ -1383,18 +1422,18 @@ namespace plt0
             int pixel_start_offset = 0x36 + colour_number_x4;
             int size = pixel_start_offset + image_size;  // fixed size at 1 image
             // int size2 = pixel_start_offset + image_size;  // plus the header?????? added it twice lol
-            ushort width = 0;  // will change when equal to 4 or 16 bit because of bypass lol
-            ushort header_width = 0; // width written in the header
-            ushort height = 0;
+            ushort width;  // will change when equal to 4 or 16 bit because of bypass lol
+            ushort header_width; // width written in the header
+            ushort height;
             int index;
             byte[] data = new byte[54];  // header data
             byte[] palette = new byte[colour_number_x4];
             string end = ".bmp";
             bool done = false;
-            for (z = 0; z < mipmaps_number + 1; z++)
+            for (int i = 0; i < mipmaps_number + 1; i++)
             {
                 byte[] pixel = new byte[image_size];
-                if (z == 0)
+                if (i == 0)
                 {
                     width = ref_width;
                     header_width = bitmap_width;
@@ -1402,9 +1441,9 @@ namespace plt0
                 }
                 else
                 {
-                    width >>= 1;  // divides by 2
-                    header_width >>= 1;  // divides by 2
-                    height >>= 1; // divides by 2
+                    width = (ushort)(ref_width / Math.Pow(i, 2));  // of course in C# you can divide by zero, it outputs zero.
+                    header_width = (ushort)(bitmap_width / Math.Pow(i, 2));  // though it's my fault for letting this run
+                    height = (ushort)(bitmap_height / Math.Pow(i, 2));  // though it's my fault for letting this run
                 }
                 index = 0;
                 // fill header
@@ -1554,20 +1593,20 @@ namespace plt0
                 }
 
                 // fill pixel data
-                for (int j = 0; j < height; j++)
+                for (int j = 0; j < bitmap_height; j++)
                 {
-                    for (int k = 0; k < width; k++, index++)
+                    for (int k = 0; k < ref_width; k++, index++)
                     {
-                        pixel[index] = index_list[z][j][k];
+                        pixel[index] = index_list[i][j][k];
                     }
                     for (int k = 0; k < padding; k++, index++)
                     {
                         pixel[index] = 0x69;  // my signature XDDDD 
                     }
                 }
-                if (z != 0)
+                if (i != 0)
                 {
-                    end = ".mm" + z + ".bmp";
+                    end = ".mm" + i + ".bmp";
                 }
                 index = 0;
                 done = false;
@@ -1597,7 +1636,7 @@ namespace plt0
                         if (!bmp)
                         {
 
-                            ConvertAndSave((Bitmap)Bitmap.FromFile(output_file + end), z);
+                            ConvertAndSave((Bitmap)Bitmap.FromFile(output_file + end), i);
                         }
                         done = true;
                     }
@@ -1637,7 +1676,7 @@ namespace plt0
                 }
                 else
                 {
-                    temp = bitmap_width / Math.Pow(2, i);
+                    temp = bitmap_width / Math.Pow(i, 2);
                     if (temp % 1 != 0)
                     {
                         param[2] = (int)(index_list[i][0].Length * format_ratio) + 1;
@@ -1648,7 +1687,7 @@ namespace plt0
                         // param[2] = (int)temp;
                         param[2] = (int)(index_list[i][0].Length * format_ratio);
                     }
-                    temp = bitmap_height / Math.Pow(2, i);
+                    temp = bitmap_height / Math.Pow(i, 2);
                     if (temp % 1 != 0)
                     {
                         // param[3] = (int)temp + 1;
@@ -1802,7 +1841,7 @@ namespace plt0
                 }
                 else
                 {
-                    temp = bitmap_width / Math.Pow(2, i);
+                    temp = bitmap_width / Math.Pow(i, 2);
                     if (temp % 1 != 0)
                     {
                         param[2] = (int)(index_list[i][0].Length * format_ratio) + 1;
@@ -1813,7 +1852,7 @@ namespace plt0
                         // param[2] = (int)temp;
                         param[2] = (int)(index_list[i][0].Length * format_ratio);
                     }
-                    temp = bitmap_height / Math.Pow(2, i);
+                    temp = bitmap_height / Math.Pow(i, 2);
                     if (temp % 1 != 0)
                     {
                         // param[3] = (int)temp + 1;
@@ -2079,7 +2118,7 @@ namespace plt0
                 }
                 else
                 {
-                    temp = bitmap_width / Math.Pow(2, i);
+                    temp = bitmap_width / Math.Pow(i, 2);
                     if (temp % 1 != 0)
                     {
                         param[2] = (int)(index_list[i][0].Length * format_ratio) + 1;
@@ -2090,7 +2129,7 @@ namespace plt0
                         // param[2] = (int)temp;
                         param[2] = (int)(index_list[i][0].Length * format_ratio);
                     }
-                    temp = bitmap_height / Math.Pow(2, i);
+                    temp = bitmap_height / Math.Pow(i, 2);
                     if (temp % 1 != 0)
                     {
                         // param[3] = (int)temp + 1;
@@ -2199,6 +2238,20 @@ namespace plt0
             int count = 0;
             int height;
             int width;
+            /*
+            switch (texture_format_int32[3])
+            {
+                case 8: // CI4
+                    {
+                        block_width = 4;  // 4 bits per pixel  -  it's not really the block width, the real one is 8 but as each pixel is stored on 4 bit, I'm dividing it by two for my algorithm to work haha, isn't it a genius idea lol
+                        break;
+                    }
+                case 10: // CI14x2
+                    {
+                        block_width = 8;  // 16 bits per pixel
+                        break;
+                    }
+            }*/
             block_width = (sbyte)(block_width / format_ratio);
             for (int i = 0; i < settings.Count; i++)  // mipmaps
             {
@@ -2243,13 +2296,6 @@ namespace plt0
             }
         }
 
-        /// <summary>
-        /// Fills the colour palette and process every pixel of the image to be an index of the colour palette
-        /// </summary>
-        /// <param name="bmp_image">the raw bmp file as a byte array</param>
-        /// <param name="bmp_filesize">the size of the file, it can be read from the array itself, it's also the length of the array</param>
-        /// <param name="pixel_data_start_offset">read from the array itself</param>
-        /// <returns>a list of each row of the image (starting by the bottom one) and each row is a byte array which contains every pixel of a row.</returns>
         [MethodImpl(MethodImplOptions.NoOptimization)]
         public List<byte[]> create_PLT0(byte[] bmp_image, int bmp_filesize, int pixel_data_start_offset)
         {
@@ -3565,12 +3611,6 @@ namespace plt0
                 return ms.ToArray();
             }
         }
-        /// <summary>
-        /// Convert an image to specified format.
-        /// </summary>
-        /// <param name="imageIn">The image to convert.</param>
-        /// <param name="current_mipmap">The actual numnber of mipmap (used to add .mm1 at the end).</param>
-        /// <returns>The converted image written in a free-to-edit file.</returns>
         public bool ConvertAndSave(System.Drawing.Bitmap imageIn, int current_mipmap)
         {
             string end = ".bmp";

@@ -805,8 +805,8 @@ namespace plt0
                 colour_number_x2 = colour_number << 1;
                 colour_number_x4 = colour_number << 2;
             }
-            try
-            {
+            //try
+            //{
                 byte[] bmp_image = Convert_to_bmp((Bitmap)Bitmap.FromFile(input_file));
                 /* if (colour_number > max_colours && max_colours == 16385)
             {
@@ -957,9 +957,13 @@ namespace plt0
                         user_palette = true; // won't edit palette with mipmaps
                         object w = create_PLT0(bmp_mipmap, bmp_size, pixel_start_offset);
                         index_list.Add((List<byte[]>)w);
+                        //using (System.IO.FileStream file = System.IO.File.Open(input_fil + ".mm" + i + input_ext, System.IO.FileMode.Open, System.IO.FileAccess.Write))
                     }
                     else
                     {
+                        // using (System.IO.FileStream file = System.IO.File.Open(input_fil + ".mm" + i + input_ext, System.IO.FileMode.CreateNew, System.IO.FileAccess.Write))
+                        // bitmap_width = (ushort)(bitmap_width / Math.Pow(2, z));
+                        // bitmap_height = (ushort)(bitmap_height / Math.Pow(2, z));
                         bitmap_width >>= 1; // divides by 2
                         bitmap_height >>= 1; // divides by 2   - also YES 1 DIVIDED BY TWO IS ZERO
                         if (bitmap_width == 0 || bitmap_height == 0)
@@ -986,6 +990,7 @@ namespace plt0
                         user_palette = true; // won't edit palette with mipmaps
                         object w = create_PLT0(bmp_mipmap, bmp_size, pixel_start_offset);
                         index_list.Add((List<byte[]>)w);
+                        //using (System.IO.FileStream file = System.IO.File.Open(input_fil + ".mm" + i + input_ext, System.IO.FileMode.Open, System.IO.FileAccess.Write))
                     }
                 }
                 if (exit)
@@ -1011,7 +1016,7 @@ namespace plt0
                     write_PLT0();
                     write_TEX0(index_list);
                 }
-            }
+            /*}
             catch (Exception ex)  // remove this when debugging else it'll tell you every error were at this line lol
             {
                 if (ex.Message == "Out of memory." && ex.Source == "System.Drawing")
@@ -1019,7 +1024,7 @@ namespace plt0
                 else
                     throw ex;
                 return;
-            }
+            }*/
             
         }
         /// <summary>
@@ -2199,6 +2204,20 @@ namespace plt0
             int count = 0;
             int height;
             int width;
+            /*
+            switch (texture_format_int32[3])
+            {
+                case 8: // CI4
+                    {
+                        block_width = 4;  // 4 bits per pixel  -  it's not really the block width, the real one is 8 but as each pixel is stored on 4 bit, I'm dividing it by two for my algorithm to work haha, isn't it a genius idea lol
+                        break;
+                    }
+                case 10: // CI14x2
+                    {
+                        block_width = 8;  // 16 bits per pixel
+                        break;
+                    }
+            }*/
             block_width = (sbyte)(block_width / format_ratio);
             for (int i = 0; i < settings.Count; i++)  // mipmaps
             {
