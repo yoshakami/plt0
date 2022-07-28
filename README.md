@@ -11,9 +11,11 @@ v0.4: all image formats except cmpr
 
 v0.5: CMPR (I swear DXT1 Compression will be hard)
 
-v0.6: GUI
+v0.6: decode images
 
-currently developping v0.3
+v0.7: GUI
+
+currently developping v0.5
 
 ## why this project
 wimgt doesn't support textures with palette (or corrupts them), except tpl files. which makes his whole tool a bit annoying
