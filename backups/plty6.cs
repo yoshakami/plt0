@@ -339,7 +339,6 @@ namespace plt0
                             block_width = 8;
                             block_height = 8;
                             format_ratio = 2;
-                            has_palette = false;
                             break;
                         }
                     case "I8":
@@ -347,8 +346,6 @@ namespace plt0
                             texture_format_int32[3] = 1;
                             block_width = 8;
                             block_height = 4;
-                            format_ratio = 1;
-                            has_palette = false;
                             break;
                         }
                     case "IA4":
@@ -357,8 +354,6 @@ namespace plt0
                             texture_format_int32[3] = 2;
                             block_width = 8;
                             block_height = 4;
-                            format_ratio = 1;
-                            has_palette = false;
                             break;
                         }
                     case "FORCE_ALPHA":
@@ -383,7 +378,6 @@ namespace plt0
                             block_width = 4;
                             block_height = 4;
                             format_ratio = 0.25;
-                            has_palette = false;
                             break;
                         }
                     case "CMPR":
@@ -392,7 +386,6 @@ namespace plt0
                             block_width = 8;
                             block_height = 8;
                             format_ratio = 2;
-                            has_palette = false;
                             break;
                         }
                     case "C4":
@@ -402,7 +395,6 @@ namespace plt0
                             block_width = 8;
                             block_height = 8;
                             format_ratio = 2;
-                            texture_format_int32[3] = 8;
                             has_palette = true;
                             break;
                         }
@@ -1073,7 +1065,6 @@ namespace plt0
                 block_width = 4;
                 block_height = 4;
                 format_ratio = 0.5;
-                has_palette = false;
             }
             if (max_colours == 0 && texture_format_int32[3] == 7 && palette_format_int32[3] != 9)  // if user haven't chosen a texture format
             {
@@ -4401,44 +4392,37 @@ namespace plt0
                 {
                     switch (texture_format_int32[3])
                     {
-                        case 0: // I4  - works well
+                        case 0: // I4
                             {
                                 switch (algorithm)
                                 {
                                     case 0: // cie_601
                                         {
-                                            for (y = pixel_data_start_offset; y < bmp_filesize; y += 8)  // process every pixel by groups of two to fit the AAAA BBBB  profile
+                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 8)  // process every pixel by groups of two to fit the AAAA BBBB  profile
                                             {
-                                                a = (byte)(bmp_image[y] * 0.114 + bmp_image[y + 1] * 0.587 + bmp_image[y + 2] * 0.299);  // grey colour trimmed to 4 bit
+                                                a = (byte)(bmp_image[i] * 0.114 + bmp_image[i + 1] * 0.587 + bmp_image[i + 2] * 0.299);  // grey colour trimmed to 4 bit
                                                 if ((a & 0xf) > round4 && a < 240)
                                                 {
                                                     a += 16;
                                                 }
-                                                if (y + 6 < bmp_filesize)
+                                                if (i + 6 < bmp_filesize)
                                                 {
-                                                    grey = (byte)(bmp_image[y + 4] * 0.114 + bmp_image[y + 5] * 0.587 + bmp_image[y + 6] * 0.299);
+                                                    grey = (byte)(bmp_image[i + 4] * 0.114 + bmp_image[i + 5] * 0.587 + bmp_image[i + 6] * 0.299);
                                                     if ((grey & 0xf) > round4 && grey < 240)
                                                     {
                                                         grey += 16;
                                                     }
                                                     index[j] = (byte)((a & 0xf0) + (grey >> 4));
                                                     j++;
-                                                    if (j << 1 == bitmap_width)
+                                                    if (j == index.Length)
                                                     {
                                                         j = 0;
                                                         index_list.Add(index.ToArray());
-                                                    }
-                                                    else if (j << 1 > bitmap_width)
-                                                    {
-                                                        j = 0;
-                                                        index_list.Add(index.ToArray());
-                                                        y -= 4;
                                                     }
                                                 }
                                                 else
                                                 {
                                                     index[j] = a;
-                                                    index_list.Add(index.ToArray());
                                                 }
                                             }
                                             break;
@@ -4462,22 +4446,15 @@ namespace plt0
                                                     }
                                                     index[j] = (byte)((a & 0xf0) + (grey >> 4));
                                                     j++;
-                                                    if (j == (bitmap_width >> 1))
+                                                    if (j == index.Length)
                                                     {
                                                         j = 0;
                                                         index_list.Add(index.ToArray());
-                                                    }
-                                                    else if (j > (bitmap_width >> 1))
-                                                    {
-                                                        j = 0;
-                                                        index_list.Add(index.ToArray());
-                                                        y -= 4;
                                                     }
                                                 }
                                                 else
                                                 {
                                                     index[j] = a;
-                                                    index_list.Add(index.ToArray());
                                                 }
                                             }
                                             break;
@@ -4501,22 +4478,15 @@ namespace plt0
                                                     }
                                                     index[j] = (byte)((a & 0xf0) + (grey >> 4));
                                                     j++;
-                                                    if (j == (bitmap_width >> 1))
+                                                    if (j == index.Length)
                                                     {
                                                         j = 0;
                                                         index_list.Add(index.ToArray());
-                                                    }
-                                                    else if (j > (bitmap_width >> 1))
-                                                    {
-                                                        j = 0;
-                                                        index_list.Add(index.ToArray());
-                                                        y -= 4;
                                                     }
                                                 }
                                                 else
                                                 {
                                                     index[j] = a;
-                                                    index_list.Add(index.ToArray());
                                                 }
                                             }
                                             break;
@@ -4525,7 +4495,7 @@ namespace plt0
                                 break;
                             }
                         // i += 4 for all deleted ones lol
-                        case 6: // RGBA32   - works well.
+                        case 6: // RGBA32
                             {
                                 /* 4x4 pixel block
                                  * warning: THESE ARE BYTES
@@ -4543,100 +4513,83 @@ namespace plt0
                                 {
                                     case 2:  // custom
                                         {
-                                            for (y = pixel_data_start_offset; y < bmp_filesize; y += 16)
+                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 16)
                                             {
                                                 // alpha and red
                                                 // Green and Blue
-                                                index[j] = (byte)(bmp_image[y + 3] * custom_rgba[3]);       // A
-                                                index[j + 1] = (byte)(bmp_image[y + 2] * custom_rgba[0]);   // R
-                                                index[j + 8] = (byte)(bmp_image[y + 1] * custom_rgba[1]);   // G
-                                                index[j + 9] = (byte)(bmp_image[y] * custom_rgba[2]);       // B
-                                                if (y + 7 < bmp_filesize)
+                                                index[j] = (byte)(bmp_image[i + 3] * custom_rgba[3]);       // A
+                                                index[j + 1] = (byte)(bmp_image[i + 2] * custom_rgba[0]);   // R
+                                                index[j + 8] = (byte)(bmp_image[i + 1] * custom_rgba[1]);   // G
+                                                index[j + 9] = (byte)(bmp_image[i] * custom_rgba[2]);       // B
+                                                if (i + 7 < bmp_filesize)
                                                 {
-                                                    index[j + 2] = (byte)(bmp_image[y + 7] * custom_rgba[3]);   // A
-                                                    index[j + 3] = (byte)(bmp_image[y + 6] * custom_rgba[0]);   // R
-                                                    index[j + 10] = (byte)(bmp_image[y + 5] * custom_rgba[1]);  // G
-                                                    index[j + 11] = (byte)(bmp_image[y + 4] * custom_rgba[2]);  // B
-                                                    if (y + 11 < bmp_filesize)
+                                                    index[j + 2] = (byte)(bmp_image[i + 7] * custom_rgba[3]);   // A
+                                                    index[j + 3] = (byte)(bmp_image[i + 6] * custom_rgba[0]);   // R
+                                                    index[j + 10] = (byte)(bmp_image[i + 5] * custom_rgba[1]);  // G
+                                                    index[j + 11] = (byte)(bmp_image[i + 4] * custom_rgba[2]);  // B
+                                                    if (i + 11 < bmp_filesize)
                                                     {
-                                                        index[j + 4] = (byte)(bmp_image[y + 11] * custom_rgba[3]);  // A
-                                                        index[j + 5] = (byte)(bmp_image[y + 10] * custom_rgba[0]);  // R
-                                                        index[j + 12] = (byte)(bmp_image[y + 9] * custom_rgba[1]);  // G
-                                                        index[j + 13] = (byte)(bmp_image[y + 8] * custom_rgba[2]);  // B
-                                                        if (y + 15 < bmp_filesize)
+                                                        index[j + 4] = (byte)(bmp_image[i + 11] * custom_rgba[3]);  // A
+                                                        index[j + 5] = (byte)(bmp_image[i + 10] * custom_rgba[0]);  // R
+                                                        index[j + 12] = (byte)(bmp_image[i + 9] * custom_rgba[1]);  // G
+                                                        index[j + 13] = (byte)(bmp_image[i + 8] * custom_rgba[2]);  // B
+                                                        if (i + 15 < bmp_filesize)
                                                         {
-                                                            index[j + 6] = (byte)(bmp_image[y + 15] * custom_rgba[3]);  // A
-                                                            index[j + 7] = (byte)(bmp_image[y + 14] * custom_rgba[0]);  // R
-                                                            index[j + 14] = (byte)(bmp_image[y + 13] * custom_rgba[1]); // G
-                                                            index[j + 15] = (byte)(bmp_image[y + 12] * custom_rgba[2]); // B
+                                                            index[j + 6] = (byte)(bmp_image[i + 15] * custom_rgba[3]);  // A
+                                                            index[j + 7] = (byte)(bmp_image[i + 14] * custom_rgba[0]);  // R
+                                                            index[j + 14] = (byte)(bmp_image[i + 13] * custom_rgba[1]); // G
+                                                            index[j + 15] = (byte)(bmp_image[i + 12] * custom_rgba[2]); // B
                                                         }
                                                     }
                                                 }
                                                 j += 16;
-                                                if (j == (bitmap_width << 2))
+                                                if (j == index.Length)
                                                 {
                                                     j = 0;
                                                     index_list.Add(index.ToArray());
                                                 }
-                                                else if (j > (bitmap_width << 2))
-                                                {
-                                                    for (; j > bitmap_width << 2; j -=4)
-                                                    {
-                                                        y -= 4;
-                                                    }
-                                                    j = 0;
-                                                    index_list.Add(index.ToArray());
-                                                }
+
                                             }
                                             break;
                                         }
                                     default:
                                         {
-                                            for (y = pixel_data_start_offset; y < bmp_filesize; y += 16)
+                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 16)
                                             {
                                                 // alpha and red
                                                 // Green and Blue
-                                                index[j] = (byte)(bmp_image[y + 3]);       // A
-                                                index[j + 1] = (byte)(bmp_image[y + 2]);   // R
-                                                index[j + 8] = (byte)(bmp_image[y + 1]);   // G
-                                                index[j + 9] = (byte)(bmp_image[y]);       // B
+                                                index[j] = (byte)(bmp_image[i + 3]);       // A
+                                                index[j + 1] = (byte)(bmp_image[i + 2]);   // R
+                                                index[j + 8] = (byte)(bmp_image[i + 1]);   // G
+                                                index[j + 9] = (byte)(bmp_image[i]);       // B
 
-                                                if (y + 7 < bmp_filesize)
+                                                if (i + 7 < bmp_filesize)
                                                 {
-                                                    index[j + 2] = (byte)(bmp_image[y + 7]);   // A
-                                                    index[j + 3] = (byte)(bmp_image[y + 6]);   // R
-                                                    index[j + 10] = (byte)(bmp_image[y + 5]);  // G
-                                                    index[j + 11] = (byte)(bmp_image[y + 4]);  // B
+                                                    index[j + 2] = (byte)(bmp_image[i + 7]);   // A
+                                                    index[j + 3] = (byte)(bmp_image[i + 6]);   // R
+                                                    index[j + 10] = (byte)(bmp_image[i + 5]);  // G
+                                                    index[j + 11] = (byte)(bmp_image[i + 4]);  // B
 
-                                                    if (y + 11 < bmp_filesize)
+                                                    if (i + 11 < bmp_filesize)
                                                     {
-                                                        index[j + 4] = (byte)(bmp_image[y + 11]);  // A
-                                                        index[j + 5] = (byte)(bmp_image[y + 10]);  // R
-                                                        index[j + 12] = (byte)(bmp_image[y + 9]);  // G
-                                                        index[j + 13] = (byte)(bmp_image[y + 8]);  // B
+                                                        index[j + 4] = (byte)(bmp_image[i + 11]);  // A
+                                                        index[j + 5] = (byte)(bmp_image[i + 10]);  // R
+                                                        index[j + 12] = (byte)(bmp_image[i + 9]);  // G
+                                                        index[j + 13] = (byte)(bmp_image[i + 8]);  // B
 
-                                                        if (y + 15 < bmp_filesize)
+                                                        if (i + 15 < bmp_filesize)
                                                         {
-                                                            index[j + 6] = (byte)(bmp_image[y + 15]);  // A
-                                                            index[j + 7] = (byte)(bmp_image[y + 14]);  // R
-                                                            index[j + 14] = (byte)(bmp_image[y + 13]); // G
-                                                            index[j + 15] = (byte)(bmp_image[y + 12]); // B
+                                                            index[j + 6] = (byte)(bmp_image[i + 15]);  // A
+                                                            index[j + 7] = (byte)(bmp_image[i + 14]);  // R
+                                                            index[j + 14] = (byte)(bmp_image[i + 13]); // G
+                                                            index[j + 15] = (byte)(bmp_image[i + 12]); // B
 
                                                         }
                                                     }
                                                 }
                                                 j += 16;
-                                                if (j == (bitmap_width << 2))
+                                                if (j == index.Length)
                                                 {
-                                                    j = 0;
-                                                    index_list.Add(index.ToArray());
-                                                }
-                                                else if (j > (bitmap_width << 2))
-                                                {
-                                                    for (; j > bitmap_width << 2; j -= 4)
-                                                    {
-                                                        y -= 4;
-                                                    }
                                                     j = 0;
                                                     index_list.Add(index.ToArray());
                                                 }
@@ -4809,7 +4762,7 @@ namespace plt0
                                             {
                                                 index[j] = (byte)(bmp_image[i] * 0.114 + bmp_image[i + 1] * 0.587 + bmp_image[i + 2] * 0.299);
                                                 j++;
-                                                if (j == bitmap_width)
+                                                if (j == index.Length)
                                                 {
                                                     j = 0;
                                                     index_list.Add(index.ToArray());
@@ -4823,7 +4776,7 @@ namespace plt0
                                             {
                                                 index[j] = (byte)(bmp_image[i] * 0.0721 + bmp_image[i + 1] * 0.7154 + bmp_image[i + 2] * 0.2125);
                                                 j++;
-                                                if (j == bitmap_width)
+                                                if (j == index.Length)
                                                 {
                                                     j = 0;
                                                     index_list.Add(index.ToArray());
@@ -4837,7 +4790,7 @@ namespace plt0
                                             {
                                                 index[j] = (byte)(bmp_image[i] * custom_rgba[2] + bmp_image[i + 1] * custom_rgba[1] + bmp_image[i + 2] * custom_rgba[0]);
                                                 j++;
-                                                if (j == bitmap_width)
+                                                if (j == index.Length)
                                                 {
                                                     j = 0;
                                                     index_list.Add(index.ToArray());
@@ -4868,7 +4821,7 @@ namespace plt0
                                                 }
                                                 index[j] = (byte)((a & 0xf0) + (grey >> 4));
                                                 j++;
-                                                if (j == bitmap_width)
+                                                if (j == index.Length)
                                                 {
                                                     j = 0;
                                                     index_list.Add(index.ToArray());
@@ -4892,7 +4845,7 @@ namespace plt0
                                                 }
                                                 index[j] = (byte)((a & 0xf0) + (grey >> 4));
                                                 j++;
-                                                if (j == bitmap_width)
+                                                if (j == index.Length)
                                                 {
                                                     j = 0;
                                                     index_list.Add(index.ToArray());
@@ -4916,7 +4869,7 @@ namespace plt0
                                                 }
                                                 index[j] = (byte)((a & 0xf0) + (grey >> 4));
                                                 j++;
-                                                if (j == bitmap_width)
+                                                if (j == index.Length)
                                                 {
                                                     j = 0;
                                                     index_list.Add(index.ToArray());
@@ -4939,7 +4892,7 @@ namespace plt0
                                                 index[j] = bmp_image[i + 3];  // alpha value
                                                 index[j + 1] = (byte)(bmp_image[i] * 0.114 + bmp_image[i + 1] * 0.587 + bmp_image[i + 2] * 0.299);  // Grey Value
                                                 j += 2;
-                                                if (j == bitmap_width << 1)
+                                                if (j == index.Length)
                                                 {
                                                     j = 0;
                                                     index_list.Add(index.ToArray());
@@ -4954,7 +4907,7 @@ namespace plt0
                                                 index[j] = bmp_image[i + 3];  // alpha value
                                                 index[j + 1] = (byte)(bmp_image[i] * 0.0721 + bmp_image[i + 1] * 0.7154 + bmp_image[i + 2] * 0.2125);  // Grey Value
                                                 j += 2;
-                                                if (j == bitmap_width << 1)
+                                                if (j == index.Length)
                                                 {
                                                     j = 0;
                                                     index_list.Add(index.ToArray());
@@ -4969,7 +4922,7 @@ namespace plt0
                                                 index[j] = (byte)(bmp_image[i + 3] * custom_rgba[3]);  // alpha value
                                                 index[j + 1] = (byte)(bmp_image[i] * custom_rgba[2] + bmp_image[i + 1] * custom_rgba[1] + bmp_image[i + 2] * custom_rgba[0]);  // Grey Value
                                                 j += 2;
-                                                if (j == bitmap_width << 1)
+                                                if (j == index.Length)
                                                 {
                                                     j = 0;
                                                     index_list.Add(index.ToArray());
@@ -5007,7 +4960,7 @@ namespace plt0
                                                 index[j] = (byte)((red & 0xf8) + (green >> 5));
                                                 index[j + 1] = (byte)(((green << 3) & 224) + (blue >> 3));
                                                 j += 2;
-                                                if (j == bitmap_width << 1)
+                                                if (j == index.Length)
                                                 {
                                                     j = 0;
                                                     index_list.Add(index.ToArray());
@@ -5038,7 +4991,7 @@ namespace plt0
                                                 index[j] = (byte)((red & 0xf8) + (green >> 5));
                                                 index[j + 1] = (byte)(((green << 3) & 224) + (blue >> 3));
                                                 j += 2;
-                                                if (j == bitmap_width << 1)
+                                                if (j == index.Length)
                                                 {
                                                     j = 0;
                                                     index_list.Add(index.ToArray());
@@ -5082,7 +5035,7 @@ namespace plt0
                                                     index[j] = (byte)(((a >> 1) & 0x70) + (red >> 4));
                                                     index[j + 1] = (byte)((green & 0xf0) + (blue >> 4));
                                                     j += 2;
-                                                    if (j == bitmap_width << 1)
+                                                    if (j == index.Length)
                                                     {
                                                         j = 0;
                                                         index_list.Add(index.ToArray());
@@ -5111,7 +5064,7 @@ namespace plt0
                                                     index[j] = (byte)(0x80 + ((red >> 1) & 0x7c) + (green >> 6));
                                                     index[j + 1] = (byte)(((green << 2) & 0xe0) + (blue >> 3));
                                                     j += 2;
-                                                    if (j == bitmap_width << 1)
+                                                    if (j == index.Length)
                                                     {
                                                         j = 0;
                                                         index_list.Add(index.ToArray());
@@ -5156,7 +5109,7 @@ namespace plt0
 
                                                     }
                                                     j += 2;
-                                                    if (j == bitmap_width << 1)
+                                                    if (j == index.Length)
                                                     {
                                                         j = 0;
                                                         index_list.Add(index.ToArray());
@@ -5192,7 +5145,7 @@ namespace plt0
                                                         blue += 16;
                                                     }
                                                     j += 2;
-                                                    if (j == bitmap_width << 1)
+                                                    if (j == index.Length)
                                                     {
                                                         j = 0;
                                                         index_list.Add(index.ToArray());
@@ -5222,7 +5175,7 @@ namespace plt0
                                                     index[j] = (byte)(0x80 + ((red >> 1) & 0x7c) + (green >> 6));
                                                     index[j + 1] = (byte)(((green << 2) & 0xe0) + (blue >> 3));
                                                     j += 2;
-                                                    if (j == bitmap_width << 1)
+                                                    if (j == index.Length)
                                                     {
                                                         j = 0;
                                                         index_list.Add(index.ToArray());
@@ -5264,7 +5217,7 @@ namespace plt0
                                                         index[j + 1] = (byte)((green & 0xf0) + (blue >> 4));
                                                     }
                                                     j += 2;
-                                                    if (j == bitmap_width << 1)
+                                                    if (j == index.Length)
                                                     {
                                                         j = 0;
                                                         index_list.Add(index.ToArray());
@@ -5428,7 +5381,7 @@ namespace plt0
                             }
                     }
                 }
-                /* if (fill_width)  // adding zeros is not mandatory, but adding the last row DEFINITELY IS
+                if (fill_width)  // adding zeros is not mandatory, but adding the last row DEFINITELY IS
                 {
                     switch (format_ratio)  // RGBA32 is treated at the end of its own case above.
                     {
@@ -5477,7 +5430,7 @@ namespace plt0
                                 break;
                             }
                     }
-                } */
+                }
             }
             return index_list;
         }

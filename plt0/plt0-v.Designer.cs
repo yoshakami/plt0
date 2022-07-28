@@ -1,7 +1,8 @@
-﻿namespace mp9_updater
+﻿namespace plt0_gui
 {
     partial class Form1
     {
+        /*
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -42,6 +43,7 @@
         }
 
         #endregion
+        */
     }
 }
 
