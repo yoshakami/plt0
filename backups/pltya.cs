@@ -5,7 +5,7 @@ using System.Drawing.Imaging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Drawing.Drawing2D;
-using System.Runtime.CompilerServices;
+// using System.Runtime.CompilerServices;
 /*
 PLT0 (File Format) Made by me
 ```
@@ -3101,7 +3101,7 @@ namespace plt0
             {
                 for (int i = 0; i < settings.Count; i++)  // mipmaps
                 {
-                    height = (settings[i][1] << 3) - 1;
+                    height = settings[i][1] * block_height - 1;
                     for (int j = settings[i][1]; j > 0; j--)  // number of height blocks  (remember that the last line was added first into index_list)
                     {
                         for (int k = 0; k < settings[i][0]; k++)  // number of width blocks
@@ -3115,7 +3115,7 @@ namespace plt0
                                 }
                             }
                         } // end of the loop to go through number of horizontal blocks
-                        height -= 4;
+                        height -= block_height;
                     }   // go through vertical blocks
                 }      // go through mipmaps
             }
@@ -3172,7 +3172,7 @@ namespace plt0
         /// <param name="bmp_filesize">the size of the file, it can be read from the array itself, it's also the length of the array</param>
         /// <param name="pixel_data_start_offset">read from the array itself</param>
         /// <returns>a list of each row of the image (starting by the bottom one) and each row is a byte array which contains every pixel of a row.</returns>
-        [MethodImpl(MethodImplOptions.NoOptimization)]
+
         public List<byte[]> create_PLT0(byte[] bmp_image, int bmp_filesize, int pixel_data_start_offset)
         {
             ushort pixel = bitmap_width;
@@ -5548,7 +5548,7 @@ namespace plt0
                                                 if (alpha > 0 && bmp_image[y + 3] < cmpr_alpha_threshold)
                                                 {
                                                     use_alpha = true;
-                                                    alpha_bitfield += (ushort)(1 << (j + (z * 4)));
+                                                    alpha_bitfield += (ushort)(1 << x);
                                                 }
                                                 if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
                                                 {
@@ -5582,9 +5582,7 @@ namespace plt0
                                                         if (x == bitmap_width)
                                                         {
                                                             // y += (bitmap_width << 4) - 4; // adds 4 lines and put the cursor back to the first block in width (I hope)
-                                                            // y += 16; // hmm, it looks like the cursor warped horizontally to the first block in width 4 lines above
-                                                            // EDIT: YA DEFINITELY NEED TO CANCEL THE Y OPERATION ABOVE, IT WARPS NORMALLY LIKE IT4S THE PIXEL AFTER
-                                                            y -= (bitmap_width << 2) - 16;  // this has been driving me nuts
+                                                            y += 16; // hmm, it looks like the cursor warped horizontally to the first block in width 4 lines above
                                                             x = 0;
                                                         }
                                                         else if (x > bitmap_width)
@@ -5625,7 +5623,7 @@ namespace plt0
                                                             }
                                                             if (c == 2)  // checks for diversity before adding the second colour ^^
                                                             {
-                                                                if (Math.Abs((index[0] & 248) - ((Colour_list[i][1] >> 8) & 248)) < diversity && Math.Abs(((index[0] & 7) << 5) + ((index[1] >> 3) & 28) - ((Colour_list[i][1] >> 3) & 252)) < diversity && Math.Abs(((index[1] << 3) & 248) - (Colour_list[i][1] << 3) & 248) < diversity)
+                                                                if (Math.Abs((index[c] & 248) - ((Colour_list[i][1] >> 8) & 248)) < diversity && Math.Abs(((index[c] & 7) << 5) + ((index[c + 1] >> 3) & 28) - ((Colour_list[i][1] >> 3) & 252)) < diversity && Math.Abs(((index[c + 1] << 3) & 248) - (Colour_list[i][1] << 3) & 248) < diversity)
                                                                 {
                                                                     not_similar = false;
                                                                     break;
@@ -5651,7 +5649,7 @@ namespace plt0
                                                                 }
                                                                 if (c == 2)  // checks for diversity before adding the second colour ^^
                                                                 {
-                                                                    if (Math.Abs((index[0] & 248) - ((Colour_list[i][1] >> 8) & 248)) < diversity2 && Math.Abs(((index[0] & 7) << 5) + ((index[1] >> 3) & 28) - ((Colour_list[i][1] >> 3) & 252)) < diversity2 && Math.Abs(((index[1] << 3) & 248) - (Colour_list[i][1] << 3) & 248) < diversity2)
+                                                                    if (Math.Abs((index[c] & 248) - ((Colour_list[i][1] >> 8) & 248)) < diversity2 && Math.Abs(((index[c] & 7) << 5) + ((index[c + 1] >> 3) & 28) - ((Colour_list[i][1] >> 3) & 252)) < diversity2 && Math.Abs(((index[c + 1] << 3) & 248) - (Colour_list[i][1] << 3) & 248) < diversity2)
                                                                     {
                                                                         not_similar = false;
                                                                         break;
@@ -5672,7 +5670,7 @@ namespace plt0
                                                                     not_similar = true;
                                                                     if (c == 2)
                                                                     {
-                                                                        if ((index[0] != (byte)(Colour_list[i][1] >> 8)) || index[1] != (byte)(Colour_list[i][1]))
+                                                                        if ((index[c] != (byte)(Colour_list[i][1] >> 8)) || index[c + 1] != (byte)(Colour_list[i][1]))
                                                                         {
                                                                             not_similar = false;
                                                                             break;
@@ -5691,12 +5689,12 @@ namespace plt0
                                                         {
                                                             if (index[0] > index[2] || (index[0] == index[2] && index[1] > index[3]))  // swap
                                                             {
-                                                                index[4] = index[0];
-                                                                index[5] = index[1];
-                                                                index[0] = index[2];
-                                                                index[1] = index[3];
                                                                 index[0] = index[4];
                                                                 index[1] = index[5];
+                                                                index[2] = index[0];
+                                                                index[3] = index[1];
+                                                                index[4] = index[0];
+                                                                index[5] = index[1];
                                                             }
                                                             Colour_palette.Add((ushort)((index[0] << 8) + index[1]));
                                                             Colour_palette.Add((ushort)((index[2] << 8) + index[3]));
@@ -5711,12 +5709,12 @@ namespace plt0
                                                             // of course, that's the exact opposite!
                                                             if (index[0] < index[2] || (index[0] == index[2] && index[1] < index[3]))  // swap
                                                             {
-                                                                index[4] = index[0];
-                                                                index[5] = index[1];
-                                                                index[0] = index[2];
-                                                                index[1] = index[3];
                                                                 index[0] = index[4];
                                                                 index[1] = index[5];
+                                                                index[2] = index[0];
+                                                                index[3] = index[1];
+                                                                index[4] = index[0];
+                                                                index[5] = index[1];
                                                             }
                                                             Colour_palette.Add((ushort)((index[0] << 8) + index[1]));
                                                             Colour_palette.Add((ushort)((index[2] << 8) + index[3]));
