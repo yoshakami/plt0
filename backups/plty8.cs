@@ -5413,21 +5413,18 @@ namespace plt0
                             }
                         case 0xE: // CMPR
                             {
-
                                 /* hmm, well. let's be honest. this is the harderest encoding to write, and the most efficient one
                                  * I'll be directly storing blocks here because the rgb565 values can't be added like that lol */
-                                List<ushort> Colour_rgb565 = new List<ushort>();  // won't be sorted
                                 List<ushort[]> Colour_list = new List<ushort[]>();  // a list of every 2 bytes pixel transformed to correspond to the current colour format
                                 // byte[] Colour_count = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };  // 16 pixels, because a block is 4x4
                                 j = 0;
                                 z = 0;
-                                int x = 0;
+                                int w = 0;
                                 int c;
                                 ushort alpha_bitfield = 0;
                                 ushort[] Colour_pixel = { 1, 0 };
-                                List<ushort> Colour_palette = new List<ushort>();
+                                List<ushort[]> Colour_palette = new List<ushort[]>();
                                 bool use_alpha = false;
-                                Array.Resize(ref index, 8);  // sub block length
                                 switch (algorithm)
                                 {
                                     case 2:  // custom  RRRR RGGG GGGB BBBB
@@ -5464,7 +5461,7 @@ namespace plt0
                                                 if (alpha > 0 && bmp_image[y + 3] < cmpr_alpha_threshold)
                                                 {
                                                     use_alpha = true;
-                                                    alpha_bitfield += (ushort)(1 << x);
+                                                    alpha_bitfield += (ushort)(1 << w);
                                                 }
                                                 if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
                                                 {
@@ -5479,12 +5476,10 @@ namespace plt0
                                                     blue += 8;
                                                 }
                                                 // Colour_pixel[0] = // the number of occurences, though it stays to 1 so that's not really a problem lol
-                                                pixel = (ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)); // the RGB565 colour
-                                                Colour_pixel[1] = pixel;
+                                                Colour_pixel[1] = (ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)); // the RGB565 colour
                                                 Colour_list.Add(Colour_pixel);
-                                                Colour_rgb565.Add(pixel);
                                                 j++;
-                                                x++;
+                                                w++;
                                                 if (j == 4)
                                                 {
                                                     j = 0;
@@ -5495,12 +5490,12 @@ namespace plt0
                                                         alpha_bitfield = 0;
                                                         use_alpha = false;
                                                         z = 0;
-                                                        if (x == bitmap_width)
+                                                        if (w == bitmap_width)
                                                         {
                                                             y += (bitmap_width << 4) - 4; // adds 4 lines and put the cursor back to the first block in width (I hope)
-                                                            x = 0;
+                                                            w = 0;
                                                         }
-                                                        else if (x > bitmap_width)
+                                                        else if (w > bitmap_width)
                                                         {
                                                             Console.WriteLine("HOLY SH*T");
                                                         }
@@ -5520,7 +5515,7 @@ namespace plt0
                                                                 {
                                                                     continue;
                                                                 }
-                                                                if (Colour_list[k] == Colour_list[i] && k > i && ((alpha_bitfield >> k) & 1) == 0 && ((alpha_bitfield >> i) & 1) == 0)  // k > i prevents colours occurences from being added twice.
+                                                                if (Colour_list[k] == Colour_list[i] && k > i)  // k > i prevents colours occurences from being added twice.
                                                                 {
                                                                     Colour_list[k][0]++;
                                                                     Colour_list[i][0]--; // should set it to zero.
@@ -5612,64 +5607,25 @@ namespace plt0
                                                             index[4] = index[0];
                                                             index[5] = index[1];
                                                         }
-                                                        Colour_palette.Add((ushort)((index[0] << 8) + index[1]));
-                                                        Colour_palette.Add((ushort)((index[2] << 8) + index[3]));
-                                                        red = (byte)(((index[0] & 248) + (index[2] & 248)) / 2);
-                                                        green = (byte)(((((index[0] & 7) << 5) + ((index[1] >> 3) & 28)) + (((index[2] & 7) << 5) + ((index[3] >> 3) & 28))) / 2);
-                                                        blue = (byte)((((index[1] << 3) & 248) + ((index[3] << 3) & 248)) / 2);
-                                                        Colour_palette.Add((ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)));  // the RGB565 third colour
-                                                        // last colour isn't in the palette, it's in alpha_bitfield
                                                     }
-                                                    else
-                                                    {
-                                                        // of course, that's the exact opposite!
-                                                        if (index[0] < index[2] || (index[0] == index[2] && index[1] < index[3]))  // swap
-                                                        {
-                                                            index[0] = index[4];
-                                                            index[1] = index[5];
-                                                            index[2] = index[0];
-                                                            index[3] = index[1];
-                                                            index[4] = index[0];
-                                                            index[5] = index[1];
-                                                        }
-                                                        Colour_palette.Add((ushort)((index[0] << 8) + index[1]));
-                                                        Colour_palette.Add((ushort)((index[2] << 8) + index[3]));
-
-                                                        red = (byte)(((index[0] & 248) + (index[2] & 248)) * (1 / 3));
-                                                        green = (byte)(((((index[0] & 7) << 5) + ((index[1] >> 3) & 28)) + (((index[2] & 7) << 5) + ((index[3] >> 3) & 28))) * (1 / 3));
-                                                        blue = (byte)((((index[1] << 3) & 248) + ((index[3] << 3) & 248)) * (1 / 3));
-                                                        Colour_palette.Add((ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)));  // the RGB565 third colour
-
-                                                        red = (byte)(((index[0] & 248) + (index[2] & 248)) * (2 / 3));
-                                                        green = (byte)(((((index[0] & 7) << 5) + ((index[1] >> 3) & 28)) + (((index[2] & 7) << 5) + ((index[3] >> 3) & 28))) * (2 / 3));
-                                                        blue = (byte)((((index[1] << 3) & 248) + ((index[3] << 3) & 248)) * (2 / 3));
-                                                        Colour_palette.Add((ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)));  // the RGB565 fourth colour
-                                                        // last colour isn't in the palette, it's in alpha_bitfield
-                                                    }
-                                                    // time to get the "linear interpolation to add third and fourth colour
                                                     Console.WriteLine("creating indexes");
-                                                    c = 0;
+                                                    j = 0;
                                                     // CI2 if that's a name lol
                                                     for (int h = 0; h < 4; h++)
                                                     {
                                                         for (int w = 0; w < 4; w++)  // index_size = number of pixels
                                                         {
-                                                            if (((alpha_bitfield >> (h * 4) + w) & 1) == 1)
-                                                            {
-                                                                index[2 + h] += (byte)(3 << (w << 1));
-                                                                continue;
-                                                            }
                                                             diff_min = 500;
-                                                            for (byte i = 0; i < Colour_palette.Count; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
+                                                            for (int i = 0; i < colour_number_x2; i += 2)  // process the colour palette to find the closest colour corresponding to the current pixel
                                                             {
-                                                                if (Colour_palette[i] == Colour_rgb565[(h * 4) + w])  // if it's the exact same colour
+                                                                if (colour_palette[i] == (byte)(Colours[j] >> 8) && colour_palette[i + 1] == (byte)Colours[j])  // if it's the exact same colour
                                                                 {
-                                                                    diff_min_index = i;  // index is stored on 1 byte, while each colour is stored on 2 bytes
+                                                                    diff_min_index = (byte)(i >> 1);  // index is stored on 1 byte, while each colour is stored on 2 bytes
                                                                     break;
                                                                 }
                                                                 else  // calculate difference between each separate colour channel and store the sum
                                                                 {
-                                                                    diff = (short)(Math.Abs(((Colour_palette[i] >> 8) & 248) - ((Colour_rgb565[(h * 4) + w] >> 8) & 248)) + Math.Abs(((Colour_palette[i] >> 3) & 252) - ((Colour_rgb565[(h * 4) + w] >> 3) & 252)) + Math.Abs(((Colour_palette[c] << 3) & 248) - ((Colour_rgb565[(h * 4) + w] << 3) & 248)));
+                                                                    diff = (short)(Math.Abs((colour_palette[i] & 248) - ((Colours[j] >> 8) & 248)) + Math.Abs(((colour_palette[i] & 7) << 5) + ((colour_palette[i + 1] >> 3) & 28) - ((Colours[j] >> 3) & 252)) + Math.Abs(((colour_palette[i + 1] << 3) & 248) - ((Colours[j] << 3) & 248)));
                                                                     if (diff < diff_min)
                                                                     {
                                                                         diff_min = diff;
@@ -5677,10 +5633,16 @@ namespace plt0
                                                                     }
                                                                 }
                                                             }
-                                                            index[2 + h] += (byte)(diff_min_index << (w << 1));
-                                                            c += 1;
+                                                            if (w % 2 == 0)  // stores the index on the upper 4 bits
+                                                            {
+                                                                index[w >> 1] = (byte)(diff_min_index << 4);
+                                                            }
+                                                            else  // stores the index on the lower 4 bits
+                                                            {
+                                                                index[w >> 1] += diff_min_index;
+                                                            }
+                                                            j += 1;
                                                         }
-                                                        /*
                                                         pixel = (ushort)(Math.Abs(block_width - bitmap_width) % block_width);
                                                         if (pixel != 0) // fills the block width data by adding zeros to the width
                                                         {
@@ -5692,7 +5654,7 @@ namespace plt0
                                                             {
                                                                 index[pixel >> 1] = 0;
                                                             }
-                                                        }*/
+                                                        }
                                                         index_list.Add(index.ToArray());
                                                     }
 
@@ -5702,129 +5664,178 @@ namespace plt0
                                         }
                                         break;
                                 }
-                                break;
                             }
                     }
                 }
             }
-
-            return index_list;
-        }
-        public byte[] Convert_to_bmp(System.Drawing.Bitmap imageIn)
-        {
-            Console.WriteLine(imageIn.PixelFormat.ToString());
-            if (!FORCE_ALPHA)
+            /* if (fill_width)  // adding zeros is not mandatory, but adding the last row DEFINITELY IS
             {
-                switch (imageIn.PixelFormat.ToString())
+                switch (format_ratio)  // RGBA32 is treated at the end of its own case above.
                 {
-                    case "Format32bppRgb":
-                    case "Format24bppRgb":
-                    case "Format1bppIndexed":
-                    case "Format4bppIndexed":
-                    case "Format8bppIndexed":
+                    case 0.5:  // 16 bits
                         {
-                            alpha = 0; // I don't care if the user set alpha to 1 or 2. the input image has no alpha. I won't let him trick my tool unless he uses the parameter "FORCE ALPHA"
+                            pixel = (ushort)(Math.Abs(block_width - bitmap_width) % block_width);
+                            if (pixel != 0) // fills the block width data by adding zeros to the width
+                            {
+                                for (; pixel < block_width; pixel++)
+                                {
+                                    index[pixel << 1] = 0;
+                                    index[pixel << 1 + 1] = 0;
+                                }
+                            }
+                            index_list.Add(index.ToArray());
                             break;
                         }
-                        // case "Format32bppArgb"
+                    case 1: // 8 bits
+                        {
+                            pixel = (ushort)(Math.Abs(block_width - bitmap_width) % block_width);
+                            if (pixel != 0) // fills the block width data by adding zeros to the width
+                            {
+                                for (; pixel < block_width; pixel++)
+                                {
+                                    index[pixel] = 0;
+                                }
+                            }
+                            index_list.Add(index.ToArray());
+                            break;
+                        }
+                    case 2:  // 4 bits
+                        {
+                            pixel = (ushort)(Math.Abs(block_width - bitmap_width) % block_width);
+                            if (pixel != 0) // fills the block width data by adding zeros to the width
+                            {
+                                if (pixel % 2 != 0)
+                                {
+                                    pixel++;
+                                }
+                                for (; pixel < block_width; pixel++)
+                                {
+                                    index[pixel >> 1] = 0;
+                                }
+                            }
+                            index_list.Add(index.ToArray());
+                            break;
+                        }
                 }
-            }
-            var bmp = new Bitmap(imageIn.Width, imageIn.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);  // makes it 32 bit in depth
-            using (var gr = Graphics.FromImage(bmp))
-                gr.DrawImage(imageIn, new Rectangle(0, 0, imageIn.Width, imageIn.Height));
-            using (var ms = new MemoryStream())
-            {
-                bmp.Save(ms, ImageFormat.Bmp);
-                return ms.ToArray();
-            }
+            } */
+        
+            return index_list;
         }
-        /// <summary>
-        /// Convert an image to specified format.
-        /// </summary>
-        /// <param name="imageIn">The image to convert.</param>
-        /// <param name="current_mipmap">The actual numnber of mipmap (used to add .mm1 at the end).</param>
-        /// <returns>The converted image written in a free-to-edit file.</returns>
-        public bool ConvertAndSave(System.Drawing.Bitmap imageIn, int current_mipmap)
+    public byte[] Convert_to_bmp(System.Drawing.Bitmap imageIn)
+    {
+        Console.WriteLine(imageIn.PixelFormat.ToString());
+        if (!FORCE_ALPHA)
         {
-            string end = ".bmp";
-            using (var ms = new MemoryStream())
+            switch (imageIn.PixelFormat.ToString())
             {
-                if (png)
-                {
-                    imageIn.Save(ms, ImageFormat.Png);
-                    end = ".png";
-                }
-                else if (tif)
-                {
-                    imageIn.Save(ms, ImageFormat.Tiff);
-                    end = ".tif";
-                }
-                else if (tiff)
-                {
-                    imageIn.Save(ms, ImageFormat.Tiff);
-                    end = ".tiff";
-                }
-                else if (ico)
-                {
-                    imageIn.Save(ms, ImageFormat.Icon);
-                    end = ".ico";
-                }
-                else if (jpg)
-                {
-                    imageIn.Save(ms, ImageFormat.Jpeg);
-                    end = ".jpg";
-                }
-                else if (jpeg)
-                {
-                    imageIn.Save(ms, ImageFormat.Jpeg);
-                    end = ".jpeg";
-                }
-                else if (gif)
-                {
-                    imageIn.Save(ms, ImageFormat.Gif);
-                    end = ".gif";
-                }
-                if (current_mipmap != 0)
-                {
-                    end = ".mm" + current_mipmap + end;
-                }
-                FileMode mode = System.IO.FileMode.CreateNew;
-                if (System.IO.File.Exists(output_file + end))
-                {
-                    mode = System.IO.FileMode.Truncate;
-                    if (warn)
+                case "Format32bppRgb":
+                case "Format24bppRgb":
+                case "Format1bppIndexed":
+                case "Format4bppIndexed":
+                case "Format8bppIndexed":
                     {
-                        Console.WriteLine("Press enter to overwrite " + output_file + end);
-                        Console.ReadLine();
+                        alpha = 0; // I don't care if the user set alpha to 1 or 2. the input image has no alpha. I won't let him trick my tool unless he uses the parameter "FORCE ALPHA"
+                        break;
                     }
-                }
-                using (System.IO.FileStream file = System.IO.File.Open(output_file + end, mode, System.IO.FileAccess.Write))
-                {
-                    file.Write(ms.ToArray(), 0, (int)ms.Length);
-                    file.Close();
-                    Console.WriteLine(output_file + end);
-                }
-                return true;
+                    // case "Format32bppArgb"
             }
         }
-        /*
-        public static Bitmap ConvertTo32bpp(Image img)
+        var bmp = new Bitmap(imageIn.Width, imageIn.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);  // makes it 32 bit in depth
+        using (var gr = Graphics.FromImage(bmp))
+            gr.DrawImage(imageIn, new Rectangle(0, 0, imageIn.Width, imageIn.Height));
+        using (var ms = new MemoryStream())
         {
-            var bmp = new Bitmap(img.Width, img.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            using (var gr = Graphics.FromImage(bmp))
-                gr.DrawImage(img, new Rectangle(0, 0, img.Width, img.Height));
-            return bmp;
-        }*/
-
-        public byte[] ImageToByteArray(System.Drawing.Image imageIn)
-        {
-            using (var ms = new MemoryStream())
-            {
-                imageIn.Save(ms, imageIn.RawFormat);
-                return ms.ToArray();
-            }
+            bmp.Save(ms, ImageFormat.Bmp);
+            return ms.ToArray();
         }
-
     }
+    /// <summary>
+    /// Convert an image to specified format.
+    /// </summary>
+    /// <param name="imageIn">The image to convert.</param>
+    /// <param name="current_mipmap">The actual numnber of mipmap (used to add .mm1 at the end).</param>
+    /// <returns>The converted image written in a free-to-edit file.</returns>
+    public bool ConvertAndSave(System.Drawing.Bitmap imageIn, int current_mipmap)
+    {
+        string end = ".bmp";
+        using (var ms = new MemoryStream())
+        {
+            if (png)
+            {
+                imageIn.Save(ms, ImageFormat.Png);
+                end = ".png";
+            }
+            else if (tif)
+            {
+                imageIn.Save(ms, ImageFormat.Tiff);
+                end = ".tif";
+            }
+            else if (tiff)
+            {
+                imageIn.Save(ms, ImageFormat.Tiff);
+                end = ".tiff";
+            }
+            else if (ico)
+            {
+                imageIn.Save(ms, ImageFormat.Icon);
+                end = ".ico";
+            }
+            else if (jpg)
+            {
+                imageIn.Save(ms, ImageFormat.Jpeg);
+                end = ".jpg";
+            }
+            else if (jpeg)
+            {
+                imageIn.Save(ms, ImageFormat.Jpeg);
+                end = ".jpeg";
+            }
+            else if (gif)
+            {
+                imageIn.Save(ms, ImageFormat.Gif);
+                end = ".gif";
+            }
+            if (current_mipmap != 0)
+            {
+                end = ".mm" + current_mipmap + end;
+            }
+            FileMode mode = System.IO.FileMode.CreateNew;
+            if (System.IO.File.Exists(output_file + end))
+            {
+                mode = System.IO.FileMode.Truncate;
+                if (warn)
+                {
+                    Console.WriteLine("Press enter to overwrite " + output_file + end);
+                    Console.ReadLine();
+                }
+            }
+            using (System.IO.FileStream file = System.IO.File.Open(output_file + end, mode, System.IO.FileAccess.Write))
+            {
+                file.Write(ms.ToArray(), 0, (int)ms.Length);
+                file.Close();
+                Console.WriteLine(output_file + end);
+            }
+            return true;
+        }
+    }
+    /*
+    public static Bitmap ConvertTo32bpp(Image img)
+    {
+        var bmp = new Bitmap(img.Width, img.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+        using (var gr = Graphics.FromImage(bmp))
+            gr.DrawImage(img, new Rectangle(0, 0, img.Width, img.Height));
+        return bmp;
+    }*/
+
+    public byte[] ImageToByteArray(System.Drawing.Image imageIn)
+    {
+        using (var ms = new MemoryStream())
+        {
+            imageIn.Save(ms, imageIn.RawFormat);
+            return ms.ToArray();
+        }
+    }
+
+}
 
 }
