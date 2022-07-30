@@ -287,12 +287,11 @@ namespace plt0
         byte round4 = 8;
         byte round5 = 4;
         byte round6 = 2;
-        //byte r = 2;
-        //byte g = 1;
-        //byte b = 0;
-        //byte a = 3;
+        byte r = 2;
+        byte g = 1;
+        byte b = 0;
+        byte a = 3;
         byte[] colour_palette;
-        byte[] rgba_channel = { 2, 1, 0, 3 };
         byte[] palette_format_int32 = { 0, 0, 0, 9 };  // 0 = AI8   1 = RGB565  2 = RGB5A3
         byte[] texture_format_int32 = { 0, 0, 0, 7 };  // 8 = CI4   9 = CI8    10 = CI14x2
         byte[] block_width_array = { 4, 8, 8, 8, 8, 8, 16, 4, 8, 8, 4 }; // altered to match bit-per pixel size.
@@ -344,6 +343,2245 @@ namespace plt0
                 }  // who had the stupid idea to add -- before each argument. I'm removing them all lol
                 switch (args[i].ToUpper())
                 {
+                    case "RRRR":
+                        {
+                            r = 0;
+                            g = 0;
+                            b = 0;
+                            a = 0;
+                            break;
+                        }
+                    case "RRRG":
+                        {
+                            r = 0;
+                            g = 0;
+                            b = 0;
+                            a = 1;
+                            break;
+                        }
+                    case "RRRB":
+                        {
+                            r = 0;
+                            g = 0;
+                            b = 0;
+                            a = 2;
+                            break;
+                        }
+                    case "RRRA":
+                        {
+                            r = 0;
+                            g = 0;
+                            b = 0;
+                            a = 3;
+                            break;
+                        }
+                    case "RRGR":
+                        {
+                            r = 0;
+                            g = 0;
+                            b = 1;
+                            a = 0;
+                            break;
+                        }
+                    case "RRGG":
+                        {
+                            r = 0;
+                            g = 0;
+                            b = 1;
+                            a = 1;
+                            break;
+                        }
+                    case "RRGB":
+                        {
+                            r = 0;
+                            g = 0;
+                            b = 1;
+                            a = 2;
+                            break;
+                        }
+                    case "RRGA":
+                        {
+                            r = 0;
+                            g = 0;
+                            b = 1;
+                            a = 3;
+                            break;
+                        }
+                    case "RRBR":
+                        {
+                            r = 0;
+                            g = 0;
+                            b = 2;
+                            a = 0;
+                            break;
+                        }
+                    case "RRBG":
+                        {
+                            r = 0;
+                            g = 0;
+                            b = 2;
+                            a = 1;
+                            break;
+                        }
+                    case "RRBB":
+                        {
+                            r = 0;
+                            g = 0;
+                            b = 2;
+                            a = 2;
+                            break;
+                        }
+                    case "RRBA":
+                        {
+                            r = 0;
+                            g = 0;
+                            b = 2;
+                            a = 3;
+                            break;
+                        }
+                    case "RRAR":
+                        {
+                            r = 0;
+                            g = 0;
+                            b = 3;
+                            a = 0;
+                            break;
+                        }
+                    case "RRAG":
+                        {
+                            r = 0;
+                            g = 0;
+                            b = 3;
+                            a = 1;
+                            break;
+                        }
+                    case "RRAB":
+                        {
+                            r = 0;
+                            g = 0;
+                            b = 3;
+                            a = 2;
+                            break;
+                        }
+                    case "RRAA":
+                        {
+                            r = 0;
+                            g = 0;
+                            b = 3;
+                            a = 3;
+                            break;
+                        }
+                    case "RGRR":
+                        {
+                            r = 0;
+                            g = 1;
+                            b = 0;
+                            a = 0;
+                            break;
+                        }
+                    case "RGRG":
+                        {
+                            r = 0;
+                            g = 1;
+                            b = 0;
+                            a = 1;
+                            break;
+                        }
+                    case "RGRB":
+                        {
+                            r = 0;
+                            g = 1;
+                            b = 0;
+                            a = 2;
+                            break;
+                        }
+                    case "RGRA":
+                        {
+                            r = 0;
+                            g = 1;
+                            b = 0;
+                            a = 3;
+                            break;
+                        }
+                    case "RGGR":
+                        {
+                            r = 0;
+                            g = 1;
+                            b = 1;
+                            a = 0;
+                            break;
+                        }
+                    case "RGGG":
+                        {
+                            r = 0;
+                            g = 1;
+                            b = 1;
+                            a = 1;
+                            break;
+                        }
+                    case "RGGB":
+                        {
+                            r = 0;
+                            g = 1;
+                            b = 1;
+                            a = 2;
+                            break;
+                        }
+                    case "RGGA":
+                        {
+                            r = 0;
+                            g = 1;
+                            b = 1;
+                            a = 3;
+                            break;
+                        }
+                    case "RGBR":
+                        {
+                            r = 0;
+                            g = 1;
+                            b = 2;
+                            a = 0;
+                            break;
+                        }
+                    case "RGBG":
+                        {
+                            r = 0;
+                            g = 1;
+                            b = 2;
+                            a = 1;
+                            break;
+                        }
+                    case "RGBB":
+                        {
+                            r = 0;
+                            g = 1;
+                            b = 2;
+                            a = 2;
+                            break;
+                        }
+                    case "RGBA":
+                        {
+                            r = 0;
+                            g = 1;
+                            b = 2;
+                            a = 3;
+                            break;
+                        }
+                    case "RGAR":
+                        {
+                            r = 0;
+                            g = 1;
+                            b = 3;
+                            a = 0;
+                            break;
+                        }
+                    case "RGAG":
+                        {
+                            r = 0;
+                            g = 1;
+                            b = 3;
+                            a = 1;
+                            break;
+                        }
+                    case "RGAB":
+                        {
+                            r = 0;
+                            g = 1;
+                            b = 3;
+                            a = 2;
+                            break;
+                        }
+                    case "RGAA":
+                        {
+                            r = 0;
+                            g = 1;
+                            b = 3;
+                            a = 3;
+                            break;
+                        }
+                    case "RBRR":
+                        {
+                            r = 0;
+                            g = 2;
+                            b = 0;
+                            a = 0;
+                            break;
+                        }
+                    case "RBRG":
+                        {
+                            r = 0;
+                            g = 2;
+                            b = 0;
+                            a = 1;
+                            break;
+                        }
+                    case "RBRB":
+                        {
+                            r = 0;
+                            g = 2;
+                            b = 0;
+                            a = 2;
+                            break;
+                        }
+                    case "RBRA":
+                        {
+                            r = 0;
+                            g = 2;
+                            b = 0;
+                            a = 3;
+                            break;
+                        }
+                    case "RBGR":
+                        {
+                            r = 0;
+                            g = 2;
+                            b = 1;
+                            a = 0;
+                            break;
+                        }
+                    case "RBGG":
+                        {
+                            r = 0;
+                            g = 2;
+                            b = 1;
+                            a = 1;
+                            break;
+                        }
+                    case "RBGB":
+                        {
+                            r = 0;
+                            g = 2;
+                            b = 1;
+                            a = 2;
+                            break;
+                        }
+                    case "RBGA":
+                        {
+                            r = 0;
+                            g = 2;
+                            b = 1;
+                            a = 3;
+                            break;
+                        }
+                    case "RBBR":
+                        {
+                            r = 0;
+                            g = 2;
+                            b = 2;
+                            a = 0;
+                            break;
+                        }
+                    case "RBBG":
+                        {
+                            r = 0;
+                            g = 2;
+                            b = 2;
+                            a = 1;
+                            break;
+                        }
+                    case "RBBB":
+                        {
+                            r = 0;
+                            g = 2;
+                            b = 2;
+                            a = 2;
+                            break;
+                        }
+                    case "RBBA":
+                        {
+                            r = 0;
+                            g = 2;
+                            b = 2;
+                            a = 3;
+                            break;
+                        }
+                    case "RBAR":
+                        {
+                            r = 0;
+                            g = 2;
+                            b = 3;
+                            a = 0;
+                            break;
+                        }
+                    case "RBAG":
+                        {
+                            r = 0;
+                            g = 2;
+                            b = 3;
+                            a = 1;
+                            break;
+                        }
+                    case "RBAB":
+                        {
+                            r = 0;
+                            g = 2;
+                            b = 3;
+                            a = 2;
+                            break;
+                        }
+                    case "RBAA":
+                        {
+                            r = 0;
+                            g = 2;
+                            b = 3;
+                            a = 3;
+                            break;
+                        }
+                    case "RARR":
+                        {
+                            r = 0;
+                            g = 3;
+                            b = 0;
+                            a = 0;
+                            break;
+                        }
+                    case "RARG":
+                        {
+                            r = 0;
+                            g = 3;
+                            b = 0;
+                            a = 1;
+                            break;
+                        }
+                    case "RARB":
+                        {
+                            r = 0;
+                            g = 3;
+                            b = 0;
+                            a = 2;
+                            break;
+                        }
+                    case "RARA":
+                        {
+                            r = 0;
+                            g = 3;
+                            b = 0;
+                            a = 3;
+                            break;
+                        }
+                    case "RAGR":
+                        {
+                            r = 0;
+                            g = 3;
+                            b = 1;
+                            a = 0;
+                            break;
+                        }
+                    case "RAGG":
+                        {
+                            r = 0;
+                            g = 3;
+                            b = 1;
+                            a = 1;
+                            break;
+                        }
+                    case "RAGB":
+                        {
+                            r = 0;
+                            g = 3;
+                            b = 1;
+                            a = 2;
+                            break;
+                        }
+                    case "RAGA":
+                        {
+                            r = 0;
+                            g = 3;
+                            b = 1;
+                            a = 3;
+                            break;
+                        }
+                    case "RABR":
+                        {
+                            r = 0;
+                            g = 3;
+                            b = 2;
+                            a = 0;
+                            break;
+                        }
+                    case "RABG":
+                        {
+                            r = 0;
+                            g = 3;
+                            b = 2;
+                            a = 1;
+                            break;
+                        }
+                    case "RABB":
+                        {
+                            r = 0;
+                            g = 3;
+                            b = 2;
+                            a = 2;
+                            break;
+                        }
+                    case "RABA":
+                        {
+                            r = 0;
+                            g = 3;
+                            b = 2;
+                            a = 3;
+                            break;
+                        }
+                    case "RAAR":
+                        {
+                            r = 0;
+                            g = 3;
+                            b = 3;
+                            a = 0;
+                            break;
+                        }
+                    case "RAAG":
+                        {
+                            r = 0;
+                            g = 3;
+                            b = 3;
+                            a = 1;
+                            break;
+                        }
+                    case "RAAB":
+                        {
+                            r = 0;
+                            g = 3;
+                            b = 3;
+                            a = 2;
+                            break;
+                        }
+                    case "RAAA":
+                        {
+                            r = 0;
+                            g = 3;
+                            b = 3;
+                            a = 3;
+                            break;
+                        }
+                    case "GRRR":
+                        {
+                            r = 1;
+                            g = 0;
+                            b = 0;
+                            a = 0;
+                            break;
+                        }
+                    case "GRRG":
+                        {
+                            r = 1;
+                            g = 0;
+                            b = 0;
+                            a = 1;
+                            break;
+                        }
+                    case "GRRB":
+                        {
+                            r = 1;
+                            g = 0;
+                            b = 0;
+                            a = 2;
+                            break;
+                        }
+                    case "GRRA":
+                        {
+                            r = 1;
+                            g = 0;
+                            b = 0;
+                            a = 3;
+                            break;
+                        }
+                    case "GRGR":
+                        {
+                            r = 1;
+                            g = 0;
+                            b = 1;
+                            a = 0;
+                            break;
+                        }
+                    case "GRGG":
+                        {
+                            r = 1;
+                            g = 0;
+                            b = 1;
+                            a = 1;
+                            break;
+                        }
+                    case "GRGB":
+                        {
+                            r = 1;
+                            g = 0;
+                            b = 1;
+                            a = 2;
+                            break;
+                        }
+                    case "GRGA":
+                        {
+                            r = 1;
+                            g = 0;
+                            b = 1;
+                            a = 3;
+                            break;
+                        }
+                    case "GRBR":
+                        {
+                            r = 1;
+                            g = 0;
+                            b = 2;
+                            a = 0;
+                            break;
+                        }
+                    case "GRBG":
+                        {
+                            r = 1;
+                            g = 0;
+                            b = 2;
+                            a = 1;
+                            break;
+                        }
+                    case "GRBB":
+                        {
+                            r = 1;
+                            g = 0;
+                            b = 2;
+                            a = 2;
+                            break;
+                        }
+                    case "GRBA":
+                        {
+                            r = 1;
+                            g = 0;
+                            b = 2;
+                            a = 3;
+                            break;
+                        }
+                    case "GRAR":
+                        {
+                            r = 1;
+                            g = 0;
+                            b = 3;
+                            a = 0;
+                            break;
+                        }
+                    case "GRAG":
+                        {
+                            r = 1;
+                            g = 0;
+                            b = 3;
+                            a = 1;
+                            break;
+                        }
+                    case "GRAB":
+                        {
+                            r = 1;
+                            g = 0;
+                            b = 3;
+                            a = 2;
+                            break;
+                        }
+                    case "GRAA":
+                        {
+                            r = 1;
+                            g = 0;
+                            b = 3;
+                            a = 3;
+                            break;
+                        }
+                    case "GGRR":
+                        {
+                            r = 1;
+                            g = 1;
+                            b = 0;
+                            a = 0;
+                            break;
+                        }
+                    case "GGRG":
+                        {
+                            r = 1;
+                            g = 1;
+                            b = 0;
+                            a = 1;
+                            break;
+                        }
+                    case "GGRB":
+                        {
+                            r = 1;
+                            g = 1;
+                            b = 0;
+                            a = 2;
+                            break;
+                        }
+                    case "GGRA":
+                        {
+                            r = 1;
+                            g = 1;
+                            b = 0;
+                            a = 3;
+                            break;
+                        }
+                    case "GGGR":
+                        {
+                            r = 1;
+                            g = 1;
+                            b = 1;
+                            a = 0;
+                            break;
+                        }
+                    case "GGGG":
+                        {
+                            r = 1;
+                            g = 1;
+                            b = 1;
+                            a = 1;
+                            break;
+                        }
+                    case "GGGB":
+                        {
+                            r = 1;
+                            g = 1;
+                            b = 1;
+                            a = 2;
+                            break;
+                        }
+                    case "GGGA":
+                        {
+                            r = 1;
+                            g = 1;
+                            b = 1;
+                            a = 3;
+                            break;
+                        }
+                    case "GGBR":
+                        {
+                            r = 1;
+                            g = 1;
+                            b = 2;
+                            a = 0;
+                            break;
+                        }
+                    case "GGBG":
+                        {
+                            r = 1;
+                            g = 1;
+                            b = 2;
+                            a = 1;
+                            break;
+                        }
+                    case "GGBB":
+                        {
+                            r = 1;
+                            g = 1;
+                            b = 2;
+                            a = 2;
+                            break;
+                        }
+                    case "GGBA":
+                        {
+                            r = 1;
+                            g = 1;
+                            b = 2;
+                            a = 3;
+                            break;
+                        }
+                    case "GGAR":
+                        {
+                            r = 1;
+                            g = 1;
+                            b = 3;
+                            a = 0;
+                            break;
+                        }
+                    case "GGAG":
+                        {
+                            r = 1;
+                            g = 1;
+                            b = 3;
+                            a = 1;
+                            break;
+                        }
+                    case "GGAB":
+                        {
+                            r = 1;
+                            g = 1;
+                            b = 3;
+                            a = 2;
+                            break;
+                        }
+                    case "GGAA":
+                        {
+                            r = 1;
+                            g = 1;
+                            b = 3;
+                            a = 3;
+                            break;
+                        }
+                    case "GBRR":
+                        {
+                            r = 1;
+                            g = 2;
+                            b = 0;
+                            a = 0;
+                            break;
+                        }
+                    case "GBRG":
+                        {
+                            r = 1;
+                            g = 2;
+                            b = 0;
+                            a = 1;
+                            break;
+                        }
+                    case "GBRB":
+                        {
+                            r = 1;
+                            g = 2;
+                            b = 0;
+                            a = 2;
+                            break;
+                        }
+                    case "GBRA":
+                        {
+                            r = 1;
+                            g = 2;
+                            b = 0;
+                            a = 3;
+                            break;
+                        }
+                    case "GBGR":
+                        {
+                            r = 1;
+                            g = 2;
+                            b = 1;
+                            a = 0;
+                            break;
+                        }
+                    case "GBGG":
+                        {
+                            r = 1;
+                            g = 2;
+                            b = 1;
+                            a = 1;
+                            break;
+                        }
+                    case "GBGB":
+                        {
+                            r = 1;
+                            g = 2;
+                            b = 1;
+                            a = 2;
+                            break;
+                        }
+                    case "GBGA":
+                        {
+                            r = 1;
+                            g = 2;
+                            b = 1;
+                            a = 3;
+                            break;
+                        }
+                    case "GBBR":
+                        {
+                            r = 1;
+                            g = 2;
+                            b = 2;
+                            a = 0;
+                            break;
+                        }
+                    case "GBBG":
+                        {
+                            r = 1;
+                            g = 2;
+                            b = 2;
+                            a = 1;
+                            break;
+                        }
+                    case "GBBB":
+                        {
+                            r = 1;
+                            g = 2;
+                            b = 2;
+                            a = 2;
+                            break;
+                        }
+                    case "GBBA":
+                        {
+                            r = 1;
+                            g = 2;
+                            b = 2;
+                            a = 3;
+                            break;
+                        }
+                    case "GBAR":
+                        {
+                            r = 1;
+                            g = 2;
+                            b = 3;
+                            a = 0;
+                            break;
+                        }
+                    case "GBAG":
+                        {
+                            r = 1;
+                            g = 2;
+                            b = 3;
+                            a = 1;
+                            break;
+                        }
+                    case "GBAB":
+                        {
+                            r = 1;
+                            g = 2;
+                            b = 3;
+                            a = 2;
+                            break;
+                        }
+                    case "GBAA":
+                        {
+                            r = 1;
+                            g = 2;
+                            b = 3;
+                            a = 3;
+                            break;
+                        }
+                    case "GARR":
+                        {
+                            r = 1;
+                            g = 3;
+                            b = 0;
+                            a = 0;
+                            break;
+                        }
+                    case "GARG":
+                        {
+                            r = 1;
+                            g = 3;
+                            b = 0;
+                            a = 1;
+                            break;
+                        }
+                    case "GARB":
+                        {
+                            r = 1;
+                            g = 3;
+                            b = 0;
+                            a = 2;
+                            break;
+                        }
+                    case "GARA":
+                        {
+                            r = 1;
+                            g = 3;
+                            b = 0;
+                            a = 3;
+                            break;
+                        }
+                    case "GAGR":
+                        {
+                            r = 1;
+                            g = 3;
+                            b = 1;
+                            a = 0;
+                            break;
+                        }
+                    case "GAGG":
+                        {
+                            r = 1;
+                            g = 3;
+                            b = 1;
+                            a = 1;
+                            break;
+                        }
+                    case "GAGB":
+                        {
+                            r = 1;
+                            g = 3;
+                            b = 1;
+                            a = 2;
+                            break;
+                        }
+                    case "GAGA":
+                        {
+                            r = 1;
+                            g = 3;
+                            b = 1;
+                            a = 3;
+                            break;
+                        }
+                    case "GABR":
+                        {
+                            r = 1;
+                            g = 3;
+                            b = 2;
+                            a = 0;
+                            break;
+                        }
+                    case "GABG":
+                        {
+                            r = 1;
+                            g = 3;
+                            b = 2;
+                            a = 1;
+                            break;
+                        }
+                    case "GABB":
+                        {
+                            r = 1;
+                            g = 3;
+                            b = 2;
+                            a = 2;
+                            break;
+                        }
+                    case "GABA":
+                        {
+                            r = 1;
+                            g = 3;
+                            b = 2;
+                            a = 3;
+                            break;
+                        }
+                    case "GAAR":
+                        {
+                            r = 1;
+                            g = 3;
+                            b = 3;
+                            a = 0;
+                            break;
+                        }
+                    case "GAAG":
+                        {
+                            r = 1;
+                            g = 3;
+                            b = 3;
+                            a = 1;
+                            break;
+                        }
+                    case "GAAB":
+                        {
+                            r = 1;
+                            g = 3;
+                            b = 3;
+                            a = 2;
+                            break;
+                        }
+                    case "GAAA":
+                        {
+                            r = 1;
+                            g = 3;
+                            b = 3;
+                            a = 3;
+                            break;
+                        }
+                    case "BRRR":
+                        {
+                            r = 2;
+                            g = 0;
+                            b = 0;
+                            a = 0;
+                            break;
+                        }
+                    case "BRRG":
+                        {
+                            r = 2;
+                            g = 0;
+                            b = 0;
+                            a = 1;
+                            break;
+                        }
+                    case "BRRB":
+                        {
+                            r = 2;
+                            g = 0;
+                            b = 0;
+                            a = 2;
+                            break;
+                        }
+                    case "BRRA":
+                        {
+                            r = 2;
+                            g = 0;
+                            b = 0;
+                            a = 3;
+                            break;
+                        }
+                    case "BRGR":
+                        {
+                            r = 2;
+                            g = 0;
+                            b = 1;
+                            a = 0;
+                            break;
+                        }
+                    case "BRGG":
+                        {
+                            r = 2;
+                            g = 0;
+                            b = 1;
+                            a = 1;
+                            break;
+                        }
+                    case "BRGB":
+                        {
+                            r = 2;
+                            g = 0;
+                            b = 1;
+                            a = 2;
+                            break;
+                        }
+                    case "BRGA":
+                        {
+                            r = 2;
+                            g = 0;
+                            b = 1;
+                            a = 3;
+                            break;
+                        }
+                    case "BRBR":
+                        {
+                            r = 2;
+                            g = 0;
+                            b = 2;
+                            a = 0;
+                            break;
+                        }
+                    case "BRBG":
+                        {
+                            r = 2;
+                            g = 0;
+                            b = 2;
+                            a = 1;
+                            break;
+                        }
+                    case "BRBB":
+                        {
+                            r = 2;
+                            g = 0;
+                            b = 2;
+                            a = 2;
+                            break;
+                        }
+                    case "BRBA":
+                        {
+                            r = 2;
+                            g = 0;
+                            b = 2;
+                            a = 3;
+                            break;
+                        }
+                    case "BRAR":
+                        {
+                            r = 2;
+                            g = 0;
+                            b = 3;
+                            a = 0;
+                            break;
+                        }
+                    case "BRAG":
+                        {
+                            r = 2;
+                            g = 0;
+                            b = 3;
+                            a = 1;
+                            break;
+                        }
+                    case "BRAB":
+                        {
+                            r = 2;
+                            g = 0;
+                            b = 3;
+                            a = 2;
+                            break;
+                        }
+                    case "BRAA":
+                        {
+                            r = 2;
+                            g = 0;
+                            b = 3;
+                            a = 3;
+                            break;
+                        }
+                    case "BGRR":
+                        {
+                            r = 2;
+                            g = 1;
+                            b = 0;
+                            a = 0;
+                            break;
+                        }
+                    case "BGRG":
+                        {
+                            r = 2;
+                            g = 1;
+                            b = 0;
+                            a = 1;
+                            break;
+                        }
+                    case "BGRB":
+                        {
+                            r = 2;
+                            g = 1;
+                            b = 0;
+                            a = 2;
+                            break;
+                        }
+                    case "BGRA":
+                        {
+                            r = 2;
+                            g = 1;
+                            b = 0;
+                            a = 3;
+                            break;
+                        }
+                    case "BGGR":
+                        {
+                            r = 2;
+                            g = 1;
+                            b = 1;
+                            a = 0;
+                            break;
+                        }
+                    case "BGGG":
+                        {
+                            r = 2;
+                            g = 1;
+                            b = 1;
+                            a = 1;
+                            break;
+                        }
+                    case "BGGB":
+                        {
+                            r = 2;
+                            g = 1;
+                            b = 1;
+                            a = 2;
+                            break;
+                        }
+                    case "BGGA":
+                        {
+                            r = 2;
+                            g = 1;
+                            b = 1;
+                            a = 3;
+                            break;
+                        }
+                    case "BGBR":
+                        {
+                            r = 2;
+                            g = 1;
+                            b = 2;
+                            a = 0;
+                            break;
+                        }
+                    case "BGBG":
+                        {
+                            r = 2;
+                            g = 1;
+                            b = 2;
+                            a = 1;
+                            break;
+                        }
+                    case "BGBB":
+                        {
+                            r = 2;
+                            g = 1;
+                            b = 2;
+                            a = 2;
+                            break;
+                        }
+                    case "BGBA":
+                        {
+                            r = 2;
+                            g = 1;
+                            b = 2;
+                            a = 3;
+                            break;
+                        }
+                    case "BGAR":
+                        {
+                            r = 2;
+                            g = 1;
+                            b = 3;
+                            a = 0;
+                            break;
+                        }
+                    case "BGAG":
+                        {
+                            r = 2;
+                            g = 1;
+                            b = 3;
+                            a = 1;
+                            break;
+                        }
+                    case "BGAB":
+                        {
+                            r = 2;
+                            g = 1;
+                            b = 3;
+                            a = 2;
+                            break;
+                        }
+                    case "BGAA":
+                        {
+                            r = 2;
+                            g = 1;
+                            b = 3;
+                            a = 3;
+                            break;
+                        }
+                    case "BBRR":
+                        {
+                            r = 2;
+                            g = 2;
+                            b = 0;
+                            a = 0;
+                            break;
+                        }
+                    case "BBRG":
+                        {
+                            r = 2;
+                            g = 2;
+                            b = 0;
+                            a = 1;
+                            break;
+                        }
+                    case "BBRB":
+                        {
+                            r = 2;
+                            g = 2;
+                            b = 0;
+                            a = 2;
+                            break;
+                        }
+                    case "BBRA":
+                        {
+                            r = 2;
+                            g = 2;
+                            b = 0;
+                            a = 3;
+                            break;
+                        }
+                    case "BBGR":
+                        {
+                            r = 2;
+                            g = 2;
+                            b = 1;
+                            a = 0;
+                            break;
+                        }
+                    case "BBGG":
+                        {
+                            r = 2;
+                            g = 2;
+                            b = 1;
+                            a = 1;
+                            break;
+                        }
+                    case "BBGB":
+                        {
+                            r = 2;
+                            g = 2;
+                            b = 1;
+                            a = 2;
+                            break;
+                        }
+                    case "BBGA":
+                        {
+                            r = 2;
+                            g = 2;
+                            b = 1;
+                            a = 3;
+                            break;
+                        }
+                    case "BBBR":
+                        {
+                            r = 2;
+                            g = 2;
+                            b = 2;
+                            a = 0;
+                            break;
+                        }
+                    case "BBBG":
+                        {
+                            r = 2;
+                            g = 2;
+                            b = 2;
+                            a = 1;
+                            break;
+                        }
+                    case "BBBB":
+                        {
+                            r = 2;
+                            g = 2;
+                            b = 2;
+                            a = 2;
+                            break;
+                        }
+                    case "BBBA":
+                        {
+                            r = 2;
+                            g = 2;
+                            b = 2;
+                            a = 3;
+                            break;
+                        }
+                    case "BBAR":
+                        {
+                            r = 2;
+                            g = 2;
+                            b = 3;
+                            a = 0;
+                            break;
+                        }
+                    case "BBAG":
+                        {
+                            r = 2;
+                            g = 2;
+                            b = 3;
+                            a = 1;
+                            break;
+                        }
+                    case "BBAB":
+                        {
+                            r = 2;
+                            g = 2;
+                            b = 3;
+                            a = 2;
+                            break;
+                        }
+                    case "BBAA":
+                        {
+                            r = 2;
+                            g = 2;
+                            b = 3;
+                            a = 3;
+                            break;
+                        }
+                    case "BARR":
+                        {
+                            r = 2;
+                            g = 3;
+                            b = 0;
+                            a = 0;
+                            break;
+                        }
+                    case "BARG":
+                        {
+                            r = 2;
+                            g = 3;
+                            b = 0;
+                            a = 1;
+                            break;
+                        }
+                    case "BARB":
+                        {
+                            r = 2;
+                            g = 3;
+                            b = 0;
+                            a = 2;
+                            break;
+                        }
+                    case "BARA":
+                        {
+                            r = 2;
+                            g = 3;
+                            b = 0;
+                            a = 3;
+                            break;
+                        }
+                    case "BAGR":
+                        {
+                            r = 2;
+                            g = 3;
+                            b = 1;
+                            a = 0;
+                            break;
+                        }
+                    case "BAGG":
+                        {
+                            r = 2;
+                            g = 3;
+                            b = 1;
+                            a = 1;
+                            break;
+                        }
+                    case "BAGB":
+                        {
+                            r = 2;
+                            g = 3;
+                            b = 1;
+                            a = 2;
+                            break;
+                        }
+                    case "BAGA":
+                        {
+                            r = 2;
+                            g = 3;
+                            b = 1;
+                            a = 3;
+                            break;
+                        }
+                    case "BABR":
+                        {
+                            r = 2;
+                            g = 3;
+                            b = 2;
+                            a = 0;
+                            break;
+                        }
+                    case "BABG":
+                        {
+                            r = 2;
+                            g = 3;
+                            b = 2;
+                            a = 1;
+                            break;
+                        }
+                    case "BABB":
+                        {
+                            r = 2;
+                            g = 3;
+                            b = 2;
+                            a = 2;
+                            break;
+                        }
+                    case "BABA":
+                        {
+                            r = 2;
+                            g = 3;
+                            b = 2;
+                            a = 3;
+                            break;
+                        }
+                    case "BAAR":
+                        {
+                            r = 2;
+                            g = 3;
+                            b = 3;
+                            a = 0;
+                            break;
+                        }
+                    case "BAAG":
+                        {
+                            r = 2;
+                            g = 3;
+                            b = 3;
+                            a = 1;
+                            break;
+                        }
+                    case "BAAB":
+                        {
+                            r = 2;
+                            g = 3;
+                            b = 3;
+                            a = 2;
+                            break;
+                        }
+                    case "BAAA":
+                        {
+                            r = 2;
+                            g = 3;
+                            b = 3;
+                            a = 3;
+                            break;
+                        }
+                    case "ARRR":
+                        {
+                            r = 3;
+                            g = 0;
+                            b = 0;
+                            a = 0;
+                            break;
+                        }
+                    case "ARRG":
+                        {
+                            r = 3;
+                            g = 0;
+                            b = 0;
+                            a = 1;
+                            break;
+                        }
+                    case "ARRB":
+                        {
+                            r = 3;
+                            g = 0;
+                            b = 0;
+                            a = 2;
+                            break;
+                        }
+                    case "ARRA":
+                        {
+                            r = 3;
+                            g = 0;
+                            b = 0;
+                            a = 3;
+                            break;
+                        }
+                    case "ARGR":
+                        {
+                            r = 3;
+                            g = 0;
+                            b = 1;
+                            a = 0;
+                            break;
+                        }
+                    case "ARGG":
+                        {
+                            r = 3;
+                            g = 0;
+                            b = 1;
+                            a = 1;
+                            break;
+                        }
+                    case "ARGB":
+                        {
+                            r = 3;
+                            g = 0;
+                            b = 1;
+                            a = 2;
+                            break;
+                        }
+                    case "ARGA":
+                        {
+                            r = 3;
+                            g = 0;
+                            b = 1;
+                            a = 3;
+                            break;
+                        }
+                    case "ARBR":
+                        {
+                            r = 3;
+                            g = 0;
+                            b = 2;
+                            a = 0;
+                            break;
+                        }
+                    case "ARBG":
+                        {
+                            r = 3;
+                            g = 0;
+                            b = 2;
+                            a = 1;
+                            break;
+                        }
+                    case "ARBB":
+                        {
+                            r = 3;
+                            g = 0;
+                            b = 2;
+                            a = 2;
+                            break;
+                        }
+                    case "ARBA":
+                        {
+                            r = 3;
+                            g = 0;
+                            b = 2;
+                            a = 3;
+                            break;
+                        }
+                    case "ARAR":
+                        {
+                            r = 3;
+                            g = 0;
+                            b = 3;
+                            a = 0;
+                            break;
+                        }
+                    case "ARAG":
+                        {
+                            r = 3;
+                            g = 0;
+                            b = 3;
+                            a = 1;
+                            break;
+                        }
+                    case "ARAB":
+                        {
+                            r = 3;
+                            g = 0;
+                            b = 3;
+                            a = 2;
+                            break;
+                        }
+                    case "ARAA":
+                        {
+                            r = 3;
+                            g = 0;
+                            b = 3;
+                            a = 3;
+                            break;
+                        }
+                    case "AGRR":
+                        {
+                            r = 3;
+                            g = 1;
+                            b = 0;
+                            a = 0;
+                            break;
+                        }
+                    case "AGRG":
+                        {
+                            r = 3;
+                            g = 1;
+                            b = 0;
+                            a = 1;
+                            break;
+                        }
+                    case "AGRB":
+                        {
+                            r = 3;
+                            g = 1;
+                            b = 0;
+                            a = 2;
+                            break;
+                        }
+                    case "AGRA":
+                        {
+                            r = 3;
+                            g = 1;
+                            b = 0;
+                            a = 3;
+                            break;
+                        }
+                    case "AGGR":
+                        {
+                            r = 3;
+                            g = 1;
+                            b = 1;
+                            a = 0;
+                            break;
+                        }
+                    case "AGGG":
+                        {
+                            r = 3;
+                            g = 1;
+                            b = 1;
+                            a = 1;
+                            break;
+                        }
+                    case "AGGB":
+                        {
+                            r = 3;
+                            g = 1;
+                            b = 1;
+                            a = 2;
+                            break;
+                        }
+                    case "AGGA":
+                        {
+                            r = 3;
+                            g = 1;
+                            b = 1;
+                            a = 3;
+                            break;
+                        }
+                    case "AGBR":
+                        {
+                            r = 3;
+                            g = 1;
+                            b = 2;
+                            a = 0;
+                            break;
+                        }
+                    case "AGBG":
+                        {
+                            r = 3;
+                            g = 1;
+                            b = 2;
+                            a = 1;
+                            break;
+                        }
+                    case "AGBB":
+                        {
+                            r = 3;
+                            g = 1;
+                            b = 2;
+                            a = 2;
+                            break;
+                        }
+                    case "AGBA":
+                        {
+                            r = 3;
+                            g = 1;
+                            b = 2;
+                            a = 3;
+                            break;
+                        }
+                    case "AGAR":
+                        {
+                            r = 3;
+                            g = 1;
+                            b = 3;
+                            a = 0;
+                            break;
+                        }
+                    case "AGAG":
+                        {
+                            r = 3;
+                            g = 1;
+                            b = 3;
+                            a = 1;
+                            break;
+                        }
+                    case "AGAB":
+                        {
+                            r = 3;
+                            g = 1;
+                            b = 3;
+                            a = 2;
+                            break;
+                        }
+                    case "AGAA":
+                        {
+                            r = 3;
+                            g = 1;
+                            b = 3;
+                            a = 3;
+                            break;
+                        }
+                    case "ABRR":
+                        {
+                            r = 3;
+                            g = 2;
+                            b = 0;
+                            a = 0;
+                            break;
+                        }
+                    case "ABRG":
+                        {
+                            r = 3;
+                            g = 2;
+                            b = 0;
+                            a = 1;
+                            break;
+                        }
+                    case "ABRB":
+                        {
+                            r = 3;
+                            g = 2;
+                            b = 0;
+                            a = 2;
+                            break;
+                        }
+                    case "ABRA":
+                        {
+                            r = 3;
+                            g = 2;
+                            b = 0;
+                            a = 3;
+                            break;
+                        }
+                    case "ABGR":
+                        {
+                            r = 3;
+                            g = 2;
+                            b = 1;
+                            a = 0;
+                            break;
+                        }
+                    case "ABGG":
+                        {
+                            r = 3;
+                            g = 2;
+                            b = 1;
+                            a = 1;
+                            break;
+                        }
+                    case "ABGB":
+                        {
+                            r = 3;
+                            g = 2;
+                            b = 1;
+                            a = 2;
+                            break;
+                        }
+                    case "ABGA":
+                        {
+                            r = 3;
+                            g = 2;
+                            b = 1;
+                            a = 3;
+                            break;
+                        }
+                    case "ABBR":
+                        {
+                            r = 3;
+                            g = 2;
+                            b = 2;
+                            a = 0;
+                            break;
+                        }
+                    case "ABBG":
+                        {
+                            r = 3;
+                            g = 2;
+                            b = 2;
+                            a = 1;
+                            break;
+                        }
+                    case "ABBB":
+                        {
+                            r = 3;
+                            g = 2;
+                            b = 2;
+                            a = 2;
+                            break;
+                        }
+                    case "ABBA":
+                        {
+                            r = 3;
+                            g = 2;
+                            b = 2;
+                            a = 3;
+                            break;
+                        }
+                    case "ABAR":
+                        {
+                            r = 3;
+                            g = 2;
+                            b = 3;
+                            a = 0;
+                            break;
+                        }
+                    case "ABAG":
+                        {
+                            r = 3;
+                            g = 2;
+                            b = 3;
+                            a = 1;
+                            break;
+                        }
+                    case "ABAB":
+                        {
+                            r = 3;
+                            g = 2;
+                            b = 3;
+                            a = 2;
+                            break;
+                        }
+                    case "ABAA":
+                        {
+                            r = 3;
+                            g = 2;
+                            b = 3;
+                            a = 3;
+                            break;
+                        }
+                    case "AARR":
+                        {
+                            r = 3;
+                            g = 3;
+                            b = 0;
+                            a = 0;
+                            break;
+                        }
+                    case "AARG":
+                        {
+                            r = 3;
+                            g = 3;
+                            b = 0;
+                            a = 1;
+                            break;
+                        }
+                    case "AARB":
+                        {
+                            r = 3;
+                            g = 3;
+                            b = 0;
+                            a = 2;
+                            break;
+                        }
+                    case "AARA":
+                        {
+                            r = 3;
+                            g = 3;
+                            b = 0;
+                            a = 3;
+                            break;
+                        }
+                    case "AAGR":
+                        {
+                            r = 3;
+                            g = 3;
+                            b = 1;
+                            a = 0;
+                            break;
+                        }
+                    case "AAGG":
+                        {
+                            r = 3;
+                            g = 3;
+                            b = 1;
+                            a = 1;
+                            break;
+                        }
+                    case "AAGB":
+                        {
+                            r = 3;
+                            g = 3;
+                            b = 1;
+                            a = 2;
+                            break;
+                        }
+                    case "AAGA":
+                        {
+                            r = 3;
+                            g = 3;
+                            b = 1;
+                            a = 3;
+                            break;
+                        }
+                    case "AABR":
+                        {
+                            r = 3;
+                            g = 3;
+                            b = 2;
+                            a = 0;
+                            break;
+                        }
+                    case "AABG":
+                        {
+                            r = 3;
+                            g = 3;
+                            b = 2;
+                            a = 1;
+                            break;
+                        }
+                    case "AABB":
+                        {
+                            r = 3;
+                            g = 3;
+                            b = 2;
+                            a = 2;
+                            break;
+                        }
+                    case "AABA":
+                        {
+                            r = 3;
+                            g = 3;
+                            b = 2;
+                            a = 3;
+                            break;
+                        }
+                    case "AAAR":
+                        {
+                            r = 3;
+                            g = 3;
+                            b = 3;
+                            a = 0;
+                            break;
+                        }
+                    case "AAAG":
+                        {
+                            r = 3;
+                            g = 3;
+                            b = 3;
+                            a = 1;
+                            break;
+                        }
+                    case "AAAB":
+                        {
+                            r = 3;
+                            g = 3;
+                            b = 3;
+                            a = 2;
+                            break;
+                        }
+                    case "AAAA":
+                        {
+                            r = 3;
+                            g = 3;
+                            b = 3;
+                            a = 3;
+                            break;
+                        }
+                    case "RRR":
+                        {
+                            r = 0;
+                            g = 0;
+                            b = 0;
+                            break;
+                        }
+                    case "RRG":
+                        {
+                            r = 0;
+                            g = 0;
+                            b = 1;
+                            break;
+                        }
+                    case "RRB":
+                        {
+                            r = 0;
+                            g = 0;
+                            b = 2;
+                            break;
+                        }
+                    case "RGR":
+                        {
+                            r = 0;
+                            g = 1;
+                            b = 0;
+                            break;
+                        }
+                    case "RGG":
+                        {
+                            r = 0;
+                            g = 1;
+                            b = 1;
+                            break;
+                        }
+                    case "RGB":
+                        {
+                            r = 0;
+                            g = 1;
+                            b = 2;
+                            break;
+                        }
+                    case "RBR":
+                        {
+                            r = 0;
+                            g = 2;
+                            b = 0;
+                            break;
+                        }
+                    case "RBG":
+                        {
+                            r = 0;
+                            g = 2;
+                            b = 1;
+                            break;
+                        }
+                    case "RBB":
+                        {
+                            r = 0;
+                            g = 2;
+                            b = 2;
+                            break;
+                        }
+                    case "GRR":
+                        {
+                            r = 1;
+                            g = 0;
+                            b = 0;
+                            break;
+                        }
+                    case "GRG":
+                        {
+                            r = 1;
+                            g = 0;
+                            b = 1;
+                            break;
+                        }
+                    case "GRB":
+                        {
+                            r = 1;
+                            g = 0;
+                            b = 2;
+                            break;
+                        }
+                    case "GGR":
+                        {
+                            r = 1;
+                            g = 1;
+                            b = 0;
+                            break;
+                        }
+                    case "GGG":
+                        {
+                            r = 1;
+                            g = 1;
+                            b = 1;
+                            break;
+                        }
+                    case "GGB":
+                        {
+                            r = 1;
+                            g = 1;
+                            b = 2;
+                            break;
+                        }
+                    case "GBR":
+                        {
+                            r = 1;
+                            g = 2;
+                            b = 0;
+                            break;
+                        }
+                    case "GBG":
+                        {
+                            r = 1;
+                            g = 2;
+                            b = 1;
+                            break;
+                        }
+                    case "GBB":
+                        {
+                            r = 1;
+                            g = 2;
+                            b = 2;
+                            break;
+                        }
+                    case "BRR":
+                        {
+                            r = 2;
+                            g = 0;
+                            b = 0;
+                            break;
+                        }
+                    case "BRG":
+                        {
+                            r = 2;
+                            g = 0;
+                            b = 1;
+                            break;
+                        }
+                    case "BRB":
+                        {
+                            r = 2;
+                            g = 0;
+                            b = 2;
+                            break;
+                        }
+                    case "BGR":
+                        {
+                            r = 2;
+                            g = 1;
+                            b = 0;
+                            break;
+                        }
+                    case "BGG":
+                        {
+                            r = 2;
+                            g = 1;
+                            b = 1;
+                            break;
+                        }
+                    case "BGB":
+                        {
+                            r = 2;
+                            g = 1;
+                            b = 2;
+                            break;
+                        }
+                    case "BBR":
+                        {
+                            r = 2;
+                            g = 2;
+                            b = 0;
+                            break;
+                        }
+                    case "BBG":
+                        {
+                            r = 2;
+                            g = 2;
+                            b = 1;
+                            break;
+                        }
+                    case "BBB":
+                        {
+                            r = 2;
+                            g = 2;
+                            b = 2;
+                            break;
+                        }
+
+
                     case "IA8":
                     case "AI8":
                         {
@@ -1055,83 +3293,6 @@ namespace plt0
                             }
                             else
                             {
-                                if (args[i].Length == 3)
-                                {
-                                    success = true;
-                                    for (byte c = 0; c < 3; c++)
-                                    {
-                                        if (args[i + c].ToUpper() != "R" && args[i + c].ToUpper() != "G" && args[i + c].ToUpper() != "B")
-                                        {
-                                            success = false;
-                                            break;
-                                        }
-                                    }
-                                    if (success)
-                                    {
-                                        for (byte c = 0; c < 3; c++)
-                                        {
-                                            switch (args[i + c].ToUpper())
-                                            {
-                                                case "R":
-                                                    {
-                                                        rgba_channel[c] = 2;
-                                                        break;
-                                                    }
-                                                case "G":
-                                                    {
-                                                        rgba_channel[c] = 1;
-                                                        break;
-                                                    }
-                                                case "B":
-                                                    {
-                                                        rgba_channel[c] = 0;
-                                                        break;
-                                                    }
-                                            }
-                                        }
-                                    }
-                                }
-                                if (args[i].Length == 4)
-                                {
-                                    success = true;
-                                    for (byte c = 0; c < 4; c++)
-                                    {
-                                        if (args[i + c].ToUpper() != "R" && args[i + c].ToUpper() != "G" && args[i + c].ToUpper() != "B" && args[i + c].ToUpper() != "A")
-                                        {
-                                            success = false;
-                                            break;
-                                        }
-                                    }
-                                    if (success)
-                                    {
-                                        for (byte c = 0; c < 4; c++)
-                                        {
-                                            switch (args[i + c].ToUpper())
-                                            {
-                                                case "R":
-                                                    {
-                                                        rgba_channel[c] = 2;
-                                                        break;
-                                                    }
-                                                case "G":
-                                                    {
-                                                        rgba_channel[c] = 1;
-                                                        break;
-                                                    }
-                                                case "B":
-                                                    {
-                                                        rgba_channel[c] = 0;
-                                                        break;
-                                                    }
-                                                case "A":
-                                                    {
-                                                        rgba_channel[c] = 3;
-                                                        break;
-                                                    }
-                                            }
-                                        }
-                                    }
-                                }
                                 if (args[i].Contains(".") && args[i].Length > 1)
                                 {
                                     output_file = args[i].Substring(0, args[i].Length - args[i].Split('.')[args[i].Split('.').Length - 1].Length - 1);  // removes the text after the extension dot.
@@ -1559,10 +3720,10 @@ namespace plt0
                                 {
                                     for (int i = pixel_start_offset, j = 0; i < array_size; i += 4, j += 2)  // process every pixel to fit the AAAA AAAA  CCCC CCCC  profile
                                     {
-                                        colour_palette[j] = (BGRA_array[i +  rgba_channel[3]]);  // alpha value
-                                        if (BGRA_array[i +  rgba_channel[3]] != 0)
+                                        colour_palette[j] = (BGRA_array[i + 3]);  // alpha value
+                                        if (BGRA_array[i + 3] != 0)
                                         {
-                                            colour_palette[j + 1] = (byte)(BGRA_array[i] * 0.114 + BGRA_array[i +  rgba_channel[1]] * 0.587 + BGRA_array[i +  rgba_channel[0]] * 0.299);
+                                            colour_palette[j + 1] = (byte)(BGRA_array[i] * 0.114 + BGRA_array[i + 1] * 0.587 + BGRA_array[i + 2] * 0.299);
                                         }
                                     }
                                     break;
@@ -1571,10 +3732,10 @@ namespace plt0
                                 {
                                     for (int i = pixel_start_offset, j = 0; i < array_size; i += 4, j += 2)  // process every pixel to fit the AAAA AAAA  CCCC CCCC  profile
                                     {
-                                        colour_palette[j] = (BGRA_array[i +  rgba_channel[3]]);  // alpha value
-                                        if (BGRA_array[i +  rgba_channel[3]] != 0)
+                                        colour_palette[j] = (BGRA_array[i + 3]);  // alpha value
+                                        if (BGRA_array[i + 3] != 0)
                                         {
-                                            colour_palette[j + 1] = (byte)(BGRA_array[i] * 0.0721 + BGRA_array[i +  rgba_channel[1]] * 0.7154 + BGRA_array[i +  rgba_channel[0]] * 0.2125);
+                                            colour_palette[j + 1] = (byte)(BGRA_array[i] * 0.0721 + BGRA_array[i + 1] * 0.7154 + BGRA_array[i + 2] * 0.2125);
                                         }
                                     }
                                     break;
@@ -1583,10 +3744,10 @@ namespace plt0
                                 {
                                     for (int i = pixel_start_offset, j = 0; i < array_size; i += 4, j += 2)  // process every pixel to fit the AAAA AAAA  CCCC CCCC  profile
                                     {
-                                        colour_palette[j] = (BGRA_array[i +  rgba_channel[3]]);  // alpha value
-                                        if (BGRA_array[i +  rgba_channel[3]] != 0)
+                                        colour_palette[j] = (BGRA_array[i + 3]);  // alpha value
+                                        if (BGRA_array[i + 3] != 0)
                                         {
-                                            colour_palette[j + 1] = (byte)(BGRA_array[i] * custom_rgba[2] + BGRA_array[i +  rgba_channel[1]] * custom_rgba[1] + BGRA_array[i +  rgba_channel[0]] * custom_rgba[0]);
+                                            colour_palette[j + 1] = (byte)(BGRA_array[i] * custom_rgba[2] + BGRA_array[i + 1] * custom_rgba[1] + BGRA_array[i + 2] * custom_rgba[0]);
                                         }
                                     }
                                     break;
@@ -1604,8 +3765,8 @@ namespace plt0
                                 {
                                     for (int i = pixel_start_offset, j = 0; i < array_size; i += 4, j += 2)
                                     {
-                                        red = (byte)(BGRA_array[i +  rgba_channel[0]] * custom_rgba[0]);
-                                        green = (byte)(BGRA_array[i +  rgba_channel[1]] * custom_rgba[1]);
+                                        red = (byte)(BGRA_array[i + 2] * custom_rgba[0]);
+                                        green = (byte)(BGRA_array[i + 1] * custom_rgba[1]);
                                         blue = (byte)(BGRA_array[i] * custom_rgba[2]);
                                         if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
                                         {
@@ -1629,8 +3790,8 @@ namespace plt0
                                 {
                                     for (int i = pixel_start_offset, j = 0; i < array_size; i += 4, j += 2)
                                     {
-                                        red = BGRA_array[i +  rgba_channel[0]];
-                                        green = BGRA_array[i +  rgba_channel[1]];
+                                        red = BGRA_array[i + 2];
+                                        green = BGRA_array[i + 1];
                                         blue = BGRA_array[i];
                                         if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
                                         {
@@ -1663,9 +3824,9 @@ namespace plt0
                                     {
                                         for (int i = pixel_start_offset, j = 0; i < array_size; i += 4, j += 2)
                                         {
-                                            a = (byte)(BGRA_array[i +  rgba_channel[3]] * custom_rgba[3]);
-                                            red = (byte)(BGRA_array[i +  rgba_channel[0]] * custom_rgba[0]);
-                                            green = (byte)(BGRA_array[i +  rgba_channel[1]] * custom_rgba[1]);
+                                            a = (byte)(BGRA_array[i + 3] * custom_rgba[3]);
+                                            red = (byte)(BGRA_array[i + 2] * custom_rgba[0]);
+                                            green = (byte)(BGRA_array[i + 1] * custom_rgba[1]);
                                             blue = (byte)(BGRA_array[i] * custom_rgba[2]);
                                             if ((a & 31) > round3 && a < 224)  // 3-bit max value on a trimmed byte
                                             {
@@ -1692,8 +3853,8 @@ namespace plt0
                                     {
                                         for (int i = pixel_start_offset, j = 0; i < array_size; i += 4, j += 2)
                                         {
-                                            red = (byte)(BGRA_array[i +  rgba_channel[0]] * custom_rgba[0]);
-                                            green = (byte)(BGRA_array[i +  rgba_channel[1]] * custom_rgba[1]);
+                                            red = (byte)(BGRA_array[i + 2] * custom_rgba[0]);
+                                            green = (byte)(BGRA_array[i + 1] * custom_rgba[1]);
                                             blue = (byte)(BGRA_array[i] * custom_rgba[2]);
                                             if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
                                             {
@@ -1716,9 +3877,9 @@ namespace plt0
                                     {
                                         for (int i = pixel_start_offset, j = 0; i < array_size; i += 4, j += 2)
                                         {
-                                            a = (byte)(BGRA_array[i +  rgba_channel[3]] * custom_rgba[3]);
-                                            red = (byte)(BGRA_array[i +  rgba_channel[0]] * custom_rgba[0]);
-                                            green = (byte)(BGRA_array[i +  rgba_channel[1]] * custom_rgba[1]);
+                                            a = (byte)(BGRA_array[i + 3] * custom_rgba[3]);
+                                            red = (byte)(BGRA_array[i + 2] * custom_rgba[0]);
+                                            green = (byte)(BGRA_array[i + 1] * custom_rgba[1]);
                                             blue = (byte)(BGRA_array[i] * custom_rgba[2]);
                                             if ((a & 31) > round3 && a < 224)  // 3-bit max value on a trimmed byte
                                             {
@@ -1756,9 +3917,9 @@ namespace plt0
                                     {
                                         for (int i = pixel_start_offset, j = 0; i < array_size; i += 4, j += 2)
                                         {
-                                            a = BGRA_array[i +  rgba_channel[3]];
-                                            red = BGRA_array[i +  rgba_channel[0]];
-                                            green = BGRA_array[i +  rgba_channel[1]];
+                                            a = BGRA_array[i + 3];
+                                            red = BGRA_array[i + 2];
+                                            green = BGRA_array[i + 1];
                                             blue = BGRA_array[i];
                                             if ((a & 31) > round3 && a < 224)  // 3-bit max value on a trimmed byte
                                             {
@@ -1785,8 +3946,8 @@ namespace plt0
                                     {
                                         for (int i = pixel_start_offset, j = 0; i < array_size; i += 4, j += 2)
                                         {
-                                            red = BGRA_array[i +  rgba_channel[0]];
-                                            green = BGRA_array[i +  rgba_channel[1]];
+                                            red = BGRA_array[i + 2];
+                                            green = BGRA_array[i + 1];
                                             blue = BGRA_array[i];
                                             if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
                                             {
@@ -1809,9 +3970,9 @@ namespace plt0
                                     {
                                         for (int i = pixel_start_offset, j = 0; i < array_size; i += 4, j += 2)
                                         {
-                                            a = BGRA_array[i +  rgba_channel[3]];
-                                            red = BGRA_array[i +  rgba_channel[0]];
-                                            green = BGRA_array[i +  rgba_channel[1]];
+                                            a = BGRA_array[i + 3];
+                                            red = BGRA_array[i + 2];
+                                            green = BGRA_array[i + 1];
                                             blue = BGRA_array[i];
                                             if ((a & 31) > round3 && a < 224)  // 3-bit max value on a trimmed byte
                                             {
@@ -3354,10 +5515,10 @@ namespace plt0
                                     {
                                         for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)  // process every pixel to fit the AAAA AAAA  CCCC CCCC  profile
                                         {
-                                            pixel = (ushort)(bmp_image[i + rgba_channel[3]] << 8);  // alpha value
-                                            if (bmp_image[i + rgba_channel[3]] != 0)
+                                            pixel = (ushort)(bmp_image[i + 3] << 8);  // alpha value
+                                            if (bmp_image[i + 3] != 0)
                                             {
-                                                pixel += (ushort)((byte)(bmp_image[i + rgba_channel[0]] * 0.299) + bmp_image[i + rgba_channel[1]] * 0.587 + bmp_image[i + rgba_channel[2]] * 0.114);
+                                                pixel += (ushort)((byte)(bmp_image[i] * 0.114 + bmp_image[i + 1] * 0.587 + bmp_image[i + 2] * 0.299));
                                             }
                                             Colours.Add(pixel);
                                             Colour_Table[pixel][0] += 1;
@@ -3368,10 +5529,10 @@ namespace plt0
                                     {
                                         for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
                                         {
-                                            pixel = (ushort)(bmp_image[i + rgba_channel[3]] << 8);  // alpha value
-                                            if (bmp_image[i + rgba_channel[3]] != 0)
+                                            pixel = (ushort)(bmp_image[i + 3] << 8);  // alpha value
+                                            if (bmp_image[i + 3] != 0)
                                             {
-                                                pixel += (ushort)((byte)(bmp_image[i + rgba_channel[2]] * 0.0721 + bmp_image[i + rgba_channel[1]] * 0.7154 + bmp_image[i + rgba_channel[0]] * 0.2125));
+                                                pixel += (ushort)((byte)(bmp_image[i] * 0.0721 + bmp_image[i + 1] * 0.7154 + bmp_image[i + 2] * 0.2125));
                                             }
                                             Colours.Add(pixel);
                                             Colour_Table[pixel][0] += 1;
@@ -3382,10 +5543,10 @@ namespace plt0
                                     {
                                         for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
                                         {
-                                            pixel = (ushort)((byte)(bmp_image[i + rgba_channel[3]] * custom_rgba[3]) << 8);  // alpha value
+                                            pixel = (ushort)((byte)(bmp_image[i + 3] * custom_rgba[3]) << 8);  // alpha value
                                             if (pixel != 0)
                                             {
-                                                pixel += (ushort)(byte)(bmp_image[i + rgba_channel[2]] * custom_rgba[2] + bmp_image[i + rgba_channel[1]] * custom_rgba[1] + bmp_image[i + rgba_channel[0]] * custom_rgba[0]);
+                                                pixel += (ushort)(byte)(bmp_image[i] * custom_rgba[2] + bmp_image[i + 1] * custom_rgba[1] + bmp_image[i + 2] * custom_rgba[0]);
                                             }
                                             Colours.Add(pixel);
                                             Colour_Table[pixel][0] += 1;
@@ -3617,9 +5778,9 @@ namespace plt0
                                     {
                                         for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
                                         {
-                                            red = (byte)(bmp_image[i + rgba_channel[0]] * custom_rgba[0]);
-                                            green = (byte)(bmp_image[i + rgba_channel[1]] * custom_rgba[1]);
-                                            blue = (byte)(bmp_image[i + rgba_channel[2]] * custom_rgba[2]);
+                                            red = (byte)(bmp_image[i + 2] * custom_rgba[0]);
+                                            green = (byte)(bmp_image[i + 1] * custom_rgba[1]);
+                                            blue = (byte)(bmp_image[i] * custom_rgba[2]);
                                             if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
                                             {
                                                 red += 8;
@@ -3643,9 +5804,9 @@ namespace plt0
                                     {
                                         for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
                                         {
-                                            red = bmp_image[i + rgba_channel[0]];
-                                            green = bmp_image[i + rgba_channel[1]];
-                                            blue = bmp_image[i + rgba_channel[2]];
+                                            red = bmp_image[i + 2];
+                                            green = bmp_image[i + 1];
+                                            blue = bmp_image[i];
                                             if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
                                             {
                                                 red += 8;
@@ -3890,9 +6051,9 @@ namespace plt0
                                         {
                                             for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
                                             {
-                                                a = (byte)(bmp_image[i +  rgba_channel[3]] * custom_rgba[3]);
-                                                red = (byte)(bmp_image[i +  rgba_channel[0]] * custom_rgba[0]);
-                                                green = (byte)(bmp_image[i +  rgba_channel[1]] * custom_rgba[1]);
+                                                a = (byte)(bmp_image[i + 3] * custom_rgba[3]);
+                                                red = (byte)(bmp_image[i + 2] * custom_rgba[0]);
+                                                green = (byte)(bmp_image[i + 1] * custom_rgba[1]);
                                                 blue = (byte)(bmp_image[i] * custom_rgba[2]);
                                                 if ((a & 31) > round3 && a < 224)  // 3-bit max value on a trimmed byte
                                                 {
@@ -3919,8 +6080,8 @@ namespace plt0
                                         {
                                             for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
                                             {
-                                                red = (byte)(bmp_image[i +  rgba_channel[0]] * custom_rgba[0]);
-                                                green = (byte)(bmp_image[i +  rgba_channel[1]] * custom_rgba[1]);
+                                                red = (byte)(bmp_image[i + 2] * custom_rgba[0]);
+                                                green = (byte)(bmp_image[i + 1] * custom_rgba[1]);
                                                 blue = (byte)(bmp_image[i] * custom_rgba[2]);
                                                 if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
                                                 {
@@ -3943,9 +6104,9 @@ namespace plt0
                                         {
                                             for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
                                             {
-                                                a = (byte)(bmp_image[i +  rgba_channel[3]] * custom_rgba[3]);
-                                                red = (byte)(bmp_image[i +  rgba_channel[0]] * custom_rgba[0]);
-                                                green = (byte)(bmp_image[i +  rgba_channel[1]] * custom_rgba[1]);
+                                                a = (byte)(bmp_image[i + 3] * custom_rgba[3]);
+                                                red = (byte)(bmp_image[i + 2] * custom_rgba[0]);
+                                                green = (byte)(bmp_image[i + 1] * custom_rgba[1]);
                                                 blue = (byte)(bmp_image[i] * custom_rgba[2]);
                                                 if ((a & 31) > round3 && a < 224)  // 3-bit max value on a trimmed byte
                                                 {
@@ -3983,9 +6144,9 @@ namespace plt0
                                         {
                                             for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
                                             {
-                                                a = bmp_image[i +  rgba_channel[3]];
-                                                red = bmp_image[i +  rgba_channel[0]];
-                                                green = bmp_image[i +  rgba_channel[1]];
+                                                a = bmp_image[i + 3];
+                                                red = bmp_image[i + 2];
+                                                green = bmp_image[i + 1];
                                                 blue = bmp_image[i];
                                                 if ((a & 31) > round3 && a < 224)  // 3-bit max value on a trimmed byte
                                                 {
@@ -4012,8 +6173,8 @@ namespace plt0
                                         {
                                             for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
                                             {
-                                                red = bmp_image[i +  rgba_channel[0]];
-                                                green = bmp_image[i +  rgba_channel[1]];
+                                                red = bmp_image[i + 2];
+                                                green = bmp_image[i + 1];
                                                 blue = bmp_image[i];
                                                 if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
                                                 {
@@ -4036,9 +6197,9 @@ namespace plt0
                                         {
                                             for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
                                             {
-                                                a = bmp_image[i +  rgba_channel[3]];
-                                                red = bmp_image[i +  rgba_channel[0]];
-                                                green = bmp_image[i +  rgba_channel[1]];
+                                                a = bmp_image[i + 3];
+                                                red = bmp_image[i + 2];
+                                                green = bmp_image[i + 1];
                                                 blue = bmp_image[i];
                                                 if ((a & 31) > round3 && a < 224)  // 3-bit max value on a trimmed byte
                                                 {
@@ -4636,7 +6797,7 @@ namespace plt0
                                         {
                                             for (int i = pixel_data_start_offset; i < bmp_filesize; i += 8)
                                             {
-                                                a = (byte)(bmp_image[i] * 0.0721 + bmp_image[i +  rgba_channel[1]] * 0.7154 + bmp_image[i +  rgba_channel[0]] * 0.2125);
+                                                a = (byte)(bmp_image[i] * 0.0721 + bmp_image[i + 1] * 0.7154 + bmp_image[i + 2] * 0.2125);
                                                 if ((a & 0xf) > round4 && a < 240)
                                                 {
                                                     a += 16;
@@ -4675,7 +6836,7 @@ namespace plt0
                                         {
                                             for (int i = pixel_data_start_offset; i < bmp_filesize; i += 8)
                                             {
-                                                a = (byte)(bmp_image[i] * custom_rgba[2] + bmp_image[i +  rgba_channel[1]] * custom_rgba[1] + bmp_image[i +  rgba_channel[0]] * custom_rgba[0]);
+                                                a = (byte)(bmp_image[i] * custom_rgba[2] + bmp_image[i + 1] * custom_rgba[1] + bmp_image[i + 2] * custom_rgba[0]);
                                                 if ((a & 0xf) > round4 && a < 240)
                                                 {
                                                     a += 16;
@@ -4857,8 +7018,8 @@ namespace plt0
                                         {
                                             for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
                                             {
-                                                red = (byte)(bmp_image[i +  rgba_channel[0]] * custom_rgba[0]);
-                                                green = (byte)(bmp_image[i +  rgba_channel[1]] * custom_rgba[1]);
+                                                red = (byte)(bmp_image[i + 2] * custom_rgba[0]);
+                                                green = (byte)(bmp_image[i + 1] * custom_rgba[1]);
                                                 blue = (byte)(bmp_image[i] * custom_rgba[2]);
                                                 if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
                                                 {
@@ -4881,8 +7042,8 @@ namespace plt0
                                         {
                                             for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
                                             {
-                                                red = bmp_image[i +  rgba_channel[0]];
-                                                green = bmp_image[i +  rgba_channel[1]];
+                                                red = bmp_image[i + 2];
+                                                green = bmp_image[i + 1];
                                                 blue = bmp_image[i];
                                                 if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
                                                 {
@@ -4917,7 +7078,7 @@ namespace plt0
                                         {
                                             for (int i = pixel_data_start_offset; i < bmp_filesize; i += 8)  // process every pixel by groups of two to fit the AAAA BBBB  profile
                                             {
-                                                a = (byte)(bmp_image[i] * 0.114 + bmp_image[i +  rgba_channel[1]] * 0.587 + bmp_image[i +  rgba_channel[0]] * 0.299);  // grey colour trimmed to 4 bit
+                                                a = (byte)(bmp_image[i] * 0.114 + bmp_image[i + 1] * 0.587 + bmp_image[i + 2] * 0.299);  // grey colour trimmed to 4 bit
                                                 if ((a & 0xf) > round4 && a < 240)
                                                 {
                                                     a += 16;
@@ -4941,7 +7102,7 @@ namespace plt0
                                         {
                                             for (int i = pixel_data_start_offset; i < bmp_filesize; i += 8)
                                             {
-                                                a = (byte)(bmp_image[i] * 0.0721 + bmp_image[i +  rgba_channel[1]] * 0.7154 + bmp_image[i +  rgba_channel[0]] * 0.2125);
+                                                a = (byte)(bmp_image[i] * 0.0721 + bmp_image[i + 1] * 0.7154 + bmp_image[i + 2] * 0.2125);
                                                 if ((a & 0xf) > round4 && a < 240)
                                                 {
                                                     a += 16;
@@ -4965,7 +7126,7 @@ namespace plt0
                                         {
                                             for (int i = pixel_data_start_offset; i < bmp_filesize; i += 8)
                                             {
-                                                a = (byte)(bmp_image[i] * custom_rgba[2] + bmp_image[i +  rgba_channel[1]] * custom_rgba[1] + bmp_image[i +  rgba_channel[0]] * custom_rgba[0]);
+                                                a = (byte)(bmp_image[i] * custom_rgba[2] + bmp_image[i + 1] * custom_rgba[1] + bmp_image[i + 2] * custom_rgba[0]);
                                                 if ((a & 0xf) > round4 && a < 240)
                                                 {
                                                     a += 16;
@@ -4996,7 +7157,7 @@ namespace plt0
                                         {
                                             for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)  // process every pixel to fit the CCCC CCCC profile
                                             {
-                                                index[j] = (byte)(bmp_image[i] * 0.114 + bmp_image[i +  rgba_channel[1]] * 0.587 + bmp_image[i +  rgba_channel[0]] * 0.299);
+                                                index[j] = (byte)(bmp_image[i] * 0.114 + bmp_image[i + 1] * 0.587 + bmp_image[i + 2] * 0.299);
                                                 j++;
                                                 if (j == bitmap_width)
                                                 {
@@ -5010,7 +7171,7 @@ namespace plt0
                                         {
                                             for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
                                             {
-                                                index[j] = (byte)(bmp_image[i] * 0.0721 + bmp_image[i +  rgba_channel[1]] * 0.7154 + bmp_image[i +  rgba_channel[0]] * 0.2125);
+                                                index[j] = (byte)(bmp_image[i] * 0.0721 + bmp_image[i + 1] * 0.7154 + bmp_image[i + 2] * 0.2125);
                                                 j++;
                                                 if (j == bitmap_width)
                                                 {
@@ -5024,7 +7185,7 @@ namespace plt0
                                         {
                                             for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
                                             {
-                                                index[j] = (byte)(bmp_image[i] * custom_rgba[2] + bmp_image[i +  rgba_channel[1]] * custom_rgba[1] + bmp_image[i +  rgba_channel[0]] * custom_rgba[0]);
+                                                index[j] = (byte)(bmp_image[i] * custom_rgba[2] + bmp_image[i + 1] * custom_rgba[1] + bmp_image[i + 2] * custom_rgba[0]);
                                                 j++;
                                                 if (j == bitmap_width)
                                                 {
@@ -5045,12 +7206,12 @@ namespace plt0
                                         {
                                             for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)  // process every pixel to fit the AAAA CCCC profile
                                             {
-                                                a = (bmp_image[i +  rgba_channel[3]]);  // alpha value
+                                                a = (bmp_image[i + 3]);  // alpha value
                                                 if ((a & 0xf) > round4 && a < 240)
                                                 {
                                                     a += 16;
                                                 }
-                                                grey = (byte)(bmp_image[i] * 0.114 + bmp_image[i +  rgba_channel[1]] * 0.587 + bmp_image[i +  rgba_channel[0]] * 0.299);
+                                                grey = (byte)(bmp_image[i] * 0.114 + bmp_image[i + 1] * 0.587 + bmp_image[i + 2] * 0.299);
                                                 if ((grey & 0xf) > round4 && grey < 240)
                                                 {
                                                     grey += 16;
@@ -5069,12 +7230,12 @@ namespace plt0
                                         {
                                             for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
                                             {
-                                                a = (bmp_image[i +  rgba_channel[3]]);  // alpha value
+                                                a = (bmp_image[i + 3]);  // alpha value
                                                 if ((a & 0xf) > round4 && a < 240)
                                                 {
                                                     a += 16;
                                                 }
-                                                grey = (byte)(bmp_image[i] * 0.0721 + bmp_image[i +  rgba_channel[1]] * 0.7154 + bmp_image[i +  rgba_channel[0]] * 0.2125);
+                                                grey = (byte)(bmp_image[i] * 0.0721 + bmp_image[i + 1] * 0.7154 + bmp_image[i + 2] * 0.2125);
                                                 if ((grey & 0xf) > round4 && grey < 240)
                                                 {
                                                     grey += 16;
@@ -5093,12 +7254,12 @@ namespace plt0
                                         {
                                             for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
                                             {
-                                                a = (byte)(bmp_image[i +  rgba_channel[3]] * custom_rgba[3]);  // alpha value
+                                                a = (byte)(bmp_image[i + 3] * custom_rgba[3]);  // alpha value
                                                 if ((a & 0xf) > round4 && a < 240)
                                                 {
                                                     a += 16;
                                                 }
-                                                grey = (byte)(bmp_image[i] * custom_rgba[2] + bmp_image[i +  rgba_channel[1]] * custom_rgba[1] + bmp_image[i +  rgba_channel[0]] * custom_rgba[0]);
+                                                grey = (byte)(bmp_image[i] * custom_rgba[2] + bmp_image[i + 1] * custom_rgba[1] + bmp_image[i + 2] * custom_rgba[0]);
                                                 if ((grey & 0xf) > round4 && grey < 240)
                                                 {
                                                     grey += 16;
@@ -5125,8 +7286,8 @@ namespace plt0
                                         {
                                             for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)  // process every pixel to fit the AAAA AAAA  CCCC CCCC  profile
                                             {
-                                                index[j] = bmp_image[i +  rgba_channel[3]];  // alpha value
-                                                index[j + 1] = (byte)(bmp_image[i] * 0.114 + bmp_image[i +  rgba_channel[1]] * 0.587 + bmp_image[i +  rgba_channel[0]] * 0.299);  // Grey Value
+                                                index[j] = bmp_image[i + 3];  // alpha value
+                                                index[j + 1] = (byte)(bmp_image[i] * 0.114 + bmp_image[i + 1] * 0.587 + bmp_image[i + 2] * 0.299);  // Grey Value
                                                 j += 2;
                                                 if (j == bitmap_width << 1)
                                                 {
@@ -5140,8 +7301,8 @@ namespace plt0
                                         {
                                             for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
                                             {
-                                                index[j] = bmp_image[i +  rgba_channel[3]];  // alpha value
-                                                index[j + 1] = (byte)(bmp_image[i] * 0.0721 + bmp_image[i +  rgba_channel[1]] * 0.7154 + bmp_image[i +  rgba_channel[0]] * 0.2125);  // Grey Value
+                                                index[j] = bmp_image[i + 3];  // alpha value
+                                                index[j + 1] = (byte)(bmp_image[i] * 0.0721 + bmp_image[i + 1] * 0.7154 + bmp_image[i + 2] * 0.2125);  // Grey Value
                                                 j += 2;
                                                 if (j == bitmap_width << 1)
                                                 {
@@ -5155,8 +7316,8 @@ namespace plt0
                                         {
                                             for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
                                             {
-                                                index[j] = (byte)(bmp_image[i +  rgba_channel[3]] * custom_rgba[3]);  // alpha value
-                                                index[j + 1] = (byte)(bmp_image[i] * custom_rgba[2] + bmp_image[i +  rgba_channel[1]] * custom_rgba[1] + bmp_image[i +  rgba_channel[0]] * custom_rgba[0]);  // Grey Value
+                                                index[j] = (byte)(bmp_image[i + 3] * custom_rgba[3]);  // alpha value
+                                                index[j + 1] = (byte)(bmp_image[i] * custom_rgba[2] + bmp_image[i + 1] * custom_rgba[1] + bmp_image[i + 2] * custom_rgba[0]);  // Grey Value
                                                 j += 2;
                                                 if (j == bitmap_width << 1)
                                                 {
@@ -5178,8 +7339,8 @@ namespace plt0
                                         {
                                             for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
                                             {
-                                                red = (byte)(bmp_image[i +  rgba_channel[0]] * custom_rgba[0]);
-                                                green = (byte)(bmp_image[i +  rgba_channel[1]] * custom_rgba[1]);
+                                                red = (byte)(bmp_image[i + 2] * custom_rgba[0]);
+                                                green = (byte)(bmp_image[i + 1] * custom_rgba[1]);
                                                 blue = (byte)(bmp_image[i] * custom_rgba[2]);
                                                 if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
                                                 {
@@ -5248,9 +7409,9 @@ namespace plt0
                                             {
                                                 for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
                                                 {
-                                                    a = (byte)(bmp_image[i +  rgba_channel[3]] * custom_rgba[3]);
-                                                    red = (byte)(bmp_image[i +  rgba_channel[0]] * custom_rgba[0]);
-                                                    green = (byte)(bmp_image[i +  rgba_channel[1]] * custom_rgba[1]);
+                                                    a = (byte)(bmp_image[i + 3] * custom_rgba[3]);
+                                                    red = (byte)(bmp_image[i + 2] * custom_rgba[0]);
+                                                    green = (byte)(bmp_image[i + 1] * custom_rgba[1]);
                                                     blue = (byte)(bmp_image[i] * custom_rgba[2]);
                                                     if ((a & 31) > round3 && a < 224)  // 3-bit max value on a trimmed byte
                                                     {
@@ -5282,8 +7443,8 @@ namespace plt0
                                             {
                                                 for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
                                                 {
-                                                    red = (byte)(bmp_image[i +  rgba_channel[0]] * custom_rgba[0]);
-                                                    green = (byte)(bmp_image[i +  rgba_channel[1]] * custom_rgba[1]);
+                                                    red = (byte)(bmp_image[i + 2] * custom_rgba[0]);
+                                                    green = (byte)(bmp_image[i + 1] * custom_rgba[1]);
                                                     blue = (byte)(bmp_image[i] * custom_rgba[2]);
                                                     if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
                                                     {
@@ -5311,9 +7472,9 @@ namespace plt0
                                             {
                                                 for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
                                                 {
-                                                    a = (byte)(bmp_image[i +  rgba_channel[3]] * custom_rgba[3]);
-                                                    red = (byte)(bmp_image[i +  rgba_channel[0]] * custom_rgba[0]);
-                                                    green = (byte)(bmp_image[i +  rgba_channel[1]] * custom_rgba[1]);
+                                                    a = (byte)(bmp_image[i + 3] * custom_rgba[3]);
+                                                    red = (byte)(bmp_image[i + 2] * custom_rgba[0]);
+                                                    green = (byte)(bmp_image[i + 1] * custom_rgba[1]);
                                                     blue = (byte)(bmp_image[i] * custom_rgba[2]);
                                                     if ((a & 31) > round3 && a < 224)  // 3-bit max value on a trimmed byte
                                                     {
@@ -5360,9 +7521,9 @@ namespace plt0
                                             {
                                                 for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
                                                 {
-                                                    a = bmp_image[i +  rgba_channel[3]];
-                                                    red = bmp_image[i +  rgba_channel[0]];
-                                                    green = bmp_image[i +  rgba_channel[1]];
+                                                    a = bmp_image[i + 3];
+                                                    red = bmp_image[i + 2];
+                                                    green = bmp_image[i + 1];
                                                     blue = bmp_image[i];
                                                     if ((a & 31) > round3 && a < 224)  // 3-bit max value on a trimmed byte
                                                     {
@@ -5392,8 +7553,8 @@ namespace plt0
                                             {
                                                 for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
                                                 {
-                                                    red = bmp_image[i +  rgba_channel[0]];
-                                                    green = bmp_image[i +  rgba_channel[1]];
+                                                    red = bmp_image[i + 2];
+                                                    green = bmp_image[i + 1];
                                                     blue = bmp_image[i];
                                                     if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
                                                     {
@@ -5422,9 +7583,9 @@ namespace plt0
                                             {
                                                 for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
                                                 {
-                                                    a = bmp_image[i +  rgba_channel[3]];
-                                                    red = bmp_image[i +  rgba_channel[0]];
-                                                    green = bmp_image[i +  rgba_channel[1]];
+                                                    a = bmp_image[i + 3];
+                                                    red = bmp_image[i + 2];
+                                                    green = bmp_image[i + 1];
                                                     blue = bmp_image[i];
                                                     if ((a & 31) > round3 && a < 224)  // 3-bit max value on a trimmed byte
                                                     {
@@ -5486,8 +7647,8 @@ namespace plt0
                                             for (int i = pixel_data_start_offset; i < bmp_filesize; i += 16)
                                             {
                                                 // alpha and red
-                                                index[j] = (byte)(bmp_image[i +  rgba_channel[3]] * custom_rgba[3]);       // A
-                                                index[j + 1] = (byte)(bmp_image[i +  rgba_channel[0]] * custom_rgba[0]);   // R
+                                                index[j] = (byte)(bmp_image[i + 3] * custom_rgba[3]);       // A
+                                                index[j + 1] = (byte)(bmp_image[i + 2] * custom_rgba[0]);   // R
                                                 index[j + 2] = (byte)(bmp_image[i + 7] * custom_rgba[3]);   // A
                                                 index[j + 3] = (byte)(bmp_image[i + 6] * custom_rgba[0]);   // R
                                                 index[j + 4] = (byte)(bmp_image[i + 11] * custom_rgba[3]);  // A
@@ -5495,7 +7656,7 @@ namespace plt0
                                                 index[j + 6] = (byte)(bmp_image[i + 15] * custom_rgba[3]);  // A
                                                 index[j + 7] = (byte)(bmp_image[i + 14] * custom_rgba[0]);  // R
                                                                                                             // Green and Blue
-                                                index[j + 8] = (byte)(bmp_image[i +  rgba_channel[1]] * custom_rgba[1]);   // G
+                                                index[j + 8] = (byte)(bmp_image[i + 1] * custom_rgba[1]);   // G
                                                 index[j + 9] = (byte)(bmp_image[i] * custom_rgba[2]);       // B
                                                 index[j + 10] = (byte)(bmp_image[i + 5] * custom_rgba[1]);  // G
                                                 index[j + 11] = (byte)(bmp_image[i + 4] * custom_rgba[2]);  // B
@@ -5518,8 +7679,8 @@ namespace plt0
                                             for (int i = pixel_data_start_offset; i < bmp_filesize; i += 16)
                                             {
                                                 // alpha and red
-                                                index[j] = (byte)(bmp_image[i +  rgba_channel[3]]);       // A
-                                                index[j + 1] = (byte)(bmp_image[i +  rgba_channel[0]]);   // R
+                                                index[j] = (byte)(bmp_image[i + 3]);       // A
+                                                index[j + 1] = (byte)(bmp_image[i + 2]);   // R
                                                 index[j + 2] = (byte)(bmp_image[i + 7]);   // A
                                                 index[j + 3] = (byte)(bmp_image[i + 6]);   // R
                                                 index[j + 4] = (byte)(bmp_image[i + 11]);  // A
@@ -5527,7 +7688,7 @@ namespace plt0
                                                 index[j + 6] = (byte)(bmp_image[i + 15]);  // A
                                                 index[j + 7] = (byte)(bmp_image[i + 14]);  // R
                                                                                            // Green and Blue
-                                                index[j + 8] = (byte)(bmp_image[i +  rgba_channel[1]]);   // G
+                                                index[j + 8] = (byte)(bmp_image[i + 1]);   // G
                                                 index[j + 9] = (byte)(bmp_image[i]);       // B
                                                 index[j + 10] = (byte)(bmp_image[i + 5]);  // G
                                                 index[j + 11] = (byte)(bmp_image[i + 4]);  // B
@@ -5599,8 +7760,8 @@ namespace plt0
                                         {
                                             for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
                                             {
-                                                red = (byte)(bmp_image[i +  rgba_channel[0]] * custom_rgba[0]);
-                                                green = (byte)(bmp_image[i +  rgba_channel[1]] * custom_rgba[1]);
+                                                red = (byte)(bmp_image[i + 2] * custom_rgba[0]);
+                                                green = (byte)(bmp_image[i + 1] * custom_rgba[1]);
                                                 blue = (byte)(bmp_image[i] * custom_rgba[2]);
                                                 if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
                                                 {
