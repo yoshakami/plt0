@@ -4729,60 +4729,6 @@ namespace plt0
                                 index_list.Add(index.ToArray()); */
                                 break;
                             }
-                        case 0xE: // CMPR  - unfinished.
-                            {
-                                switch (algorithm)
-                                {
-                                    case 2:  // custom  RRRR RGGG GGGB BBBB
-                                        {
-                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
-                                            {
-                                                red = (byte)(bmp_image[i + rgba_channel[0]] * custom_rgba[0]);
-                                                green = (byte)(bmp_image[i + rgba_channel[1]] * custom_rgba[1]);
-                                                blue = (byte)(bmp_image[i] * custom_rgba[2]);
-                                                if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
-                                                {
-                                                    red += 8;
-                                                }
-                                                if ((green & round6) == round6 && green < 252)  // 6-bit max value on a trimmed byte
-                                                {
-                                                    green += 4;
-                                                }
-                                                if ((blue & 7) > round5 && blue < 248)
-                                                {
-                                                    blue += 8;
-                                                }
-                                                pixel = (ushort)((((byte)(red) >> 3) << 11) + (((byte)(green) >> 2) << 5) + (byte)(blue) >> 3);
-                                            }
-
-                                            break;
-                                        }
-                                    default: // RRRR RGGG GGGB BBBB
-                                        {
-                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
-                                            {
-                                                red = bmp_image[i + rgba_channel[0]];
-                                                green = bmp_image[i + rgba_channel[1]];
-                                                blue = bmp_image[i];
-                                                if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
-                                                {
-                                                    red += 8;
-                                                }
-                                                if ((green & round6) == round6 && green < 252)  // 6-bit max value on a trimmed byte
-                                                {
-                                                    green += 4;
-                                                }
-                                                if ((blue & 7) > round5 && blue < 248)
-                                                {
-                                                    blue += 8;
-                                                }
-                                                pixel = (ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3));
-                                            }
-                                            break;
-                                        }
-                                }
-                                break;
-                            }
                     }
                 }
                 else
@@ -5457,6 +5403,8 @@ namespace plt0
                                 II II II II   II II II II
 
                                  */
+                                index_list.Clear();  // removes the "fill height" lines, because UH YOUVE GUESSED IT, I4M NOT STORING THESE IN LINE ORDER BUT IN SUB-BLOCK ORDER
+                                // I swear this is a nightmare
                                 List<ushort> Colour_rgb565 = new List<ushort>();  // won't be sorted
                                 List<ushort[]> Colour_list = new List<ushort[]>();  // a list of every 2 bytes pixel transformed to correspond to the current colour format
                                 // byte[] Colour_count = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };  // 16 pixels, because a block is 4x4
