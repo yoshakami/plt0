@@ -3182,8 +3182,8 @@ namespace plt0
                     Console.WriteLine("Width is not a multiple of " + block_width + " (this value changes for each format), just be aware that the file size would be the same with an image of dimensions " + (bitmap_width + (block_width - (bitmap_width % block_width))) + "x" + bitmap_height);
                 }
             }
-            // pixel = (ushort)(((ushort)(bitmap_width / block_width) + 1) * block_width);
-            pixel = (ushort)(bitmap_width + ((block_width - (bitmap_width % block_width)) % block_width));
+            // pixel = (ushort)(bitmap_width + ((block_width - (bitmap_width % block_width)) % block_width));  // replaced by canvas_width
+            pixel = canvas_width;
             switch (texture_format_int32[3])  // pixel *= reverse_format ratio XD
             {
                 case 0:
@@ -4384,13 +4384,13 @@ namespace plt0
                             break;
                         }  // end of case 2 palette RGB5A3
                 }  // end of switch palette format
-            }
+            }  // end of if (has palette)
             else
             {
                 j = 0;
                 switch (texture_format_int32[3])
                 {
-                    case 0: // I4
+                    case 0: // I4 - works as expected
                         {
                             switch (algorithm)
                             {
@@ -4469,7 +4469,7 @@ namespace plt0
                             }
                             break;
                         }
-                    case 1: // I8
+                    case 1: // I8 - works as expected
                         {
                             switch (algorithm)
                             {
@@ -4479,7 +4479,7 @@ namespace plt0
                                         {
                                             index[j] = (byte)(bmp_image[i + rgba_channel[2]] * 0.114 + bmp_image[i + rgba_channel[1]] * 0.587 + bmp_image[i + rgba_channel[0]] * 0.299);
                                             j++;
-                                            if (j == bitmap_width)
+                                            if (j == canvas_width)
                                             {
                                                 j = 0;
                                                 index_list.Add(index.ToArray());
@@ -4493,7 +4493,7 @@ namespace plt0
                                         {
                                             index[j] = (byte)(bmp_image[i + rgba_channel[2]] * 0.0721 + bmp_image[i + rgba_channel[1]] * 0.7154 + bmp_image[i + rgba_channel[0]] * 0.2125);
                                             j++;
-                                            if (j == bitmap_width)
+                                            if (j == canvas_width)
                                             {
                                                 j = 0;
                                                 index_list.Add(index.ToArray());
@@ -4507,7 +4507,7 @@ namespace plt0
                                         {
                                             index[j] = (byte)(bmp_image[i + rgba_channel[2]] * custom_rgba[2] + bmp_image[i + rgba_channel[1]] * custom_rgba[1] + bmp_image[i + rgba_channel[0]] * custom_rgba[0]);
                                             j++;
-                                            if (j == bitmap_width)
+                                            if (j == canvas_width)
                                             {
                                                 j = 0;
                                                 index_list.Add(index.ToArray());
@@ -4518,7 +4518,7 @@ namespace plt0
                             }
                             break;
                         }
-                    case 2: // IA4
+                    case 2: // IA4 - works as expected
                         {
                             switch (algorithm)
                             {
@@ -4538,7 +4538,7 @@ namespace plt0
                                             }
                                             index[j] = (byte)((a & 0xf0) + (grey >> 4));
                                             j++;
-                                            if (j == bitmap_width)
+                                            if (j == canvas_width)
                                             {
                                                 j = 0;
                                                 index_list.Add(index.ToArray());
@@ -4562,7 +4562,7 @@ namespace plt0
                                             }
                                             index[j] = (byte)((a & 0xf0) + (grey >> 4));
                                             j++;
-                                            if (j == bitmap_width)
+                                            if (j == canvas_width)
                                             {
                                                 j = 0;
                                                 index_list.Add(index.ToArray());
@@ -4586,7 +4586,7 @@ namespace plt0
                                             }
                                             index[j] = (byte)((a & 0xf0) + (grey >> 4));
                                             j++;
-                                            if (j == bitmap_width)
+                                            if (j == canvas_width)
                                             {
                                                 j = 0;
                                                 index_list.Add(index.ToArray());
@@ -4609,7 +4609,7 @@ namespace plt0
                                             index[j] = bmp_image[i + rgba_channel[3]];  // alpha value
                                             index[j + 1] = (byte)(bmp_image[i + rgba_channel[2]] * 0.114 + bmp_image[i + rgba_channel[1]] * 0.587 + bmp_image[i + rgba_channel[0]] * 0.299);  // Grey Value
                                             j += 2;
-                                            if (j == bitmap_width << 1)
+                                            if (j == canvas_width << 1)
                                             {
                                                 j = 0;
                                                 index_list.Add(index.ToArray());
@@ -4624,7 +4624,7 @@ namespace plt0
                                             index[j] = bmp_image[i + rgba_channel[3]];  // alpha value
                                             index[j + 1] = (byte)(bmp_image[i + rgba_channel[2]] * 0.0721 + bmp_image[i + rgba_channel[1]] * 0.7154 + bmp_image[i + rgba_channel[0]] * 0.2125);  // Grey Value
                                             j += 2;
-                                            if (j == bitmap_width << 1)
+                                            if (j == canvas_width << 1)
                                             {
                                                 j = 0;
                                                 index_list.Add(index.ToArray());
@@ -4639,7 +4639,7 @@ namespace plt0
                                             index[j] = (byte)(bmp_image[i + rgba_channel[3]] * custom_rgba[3]);  // alpha value
                                             index[j + 1] = (byte)(bmp_image[i + rgba_channel[2]] * custom_rgba[2] + bmp_image[i + rgba_channel[1]] * custom_rgba[1] + bmp_image[i + rgba_channel[0]] * custom_rgba[0]);  // Grey Value
                                             j += 2;
-                                            if (j == bitmap_width << 1)
+                                            if (j == canvas_width << 1)
                                             {
                                                 j = 0;
                                                 index_list.Add(index.ToArray());
@@ -4677,7 +4677,7 @@ namespace plt0
                                             index[j] = (byte)((red & 0xf8) + (green >> 5));
                                             index[j + 1] = (byte)(((green << 3) & 224) + (blue >> 3));
                                             j += 2;
-                                            if (j == bitmap_width << 1)
+                                            if (j == canvas_width << 1)
                                             {
                                                 j = 0;
                                                 index_list.Add(index.ToArray());
@@ -4708,7 +4708,7 @@ namespace plt0
                                             index[j] = (byte)((red & 0xf8) + (green >> 5));
                                             index[j + 1] = (byte)(((green << 3) & 224) + (blue >> 3));
                                             j += 2;
-                                            if (j == bitmap_width << 1)
+                                            if (j == canvas_width << 1)
                                             {
                                                 j = 0;
                                                 index_list.Add(index.ToArray());
@@ -4752,7 +4752,7 @@ namespace plt0
                                                 index[j] = (byte)(((a >> 1) & 0x70) + (red >> 4));
                                                 index[j + 1] = (byte)((green & 0xf0) + (blue >> 4));
                                                 j += 2;
-                                                if (j == bitmap_width << 1)
+                                                if (j == canvas_width << 1)
                                                 {
                                                     j = 0;
                                                     index_list.Add(index.ToArray());
@@ -4781,7 +4781,7 @@ namespace plt0
                                                 index[j] = (byte)(0x80 + ((red >> 1) & 0x7c) + (green >> 6));
                                                 index[j + 1] = (byte)(((green << 2) & 0xe0) + (blue >> 3));
                                                 j += 2;
-                                                if (j == bitmap_width << 1)
+                                                if (j == canvas_width << 1)
                                                 {
                                                     j = 0;
                                                     index_list.Add(index.ToArray());
@@ -4826,7 +4826,7 @@ namespace plt0
 
                                                 }
                                                 j += 2;
-                                                if (j == bitmap_width << 1)
+                                                if (j == canvas_width << 1)
                                                 {
                                                     j = 0;
                                                     index_list.Add(index.ToArray());
@@ -4862,7 +4862,7 @@ namespace plt0
                                                     blue += 16;
                                                 }
                                                 j += 2;
-                                                if (j == bitmap_width << 1)
+                                                if (j == canvas_width << 1)
                                                 {
                                                     j = 0;
                                                     index_list.Add(index.ToArray());
@@ -4892,7 +4892,7 @@ namespace plt0
                                                 index[j] = (byte)(0x80 + ((red >> 1) & 0x7c) + (green >> 6));
                                                 index[j + 1] = (byte)(((green << 2) & 0xe0) + (blue >> 3));
                                                 j += 2;
-                                                if (j == bitmap_width << 1)
+                                                if (j == canvas_width << 1)
                                                 {
                                                     j = 0;
                                                     index_list.Add(index.ToArray());
@@ -4934,7 +4934,7 @@ namespace plt0
                                                     index[j + 1] = (byte)((green & 0xf0) + (blue >> 4));
                                                 }
                                                 j += 2;
-                                                if (j == bitmap_width << 1)
+                                                if (j == canvas_width << 1)
                                                 {
                                                     j = 0;
                                                     index_list.Add(index.ToArray());
