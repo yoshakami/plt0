@@ -272,7 +272,6 @@ namespace plt0
         bool tpl = false;
         bool user_palette = false;
         bool warn = false;
-        byte cmpr_max = 16;  // number of colours that the program should take care in each 4x4 block - should always be set to 16 for better results.  // wimgt's cmpr encoding is better than mine. I gotta admit. 
         byte WrapS = 1; // 0 = Clamp   1 = Repeat   2 = Mirror
         byte WrapT = 1; // 0 = Clamp   1 = Repeat   2 = Mirror
         byte algorithm = 0;  // 0 = CIE 601    1 = CIE 709     2 = custom RGBA     3 = Most Used Colours (No Gradient)
@@ -481,10 +480,6 @@ namespace plt0
                         }
                     case "ROUND3":
                         {
-                            if (args.Length < i + 2)
-                            {
-                                break;
-                            }
                             success = byte.TryParse(args[i + 1], out round3);
                             if (success)
                             {
@@ -498,10 +493,6 @@ namespace plt0
                         }
                     case "ROUND4":
                         {
-                            if (args.Length < i + 2)
-                            {
-                                break;
-                            }
                             success = byte.TryParse(args[i + 1], out round4);
                             if (success)
                             {
@@ -515,10 +506,6 @@ namespace plt0
                         }
                     case "ROUND5":
                         {
-                            if (args.Length < i + 2)
-                            {
-                                break;
-                            }
                             success = byte.TryParse(args[i + 1], out round5);
                             if (success)
                             {
@@ -532,10 +519,6 @@ namespace plt0
                         }
                     case "ROUND6":
                         {
-                            if (args.Length < i + 2)
-                            {
-                                break;
-                            }
                             success = byte.TryParse(args[i + 1], out round6);
                             if (success)
                             {
@@ -790,27 +773,6 @@ namespace plt0
                                         pass = 0;
                                         break;
                                     }
-                            }
-                            break;
-                        }
-                    case "MAX":
-                    case "CMPR_MAX":
-                    case "CMPR-MAX":
-                        {
-
-                            if (args.Length < i + 2)
-                            {
-                                break;
-                            }
-                            success = byte.TryParse(args[i + 1], out cmpr_max);
-                            if (success)
-                            {
-                                pass = 1;
-                                if (cmpr_max > 16)
-                                {
-                                    Console.WriteLine("nah man, a 4x4 block can only have up to 16 colours :') I already had a hard time dealing with 541x301 pictures so don't push mamá in the ortigas");
-                                    cmpr_max = 16;
-                                }
                             }
                             break;
                         }
@@ -5468,32 +5430,25 @@ namespace plt0
                                 byte red2;
                                 byte green2;
                                 byte blue2;
-                                // byte f;
-                                // int[] total_diff = {0, 0, 0};  // total_diff, e, f
-                                // List<int[]> diff_array = new List<int[]>();
-                                // List<byte> ef = new List<byte>();
-                                ushort[] Colour_pixel = { 1, 0 };  // case 3
+                                int[] total_diff = {0, 0, 0};  // total_diff, e, f
+                                List<int[]> diff_array = new List<int[]>();
+                                List<byte> ef = new List<byte>();
+                                ushort[] Colour_pixel = { 1, 0 };
                                 ushort width = 0;
-                                ushort[] Colour_array = { 1, 0, 0 };  // default
-                                ushort diff_max;
-                                byte diff_max_index = 0;
+                                ushort[] Palette_array = {0, 0, 0, 0};
                                 List<ushort> Colour_palette = new List<ushort>();
-                                // bool use_alpha = false;
-                                // bool done = false;
+                                bool use_alpha = false;
+                                bool done = false;
                                 Array.Resize(ref index, 8);  // sub block length
                                 switch (algorithm)
                                 {
-                                    case 2: // custom
+                                    case 2:  // custom  RRRR RGGG GGGB BBBB
                                         {
-                                            for (y = pixel_data_start_offset + (bitmap_width << 2) - 16; y < bmp_filesize; y += 4)
+                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
                                             {
-                                                red = (byte)(bmp_image[y + rgba_channel[0]] * custom_rgba[0]);
-                                                green = (byte)(bmp_image[y + rgba_channel[1]] * custom_rgba[1]);
-                                                blue = (byte)(bmp_image[y + rgba_channel[2]] * custom_rgba[2]);
-                                                if (alpha > 0 && bmp_image[y + 3] < cmpr_alpha_threshold)
-                                                {
-                                                    alpha_bitfield += (ushort)(1 << (j + (z * 4)));
-                                                }
+                                                red = (byte)(bmp_image[i + rgba_channel[0]] * custom_rgba[0]);
+                                                green = (byte)(bmp_image[i + rgba_channel[1]] * custom_rgba[1]);
+                                                blue = (byte)(bmp_image[i + rgba_channel[2]] * custom_rgba[2]);
                                                 if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
                                                 {
                                                     red += 8;
@@ -5506,195 +5461,21 @@ namespace plt0
                                                 {
                                                     blue += 8;
                                                 }
-                                                // Colour_pixel[0] = // the number of occurences, though it stays to 1 so that's not really a problem lol
-                                                pixel = (ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)); // the RGB565 colour
-                                                Colour_array[1] = pixel;
-                                                Colour_array[2] = (ushort)(red + green + blue); // best way to find darkest colour :D
-                                                Colour_list.Add(Colour_array.ToArray());
-                                                Colour_rgb565.Add(pixel);
-                                                j++;
-                                                if (j != 4)
-                                                {
-                                                    continue;
-                                                }
-                                                j = 0;
-                                                z++;
-                                                y += (bitmap_width << 2) - 16; // returns to the start of the next line  - bitmap width << 2 because it's a 32-bit BGRA bmp file
-                                                if (z != 4)
-                                                {
-                                                    continue;  // Still within the same 4x4 block
-                                                }
-                                                x++;
-                                                z = 0;
-                                                width += 2;  // triggered 4 times per block
-                                                if (width == bitmap_width)
-                                                {
-                                                    width = 0;
-                                                    // y -= (bitmap_width << 1) - 16;  // this has been driving me nuts
-                                                    y += (bitmap_width << 2) - 16;
-                                                    x = 0;
-                                                }
-                                                else if (x == 2)
-                                                {
-                                                    // y += (bitmap_width << 4) - 4; // adds 4 lines and put the cursor back to the first block in width (I hope)
-                                                    // y += 16; // hmm, it looks like the cursor warped horizontally to the first block in width 4 lines above
-                                                    // EDIT: YA DEFINITELY NEED TO CANCEL THE Y OPERATION ABOVE, IT WARPS NORMALLY LIKE IT4S THE PIXEL AFTER
-                                                    //y -= (bitmap_width << 2) - 16;  // this has been driving me nuts
-                                                    y += 16;  // I can't believe this is right in the mirror and mirrorred mode lol
-                                                              // edit: you just need to add 32 everywhere
-                                                }
-                                                else if (x == 4)
-                                                {
-                                                    //y -= (bitmap_width << 5) - 16; // minus 8 lines + point to next block
-                                                    y -= (bitmap_width << 5) + 16;
-                                                    x = 0;
-                                                }
-                                                else
-                                                {
-                                                    /* y -= (bitmap_width << 4) - 16; // on retire 4 lignes et on passe le 1er block héhé
-                                                     substract 4 lines and jumps over the first block */
-
-
-                                                    y -= ((bitmap_width << 4)) + 16;  // substract 4 lines and goes one block to the left
-                                                }
-                                                // now let's just try to take the most two used colours and use diversity I guess
-                                                // implementing my own way to find most used colours:
-                                                // let's count the number of exact same colours in Colour_list
-                                                for (byte i = 0; i < 15; i++)  // useless to set it to 16 because of the condition k > i.
-                                                {
-                                                    for (byte k = 0; k < 16; k++)
-                                                    {
-                                                        if (k == i)
-                                                        {
-                                                            continue;
-                                                        }
-                                                        if (Colour_list[k][1] == Colour_list[i][1] && k > i && ((alpha_bitfield >> k) & 1) == 0 && ((alpha_bitfield >> i) & 1) == 0)  // k > i prevents colours occurences from being added twice.
-                                                        {
-                                                            Colour_list[k][0]++;
-                                                            Colour_list[i][0] = 0; // should set it to zero.
-                                                        }
-                                                    }
-                                                }
-                                                Colour_list.Sort(new UshortArrayComparer());  // sorts the table by the most used colour first
-                                                //now let's take the darkest and the brightest colour from the cmpr_max most used ones
-                                                diff_min = 1024;
-                                                diff_max = 0;
-                                                for (byte i = 0; i < cmpr_max && Colour_list[i][0] != 0; i++)
-                                                {
-                                                    if (Colour_list[i][2] < diff_min)
-                                                    {
-                                                        diff_min = (short)(Colour_list[i][2]);
-                                                        diff_min_index = i;
-                                                    }
-                                                    if (Colour_list[i][2] > diff_max)
-                                                    {
-                                                        diff_max = Colour_list[i][2];
-                                                        diff_max_index = i;
-                                                    }
-                                                }
-
-                                                if (alpha_bitfield == 0)  // put the biggest ushort in second place
-                                                {
-                                                    Colour_palette.Add(Colour_list[diff_min_index][1]);
-                                                    Colour_palette.Add(Colour_list[diff_max_index][1]);
-                                                    index[0] = (byte)(Colour_list[diff_min_index][1] >> 8);
-                                                    index[1] = (byte)(Colour_list[diff_min_index][1]);
-                                                    index[2] = (byte)(Colour_list[diff_max_index][1] >> 8);
-                                                    index[3] = (byte)(Colour_list[diff_max_index][1]);
-                                                    red = (byte)(((index[0] & 248) + (index[2] & 248)) / 2);
-                                                    green = (byte)(((((index[0] & 7) << 5) + ((index[1] >> 3) & 28)) + (((index[2] & 7) << 5) + ((index[3] >> 3) & 28))) / 2);
-                                                    blue = (byte)((((index[1] << 3) & 248) + ((index[3] << 3) & 248)) / 2);
-                                                    Colour_palette.Add((ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)));  // the RGB565 third colour
-                                                                                                                                           // last colour isn't in the palette, it's in alpha_bitfield
-                                                }
-                                                else
-                                                {
-                                                    // of course, that's the exact opposite!
-                                                    Colour_palette.Add(Colour_list[diff_max_index][1]);
-                                                    Colour_palette.Add(Colour_list[diff_min_index][1]);
-                                                    index[0] = (byte)(Colour_list[diff_max_index][1] >> 8);
-                                                    index[1] = (byte)(Colour_list[diff_max_index][1]);
-                                                    index[2] = (byte)(Colour_list[diff_min_index][1] >> 8);
-                                                    index[3] = (byte)(Colour_list[diff_min_index][1]);
-
-                                                    red = (byte)(index[0] & 248);
-                                                    green = (byte)(((index[0] & 7) << 5) + ((index[1] >> 3) & 28));
-                                                    blue = (byte)((index[1] << 3) & 248);
-
-                                                    red2 = (byte)(index[2] & 248);
-                                                    green2 = (byte)(((index[2] & 7) << 5) + ((index[3] >> 3) & 28));
-                                                    blue2 = (byte)((index[3] << 3) & 248);
-
-                                                    pixel = (ushort)(((((red * 2 / 3) + (red2 / 3)) >> 3) << 11) + ((((green * 2 / 3) + (green2 / 3)) >> 2) << 5) + (((blue * 2 / 3) + (blue2 / 3)) >> 3));
-                                                    Colour_palette.Add(pixel);  // the RGB565 third colour
-                                                    pixel = (ushort)(((((red / 3) + (red2 * 2 / 3)) >> 3) << 11) + ((((green / 3) + (green2 * 2 / 3)) >> 2) << 5) + (((blue / 3) + (blue2 * 2 / 3)) >> 3));
-                                                    Colour_palette.Add(pixel);  // the RGB565 fourth colour
-                                                }
-                                                /*
-                                                 * t = (pixel_posN - pixel_pos1) / (pixel_pos2 - pixel_pos1)
-    pixelN_red = (t-1)*pixel1_red + (t)*pixel2_red
-    same for blue + green*/
-                                                for (byte i = 4; i < 8; i++)
-                                                {
-                                                    index[i] = 0;
-                                                }
-                                                // time to get the "linear interpolation to add third and fourth colour
-                                                // Console.WriteLine("creating indexes"); SHUT THE F*CK UP
-                                                // CI2 if that's a name lol
-                                                for (sbyte h = 3; h >= 0; h--)
-                                                //for (byte h = 0; h < 4; h++)
-                                                {
-                                                    for (byte w = 0; w < 4; w++)  // index_size = number of pixels
-                                                    {
-                                                        if (((alpha_bitfield >> (h * 4) + w) & 1) == 1)
-                                                        {
-                                                            index[7 - h] += (byte)(3 << (6 - (w << 1)));
-                                                            continue;
-                                                        }
-                                                        diff_min = 500;
-                                                        // diff_min_index = w;
-                                                        for (byte i = 0; i < Colour_palette.Count; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
-                                                        {
-                                                            if (Colour_palette[i] == Colour_rgb565[(h * 4) + w])  // if it's the exact same colour
-                                                            {
-                                                                diff_min_index = i;  // index is stored on 1 byte, while each colour is stored on 2 bytes
-                                                                break;
-                                                            }
-                                                            else  // calculate difference between each separate colour channel and store the sum
-                                                            {
-                                                                diff = (short)(Math.Abs(((Colour_palette[i] >> 8) & 248) - ((Colour_rgb565[(h * 4) + w] >> 8) & 248)) + Math.Abs(((Colour_palette[i] >> 3) & 252) - ((Colour_rgb565[(h * 4) + w] >> 3) & 252)) + Math.Abs(((Colour_palette[i] << 3) & 248) - ((Colour_rgb565[(h * 4) + w] << 3) & 248)));
-                                                                if (diff < diff_min)
-                                                                {
-                                                                    diff_min = diff;
-                                                                    diff_min_index = i;
-                                                                }
-                                                            }
-                                                        }
-                                                        index[7 - h] += (byte)(diff_min_index << (6 - (w << 1)));
-                                                        // Console.WriteLine(index[4 + h]);
-                                                    }
-                                                }
-                                                index_list.Add(index.ToArray());
-                                                // index is overwritten each time
-                                                // the lists need to be cleaned
-                                                Colour_list.Clear();
-                                                Colour_palette.Clear();
-                                                Colour_rgb565.Clear();
-                                                alpha_bitfield = 0;
-                                                // THAT INDEX ARRAY THAT I CAN4T SEE CONTENTS IN THE DEBUGGER ALSO NEEDS TO BE CLEANED
-                                                // edit: moved it after the swap function THAT FREAKING DOES CHANGE ARRAY CONTENTS
+                                                pixel = (ushort)((((byte)(red) >> 3) << 11) + (((byte)(green) >> 2) << 5) + (byte)(blue) >> 3);
                                             }
+
+                                            break;
                                         }
-                                        break;
-                                    case 3:  // most used colours with diversity - no gradient - similar - looks pixelated
+                                    case 3:  // most used colours - no gradient - similar - looks pixelated
                                         {
                                             for (y = pixel_data_start_offset + (bitmap_width << 2) - 16; y < bmp_filesize; y += 4)
                                             {
                                                 red = bmp_image[y + rgba_channel[0]];
-                                                green = bmp_image[y + rgba_channel[1]];
+                                                green = bmp_image[y + rgba_channel[2]];
                                                 blue = bmp_image[y + rgba_channel[2]];
                                                 if (alpha > 0 && bmp_image[y + 3] < cmpr_alpha_threshold)
                                                 {
+                                                    use_alpha = true;
                                                     alpha_bitfield += (ushort)(1 << (j + (z * 4)));
                                                 }
                                                 if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
@@ -5727,6 +5508,8 @@ namespace plt0
                                                     continue;  // Still within the same 4x4 block
                                                 }
                                                 x++;
+                                                alpha_bitfield = 0;
+                                                use_alpha = false;
                                                 z = 0;
                                                 width += 2;  // triggered 4 times per block
                                                 if (width == bitmap_width)
@@ -5852,7 +5635,7 @@ namespace plt0
                                                         }
                                                     }
                                                 }
-                                                if (alpha_bitfield == 0)  // put the biggest ushort in second place
+                                                if (use_alpha)  // put the biggest ushort in second place
                                                 {
                                                     if (index[0] > index[2] || (index[0] == index[2] && index[1] > index[3]))  // swap
                                                     {
@@ -5995,7 +5778,6 @@ namespace plt0
                                                 Colour_list.Clear();
                                                 Colour_palette.Clear();
                                                 Colour_rgb565.Clear();
-                                                alpha_bitfield = 0;
                                                 // THAT INDEX ARRAY THAT I CAN4T SEE CONTENTS IN THE DEBUGGER ALSO NEEDS TO BE CLEANED
                                                 // edit: moved it after the swap function THAT FREAKING DOES CHANGE ARRAY CONTENTS
                                             }
@@ -6007,10 +5789,11 @@ namespace plt0
                                             for (y = pixel_data_start_offset + (bitmap_width << 2) - 16; y < bmp_filesize; y += 4)
                                             {
                                                 red = bmp_image[y + rgba_channel[0]];
-                                                green = bmp_image[y + rgba_channel[1]];
+                                                green = bmp_image[y + rgba_channel[2]];
                                                 blue = bmp_image[y + rgba_channel[2]];
                                                 if (alpha > 0 && bmp_image[y + 3] < cmpr_alpha_threshold)
                                                 {
+                                                    use_alpha = true;
                                                     alpha_bitfield += (ushort)(1 << (j + (z * 4)));
                                                 }
                                                 if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
@@ -6027,9 +5810,8 @@ namespace plt0
                                                 }
                                                 // Colour_pixel[0] = // the number of occurences, though it stays to 1 so that's not really a problem lol
                                                 pixel = (ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)); // the RGB565 colour
-                                                Colour_array[1] = pixel;
-                                                Colour_array[2] = (ushort)(red + green + blue); // best way to find darkest colour :D
-                                                Colour_list.Add(Colour_array.ToArray());
+                                                Colour_pixel[1] = pixel;
+                                                Colour_list.Add(Colour_pixel.ToArray());
                                                 Colour_rgb565.Add(pixel);
                                                 j++;
                                                 if (j != 4)
@@ -6044,6 +5826,8 @@ namespace plt0
                                                     continue;  // Still within the same 4x4 block
                                                 }
                                                 x++;
+                                                alpha_bitfield = 0;
+                                                use_alpha = false;
                                                 z = 0;
                                                 width += 2;  // triggered 4 times per block
                                                 if (width == bitmap_width)
@@ -6060,7 +5844,7 @@ namespace plt0
                                                     // EDIT: YA DEFINITELY NEED TO CANCEL THE Y OPERATION ABOVE, IT WARPS NORMALLY LIKE IT4S THE PIXEL AFTER
                                                     //y -= (bitmap_width << 2) - 16;  // this has been driving me nuts
                                                     y += 16;  // I can't believe this is right in the mirror and mirrorred mode lol
-                                                              // edit: you just need to add 32 everywhere
+                                                    // edit: you just need to add 32 everywhere
                                                 }
                                                 else if (x == 4)
                                                 {
@@ -6079,47 +5863,161 @@ namespace plt0
                                                 // now let's just try to take the most two used colours and use diversity I guess
                                                 // implementing my own way to find most used colours:
                                                 // let's count the number of exact same colours in Colour_list
-                                                for (byte i = 0; i < 15; i++)  // useless to set it to 16 because of the condition k > i.
-                                                {
-                                                    for (byte k = 0; k < 16; k++)
-                                                    {
-                                                        if (k == i)
-                                                        {
-                                                            continue;
-                                                        }
-                                                        if (Colour_list[k][1] == Colour_list[i][1] && k > i && ((alpha_bitfield >> k) & 1) == 0 && ((alpha_bitfield >> i) & 1) == 0)  // k > i prevents colours occurences from being added twice.
-                                                        {
-                                                            Colour_list[k][0]++;
-                                                            Colour_list[i][0] = 0; // should set it to zero.
-                                                        }
-                                                    }
-                                                }
-                                                Colour_list.Sort(new UshortArrayComparer());  // sorts the table by the most used colour first
-                                                //now let's take the darkest and the brightest colour from the cmpr_max most used ones
-                                                diff_min = 1024;
-                                                diff_max = 0;
-                                                for (byte i = 0; i < cmpr_max && Colour_list[i][0] != 0; i++)
-                                                {
-                                                    if (Colour_list[i][2] < diff_min)
-                                                    {
-                                                        diff_min = (short)(Colour_list[i][2]);
-                                                        diff_min_index = i;
-                                                    }
-                                                    if (Colour_list[i][2] > diff_max)
-                                                    {
-                                                        diff_max = Colour_list[i][2];
-                                                        diff_max_index = i;
-                                                    }
-                                                }
 
-                                                if (alpha_bitfield == 0)  // put the biggest ushort in second place
+                                                //EDIT : NAH WERE NOT TAKING THE TWO MOST USED COLOURS IN THIS ALGORITHM
+                                                // don't care about use, focus on colours
+                                                // Console.WriteLine(index_list.Count);
+                                                if (alpha_bitfield == 0)
                                                 {
-                                                    Colour_palette.Add(Colour_list[diff_min_index][1]);
-                                                    Colour_palette.Add(Colour_list[diff_max_index][1]);
-                                                    index[0] = (byte)(Colour_list[diff_min_index][1] >> 8);
-                                                    index[1] = (byte)(Colour_list[diff_min_index][1]);
-                                                    index[2] = (byte)(Colour_list[diff_max_index][1] >> 8);
-                                                    index[3] = (byte)(Colour_list[diff_max_index][1]);
+                                                    for (byte e = 0; e < 16; e++)  // for every group of 2 colour
+                                                    {
+                                                        for (byte f = 0; f < 16; f++)
+                                                        {
+                                                           // Console.WriteLine(e + " " + f);
+                                                            if (Colour_rgb565[e] == Colour_rgb565[f])  // also valid for e == f
+                                                            {
+                                                                total_diff[0] = 1 << 30;
+                                                                diff_array.Add(total_diff.ToArray());
+                                                                continue;
+                                                            }
+                                                            done = false;
+                                                            for (ushort i = 0; i < ef.Count; i += 2)
+                                                            {
+                                                                //Console.WriteLine(i);
+                                                                if (ef[i] == e && ef[i + 1] == f)
+                                                                {
+                                                                    done = true;
+                                                                    break;
+                                                                }
+                                                            }
+                                                            if (done)
+                                                            {
+                                                                total_diff[0] = 1 << 30;
+                                                                diff_array.Add(total_diff.ToArray());
+                                                                continue;
+                                                            }
+                                                            ef.Add(e);
+                                                            ef.Add(f);
+                                                            diff_min = 1024; // will likely be replaced (I hope)
+                                                            total_diff[0] = e;
+                                                            total_diff[1] = f;
+
+                                                            Palette_array[0] = ((ushort)((index[0] << 8) + index[1]));
+                                                            Palette_array[1] = ((ushort)((index[2] << 8) + index[3]));
+
+                                                            red = (byte)(index[0] & 248);
+                                                            green = (byte)(((index[0] & 7) << 5) + ((index[1] >> 3) & 28));
+                                                            blue = (byte)((index[1] << 3) & 248);
+
+                                                            red2 = (byte)(index[2] & 248);
+                                                            green2 = (byte)(((index[2] & 7) << 5) + ((index[3] >> 3) & 28));
+                                                            blue2 = (byte)((index[3] << 3) & 248);
+
+                                                            pixel = (ushort)(((((red * 2 / 3) + (red2 / 3)) >> 3) << 11) + ((((green * 2 / 3) + (green2 / 3)) >> 2) << 5) + (((blue * 2 / 3) + (blue2 / 3)) >> 3));
+                                                            Palette_array[2] = (pixel);  // the RGB565 third colour
+
+                                                            pixel = (ushort)(((((red / 3) + (red2 * 2 / 3)) >> 3) << 11) + ((((green / 3) + (green2 * 2 / 3)) >> 2) << 5) + (((blue / 3) + (blue2 * 2 / 3)) >> 3));
+                                                            Palette_array[3] = (pixel);  // the RGB565 fourth colour
+
+                                                            for (byte g = 0; g < 16; g++)  // calculate the minimal difference for each.
+                                                            {
+                                                                for (byte h = 0; h < 4; h++)
+                                                                {
+                                                                    diff = (short)(Math.Abs((Colour_rgb565[g] & 248) - (Palette_array[h] & 248)) + Math.Abs(((Colour_rgb565[g] & 7) << 5) + ((Colour_rgb565[g] >> 3) & 28) - ((Palette_array[h] & 7) << 5) + ((Palette_array[h] >> 3) & 28)) + Math.Abs(((Colour_rgb565[g] << 3) & 248) - ((Palette_array[h] << 3) & 248)));
+                                                                    if (diff < diff_min)
+                                                                    {
+                                                                        diff_min = diff;
+                                                                    }
+                                                                }
+                                                                total_diff[0] += diff_min;  // sums them up
+                                                                diff_min = 1024;
+                                                            }
+                                                            diff_array.Add(total_diff.ToArray());
+                                                        }
+                                                    }
+                                                }
+                                                else  // adds a lot of if so the execution time is longer - also use only 3 colours
+                                                {
+                                                    for (byte e = 0; e < 16; e++)  // for every group of 2 colour
+                                                    {
+                                                        for (byte f = 0; f < 16; f++)
+                                                        {
+                                                            if (Colour_rgb565[e] == Colour_rgb565[f] || ((alpha_bitfield >> e) & 1) == 1 || ((alpha_bitfield >> f) & 1) == 1)  // TRANSPARENT IS NOT A COLOUR
+                                                            {
+                                                                total_diff[0] = 1 << 30;
+                                                                diff_array.Add(total_diff.ToArray());
+                                                                continue;
+                                                            }
+                                                            done = false;
+                                                            for (byte i = 0; i < ef.Count; i += 2)
+                                                            {
+                                                                if (ef[i] == e && ef[i + 1] == f)
+                                                                {
+                                                                    done = true;
+                                                                    break;
+                                                                }
+                                                            }
+                                                            if (done)
+                                                            {
+                                                                total_diff[0] = 1 << 30;
+                                                                diff_array.Add(total_diff.ToArray());
+                                                                continue;
+                                                            }
+                                                            ef.Add(e);
+                                                            ef.Add(f);
+                                                            diff_min = 1024; // will likely be replaced (I hope)
+                                                            total_diff[1] = e;
+                                                            total_diff[2] = f;
+
+                                                            Palette_array[0] = ((ushort)((index[0] << 8) + index[1]));
+                                                            Palette_array[1] = ((ushort)((index[2] << 8) + index[3]));
+
+                                                            red = (byte)(((index[0] & 248) + (index[2] & 248)) / 2);
+                                                            green = (byte)(((((index[0] & 7) << 5) + ((index[1] >> 3) & 28)) + (((index[2] & 7) << 5) + ((index[3] >> 3) & 28))) / 2);
+                                                            blue = (byte)((((index[1] << 3) & 248) + ((index[3] << 3) & 248)) / 2);
+                                                            Palette_array[2] = ((ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)));  // the RGB565 third colour
+
+                                                            // there's alpha in this block so no 4th color. that's the algorithm
+                                                            for (byte g = 0; g < 16; g++)  // calculate the minimal difference for each.
+                                                            {
+                                                                if (((alpha_bitfield >> g) & 1) == 1)
+                                                                {
+                                                                    continue;
+                                                                }
+                                                                for (byte h = 0; h < 3; h++)
+                                                                {
+                                                                    diff = (short)(Math.Abs((Colour_rgb565[g] & 248) - (Palette_array[h] & 248)) + Math.Abs(((Colour_rgb565[g] & 7) << 5) + ((Colour_rgb565[g] >> 3) & 28) - ((Palette_array[h] & 7) << 5) + ((Palette_array[h] >> 3) & 28)) + Math.Abs(((Colour_rgb565[g] << 3) & 248) - ((Palette_array[h] << 3) & 248)));
+                                                                    if (diff < diff_min)
+                                                                    {
+                                                                        diff_min = diff;
+                                                                    }
+                                                                }
+                                                                total_diff[0] += diff_min;  // sums them up
+                                                                diff_min = 1024;
+                                                            }
+                                                            diff_array.Add(total_diff.ToArray());
+                                                        }
+                                                    }
+                                                }
+                                                diff_array.Sort(new IntArrayComparer());  // sorts the array by the worst palette first
+                                                index[0] = (byte)(Colour_rgb565[diff_array[15][1]] >> 8);
+                                                index[1] = (byte)(Colour_rgb565[diff_array[15][1]]);
+                                                index[2] = (byte)(Colour_rgb565[diff_array[15][2]] >> 8);
+                                                index[3] = (byte)(Colour_rgb565[diff_array[15][2]]);
+                                                
+                                                if (use_alpha)  // put the biggest ushort in second place
+                                                {
+                                                    if (index[0] > index[2] || (index[0] == index[2] && index[1] > index[3]))  // swap
+                                                    {
+                                                        index[4] = index[0];
+                                                        index[5] = index[1];
+                                                        index[0] = index[2];
+                                                        index[1] = index[3];
+                                                        index[2] = index[4];
+                                                        index[3] = index[5];
+                                                    }
+                                                    Colour_palette.Add((ushort)((index[0] << 8) + index[1]));
+                                                    Colour_palette.Add((ushort)((index[2] << 8) + index[3]));
                                                     red = (byte)(((index[0] & 248) + (index[2] & 248)) / 2);
                                                     green = (byte)(((((index[0] & 7) << 5) + ((index[1] >> 3) & 28)) + (((index[2] & 7) << 5) + ((index[3] >> 3) & 28))) / 2);
                                                     blue = (byte)((((index[1] << 3) & 248) + ((index[3] << 3) & 248)) / 2);
@@ -6129,12 +6027,17 @@ namespace plt0
                                                 else
                                                 {
                                                     // of course, that's the exact opposite!
-                                                    Colour_palette.Add(Colour_list[diff_max_index][1]);
-                                                    Colour_palette.Add(Colour_list[diff_min_index][1]);
-                                                    index[0] = (byte)(Colour_list[diff_max_index][1] >> 8);
-                                                    index[1] = (byte)(Colour_list[diff_max_index][1]);
-                                                    index[2] = (byte)(Colour_list[diff_min_index][1] >> 8);
-                                                    index[3] = (byte)(Colour_list[diff_min_index][1]);
+                                                    if (index[0] < index[2] || (index[0] == index[2] && index[1] < index[3]))  // swap
+                                                    {
+                                                        index[4] = index[0];
+                                                        index[5] = index[1];
+                                                        index[0] = index[2];
+                                                        index[1] = index[3];
+                                                        index[2] = index[4];
+                                                        index[3] = index[5];  // this is confusing
+                                                    }
+                                                    Colour_palette.Add((ushort)((index[0] << 8) + index[1]));
+                                                    Colour_palette.Add((ushort)((index[2] << 8) + index[3]));
 
                                                     red = (byte)(index[0] & 248);
                                                     green = (byte)(((index[0] & 7) << 5) + ((index[1] >> 3) & 28));
@@ -6148,11 +6051,12 @@ namespace plt0
                                                     Colour_palette.Add(pixel);  // the RGB565 third colour
                                                     pixel = (ushort)(((((red / 3) + (red2 * 2 / 3)) >> 3) << 11) + ((((green / 3) + (green2 * 2 / 3)) >> 2) << 5) + (((blue / 3) + (blue2 * 2 / 3)) >> 3));
                                                     Colour_palette.Add(pixel);  // the RGB565 fourth colour
+
                                                 }
                                                 /*
                                                  * t = (pixel_posN - pixel_pos1) / (pixel_pos2 - pixel_pos1)
-    pixelN_red = (t-1)*pixel1_red + (t)*pixel2_red
-    same for blue + green*/
+pixelN_red = (t-1)*pixel1_red + (t)*pixel2_red
+same for blue + green*/
                                                 for (byte i = 4; i < 8; i++)
                                                 {
                                                     index[i] = 0;
@@ -6192,6 +6096,19 @@ namespace plt0
                                                         index[7 - h] += (byte)(diff_min_index << (6 - (w << 1)));
                                                         // Console.WriteLine(index[4 + h]);
                                                     }
+                                                    /*
+                                                    pixel = (ushort)(Math.Abs(block_width - bitmap_width) % block_width);
+                                                    if (pixel != 0) // fills the block width data by adding zeros to the width
+                                                    {
+                                                        if (pixel % 2 != 0)
+                                                        {
+                                                            pixel++;
+                                                        }
+                                                        for (; pixel < block_width; pixel++)
+                                                        {
+                                                            index[pixel >> 1] = 0;
+                                                        }
+                                                    }*/
                                                 }
                                                 index_list.Add(index.ToArray());
                                                 // index is overwritten each time
@@ -6199,13 +6116,12 @@ namespace plt0
                                                 Colour_list.Clear();
                                                 Colour_palette.Clear();
                                                 Colour_rgb565.Clear();
-                                                alpha_bitfield = 0;
+                                                ef.Clear();
                                                 // THAT INDEX ARRAY THAT I CAN4T SEE CONTENTS IN THE DEBUGGER ALSO NEEDS TO BE CLEANED
                                                 // edit: moved it after the swap function THAT FREAKING DOES CHANGE ARRAY CONTENTS
                                             }
                                         }
                                         break;
-
                                 }
                                 break;
                             }
