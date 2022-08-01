@@ -264,6 +264,7 @@ namespace plt0
         bool jpeg = false;
         bool jpg = false;
         bool png = false;
+        bool bmp_32 = false;
         bool random_palette = false;
         bool safe_mode = false;
         bool success = false;
@@ -459,6 +460,14 @@ namespace plt0
                             texture_format_int32[3] = 10;
                             format_ratio = 0.5;
                             has_palette = true;
+                            break;
+                        }
+                    case "32-BIT":
+                    case "32_BIT":
+                    case "32BPP":
+                    case "32BIT":
+                        {
+                            bmp_32 = true;
                             break;
                         }
                     case "G2":
@@ -1924,12 +1933,13 @@ namespace plt0
         }
         public void write_BMP(List<List<byte[]>> index_list)  // index_list contains all mipmaps.
         {
-            byte padding = (byte)(4 - (bitmap_width % 4));
+            byte padding = (byte)(4 - (canvas_width % 4));
             if (padding == 4)
             {
                 padding = 0;
             }
-            int ref_width = bitmap_width;
+            int ref_width = canvas_width;
+
             switch (texture_format_int32[3])
             {
                 case 0:  // I4
@@ -1952,21 +1962,17 @@ namespace plt0
                   case 9:  // CI8
                     nothing happens
                */
-                case 2: // AI4
-                    {
-                        ref_width <<= 1;  // 16 bits per pixel
-                        break;
-                    }
                 case 4:  // RGB565
-                case 10: // CI14x2
-                case 0xE:  // CMPR
                     {
                         ref_width *= 3; // converted to 24bpp to prevent loss
                         break;
                     }
+                case 2: // AI4
                 case 3:  // IA8
-                case 6:  // RGBA32
                 case 5:  // RGB5A3
+                case 6:  // RGBA32
+                case 10: // CI14x2
+                case 0xE:  // CMPR
                     {
                         ref_width <<= 2; // 32 bits per pixel
                         break;
@@ -1975,21 +1981,14 @@ namespace plt0
             if (palette_format_int32[3] == 2 && alpha > 0)  // RGB5A3 Palette with alpha
             {
                 colour_number_x4 = 0;
-                if (alpha == 1)
-                {
-                    ref_width = bitmap_width << 1;  // 16 bits per pixel
-                }
-                else
-                {
-                    ref_width = bitmap_width << 2; // 32 bits per pixel
-                }
+                ref_width = canvas_width << 2; // 32 bits per pixel
             }
-            if (palette_format_int32[3] == 0 && alpha > 0)
+            if (palette_format_int32[3] == 0)  // AI8 Palette with alpha
             {
                 colour_number_x4 = 0;
-                ref_width = bitmap_width << 2; // 32 bits per pixel
+                ref_width = canvas_width << 2; // 32 bits per pixel
             }
-            int image_size = ((ref_width + padding) * bitmap_height);
+            int image_size = ((ref_width + padding) * canvas_height);
             int pixel_start_offset = 0x36 + colour_number_x4;
             int size = pixel_start_offset + image_size;  // fixed size at 1 image
             // int size2 = pixel_start_offset + image_size;  // plus the header?????? added it twice lol
@@ -2009,8 +2008,8 @@ namespace plt0
                 if (z == 0)
                 {
                     width = ref_width;
-                    header_width = bitmap_width;
-                    height = bitmap_height;
+                    header_width = canvas_width;
+                    height = canvas_height;
                 }
                 else
                 {
@@ -2065,9 +2064,9 @@ namespace plt0
 
                     case 2: // AI4
                         {
-                        data[28] = 16;  // 16-bit per pixel
-                        break;
-                    }
+                            data[28] = 16;  // 16-bit per pixel
+                            break;
+                        }
 
                     case 4:  // RGB565
                     case 10: // CI14x2
@@ -2133,9 +2132,9 @@ namespace plt0
                                 }
                                 else
                                 {
-                                    for (int j = 0; j < height; j++)
+                                    for (int j = 0; j < index_list[z].Count; j++)
                                     {
-                                        for (int k = 0; k < width; k++, index += 4)
+                                        for (int k = 0; k < index_list[z][0].Length; k++, index += 4)
                                         {
                                             pixel[index] = colour_palette[index_list[z][j][k] << 1];
                                             pixel[index + 1] = colour_palette[index_list[z][j][k] << 1];
@@ -2174,12 +2173,12 @@ namespace plt0
                                 break;
                             }
                         case 2:  // RGB5A3
+                            {
+                                if (alpha == 0)  // no alpha
                                 {
-                                    if (alpha == 0)  // no alpha
-                                    {
-                                        for (int j = 0, k = 0; j < colour_number_x2; j += 2, k += 4)
-                                        {  // 1RRR RRGG   GGGB BBBB
-                                            palette[k] = (byte)(colour_palette[j + 1] << 3);  // Blue
+                                    for (int j = 0, k = 0; j < colour_number_x2; j += 2, k += 4)
+                                    {  // 1RRR RRGG   GGGB BBBB
+                                        palette[k] = (byte)(colour_palette[j + 1] << 3);  // Blue
                                         if (palette[k] == 248)
                                         {
                                             palette[k] = 255;
@@ -2195,22 +2194,22 @@ namespace plt0
                                             palette[k + 2] = 255;
                                         }
                                         palette[k + 3] = 0xff;  // No Alpha
-                                        }
                                     }
-                                    else if (alpha == 1)  // alpha
-                                    {
-                                        data[46] = 0;
-                                        data[47] = 0;
-                                        data[48] = 0;
-                                        data[49] = 0;
-                                        data[50] = 0;
-                                        data[51] = 0;
-                                        data[28] = 16;  // converts it to 16-bit depth, as 8-bit depth bmp files don't have alpha despite STORING A F*CKING ALPHA BYTE FOR. EACH. PIXEL.
+                                }
+                                else if (alpha == 1)  // alpha
+                                {
+                                    data[46] = 0;
+                                    data[47] = 0;
+                                    data[48] = 0;
+                                    data[49] = 0;
+                                    data[50] = 0;
+                                    data[51] = 0;
+                                    data[28] = 16;  // converts it to 16-bit depth, as 8-bit depth bmp files don't have alpha despite STORING A F*CKING ALPHA BYTE FOR. EACH. PIXEL.
 
                                     // AAAA RRRR GGGG BBBB
-                                    for (int j = 0; j < height; j++)
+                                    for (int j = 0; j < index_list[z].Count; j++)
                                     {
-                                        for (int k = 0; k < width; k++, index += 2)
+                                        for (int k = 0; k < index_list[z][0].Length; k++, index += 2)
                                         {
                                             pixel_alpha = (byte)((colour_palette[index_list[z][j][k] << 1] << 1) & 0xe0);
                                             if (pixel_alpha == 0xe0)
@@ -2226,23 +2225,23 @@ namespace plt0
                                             pixel[index] = 0x69;  // my signature XDDDD 
                                         }
                                     }
-                                    }
-                                    else  // mix
-                                    {
-                                        data[46] = 0;
-                                        data[47] = 0;
-                                        data[48] = 0;
-                                        data[49] = 0;
-                                        data[50] = 0;
-                                        data[51] = 0;
-                                        data[28] = 16;  // converts it to 32-bit depth, as it's either rgb555 or rgba4443
+                                }
+                                else  // mix
+                                {
+                                    data[46] = 0;
+                                    data[47] = 0;
+                                    data[48] = 0;
+                                    data[49] = 0;
+                                    data[50] = 0;
+                                    data[51] = 0;
+                                    data[28] = 16;  // converts it to 32-bit depth, as it's either rgb555 or rgba4443
 
-                                    for (int j = 0; j < height; j++)
+                                    for (int j = 0; j < index_list[z].Count; j++)
                                     {
-                                        for (int k = 0; k < width; k++, index += 4)
+                                        for (int k = 0; k < index_list[z][0].Length; k++, index += 4)
                                         {
                                             if (colour_palette[index_list[z][j][k] << 1] >> 7 == 0)
-                                                {
+                                            {
                                                 pixel_alpha = (byte)((colour_palette[index_list[z][j][k] << 1] << 1) & 0xe0);
                                                 if (pixel_alpha == 0xe0)
                                                 {
@@ -2289,46 +2288,30 @@ namespace plt0
                                                 }
                                                 pixel[index + 3] = 0xff; // no alpha
                                             }
-                                            
+
                                         }
                                         for (int k = 0; k < padding; k++, index++)
                                         {
                                             pixel[index] = 0x69;  // my signature XDDDD 
                                         }
                                     }
-                                    for (int j = 0, k = 0; j < colour_number_x2; j += 2, k += 4)
-                                        {
-                                            if (colour_palette[j] >> 7 == 0)  // if it has alpha
-                                            {  // 0AAA RRRR   GGGG BBBB
-                                                palette[k] = (byte)(colour_palette[j + 1] << 4);  // Blue
-                                                palette[k + 1] = (byte)(colour_palette[j + 1] & 0xf0);  // Green
-                                                palette[k + 2] = (byte)((colour_palette[j] << 4) & 0xf0);  // Red
-                                                palette[k + 3] = (byte)((colour_palette[j] << 1) & 0xe0);  // Alpha
-                                            }
-                                            else  // no alpha
-                                            {  // 1RRR RRGG   GGGB BBBB
-                                                palette[k] = (byte)(colour_palette[j + 1] << 3);  // Blue
-                                                palette[k + 1] = (byte)(((colour_palette[j] << 6) | (colour_palette[j + 1] >> 2)) & 0xf8);  // Green
-                                                palette[k + 2] = (byte)((colour_palette[j] << 1) & 0xf8);  // Red
-                                                palette[k + 3] = 0xff;  // No Alpha
-                                            }
-                                        }
-                                    }
-                                    break;
+                                }
+                                break;
                             }
                     }
                 }
-                if (has_palette || funky) // && (texture_format_int32[3] > 2 || texture_format_int32[3] != 0xe)))
+                if ((has_palette && palette_format_int32[3] != 0 && (palette_format_int32[3] != 2 || alpha < 1)) || funky) // && (texture_format_int32[3] > 2 || texture_format_int32[3] != 0xe)))
                 {
                     if (texture_format_int32[3] == 3 || texture_format_int32[3] == 4 || texture_format_int32[3] == 5)
                     {
                         data[28] = 16;  // 16-bit per pixel
                     }
                     // fill pixel data
-                    for (int j = 0; j < height; j++)
+                    for (int j = 0; j < index_list[z].Count; j++)
                     {
-                        for (int k = 0; k < width; k++, index++)
+                        for (int k = 0; k < index_list[z][0].Length; k++, index++)
                         {
+
                             pixel[index] = index_list[z][j][k];
                         }
                         for (int k = 0; k < padding; k++, index++)
@@ -2400,7 +2383,7 @@ namespace plt0
                                         pixel[index] = 0x69;  // my signature XDDDD 
                                     }
                                 }
-                            
+
                                 break;
                             }
                         case 1:  // reverse I8
@@ -2415,7 +2398,7 @@ namespace plt0
                                 }
                                 for (int j = 0; j < height; j++)
                                 {
-                                    for (int k = 0; k < width; k++, index ++)
+                                    for (int k = 0; k < width; k++, index++)
                                     {
                                         pixel[index] = index_list[z][j][k];
                                     }
@@ -3679,9 +3662,9 @@ namespace plt0
                             {
                                 case 8: // CI4
                                     {
-                                        for (int h = 0; h < bitmap_height; h++)
+                                        for (int h = 0; h < canvas_height; h++)
                                         {
-                                            for (int w = 0; w < bitmap_width; w++)  // index_size = number of pixels
+                                            for (int w = 0; w < canvas_width; w++)  // index_size = number of pixels
                                             {
                                                 diff_min = 500;
                                                 for (int i = 0; i < colour_number_x2; i += 2)  // process the colour palette to find the closest colour corresponding to the current pixel
@@ -3717,9 +3700,9 @@ namespace plt0
                                     }
                                 case 9: // CI8
                                     {
-                                        for (int h = 0; h < bitmap_height; h++)
+                                        for (int h = 0; h < canvas_height; h++)
                                         {
-                                            for (int w = 0; w < bitmap_width; w++)  // index_size = number of pixels
+                                            for (int w = 0; w < canvas_width; w++)  // index_size = number of pixels
                                             {
                                                 diff_min = 500;
                                                 for (int i = 0; i < colour_number_x2; i += 2)  // process the colour palette to find the closest colour corresponding to the current pixel
@@ -3748,9 +3731,9 @@ namespace plt0
                                     }
                                 case 10:  // CI14x2
                                     {
-                                        for (int h = 0; h < bitmap_height; h++)
+                                        for (int h = 0; h < canvas_height; h++)
                                         {
-                                            for (int w = 0; w < bitmap_width << 1; w += 2)  // multiplied by two because each index is a 14 bytes integer
+                                            for (int w = 0; w < canvas_width << 1; w += 2)  // multiplied by two because each index is a 14 bytes integer
                                             {
                                                 diff_min = 500;
                                                 for (int i = 0; i < colour_number_x2; i += 2)  // process the colour palette to find the closest colour corresponding to the current pixel
@@ -3919,9 +3902,9 @@ namespace plt0
                             {
                                 case 8: // CI4
                                     {
-                                        for (int h = 0; h < bitmap_height; h++)
+                                        for (int h = 0; h < canvas_height; h++)
                                         {
-                                            for (int w = 0; w < bitmap_width; w++)  // index_size = number of pixels
+                                            for (int w = 0; w < canvas_width; w++)  // index_size = number of pixels
                                             {
                                                 diff_min = 500;
                                                 for (int i = 0; i < colour_number_x2; i += 2)  // process the colour palette to find the closest colour corresponding to the current pixel
@@ -3957,9 +3940,9 @@ namespace plt0
                                     }
                                 case 9: // CI8
                                     {
-                                        for (int h = 0; h < bitmap_height; h++)
+                                        for (int h = 0; h < canvas_height; h++)
                                         {
-                                            for (int w = 0; w < bitmap_width; w++)  // index_size = number of pixels
+                                            for (int w = 0; w < canvas_width; w++)  // index_size = number of pixels
                                             {
                                                 diff_min = 500;
                                                 for (int i = 0; i < colour_number_x2; i += 2)  // process the colour palette to find the closest colour corresponding to the current pixel
@@ -3988,9 +3971,9 @@ namespace plt0
                                     }
                                 case 10:  // CI14x2
                                     {
-                                        for (int h = 0; h < bitmap_height; h++)
+                                        for (int h = 0; h < canvas_height; h++)
                                         {
-                                            for (int w = 0; w < bitmap_width << 1; w += 2)  // multiplied by two because each index is a 14 bytes integer
+                                            for (int w = 0; w < canvas_width << 1; w += 2)  // multiplied by two because each index is a 14 bytes integer
                                             {
                                                 diff_min = 500;
                                                 for (int i = 0; i < colour_number_x2; i += 2)  // process the colour palette to find the closest colour corresponding to the current pixel
@@ -4505,9 +4488,9 @@ namespace plt0
                             {
                                 case 8: // CI4
                                     {
-                                        for (int h = 0; h < bitmap_height; h++)
+                                        for (int h = 0; h < canvas_height; h++)
                                         {
-                                            for (int w = 0; w < bitmap_width; w++)  // index_size = number of pixels
+                                            for (int w = 0; w < canvas_width; w++)  // index_size = number of pixels
                                             {
                                                 diff_min = 500;
                                                 for (int i = 0; i < colour_number_x2; i += 2)  // process the colour palette to find the closest colour corresponding to the current pixel
@@ -4571,9 +4554,9 @@ namespace plt0
                                     }
                                 case 9: // CI8
                                     {
-                                        for (int h = 0; h < bitmap_height; h++)
+                                        for (int h = 0; h < canvas_height; h++)
                                         {
-                                            for (int w = 0; w < bitmap_width; w++)  // index_size = number of pixels
+                                            for (int w = 0; w < canvas_width; w++)  // index_size = number of pixels
                                             {
                                                 diff_min = 500;
                                                 for (int i = 0; i < colour_number_x2; i += 2)  // process the colour palette to find the closest colour corresponding to the current pixel
@@ -4630,9 +4613,9 @@ namespace plt0
                                     }
                                 case 10:  // CI14x2
                                     {
-                                        for (int h = 0; h < bitmap_height; h++)
+                                        for (int h = 0; h < canvas_height; h++)
                                         {
-                                            for (int w = 0; w < bitmap_width << 1; w += 2)  // multiplied by two because each index is a 14 bytes integer
+                                            for (int w = 0; w < canvas_width << 1; w += 2)  // multiplied by two because each index is a 14 bytes integer
                                             {
                                                 diff_min = 500;
                                                 for (int i = 0; i < colour_number_x2; i += 2)  // process the colour palette to find the closest colour corresponding to the current pixel
@@ -6127,6 +6110,26 @@ same for blue + green*/
             using (var ms = new MemoryStream())
             {
                 bmp.Save(ms, ImageFormat.Bmp);
+                /*
+                FileMode mode = System.IO.FileMode.CreateNew;
+                if (System.IO.File.Exists(output_file + ".bmp"))
+                {
+                    mode = System.IO.FileMode.Truncate;
+                    if (warn)
+                    {
+                        Console.WriteLine("Press enter to overwrite " + output_file + ".bmp");
+                        Console.ReadLine();
+                    }
+                }
+                using (System.IO.FileStream file = System.IO.File.Open(output_file + ".bmp", mode, System.IO.FileAccess.Write))
+                {
+                    file.Write(ms.ToArray(), 0, (int)ms.Length);
+                    file.Close();
+                    Console.WriteLine(output_file + ".bmp");
+                }
+                alright. Format16bppRgb565 is compressed only
+                */
+
                 return ms.ToArray();
             }
         }
