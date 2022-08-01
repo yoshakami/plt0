@@ -1929,38 +1929,76 @@ namespace plt0
             {
                 padding = 0;
             }
-            ushort ref_width = bitmap_width;
+            int ref_width = bitmap_width;
             switch (texture_format_int32[3])
             {
-                case 0:
-                case 0xE:
-                case 8: // CI4
+                case 0:  // I4
                     {
-                        ref_width >>= 1;  // 4 bits per pixel
+                        ref_width >>= 1;  // 4-bit per pixel
+                        colour_number_x4 = 64; // 16 * 4
                         break;
                     }
-                case 3:
-                case 4:
-                case 5:
-                case 10:
+                case 8: // CI4
+                    {
+                        ref_width >>= 1;  // 4-bit per pixel
+                        break;
+                    }
+                case 1: // I8
+                    {
+                        colour_number_x4 = 1024; // 256 * 4
+                        break;
+                    }
+                /* 
+                  case 9:  // CI8
+                    nothing happens
+               */
+                case 2: // AI4
                     {
                         ref_width <<= 1;  // 16 bits per pixel
                         break;
                     }
-                case 6:
+                case 4:  // RGB565
+                case 10: // CI14x2
+                case 0xE:  // CMPR
+                    {
+                        ref_width *= 3; // converted to 24bpp to prevent loss
+                        break;
+                    }
+                case 3:  // IA8
+                case 6:  // RGBA32
+                case 5:  // RGB5A3
                     {
                         ref_width <<= 2; // 32 bits per pixel
                         break;
                     }
             }
+            if (palette_format_int32[3] == 2 && alpha > 0)  // RGB5A3 Palette with alpha
+            {
+                colour_number_x4 = 0;
+                if (alpha == 1)
+                {
+                    ref_width = bitmap_width << 1;  // 16 bits per pixel
+                }
+                else
+                {
+                    ref_width = bitmap_width << 2; // 32 bits per pixel
+                }
+            }
+            if (palette_format_int32[3] == 0 && alpha > 0)
+            {
+                colour_number_x4 = 0;
+                ref_width = bitmap_width << 2; // 32 bits per pixel
+            }
             int image_size = ((ref_width + padding) * bitmap_height);
             int pixel_start_offset = 0x36 + colour_number_x4;
             int size = pixel_start_offset + image_size;  // fixed size at 1 image
             // int size2 = pixel_start_offset + image_size;  // plus the header?????? added it twice lol
-            ushort width = 0;  // will change when equal to 4 or 16 bit because of bypass lol
+            int width = 0;  // will change when equal to 4 or 16 bit because of bypass lol
             ushort header_width = 0; // width written in the header
             ushort height = 0;
             int index;
+            byte pixel_color;
+            byte pixel_alpha;
             byte[] data = new byte[54];  // header data
             byte[] palette = new byte[colour_number_x4];
             string end = ".bmp";
@@ -2012,29 +2050,35 @@ namespace plt0
                 data[27] = 0; // always 0
                 switch (texture_format_int32[3])
                 {
-                    case 0:  //I4
-                    case 0xE:  // CMPR
+                    case 0:  // I4
                     case 8: // CI4
                         {
                             data[28] = 4;  // 4-bit per pixel
                             break;
                         }
-                    case 9:  // CI8
                     case 1: // I8
-                    case 2: // AI4
+                    case 9:  // CI8
                         {
                             data[28] = 8;  // 8-bit per pixel
                             break;
                         }
-                    case 3:  // IA8
-                    case 4:  // RGB565
-                    case 5:  // RGB5A3
-                    case 10: // CI14x2
+
+                    case 2: // AI4
                         {
-                            data[28] = 16;  // 16-bit per pixel
+                        data[28] = 16;  // 16-bit per pixel
+                        break;
+                    }
+
+                    case 4:  // RGB565
+                    case 10: // CI14x2
+                    case 0xE:  // CMPR
+                        {
+                            data[28] = 24; // converted to 24bpp to prevent loss
                             break;
                         }
+                    case 3:  // IA8
                     case 6:  // RGBA32
+                    case 5:  // RGB5A3
                         {
                             data[28] = 32; // 32 bits per pixel
                             break;
@@ -2057,6 +2101,7 @@ namespace plt0
                 data[43] = 0;
                 data[44] = 0;
                 data[45] = 0;  // some resolution unused setting
+                data[46] = 0;
                 data[47] = 0;
                 data[48] = 0;
                 data[49] = 0;
@@ -2067,25 +2112,41 @@ namespace plt0
                 if (has_palette)
                 {
                     data[46] = (byte)(colour_number);
-                    data[47] = (byte)(colour_number >> 8);
-                    data[48] = 0; // colour_number is stored on 2 bytes
-                    data[49] = 0;
+                    data[47] = (byte)(colour_number >> 8); // colour_number is stored on 2 bytes
                     data[50] = (byte)(colour_number);
-                    data[51] = (byte)(colour_number >> 8);
-                    data[52] = 0; // colour_number is stored on 2 bytes
-                    data[53] = 0;
+                    data[51] = (byte)(colour_number >> 8); // colour_number is stored on 2 bytes
                     // fill palette data
                     // plt0 palettes are 2 bytes per colour, while bmp palette is 4 bytes per colour.
                     switch (palette_format_int32[3])
                     {
                         case 0: // AI8
                             {
-                                for (int j = 0, k = 0; j < colour_number_x2; j += 2, k += 4)
+                                if (alpha == 0)
                                 {
-                                    palette[k] = colour_palette[j + 1];    // this is the formula for black and white lol
-                                    palette[k + 1] = colour_palette[j + 1];
-                                    palette[k + 2] = colour_palette[j + 1];
-                                    palette[k + 3] = colour_palette[j];  // Alpha
+                                    for (int j = 0, k = 0; j < colour_number_x2; j += 2, k += 4)
+                                    {
+                                        palette[k] = colour_palette[j + 1];    // this is the formula for black and white lol
+                                        palette[k + 1] = colour_palette[j + 1];
+                                        palette[k + 2] = colour_palette[j + 1];
+                                        palette[k + 3] = colour_palette[j];  // Alpha
+                                    }
+                                }
+                                else
+                                {
+                                    for (int j = 0; j < height; j++)
+                                    {
+                                        for (int k = 0; k < width; k++, index += 4)
+                                        {
+                                            pixel[index] = colour_palette[index_list[z][j][k] << 1];
+                                            pixel[index + 1] = colour_palette[index_list[z][j][k] << 1];
+                                            pixel[index + 2] = colour_palette[index_list[z][j][k] << 1];
+                                            pixel[index + 3] = colour_palette[(index_list[z][j][k] << 1) + 1];
+                                        }
+                                        for (int k = 0; k < padding; k++, index++)
+                                        {
+                                            pixel[index] = 0x69;  // my signature XDDDD 
+                                        }
+                                    }
                                 }
                                 break;
                             }
@@ -2094,61 +2155,175 @@ namespace plt0
                                 for (int j = 0, k = 0; j < colour_number_x2; j += 2, k += 4)
                                 {
                                     palette[k] = (byte)(colour_palette[j + 1] << 3);  // Blue
+                                    if (palette[k] == 248)
+                                    {
+                                        palette[k] = 255;
+                                    }
                                     palette[k + 1] = (byte)(((colour_palette[j] << 5) | (colour_palette[j + 1] >> 3)) & 0xfc);  // Green
+                                    if (palette[k + 1] == 252)
+                                    {
+                                        palette[k + 1] = 255;
+                                    }
                                     palette[k + 2] = (byte)(colour_palette[j] & 0xf8);  // Red
+                                    if (palette[k + 2] == 248)
+                                    {
+                                        palette[k + 2] = 255;
+                                    }
                                     palette[k + 3] = 0xff;  // No Alpha
                                 }
                                 break;
                             }
                         case 2:  // RGB5A3
-                            {
-                                if (alpha == 1)  // alpha
                                 {
-
-                                    for (int j = 0, k = 0; j < colour_number_x2; j += 2, k += 4)
-                                    {  // 0AAA RRRR   GGGG BBBB
-                                        palette[k] = (byte)(colour_palette[j + 1] << 4);  // Blue
-                                        palette[k + 1] = (byte)(colour_palette[j + 1] & 0xf0);  // Green
-                                        palette[k + 2] = (byte)((colour_palette[j] << 4) & 0xf0);  // Red
-                                        palette[k + 3] = (byte)((colour_palette[j] << 1) & 0xe0);  // Alpha
-                                    }
-                                }
-                                else if (alpha == 0)  // no alpha
-                                {
-                                    for (int j = 0, k = 0; j < colour_number_x2; j += 2, k += 4)
-                                    {  // 1RRR RRGG   GGGB BBBB
-                                        palette[k] = (byte)(colour_palette[j + 1] << 3);  // Blue
-                                        palette[k + 1] = (byte)(((colour_palette[j] << 6) | (colour_palette[j + 1] >> 2)) & 0xf8);  // Green
-                                        palette[k + 2] = (byte)((colour_palette[j] << 1) & 0xf8);  // Red
-                                        palette[k + 3] = 0xff;  // No Alpha
-                                    }
-                                }
-                                else  // mix
-                                {
-                                    for (int j = 0, k = 0; j < colour_number_x2; j += 2, k += 4)
+                                    if (alpha == 0)  // no alpha
                                     {
-                                        if (colour_palette[j] >> 7 == 0)  // if it has alpha
-                                        {  // 0AAA RRRR   GGGG BBBB
-                                            palette[k] = (byte)(colour_palette[j + 1] << 4);  // Blue
-                                            palette[k + 1] = (byte)(colour_palette[j + 1] & 0xf0);  // Green
-                                            palette[k + 2] = (byte)((colour_palette[j] << 4) & 0xf0);  // Red
-                                            palette[k + 3] = (byte)((colour_palette[j] << 1) & 0xe0);  // Alpha
-                                        }
-                                        else  // no alpha
+                                        for (int j = 0, k = 0; j < colour_number_x2; j += 2, k += 4)
                                         {  // 1RRR RRGG   GGGB BBBB
                                             palette[k] = (byte)(colour_palette[j + 1] << 3);  // Blue
-                                            palette[k + 1] = (byte)(((colour_palette[j] << 6) | (colour_palette[j + 1] >> 2)) & 0xf8);  // Green
-                                            palette[k + 2] = (byte)((colour_palette[j] << 1) & 0xf8);  // Red
-                                            palette[k + 3] = 0xff;  // No Alpha
+                                        if (palette[k] == 248)
+                                        {
+                                            palette[k] = 255;
+                                        }
+                                        palette[k + 1] = (byte)(((colour_palette[j] << 6) | (colour_palette[j + 1] >> 2)) & 0xf8);  // Green
+                                        if (palette[k + 1] == 248)
+                                        {
+                                            palette[k + 1] = 255;
+                                        }
+                                        palette[k + 2] = (byte)((colour_palette[j] << 1) & 0xf8);  // Red
+                                        if (palette[k + 2] == 248)
+                                        {
+                                            palette[k + 2] = 255;
+                                        }
+                                        palette[k + 3] = 0xff;  // No Alpha
                                         }
                                     }
-                                }
-                                break;
+                                    else if (alpha == 1)  // alpha
+                                    {
+                                        data[46] = 0;
+                                        data[47] = 0;
+                                        data[48] = 0;
+                                        data[49] = 0;
+                                        data[50] = 0;
+                                        data[51] = 0;
+                                        data[28] = 16;  // converts it to 16-bit depth, as 8-bit depth bmp files don't have alpha despite STORING A F*CKING ALPHA BYTE FOR. EACH. PIXEL.
+
+                                    // AAAA RRRR GGGG BBBB
+                                    for (int j = 0; j < height; j++)
+                                    {
+                                        for (int k = 0; k < width; k++, index += 2)
+                                        {
+                                            pixel_alpha = (byte)((colour_palette[index_list[z][j][k] << 1] << 1) & 0xe0);
+                                            if (pixel_alpha == 0xe0)
+                                            {
+                                                pixel_alpha = 0xf0;
+                                            }
+                                            pixel_alpha += (byte)(colour_palette[index_list[z][j][k] << 1] & 0x0f);
+                                            pixel[index] = pixel_alpha;
+                                            pixel[index + 1] = colour_palette[(index_list[z][j][k] << 1) + 1];
+                                        }
+                                        for (int k = 0; k < padding; k++, index++)
+                                        {
+                                            pixel[index] = 0x69;  // my signature XDDDD 
+                                        }
+                                    }
+                                    }
+                                    else  // mix
+                                    {
+                                        data[46] = 0;
+                                        data[47] = 0;
+                                        data[48] = 0;
+                                        data[49] = 0;
+                                        data[50] = 0;
+                                        data[51] = 0;
+                                        data[28] = 16;  // converts it to 32-bit depth, as it's either rgb555 or rgba4443
+
+                                    for (int j = 0; j < height; j++)
+                                    {
+                                        for (int k = 0; k < width; k++, index += 4)
+                                        {
+                                            if (colour_palette[index_list[z][j][k] << 1] >> 7 == 0)
+                                                {
+                                                pixel_alpha = (byte)((colour_palette[index_list[z][j][k] << 1] << 1) & 0xe0);
+                                                if (pixel_alpha == 0xe0)
+                                                {
+                                                    pixel_alpha = 0xff;
+                                                }
+                                                pixel[index] = pixel_alpha;
+                                                pixel[index + 1] = (byte)((colour_palette[index_list[z][j][k] << 1] & 0x0f) << 4);
+                                                if (pixel[index + 1] == 0xf0)
+                                                {
+                                                    pixel[index + 1] = 0xff;
+                                                }
+                                                pixel[index + 2] = (byte)(colour_palette[(index_list[z][j][k] << 1) + 1] & 0xf0);
+                                                if (pixel[index + 2] == 0xf0)
+                                                {
+                                                    pixel[index + 2] = 0xff;
+                                                }
+                                                pixel[index + 3] = (byte)((colour_palette[(index_list[z][j][k] << 1) + 1] & 0x0f) << 4);
+                                                if (pixel[index + 3] == 0xf0)
+                                                {
+                                                    pixel[index + 3] = 0xff;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                pixel_alpha = (byte)((colour_palette[index_list[z][j][k] << 1] << 1) & 0xe0);
+                                                if (pixel_alpha == 0xe0)
+                                                {
+                                                    pixel_alpha = 0xff;
+                                                }
+                                                pixel[index + 2] = (byte)((colour_palette[index_list[z][j][k] << 1] << 1) & 248);  // red
+                                                if (pixel[index + 2] == 248)
+                                                {
+                                                    pixel[index + 2] = 255;
+                                                }
+                                                pixel[index + 1] = (byte)((colour_palette[index_list[z][j][k] << 1] << 6) + (colour_palette[(index_list[z][j][k] << 1) + 1] >> 2));  // green
+                                                if (pixel[index + 1] == 248)
+                                                {
+                                                    pixel[index + 1] = 0xff;
+                                                }
+                                                pixel[index + 2] = (byte)(colour_palette[(index_list[z][j][k] << 1) + 1] << 3);  // blue
+                                                if (pixel[index + 2] == 248)
+                                                {
+                                                    pixel[index + 2] = 0xff;
+                                                }
+                                                pixel[index + 3] = 0xff; // no alpha
+                                            }
+                                            
+                                        }
+                                        for (int k = 0; k < padding; k++, index++)
+                                        {
+                                            pixel[index] = 0x69;  // my signature XDDDD 
+                                        }
+                                    }
+                                    for (int j = 0, k = 0; j < colour_number_x2; j += 2, k += 4)
+                                        {
+                                            if (colour_palette[j] >> 7 == 0)  // if it has alpha
+                                            {  // 0AAA RRRR   GGGG BBBB
+                                                palette[k] = (byte)(colour_palette[j + 1] << 4);  // Blue
+                                                palette[k + 1] = (byte)(colour_palette[j + 1] & 0xf0);  // Green
+                                                palette[k + 2] = (byte)((colour_palette[j] << 4) & 0xf0);  // Red
+                                                palette[k + 3] = (byte)((colour_palette[j] << 1) & 0xe0);  // Alpha
+                                            }
+                                            else  // no alpha
+                                            {  // 1RRR RRGG   GGGB BBBB
+                                                palette[k] = (byte)(colour_palette[j + 1] << 3);  // Blue
+                                                palette[k + 1] = (byte)(((colour_palette[j] << 6) | (colour_palette[j + 1] >> 2)) & 0xf8);  // Green
+                                                palette[k + 2] = (byte)((colour_palette[j] << 1) & 0xf8);  // Red
+                                                palette[k + 3] = 0xff;  // No Alpha
+                                            }
+                                        }
+                                    }
+                                    break;
                             }
                     }
                 }
                 if (has_palette || funky) // && (texture_format_int32[3] > 2 || texture_format_int32[3] != 0xe)))
                 {
+                    if (texture_format_int32[3] == 3 || texture_format_int32[3] == 4 || texture_format_int32[3] == 5)
+                    {
+                        data[28] = 16;  // 16-bit per pixel
+                    }
                     // fill pixel data
                     for (int j = 0; j < height; j++)
                     {
@@ -2165,16 +2340,149 @@ namespace plt0
                 else
                 {
                     // fill pixel data
-                    for (int j = 0; j < height; j++)
+                    switch (texture_format_int32[3])
                     {
-                        for (int k = 0; k < width; k++, index++)
-                        {
-                            pixel[index] = index_list[z][j][k];
-                        }
-                        for (int k = 0; k < padding; k++, index++)
-                        {
-                            pixel[index] = 0x69;  // my signature XDDDD 
-                        }
+                        case 0:  // reverse I4
+                            {
+                                for (byte j = 0, k = 0; j < 16; k += 4, j++)  // builds EVERY POSSIBLE I4 COLOUR
+                                {
+                                    palette[k] = (byte)(j << 4);  // Blue
+                                    palette[k + 1] = (byte)(j << 4);  // Green
+                                    palette[k + 2] = (byte)(j << 4);  // Red
+                                    palette[k + 3] = 0xff;  // Alpha - unused
+                                    if (j == 15)
+                                    {
+                                        palette[k] = 0xff;  // Blue
+                                        palette[k + 1] = 0xff;  // Green
+                                        palette[k + 2] = 0xff;  // Red
+                                        palette[k + 3] = 0xff;  // Alpha - unused
+                                    }
+                                }
+                                /* for (int j = 0; j < height; j++)
+                            {
+                                for (int k = 0; k < width; k++, index += 6)
+                                {
+                                    pixel_color = (byte)(index_list[z][j][k] & 240);
+                                    if (pixel_color == 240)
+                                    {
+                                        pixel_color = 255;
+                                    }
+                                    pixel[index] = pixel_color;
+                                    pixel[index + 1] = pixel_color;
+                                    pixel[index + 2] = pixel_color;
+
+                                    pixel_color = (byte)(index_list[z][j][k] & 15);
+                                    if (pixel_color == 15)
+                                    {
+                                        pixel_color = 255;
+                                    }
+                                    else
+                                    {
+                                        pixel_color = (byte)(pixel_color << 4);
+                                    }
+                                    pixel[index + 3] = pixel_color;
+                                    pixel[index + 4] = pixel_color;
+                                    pixel[index + 5] = pixel_color;
+                                }
+                                for (int k = 0; k < padding; k++, index++)
+                                {
+                                    pixel[index] = 0x69;  // my signature XDDDD 
+                                }}*/
+                                // fill pixel data
+                                for (int j = 0; j < height; j++)
+                                {
+                                    for (int k = 0; k < width; k++, index++)
+                                    {
+                                        pixel[index] = index_list[z][j][k];
+                                    }
+                                    for (int k = 0; k < padding; k++, index++)
+                                    {
+                                        pixel[index] = 0x69;  // my signature XDDDD 
+                                    }
+                                }
+                            
+                                break;
+                            }
+                        case 1:  // reverse I8
+                            {
+
+                                for (int j = 0, k = 0; j < 256; k += 4, j++)  // builds EVERY POSSIBLE I4 COLOUR
+                                {
+                                    palette[k] = (byte)j;  // Blue
+                                    palette[k + 1] = (byte)j;  // Green
+                                    palette[k + 2] = (byte)j;  // Red
+                                    palette[k + 3] = 0xff;  // Alpha - unused
+                                }
+                                for (int j = 0; j < height; j++)
+                                {
+                                    for (int k = 0; k < width; k++, index ++)
+                                    {
+                                        pixel[index] = index_list[z][j][k];
+                                    }
+                                    for (int k = 0; k < padding; k++, index++)
+                                    {
+                                        pixel[index] = 0x69;  // my signature XDDDD 
+                                    }
+                                }
+                                break;
+                            }
+                        case 2:  // reverse AI4
+                            {
+                                for (int j = 0; j < height; j++)
+                                {
+                                    for (int k = 0; k < width; k++, index += 6)
+                                    {
+                                        pixel_color = (byte)(index_list[z][j][k] & 240);
+                                        if (pixel_color == 240)
+                                        {
+                                            pixel_color = 255;
+                                        }
+                                        pixel[index] = pixel_color;
+                                        pixel[index + 1] = pixel_color;
+                                        pixel[index + 2] = pixel_color;
+
+                                        pixel_color = (byte)(index_list[z][j][k] & 15);
+                                        if (pixel_color == 15)
+                                        {
+                                            pixel_color = 255;
+                                        }
+                                        else
+                                        {
+                                            pixel_color = (byte)(pixel_color << 4);
+                                        }
+                                        pixel[index + 3] = pixel_color;
+                                        pixel[index + 4] = pixel_color;
+                                        pixel[index + 5] = pixel_color;
+                                    }
+                                    for (int k = 0; k < padding; k++, index++)
+                                    {
+                                        pixel[index] = 0x69;  // my signature XDDDD 
+                                    }
+                                }
+                                break;
+                            }
+                        case 3:  // reverse AI8
+                            {
+                                for (int j = 0; j < height; j++)
+                                {
+                                    for (int k = 0; k < width; k++, index += 3)
+                                    {
+                                        pixel_color = index_list[z][j][k];
+                                        if (pixel_color == 240)
+                                        {
+                                            pixel_color = 255;
+                                        }
+                                        pixel[index] = pixel_color;
+                                        pixel[index + 1] = pixel_color;
+                                        pixel[index + 2] = pixel_color;
+                                    }
+                                    for (int k = 0; k < padding; k++, index++)
+                                    {
+                                        pixel[index] = 0x69;  // my signature XDDDD 
+                                    }
+                                }
+                                break;
+                            }
                     }
                 }
                 if (z != 0)
