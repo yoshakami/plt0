@@ -2005,7 +2005,11 @@ namespace plt0
             byte[] palette = new byte[colour_number_x4];
             string end = ".bmp";
             bool done = false;
-            byte[] alpha_header = { 00, 00, 0xFF, 00, 00, 0xFF, 00, 00, 0xFF, 00, 00, 00, 00, 00, 00, 0xFF, 0x20, 0x6E, 0x69, 0x57, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00 };
+            // vanilla BITMAPV4HEADER
+            // byte[] alpha_header = { 00, 00, 0xFF, 00, 00, 0xFF, 00, 00, 0xFF, 00, 00, 00, 00, 00, 00, 0xFF, 0x20, 0x6E, 0x69, 0x57, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00 };
+
+            // custom padding - the funni one  - it is mandatory to add these padding bytes, else paint.net won't open the picture. (it's fine with explorer.exe's preview) - these bytes can be whatever you want. so I've made it write some fun text 
+            byte[] alpha_header = { 0, 104, 116, 116, 112, 115, 58, 47, 47, 100, 105, 115, 99, 111, 114, 100, 46, 103, 103, 47, 118, 57, 86, 112, 68, 90, 57, 0, 116, 104, 105, 115, 32, 105, 115, 32, 112, 97, 100, 100, 105, 110, 103, 32, 100, 97, 116, 97};
             for (z = 0; z < mipmaps_number + 1; z++)
             {
                 byte[] pixel = new byte[image_size];
@@ -2143,19 +2147,67 @@ namespace plt0
                                 }
                                 else
                                 {
-                                    for (int j = 0; j < index_list[z].Count; j++)
+                                    switch (texture_format_int32[3])
                                     {
-                                        for (int k = 0; k < index_list[z][0].Length; k++, index += 4)
-                                        {
-                                            pixel[index] = colour_palette[index_list[z][j][k] << 1];
-                                            pixel[index + 1] = colour_palette[index_list[z][j][k] << 1];
-                                            pixel[index + 2] = colour_palette[index_list[z][j][k] << 1];
-                                            pixel[index + 3] = colour_palette[(index_list[z][j][k] << 1) + 1];
-                                        }
-                                        for (int k = 0; k < padding; k++, index++)
-                                        {
-                                            pixel[index] = 0x69;  // my signature XDDDD 
-                                        }
+                                        case 8: // CI4
+                                            {
+                                                for (int j = 0; j < index_list[z].Count; j++)
+                                                {
+                                                    for (int k = 0; k < index_list[z][0].Length; k++, index += 8)
+                                                    {
+                                                        pixel[index] = colour_palette[(index_list[z][j][k] >> 4) << 1];
+                                                        pixel[index + 1] = colour_palette[(index_list[z][j][k] >> 4) << 1];
+                                                        pixel[index + 2] = colour_palette[(index_list[z][j][k] >> 4) << 1];
+                                                        pixel[index + 3] = colour_palette[((index_list[z][j][k] >> 4) << 1) + 1];
+                                                        pixel[index + 4] = colour_palette[(index_list[z][j][k] & 15) << 1];
+                                                        pixel[index + 5] = colour_palette[(index_list[z][j][k] & 15) << 1];
+                                                        pixel[index + 6] = colour_palette[(index_list[z][j][k] & 15) << 1];
+                                                        pixel[index + 7] = colour_palette[((index_list[z][j][k] & 15) << 1) + 1];
+                                                    }
+                                                    for (int k = 0; k < padding; k++, index++)
+                                                    {
+                                                        pixel[index] = 0x69;  // my signature XDDDD 
+                                                    }
+                                                }
+                                                break;
+                                            }
+                                            case 9: // CI8
+                                            {
+                                                for (int j = 0; j < index_list[z].Count; j++)
+                                                {
+                                                    for (int k = 0; k < index_list[z][0].Length; k++, index += 4)
+                                                    {
+                                                        pixel[index] = colour_palette[index_list[z][j][k] << 1];
+                                                        pixel[index + 1] = colour_palette[index_list[z][j][k] << 1];
+                                                        pixel[index + 2] = colour_palette[index_list[z][j][k] << 1];
+                                                        pixel[index + 3] = colour_palette[(index_list[z][j][k] << 1) + 1];
+                                                    }
+                                                    for (int k = 0; k < padding; k++, index++)
+                                                    {
+                                                        pixel[index] = 0x69;  // my signature XDDDD 
+                                                    }
+                                                }
+                                                break;
+                                            }
+                                            case 10: // CI14x2
+                                            {
+
+                                                for (int j = 0; j < index_list[z].Count; j++)
+                                                {
+                                                    for (int k = 0; k < index_list[z][0].Length; k+=2, index += 4)
+                                                    {
+                                                        pixel[index] = colour_palette[(index_list[z][j][k] << 9) + (index_list[z][j][k+1] << 1)];
+                                                        pixel[index + 1] = colour_palette[(index_list[z][j][k] << 9) + (index_list[z][j][k+1] << 1)];
+                                                        pixel[index + 2] = colour_palette[(index_list[z][j][k] << 9) + (index_list[z][j][k+1] << 1)];
+                                                        pixel[index + 3] = colour_palette[((index_list[z][j][k] << 9) + (index_list[z][j][k+1] << 1)) + 1];
+                                                    }
+                                                    for (int k = 0; k < padding; k++, index++)
+                                                    {
+                                                        pixel[index] = 0x69;  // my signature XDDDD 
+                                                    }
+                                                }
+                                                break;
+                                            }
                                     }
                                 }
                                 break;

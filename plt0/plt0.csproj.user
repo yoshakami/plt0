@@ -7,7 +7,7 @@
     <StartArguments>mp9.exe v0.92 restart</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'plt0|x64'">
-    <StartArguments>plt0 bmp rgb5a3 "amy.png" geoxor-test ask</StartArguments>
+    <StartArguments>plt0 bmp ci8 rgb5a3 "amy.png" geoxor-test2 ask</StartArguments>
     <StartWorkingDirectory>X:\root\Mario Party 9 [SSQP01]\DATA\files\common\bdresult\option2.brres_DECOMP\tex0\</StartWorkingDirectory>
   </PropertyGroup>
 </Project>
