@@ -2242,7 +2242,7 @@ namespace plt0
                                 }
                                 break;
                             }
-                        case 2:  // RGB5A3
+                        case 2: // RGB5A3
                             {
                                 if (alpha == 0)  // no alpha
                                 {
@@ -2741,8 +2741,8 @@ namespace plt0
                                         {
                                             pixel_alpha = 255;
                                         }
-                                        pixel_color = (byte)(index_list[z][j][k] & 15);
-                                        if (pixel_color == 15)
+                                        pixel_color = (byte)((index_list[z][j][k] & 15) << 4);
+                                        if (pixel_color == 240)
                                         {
                                             pixel_color = 255;
                                         }
@@ -2776,13 +2776,25 @@ namespace plt0
                                     {
 
                                         pixel[index] = (byte)(index_list[z][j][k + 1] << 3); // blue
+                                        if (pixel[index] == 248)
+                                        {
+                                            pixel[index] = 255;
+                                        }
                                         pixel[index + 1] = (byte)(((index_list[z][j][k] << 5) | (index_list[z][j][k + 1] >> 3)) & 0xfc);  // green
-                                        pixel[index + 2] = (byte)(index_list[z][j][k + 1] & 0xf8);  // red
+                                        if (pixel[index + 1] == 248)
+                                        {
+                                            pixel[index + 1] = 255;
+                                        }
+                                        pixel[index + 2] = (byte)(index_list[z][j][k] & 0xf8);  // red
+                                        if (pixel[index + 2] == 248)
+                                        {
+                                            pixel[index + 2] = 255;
+                                        }
                                     }
-                                }
-                                for (int k = 0; k < padding; k++, index++)
-                                {
-                                    pixel[index] = 0x69;  // my signature XDDDD 
+                                    for (int k = 0; k < padding; k++, index++)
+                                    {
+                                        pixel[index] = 0x69;  // my signature XDDDD 
+                                    }
                                 }
                                 break;
                             }
@@ -2969,14 +2981,14 @@ namespace plt0
                                         color_rgba[3] = 0;
                                         colour_palette.Add(color_rgba.ToArray());
                                     }
-                                    for (byte h = 3; h >= 0; h--)
+                                    for (sbyte h = 3; h >= 0; h--)
                                     {
                                         for (byte w = 0; w < 4; w++, index += 4)
                                         {
-                                            pixel[index] = colour_palette[index_list[z][j][7 - h] >> (w << 1)][2];  // blue
-                                            pixel[index + 1] = colour_palette[index_list[z][j][7 - h] >> (w << 1)][1];  // green
-                                            pixel[index + 2] = colour_palette[index_list[z][j][7 - h] >> (w << 1)][0];  // red
-                                            pixel[index + 3] = colour_palette[index_list[z][j][7 - h] >> (w << 1)][3];  // alpha
+                                            pixel[index] = colour_palette[(index_list[z][j][7 - h] >> (6 - (w << 1))) & 3][2];  // blue
+                                            pixel[index + 1] = colour_palette[(index_list[z][j][7 - h] >> (6 - (w << 1))) & 3][1];  // green
+                                            pixel[index + 2] = colour_palette[(index_list[z][j][7 - h] >> (6 - (w << 1))) & 3][0];  // red
+                                            pixel[index + 3] = colour_palette[(index_list[z][j][7 - h] >> (6 - (w << 1))) & 3][3];  // alpha
                                         }
                                     }
                                 }
