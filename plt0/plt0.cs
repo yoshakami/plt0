@@ -4097,6 +4097,7 @@ namespace plt0
             short diff_min = 500;
             short diff = 0;
             byte diff_min_index = 0;
+            ushort diff_min_ind14x2 = 0;
             if (bmp_image[0x1C] != 32)
             {
                 Console.WriteLine("HOLY SHIT (colour depth of the converted bmp image is " + bmp_image[0x1C] + ")");
@@ -4323,7 +4324,7 @@ namespace plt0
                                                 {
                                                     if (colour_palette[i] == (byte)(Colours[j] >> 8) && colour_palette[i + 1] == (byte)Colours[j])  // if it's the exact same colour
                                                     {
-                                                        diff_min_index = (byte)(i >> 1);  // index is stored on 1 byte, while each colour is stored on 2 bytes
+                                                        diff_min_ind14x2 = (byte)(i >> 1);  // index is stored on 1 byte, while each colour is stored on 2 bytes
                                                         break;
                                                     }
                                                     else
@@ -4332,12 +4333,12 @@ namespace plt0
                                                         if (diff < diff_min)
                                                         {
                                                             diff_min = diff;
-                                                            diff_min_index = (byte)(i >> 1);
+                                                            diff_min_ind14x2 = (byte)(i >> 1);
                                                         }
                                                     }
                                                 }
-                                                index[w] = (byte)(diff_min_index >> 8);  // adding a short at each iteration
-                                                index[w + 1] = (byte)diff_min_index;  // casting to byte acts as a % 0xff
+                                                index[w] = (byte)(diff_min_ind14x2 >> 8);  // adding a short at each iteration
+                                                index[w + 1] = (byte)diff_min_ind14x2;  // casting to byte acts as a % 0xff
                                                 j += 1;
                                             }
                                             index_list.Add(index.ToArray());
@@ -4563,21 +4564,22 @@ namespace plt0
                                                 {
                                                     if (colour_palette[i] == (byte)(Colours[j] >> 8) && colour_palette[i + 1] == (byte)Colours[j])  // if it's the exact same colour
                                                     {
-                                                        diff_min_index = (byte)(i >> 1);  // index is stored on 1 byte, while each colour is stored on 2 bytes
+                                                        diff_min_ind14x2 = (byte)(i >> 1);  // index is stored on 1 byte, while each colour is stored on 2 bytes
                                                         break;
                                                     }
                                                     else  // calculate difference between each separate colour channel and store the sum
                                                     {
 
-                                                        diff = (short)(Math.Abs((colour_palette[i] & 248) - ((Colours[j] >> 8) & 248)) + Math.Abs(((colour_palette[i] & 7) << 5) + ((colour_palette[i + 1] >> 3) & 28) - ((Colours[j] >> 3) & 252)) + Math.Abs(((colour_palette[i + 1] << 3) & 248) - ((Colours[j] << 3) & 248))); if (diff < diff_min)
+                                                        diff = (short)(Math.Abs((colour_palette[i] & 248) - ((Colours[j] >> 8) & 248)) + Math.Abs(((colour_palette[i] & 7) << 5) + ((colour_palette[i + 1] >> 3) & 28) - ((Colours[j] >> 3) & 252)) + Math.Abs(((colour_palette[i + 1] << 3) & 248) - ((Colours[j] << 3) & 248)));
+                                                        if (diff < diff_min)
                                                         {
                                                             diff_min = diff;
-                                                            diff_min_index = (byte)(i >> 1);
+                                                            diff_min_ind14x2 = (byte)(i >> 1);
                                                         }
                                                     }
                                                 }
-                                                index[w] = (byte)(diff_min_index >> 8);  // adding a short at each iteration
-                                                index[w + 1] = (byte)diff_min_index;  // casting to byte acts as a % 0xff
+                                                index[w] = (byte)(diff_min_ind14x2 >> 8);  // adding a short at each iteration
+                                                index[w + 1] = (byte)diff_min_ind14x2;  // casting to byte acts as a % 0xff
                                                 j += 1;
                                             }
                                             index_list.Add(index.ToArray());
@@ -5198,14 +5200,14 @@ namespace plt0
                                     {
                                         for (int h = 0; h < canvas_height; h++)
                                         {
-                                            for (int w = 0; w < canvas_width << 1; w += 2)  // multiplied by two because each index is a 14 bytes integer
+                                            for (int w = 0; w < canvas_width << 1; w += 2)  // multiplied by two because each index is a 14 bits integer
                                             {
                                                 diff_min = 500;
                                                 for (int i = 0; i < colour_number_x2; i += 2)  // process the colour palette to find the closest colour corresponding to the current pixel
                                                 {
                                                     if (colour_palette[i] == (byte)(Colours[j] >> 8) && colour_palette[i + 1] == (byte)Colours[j])  // if it's the exact same colour
                                                     {
-                                                        diff_min_index = (byte)(i >> 1);  // index is stored on 1 byte, while each colour is stored on 2 bytes
+                                                        diff_min_ind14x2 = (byte)(i >> 1);  // index is stored on 1 byte, while each colour is stored on 2 bytes
                                                         break;
                                                     }
                                                     else  // calculate difference between each separate colour channel and store the sum
@@ -5242,12 +5244,12 @@ namespace plt0
                                                         if (diff < diff_min)
                                                         {
                                                             diff_min = diff;
-                                                            diff_min_index = (byte)(i >> 1);
+                                                            diff_min_ind14x2 = (byte)(i >> 1);
                                                         }
                                                     }
                                                 }
-                                                index[w] = (byte)(diff_min_index >> 8);  // adding a short at each iteration
-                                                index[w + 1] = (byte)diff_min_index;  // casting to byte acts as a % 0xff
+                                                index[w] = (byte)(diff_min_ind14x2 >> 8);  // adding a short at each iteration
+                                                index[w + 1] = (byte)diff_min_ind14x2;  // casting to byte acts as a % 0xff
                                                 j += 1;
                                             }
                                             index_list.Add(index.ToArray());
@@ -5264,7 +5266,7 @@ namespace plt0
                 j = 0;
                 switch (texture_format_int32[3])
                 {
-                    case 0: // I4 - works as expected
+                    case 0: // I4
                         {
                             switch (algorithm)
                             {
@@ -5343,7 +5345,7 @@ namespace plt0
                             }
                             break;
                         }
-                    case 1: // I8 - works as expected
+                    case 1: // I8
                         {
                             switch (algorithm)
                             {
@@ -5392,7 +5394,7 @@ namespace plt0
                             }
                             break;
                         }
-                    case 2: // IA4 - works as expected
+                    case 2: // IA4
                         {
                             switch (algorithm)
                             {
