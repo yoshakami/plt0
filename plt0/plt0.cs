@@ -1939,7 +1939,7 @@ namespace plt0
                 padding = 0;
             }
             int ref_width = canvas_width;
-
+            byte alpha_header_size = 0;
             switch (texture_format_int32[3])
             {
                 case 0:  // I4
@@ -1974,6 +1974,7 @@ namespace plt0
                 case 10: // CI14x2
                 case 0xE:  // CMPR
                     {
+                        alpha_header_size = 0x44;
                         ref_width <<= 2; // 32 bits per pixel
                         break;
                     }
@@ -1981,15 +1982,17 @@ namespace plt0
             if (palette_format_int32[3] == 2 && alpha > 0)  // RGB5A3 Palette with alpha
             {
                 colour_number_x4 = 0;
+                alpha_header_size = 0x44;
                 ref_width = canvas_width << 2; // 32 bits per pixel
             }
-            if (palette_format_int32[3] == 0)  // AI8 Palette with alpha
+            if (palette_format_int32[3] == 0 && alpha > 0)  // AI8 Palette with alpha
             {
                 colour_number_x4 = 0;
+                alpha_header_size = 0x44;
                 ref_width = canvas_width << 2; // 32 bits per pixel
             }
             int image_size = ((ref_width + padding) * canvas_height);
-            int pixel_start_offset = 0x36 + colour_number_x4;
+            int pixel_start_offset = 0x36 + colour_number_x4 + alpha_header_size;
             int size = pixel_start_offset + image_size;  // fixed size at 1 image
             // int size2 = pixel_start_offset + image_size;  // plus the header?????? added it twice lol
             int width = 0;  // will change when equal to 4 or 16 bit because of bypass lol
@@ -2002,6 +2005,7 @@ namespace plt0
             byte[] palette = new byte[colour_number_x4];
             string end = ".bmp";
             bool done = false;
+            byte[] alpha_header = { 00, 00, 0xFF, 00, 00, 0xFF, 00, 00, 0xFF, 00, 00, 00, 00, 00, 00, 0xFF, 0x20, 0x6E, 0x69, 0x57, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00 };
             for (z = 0; z < mipmaps_number + 1; z++)
             {
                 byte[] pixel = new byte[image_size];
@@ -2061,12 +2065,12 @@ namespace plt0
                             data[28] = 8;  // 8-bit per pixel
                             break;
                         }
-
-                    case 2: // AI4
+                        /* technically RGB5A3 with no alpha would fit as it's XRRR RRGG GGGB BBBB, but lots of softwares doesn't like these
                         {
                             data[28] = 16;  // 16-bit per pixel
                             break;
                         }
+                        */
 
                     case 4:  // RGB565
                     case 10: // CI14x2
@@ -2075,6 +2079,7 @@ namespace plt0
                             data[28] = 24; // converted to 24bpp to prevent loss
                             break;
                         }
+                    case 2: // AI4
                     case 3:  // IA8
                     case 6:  // RGBA32
                     case 5:  // RGB5A3
@@ -2108,6 +2113,12 @@ namespace plt0
                 data[51] = 0;
                 data[52] = 0;
                 data[53] = 0;
+                if (alpha_header_size != 0)  // 32 bit depth images without that update store an useless alpha byte for each pixel
+                {
+                    // Windows DIB Header BITMAPV4HEADER
+                    data[30] = 3; // compression set to BI_BITFIELDS - basically it's the update to the bmp file format that supports alpha channel lol
+                    data[14] = 0x6C;  // DIB header size
+                }
                 if (has_palette)
                 {
                     data[46] = (byte)(colour_number);
@@ -2204,21 +2215,33 @@ namespace plt0
                                     data[49] = 0;
                                     data[50] = 0;
                                     data[51] = 0;
-                                    data[28] = 16;  // converts it to 16-bit depth, as 8-bit depth bmp files don't have alpha despite STORING A F*CKING ALPHA BYTE FOR. EACH. PIXEL.
+                                    data[28] = 32;  // converts it to 32-bit depth, as 8-bit depth bmp files don't have alpha despite STORING A F*CKING ALPHA BYTE FOR. EACH. PIXEL.
 
-                                    // AAAA RRRR GGGG BBBB
                                     for (int j = 0; j < index_list[z].Count; j++)
                                     {
-                                        for (int k = 0; k < index_list[z][0].Length; k++, index += 2)
+                                        for (int k = 0; k < index_list[z][0].Length; k++, index += 4)
                                         {
                                             pixel_alpha = (byte)((colour_palette[index_list[z][j][k] << 1] << 1) & 0xe0);
                                             if (pixel_alpha == 0xe0)
                                             {
-                                                pixel_alpha = 0xf0;
+                                                pixel_alpha = 0xff;
                                             }
-                                            pixel_alpha += (byte)(colour_palette[index_list[z][j][k] << 1] & 0x0f);
-                                            pixel[index] = pixel_alpha;
-                                            pixel[index + 1] = colour_palette[(index_list[z][j][k] << 1) + 1];
+                                            pixel[index + 3] = pixel_alpha;  // alpha
+                                            pixel[index + 2] = (byte)((colour_palette[index_list[z][j][k] << 1] & 0x0f) << 4);  // red
+                                            if (pixel[index + 2] == 0xf0)
+                                            {
+                                                pixel[index + 2] = 0xff;
+                                            }
+                                            pixel[index + 1] = (byte)(colour_palette[(index_list[z][j][k] << 1) + 1] & 0xf0);  // green
+                                            if (pixel[index + 1] == 0xf0)
+                                            {
+                                                pixel[index + 1] = 0xff;
+                                            }
+                                            pixel[index] = (byte)((colour_palette[(index_list[z][j][k] << 1) + 1] & 0x0f) << 4);  // blue
+                                            if (pixel[index] == 0xf0)
+                                            {
+                                                pixel[index] = 0xff;
+                                            }
                                         }
                                         for (int k = 0; k < padding; k++, index++)
                                         {
@@ -2234,43 +2257,38 @@ namespace plt0
                                     data[49] = 0;
                                     data[50] = 0;
                                     data[51] = 0;
-                                    data[28] = 16;  // converts it to 32-bit depth, as it's either rgb555 or rgba4443
+                                    data[28] = 32;  // converts it to 32-bit depth, as it's either rgb555 or rgba4443
 
                                     for (int j = 0; j < index_list[z].Count; j++)
                                     {
                                         for (int k = 0; k < index_list[z][0].Length; k++, index += 4)
                                         {
-                                            if (colour_palette[index_list[z][j][k] << 1] >> 7 == 0)
+                                            if (colour_palette[index_list[z][j][k] << 1] >> 7 == 0)  // alpha - 
                                             {
                                                 pixel_alpha = (byte)((colour_palette[index_list[z][j][k] << 1] << 1) & 0xe0);
                                                 if (pixel_alpha == 0xe0)
                                                 {
                                                     pixel_alpha = 0xff;
                                                 }
-                                                pixel[index] = pixel_alpha;
-                                                pixel[index + 1] = (byte)((colour_palette[index_list[z][j][k] << 1] & 0x0f) << 4);
-                                                if (pixel[index + 1] == 0xf0)
-                                                {
-                                                    pixel[index + 1] = 0xff;
-                                                }
-                                                pixel[index + 2] = (byte)(colour_palette[(index_list[z][j][k] << 1) + 1] & 0xf0);
+                                                pixel[index + 3] = pixel_alpha;  // alpha
+                                                pixel[index + 2] = (byte)((colour_palette[index_list[z][j][k] << 1] & 0x0f) << 4);  // red
                                                 if (pixel[index + 2] == 0xf0)
                                                 {
                                                     pixel[index + 2] = 0xff;
                                                 }
-                                                pixel[index + 3] = (byte)((colour_palette[(index_list[z][j][k] << 1) + 1] & 0x0f) << 4);
-                                                if (pixel[index + 3] == 0xf0)
+                                                pixel[index + 1] = (byte)(colour_palette[(index_list[z][j][k] << 1) + 1] & 0xf0);  // green
+                                                if (pixel[index + 1] == 0xf0)
                                                 {
-                                                    pixel[index + 3] = 0xff;
+                                                    pixel[index + 1] = 0xff;
+                                                }
+                                                pixel[index] = (byte)((colour_palette[(index_list[z][j][k] << 1) + 1] & 0x0f) << 4);  // blue
+                                                if (pixel[index] == 0xf0)
+                                                {
+                                                    pixel[index] = 0xff;
                                                 }
                                             }
-                                            else
+                                            else  // reads 0RRR RRGG GGGB BBBB
                                             {
-                                                pixel_alpha = (byte)((colour_palette[index_list[z][j][k] << 1] << 1) & 0xe0);
-                                                if (pixel_alpha == 0xe0)
-                                                {
-                                                    pixel_alpha = 0xff;
-                                                }
                                                 pixel[index + 2] = (byte)((colour_palette[index_list[z][j][k] << 1] << 1) & 248);  // red
                                                 if (pixel[index + 2] == 248)
                                                 {
@@ -2281,10 +2299,10 @@ namespace plt0
                                                 {
                                                     pixel[index + 1] = 0xff;
                                                 }
-                                                pixel[index + 2] = (byte)(colour_palette[(index_list[z][j][k] << 1) + 1] << 3);  // blue
-                                                if (pixel[index + 2] == 248)
+                                                pixel[index] = (byte)(colour_palette[(index_list[z][j][k] << 1) + 1] << 3);  // blue
+                                                if (pixel[index] == 248)
                                                 {
-                                                    pixel[index + 2] = 0xff;
+                                                    pixel[index] = 0xff;
                                                 }
                                                 pixel[index + 3] = 0xff; // no alpha
                                             }
@@ -2300,7 +2318,7 @@ namespace plt0
                             }
                     }
                 }
-                if ((has_palette && palette_format_int32[3] != 0 && (palette_format_int32[3] != 2 || alpha < 1)) || funky) // && (texture_format_int32[3] > 2 || texture_format_int32[3] != 0xe)))
+                if ((has_palette && (palette_format_int32[3] != 0 || alpha < 1) && (palette_format_int32[3] != 2 || alpha < 1)) || funky) // && (texture_format_int32[3] > 2 || texture_format_int32[3] != 0xe)))
                 {
                     if (texture_format_int32[3] == 3 || texture_format_int32[3] == 4 || texture_format_int32[3] == 5)
                     {
@@ -2311,7 +2329,6 @@ namespace plt0
                     {
                         for (int k = 0; k < index_list[z][0].Length; k++, index++)
                         {
-
                             pixel[index] = index_list[z][j][k];
                         }
                         for (int k = 0; k < padding; k++, index++)
@@ -2372,9 +2389,9 @@ namespace plt0
                                     pixel[index] = 0x69;  // my signature XDDDD 
                                 }}*/
                                 // fill pixel data
-                                for (int j = 0; j < height; j++)
+                                for (int j = 0; j < index_list[z].Count; j++)
                                 {
-                                    for (int k = 0; k < width; k++, index++)
+                                    for (int k = 0; k < index_list[z][0].Length; k++, index++)
                                     {
                                         pixel[index] = index_list[z][j][k];
                                     }
@@ -2396,9 +2413,9 @@ namespace plt0
                                     palette[k + 2] = (byte)j;  // Red
                                     palette[k + 3] = 0xff;  // Alpha - unused
                                 }
-                                for (int j = 0; j < height; j++)
+                                for (int j = 0; j < index_list[z].Count; j++)
                                 {
-                                    for (int k = 0; k < width; k++, index++)
+                                    for (int k = 0; k < index_list[z][0].Length; k++, index++)
                                     {
                                         pixel[index] = index_list[z][j][k];
                                     }
@@ -2411,1215 +2428,1387 @@ namespace plt0
                             }
                         case 2:  // reverse AI4
                             {
-                                for (int j = 0; j < height; j++)
+                                for (int j = 0; j < index_list[z].Count; j++)
                                 {
-                                    for (int k = 0; k < width; k++, index += 6)
+                                    for (int k = 0; k < index_list[z][0].Length; k++, index += 4)
                                     {
-                                        pixel_color = (byte)(index_list[z][j][k] & 240);
-                                        if (pixel_color == 240)
+                                        pixel_alpha = (byte)(index_list[z][j][k] & 240);
+                                        if (pixel_alpha == 240)
+                                        {
+                                            pixel_alpha = 255;
+                                        }
+                                        pixel_color = (byte)(index_list[z][j][k] & 15);
+                                        if (pixel_color == 15)
                                         {
                                             pixel_color = 255;
                                         }
                                         pixel[index] = pixel_color;
                                         pixel[index + 1] = pixel_color;
                                         pixel[index + 2] = pixel_color;
-
-                                        pixel_color = (byte)(index_list[z][j][k] & 15);
-                                        if (pixel_color == 15)
-                                        {
-                                            pixel_color = 255;
-                                        }
-                                        else
-                                        {
-                                            pixel_color = (byte)(pixel_color << 4);
-                                        }
-                                        pixel[index + 3] = pixel_color;
-                                        pixel[index + 4] = pixel_color;
-                                        pixel[index + 5] = pixel_color;
-                                    }
-                                    for (int k = 0; k < padding; k++, index++)
-                                    {
-                                        pixel[index] = 0x69;  // my signature XDDDD 
+                                        pixel[index + 3] = pixel_alpha;
                                     }
                                 }
                                 break;
                             }
                         case 3:  // reverse AI8
                             {
-                                for (int j = 0; j < height; j++)
+                                for (int j = 0; j < index_list[z].Count; j++)
                                 {
-                                    for (int k = 0; k < width; k++, index += 3)
+                                    for (int k = 0; k < index_list[z][0].Length; k += 2, index += 4)
                                     {
-                                        pixel_color = index_list[z][j][k];
-                                        if (pixel_color == 240)
-                                        {
-                                            pixel_color = 255;
-                                        }
-                                        pixel[index] = pixel_color;
-                                        pixel[index + 1] = pixel_color;
-                                        pixel[index + 2] = pixel_color;
+                                        pixel[index] = index_list[z][j][k + 1];
+                                        pixel[index + 1] = index_list[z][j][k + 1];
+                                        pixel[index + 2] = index_list[z][j][k + 1];
+                                        pixel[index + 3] = index_list[z][j][k];
                                     }
-                                    for (int k = 0; k < padding; k++, index++)
+                                }
+                                break;
+                            }
+                        case 4:  // reverse RGB565
+                            {
+                                for (int j = 0; j < index_list[z].Count; j++)
+                                {
+                                    for (int k = 0; k < index_list[z][0].Length; k += 2, index += 3)
                                     {
-                                        pixel[index] = 0x69;  // my signature XDDDD 
+
+                                        pixel[index] = (byte)(index_list[z][j][k + 1] << 3); // blue
+                                        pixel[index + 1] = (byte)(((index_list[z][j][k] << 5) | (index_list[z][j][k + 1] >> 3)) & 0xfc);  // green
+                                        pixel[index + 2] = (byte)(index_list[z][j][k + 1] & 0xf8);  // red
+                                    }
+                                }
+                                for (int k = 0; k < padding; k++, index++)
+                                {
+                                    pixel[index] = 0x69;  // my signature XDDDD 
+                                }
+                                break;
+                            }
+                        case 5:  // reverse RGB5A3
+                            {
+                                if (alpha == 0)  // no alpha
+                                {
+                                    for (int j = 0; j < index_list[z].Count; j++)
+                                    {
+                                        for (int k = 0; k < index_list[z][0].Length; k += 2, index += 4)
+                                        {
+                                            pixel[index + 2] = (byte)((index_list[z][j][k] << 1) & 248);  // red
+                                            if (pixel[index + 2] == 248)
+                                            {
+                                                pixel[index + 2] = 255;
+                                            }
+                                            pixel[index + 1] = (byte)((index_list[z][j][k] << 6) + (index_list[z][j][k + 1] >> 2));  // green
+                                            if (pixel[index + 1] == 248)
+                                            {
+                                                pixel[index + 1] = 0xff;
+                                            }
+                                            pixel[index] = (byte)(index_list[z][j][k + 1] << 3);  // blue
+                                            if (pixel[index] == 248)
+                                            {
+                                                pixel[index] = 0xff;
+                                            }
+                                            pixel[index + 3] = 0xff; // no alpha
+                                        }
+                                    }
+                                }
+                                else if (alpha == 1)  // alpha - 0AAA RRRR GGGG BBBB 
+                                {
+                                    for (int j = 0; j < index_list[z].Count; j++)
+                                    {
+                                        for (int k = 0; k < index_list[z][0].Length; k++, index += 4)
+                                        {
+                                            pixel_alpha = (byte)((index_list[z][j][k] << 1) & 0xe0);
+                                            if (pixel_alpha == 0xe0)
+                                            {
+                                                pixel_alpha = 0xff;
+                                            }
+                                            pixel[index + 3] = pixel_alpha;  // alpha
+                                            pixel[index + 2] = (byte)((index_list[z][j][k] & 0x0f) << 4);  // red
+                                            if (pixel[index + 2] == 0xf0)
+                                            {
+                                                pixel[index + 2] = 0xff;
+                                            }
+                                            pixel[index + 1] = (byte)(index_list[z][j][k + 1] & 0xf0);  // green
+                                            if (pixel[index + 1] == 0xf0)
+                                            {
+                                                pixel[index + 1] = 0xff;
+                                            }
+                                            pixel[index] = (byte)((index_list[z][j][k + 1] & 0x0f) << 4);  // blue
+                                            if (pixel[index] == 0xf0)
+                                            {
+                                                pixel[index] = 0xff;
+                                            }
+                                        }
+                                    }
+                                }
+                                else  // mix
+                                {
+                                    for (int j = 0; j < index_list[z].Count; j++)
+                                    {
+                                        for (int k = 0; k < index_list[z][0].Length; k+= 2, index += 4)
+                                        {
+                                            if (index_list[z][j][k] >> 7 == 0)  // alpha - 0AAA RRRR GGGG BBBB
+                                            {
+                                                pixel_alpha = (byte)((index_list[z][j][k] << 1) & 0xe0);
+                                                if (pixel_alpha == 0xe0)
+                                                {
+                                                    pixel_alpha = 0xff;
+                                                }
+                                                pixel[index + 3] = pixel_alpha;  // alpha
+                                                pixel[index + 2] = (byte)((index_list[z][j][k] & 0x0f) << 4);  // red
+                                                if (pixel[index + 2] == 0xf0)
+                                                {
+                                                    pixel[index + 2] = 0xff;
+                                                }
+                                                pixel[index + 1] = (byte)(index_list[z][j][k + 1] & 0xf0);  // green
+                                                if (pixel[index + 1] == 0xf0)
+                                                {
+                                                    pixel[index + 1] = 0xff;
+                                                }
+                                                pixel[index] = (byte)((index_list[z][j][k + 1] & 0x0f) << 4);  // blue
+                                                if (pixel[index] == 0xf0)
+                                                {
+                                                    pixel[index] = 0xff;
+                                                }
+                                            }
+                                            else  // reads 1RRR RRGG GGGB BBBB
+                                            {
+                                                pixel[index + 2] = (byte)((index_list[z][j][k] << 1) & 248);  // red
+                                                if (pixel[index + 2] == 248)
+                                                {
+                                                    pixel[index + 2] = 255;
+                                                }
+                                                pixel[index + 1] = (byte)((index_list[z][j][k] << 6) + (index_list[z][j][k + 1] >> 2));  // green
+                                                if (pixel[index + 1] == 248)
+                                                {
+                                                    pixel[index + 1] = 0xff;
+                                                }
+                                                pixel[index] = (byte)(index_list[z][j][k + 1] << 3);  // blue
+                                                if (pixel[index] == 248)
+                                                {
+                                                    pixel[index] = 0xff;
+                                                }
+                                                pixel[index + 3] = 0xff; // no alpha
+                                            }
+                                        }
+                                    }
+                                }
+                                break;
+                            }
+                        case 6:  // reverse RGBA8
+                            {  // remember I encoded each group of 16 bytes ARAR ARAR GBGB GBGB
+                                for (int j = 0; j < index_list[z].Count; j++)
+                                {
+                                    for (int k = 0; k < index_list[z][0].Length; k += 16, index += 16)
+                                    {
+                                        pixel[index] = index_list[z][j][k + 9];  // blue
+                                        pixel[index + 1] = index_list[z][j][k + 8];  // green
+                                        pixel[index + 2] = index_list[z][j][k + 1];  // red 1
+                                        pixel[index + 3] = index_list[z][j][k];  // alpha
+                                        pixel[index + 4] = index_list[z][j][k + 11];  // blue
+                                        pixel[index + 5] = index_list[z][j][k + 10];  // green
+                                        pixel[index + 6] = index_list[z][j][k + 3];  // red 2
+                                        pixel[index + 7] = index_list[z][j][k + 2];  // alpha
+                                        pixel[index + 8] = index_list[z][j][k + 13];  // blue
+                                        pixel[index + 9] = index_list[z][j][k + 12];  // green
+                                        pixel[index + 10] = index_list[z][j][k + 5];  // red 3
+                                        pixel[index + 11] = index_list[z][j][k + 4];  // alpha
+                                        pixel[index + 12] = index_list[z][j][k + 15];  // blue
+                                        pixel[index + 13] = index_list[z][j][k + 14];  // green
+                                        pixel[index + 14] = index_list[z][j][k + 7];  // red 4
+                                        pixel[index + 15] = index_list[z][j][k + 6];  // alpha
+                                    }
+                                }
+                                break;
+                            }
+                        case 0xe:  // reverse CMPR
+                            {
+                                // annoying af
+                                List<byte[]> colour_palette = new List<byte[]>();
+                                byte[] color_rgba = { 0, 0, 0, 0 };
+                                ushort color1;
+                                ushort color2;
+                                for (int j = 0; j < index_list[z].Count; j++)
+                                {
+                                    color1 = (ushort)((index_list[z][j][0] << 8) + index_list[z][j][1]);
+                                    color2 = (ushort)((index_list[z][j][2] << 8) + index_list[z][j][3]);
+
+                                    color_rgba[0] = (byte)(index_list[z][j][0] & 248);  // red
+                                    color_rgba[1] = (byte)(((index_list[z][j][0] << 5) + (index_list[z][j][1] >> 3)) & 0xfc);  // green
+                                    color_rgba[2] = (byte)((index_list[z][j][1] << 3) & 248);  // blue
+                                    color_rgba[3] = 0xff; // rgb565 value has no alpha
+                                    colour_palette.Add(color_rgba.ToArray());
+                                    color_rgba[0] = (byte)(index_list[z][j][2] & 248);  // red
+                                    color_rgba[1] = (byte)(((index_list[z][j][2] << 5) + (index_list[z][j][3] >> 3)) & 0xfc);  // green
+                                    color_rgba[2] = (byte)((index_list[z][j][3] << 3) & 248);  // blue
+                                                                                               // color_rgba[3] = 0xff; // rgb565 value has no alpha
+                                    colour_palette.Add(color_rgba.ToArray());
+                                    if (color1 > color2)
+                                    {
+                                        color_rgba[0] = (byte)((colour_palette[0][0] * 2 / 3) + (colour_palette[1][0] / 3));
+                                        color_rgba[1] = (byte)((colour_palette[0][1] * 2 / 3) + (colour_palette[1][1] / 3));
+                                        color_rgba[2] = (byte)((colour_palette[0][2] * 2 / 3) + (colour_palette[1][2] / 3));
+                                        colour_palette.Add(color_rgba.ToArray());
+                                        color_rgba[0] = (byte)((colour_palette[0][0] / 3) + (colour_palette[1][0] * 2 / 3));
+                                        color_rgba[1] = (byte)((colour_palette[0][1] / 3) + (colour_palette[1][1] * 2 / 3));
+                                        color_rgba[2] = (byte)((colour_palette[0][2] / 3) + (colour_palette[1][2] * 2 / 3));
+                                        colour_palette.Add(color_rgba.ToArray());
+                                    }
+                                    else
+                                    {
+                                        color_rgba[0] = (byte)((colour_palette[0][0] + colour_palette[1][0]) >> 1);
+                                        color_rgba[1] = (byte)((colour_palette[0][1] + colour_palette[1][1]) >> 1);
+                                        color_rgba[2] = (byte)((colour_palette[0][2] + colour_palette[1][2]) >> 1);
+                                        // color_rgba[3] = 0xff; // rgb565 value has no alpha
+                                        colour_palette.Add(color_rgba.ToArray());
+                                        color_rgba[0] = 0;
+                                        color_rgba[1] = 0;
+                                        color_rgba[2] = 0;
+                                        color_rgba[3] = 0;
+                                        colour_palette.Add(color_rgba.ToArray());
+                                    }
+                                    for (byte h = 3; h >= 0; h--)
+                                    {
+                                        for (byte w = 0; w < 4; w++, index += 4)
+                                        {
+                                            pixel[index] = colour_palette[index_list[z][j][7 - h] >> (w << 1)][2];  // blue
+                                            pixel[index + 1] = colour_palette[index_list[z][j][7 - h] >> (w << 1)][1];  // green
+                                            pixel[index + 2] = colour_palette[index_list[z][j][7 - h] >> (w << 1)][0];  // red
+                                            pixel[index + 3] = colour_palette[index_list[z][j][7 - h] >> (w << 1)][3];  // alpha
+                                        }
                                     }
                                 }
                                 break;
                             }
                     }
                 }
-                if (z != 0)
-                {
-                    end = ".mm" + z + ".bmp";
+                    if (z != 0)
+                    {
+                        end = ".mm" + z + ".bmp";
+                    }
+                    index = 0;
+                    done = false;
+                    while (!done)
+                    {
+
+                        try
+                        {
+                            FileMode mode = System.IO.FileMode.CreateNew;
+                            if (System.IO.File.Exists(output_file + end))
+                            {
+                                mode = System.IO.FileMode.Truncate;
+                                if (warn)
+                                {
+                                    Console.WriteLine("Press enter to overwrite " + output_file + end);
+                                    Console.ReadLine();
+                                }
+                            }
+                            using (System.IO.FileStream file = System.IO.File.Open(output_file + end, mode, System.IO.FileAccess.Write))
+                            {
+                                file.Write(data, 0, data.Length);
+                                file.Write(palette, 0, colour_number_x4);
+                                file.Write(alpha_header, 0, alpha_header_size);
+                                file.Write(pixel, 0, pixel.Length);
+                                file.Close();
+                                Console.WriteLine(output_file + end);
+                            }
+                            if (!bmp)
+                            {
+
+                                ConvertAndSave((Bitmap)Bitmap.FromFile(output_file + end), z);
+                            }
+                            done = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            index += 1;
+                            if (ex.Message.Substring(0, 34) == "The process cannot access the file")  // because it is being used by another process
+                            {
+                                if (index > 1)
+                                {
+                                    output_file = output_file.Substring(output_file.Length - 2) + "-" + index;
+                                }
+                                else
+                                {
+                                    output_file += "-" + index;
+                                }
+                            }
+                            continue;
+                        }
+                    }
+                
+                    size = size >> 2;  // for next loop - divides by 4 because it's half the width size and half the height size
                 }
-                index = 0;
-                done = false;
-                while (!done)
+            }
+
+            public void write_BTI(List<List<byte[]>> index_list)  // index_list contains all mipmaps.
+            {
+                int size = 0x20 + colour_palette.Length + 0x40; // fixed size at 1 image
+                double temp;
+                int[] param = new int[4];
+                List<int[]> settings = new List<int[]>();
+                for (int i = 0; i < mipmaps_number + 1; i++)
+                {
+                    if (i == 0)
+                    {
+                        param[2] = (int)(index_list[i][0].Length * format_ratio);
+                        param[3] = index_list[i].Count;
+                    }
+                    else
+                    {
+                        temp = bitmap_width / Math.Pow(2, i);
+                        if (temp % 1 != 0)
+                        {
+                            param[2] = (int)(index_list[i][0].Length * format_ratio) + 1;
+                            // param[2] = (int)temp + 1;
+                        }
+                        else
+                        {
+                            // param[2] = (int)temp;
+                            param[2] = (int)(index_list[i][0].Length * format_ratio);
+                        }
+                        temp = bitmap_height / Math.Pow(2, i);
+                        if (temp % 1 != 0)
+                        {
+                            // param[3] = (int)temp + 1;
+                            param[3] = index_list[i].Count;
+                        }
+                        else
+                        {
+                            // param[3] = (int)temp;
+                            param[3] = index_list[i].Count;
+                        }
+                    }
+                    temp = param[2] / block_width;
+                    if (temp % 1 != 0)
+                    {
+                        param[0] = (int)temp + 1;
+                    }
+                    else
+                    {
+                        param[0] = (int)temp;
+                    }
+                    temp = param[3] / block_height;
+                    if (temp % 1 != 0)
+                    {
+                        param[1] = (int)temp + 1;
+                    }
+                    else
+                    {
+                        param[1] = (int)temp;
+                    }
+                    settings.Add(param.ToArray());
+                    // size += param[0] * block_width * param[1] * block_height;
+                    size += index_list[i][0].Length * index_list[i].Count;
+                }
+                byte size2 = (byte)(4 + Math.Abs(16 - size) % 16);
+                byte len = (byte)output_file.Split('\\').Length;
+                string file_name = (output_file.Split('\\')[len - 1]);
+                byte[] data2 = new byte[size2 + len + (16 - len) % 16];
+                byte[] data = new byte[32];  // header data
+                for (int i = 0; i < size2; i++)
+                {
+                    data2[i] = 0;
+                }
+                for (int i = 0; i < file_name.Length; i++)
+                {
+                    data2[i + size2] = (byte)file_name[i];
+                }
+                for (int i = size2 + file_name.Length; i < data2.Length; i++)
+                {
+                    data2[i] = 0;
+                }
+                data[0] = texture_format_int32[3];  // image format, pretty straightforward it isn't an int lol
+                data[1] = alpha;
+                data[2] = (byte)(bitmap_width >> 8);  // unsigned short width
+                data[3] = (byte)bitmap_width; // second byte of width
+                data[4] = (byte)(bitmap_height >> 8);  // height
+                data[5] = (byte)bitmap_height;
+                data[6] = WrapS; // sideways wrap
+                data[7] = WrapT; // vertical wrap
+                if (has_palette)
+                {
+                    data[8] = 1; // well, 1 means palette enabled, and the whole purpose of this tool is to make images with palette LMAO
+                    data[9] = palette_format_int32[3]; // pretty straightforward again
+                    data[10] = (byte)(colour_number >> 8);
+                    data[11] = (byte)(colour_number);  // number of colours
+                    data[12] = 0;
+                    data[13] = 0;
+                    data[14] = 0;
+                    data[15] = 32; // palette data address
+                }
+                else
                 {
 
-                    try
+                    data[8] = 0;  // well, I've changed my mind, I wanna make it better than wimgt 
+                    data[9] = 0; // pretty straightforward again
+                    data[10] = 0;
+                    data[11] = 0;  // number of colours
+                    data[12] = 0;
+                    data[13] = 0;
+                    data[14] = 0;
+                    data[15] = 0; // palette data address
+                }
+                if (mipmaps_number > 0)
+                {
+                    data[16] = 1;
+                }
+                else
+                {
+                    data[16] = 0;
+                }
+                data[17] = 0;  // EdgeLOD (bool)
+                data[18] = 0;  // BiasClamp (bool)
+                data[19] = 0;  // MaxAniso (byte)
+                data[20] = minificaction_filter;
+                data[21] = magnification_filter;
+                data[22] = 0; // MinLOD
+                data[23] = (byte)(mipmaps_number << 3);  // MaxLOD   << 3 is faster than * 8
+                data[24] = (byte)(mipmaps_number + 1);  // number of images
+                data[25] = 0x69; // my signature XDDDD, I couldn't figure out what this setting does, but it doesn't affect the gameplay at all, it looks like it is used as a version number.
+                data[26] = 0; // how do I calculate LODBIAS
+                data[27] = 0; // how do I calculate LODBIAS
+                data[28] = 0;  // won't exceed the max number of colours in the colour table which is stored on 2 bytes + header size 0x20
+                data[29] = (byte)((0x20 + colour_palette.Length) >> 16); // >> 16 is better than / 65536
+                data[30] = (byte)((0x20 + colour_palette.Length) >> 8);  // >> 8 is better than / 256
+                data[31] = (byte)(0x20 + colour_palette.Length);  // offset to image0 header, (byte) acts as %256
+                                                                  // now's palette data, but it's already stored in colour_palette, so let's jump onto image data.
+                byte[] tex_data = new byte[size - 0x20 - colour_palette.Length];
+                create_blocks(tex_data, settings, index_list);
+
+                // finished to get everything of the bti
+                // now we'll check if that bti needs to be injected in a bmd
+                // I made extract-bti.py first, so I'm using it as a template
+                // 0x14/20 bytes long
+                /*
+                TEX1 Header description
+                0x00
+                char[4] Magic_TEX1; //'TEX1'
+                0x04
+                int ChunkSize; //Total bytes of chunk
+                0x08
+                short TextureCount; //Number of textures
+                0x0A
+                short Padding; (Usually 0xFFFF)
+                0x0C
+                int TextureHeaderOffset; // (always 0x20) TextureCount bti image headers are stored here. Relative to TEX1Header start.
+                0x10
+                int StringTableOffset; //Stores one filename for each texture. Relative to TEX1Header start.
+                */
+                if (bmd_file)
+                {
+                    if (has_palette)
                     {
+                        Console.WriteLine("Sorry man, I have not met any bmd file with a palette amongst all games I've reviewed so far. I'll be glad to add this feature if you find some files I could look into\n for now you can't use CI4, CI8 and CI14x2 in a bmd\n");
+                        Console.WriteLine("Press enter to exit...");
+                        Console.ReadLine();
+                        return;
+                    }
+                    using (System.IO.FileStream file = System.IO.File.Open(input_file2, System.IO.FileMode.Open, System.IO.FileAccess.Read))
+                    {
+                        byte[] j3d = new byte[file.Length];
+                        file.Read(j3d, 0, j3d.Length);
+                        file.Close();
+                        y = 0x20; // next section offset
+                        while (!(j3d[y] == 'T' && j3d[y + 1] == 'E' && j3d[y + 2] == 'X' && j3d[y + 3] == '1'))  // section identifier
+                        {
+                            if (y + 9 > j3d.Length)
+                            {
+                                Console.WriteLine("Couldn't find the TEX1 Section. This bmd file is corrupted. the program will exit");
+                                return;
+                            }
+                            y += (j3d[y + 4] << 24) + (j3d[y + 5] << 16) + (j3d[y + 6] << 8) + j3d[y + 7];  // size of current section
+                        }
+                        // now that we found TEX1 section address, we can find string pool table address, then get all texture names
+                        int x = y + (j3d[y + 16] << 24) + (j3d[y + 17] << 16) + (j3d[y + 18] << 8) + j3d[y + 19];  // string pool table start offset
+                        int string_pool_table_start_offset = x;
+                        ushort string_count = (ushort)((j3d[x] << 8) + j3d[x + 1]);
+                        int string_count_5 = string_count << 5;
+                        if (string_count == 0)  // ARE YOU KIDDING ME
+                        {
+                            Console.WriteLine("I could have sworn you were smart enough to take a bmd with bti textures in it, but this one contains none.");
+                        }
+                        string name = "";
+                        x += 4 + (string_count << 2); // 4 is the string pool table header size
+                                                      // string count is multiplied by 4 because after the header there is a ushort hash and a ushort offset for each string
+                        success = false;
+                        ushort[] score = new ushort[string_count];
+                        int f = 0;
+                        ushort current_string = 0;
+                        ushort best_score = 0;  // length of the biggest substring in common
+                        ushort current = 0;
+                        List<string> name_list = new List<string>();
+                        while (current_string < string_count) // used to compare each texture name with the input file
+                        {
+                            while (j3d[x] != 0)  // 0 is supposed to be the byte separating strings. never seen another value in mkdd
+                            {
+                                name += j3d[x];
+                                x++;
+                            }
+                            name_list.Add(name);
+                            if (name == input_fil)
+                            {
+                                success = true;
+                                break;
+                            }
+                            else  // use an algorithm to determine the MOST SIMILAR texture by file name
+                            {
+                                for (z = 0; z < name.Length - 1; z++)
+                                {
+                                    for (pass = 0; pass < input_fil.Length; pass++)
+                                    {
+                                        if (name[z] == input_fil[pass] && name[z + 1] == input_fil[pass])
+                                        {
+                                            break;
+                                        }
+                                    }  // used to find the start of the similar substring
+                                       // no, don't say 1 byte length files won't work here. They're supposed to fall in the first if
+                                    for (f = z, current = 0; f < input_fil.Length && f < name.Length; f++, current++)
+                                    {
+                                        if (input_fil[pass] != name[f])
+                                        {
+                                            break;
+                                        }
+                                    }
+                                    // get the length of the common substring 
+                                    if (current > best_score)
+                                    {
+                                        best_score = current;
+                                    }
+                                }
+                                score[current_string] = best_score;
+                            }
+                            current_string++;
+                        }
+                        if (!success)  // get the most fitting texture and ask for confirmation
+                        {
+                            best_score = 0;
+                            f = 0;
+                            for (z = 0; z < score.Length; z++)
+                            {
+                                if (score[z] < best_score)
+                                {
+                                    best_score = score[z];
+                                    f = z;
+                                }
+                            }
+                            name = name_list[f];  // most probable fitting texture by the file name
+                            if (warn)
+                            {
+                                Console.WriteLine("File names doesn't exactly match. Press Enter to replace " + name + " inside " + input_file2);
+                                Console.ReadLine();
+                            }
+                        }
+                        List<int> data_offset_array = new List<int>();
+                        List<int> data_size_array = new List<int>();
+                        int blocks_wide;
+                        int blocks_tall;
+                        int curr_mipmap_size;
+                        // f = bti header of the image to replace >> 5 (divided by 32, and relative to y)
+                        // y = TEX1 section start offset
+                        // z = current bti header offset (relative to y)
+                        // 
+                        for (z = 0; z < string_count_5; z += 32)
+                        {
+                            if ((z >> 5) == f)
+                            {
+                                data[12] = (byte)(((string_count_5 - z)) << 24);
+                                data[13] = (byte)(((string_count_5 - z)) << 16);
+                                data[14] = (byte)(((string_count_5 - z)) << 8);
+                                data[15] = (byte)(((string_count_5 - z)));
+                                x = y + (z + 1 * 0x20);
+                            }
+                            int data_offset = (j3d[y + z + 0x3C] << 24) + (j3d[y + z + 0x3D] << 16) + (j3d[y + z + 0x3E] << 8) + (j3d[y + z + 0x3F]);
+                            data_offset_array.Add(data_offset);
+                            blocks_wide = (j3d[y + 0x22 + z] + j3d[y + 0x23 + z] + block_width_array[j3d[y + 0x20 + z]]) / block_width_array[j3d[y + 0x20 + z]];
+                            blocks_tall = (j3d[y + 0x24 + z] + j3d[y + 0x25 + z] + block_width_array[j3d[y + 0x20 + z]]) / block_height_array[j3d[y + 0x20 + z]];
+                            int data_size = (blocks_wide * blocks_tall);
+                            if (j3d[y + 0x20 + z] == 6)
+                            {
+                                data_size <<= 6;
+                            }
+                            else
+                            {
+                                data_size <<= 5;
+                            }
+                            curr_mipmap_size = data_size;
+                            for (int i = 1; i < j3d[y + 0x38 + z]; i++)
+                            {
+                                curr_mipmap_size >>= 2;
+                                data_size += curr_mipmap_size;
+                            }
+                            data_size_array.Add(data_size);
+                            /*blocks_wide = (self.width + (self.block_width-1)) // self.block_width
+                              blocks_tall = (self.height + (self.block_height-1)) // self.block_height
+                              image_data_size = blocks_wide*blocks_tall*self.block_data_size
+                              remaining_mipmaps = self.mipmap_count-1
+                              curr_mipmap_size = image_data_size
+                              while remaining_mipmaps > 0:
+                              # Each mipmap is a quarter the size of the last (half the width and half the height).
+                                  curr_mipmap_size = curr_mipmap_size//4
+                                  image_data_size += curr_mipmap_size
+                                  remaining_mipmaps -= 1*/
+
+                            // fix palette_offset inside bmd which is the offset to the end of all bti headers
+                            j3d[y + 0x20 + (0x20 * z) + 12] = (byte)(((string_count_5 - z)) << 24);
+                            j3d[y + 0x20 + (0x20 * z) + 13] = (byte)(((string_count_5 - z)) << 16);
+                            j3d[y + 0x20 + (0x20 * z) + 14] = (byte)(((string_count_5 - z)) << 8);
+                            j3d[y + 0x20 + (0x20 * z) + 15] = (byte)(((string_count_5 - z)));
+                        }
+                        // now let's remove the image data that we're replacing if it's unused
+                        // no, I won't check for unused texture data apart from this one. these kind of things were generated by other softwares!
+                        int start = y + string_count_5 + 0x20;  // bti headers end offset
+                        int middle = data_offset_array[f] + ((string_count - f) << 5); // relative to start
+                        int start_2 = y + string_count_5 + data_offset_array[f + 1] - ((string_count - f + 1) << 5);
+                        for (int z = 0; z < string_count_5; z += 32)
+                        {
+                            if (data_offset_array[z >> 5] < middle)
+                            {
+                                if ((data_offset_array[z >> 5] + data_size_array[z >> 5]) > middle)
+                                {
+                                    middle = (data_offset_array[z >> 5] + data_size_array[z >> 5]);
+                                    if (middle > start_2)
+                                    {
+                                        start_2 = middle;
+                                    }
+                                }
+                            }
+                        }
                         FileMode mode = System.IO.FileMode.CreateNew;
-                        if (System.IO.File.Exists(output_file + end))
+                        if (System.IO.File.Exists(output_file + ".bmd"))
                         {
                             mode = System.IO.FileMode.Truncate;
                             if (warn)
                             {
-                                Console.WriteLine("Press enter to overwrite " + output_file + end);
+                                Console.WriteLine("Press enter to overwrite " + output_file + ".bmd");
                                 Console.ReadLine();
                             }
                         }
-                        using (System.IO.FileStream file = System.IO.File.Open(output_file + end, mode, System.IO.FileAccess.Write))
+                        using (System.IO.FileStream ofile = System.IO.File.Open(output_file + ".bmd", mode, System.IO.FileAccess.Write))
                         {
-                            file.Write(data, 0, data.Length);
-                            file.Write(palette, 0, colour_number_x4);
-                            file.Write(pixel, 0, pixel.Length);
-                            file.Close();
-                            Console.WriteLine(output_file + end);
-                        }
-                        if (!bmp)
-                        {
-
-                            ConvertAndSave((Bitmap)Bitmap.FromFile(output_file + end), z);
-                        }
-                        done = true;
-                    }
-                    catch (Exception ex)
-                    {
-                        index += 1;
-                        if (ex.Message.Substring(0, 34) == "The process cannot access the file")  // because it is being used by another process
-                        {
-                            if (index > 1)
+                            ofile.Write(j3d, 0, y);
+                            // write texture headers
+                            if (f != 0)
                             {
-                                output_file = output_file.Substring(output_file.Length - 2) + "-" + index;
+                                ofile.Write(j3d, y, f << 5);
+                            }
+                            ofile.Write(data, 0, 32);
+                            if (f != string_count - 1)
+                            {
+                                ofile.Write(j3d, x, (string_count - f - 1) << 5);
+                            }
+                            if (middle == start_2)
+                            {
+                                ofile.Write(j3d, start, j3d.Length - start);
                             }
                             else
                             {
-                                output_file += "-" + index;
+                                ofile.Write(j3d, start, middle);
+                                ofile.Write(j3d, start_2, j3d.Length - start_2);
                             }
+                            ofile.Close();
+                            Console.WriteLine(output_file + ".bmd");
                         }
-                        continue;
                     }
                 }
-                size = size >> 2;  // for next loop - divides by 4 because it's half the width size and half the height size
-            }
-        }
-
-        public void write_BTI(List<List<byte[]>> index_list)  // index_list contains all mipmaps.
-        {
-            int size = 0x20 + colour_palette.Length + 0x40; // fixed size at 1 image
-            double temp;
-            int[] param = new int[4];
-            List<int[]> settings = new List<int[]>();
-            for (int i = 0; i < mipmaps_number + 1; i++)
-            {
-                if (i == 0)
+                else  // single bti
                 {
-                    param[2] = (int)(index_list[i][0].Length * format_ratio);
-                    param[3] = index_list[i].Count;
-                }
-                else
-                {
-                    temp = bitmap_width / Math.Pow(2, i);
-                    if (temp % 1 != 0)
-                    {
-                        param[2] = (int)(index_list[i][0].Length * format_ratio) + 1;
-                        // param[2] = (int)temp + 1;
-                    }
-                    else
-                    {
-                        // param[2] = (int)temp;
-                        param[2] = (int)(index_list[i][0].Length * format_ratio);
-                    }
-                    temp = bitmap_height / Math.Pow(2, i);
-                    if (temp % 1 != 0)
-                    {
-                        // param[3] = (int)temp + 1;
-                        param[3] = index_list[i].Count;
-                    }
-                    else
-                    {
-                        // param[3] = (int)temp;
-                        param[3] = index_list[i].Count;
-                    }
-                }
-                temp = param[2] / block_width;
-                if (temp % 1 != 0)
-                {
-                    param[0] = (int)temp + 1;
-                }
-                else
-                {
-                    param[0] = (int)temp;
-                }
-                temp = param[3] / block_height;
-                if (temp % 1 != 0)
-                {
-                    param[1] = (int)temp + 1;
-                }
-                else
-                {
-                    param[1] = (int)temp;
-                }
-                settings.Add(param.ToArray());
-                // size += param[0] * block_width * param[1] * block_height;
-                size += index_list[i][0].Length * index_list[i].Count;
-            }
-            byte size2 = (byte)(4 + Math.Abs(16 - size) % 16);
-            byte len = (byte)output_file.Split('\\').Length;
-            string file_name = (output_file.Split('\\')[len - 1]);
-            byte[] data2 = new byte[size2 + len + (16 - len) % 16];
-            byte[] data = new byte[32];  // header data
-            for (int i = 0; i < size2; i++)
-            {
-                data2[i] = 0;
-            }
-            for (int i = 0; i < file_name.Length; i++)
-            {
-                data2[i + size2] = (byte)file_name[i];
-            }
-            for (int i = size2 + file_name.Length; i < data2.Length; i++)
-            {
-                data2[i] = 0;
-            }
-            data[0] = texture_format_int32[3];  // image format, pretty straightforward it isn't an int lol
-            data[1] = alpha;
-            data[2] = (byte)(bitmap_width >> 8);  // unsigned short width
-            data[3] = (byte)bitmap_width; // second byte of width
-            data[4] = (byte)(bitmap_height >> 8);  // height
-            data[5] = (byte)bitmap_height;
-            data[6] = WrapS; // sideways wrap
-            data[7] = WrapT; // vertical wrap
-            if (has_palette)
-            {
-                data[8] = 1; // well, 1 means palette enabled, and the whole purpose of this tool is to make images with palette LMAO
-                data[9] = palette_format_int32[3]; // pretty straightforward again
-                data[10] = (byte)(colour_number >> 8);
-                data[11] = (byte)(colour_number);  // number of colours
-                data[12] = 0;
-                data[13] = 0;
-                data[14] = 0;
-                data[15] = 32; // palette data address
-            }
-            else
-            {
-
-                data[8] = 0;  // well, I've changed my mind, I wanna make it better than wimgt 
-                data[9] = 0; // pretty straightforward again
-                data[10] = 0;
-                data[11] = 0;  // number of colours
-                data[12] = 0;
-                data[13] = 0;
-                data[14] = 0;
-                data[15] = 0; // palette data address
-            }
-            if (mipmaps_number > 0)
-            {
-                data[16] = 1;
-            }
-            else
-            {
-                data[16] = 0;
-            }
-            data[17] = 0;  // EdgeLOD (bool)
-            data[18] = 0;  // BiasClamp (bool)
-            data[19] = 0;  // MaxAniso (byte)
-            data[20] = minificaction_filter;
-            data[21] = magnification_filter;
-            data[22] = 0; // MinLOD
-            data[23] = (byte)(mipmaps_number << 3);  // MaxLOD   << 3 is faster than * 8
-            data[24] = (byte)(mipmaps_number + 1);  // number of images
-            data[25] = 0x69; // my signature XDDDD, I couldn't figure out what this setting does, but it doesn't affect the gameplay at all, it looks like it is used as a version number.
-            data[26] = 0; // how do I calculate LODBIAS
-            data[27] = 0; // how do I calculate LODBIAS
-            data[28] = 0;  // won't exceed the max number of colours in the colour table which is stored on 2 bytes + header size 0x20
-            data[29] = (byte)((0x20 + colour_palette.Length) >> 16); // >> 16 is better than / 65536
-            data[30] = (byte)((0x20 + colour_palette.Length) >> 8);  // >> 8 is better than / 256
-            data[31] = (byte)(0x20 + colour_palette.Length);  // offset to image0 header, (byte) acts as %256
-            // now's palette data, but it's already stored in colour_palette, so let's jump onto image data.
-            byte[] tex_data = new byte[size - 0x20 - colour_palette.Length];
-            create_blocks(tex_data, settings, index_list);
-
-            // finished to get everything of the bti
-            // now we'll check if that bti needs to be injected in a bmd
-            // I made extract-bti.py first, so I'm using it as a template
-            // 0x14/20 bytes long
-            /*
-            TEX1 Header description
-            0x00
-            char[4] Magic_TEX1; //'TEX1'
-            0x04
-            int ChunkSize; //Total bytes of chunk
-            0x08
-            short TextureCount; //Number of textures
-            0x0A
-            short Padding; (Usually 0xFFFF)
-            0x0C
-            int TextureHeaderOffset; // (always 0x20) TextureCount bti image headers are stored here. Relative to TEX1Header start.
-            0x10
-            int StringTableOffset; //Stores one filename for each texture. Relative to TEX1Header start.
-            */
-            if (bmd_file)
-            {
-                if (has_palette)
-                {
-                    Console.WriteLine("Sorry man, I have not met any bmd file with a palette amongst all games I've reviewed so far. I'll be glad to add this feature if you find some files I could look into\n for now you can't use CI4, CI8 and CI14x2 in a bmd\n");
-                    Console.WriteLine("Press enter to exit...");
-                    Console.ReadLine();
-                    return;
-                }
-                using (System.IO.FileStream file = System.IO.File.Open(input_file2, System.IO.FileMode.Open, System.IO.FileAccess.Read))
-                {
-                    byte[] j3d = new byte[file.Length];
-                    file.Read(j3d, 0, j3d.Length);
-                    file.Close();
-                    y = 0x20; // next section offset
-                    while (!(j3d[y] == 'T' && j3d[y + 1] == 'E' && j3d[y + 2] == 'X' && j3d[y + 3] == '1'))  // section identifier
-                    {
-                        if (y + 9 > j3d.Length)
-                        {
-                            Console.WriteLine("Couldn't find the TEX1 Section. This bmd file is corrupted. the program will exit");
-                            return;
-                        }
-                        y += (j3d[y + 4] << 24) + (j3d[y + 5] << 16) + (j3d[y + 6] << 8) + j3d[y + 7];  // size of current section
-                    }
-                    // now that we found TEX1 section address, we can find string pool table address, then get all texture names
-                    int x = y + (j3d[y + 16] << 24) + (j3d[y + 17] << 16) + (j3d[y + 18] << 8) + j3d[y + 19];  // string pool table start offset
-                    int string_pool_table_start_offset = x;
-                    ushort string_count = (ushort)((j3d[x] << 8) + j3d[x + 1]);
-                    int string_count_5 = string_count << 5;
-                    if (string_count == 0)  // ARE YOU KIDDING ME
-                    {
-                        Console.WriteLine("I could have sworn you were smart enough to take a bmd with bti textures in it, but this one contains none.");
-                    }
-                    string name = "";
-                    x += 4 + (string_count << 2); // 4 is the string pool table header size
-                    // string count is multiplied by 4 because after the header there is a ushort hash and a ushort offset for each string
-                    success = false;
-                    ushort[] score = new ushort[string_count];
-                    int f = 0;
-                    ushort current_string = 0;
-                    ushort best_score = 0;  // length of the biggest substring in common
-                    ushort current = 0;
-                    List<string> name_list = new List<string>();
-                    while (current_string < string_count) // used to compare each texture name with the input file
-                    {
-                        while (j3d[x] != 0)  // 0 is supposed to be the byte separating strings. never seen another value in mkdd
-                        {
-                            name += j3d[x];
-                            x++;
-                        }
-                        name_list.Add(name);
-                        if (name == input_fil)
-                        {
-                            success = true;
-                            break;
-                        }
-                        else  // use an algorithm to determine the MOST SIMILAR texture by file name
-                        {
-                            for (z = 0; z < name.Length - 1; z++)
-                            {
-                                for (pass = 0; pass < input_fil.Length; pass++)
-                                {
-                                    if (name[z] == input_fil[pass] && name[z + 1] == input_fil[pass])
-                                    {
-                                        break;
-                                    }
-                                }  // used to find the start of the similar substring
-                                // no, don't say 1 byte length files won't work here. They're supposed to fall in the first if
-                                for (f = z, current = 0; f < input_fil.Length && f < name.Length; f++, current++)
-                                {
-                                    if (input_fil[pass] != name[f])
-                                    {
-                                        break;
-                                    }
-                                }
-                                // get the length of the common substring 
-                                if (current > best_score)
-                                {
-                                    best_score = current;
-                                }
-                            }
-                            score[current_string] = best_score;
-                        }
-                        current_string++;
-                    }
-                    if (!success)  // get the most fitting texture and ask for confirmation
-                    {
-                        best_score = 0;
-                        f = 0;
-                        for (z = 0; z < score.Length; z++)
-                        {
-                            if (score[z] < best_score)
-                            {
-                                best_score = score[z];
-                                f = z;
-                            }
-                        }
-                        name = name_list[f];  // most probable fitting texture by the file name
-                        if (warn)
-                        {
-                            Console.WriteLine("File names doesn't exactly match. Press Enter to replace " + name + " inside " + input_file2);
-                            Console.ReadLine();
-                        }
-                    }
-                    List<int> data_offset_array = new List<int>();
-                    List<int> data_size_array = new List<int>();
-                    int blocks_wide;
-                    int blocks_tall;
-                    int curr_mipmap_size;
-                    // f = bti header of the image to replace >> 5 (divided by 32, and relative to y)
-                    // y = TEX1 section start offset
-                    // z = current bti header offset (relative to y)
-                    // 
-                    for (z = 0; z < string_count_5; z += 32)
-                    {
-                        if ((z >> 5) == f)
-                        {
-                            data[12] = (byte)(((string_count_5 - z)) << 24);
-                            data[13] = (byte)(((string_count_5 - z)) << 16);
-                            data[14] = (byte)(((string_count_5 - z)) << 8);
-                            data[15] = (byte)(((string_count_5 - z)));
-                            x = y + (z + 1 * 0x20);
-                        }
-                        int data_offset = (j3d[y + z + 0x3C] << 24) + (j3d[y + z + 0x3D] << 16) + (j3d[y + z + 0x3E] << 8) + (j3d[y + z + 0x3F]);
-                        data_offset_array.Add(data_offset);
-                        blocks_wide = (j3d[y + 0x22 + z] + j3d[y + 0x23 + z] + block_width_array[j3d[y + 0x20 + z]]) / block_width_array[j3d[y + 0x20 + z]];
-                        blocks_tall = (j3d[y + 0x24 + z] + j3d[y + 0x25 + z] + block_width_array[j3d[y + 0x20 + z]]) / block_height_array[j3d[y + 0x20 + z]];
-                        int data_size = (blocks_wide * blocks_tall);
-                        if (j3d[y + 0x20 + z] == 6)
-                        {
-                            data_size <<= 6;
-                        }
-                        else
-                        {
-                            data_size <<= 5;
-                        }
-                        curr_mipmap_size = data_size;
-                        for (int i = 1; i < j3d[y + 0x38 + z]; i++)
-                        {
-                            curr_mipmap_size >>= 2;
-                            data_size += curr_mipmap_size;
-                        }
-                        data_size_array.Add(data_size);
-                        /*blocks_wide = (self.width + (self.block_width-1)) // self.block_width
-                          blocks_tall = (self.height + (self.block_height-1)) // self.block_height
-                          image_data_size = blocks_wide*blocks_tall*self.block_data_size
-                          remaining_mipmaps = self.mipmap_count-1
-                          curr_mipmap_size = image_data_size
-                          while remaining_mipmaps > 0:
-                          # Each mipmap is a quarter the size of the last (half the width and half the height).
-                              curr_mipmap_size = curr_mipmap_size//4
-                              image_data_size += curr_mipmap_size
-                              remaining_mipmaps -= 1*/
-
-                        // fix palette_offset inside bmd which is the offset to the end of all bti headers
-                        j3d[y + 0x20 + (0x20 * z) + 12] = (byte)(((string_count_5 - z)) << 24);
-                        j3d[y + 0x20 + (0x20 * z) + 13] = (byte)(((string_count_5 - z)) << 16);
-                        j3d[y + 0x20 + (0x20 * z) + 14] = (byte)(((string_count_5 - z)) << 8);
-                        j3d[y + 0x20 + (0x20 * z) + 15] = (byte)(((string_count_5 - z)));
-                    }
-                    // now let's remove the image data that we're replacing if it's unused
-                    // no, I won't check for unused texture data apart from this one. these kind of things were generated by other softwares!
-                    int start = y + string_count_5 + 0x20;  // bti headers end offset
-                    int middle = data_offset_array[f] + ((string_count - f) << 5); // relative to start
-                    int start_2 = y + string_count_5 + data_offset_array[f + 1] - ((string_count - f + 1) << 5);
-                    for (int z = 0; z < string_count_5; z += 32)
-                    {
-                        if (data_offset_array[z >> 5] < middle)
-                        {
-                            if ((data_offset_array[z >> 5] + data_size_array[z >> 5]) > middle)
-                            {
-                                middle = (data_offset_array[z >> 5] + data_size_array[z >> 5]);
-                                if (middle > start_2)
-                                {
-                                    start_2 = middle;
-                                }
-                            }
-                        }
-                    }
                     FileMode mode = System.IO.FileMode.CreateNew;
-                    if (System.IO.File.Exists(output_file + ".bmd"))
+                    if (System.IO.File.Exists(output_file + ".bti"))
                     {
                         mode = System.IO.FileMode.Truncate;
                         if (warn)
                         {
-                            Console.WriteLine("Press enter to overwrite " + output_file + ".bmd");
+                            Console.WriteLine("Press enter to overwrite " + output_file + ".bti");
                             Console.ReadLine();
                         }
                     }
-                    using (System.IO.FileStream ofile = System.IO.File.Open(output_file + ".bmd", mode, System.IO.FileAccess.Write))
+                    using (System.IO.FileStream file = System.IO.File.Open(output_file + ".bti", mode, System.IO.FileAccess.Write))
                     {
-                        ofile.Write(j3d, 0, y);
-                        // write texture headers
-                        if (f != 0)
-                        {
-                            ofile.Write(j3d, y, f << 5);
-                        }
-                        ofile.Write(data, 0, 32);
-                        if (f != string_count - 1)
-                        {
-                            ofile.Write(j3d, x, (string_count - f - 1) << 5);
-                        }
-                        if (middle == start_2)
-                        {
-                            ofile.Write(j3d, start, j3d.Length - start);
-                        }
-                        else
-                        {
-                            ofile.Write(j3d, start, middle);
-                            ofile.Write(j3d, start_2, j3d.Length - start_2);
-                        }
-                        ofile.Close();
-                        Console.WriteLine(output_file + ".bmd");
+                        file.Write(data, 0, 32);
+                        file.Write(colour_palette, 0, colour_palette.Length);
+                        file.Write(tex_data, 0, tex_data.Length);
+                        file.Write(data2, 0, data2.Length);
+                        file.Close();
+                        Console.WriteLine(output_file + ".bti");
                     }
                 }
             }
-            else  // single bti
+
+            public void write_TPL(List<List<byte[]>> index_list)  // index_list contains all mipmaps.
             {
+                int size = 0x20 + colour_palette.Length + 0x40; // fixed size at 1 image
+                double temp;
+                int[] param = new int[4];
+                List<int[]> settings = new List<int[]>();
+                for (int i = 0; i < mipmaps_number + 1; i++)
+                {
+                    if (i == 0)
+                    {
+                        param[2] = (int)(index_list[i][0].Length * format_ratio);
+                        param[3] = index_list[i].Count;
+                    }
+                    else
+                    {
+                        temp = bitmap_width / Math.Pow(2, i);
+                        if (temp % 1 != 0)
+                        {
+                            param[2] = (int)(index_list[i][0].Length * format_ratio) + 1;
+                            // param[2] = (int)temp + 1;
+                        }
+                        else
+                        {
+                            // param[2] = (int)temp;
+                            param[2] = (int)(index_list[i][0].Length * format_ratio);
+                        }
+                        temp = bitmap_height / Math.Pow(2, i);
+                        if (temp % 1 != 0)
+                        {
+                            // param[3] = (int)temp + 1;
+                            param[3] = index_list[i].Count;
+                        }
+                        else
+                        {
+                            // param[3] = (int)temp;
+                            param[3] = index_list[i].Count;
+                        }
+                    }
+                    temp = param[2] / block_width;
+                    if (temp % 1 != 0)
+                    {
+                        param[0] = (int)temp + 1;
+                    }
+                    else
+                    {
+                        param[0] = (int)temp;
+                    }
+                    temp = param[3] / block_height;
+                    if (temp % 1 != 0)
+                    {
+                        param[1] = (int)temp + 1;
+                    }
+                    else
+                    {
+                        param[1] = (int)temp;
+                    }
+                    settings.Add(param.ToArray());
+                    // size += param[0] * block_width * param[1] * block_height;
+                    size += index_list[i][0].Length * index_list[i].Count;
+                }
+                byte size2 = (byte)(4 + Math.Abs(16 - size) % 16);
+                byte len = (byte)output_file.Split('\\').Length;
+                string file_name = (output_file.Split('\\')[len - 1]);
+                byte[] data2 = new byte[size2 + len + (16 - len) % 16];
+                byte[] data = new byte[32];  // header data
+                byte[] header = new byte[64];  // image header data
+                for (int i = 0; i < size2; i++)
+                {
+                    data2[i] = 0;
+                }
+                for (int i = 0; i < file_name.Length; i++)
+                {
+                    data2[i + size2] = (byte)file_name[i];
+                }
+                for (int i = size2 + file_name.Length; i < data2.Length; i++)
+                {
+                    data2[i] = 0;
+                }
+                data[0] = 0;
+                data[1] = 0x20;
+                data[2] = 0xAF;
+                data[3] = 0x30;  // file identifier
+                data[4] = 0;
+                data[5] = 0;
+                data[6] = 0;
+                data[7] = 1;  // number of images
+                data[8] = 0;
+                data[9] = 0;
+                data[10] = 0;
+                data[11] = 0x0C; // offset to image table
+                data[12] = 0;  // won't exceed the max number of colours in the colour table which is stored on 2 bytes + header size 0x20
+                data[13] = (byte)((0x20 + colour_palette.Length) >> 16);
+                data[14] = (byte)((0x20 + colour_palette.Length) >> 8);
+                data[15] = (byte)(0x20 + colour_palette.Length);  // offset to image0 header, (byte) acts as %256
+                data[16] = 0;
+                data[17] = 0;
+                data[18] = 0;
+                if (has_palette)
+                {
+                    data[19] = 20;  // offset to palette0 header
+                    data[20] = (byte)(colour_number >> 8);
+                    data[21] = (byte)(colour_number);  // number of colours
+
+                    data[27] = palette_format_int32[3]; // palette format
+
+                    data[31] = 32; // palette data address
+                }
+                else
+                {
+                    data[19] = 0;
+                    data[20] = 0;
+                    data[21] = 0;  // number of colours
+
+                    data[27] = 0; // palette format
+
+                    data[31] = 0; // palette data address
+
+                }
+                data[22] = 0;  // unpacked (0 I guess)
+                data[23] = 0;  // padding
+                data[24] = palette_format_int32[0];
+                data[25] = palette_format_int32[1];
+                data[26] = palette_format_int32[2]; // palette format
+                data[28] = 0;
+                data[29] = 0;
+                data[30] = 0;
+                // now's palette data, but it's already stored in colour_palette, so let's jump onto image header.
+                header[0] = (byte)(bitmap_width >> 8);  // unsigned short width
+                header[1] = (byte)bitmap_width; // second byte of width
+                header[2] = (byte)(bitmap_height >> 8);  // height
+                header[3] = (byte)bitmap_height;
+                header[4] = texture_format_int32[0];
+                header[5] = texture_format_int32[1];
+                header[6] = texture_format_int32[2];
+                header[7] = texture_format_int32[3];
+                header[8] = 0; // won't exceed the max number of colours in the colour table which is stored on 2 bytes + header size 0x20
+                header[9] = (byte)((0x60 + colour_palette.Length) >> 16);
+                header[10] = (byte)((0x60 + colour_palette.Length) >> 8);
+                header[11] = (byte)(0x60 + colour_palette.Length);
+                header[12] = 0;
+                header[13] = 0;
+                header[14] = 0;
+                header[15] = WrapS;
+                header[16] = 0;
+                header[17] = 0;
+                header[18] = 0;
+                header[19] = WrapT;
+                header[20] = 0;
+                header[21] = 0;
+                header[22] = 0;
+                header[23] = minificaction_filter;
+                header[24] = 0;
+                header[25] = 0;
+                header[26] = 0;
+                header[27] = magnification_filter;
+                header[28] = 0;
+                header[29] = 0;
+                header[30] = 0;
+                header[31] = 0; // LODBias
+                header[32] = 0; // EdgeLODEnable
+                header[33] = 0; // MinLOD
+                header[34] = mipmaps_number; // MaxLOD
+                header[35] = 0; // unpacked
+                for (int i = 36; i < 64; i++)  // nintendo does this on their tpl. I guess it's for a good reason
+                {
+                    header[i] = 0;
+                }
+                byte[] tex_data = new byte[size - 0x60 - colour_palette.Length];
+                create_blocks(tex_data, settings, index_list);
                 FileMode mode = System.IO.FileMode.CreateNew;
-                if (System.IO.File.Exists(output_file + ".bti"))
+                if (System.IO.File.Exists(output_file + ".tpl"))
                 {
                     mode = System.IO.FileMode.Truncate;
                     if (warn)
                     {
-                        Console.WriteLine("Press enter to overwrite " + output_file + ".bti");
+                        Console.WriteLine("Press enter to overwrite " + output_file + ".tpl");
                         Console.ReadLine();
                     }
                 }
-                using (System.IO.FileStream file = System.IO.File.Open(output_file + ".bti", mode, System.IO.FileAccess.Write))
+                using (System.IO.FileStream file = System.IO.File.Open(output_file + ".tpl", mode, System.IO.FileAccess.Write))
                 {
                     file.Write(data, 0, 32);
-                    file.Write(colour_palette, 0, colour_palette.Length);
+                    file.Write(colour_palette, 0, colour_palette.Length);  // can I write nothing?
+                    file.Write(header, 0, 64);
                     file.Write(tex_data, 0, tex_data.Length);
                     file.Write(data2, 0, data2.Length);
                     file.Close();
-                    Console.WriteLine(output_file + ".bti");
+                    Console.WriteLine(output_file + ".tpl");
                 }
             }
-        }
 
-        public void write_TPL(List<List<byte[]>> index_list)  // index_list contains all mipmaps.
-        {
-            int size = 0x20 + colour_palette.Length + 0x40; // fixed size at 1 image
-            double temp;
-            int[] param = new int[4];
-            List<int[]> settings = new List<int[]>();
-            for (int i = 0; i < mipmaps_number + 1; i++)
+            public void write_PLT0()
             {
-                if (i == 0)
+                int size = 0x40 + colour_palette.Length;
+                byte size2 = (byte)(4 + Math.Abs(16 - size) % 16);
+                byte len = (byte)output_file.Split('\\').Length;
+                string file_name = (output_file.Split('\\')[len - 1]);
+                byte[] data2 = new byte[size2 + len + ((16 - len) % 16)];
+                byte[] data = new byte[64];  // header data
+                for (int i = 0; i < size2; i++)
                 {
-                    param[2] = (int)(index_list[i][0].Length * format_ratio);
-                    param[3] = index_list[i].Count;
+                    data2[i] = 0;
                 }
-                else
+                for (int i = 0; i < file_name.Length; i++)
                 {
-                    temp = bitmap_width / Math.Pow(2, i);
-                    if (temp % 1 != 0)
+                    data2[i + size2] = (byte)file_name[i];
+                }
+                for (int i = size2 + file_name.Length; i < data2.Length; i++)
+                {
+                    data2[i] = 0;
+                }
+                data[0] = (byte)'P';
+                data[1] = (byte)'L';
+                data[2] = (byte)'T';
+                data[3] = (byte)'0';  // file identifier
+                data[4] = (byte)(size >> 24);
+                data[5] = (byte)(size >> 16);
+                data[6] = (byte)(size >> 8);
+                data[7] = (byte)(size);  // file size
+                data[8] = 0;
+                data[9] = 0;
+                data[10] = 0;
+                data[11] = 3; // version
+                data[12] = 0;
+                data[13] = 0;
+                data[14] = 0;
+                data[15] = 0; // offset to outer brres
+                data[16] = 0;
+                data[17] = 0;
+                data[18] = 0;
+                data[19] = 64; // header size
+                data[20] = (byte)((size + size2) >> 24);
+                data[21] = (byte)((size + size2) >> 16);
+                data[22] = (byte)((size + size2) >> 8);
+                data[23] = (byte)(size + size2);  // name location
+                data[24] = palette_format_int32[0];
+                data[25] = palette_format_int32[1];
+                data[26] = palette_format_int32[2];
+                data[27] = palette_format_int32[3];
+                data[28] = (byte)(colour_number >> 8);
+                data[29] = (byte)colour_number;
+                for (int i = 30; i < 64; i++)
+                {
+                    data[i] = 0;
+                }
+                FileMode mode = System.IO.FileMode.CreateNew;
+                if (System.IO.File.Exists(output_file + ".plt0"))
+                {
+                    mode = System.IO.FileMode.Truncate;
+                    if (warn)
                     {
-                        param[2] = (int)(index_list[i][0].Length * format_ratio) + 1;
-                        // param[2] = (int)temp + 1;
+                        Console.WriteLine("Press enter to overwrite " + output_file + ".plt0");
+                        Console.ReadLine();
                     }
-                    else
+                }
+                using (System.IO.FileStream file = System.IO.File.Open(output_file + ".plt0", mode, System.IO.FileAccess.Write))
+                {
+                    file.Write(data, 0, 64);
+                    file.Write(colour_palette, 0, colour_palette.Length);
+                    file.Write(data2, 0, data2.Length);
+                    file.Close();
+                    Console.WriteLine(output_file + ".plt0");
+                }
+            }
+
+            //[MethodImpl(MethodImplOptions.NoOptimization)]
+            /// <summary>
+            /// writes a TEX0 file from parameters of plt0_class and the list given in argument
+            /// </summary>
+            /// <param name="index_list">a List of mipmaps, first one being the highest quality one. <br/>
+            /// each mipmap contains a list of every row of the image (starting by the bottom one). <br/>
+            /// each row is actually a byte array of every pixel encoded in a specific format.</param>
+            /// <returns>nothing. but writes the file into the output name given in CLI argument</returns>
+            public void write_TEX0(List<List<byte[]>> index_list)  // index_list contains all mipmaps.
+            {
+                int size = 0x40;
+                double temp;
+                int[] param = new int[4];
+                List<int[]> settings = new List<int[]>();
+                for (int i = 0; i < mipmaps_number + 1; i++)
+                {
+                    if (i == 0)
                     {
-                        // param[2] = (int)temp;
                         param[2] = (int)(index_list[i][0].Length * format_ratio);
-                    }
-                    temp = bitmap_height / Math.Pow(2, i);
-                    if (temp % 1 != 0)
-                    {
-                        // param[3] = (int)temp + 1;
                         param[3] = index_list[i].Count;
+                        // param[2] = bitmap_width;
+                        // param[3] = bitmap_height;
                     }
                     else
                     {
-                        // param[3] = (int)temp;
-                        param[3] = index_list[i].Count;
-                    }
-                }
-                temp = param[2] / block_width;
-                if (temp % 1 != 0)
-                {
-                    param[0] = (int)temp + 1;
-                }
-                else
-                {
-                    param[0] = (int)temp;
-                }
-                temp = param[3] / block_height;
-                if (temp % 1 != 0)
-                {
-                    param[1] = (int)temp + 1;
-                }
-                else
-                {
-                    param[1] = (int)temp;
-                }
-                settings.Add(param.ToArray());
-                // size += param[0] * block_width * param[1] * block_height;
-                size += index_list[i][0].Length * index_list[i].Count;
-            }
-            byte size2 = (byte)(4 + Math.Abs(16 - size) % 16);
-            byte len = (byte)output_file.Split('\\').Length;
-            string file_name = (output_file.Split('\\')[len - 1]);
-            byte[] data2 = new byte[size2 + len + (16 - len) % 16];
-            byte[] data = new byte[32];  // header data
-            byte[] header = new byte[64];  // image header data
-            for (int i = 0; i < size2; i++)
-            {
-                data2[i] = 0;
-            }
-            for (int i = 0; i < file_name.Length; i++)
-            {
-                data2[i + size2] = (byte)file_name[i];
-            }
-            for (int i = size2 + file_name.Length; i < data2.Length; i++)
-            {
-                data2[i] = 0;
-            }
-            data[0] = 0;
-            data[1] = 0x20;
-            data[2] = 0xAF;
-            data[3] = 0x30;  // file identifier
-            data[4] = 0;
-            data[5] = 0;
-            data[6] = 0;
-            data[7] = 1;  // number of images
-            data[8] = 0;
-            data[9] = 0;
-            data[10] = 0;
-            data[11] = 0x0C; // offset to image table
-            data[12] = 0;  // won't exceed the max number of colours in the colour table which is stored on 2 bytes + header size 0x20
-            data[13] = (byte)((0x20 + colour_palette.Length) >> 16);
-            data[14] = (byte)((0x20 + colour_palette.Length) >> 8);
-            data[15] = (byte)(0x20 + colour_palette.Length);  // offset to image0 header, (byte) acts as %256
-            data[16] = 0;
-            data[17] = 0;
-            data[18] = 0;
-            if (has_palette)
-            {
-                data[19] = 20;  // offset to palette0 header
-                data[20] = (byte)(colour_number >> 8);
-                data[21] = (byte)(colour_number);  // number of colours
-
-                data[27] = palette_format_int32[3]; // palette format
-
-                data[31] = 32; // palette data address
-            }
-            else
-            {
-                data[19] = 0;
-                data[20] = 0;
-                data[21] = 0;  // number of colours
-
-                data[27] = 0; // palette format
-
-                data[31] = 0; // palette data address
-
-            }
-            data[22] = 0;  // unpacked (0 I guess)
-            data[23] = 0;  // padding
-            data[24] = palette_format_int32[0];
-            data[25] = palette_format_int32[1];
-            data[26] = palette_format_int32[2]; // palette format
-            data[28] = 0;
-            data[29] = 0;
-            data[30] = 0;
-            // now's palette data, but it's already stored in colour_palette, so let's jump onto image header.
-            header[0] = (byte)(bitmap_width >> 8);  // unsigned short width
-            header[1] = (byte)bitmap_width; // second byte of width
-            header[2] = (byte)(bitmap_height >> 8);  // height
-            header[3] = (byte)bitmap_height;
-            header[4] = texture_format_int32[0];
-            header[5] = texture_format_int32[1];
-            header[6] = texture_format_int32[2];
-            header[7] = texture_format_int32[3];
-            header[8] = 0; // won't exceed the max number of colours in the colour table which is stored on 2 bytes + header size 0x20
-            header[9] = (byte)((0x60 + colour_palette.Length) >> 16);
-            header[10] = (byte)((0x60 + colour_palette.Length) >> 8);
-            header[11] = (byte)(0x60 + colour_palette.Length);
-            header[12] = 0;
-            header[13] = 0;
-            header[14] = 0;
-            header[15] = WrapS;
-            header[16] = 0;
-            header[17] = 0;
-            header[18] = 0;
-            header[19] = WrapT;
-            header[20] = 0;
-            header[21] = 0;
-            header[22] = 0;
-            header[23] = minificaction_filter;
-            header[24] = 0;
-            header[25] = 0;
-            header[26] = 0;
-            header[27] = magnification_filter;
-            header[28] = 0;
-            header[29] = 0;
-            header[30] = 0;
-            header[31] = 0; // LODBias
-            header[32] = 0; // EdgeLODEnable
-            header[33] = 0; // MinLOD
-            header[34] = mipmaps_number; // MaxLOD
-            header[35] = 0; // unpacked
-            for (int i = 36; i < 64; i++)  // nintendo does this on their tpl. I guess it's for a good reason
-            {
-                header[i] = 0;
-            }
-            byte[] tex_data = new byte[size - 0x60 - colour_palette.Length];
-            create_blocks(tex_data, settings, index_list);
-            FileMode mode = System.IO.FileMode.CreateNew;
-            if (System.IO.File.Exists(output_file + ".tpl"))
-            {
-                mode = System.IO.FileMode.Truncate;
-                if (warn)
-                {
-                    Console.WriteLine("Press enter to overwrite " + output_file + ".tpl");
-                    Console.ReadLine();
-                }
-            }
-            using (System.IO.FileStream file = System.IO.File.Open(output_file + ".tpl", mode, System.IO.FileAccess.Write))
-            {
-                file.Write(data, 0, 32);
-                file.Write(colour_palette, 0, colour_palette.Length);  // can I write nothing?
-                file.Write(header, 0, 64);
-                file.Write(tex_data, 0, tex_data.Length);
-                file.Write(data2, 0, data2.Length);
-                file.Close();
-                Console.WriteLine(output_file + ".tpl");
-            }
-        }
-
-        public void write_PLT0()
-        {
-            int size = 0x40 + colour_palette.Length;
-            byte size2 = (byte)(4 + Math.Abs(16 - size) % 16);
-            byte len = (byte)output_file.Split('\\').Length;
-            string file_name = (output_file.Split('\\')[len - 1]);
-            byte[] data2 = new byte[size2 + len + ((16 - len) % 16)];
-            byte[] data = new byte[64];  // header data
-            for (int i = 0; i < size2; i++)
-            {
-                data2[i] = 0;
-            }
-            for (int i = 0; i < file_name.Length; i++)
-            {
-                data2[i + size2] = (byte)file_name[i];
-            }
-            for (int i = size2 + file_name.Length; i < data2.Length; i++)
-            {
-                data2[i] = 0;
-            }
-            data[0] = (byte)'P';
-            data[1] = (byte)'L';
-            data[2] = (byte)'T';
-            data[3] = (byte)'0';  // file identifier
-            data[4] = (byte)(size >> 24);
-            data[5] = (byte)(size >> 16);
-            data[6] = (byte)(size >> 8);
-            data[7] = (byte)(size);  // file size
-            data[8] = 0;
-            data[9] = 0;
-            data[10] = 0;
-            data[11] = 3; // version
-            data[12] = 0;
-            data[13] = 0;
-            data[14] = 0;
-            data[15] = 0; // offset to outer brres
-            data[16] = 0;
-            data[17] = 0;
-            data[18] = 0;
-            data[19] = 64; // header size
-            data[20] = (byte)((size + size2) >> 24);
-            data[21] = (byte)((size + size2) >> 16);
-            data[22] = (byte)((size + size2) >> 8);
-            data[23] = (byte)(size + size2);  // name location
-            data[24] = palette_format_int32[0];
-            data[25] = palette_format_int32[1];
-            data[26] = palette_format_int32[2];
-            data[27] = palette_format_int32[3];
-            data[28] = (byte)(colour_number >> 8);
-            data[29] = (byte)colour_number;
-            for (int i = 30; i < 64; i++)
-            {
-                data[i] = 0;
-            }
-            FileMode mode = System.IO.FileMode.CreateNew;
-            if (System.IO.File.Exists(output_file + ".plt0"))
-            {
-                mode = System.IO.FileMode.Truncate;
-                if (warn)
-                {
-                    Console.WriteLine("Press enter to overwrite " + output_file + ".plt0");
-                    Console.ReadLine();
-                }
-            }
-            using (System.IO.FileStream file = System.IO.File.Open(output_file + ".plt0", mode, System.IO.FileAccess.Write))
-            {
-                file.Write(data, 0, 64);
-                file.Write(colour_palette, 0, colour_palette.Length);
-                file.Write(data2, 0, data2.Length);
-                file.Close();
-                Console.WriteLine(output_file + ".plt0");
-            }
-        }
-
-        //[MethodImpl(MethodImplOptions.NoOptimization)]
-        /// <summary>
-        /// writes a TEX0 file from parameters of plt0_class and the list given in argument
-        /// </summary>
-        /// <param name="index_list">a List of mipmaps, first one being the highest quality one. <br/>
-        /// each mipmap contains a list of every row of the image (starting by the bottom one). <br/>
-        /// each row is actually a byte array of every pixel encoded in a specific format.</param>
-        /// <returns>nothing. but writes the file into the output name given in CLI argument</returns>
-        public void write_TEX0(List<List<byte[]>> index_list)  // index_list contains all mipmaps.
-        {
-            int size = 0x40;
-            double temp;
-            int[] param = new int[4];
-            List<int[]> settings = new List<int[]>();
-            for (int i = 0; i < mipmaps_number + 1; i++)
-            {
-                if (i == 0)
-                {
-                    param[2] = (int)(index_list[i][0].Length * format_ratio);
-                    param[3] = index_list[i].Count;
-                    // param[2] = bitmap_width;
-                    // param[3] = bitmap_height;
-                }
-                else
-                {
-                    temp = bitmap_width / Math.Pow(2, i);
-                    if (temp % 1 != 0)
-                    {
-                        param[2] = (int)(index_list[i][0].Length * format_ratio) + 1;
-                        // param[2] = (int)temp + 1;
-                    }
-                    else
-                    {
-                        // param[2] = (int)temp;
-                        param[2] = (int)(index_list[i][0].Length * format_ratio);
-                    }
-                    temp = bitmap_height / Math.Pow(2, i);
-                    if (temp % 1 != 0)
-                    {
-                        // param[3] = (int)temp + 1;
-                        param[3] = index_list[i].Count;
-                    }
-                    else
-                    {
-                        // param[3] = (int)temp;
-                        param[3] = index_list[i].Count;
-                    }
-                }
-                temp = param[2] / block_width;
-                if (temp % 1 != 0)
-                {
-                    param[0] = (int)temp + 1;
-                }
-                else
-                {
-                    param[0] = (int)temp;
-                }
-                temp = param[3] / block_height;
-                if (temp % 1 != 0)
-                {
-                    param[1] = (int)temp + 1;
-                }
-                else
-                {
-                    param[1] = (int)temp;
-                }
-                settings.Add(param.ToArray());
-                // size += param[0] * block_width * param[1] * block_height;
-                size += index_list[i][0].Length * index_list[i].Count;
-            }
-            byte size2 = (byte)(4 + Math.Abs(16 - size) % 16);
-            byte len = (byte)output_file.Split('\\').Length;
-            string file_name = (output_file.Split('\\')[len - 1]);
-            byte[] data2 = new byte[size2 + len + (16 - len) % 16];
-            byte[] data = new byte[64];  // header data
-            float mipmaps = mipmaps_number;
-            byte[] mipmap_float = BitConverter.GetBytes(mipmaps);
-            for (int i = 0; i < size2; i++)
-            {
-                data2[i] = 0;
-            }
-            for (int i = 0; i < file_name.Length; i++)
-            {
-                data2[i + size2] = (byte)file_name[i];
-            }
-            for (int i = size2 + file_name.Length; i < data2.Length; i++)
-            {
-                data2[i] = 0;
-            }
-            data[0] = (byte)'T';
-            data[1] = (byte)'E';
-            data[2] = (byte)'X';
-            data[3] = (byte)'0';  // file identifier
-            data[4] = (byte)(size >> 24);
-            data[5] = (byte)(size >> 16);
-            data[6] = (byte)(size >> 8);
-            data[7] = (byte)(size);  // file size
-            data[8] = 0;
-            data[9] = 0;
-            data[10] = 0;
-            data[11] = 3; // version
-            data[12] = 0;
-            data[13] = 0;
-            data[14] = 0;
-            data[15] = 0;  // offset to outer brres
-            data[16] = 0;
-            data[17] = 0;
-            data[18] = 0;
-            data[19] = 64;  // header size
-            data[20] = (byte)((size + size2) >> 24);
-            data[21] = (byte)((size + size2) >> 16);
-            data[22] = (byte)((size + size2) >> 8);
-            data[23] = (byte)(size + size2);  // name location
-            data[24] = 0;
-            data[25] = 0;
-            data[26] = 0;
-            if (has_palette)
-            {
-                data[27] = 1;  // image has a palette
-            }
-            else
-            {
-                data[27] = 0; // image don't have a palette
-            }
-            data[28] = (byte)(bitmap_width >> 8);  // unsigned short width
-            data[29] = (byte)bitmap_width; // second byte of width
-            data[30] = (byte)(bitmap_height >> 8);  // height
-            data[31] = (byte)bitmap_height;
-            data[32] = texture_format_int32[0];
-            data[33] = texture_format_int32[1];
-            data[34] = texture_format_int32[2];
-            data[35] = texture_format_int32[3];
-            data[36] = 0;
-            data[37] = 0;
-            data[38] = 0;
-            data[39] = (byte)(mipmaps_number + 1);
-            data[40] = 0;
-            data[41] = 0;
-            data[42] = 0;
-            data[43] = 0;  // always zero
-            data[44] = mipmap_float[0];
-            data[45] = mipmap_float[1];
-            data[46] = mipmap_float[2];
-            data[47] = mipmap_float[3];
-            for (int i = 48; i < 64; i++)  // undocumented bytes
-            {
-                data[i] = 0;
-            }
-            byte[] tex_data = new byte[size - 64];
-            create_blocks(tex_data, settings, index_list);
-            FileMode mode = System.IO.FileMode.CreateNew;
-            if (System.IO.File.Exists(output_file + ".tex0"))
-            {
-                mode = System.IO.FileMode.Truncate;
-                if (warn)
-                {
-                    Console.WriteLine("Press enter to overwrite " + output_file + ".tex0");
-                    Console.ReadLine();
-                }
-            }
-            using (System.IO.FileStream file = System.IO.File.Open(output_file + ".tex0", mode, System.IO.FileAccess.Write))
-            {
-                file.Write(data, 0, 64);
-                file.Write(tex_data, 0, size - 64);
-                file.Write(data2, 0, data2.Length);
-                file.Close();
-                Console.WriteLine(output_file + ".tex0");
-                // Console.ReadLine();
-            }
-        }
-
-        public byte[] create_blocks(byte[] tex_data, List<int[]> settings, List<List<byte[]>> index_list)
-        {
-            int count = 0;
-            int height;
-            int width;
-            block_width = (sbyte)(block_width / format_ratio);
-            if (texture_format_int32[3] == 6)  // RGBA32 has a f-cking byte order
-            {
-                for (int i = 0; i < settings.Count; i++)  // mipmaps
-                {
-                    height = settings[i][1] * block_height - 1;
-                    width = 0;
-                    for (int j = settings[i][1]; j > 0; j--)  // number of height blocks  (remember that the last line was added first into index_list)
-                    {
-                        for (int k = 0; k < settings[i][0]; k++)  // number of width blocks
+                        temp = bitmap_width / Math.Pow(2, i);
+                        if (temp % 1 != 0)
                         {
-                            for (int h = 0; h < 4; h++)  // height in the block
-                            {
-                                for (int w = 0; w < 8; w++)  // width in the block
-                                {
-                                    tex_data[count] = index_list[i][height - h][width + w];  // adds the 8 ARAR ARAR formatted bytes for each line
-                                    count++;
-                                }
-                            }
-                            for (int h = 0; h < 4; h++)  // height in the block
-                            {
-                                for (int w = 8; w < 16; w++)  // width in the block
-                                {
-                                    tex_data[count] = index_list[i][height - h][width + w];  // adds the 8 GBGB GBGB formatted bytes for each line
-                                    count++;
-                                }
-                            }
-                            width += block_width;
-                        } // end of the loop to go through number of horizontal blocks
-                        height -= block_height;
-                        width = 0;
-                    }   // go through vertical blocks
-                }      // go through mipmaps
-            }
-            else if (texture_format_int32[3] == 0xe) // yeah, I ordered CMPR by sub-blocks
-            {
-                for (int i = 0; i < settings.Count; i++)  // mipmaps
-                {
-                    height = (settings[i][1] << 3) - 1;
-                    for (int j = height; j >= 0; j--)  // number of height blocks  (remember that the last line was added first into index_list)
-                    {
-                        for (int w = 0; w < 8; w++)  // width in the sub-block
-                        {
-                            tex_data[count] = index_list[i][j][w];  // adds the 8 CMPR formatted bytes for each line
-                            count++;
+                            param[2] = (int)(index_list[i][0].Length * format_ratio) + 1;
+                            // param[2] = (int)temp + 1;
                         }
-
-                        // end of the loop to go through number of horizontal blocks
-                    }   // go through vertical blocks
-                }      // go through mipmaps
-            }
-            else
-            {
-                for (int i = 0; i < settings.Count; i++)  // mipmaps
-                {
-                    height = settings[i][1] * block_height - 1;
-                    width = 0;
-                    for (int j = settings[i][1]; j > 0; j--)  // number of height blocks  (remember that the last line was added first into index_list)
-                    {
-                        for (int k = 0; k < settings[i][0]; k++)  // number of width blocks
+                        else
                         {
-                            for (int h = 0; h < block_height; h++)  // height in the block
-                            {
-                                for (int w = 0; w < block_width; w++)  // width in the block
-                                {
-                                    tex_data[count] = index_list[i][height - h][width + w];
-                                    count++;
-                                }
-                            }
-                            width += block_width;
-                        } // end of the loop to go through number of horizontal blocks
-                        height -= block_height;
-                        width = 0;
-                    }   // go through vertical blocks
-                }      // go through mipmaps
+                            // param[2] = (int)temp;
+                            param[2] = (int)(index_list[i][0].Length * format_ratio);
+                        }
+                        temp = bitmap_height / Math.Pow(2, i);
+                        if (temp % 1 != 0)
+                        {
+                            // param[3] = (int)temp + 1;
+                            param[3] = index_list[i].Count;
+                        }
+                        else
+                        {
+                            // param[3] = (int)temp;
+                            param[3] = index_list[i].Count;
+                        }
+                    }
+                    temp = param[2] / block_width;
+                    if (temp % 1 != 0)
+                    {
+                        param[0] = (int)temp + 1;
+                    }
+                    else
+                    {
+                        param[0] = (int)temp;
+                    }
+                    temp = param[3] / block_height;
+                    if (temp % 1 != 0)
+                    {
+                        param[1] = (int)temp + 1;
+                    }
+                    else
+                    {
+                        param[1] = (int)temp;
+                    }
+                    settings.Add(param.ToArray());
+                    // size += param[0] * block_width * param[1] * block_height;
+                    size += index_list[i][0].Length * index_list[i].Count;
+                }
+                byte size2 = (byte)(4 + Math.Abs(16 - size) % 16);
+                byte len = (byte)output_file.Split('\\').Length;
+                string file_name = (output_file.Split('\\')[len - 1]);
+                byte[] data2 = new byte[size2 + len + (16 - len) % 16];
+                byte[] data = new byte[64];  // header data
+                float mipmaps = mipmaps_number;
+                byte[] mipmap_float = BitConverter.GetBytes(mipmaps);
+                for (int i = 0; i < size2; i++)
+                {
+                    data2[i] = 0;
+                }
+                for (int i = 0; i < file_name.Length; i++)
+                {
+                    data2[i + size2] = (byte)file_name[i];
+                }
+                for (int i = size2 + file_name.Length; i < data2.Length; i++)
+                {
+                    data2[i] = 0;
+                }
+                data[0] = (byte)'T';
+                data[1] = (byte)'E';
+                data[2] = (byte)'X';
+                data[3] = (byte)'0';  // file identifier
+                data[4] = (byte)(size >> 24);
+                data[5] = (byte)(size >> 16);
+                data[6] = (byte)(size >> 8);
+                data[7] = (byte)(size);  // file size
+                data[8] = 0;
+                data[9] = 0;
+                data[10] = 0;
+                data[11] = 3; // version
+                data[12] = 0;
+                data[13] = 0;
+                data[14] = 0;
+                data[15] = 0;  // offset to outer brres
+                data[16] = 0;
+                data[17] = 0;
+                data[18] = 0;
+                data[19] = 64;  // header size
+                data[20] = (byte)((size + size2) >> 24);
+                data[21] = (byte)((size + size2) >> 16);
+                data[22] = (byte)((size + size2) >> 8);
+                data[23] = (byte)(size + size2);  // name location
+                data[24] = 0;
+                data[25] = 0;
+                data[26] = 0;
+                if (has_palette)
+                {
+                    data[27] = 1;  // image has a palette
+                }
+                else
+                {
+                    data[27] = 0; // image don't have a palette
+                }
+                data[28] = (byte)(bitmap_width >> 8);  // unsigned short width
+                data[29] = (byte)bitmap_width; // second byte of width
+                data[30] = (byte)(bitmap_height >> 8);  // height
+                data[31] = (byte)bitmap_height;
+                data[32] = texture_format_int32[0];
+                data[33] = texture_format_int32[1];
+                data[34] = texture_format_int32[2];
+                data[35] = texture_format_int32[3];
+                data[36] = 0;
+                data[37] = 0;
+                data[38] = 0;
+                data[39] = (byte)(mipmaps_number + 1);
+                data[40] = 0;
+                data[41] = 0;
+                data[42] = 0;
+                data[43] = 0;  // always zero
+                data[44] = mipmap_float[0];
+                data[45] = mipmap_float[1];
+                data[46] = mipmap_float[2];
+                data[47] = mipmap_float[3];
+                for (int i = 48; i < 64; i++)  // undocumented bytes
+                {
+                    data[i] = 0;
+                }
+                byte[] tex_data = new byte[size - 64];
+                create_blocks(tex_data, settings, index_list);
+                FileMode mode = System.IO.FileMode.CreateNew;
+                if (System.IO.File.Exists(output_file + ".tex0"))
+                {
+                    mode = System.IO.FileMode.Truncate;
+                    if (warn)
+                    {
+                        Console.WriteLine("Press enter to overwrite " + output_file + ".tex0");
+                        Console.ReadLine();
+                    }
+                }
+                using (System.IO.FileStream file = System.IO.File.Open(output_file + ".tex0", mode, System.IO.FileAccess.Write))
+                {
+                    file.Write(data, 0, 64);
+                    file.Write(tex_data, 0, size - 64);
+                    file.Write(data2, 0, data2.Length);
+                    file.Close();
+                    Console.WriteLine(output_file + ".tex0");
+                    // Console.ReadLine();
+                }
             }
-            return tex_data;
-        }
-        /// <summary>
-        /// Fills the colour palette and process every pixel of the image to be an index of the colour palette
-        /// </summary>
-        /// <param name="bmp_image">the raw bmp file as a byte array</param>
-        /// <param name="bmp_filesize">the size of the file, it can be read from the array itself, it's also the length of the array</param>
-        /// <param name="pixel_data_start_offset">read from the array itself</param>
-        /// <returns>a list of each row of the image (starting by the bottom one) and each row is a byte array which contains every pixel of a row.</returns>
-        // [MethodImpl(MethodImplOptions.NoOptimization)]
-        public List<byte[]> create_PLT0(byte[] bmp_image, int bmp_filesize, int pixel_data_start_offset)
-        {
-            ushort pixel = bitmap_width;
-            if (bitmap_height % block_height != 0)
+
+            public byte[] create_blocks(byte[] tex_data, List<int[]> settings, List<List<byte[]>> index_list)
             {
-                fill_height = true;
+                int count = 0;
+                int height;
+                int width;
+                block_width = (sbyte)(block_width / format_ratio);
+                if (texture_format_int32[3] == 6)  // RGBA32 has a f-cking byte order
+                {
+                    for (int i = 0; i < settings.Count; i++)  // mipmaps
+                    {
+                        height = settings[i][1] * block_height - 1;
+                        width = 0;
+                        for (int j = settings[i][1]; j > 0; j--)  // number of height blocks  (remember that the last line was added first into index_list)
+                        {
+                            for (int k = 0; k < settings[i][0]; k++)  // number of width blocks
+                            {
+                                for (int h = 0; h < 4; h++)  // height in the block
+                                {
+                                    for (int w = 0; w < 8; w++)  // width in the block
+                                    {
+                                        tex_data[count] = index_list[i][height - h][width + w];  // adds the 8 ARAR ARAR formatted bytes for each line
+                                        count++;
+                                    }
+                                }
+                                for (int h = 0; h < 4; h++)  // height in the block
+                                {
+                                    for (int w = 8; w < 16; w++)  // width in the block
+                                    {
+                                        tex_data[count] = index_list[i][height - h][width + w];  // adds the 8 GBGB GBGB formatted bytes for each line
+                                        count++;
+                                    }
+                                }
+                                width += block_width;
+                            } // end of the loop to go through number of horizontal blocks
+                            height -= block_height;
+                            width = 0;
+                        }   // go through vertical blocks
+                    }      // go through mipmaps
+                }
+                else if (texture_format_int32[3] == 0xe) // yeah, I ordered CMPR by sub-blocks
+                {
+                    for (int i = 0; i < settings.Count; i++)  // mipmaps
+                    {
+                        height = (settings[i][1] << 3) - 1;
+                        for (int j = height; j >= 0; j--)  // number of height blocks  (remember that the last line was added first into index_list)
+                        {
+                            for (int w = 0; w < 8; w++)  // width in the sub-block
+                            {
+                                tex_data[count] = index_list[i][j][w];  // adds the 8 CMPR formatted bytes for each line
+                                count++;
+                            }
+
+                            // end of the loop to go through number of horizontal blocks
+                        }   // go through vertical blocks
+                    }      // go through mipmaps
+                }
+                else
+                {
+                    for (int i = 0; i < settings.Count; i++)  // mipmaps
+                    {
+                        height = settings[i][1] * block_height - 1;
+                        width = 0;
+                        for (int j = settings[i][1]; j > 0; j--)  // number of height blocks  (remember that the last line was added first into index_list)
+                        {
+                            for (int k = 0; k < settings[i][0]; k++)  // number of width blocks
+                            {
+                                for (int h = 0; h < block_height; h++)  // height in the block
+                                {
+                                    for (int w = 0; w < block_width; w++)  // width in the block
+                                    {
+                                        tex_data[count] = index_list[i][height - h][width + w];
+                                        count++;
+                                    }
+                                }
+                                width += block_width;
+                            } // end of the loop to go through number of horizontal blocks
+                            height -= block_height;
+                            width = 0;
+                        }   // go through vertical blocks
+                    }      // go through mipmaps
+                }
+                return tex_data;
+            }
+            /// <summary>
+            /// Fills the colour palette and process every pixel of the image to be an index of the colour palette
+            /// </summary>
+            /// <param name="bmp_image">the raw bmp file as a byte array</param>
+            /// <param name="bmp_filesize">the size of the file, it can be read from the array itself, it's also the length of the array</param>
+            /// <param name="pixel_data_start_offset">read from the array itself</param>
+            /// <returns>a list of each row of the image (starting by the bottom one) and each row is a byte array which contains every pixel of a row.</returns>
+            // [MethodImpl(MethodImplOptions.NoOptimization)]
+            public List<byte[]> create_PLT0(byte[] bmp_image, int bmp_filesize, int pixel_data_start_offset)
+            {
+                ushort pixel = bitmap_width;
+                if (bitmap_height % block_height != 0)
+                {
+                    fill_height = true;
+                    if (bitmap_width % block_width != 0)
+                    {
+                        Console.WriteLine("Height is not a multiple of " + block_height + " (this value changes for each format), just be aware that the file size would be the same with an image of dimensions " + (bitmap_width + (block_width - (bitmap_width % block_width))) + "x" + ((bitmap_height + (block_height - (bitmap_height % block_height)))));
+                    }
+                    else
+                    {
+                        Console.WriteLine("Height is not a multiple of " + block_height + " (this value changes for each format), just be aware that the file size would be the same with an image of dimensions " + bitmap_width + "x" + ((bitmap_height + (block_height - (bitmap_height % block_height)))));
+                    }
+                }
                 if (bitmap_width % block_width != 0)
                 {
-                    Console.WriteLine("Height is not a multiple of " + block_height + " (this value changes for each format), just be aware that the file size would be the same with an image of dimensions " + (bitmap_width + (block_width - (bitmap_width % block_width))) + "x" + ((bitmap_height + (block_height - (bitmap_height % block_height)))));
-                }
-                else
-                {
-                    Console.WriteLine("Height is not a multiple of " + block_height + " (this value changes for each format), just be aware that the file size would be the same with an image of dimensions " + bitmap_width + "x" + ((bitmap_height + (block_height - (bitmap_height % block_height)))));
-                }
-            }
-            if (bitmap_width % block_width != 0)
-            {
-                fill_width = true;
-                if (fill_height)
-                {
-                    Console.WriteLine("Width is not a multiple of " + block_width + " (this value changes for each format), just be aware that the file size would be the same with an image of dimensions " + (bitmap_width + (block_width - (bitmap_width % block_width))) + "x" + ((bitmap_height + (block_height - (bitmap_height % block_height)))));
-                }
-                else
-                {
-                    Console.WriteLine("Width is not a multiple of " + block_width + " (this value changes for each format), just be aware that the file size would be the same with an image of dimensions " + (bitmap_width + (block_width - (bitmap_width % block_width))) + "x" + bitmap_height);
-                }
-            }
-            // pixel = (ushort)(bitmap_width + ((block_width - (bitmap_width % block_width)) % block_width));  // replaced by canvas_width
-            pixel = canvas_width;
-            switch (texture_format_int32[3])  // pixel *= reverse_format ratio XD
-            {
-                case 0:
-                case 0xE:
-                case 8: // CI4
+                    fill_width = true;
+                    if (fill_height)
                     {
-                        pixel >>= 1;  // 4 bits per pixel
-                        break;
+                        Console.WriteLine("Width is not a multiple of " + block_width + " (this value changes for each format), just be aware that the file size would be the same with an image of dimensions " + (bitmap_width + (block_width - (bitmap_width % block_width))) + "x" + ((bitmap_height + (block_height - (bitmap_height % block_height)))));
                     }
-                case 3:
-                case 4:
-                case 5:
-                case 10:
+                    else
                     {
-                        pixel <<= 1;  // 16 bits per pixel
-                        break;
+                        Console.WriteLine("Width is not a multiple of " + block_width + " (this value changes for each format), just be aware that the file size would be the same with an image of dimensions " + (bitmap_width + (block_width - (bitmap_width % block_width))) + "x" + bitmap_height);
                     }
-                case 6:
-                    {
-                        pixel <<= 2; // 32 bits per pixel
-                        break;
-                    }
-            }
-            byte[] index = new byte[pixel]; // will contains a row of pixel index starting by the bottom one because bmp_image starts by the bottom one
-            for (ushort i = 0; i < index.Length; i++)  // fills in the row with zeros
-            {
-                index[i] = 0;
-            }
-            List<byte[]> index_list = new List<byte[]>(); // will contains each row of index
-            int j = fill_palette_start_offset;
-            byte red;
-            byte green;
-            byte blue;
-            byte a;
-            byte grey;
-            bool not_similar;
-            short diff_min = 500;
-            short diff = 0;
-            byte diff_min_index = 0;
-            if (bmp_image[0x1C] != 32)
-            {
-                Console.WriteLine("HOLY SHIT (colour depth of the converted bmp image is " + bmp_image[0x1C] + ")");
-                Environment.Exit(0);
-            }
-            // colour depth
-            // 32-bit BGRA bmp image
-            if (has_palette)
-            {
-                List<ushort> Colours = new List<ushort>();  // a list of every 2 bytes pixel transformed to correspond to the current colour format
-                List<int[]> Colour_Table = new List<int[]>();  // {occurence, every possible salues of a short} used to find the most used colours, and then build a colour_palette from these
-                int[] colour = { 0, 0 };
-                for (int i = 0; i < 65536; i++)
-                {
-                    colour[1] = i;
-                    Colour_Table.Add(colour.ToArray());  // adds a copy of the current array, so it won't be linked after changes on next loop
                 }
-                switch (palette_format_int32[3])
+                // pixel = (ushort)(bitmap_width + ((block_width - (bitmap_width % block_width)) % block_width));  // replaced by canvas_width
+                pixel = canvas_width;
+                switch (texture_format_int32[3])  // pixel *= reverse_format ratio XD
                 {
-                    case 0:  // AI8
+                    case 0:
+                    case 0xE:
+                    case 8: // CI4
                         {
+                            pixel >>= 1;  // 4 bits per pixel
+                            break;
+                        }
+                    case 3:
+                    case 4:
+                    case 5:
+                    case 10:
+                        {
+                            pixel <<= 1;  // 16 bits per pixel
+                            break;
+                        }
+                    case 6:
+                        {
+                            pixel <<= 2; // 32 bits per pixel
+                            break;
+                        }
+                }
+                byte[] index = new byte[pixel]; // will contains a row of pixel index starting by the bottom one because bmp_image starts by the bottom one
+                for (ushort i = 0; i < index.Length; i++)  // fills in the row with zeros
+                {
+                    index[i] = 0;
+                }
+                List<byte[]> index_list = new List<byte[]>(); // will contains each row of index
+                int j = fill_palette_start_offset;
+                byte red;
+                byte green;
+                byte blue;
+                byte a;
+                byte grey;
+                bool not_similar;
+                short diff_min = 500;
+                short diff = 0;
+                byte diff_min_index = 0;
+                if (bmp_image[0x1C] != 32)
+                {
+                    Console.WriteLine("HOLY SHIT (colour depth of the converted bmp image is " + bmp_image[0x1C] + ")");
+                    Environment.Exit(0);
+                }
+                // colour depth
+                // 32-bit BGRA bmp image
+                if (has_palette)
+                {
+                    List<ushort> Colours = new List<ushort>();  // a list of every 2 bytes pixel transformed to correspond to the current colour format
+                    List<int[]> Colour_Table = new List<int[]>();  // {occurence, every possible salues of a short} used to find the most used colours, and then build a colour_palette from these
+                    int[] colour = { 0, 0 };
+                    for (int i = 0; i < 65536; i++)
+                    {
+                        colour[1] = i;
+                        Colour_Table.Add(colour.ToArray());  // adds a copy of the current array, so it won't be linked after changes on next loop
+                    }
+                    switch (palette_format_int32[3])
+                    {
+                        case 0:  // AI8
+                            {
 
-                            switch (algorithm)
-                            {
-                                case 0: // cie_601
-                                    {
-                                        for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)  // process every pixel to fit the AAAA AAAA  CCCC CCCC  profile
-                                        {
-                                            pixel = (ushort)(bmp_image[i + rgba_channel[3]] << 8);  // alpha value
-                                            if (bmp_image[i + rgba_channel[3]] != 0)
-                                            {
-                                                pixel += (ushort)((byte)(bmp_image[i + rgba_channel[0]] * 0.299) + bmp_image[i + rgba_channel[1]] * 0.587 + bmp_image[i + rgba_channel[2]] * 0.114);
-                                            }
-                                            Colours.Add(pixel);
-                                            Colour_Table[pixel][0] += 1;
-                                        }
-                                        break;
-                                    }
-                                case 1: // cie_709
-                                    {
-                                        for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
-                                        {
-                                            pixel = (ushort)(bmp_image[i + rgba_channel[3]] << 8);  // alpha value
-                                            if (bmp_image[i + rgba_channel[3]] != 0)
-                                            {
-                                                pixel += (ushort)((byte)(bmp_image[i + rgba_channel[2]] * 0.0721 + bmp_image[i + rgba_channel[1]] * 0.7154 + bmp_image[i + rgba_channel[0]] * 0.2125));
-                                            }
-                                            Colours.Add(pixel);
-                                            Colour_Table[pixel][0] += 1;
-                                        }
-                                        break;
-                                    }
-                                case 2:  // custom
-                                    {
-                                        for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
-                                        {
-                                            pixel = (ushort)((byte)(bmp_image[i + rgba_channel[3]] * custom_rgba[3]) << 8);  // alpha value
-                                            if (pixel != 0)
-                                            {
-                                                pixel += (ushort)(byte)(bmp_image[i + rgba_channel[2]] * custom_rgba[2] + bmp_image[i + rgba_channel[1]] * custom_rgba[1] + bmp_image[i + rgba_channel[0]] * custom_rgba[0]);
-                                            }
-                                            Colours.Add(pixel);
-                                            Colour_Table[pixel][0] += 1;
-                                        }
-                                        break;
-                                    }
-                            }
-                            if (!user_palette || fill_palette_start_offset != 0)  // no input palette / partial user input palette = fill it with these colours
-                            {
-                                Colour_Table.Sort(new IntArrayComparer());  // sorts the table by the most used colour first
-                                Console.WriteLine("findind most used Colours");
-                                for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
+                                switch (algorithm)
                                 {
-                                    not_similar = true;
-                                    if (Colour_Table[i][0] / pixel_count < percentage / 100)
-                                    {
-                                        break;
-                                    }
-                                    for (int k = 0; k < j; k += 2)
-                                    {
-                                        if (Math.Abs(colour_palette[k] - (byte)(Colour_Table[i][1] >> 8)) < diversity && Math.Abs(colour_palette[k + 1] - (byte)(Colour_Table[i][1])) < diversity)
+                                    case 0: // cie_601
                                         {
-                                            not_similar = false;
+                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)  // process every pixel to fit the AAAA AAAA  CCCC CCCC  profile
+                                            {
+                                                pixel = (ushort)(bmp_image[i + rgba_channel[3]] << 8);  // alpha value
+                                                if (bmp_image[i + rgba_channel[3]] != 0)
+                                                {
+                                                    pixel += (ushort)((byte)(bmp_image[i + rgba_channel[0]] * 0.299) + bmp_image[i + rgba_channel[1]] * 0.587 + bmp_image[i + rgba_channel[2]] * 0.114);
+                                                }
+                                                Colours.Add(pixel);
+                                                Colour_Table[pixel][0] += 1;
+                                            }
                                             break;
                                         }
-                                    }
-                                    if (not_similar)
-                                    {
-                                        colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the Alpha value
-                                        colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the Grey value
-                                        j += 2;
-                                    }
+                                    case 1: // cie_709
+                                        {
+                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
+                                            {
+                                                pixel = (ushort)(bmp_image[i + rgba_channel[3]] << 8);  // alpha value
+                                                if (bmp_image[i + rgba_channel[3]] != 0)
+                                                {
+                                                    pixel += (ushort)((byte)(bmp_image[i + rgba_channel[2]] * 0.0721 + bmp_image[i + rgba_channel[1]] * 0.7154 + bmp_image[i + rgba_channel[0]] * 0.2125));
+                                                }
+                                                Colours.Add(pixel);
+                                                Colour_Table[pixel][0] += 1;
+                                            }
+                                            break;
+                                        }
+                                    case 2:  // custom
+                                        {
+                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
+                                            {
+                                                pixel = (ushort)((byte)(bmp_image[i + rgba_channel[3]] * custom_rgba[3]) << 8);  // alpha value
+                                                if (pixel != 0)
+                                                {
+                                                    pixel += (ushort)(byte)(bmp_image[i + rgba_channel[2]] * custom_rgba[2] + bmp_image[i + rgba_channel[1]] * custom_rgba[1] + bmp_image[i + rgba_channel[0]] * custom_rgba[0]);
+                                                }
+                                                Colours.Add(pixel);
+                                                Colour_Table[pixel][0] += 1;
+                                            }
+                                            break;
+                                        }
                                 }
-                                if (j < colour_number_x2) // if the colour palette is not full
+                                if (!user_palette || fill_palette_start_offset != 0)  // no input palette / partial user input palette = fill it with these colours
                                 {
-                                    Console.WriteLine("The colour palette was not full, starting second loop...\n");
+                                    Colour_Table.Sort(new IntArrayComparer());  // sorts the table by the most used colour first
+                                    Console.WriteLine("findind most used Colours");
                                     for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
                                     {
                                         not_similar = true;
-                                        if (Colour_Table[i][0] / pixel_count < percentage2 / 100)
+                                        if (Colour_Table[i][0] / pixel_count < percentage / 100)
                                         {
                                             break;
                                         }
                                         for (int k = 0; k < j; k += 2)
                                         {
-                                            if (Math.Abs(colour_palette[k] - (byte)(Colour_Table[i][1] >> 8)) < diversity2 && Math.Abs(colour_palette[k + 1] - (byte)(Colour_Table[i][1])) < diversity2)
+                                            if (Math.Abs(colour_palette[k] - (byte)(Colour_Table[i][1] >> 8)) < diversity && Math.Abs(colour_palette[k + 1] - (byte)(Colour_Table[i][1])) < diversity)
                                             {
                                                 not_similar = false;
                                                 break;
@@ -3632,603 +3821,6 @@ namespace plt0
                                             j += 2;
                                         }
                                     }
-                                    if (j < colour_number_x2) // if the colour palette is still not full
-                                    {
-                                        Console.WriteLine("The colour palette is not full, this program will fill it with the most used colours\n");
-                                        for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
-                                        {
-                                            not_similar = true;
-                                            for (int k = 0; k < j; k += 2)
-                                            {
-                                                if ((colour_palette[k] == (byte)(Colour_Table[i][1] >> 8)) && colour_palette[k + 1] == (byte)(Colour_Table[i][1]))
-                                                {
-                                                    not_similar = false;
-                                                    break;
-                                                }
-                                            }
-                                            if (not_similar)
-                                            {
-                                                colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the Alpha value
-                                                colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the Grey value
-                                                j += 2;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            Console.WriteLine("creating indexes");
-                            j = 0;
-                            switch (texture_format_int32[3])
-                            {
-                                case 8: // CI4
-                                    {
-                                        for (int h = 0; h < canvas_height; h++)
-                                        {
-                                            for (int w = 0; w < canvas_width; w++)  // index_size = number of pixels
-                                            {
-                                                diff_min = 500;
-                                                for (int i = 0; i < colour_number_x2; i += 2)  // process the colour palette to find the closest colour corresponding to the current pixel
-                                                {
-                                                    if (colour_palette[i] == (byte)(Colours[j] >> 8) && colour_palette[i + 1] == (byte)Colours[j])  // if it's the exact same colour
-                                                    {
-                                                        diff_min_index = (byte)(i >> 1);  // index is stored on 1 byte, while each colour is stored on 2 bytes
-                                                        break;
-                                                    }
-                                                    else
-                                                    {
-                                                        diff = (short)(Math.Abs(colour_palette[i] - (byte)(Colours[j] >> 8)) + Math.Abs(colour_palette[i + 1] - (byte)Colours[j]));
-                                                        if (diff < diff_min)
-                                                        {
-                                                            diff_min = diff;
-                                                            diff_min_index = (byte)(i >> 1);
-                                                        }
-                                                    }
-                                                }
-                                                if (w % 2 == 0)  // stores the index on the upper 4 bits
-                                                {
-                                                    index[w >> 1] = (byte)(diff_min_index << 4);
-                                                }
-                                                else  // stores the index on the lower 4 bits
-                                                {
-                                                    index[w >> 1] += diff_min_index;
-                                                }
-                                                j += 1;
-                                            }
-                                            index_list.Add(index.ToArray());
-                                        }
-                                        break;
-                                    }
-                                case 9: // CI8
-                                    {
-                                        for (int h = 0; h < canvas_height; h++)
-                                        {
-                                            for (int w = 0; w < canvas_width; w++)  // index_size = number of pixels
-                                            {
-                                                diff_min = 500;
-                                                for (int i = 0; i < colour_number_x2; i += 2)  // process the colour palette to find the closest colour corresponding to the current pixel
-                                                {
-                                                    if (colour_palette[i] == (byte)(Colours[j] >> 8) && colour_palette[i + 1] == (byte)Colours[j])  // if it's the exact same colour
-                                                    {
-                                                        diff_min_index = (byte)(i >> 1);  // index is stored on 1 byte, while each colour is stored on 2 bytes
-                                                        break;
-                                                    }
-                                                    else
-                                                    {
-                                                        diff = (short)(Math.Abs(colour_palette[i] - (byte)(Colours[j] >> 8)) + Math.Abs(colour_palette[i + 1] - (byte)Colours[j]));
-                                                        if (diff < diff_min)
-                                                        {
-                                                            diff_min = diff;
-                                                            diff_min_index = (byte)(i >> 1);
-                                                        }
-                                                    }
-                                                }
-                                                index[w] = diff_min_index;
-                                                j += 1;
-                                            }
-                                            index_list.Add(index.ToArray());
-                                        }
-                                        break;
-                                    }
-                                case 10:  // CI14x2
-                                    {
-                                        for (int h = 0; h < canvas_height; h++)
-                                        {
-                                            for (int w = 0; w < canvas_width << 1; w += 2)  // multiplied by two because each index is a 14 bytes integer
-                                            {
-                                                diff_min = 500;
-                                                for (int i = 0; i < colour_number_x2; i += 2)  // process the colour palette to find the closest colour corresponding to the current pixel
-                                                {
-                                                    if (colour_palette[i] == (byte)(Colours[j] >> 8) && colour_palette[i + 1] == (byte)Colours[j])  // if it's the exact same colour
-                                                    {
-                                                        diff_min_index = (byte)(i >> 1);  // index is stored on 1 byte, while each colour is stored on 2 bytes
-                                                        break;
-                                                    }
-                                                    else
-                                                    {
-                                                        diff = (short)(Math.Abs(colour_palette[i] - (byte)(Colours[j] >> 8)) + Math.Abs(colour_palette[i + 1] - (byte)Colours[j]));
-                                                        if (diff < diff_min)
-                                                        {
-                                                            diff_min = diff;
-                                                            diff_min_index = (byte)(i >> 1);
-                                                        }
-                                                    }
-                                                }
-                                                index[w] = (byte)(diff_min_index >> 8);  // adding a short at each iteration
-                                                index[w + 1] = (byte)diff_min_index;  // casting to byte acts as a % 0xff
-                                                j += 1;
-                                            }
-                                            index_list.Add(index.ToArray());
-                                        }
-                                        break;
-                                    }
-
-                            }
-                            break;
-                        }
-                    case 1:  // RGB565
-                        {
-
-                            switch (algorithm)
-                            {
-                                case 2:  // custom  RRRR RGGG GGGB BBBB
-                                    {
-                                        for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
-                                        {
-                                            red = (byte)(bmp_image[i + rgba_channel[0]] * custom_rgba[0]);
-                                            green = (byte)(bmp_image[i + rgba_channel[1]] * custom_rgba[1]);
-                                            blue = (byte)(bmp_image[i + rgba_channel[2]] * custom_rgba[2]);
-                                            if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
-                                            {
-                                                red += 8;
-                                            }
-                                            if ((green & round6) == round6 && green < 252)  // 6-bit max value on a trimmed byte
-                                            {
-                                                green += 4;
-                                            }
-                                            if ((blue & 7) > round5 && blue < 248)
-                                            {
-                                                blue += 8;
-                                            }
-                                            pixel = (ushort)((((byte)(red) >> 3) << 11) + (((byte)(green) >> 2) << 5) + (byte)(blue) >> 3);
-                                            Colours.Add(pixel);
-                                            Colour_Table[pixel][0] += 1;
-                                        }
-                                        break;
-                                    }
-                                default: // RRRR RGGG GGGB BBBB
-                                    {
-                                        for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
-                                        {
-                                            red = bmp_image[i + rgba_channel[0]];
-                                            green = bmp_image[i + rgba_channel[1]];
-                                            blue = bmp_image[i + rgba_channel[2]];
-                                            if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
-                                            {
-                                                red += 8;
-                                            }
-                                            if ((green & round6) == round6 && green < 252)  // 6-bit max value on a trimmed byte
-                                            {
-                                                green += 4;
-                                            }
-                                            if ((blue & 7) > round5 && blue < 248)
-                                            {
-                                                blue += 8;
-                                            }
-                                            pixel = (ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3));
-                                            Colours.Add(pixel);
-                                            Colour_Table[pixel][0] += 1;
-                                        }
-                                        break;
-                                    }
-                            }
-                            if (!user_palette || fill_palette_start_offset != 0)  // no input palette / partial user input palette = fill it with these colours
-                            {
-                                Colour_Table.Sort(new IntArrayComparer());  // sorts the table by the most used colour first
-                                Console.WriteLine("findind most used Colours");
-                                for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
-                                {
-                                    not_similar = true;
-                                    if (Colour_Table[i][0] / pixel_count < percentage / 100)
-                                    {
-                                        break;
-                                    }
-                                    for (int k = 0; k < j; k += 2)
-                                    {
-                                        if (Math.Abs((colour_palette[k] & 248) - ((Colour_Table[i][1] >> 8) & 248)) < diversity && Math.Abs(((colour_palette[k] & 7) << 5) + ((colour_palette[k + 1] >> 3) & 28) - ((Colour_Table[i][1] >> 3) & 252)) < diversity && Math.Abs(((colour_palette[k + 1] << 3) & 248) - (Colour_Table[i][1] << 3) & 248) < diversity)
-                                        {
-                                            not_similar = false;
-                                            break;
-                                        }
-                                    }
-                                    if (not_similar)
-                                    {
-                                        colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the RRRR RGGG value
-                                        colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the GGGB BBBB value
-                                        j += 2;
-                                    }
-                                }
-                                if (j < colour_number_x2) // if the colour palette is not full
-                                {
-                                    Console.WriteLine("The colour palette was not full, starting second loop...\n");
-                                    for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
-                                    {
-                                        not_similar = true;
-                                        if (Colour_Table[i][0] / pixel_count < percentage2 / 100)
-                                        {
-                                            break;
-                                        }
-                                        for (int k = 0; k < j; k += 2)
-                                        {
-                                            if (Math.Abs((colour_palette[k] & 248) - ((Colour_Table[i][1] >> 8) & 248)) < diversity2 && Math.Abs(((colour_palette[k] & 7) << 5) + ((colour_palette[k + 1] >> 3) & 28) - ((Colour_Table[i][1] >> 3) & 252)) < diversity2 && Math.Abs(((colour_palette[k + 1] << 3) & 248) - (Colour_Table[i][1] << 3) & 248) < diversity2)
-                                            {
-                                                not_similar = false;
-                                                break;
-                                            }
-                                        }
-                                        if (not_similar)
-                                        {
-                                            colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the Red and green value
-                                            colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the Green and blue value
-                                            j += 2;
-                                        }
-                                    }
-                                    if (j < colour_number_x2) // if the colour palette is still not full
-                                    {
-                                        Console.WriteLine("The colour palette is not full, this program will fill it with the most used colours\n");
-                                        for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
-                                        {
-                                            not_similar = true;
-                                            for (int k = 0; k < j; k += 2)
-                                            {
-                                                if ((colour_palette[k] == (byte)(Colour_Table[i][1] >> 8)) && colour_palette[k + 1] == (byte)(Colour_Table[i][1]))
-                                                {
-                                                    not_similar = false;
-                                                    break;
-                                                }
-                                            }
-                                            if (not_similar)
-                                            {
-                                                colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the RRRR RGGG value
-                                                colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the GGGB BBBB value
-                                                j += 2;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            Console.WriteLine("creating indexes");
-                            j = 0;
-                            switch (texture_format_int32[3])
-                            {
-                                case 8: // CI4
-                                    {
-                                        for (int h = 0; h < canvas_height; h++)
-                                        {
-                                            for (int w = 0; w < canvas_width; w++)  // index_size = number of pixels
-                                            {
-                                                diff_min = 500;
-                                                for (int i = 0; i < colour_number_x2; i += 2)  // process the colour palette to find the closest colour corresponding to the current pixel
-                                                {
-                                                    if (colour_palette[i] == (byte)(Colours[j] >> 8) && colour_palette[i + 1] == (byte)Colours[j])  // if it's the exact same colour
-                                                    {
-                                                        diff_min_index = (byte)(i >> 1);  // index is stored on 1 byte, while each colour is stored on 2 bytes
-                                                        break;
-                                                    }
-                                                    else  // calculate difference between each separate colour channel and store the sum
-                                                    {
-                                                        diff = (short)(Math.Abs((colour_palette[i] & 248) - ((Colours[j] >> 8) & 248)) + Math.Abs(((colour_palette[i] & 7) << 5) + ((colour_palette[i + 1] >> 3) & 28) - ((Colours[j] >> 3) & 252)) + Math.Abs(((colour_palette[i + 1] << 3) & 248) - ((Colours[j] << 3) & 248)));
-                                                        if (diff < diff_min)
-                                                        {
-                                                            diff_min = diff;
-                                                            diff_min_index = (byte)(i >> 1);
-                                                        }
-                                                    }
-                                                }
-                                                if (w % 2 == 0)  // stores the index on the upper 4 bits
-                                                {
-                                                    index[w >> 1] = (byte)(diff_min_index << 4);
-                                                }
-                                                else  // stores the index on the lower 4 bits
-                                                {
-                                                    index[w >> 1] += diff_min_index;
-                                                }
-                                                j += 1;
-                                            }
-                                            index_list.Add(index.ToArray());
-                                        }
-                                        break;
-                                    }
-                                case 9: // CI8
-                                    {
-                                        for (int h = 0; h < canvas_height; h++)
-                                        {
-                                            for (int w = 0; w < canvas_width; w++)  // index_size = number of pixels
-                                            {
-                                                diff_min = 500;
-                                                for (int i = 0; i < colour_number_x2; i += 2)  // process the colour palette to find the closest colour corresponding to the current pixel
-                                                {
-                                                    if (colour_palette[i] == (byte)(Colours[j] >> 8) && colour_palette[i + 1] == (byte)Colours[j])  // if it's the exact same colour
-                                                    {
-                                                        diff_min_index = (byte)(i >> 1);  // index is stored on 1 byte, while each colour is stored on 2 bytes
-                                                        break;
-                                                    }
-                                                    else  // calculate difference between each separate colour channel and store the sum
-                                                    {
-
-                                                        diff = (short)(Math.Abs((colour_palette[i] & 248) - ((Colours[j] >> 8) & 248)) + Math.Abs(((colour_palette[i] & 7) << 5) + ((colour_palette[i + 1] >> 3) & 28) - ((Colours[j] >> 3) & 252)) + Math.Abs(((colour_palette[i + 1] << 3) & 248) - ((Colours[j] << 3) & 248))); if (diff < diff_min)
-                                                        {
-                                                            diff_min = diff;
-                                                            diff_min_index = (byte)(i >> 1);
-                                                        }
-                                                    }
-                                                }
-                                                index[w] = diff_min_index;
-                                                j += 1;
-                                            }
-                                            index_list.Add(index.ToArray());
-                                        }
-                                        break;
-                                    }
-                                case 10:  // CI14x2
-                                    {
-                                        for (int h = 0; h < canvas_height; h++)
-                                        {
-                                            for (int w = 0; w < canvas_width << 1; w += 2)  // multiplied by two because each index is a 14 bytes integer
-                                            {
-                                                diff_min = 500;
-                                                for (int i = 0; i < colour_number_x2; i += 2)  // process the colour palette to find the closest colour corresponding to the current pixel
-                                                {
-                                                    if (colour_palette[i] == (byte)(Colours[j] >> 8) && colour_palette[i + 1] == (byte)Colours[j])  // if it's the exact same colour
-                                                    {
-                                                        diff_min_index = (byte)(i >> 1);  // index is stored on 1 byte, while each colour is stored on 2 bytes
-                                                        break;
-                                                    }
-                                                    else  // calculate difference between each separate colour channel and store the sum
-                                                    {
-
-                                                        diff = (short)(Math.Abs((colour_palette[i] & 248) - ((Colours[j] >> 8) & 248)) + Math.Abs(((colour_palette[i] & 7) << 5) + ((colour_palette[i + 1] >> 3) & 28) - ((Colours[j] >> 3) & 252)) + Math.Abs(((colour_palette[i + 1] << 3) & 248) - ((Colours[j] << 3) & 248))); if (diff < diff_min)
-                                                        {
-                                                            diff_min = diff;
-                                                            diff_min_index = (byte)(i >> 1);
-                                                        }
-                                                    }
-                                                }
-                                                index[w] = (byte)(diff_min_index >> 8);  // adding a short at each iteration
-                                                index[w + 1] = (byte)diff_min_index;  // casting to byte acts as a % 0xff
-                                                j += 1;
-                                            }
-                                            index_list.Add(index.ToArray());
-                                        }
-                                        break;
-                                    }
-
-                            }
-                            break;
-                        }
-                    case 2:  // RGB5A3
-                        {
-                            switch (algorithm)
-                            {
-                                case 2:  // custom
-                                    {
-                                        if (alpha == 1)  // 0AAA RRRR GGGG BBBB
-                                        {
-                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
-                                            {
-                                                a = (byte)(bmp_image[i + rgba_channel[3]] * custom_rgba[3]);
-                                                red = (byte)(bmp_image[i + rgba_channel[0]] * custom_rgba[0]);
-                                                green = (byte)(bmp_image[i + rgba_channel[1]] * custom_rgba[1]);
-                                                blue = (byte)(bmp_image[i + rgba_channel[2]] * custom_rgba[2]);
-                                                if ((a & 31) > round3 && a < 224)  // 3-bit max value on a trimmed byte
-                                                {
-                                                    a += 32;
-                                                }
-                                                if ((red & 15) > round4 && red < 240)  // 4-bit max value on a trimmed byte
-                                                {
-                                                    red += 16;
-                                                }
-                                                if ((green & 15) > round4 && green < 240)
-                                                {
-                                                    green += 16;
-                                                }
-                                                if ((blue & 15) > round4 && blue < 240)
-                                                {
-                                                    blue += 16;
-                                                }
-                                                pixel = (ushort)(((a >> 5) << 12) + ((red >> 4) << 8) + ((green >> 4) << 4) + (blue >> 4));
-                                                Colours.Add(pixel);
-                                                Colour_Table[pixel][0] += 1;
-                                            }
-                                        }
-                                        else if (alpha == 0)  // 1RRR RRGG GGGB BBBB
-                                        {
-                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
-                                            {
-                                                red = (byte)(bmp_image[i + rgba_channel[0]] * custom_rgba[0]);
-                                                green = (byte)(bmp_image[i + rgba_channel[1]] * custom_rgba[1]);
-                                                blue = (byte)(bmp_image[i + rgba_channel[2]] * custom_rgba[2]);
-                                                if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
-                                                {
-                                                    red += 8;
-                                                }
-                                                if ((green & 7) > round5 && green < 248)
-                                                {
-                                                    green += 8;
-                                                }
-                                                if ((blue & 7) > round5 && blue < 248)
-                                                {
-                                                    blue += 8;
-                                                }
-                                                pixel = (ushort)((1 << 15) + ((red >> 3) << 10) + ((green >> 3) << 5) + (blue >> 3));
-                                                Colours.Add(pixel);
-                                                Colour_Table[pixel][0] += 1;
-                                            }
-                                        }
-                                        else  // check for each colour if alpha trimmed to 3 bits is 255
-                                        {
-                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
-                                            {
-                                                a = (byte)(bmp_image[i + rgba_channel[3]] * custom_rgba[3]);
-                                                red = (byte)(bmp_image[i + rgba_channel[0]] * custom_rgba[0]);
-                                                green = (byte)(bmp_image[i + rgba_channel[1]] * custom_rgba[1]);
-                                                blue = (byte)(bmp_image[i + rgba_channel[2]] * custom_rgba[2]);
-                                                if ((a & 31) > round3 && a < 224)  // 3-bit max value on a trimmed byte
-                                                {
-                                                    a += 32;
-                                                }
-                                                if ((red & 15) > round4 && red < 240)  // 4-bit max value on a trimmed byte
-                                                {
-                                                    red += 16;
-                                                }
-                                                if ((green & 15) > round4 && green < 240)
-                                                {
-                                                    green += 16;
-                                                }
-                                                if ((blue & 15) > round4 && blue < 240)
-                                                {
-                                                    blue += 16;
-                                                }
-                                                if (a > 223)  // no alpha
-                                                {
-                                                    pixel = (ushort)((1 << 15) + ((red >> 3) << 10) + ((green >> 3) << 5) + (blue >> 3));
-                                                }
-                                                else
-                                                {
-                                                    pixel = (ushort)(((a >> 5) << 12) + ((red >> 4) << 8) + ((green >> 4) << 4) + (blue >> 4));
-                                                }
-                                                Colours.Add(pixel);
-                                                Colour_Table[pixel][0] += 1;
-                                            }
-                                        }
-                                        break;
-                                    }
-                                default:
-                                    {
-                                        if (alpha == 1)  // 0AAA RRRR GGGG BBBB
-                                        {
-                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
-                                            {
-                                                a = bmp_image[i + rgba_channel[3]];
-                                                red = bmp_image[i + rgba_channel[0]];
-                                                green = bmp_image[i + rgba_channel[1]];
-                                                blue = bmp_image[i + rgba_channel[2]];
-                                                if ((a & 31) > round3 && a < 224)  // 3-bit max value on a trimmed byte
-                                                {
-                                                    a += 32;
-                                                }
-                                                if ((red & 15) > round4 && red < 240)  // 4-bit max value on a trimmed byte
-                                                {
-                                                    red += 16;
-                                                }
-                                                if ((green & 15) > round4 && green < 240)
-                                                {
-                                                    green += 16;
-                                                }
-                                                if ((blue & 15) > round4 && blue < 240)
-                                                {
-                                                    blue += 16;
-                                                }
-                                                pixel = (ushort)(((a >> 5) << 12) + ((red >> 4) << 8) + ((green >> 4) << 4) + (blue >> 4));
-                                                Colours.Add(pixel);
-                                                Colour_Table[pixel][0] += 1;
-                                            }
-                                        }
-                                        else if (alpha == 0)  // 1RRR RRGG GGGB BBBB
-                                        {
-                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
-                                            {
-                                                red = bmp_image[i + rgba_channel[0]];
-                                                green = bmp_image[i + rgba_channel[1]];
-                                                blue = bmp_image[i + rgba_channel[2]];
-                                                if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
-                                                {
-                                                    red += 8;
-                                                }
-                                                if ((green & 7) > round5 && green < 248)
-                                                {
-                                                    green += 8;
-                                                }
-                                                if ((blue & 7) > round5 && blue < 248)
-                                                {
-                                                    blue += 8;
-                                                }
-                                                pixel = (ushort)((1 << 15) + ((red >> 3) << 10) + ((green >> 3) << 5) + (blue >> 3));
-                                                Colours.Add(pixel);
-                                                Colour_Table[pixel][0] += 1;
-                                            }
-                                        }
-                                        else  // mix up alpha and no alpha
-                                        {
-                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
-                                            {
-                                                a = bmp_image[i + rgba_channel[3]];
-                                                red = bmp_image[i + rgba_channel[0]];
-                                                green = bmp_image[i + rgba_channel[1]];
-                                                blue = bmp_image[i + rgba_channel[2]];
-                                                if ((a & 31) > round3 && a < 224)  // 3-bit max value on a trimmed byte
-                                                {
-                                                    a += 32;
-                                                }
-                                                if ((red & 15) > round4 && red < 240)  // 4-bit max value on a trimmed byte
-                                                {
-                                                    red += 16;
-                                                }
-                                                if ((green & 15) > round4 && green < 240)
-                                                {
-                                                    green += 16;
-                                                }
-                                                if ((blue & 15) > round4 && blue < 240)
-                                                {
-                                                    blue += 16;
-                                                }
-                                                if (a > 223)  // no alpha
-                                                {
-                                                    pixel = (ushort)((1 << 15) + ((red >> 3) << 10) + ((green >> 3) << 5) + (blue >> 3));
-                                                }
-                                                else
-                                                {
-                                                    pixel = (ushort)(((a >> 5) << 12) + ((red >> 4) << 8) + ((green >> 4) << 4) + (blue >> 4));
-                                                }
-                                                Colours.Add(pixel);
-                                                Colour_Table[pixel][0] += 1;
-                                            }
-                                        }
-                                        break;
-                                    }
-                            }
-                            byte a2;
-                            byte red2;
-                            byte green2;
-                            byte blue2;
-                            if (!user_palette || fill_palette_start_offset != 0)  // no input palette / partial user input palette = fill it with these colours
-                            {
-
-                                Colour_Table.Sort(new IntArrayComparer());  // sorts the table by the most used colour first
-                                Console.WriteLine("findind most used Colours");
-                                if (alpha == 1)
-                                {
-                                    for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
-                                    {
-                                        not_similar = true;
-                                        if (Colour_Table[i][0] / pixel_count < percentage / 100)
-                                        {
-                                            break;
-                                        }
-                                        for (int k = 0; k < j; k += 2)
-                                        {
-                                            if (Math.Abs((colour_palette[k] & 112) - (Colour_Table[i][1] >> 8) & 112) < diversity && Math.Abs(((colour_palette[k] << 4) & 240) - ((Colour_Table[i][1] >> 4) & 240)) < diversity && Math.Abs((colour_palette[k + 1] & 240) - ((Colour_Table[i][1]) & 240)) < diversity && Math.Abs(((colour_palette[k + 1] << 4) & 240) - ((Colour_Table[i][1] << 4) & 240)) < diversity)
-                                            {
-                                                not_similar = false;
-                                                break;
-                                            }
-                                        }
-                                        if (not_similar)
-                                        {
-                                            colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the 0AAA RRRR value
-                                            colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the GGGG BBBB value
-                                            j += 2;
-                                        }
-                                    }
                                     if (j < colour_number_x2) // if the colour palette is not full
                                     {
                                         Console.WriteLine("The colour palette was not full, starting second loop...\n");
@@ -4241,210 +3833,7 @@ namespace plt0
                                             }
                                             for (int k = 0; k < j; k += 2)
                                             {
-                                                if (Math.Abs((colour_palette[k] & 112) - (Colour_Table[i][1] >> 8) & 112) < diversity2 && Math.Abs(((colour_palette[k] << 4) & 240) - ((Colour_Table[i][1] >> 4) & 240)) < diversity2 && Math.Abs((colour_palette[k + 1] & 240) - ((Colour_Table[i][1]) & 240)) < diversity2 && Math.Abs(((colour_palette[k + 1] << 4) & 240) - ((Colour_Table[i][1] << 4) & 240)) < diversity2)
-                                                {
-                                                    not_similar = false;
-                                                    break;
-                                                }
-                                            }
-                                            if (not_similar)
-                                            {
-                                                colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the 0AAA RRRR value
-                                                colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the GGGG BBBB value
-                                                j += 2;
-                                            }
-                                        }
-                                        if (j < colour_number_x2) // if the colour palette is still not full
-                                        {
-                                            Console.WriteLine("The colour palette is not full, this program will fill it with the most used colours\n");
-                                            for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
-                                            {
-                                                not_similar = true;
-                                                for (int k = 0; k < j; k += 2)
-                                                {
-                                                    if ((colour_palette[k] == (byte)(Colour_Table[i][1] >> 8)) && colour_palette[k + 1] == (byte)(Colour_Table[i][1]))
-                                                    {
-                                                        not_similar = false;
-                                                        break;
-                                                    }
-                                                }
-                                                if (not_similar)
-                                                {
-                                                    colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the 0AAA RRRR value
-                                                    colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the GGGG BBBB value
-                                                    j += 2;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                else if (alpha == 0)  // 1RRR RRGG GGGB BBBB
-                                {
-                                    for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
-                                    {
-                                        not_similar = true;
-                                        if (Colour_Table[i][0] / pixel_count < percentage / 100)
-                                        {
-                                            break;
-                                        }
-                                        for (int k = 0; k < j; k += 2)
-                                        {
-                                            if (Math.Abs(((colour_palette[k] << 1) & 248) - ((Colour_Table[i][1] >> 7) & 248)) < diversity && Math.Abs(((colour_palette[k] & 3) << 6) + ((colour_palette[k + 1] >> 2) & 56) - ((Colour_Table[i][1] >> 2) & 248)) < diversity && Math.Abs(((colour_palette[k + 1] << 3) & 248) - (Colour_Table[i][1] << 3) & 248) < diversity)
-                                            {
-                                                not_similar = false;
-                                                break;
-                                            }
-                                        }
-                                        if (not_similar)
-                                        {
-                                            colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the 1RRR RRGG value
-                                            colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the GGGB BBBB value
-                                            j += 2;
-                                        }
-                                    }
-                                    if (j < colour_number_x2) // if the colour palette is not full
-                                    {
-                                        Console.WriteLine("The colour palette was not full, starting second loop...\n");
-                                        for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
-                                        {
-                                            not_similar = true;
-                                            if (Colour_Table[i][0] / pixel_count < percentage2 / 100)
-                                            {
-                                                break;
-                                            }
-                                            for (int k = 0; k < j; k += 2)
-                                            {
-                                                if (Math.Abs(((colour_palette[k] << 1) & 248) - ((Colour_Table[i][1] >> 7) & 248)) < diversity2 && Math.Abs(((colour_palette[k] & 3) << 6) + ((colour_palette[k + 1] >> 2) & 56) - ((Colour_Table[i][1] >> 2) & 248)) < diversity2 && Math.Abs(((colour_palette[k + 1] << 3) & 248) - (Colour_Table[i][1] << 3) & 248) < diversity2)
-                                                {
-                                                    not_similar = false;
-                                                    break;
-                                                }
-                                            }
-                                            if (not_similar)
-                                            {
-                                                colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the Alpha and red value
-                                                colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the Gren and blue value
-                                                j += 2;
-                                            }
-                                        }
-                                        if (j < colour_number_x2) // if the colour palette is still not full
-                                        {
-                                            Console.WriteLine("The colour palette is not full, this program will fill it with the most used colours\n");
-                                            for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
-                                            {
-                                                not_similar = true;
-                                                for (int k = 0; k < j; k += 2)
-                                                {
-                                                    if ((colour_palette[k] == (byte)(Colour_Table[i][1] >> 8)) && colour_palette[k + 1] == (byte)(Colour_Table[i][1]))
-                                                    {
-                                                        not_similar = false;
-                                                        break;
-                                                    }
-                                                }
-                                                if (not_similar)
-                                                {
-                                                    colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the Alpha and red value
-                                                    colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the Green and blue value
-                                                    j += 2;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                else  // mix
-                                {
-
-                                    for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
-                                    {
-                                        not_similar = true;
-                                        if (Colour_Table[i][0] / pixel_count < percentage / 100)
-                                        {
-                                            break;
-                                        }
-                                        for (int k = 0; k < j; k += 2)
-                                        {
-                                            if ((colour_palette[k] >> 7) == 1)  // no alpha - 1RRR RRGG GGGB BBBB
-                                            {
-                                                a = 255;
-                                                red = (byte)((colour_palette[k] << 1) & 248);
-                                                green = (byte)(((colour_palette[k] & 3) << 6) + ((colour_palette[k + 1] >> 2) & 56));
-                                                blue = (byte)((colour_palette[k + 1] << 3) & 248);
-                                            }
-                                            else  // alpha - 0AAA RRRR GGGG BBBB
-                                            {
-                                                a = (byte)(colour_palette[k] & 112);
-                                                red = (byte)((colour_palette[k] << 4) & 240);
-                                                green = (byte)(colour_palette[k + 1] & 240);
-                                                blue = (byte)((colour_palette[k + 1] << 4) & 240);
-                                            }
-                                            if (Colour_Table[i][1] >> 15 == 1)  // no alpha - 1RRR RRGG GGGB BBBB
-                                            {
-                                                a2 = 255;
-                                                red2 = (byte)((Colour_Table[i][1] >> 7) & 248);
-                                                green2 = (byte)((Colour_Table[i][1] >> 2) & 248);
-                                                blue2 = (byte)((Colour_Table[i][1] << 3) & 248);
-                                            }
-                                            else  // alpha - 0AAA RRRR GGGG BBBB
-                                            {
-                                                a2 = (byte)((Colour_Table[i][1] >> 8) & 112);
-                                                red2 = (byte)((Colour_Table[i][1] >> 4) & 240);
-                                                green2 = (byte)((Colour_Table[i][1]) & 240);
-                                                blue2 = (byte)((Colour_Table[i][1] << 4) & 240);
-                                            }
-                                            if (Math.Abs(a - a2) < diversity && Math.Abs(red - red2) < diversity && Math.Abs(green - green2) < diversity && Math.Abs(blue - blue2) < diversity)
-                                            {
-                                                not_similar = false;
-                                                break;
-                                            }
-                                        }
-                                        if (not_similar)
-                                        {
-                                            colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the Alpha and red value
-                                            colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the Green and blue value
-                                            j += 2;
-                                        }
-                                    }
-                                    if (j < colour_number_x2) // if the colour palette is not full
-                                    {
-                                        Console.WriteLine("The colour palette was not full, starting second loop...\n");
-                                        for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
-                                        {
-                                            not_similar = true;
-                                            if (Colour_Table[i][0] / pixel_count < percentage2 / 100)
-                                            {
-                                                break;
-                                            }
-                                            for (int k = 0; k < j; k += 2)
-                                            {
-                                                if ((colour_palette[k] >> 7) == 1)  // no alpha - 1RRR RRGG GGGB BBBB
-                                                {
-                                                    a = 255;
-                                                    red = (byte)((colour_palette[k] << 1) & 248);
-                                                    green = (byte)(((colour_palette[k] & 3) << 6) + ((colour_palette[k + 1] >> 2) & 56));
-                                                    blue = (byte)((colour_palette[k + 1] << 3) & 248);
-                                                }
-                                                else  // alpha - 0AAA RRRR GGGG BBBB
-                                                {
-                                                    a = (byte)(colour_palette[k] & 112);
-                                                    red = (byte)((colour_palette[k] << 4) & 240);
-                                                    green = (byte)(colour_palette[k + 1] & 240);
-                                                    blue = (byte)((colour_palette[k + 1] << 4) & 240);
-                                                }
-                                                if (Colour_Table[i][1] >> 15 == 1)  // no alpha - 1RRR RRGG GGGB BBBB
-                                                {
-                                                    a2 = 255;
-                                                    red2 = (byte)((Colour_Table[i][1] >> 7) & 248);
-                                                    green2 = (byte)((Colour_Table[i][1] >> 2) & 248);
-                                                    blue2 = (byte)((Colour_Table[i][1] << 3) & 248);
-                                                }
-                                                else  // alpha - 0AAA RRRR GGGG BBBB
-                                                {
-                                                    a2 = (byte)((Colour_Table[i][1] >> 8) & 112);
-                                                    red2 = (byte)((Colour_Table[i][1] >> 4) & 240);
-                                                    green2 = (byte)((Colour_Table[i][1]) & 240);
-                                                    blue2 = (byte)((Colour_Table[i][1] << 4) & 240);
-                                                }
-                                                if (Math.Abs(a - a2) < diversity2 && Math.Abs(red - red2) < diversity2 && Math.Abs(green - green2) < diversity2 && Math.Abs(blue - blue2) < diversity2)
+                                                if (Math.Abs(colour_palette[k] - (byte)(Colour_Table[i][1] >> 8)) < diversity2 && Math.Abs(colour_palette[k + 1] - (byte)(Colour_Table[i][1])) < diversity2)
                                                 {
                                                     not_similar = false;
                                                     break;
@@ -4481,1209 +3870,2008 @@ namespace plt0
                                         }
                                     }
                                 }
-                            }
-                            Console.WriteLine("creating indexes");
-                            j = 0;
-                            switch (texture_format_int32[3])
-                            {
-                                case 8: // CI4
-                                    {
-                                        for (int h = 0; h < canvas_height; h++)
+                                Console.WriteLine("creating indexes");
+                                j = 0;
+                                switch (texture_format_int32[3])
+                                {
+                                    case 8: // CI4
                                         {
-                                            for (int w = 0; w < canvas_width; w++)  // index_size = number of pixels
+                                            for (int h = 0; h < canvas_height; h++)
                                             {
-                                                diff_min = 500;
-                                                for (int i = 0; i < colour_number_x2; i += 2)  // process the colour palette to find the closest colour corresponding to the current pixel
+                                                for (int w = 0; w < canvas_width; w++)  // index_size = number of pixels
                                                 {
-                                                    if (colour_palette[i] == (byte)(Colours[j] >> 8) && colour_palette[i + 1] == (byte)Colours[j])  // if it's the exact same colour
-                                                    {
-                                                        diff_min_index = (byte)(i >> 1);  // index is stored on 1 byte, while each colour is stored on 2 bytes
-                                                        break;
-                                                    }
-                                                    else  // calculate difference between each separate colour channel and store the sum
-                                                    {
-                                                        if ((colour_palette[i] >> 7) == 1)  // no alpha - 1RRR RRGG GGGB BBBB
-                                                        {
-                                                            a = 255;
-                                                            red = (byte)((colour_palette[i] << 1) & 248);
-                                                            green = (byte)(((colour_palette[i] & 3) << 6) + ((colour_palette[i + 1] >> 2) & 56));
-                                                            blue = (byte)((colour_palette[i + 1] << 3) & 248);
-                                                        }
-                                                        else  // alpha - 0AAA RRRR GGGG BBBB
-                                                        {
-                                                            a = (byte)(colour_palette[i] & 112);
-                                                            red = (byte)((colour_palette[i] << 4) & 240);
-                                                            green = (byte)(colour_palette[i + 1] & 240);
-                                                            blue = (byte)((colour_palette[i + 1] << 4) & 240);
-                                                        }
-                                                        if (Colours[j] >> 15 == 1)  // no alpha - 1RRR RRGG GGGB BBBB
-                                                        {
-                                                            a2 = 255;
-                                                            red2 = (byte)((Colours[j] >> 7) & 248);
-                                                            green2 = (byte)((Colours[j] >> 2) & 248);
-                                                            blue2 = (byte)((Colours[j] << 3) & 248);
-                                                        }
-                                                        else  // alpha - 0AAA RRRR GGGG BBBB
-                                                        {
-                                                            a2 = (byte)((Colours[j] >> 8) & 112);
-                                                            red2 = (byte)((Colours[j] >> 4) & 240);
-                                                            green2 = (byte)((Colours[j]) & 240);
-                                                            blue2 = (byte)((Colours[j] << 4) & 240);
-                                                        }
-                                                        diff = (short)(Math.Abs(a - a2) + Math.Abs(red - red2) + Math.Abs(green - green2) + Math.Abs(blue - blue2));
-                                                        if (diff < diff_min)
-                                                        {
-                                                            diff_min = diff;
-                                                            diff_min_index = (byte)(i >> 1);
-                                                        }
-                                                    }
-                                                }
-                                                if (w % 2 == 0)  // stores the index on the upper 4 bits
-                                                {
-                                                    index[w >> 1] = (byte)(diff_min_index << 4);
-                                                }
-                                                else  // stores the index on the lower 4 bits
-                                                {
-                                                    index[w >> 1] += diff_min_index;
-                                                }
-                                                j += 1;
-                                            }
-                                            index_list.Add(index.ToArray());
-                                        }
-                                        break;
-                                    }
-                                case 9: // CI8
-                                    {
-                                        for (int h = 0; h < canvas_height; h++)
-                                        {
-                                            for (int w = 0; w < canvas_width; w++)  // index_size = number of pixels
-                                            {
-                                                diff_min = 500;
-                                                for (int i = 0; i < colour_number_x2; i += 2)  // process the colour palette to find the closest colour corresponding to the current pixel
-                                                {
-                                                    if (colour_palette[i] == (byte)(Colours[j] >> 8) && colour_palette[i + 1] == (byte)Colours[j])  // if it's the exact same colour
-                                                    {
-                                                        diff_min_index = (byte)(i >> 1);  // index is stored on 1 byte, while each colour is stored on 2 bytes
-                                                        break;
-                                                    }
-                                                    else  // calculate difference between each separate colour channel and store the sum
-                                                    {
-                                                        if ((colour_palette[i] >> 7) == 1)  // no alpha - 1RRR RRGG GGGB BBBB
-                                                        {
-                                                            a = 255;
-                                                            red = (byte)((colour_palette[i] << 1) & 248);
-                                                            green = (byte)(((colour_palette[i] & 3) << 6) + ((colour_palette[i + 1] >> 2) & 56));
-                                                            blue = (byte)((colour_palette[i + 1] << 3) & 248);
-                                                        }
-                                                        else  // alpha - 0AAA RRRR GGGG BBBB
-                                                        {
-                                                            a = (byte)(colour_palette[i] & 112);
-                                                            red = (byte)((colour_palette[i] << 4) & 240);
-                                                            green = (byte)(colour_palette[i + 1] & 240);
-                                                            blue = (byte)((colour_palette[i + 1] << 4) & 240);
-                                                        }
-                                                        if (Colours[j] >> 15 == 1)  // no alpha - 1RRR RRGG GGGB BBBB
-                                                        {
-                                                            a2 = 255;
-                                                            red2 = (byte)((Colours[j] >> 7) & 248);
-                                                            green2 = (byte)((Colours[j] >> 2) & 248);
-                                                            blue2 = (byte)((Colours[j] << 3) & 248);
-                                                        }
-                                                        else  // alpha - 0AAA RRRR GGGG BBBB
-                                                        {
-                                                            a2 = (byte)((Colours[j] >> 8) & 112);
-                                                            red2 = (byte)((Colours[j] >> 4) & 240);
-                                                            green2 = (byte)((Colours[j]) & 240);
-                                                            blue2 = (byte)((Colours[j] << 4) & 240);
-                                                        }
-                                                        diff = (short)(Math.Abs(a - a2) + Math.Abs(red - red2) + Math.Abs(green - green2) + Math.Abs(blue - blue2));
-                                                        if (diff < diff_min)
-                                                        {
-                                                            diff_min = diff;
-                                                            diff_min_index = (byte)(i >> 1);
-                                                        }
-                                                    }
-                                                }
-                                                index[w] = diff_min_index;
-                                                j += 1;
-                                            }
-                                            index_list.Add(index.ToArray());
-                                        }
-                                        break;
-                                    }
-                                case 10:  // CI14x2
-                                    {
-                                        for (int h = 0; h < canvas_height; h++)
-                                        {
-                                            for (int w = 0; w < canvas_width << 1; w += 2)  // multiplied by two because each index is a 14 bytes integer
-                                            {
-                                                diff_min = 500;
-                                                for (int i = 0; i < colour_number_x2; i += 2)  // process the colour palette to find the closest colour corresponding to the current pixel
-                                                {
-                                                    if (colour_palette[i] == (byte)(Colours[j] >> 8) && colour_palette[i + 1] == (byte)Colours[j])  // if it's the exact same colour
-                                                    {
-                                                        diff_min_index = (byte)(i >> 1);  // index is stored on 1 byte, while each colour is stored on 2 bytes
-                                                        break;
-                                                    }
-                                                    else  // calculate difference between each separate colour channel and store the sum
-                                                    {
-                                                        if ((colour_palette[i] >> 7) == 1)  // no alpha - 1RRR RRGG GGGB BBBB
-                                                        {
-                                                            a = 255;
-                                                            red = (byte)((colour_palette[i] << 1) & 248);
-                                                            green = (byte)(((colour_palette[i] & 3) << 6) + ((colour_palette[i + 1] >> 2) & 56));
-                                                            blue = (byte)((colour_palette[i + 1] << 3) & 248);
-                                                        }
-                                                        else  // alpha - 0AAA RRRR GGGG BBBB
-                                                        {
-                                                            a = (byte)(colour_palette[i] & 112);
-                                                            red = (byte)((colour_palette[i] << 4) & 240);
-                                                            green = (byte)(colour_palette[i + 1] & 240);
-                                                            blue = (byte)((colour_palette[i + 1] << 4) & 240);
-                                                        }
-                                                        if (Colours[j] >> 15 == 1)  // no alpha - 1RRR RRGG GGGB BBBB
-                                                        {
-                                                            a2 = 255;
-                                                            red2 = (byte)((Colours[j] >> 7) & 248);
-                                                            green2 = (byte)((Colours[j] >> 2) & 248);
-                                                            blue2 = (byte)((Colours[j] << 3) & 248);
-                                                        }
-                                                        else  // alpha - 0AAA RRRR GGGG BBBB
-                                                        {
-                                                            a2 = (byte)((Colours[j] >> 8) & 112);
-                                                            red2 = (byte)((Colours[j] >> 4) & 240);
-                                                            green2 = (byte)((Colours[j]) & 240);
-                                                            blue2 = (byte)((Colours[j] << 4) & 240);
-                                                        }
-                                                        diff = (short)(Math.Abs(a - a2) + Math.Abs(red - red2) + Math.Abs(green - green2) + Math.Abs(blue - blue2));
-                                                        if (diff < diff_min)
-                                                        {
-                                                            diff_min = diff;
-                                                            diff_min_index = (byte)(i >> 1);
-                                                        }
-                                                    }
-                                                }
-                                                index[w] = (byte)(diff_min_index >> 8);  // adding a short at each iteration
-                                                index[w + 1] = (byte)diff_min_index;  // casting to byte acts as a % 0xff
-                                                j += 1;
-                                            }
-                                            index_list.Add(index.ToArray());
-                                        }
-                                        break;
-                                    }  // end of case 10 CI14x2
-                            } // end of switch texture format
-                            break;
-                        }  // end of case 2 palette RGB5A3
-                }  // end of switch palette format
-            }  // end of if (has palette)
-            else
-            {
-                j = 0;
-                switch (texture_format_int32[3])
-                {
-                    case 0: // I4 - works as expected
-                        {
-                            switch (algorithm)
-                            {
-                                case 0: // cie_601
-                                    {
-                                        for (int i = pixel_data_start_offset; i < bmp_filesize; i += 8)  // process every pixel by groups of two to fit the AAAA BBBB  profile
-                                        {
-                                            a = (byte)(bmp_image[i + rgba_channel[2]] * 0.114 + bmp_image[i + rgba_channel[1]] * 0.587 + bmp_image[i + rgba_channel[0]] * 0.299);  // grey colour trimmed to 4 bit
-                                            if ((a & 0xf) > round4 && a < 240)
-                                            {
-                                                a += 16;
-                                            }
-                                            grey = (byte)(bmp_image[i + 4 + rgba_channel[2]] * 0.114 + bmp_image[i + 4 + rgba_channel[1]] * 0.587 + bmp_image[i + 4 + rgba_channel[0]] * 0.299);
-                                            if ((grey & 0xf) > round4 && grey < 240)
-                                            {
-                                                grey += 16;
-                                            }
-                                            index[j] = (byte)((a & 0xf0) + (grey >> 4));
-                                            j++;
-                                            if (j == index.Length)
-                                            {
-                                                j = 0;
-                                                index_list.Add(index.ToArray());
-                                            }
-                                        }
-                                        break;
-                                    }
-                                case 1: // cie_709
-                                    {
-                                        for (int i = pixel_data_start_offset; i < bmp_filesize; i += 8)
-                                        {
-                                            a = (byte)(bmp_image[i + rgba_channel[2]] * 0.0721 + bmp_image[i + rgba_channel[1]] * 0.7154 + bmp_image[i + rgba_channel[0]] * 0.2125);
-                                            if ((a & 0xf) > round4 && a < 240)
-                                            {
-                                                a += 16;
-                                            }
-                                            grey = (byte)(bmp_image[i + 4 + rgba_channel[2]] * 0.0721 + bmp_image[i + 4 + rgba_channel[1]] * 0.7154 + bmp_image[i + 4 + rgba_channel[0]] * 0.2125);
-                                            if ((grey & 0xf) > round4 && grey < 240)
-                                            {
-                                                grey += 16;
-                                            }
-                                            index[j] = (byte)((a & 0xf0) + (grey >> 4));
-                                            j++;
-                                            if (j == index.Length)
-                                            {
-                                                j = 0;
-                                                index_list.Add(index.ToArray());
-                                            }
-                                        }
-                                        break;
-                                    }
-                                case 2:  // custom
-                                    {
-                                        for (int i = pixel_data_start_offset; i < bmp_filesize; i += 8)
-                                        {
-                                            a = (byte)(bmp_image[i + rgba_channel[2]] * custom_rgba[2] + bmp_image[i + rgba_channel[1]] * custom_rgba[1] + bmp_image[i + rgba_channel[0]] * custom_rgba[0]);
-                                            if ((a & 0xf) > round4 && a < 240)
-                                            {
-                                                a += 16;
-                                            }
-                                            grey = (byte)(bmp_image[i + 4 + rgba_channel[2]] * custom_rgba[2] + bmp_image[i + 4 + rgba_channel[1]] * custom_rgba[1] + bmp_image[i + 4 + rgba_channel[0]] * custom_rgba[0]);
-                                            if ((grey & 0xf) > round4 && grey < 240)
-                                            {
-                                                grey += 16;
-                                            }
-                                            index[j] = (byte)((a & 0xf0) + (grey >> 4));
-                                            j++;
-                                            if (j == index.Length)
-                                            {
-                                                j = 0;
-                                                index_list.Add(index.ToArray());
-                                            }
-                                        }
-                                        break;
-                                    }
-                            }
-                            break;
-                        }
-                    case 1: // I8 - works as expected
-                        {
-                            switch (algorithm)
-                            {
-                                case 0: // cie_601
-                                    {
-                                        for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)  // process every pixel to fit the CCCC CCCC profile
-                                        {
-                                            index[j] = (byte)(bmp_image[i + rgba_channel[2]] * 0.114 + bmp_image[i + rgba_channel[1]] * 0.587 + bmp_image[i + rgba_channel[0]] * 0.299);
-                                            j++;
-                                            if (j == canvas_width)
-                                            {
-                                                j = 0;
-                                                index_list.Add(index.ToArray());
-                                            }
-                                        }
-                                        break;
-                                    }
-                                case 1: // cie_709
-                                    {
-                                        for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
-                                        {
-                                            index[j] = (byte)(bmp_image[i + rgba_channel[2]] * 0.0721 + bmp_image[i + rgba_channel[1]] * 0.7154 + bmp_image[i + rgba_channel[0]] * 0.2125);
-                                            j++;
-                                            if (j == canvas_width)
-                                            {
-                                                j = 0;
-                                                index_list.Add(index.ToArray());
-                                            }
-                                        }
-                                        break;
-                                    }
-                                case 2:  // custom
-                                    {
-                                        for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
-                                        {
-                                            index[j] = (byte)(bmp_image[i + rgba_channel[2]] * custom_rgba[2] + bmp_image[i + rgba_channel[1]] * custom_rgba[1] + bmp_image[i + rgba_channel[0]] * custom_rgba[0]);
-                                            j++;
-                                            if (j == canvas_width)
-                                            {
-                                                j = 0;
-                                                index_list.Add(index.ToArray());
-                                            }
-                                        }
-                                        break;
-                                    }
-                            }
-                            break;
-                        }
-                    case 2: // IA4 - works as expected
-                        {
-                            switch (algorithm)
-                            {
-                                case 0: // cie_601
-                                    {
-                                        for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)  // process every pixel to fit the AAAA CCCC profile
-                                        {
-                                            a = (bmp_image[i + rgba_channel[3]]);  // alpha value
-                                            if ((a & 0xf) > round4 && a < 240)
-                                            {
-                                                a += 16;
-                                            }
-                                            grey = (byte)(bmp_image[i + rgba_channel[2]] * 0.114 + bmp_image[i + rgba_channel[1]] * 0.587 + bmp_image[i + rgba_channel[0]] * 0.299);
-                                            if ((grey & 0xf) > round4 && grey < 240)
-                                            {
-                                                grey += 16;
-                                            }
-                                            index[j] = (byte)((a & 0xf0) + (grey >> 4));
-                                            j++;
-                                            if (j == canvas_width)
-                                            {
-                                                j = 0;
-                                                index_list.Add(index.ToArray());
-                                            }
-                                        }
-                                        break;
-                                    }
-                                case 1: // cie_709
-                                    {
-                                        for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
-                                        {
-                                            a = (bmp_image[i + rgba_channel[3]]);  // alpha value
-                                            if ((a & 0xf) > round4 && a < 240)
-                                            {
-                                                a += 16;
-                                            }
-                                            grey = (byte)(bmp_image[i + rgba_channel[2]] * 0.0721 + bmp_image[i + rgba_channel[1]] * 0.7154 + bmp_image[i + rgba_channel[0]] * 0.2125);
-                                            if ((grey & 0xf) > round4 && grey < 240)
-                                            {
-                                                grey += 16;
-                                            }
-                                            index[j] = (byte)((a & 0xf0) + (grey >> 4));
-                                            j++;
-                                            if (j == canvas_width)
-                                            {
-                                                j = 0;
-                                                index_list.Add(index.ToArray());
-                                            }
-                                        }
-                                        break;
-                                    }
-                                case 2:  // custom
-                                    {
-                                        for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
-                                        {
-                                            a = (byte)(bmp_image[i + rgba_channel[3]] * custom_rgba[3]);  // alpha value
-                                            if ((a & 0xf) > round4 && a < 240)
-                                            {
-                                                a += 16;
-                                            }
-                                            grey = (byte)(bmp_image[i + rgba_channel[2]] * custom_rgba[2] + bmp_image[i + rgba_channel[1]] * custom_rgba[1] + bmp_image[i + rgba_channel[0]] * custom_rgba[0]);
-                                            if ((grey & 0xf) > round4 && grey < 240)
-                                            {
-                                                grey += 16;
-                                            }
-                                            index[j] = (byte)((a & 0xf0) + (grey >> 4));
-                                            j++;
-                                            if (j == canvas_width)
-                                            {
-                                                j = 0;
-                                                index_list.Add(index.ToArray());
-                                            }
-                                        }
-                                        break;
-                                    }
-                            }
-                            break;
-                        }
-                    case 3:  // AI8
-                        {
-
-                            switch (algorithm)
-                            {
-                                case 0: // cie_601
-                                    {
-                                        for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)  // process every pixel to fit the AAAA AAAA  CCCC CCCC  profile
-                                        {
-                                            index[j] = bmp_image[i + rgba_channel[3]];  // alpha value
-                                            index[j + 1] = (byte)(bmp_image[i + rgba_channel[2]] * 0.114 + bmp_image[i + rgba_channel[1]] * 0.587 + bmp_image[i + rgba_channel[0]] * 0.299);  // Grey Value
-                                            j += 2;
-                                            if (j == canvas_width << 1)
-                                            {
-                                                j = 0;
-                                                index_list.Add(index.ToArray());
-                                            }
-                                        }
-                                        break;
-                                    }
-                                case 1: // cie_709
-                                    {
-                                        for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
-                                        {
-                                            index[j] = bmp_image[i + rgba_channel[3]];  // alpha value
-                                            index[j + 1] = (byte)(bmp_image[i + rgba_channel[2]] * 0.0721 + bmp_image[i + rgba_channel[1]] * 0.7154 + bmp_image[i + rgba_channel[0]] * 0.2125);  // Grey Value
-                                            j += 2;
-                                            if (j == canvas_width << 1)
-                                            {
-                                                j = 0;
-                                                index_list.Add(index.ToArray());
-                                            }
-                                        }
-                                        break;
-                                    }
-                                case 2:  // custom
-                                    {
-                                        for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
-                                        {
-                                            index[j] = (byte)(bmp_image[i + rgba_channel[3]] * custom_rgba[3]);  // alpha value
-                                            index[j + 1] = (byte)(bmp_image[i + rgba_channel[2]] * custom_rgba[2] + bmp_image[i + rgba_channel[1]] * custom_rgba[1] + bmp_image[i + rgba_channel[0]] * custom_rgba[0]);  // Grey Value
-                                            j += 2;
-                                            if (j == canvas_width << 1)
-                                            {
-                                                j = 0;
-                                                index_list.Add(index.ToArray());
-                                            }
-                                        }
-                                        break;
-                                    }
-                            }
-                            break;
-                        }
-                    case 4:  // RGB565
-                        {
-
-                            switch (algorithm)
-                            {
-                                case 2:  // custom  RRRR RGGG GGGB BBBB
-                                    {
-                                        for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
-                                        {
-                                            red = (byte)(bmp_image[i + rgba_channel[0]] * custom_rgba[0]);
-                                            green = (byte)(bmp_image[i + rgba_channel[1]] * custom_rgba[1]);
-                                            blue = (byte)(bmp_image[i + rgba_channel[2]] * custom_rgba[2]);
-                                            if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
-                                            {
-                                                red += 8;
-                                            }
-                                            if ((green & round6) == round6 && green < 252)  // 6-bit max value on a trimmed byte
-                                            {
-                                                green += 4;
-                                            }
-                                            if ((blue & 7) > round5 && blue < 248)
-                                            {
-                                                blue += 8;
-                                            }
-                                            index[j] = (byte)((red & 0xf8) + (green >> 5));
-                                            index[j + 1] = (byte)(((green << 3) & 224) + (blue >> 3));
-                                            j += 2;
-                                            if (j == canvas_width << 1)
-                                            {
-                                                j = 0;
-                                                index_list.Add(index.ToArray());
-                                            }
-                                        }
-
-                                        break;
-                                    }
-                                default: // RRRR RGGG GGGB BBBB
-                                    {
-                                        for (y = pixel_data_start_offset; y < bmp_filesize; y += 4)
-                                        {
-                                            red = bmp_image[y + rgba_channel[0]];
-                                            green = bmp_image[y + rgba_channel[1]];
-                                            blue = bmp_image[y + rgba_channel[2]];
-                                            if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
-                                            {
-                                                red += 8;
-                                            }
-                                            if ((green & round6) == round6 && green < 252)  // 6-bit max value on a trimmed byte
-                                            {
-                                                green += 4;
-                                            }
-                                            if ((blue & 7) > round5 && blue < 248)
-                                            {
-                                                blue += 8;
-                                            }
-                                            index[j] = (byte)((red & 0xf8) + (green >> 5));
-                                            index[j + 1] = (byte)(((green << 3) & 224) + (blue >> 3));
-                                            j += 2;
-                                            if (j == canvas_width << 1)
-                                            {
-                                                j = 0;
-                                                index_list.Add(index.ToArray());
-                                            }
-                                        }
-                                        break;
-                                    }
-                            }
-                            break;
-                        }
-                    case 5:  // RGB5A3
-                        {
-                            switch (algorithm)
-                            {
-                                case 2:  // custom
-                                    {
-                                        if (alpha == 1)  // 0AAA RRRR GGGG BBBB
-                                        {
-                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
-                                            {
-                                                a = (byte)(bmp_image[i + rgba_channel[3]] * custom_rgba[3]);
-                                                red = (byte)(bmp_image[i + rgba_channel[0]] * custom_rgba[0]);
-                                                green = (byte)(bmp_image[i + rgba_channel[1]] * custom_rgba[1]);
-                                                blue = (byte)(bmp_image[i + rgba_channel[2]] * custom_rgba[2]);
-                                                if ((a & 31) > round3 && a < 224)  // 3-bit max value on a trimmed byte
-                                                {
-                                                    a += 32;
-                                                }
-                                                if ((red & 15) > round4 && red < 240)  // 4-bit max value on a trimmed byte
-                                                {
-                                                    red += 16;
-                                                }
-                                                if ((green & 15) > round4 && green < 240)
-                                                {
-                                                    green += 16;
-                                                }
-                                                if ((blue & 15) > round4 && blue < 240)
-                                                {
-                                                    blue += 16;
-                                                }
-                                                index[j] = (byte)(((a >> 1) & 0x70) + (red >> 4));
-                                                index[j + 1] = (byte)((green & 0xf0) + (blue >> 4));
-                                                j += 2;
-                                                if (j == canvas_width << 1)
-                                                {
-                                                    j = 0;
-                                                    index_list.Add(index.ToArray());
-                                                }
-                                            }
-                                        }
-                                        else if (alpha == 0)  // 1RRR RRGG GGGB BBBB
-                                        {
-                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
-                                            {
-                                                red = (byte)(bmp_image[i + rgba_channel[0]] * custom_rgba[0]);
-                                                green = (byte)(bmp_image[i + rgba_channel[1]] * custom_rgba[1]);
-                                                blue = (byte)(bmp_image[i + rgba_channel[2]] * custom_rgba[2]);
-                                                if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
-                                                {
-                                                    red += 8;
-                                                }
-                                                if ((green & 7) > round5 && green < 248)
-                                                {
-                                                    green += 8;
-                                                }
-                                                if ((blue & 7) > round5 && blue < 248)
-                                                {
-                                                    blue += 8;
-                                                }
-                                                index[j] = (byte)(0x80 + ((red >> 1) & 0x7c) + (green >> 6));
-                                                index[j + 1] = (byte)(((green << 2) & 0xe0) + (blue >> 3));
-                                                j += 2;
-                                                if (j == canvas_width << 1)
-                                                {
-                                                    j = 0;
-                                                    index_list.Add(index.ToArray());
-                                                }
-                                            }
-                                        }
-                                        else  // check for each colour if alpha trimmed to 3 bits is 255
-                                        {
-                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
-                                            {
-                                                a = (byte)(bmp_image[i + rgba_channel[3]] * custom_rgba[3]);
-                                                red = (byte)(bmp_image[i + rgba_channel[0]] * custom_rgba[0]);
-                                                green = (byte)(bmp_image[i + rgba_channel[1]] * custom_rgba[1]);
-                                                blue = (byte)(bmp_image[i + rgba_channel[2]] * custom_rgba[2]);
-                                                if ((a & 31) > round3 && a < 224)  // 3-bit max value on a trimmed byte
-                                                {
-                                                    a += 32;
-                                                }
-                                                if ((red & 15) > round4 && red < 240)  // 4-bit max value on a trimmed byte
-                                                {
-                                                    red += 16;
-                                                }
-                                                if ((green & 15) > round4 && green < 240)
-                                                {
-                                                    green += 16;
-                                                }
-                                                if ((blue & 15) > round4 && blue < 240)
-                                                {
-                                                    blue += 16;
-                                                }
-                                                if (a > 223)  // 0AAA RRRR GGGG BBBB
-                                                {
-
-                                                    index[j] = (byte)(0x80 + ((red >> 1) & 0x7c) + (green >> 6));
-                                                    index[j + 1] = (byte)(((green << 2) & 0xe0) + (blue >> 3));
-                                                }
-                                                else  // 1RRR RRGG GGGB BBBB
-                                                {
-
-                                                    index[j] = (byte)(((a >> 1) & 0x70) + (red >> 4));
-                                                    index[j + 1] = (byte)((green & 0xf0) + (blue >> 4));
-
-                                                }
-                                                j += 2;
-                                                if (j == canvas_width << 1)
-                                                {
-                                                    j = 0;
-                                                    index_list.Add(index.ToArray());
-                                                }
-                                            }
-                                        }
-                                        break;
-                                    }
-                                default:
-                                    {
-                                        if (alpha == 1)  // 0AAA RRRR GGGG BBBB
-                                        {
-                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
-                                            {
-                                                a = bmp_image[i + rgba_channel[3]];
-                                                red = bmp_image[i + rgba_channel[0]];
-                                                green = bmp_image[i + rgba_channel[1]];
-                                                blue = bmp_image[i + rgba_channel[2]];
-                                                if ((a & 31) > round3 && a < 224)  // 3-bit max value on a trimmed byte
-                                                {
-                                                    a += 32;
-                                                }
-                                                if ((red & 15) > round4 && red < 240)  // 4-bit max value on a trimmed byte
-                                                {
-                                                    red += 16;
-                                                }
-                                                if ((green & 15) > round4 && green < 240)
-                                                {
-                                                    green += 16;
-                                                }
-                                                if ((blue & 15) > round4 && blue < 240)
-                                                {
-                                                    blue += 16;
-                                                }
-                                                j += 2;
-                                                if (j == canvas_width << 1)
-                                                {
-                                                    j = 0;
-                                                    index_list.Add(index.ToArray());
-                                                }
-                                            }
-                                        }
-                                        else if (alpha == 0)  // 1RRR RRGG GGGB BBBB
-                                        {
-                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
-                                            {
-                                                red = bmp_image[i + rgba_channel[0]];
-                                                green = bmp_image[i + rgba_channel[1]];
-                                                blue = bmp_image[i + rgba_channel[2]];
-                                                if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
-                                                {
-                                                    red += 8;
-                                                }
-                                                if ((green & 7) > round5 && green < 248)
-                                                {
-                                                    green += 8;
-                                                }
-                                                if ((blue & 7) > round5 && blue < 248)
-                                                {
-                                                    blue += 8;
-                                                }
-
-                                                index[j] = (byte)(0x80 + ((red >> 1) & 0x7c) + (green >> 6));
-                                                index[j + 1] = (byte)(((green << 2) & 0xe0) + (blue >> 3));
-                                                j += 2;
-                                                if (j == canvas_width << 1)
-                                                {
-                                                    j = 0;
-                                                    index_list.Add(index.ToArray());
-                                                }
-                                            }
-                                        }
-                                        else  // mix up alpha and no alpha
-                                        {
-                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
-                                            {
-                                                a = bmp_image[i + rgba_channel[3]];
-                                                red = bmp_image[i + rgba_channel[0]];
-                                                green = bmp_image[i + rgba_channel[1]];
-                                                blue = bmp_image[i + rgba_channel[2]];
-                                                if ((a & 31) > round3 && a < 224)  // 3-bit max value on a trimmed byte
-                                                {
-                                                    a += 32;
-                                                }
-                                                if ((red & 15) > round4 && red < 240)  // 4-bit max value on a trimmed byte
-                                                {
-                                                    red += 16;
-                                                }
-                                                if ((green & 15) > round4 && green < 240)
-                                                {
-                                                    green += 16;
-                                                }
-                                                if ((blue & 15) > round4 && blue < 240)
-                                                {
-                                                    blue += 16;
-                                                }
-                                                if (a > 223)  // 1RRR RRGG GGGB BBBB
-                                                {
-                                                    index[j] = (byte)(0x80 + ((red >> 1) & 0x7c) + (green >> 6));
-                                                    index[j + 1] = (byte)(((green << 2) & 0xe0) + (blue >> 3));
-                                                }
-                                                else  // 0AAA RRRR GGGG BBBB
-                                                {
-                                                    index[j] = (byte)(((a >> 1) & 0x70) + (red >> 4));
-                                                    index[j + 1] = (byte)((green & 0xf0) + (blue >> 4));
-                                                }
-                                                j += 2;
-                                                if (j == canvas_width << 1)
-                                                {
-                                                    j = 0;
-                                                    index_list.Add(index.ToArray());
-                                                }
-                                            }
-                                        }
-                                        break;
-                                    }
-                            }
-                            break;
-                        }
-                    case 6: // RGBA32
-                        {
-                            /* 4x4 pixel block
-                             * warning: THESE ARE BYTES
-                             * I4M SERIOUS ALL OTHERS ABOVE ARE BITS BUT THIS ONE IS BYTES
-                             * I'll name the first pixel 1234 and the last 5678
-                               12AR ARAR ARAR ARAR
-                               ARAR ARAR ARAR AR56
-                               34GB GBGB GBGB GBGB
-                               GBGB GBGB GBGB GB78
-
-                             but I'm going to encode each row in this order:
-                               ARAR ARAR GBGB GBGB
-                            */
-                            switch (algorithm)
-                            {
-                                case 2:  // custom
-                                    {
-                                        for (int i = pixel_data_start_offset; i < bmp_filesize; i += 16)
-                                        {
-                                            // alpha and red
-                                            index[j] = (byte)(bmp_image[i + rgba_channel[3]] * custom_rgba[3]);       // A
-                                            index[j + 1] = (byte)(bmp_image[i + rgba_channel[0]] * custom_rgba[0]);   // R
-                                            index[j + 2] = (byte)(bmp_image[i + 4 + rgba_channel[3]] * custom_rgba[3]);   // A
-                                            index[j + 3] = (byte)(bmp_image[i + 4 + rgba_channel[0]] * custom_rgba[0]);   // R
-                                            index[j + 4] = (byte)(bmp_image[i + 8 + rgba_channel[3]] * custom_rgba[3]);  // A
-                                            index[j + 5] = (byte)(bmp_image[i + 8 + rgba_channel[0]] * custom_rgba[0]);  // R
-                                            index[j + 6] = (byte)(bmp_image[i + 12 + rgba_channel[3]] * custom_rgba[3]);  // A
-                                            index[j + 7] = (byte)(bmp_image[i + 12 + rgba_channel[0]] * custom_rgba[0]);  // R
-                                                                                                                          // Green and Blue
-                                            index[j + 8] = (byte)(bmp_image[i + rgba_channel[1]] * custom_rgba[1]);   // G
-                                            index[j + 9] = (byte)(bmp_image[i + rgba_channel[2]] * custom_rgba[2]);       // B
-                                            index[j + 10] = (byte)(bmp_image[i + 4 + rgba_channel[1]] * custom_rgba[1]);  // G
-                                            index[j + 11] = (byte)(bmp_image[i + 4 + rgba_channel[2]] * custom_rgba[2]);  // B
-                                            index[j + 12] = (byte)(bmp_image[i + 8 + rgba_channel[1]] * custom_rgba[1]);  // G
-                                            index[j + 13] = (byte)(bmp_image[i + 8 + rgba_channel[2]] * custom_rgba[2]);  // B
-                                            index[j + 14] = (byte)(bmp_image[i + 12 + rgba_channel[1]] * custom_rgba[1]); // G
-                                            index[j + 15] = (byte)(bmp_image[i + 12 + rgba_channel[2]] * custom_rgba[2]); // B
-                                            j += 16;
-                                            if (j == index.Length)
-                                            {
-                                                j = 0;
-                                                index_list.Add(index.ToArray());
-                                            }
-
-                                        }
-                                        break;
-                                    }
-                                default:
-                                    {
-                                        for (int i = pixel_data_start_offset; i < bmp_filesize; i += 16)
-                                        {
-                                            // alpha and red
-                                            index[j] = (byte)(bmp_image[i + rgba_channel[3]]);       // A
-                                            index[j + 1] = (byte)(bmp_image[i + rgba_channel[0]]);   // R
-                                            index[j + 2] = (byte)(bmp_image[i + 4 + rgba_channel[3]]);   // A
-                                            index[j + 3] = (byte)(bmp_image[i + 4 + rgba_channel[0]]);   // R
-                                            index[j + 4] = (byte)(bmp_image[i + 8 + rgba_channel[3]]);  // A
-                                            index[j + 5] = (byte)(bmp_image[i + 8 + rgba_channel[0]]);  // R
-                                            index[j + 6] = (byte)(bmp_image[i + 12 + rgba_channel[3]]);  // A
-                                            index[j + 7] = (byte)(bmp_image[i + 12 + rgba_channel[0]]);  // R
-                                                                                                         // Green and Blue
-                                            index[j + 8] = (byte)(bmp_image[i + rgba_channel[1]]);   // G
-                                            index[j + 9] = (byte)(bmp_image[i + rgba_channel[2]]);       // B
-                                            index[j + 10] = (byte)(bmp_image[i + 4 + rgba_channel[1]]);  // G
-                                            index[j + 11] = (byte)(bmp_image[i + 4 + rgba_channel[2]]);  // B
-                                            index[j + 12] = (byte)(bmp_image[i + 8 + rgba_channel[1]]);  // G
-                                            index[j + 13] = (byte)(bmp_image[i + 8 + rgba_channel[2]]);  // B
-                                            index[j + 14] = (byte)(bmp_image[i + 12 + rgba_channel[1]]); // G
-                                            index[j + 15] = (byte)(bmp_image[i + 12 + rgba_channel[2]]); // B
-                                            j += 16;
-                                            if (j == index.Length)
-                                            {
-                                                j = 0;
-                                                index_list.Add(index.ToArray());
-                                            }
-                                        }
-                                        break;
-                                    }
-                            }
-                            break;
-                        }
-                    case 0xE: // CMPR
-                        {
-
-                            /* hmm, well. let's be honest. this is the harderest encoding to write, and the most efficient one
-                             * I'll be directly storing sub-blocks here because the rgb565 values can't be added like that lol 
-
-                             each block is 4 sub blocks
-                            this is a sub-block structure. with 4x4 pixel and 2 rgb565 colours
-                            RRRR  RGGG    GGGB  BBBB
-                            RRRR  RGGG    GGGB  BBBB
-                            II II II II   II II II II  - 2 bit index per pixel
-                            II II II II   II II II II
-                            II II II II   II II II II
-                            II II II II   II II II II
-
-                             */
-                            index_list.Clear();  // removes the "fill height" lines, because UH YOUVE GUESSED IT, I4M NOT STORING THESE IN LINE ORDER BUT IN SUB-BLOCK ORDER
-                                                 // I swear this is a nightmare
-                            List<ushort> Colour_rgb565 = new List<ushort>();  // won't be sorted
-                            List<ushort[]> Colour_list = new List<ushort[]>();  // a list of every 2 bytes pixel transformed to correspond to the current colour format
-                                                                                // byte[] Colour_count = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };  // 16 pixels, because a block is 4x4
-                            j = 0;
-                            z = 0;
-                            int x = 0;
-                            byte c;
-                            ushort alpha_bitfield = 0;
-                            byte red2;
-                            byte green2;
-                            byte blue2;
-                            // byte f;
-                            // int[] total_diff = {0, 0, 0};  // total_diff, e, f
-                            // List<int[]> diff_array = new List<int[]>();
-                            // List<byte> ef = new List<byte>();
-                            ushort[] Colour_pixel = { 1, 0 };  // case 3
-                            ushort width = 0;
-                            ushort[] Colour_array = { 1, 0, 0 };  // default
-                            ushort diff_max;
-                            byte diff_max_index = 0;
-                            List<ushort> Colour_palette = new List<ushort>();
-                            // bool use_alpha = false;
-                            // bool done = false;
-                            Array.Resize(ref index, 8);  // sub block length
-                            switch (algorithm)
-                            {
-                                case 2: // custom
-                                    {
-                                        for (y = pixel_data_start_offset + (canvas_width << 2) - 16; y < bmp_filesize; y += 4)
-                                        {
-                                            red = (byte)(bmp_image[y + rgba_channel[0]] * custom_rgba[0]);
-                                            green = (byte)(bmp_image[y + rgba_channel[1]] * custom_rgba[1]);
-                                            blue = (byte)(bmp_image[y + rgba_channel[2]] * custom_rgba[2]);
-                                            if (alpha > 0 && bmp_image[y + 3] < cmpr_alpha_threshold)
-                                            {
-                                                alpha_bitfield += (ushort)(1 << (j + (z * 4)));
-                                            }
-                                            if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
-                                            {
-                                                red += 8;
-                                            }
-                                            if ((green & round6) == round6 && green < 252)  // 6-bit max value on a trimmed byte
-                                            {
-                                                green += 4;
-                                            }
-                                            if ((blue & 7) > round5 && blue < 248)
-                                            {
-                                                blue += 8;
-                                            }
-                                            // Colour_pixel[0] = // the number of occurences, though it stays to 1 so that's not really a problem lol
-                                            pixel = (ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)); // the RGB565 colour
-                                            Colour_array[1] = pixel;
-                                            Colour_array[2] = (ushort)(red + green + blue); // best way to find darkest colour :D
-                                            Colour_list.Add(Colour_array.ToArray());
-                                            Colour_rgb565.Add(pixel);
-                                            j++;
-                                            if (j != 4)
-                                            {
-                                                continue;
-                                            }
-                                            j = 0;
-                                            z++;
-                                            y += (canvas_width << 2) - 16; // returns to the start of the next line  - bitmap width << 2 because it's a 32-bit BGRA bmp file
-                                            if (z != 4)
-                                            {
-                                                continue;  // Still within the same 4x4 block
-                                            }
-                                            x++;
-                                            z = 0;
-                                            width += 2;  // triggered 4 times per block
-                                            if (width == canvas_width)
-                                            {
-                                                width = 0;
-                                                y += (canvas_width << 2) - 16;
-                                                x = 0;
-                                            }
-                                            else if (x == 2)
-                                            {
-                                                y += 16;  // you just need to add 32 everywhere
-                                            }
-                                            else if (x == 4)
-                                            {
-                                                y -= (canvas_width << 5) + 16;// minus 8 lines + point to next block
-                                                x = 0;
-                                            }
-                                            else
-                                            {
-                                                y -= ((canvas_width << 4)) + 16;  // substract 4 lines and goes one block to the left
-                                            }
-                                            // now let's just try to take the most two used colours and use diversity I guess
-                                            // implementing my own way to find most used colours:
-                                            // let's count the number of exact same colours in Colour_list
-                                            for (byte i = 0; i < 15; i++)  // useless to set it to 16 because of the condition k > i.
-                                            {
-                                                for (byte k = 0; k < 16; k++)
-                                                {
-                                                    if (k == i)
-                                                    {
-                                                        continue;
-                                                    }
-                                                    if (Colour_list[k][1] == Colour_list[i][1] && k > i && ((alpha_bitfield >> k) & 1) == 0 && ((alpha_bitfield >> i) & 1) == 0)  // k > i prevents colours occurences from being added twice.
-                                                    {
-                                                        Colour_list[k][0]++;
-                                                        Colour_list[i][0] = 0; // should set it to zero.
-                                                    }
-                                                }
-                                            }
-                                            Colour_list.Sort(new UshortArrayComparer());  // sorts the table by the most used colour first
-                                                                                          //now let's take the darkest and the brightest colour from the cmpr_max most used ones
-                                            diff_min = 1024;
-                                            diff_max = 0;
-                                            for (byte i = 0; i < cmpr_max && Colour_list[i][0] != 0; i++)
-                                            {
-                                                if (Colour_list[i][2] < diff_min)
-                                                {
-                                                    diff_min = (short)(Colour_list[i][2]);
-                                                    diff_min_index = i;
-                                                }
-                                                if (Colour_list[i][2] > diff_max)
-                                                {
-                                                    diff_max = Colour_list[i][2];
-                                                    diff_max_index = i;
-                                                }
-                                            }
-
-                                            if (alpha_bitfield == 0)  // put the biggest ushort in second place
-                                            {
-                                                Colour_palette.Add(Colour_list[diff_min_index][1]);
-                                                Colour_palette.Add(Colour_list[diff_max_index][1]);
-                                                index[0] = (byte)(Colour_list[diff_min_index][1] >> 8);
-                                                index[1] = (byte)(Colour_list[diff_min_index][1]);
-                                                index[2] = (byte)(Colour_list[diff_max_index][1] >> 8);
-                                                index[3] = (byte)(Colour_list[diff_max_index][1]);
-                                                red = (byte)(((index[0] & 248) + (index[2] & 248)) / 2);
-                                                green = (byte)(((((index[0] & 7) << 5) + ((index[1] >> 3) & 28)) + (((index[2] & 7) << 5) + ((index[3] >> 3) & 28))) / 2);
-                                                blue = (byte)((((index[1] << 3) & 248) + ((index[3] << 3) & 248)) / 2);
-                                                Colour_palette.Add((ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)));  // the RGB565 third colour
-                                                                                                                                       // last colour isn't in the palette, it's in alpha_bitfield
-                                            }
-                                            else
-                                            {
-                                                // of course, that's the exact opposite!
-                                                Colour_palette.Add(Colour_list[diff_max_index][1]);
-                                                Colour_palette.Add(Colour_list[diff_min_index][1]);
-                                                index[0] = (byte)(Colour_list[diff_max_index][1] >> 8);
-                                                index[1] = (byte)(Colour_list[diff_max_index][1]);
-                                                index[2] = (byte)(Colour_list[diff_min_index][1] >> 8);
-                                                index[3] = (byte)(Colour_list[diff_min_index][1]);
-
-                                                red = (byte)(index[0] & 248);
-                                                green = (byte)(((index[0] & 7) << 5) + ((index[1] >> 3) & 28));
-                                                blue = (byte)((index[1] << 3) & 248);
-
-                                                red2 = (byte)(index[2] & 248);
-                                                green2 = (byte)(((index[2] & 7) << 5) + ((index[3] >> 3) & 28));
-                                                blue2 = (byte)((index[3] << 3) & 248);
-
-                                                pixel = (ushort)(((((red * 2 / 3) + (red2 / 3)) >> 3) << 11) + ((((green * 2 / 3) + (green2 / 3)) >> 2) << 5) + (((blue * 2 / 3) + (blue2 / 3)) >> 3));
-                                                Colour_palette.Add(pixel);  // the RGB565 third colour
-                                                pixel = (ushort)(((((red / 3) + (red2 * 2 / 3)) >> 3) << 11) + ((((green / 3) + (green2 * 2 / 3)) >> 2) << 5) + (((blue / 3) + (blue2 * 2 / 3)) >> 3));
-                                                Colour_palette.Add(pixel);  // the RGB565 fourth colour
-                                            }
-                                            /*
-                                             * t = (pixel_posN - pixel_pos1) / (pixel_pos2 - pixel_pos1)
-pixelN_red = (t-1)*pixel1_red + (t)*pixel2_red
-same for blue + green*/
-                                            for (byte i = 4; i < 8; i++)
-                                            {
-                                                index[i] = 0;
-                                            }
-                                            // time to get the "linear interpolation to add third and fourth colour
-                                            // Console.WriteLine("creating indexes"); SHUT THE F*CK UP
-                                            // CI2 if that's a name lol
-                                            for (sbyte h = 3; h >= 0; h--)
-                                            //for (byte h = 0; h < 4; h++)
-                                            {
-                                                for (byte w = 0; w < 4; w++)  // index_size = number of pixels
-                                                {
-                                                    if (((alpha_bitfield >> (h * 4) + w) & 1) == 1)
-                                                    {
-                                                        index[7 - h] += (byte)(3 << (6 - (w << 1)));
-                                                        continue;
-                                                    }
                                                     diff_min = 500;
-                                                    // diff_min_index = w;
-                                                    for (byte i = 0; i < Colour_palette.Count; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
+                                                    for (int i = 0; i < colour_number_x2; i += 2)  // process the colour palette to find the closest colour corresponding to the current pixel
                                                     {
-                                                        if (Colour_palette[i] == Colour_rgb565[(h * 4) + w])  // if it's the exact same colour
+                                                        if (colour_palette[i] == (byte)(Colours[j] >> 8) && colour_palette[i + 1] == (byte)Colours[j])  // if it's the exact same colour
                                                         {
-                                                            diff_min_index = i;  // index is stored on 1 byte, while each colour is stored on 2 bytes
+                                                            diff_min_index = (byte)(i >> 1);  // index is stored on 1 byte, while each colour is stored on 2 bytes
                                                             break;
                                                         }
-                                                        else  // calculate difference between each separate colour channel and store the sum
+                                                        else
                                                         {
-                                                            diff = (short)(Math.Abs(((Colour_palette[i] >> 8) & 248) - ((Colour_rgb565[(h * 4) + w] >> 8) & 248)) + Math.Abs(((Colour_palette[i] >> 3) & 252) - ((Colour_rgb565[(h * 4) + w] >> 3) & 252)) + Math.Abs(((Colour_palette[i] << 3) & 248) - ((Colour_rgb565[(h * 4) + w] << 3) & 248)));
+                                                            diff = (short)(Math.Abs(colour_palette[i] - (byte)(Colours[j] >> 8)) + Math.Abs(colour_palette[i + 1] - (byte)Colours[j]));
                                                             if (diff < diff_min)
                                                             {
                                                                 diff_min = diff;
-                                                                diff_min_index = i;
+                                                                diff_min_index = (byte)(i >> 1);
                                                             }
                                                         }
                                                     }
-                                                    index[7 - h] += (byte)(diff_min_index << (6 - (w << 1)));
-                                                    // Console.WriteLine(index[4 + h]);
+                                                    if (w % 2 == 0)  // stores the index on the upper 4 bits
+                                                    {
+                                                        index[w >> 1] = (byte)(diff_min_index << 4);
+                                                    }
+                                                    else  // stores the index on the lower 4 bits
+                                                    {
+                                                        index[w >> 1] += diff_min_index;
+                                                    }
+                                                    j += 1;
                                                 }
+                                                index_list.Add(index.ToArray());
                                             }
-                                            index_list.Add(index.ToArray());
-                                            // index is overwritten each time
-                                            // the lists need to be cleaned
-                                            Colour_list.Clear();
-                                            Colour_palette.Clear();
-                                            Colour_rgb565.Clear();
-                                            alpha_bitfield = 0;
-                                            // THAT INDEX ARRAY THAT I CAN4T SEE CONTENTS IN THE DEBUGGER ALSO NEEDS TO BE CLEANED
-                                            // edit: moved it after the swap function THAT FREAKING DOES CHANGE ARRAY CONTENTS
+                                            break;
+                                        }
+                                    case 9: // CI8
+                                        {
+                                            for (int h = 0; h < canvas_height; h++)
+                                            {
+                                                for (int w = 0; w < canvas_width; w++)  // index_size = number of pixels
+                                                {
+                                                    diff_min = 500;
+                                                    for (int i = 0; i < colour_number_x2; i += 2)  // process the colour palette to find the closest colour corresponding to the current pixel
+                                                    {
+                                                        if (colour_palette[i] == (byte)(Colours[j] >> 8) && colour_palette[i + 1] == (byte)Colours[j])  // if it's the exact same colour
+                                                        {
+                                                            diff_min_index = (byte)(i >> 1);  // index is stored on 1 byte, while each colour is stored on 2 bytes
+                                                            break;
+                                                        }
+                                                        else
+                                                        {
+                                                            diff = (short)(Math.Abs(colour_palette[i] - (byte)(Colours[j] >> 8)) + Math.Abs(colour_palette[i + 1] - (byte)Colours[j]));
+                                                            if (diff < diff_min)
+                                                            {
+                                                                diff_min = diff;
+                                                                diff_min_index = (byte)(i >> 1);
+                                                            }
+                                                        }
+                                                    }
+                                                    index[w] = diff_min_index;
+                                                    j += 1;
+                                                }
+                                                index_list.Add(index.ToArray());
+                                            }
+                                            break;
+                                        }
+                                    case 10:  // CI14x2
+                                        {
+                                            for (int h = 0; h < canvas_height; h++)
+                                            {
+                                                for (int w = 0; w < canvas_width << 1; w += 2)  // multiplied by two because each index is a 14 bytes integer
+                                                {
+                                                    diff_min = 500;
+                                                    for (int i = 0; i < colour_number_x2; i += 2)  // process the colour palette to find the closest colour corresponding to the current pixel
+                                                    {
+                                                        if (colour_palette[i] == (byte)(Colours[j] >> 8) && colour_palette[i + 1] == (byte)Colours[j])  // if it's the exact same colour
+                                                        {
+                                                            diff_min_index = (byte)(i >> 1);  // index is stored on 1 byte, while each colour is stored on 2 bytes
+                                                            break;
+                                                        }
+                                                        else
+                                                        {
+                                                            diff = (short)(Math.Abs(colour_palette[i] - (byte)(Colours[j] >> 8)) + Math.Abs(colour_palette[i + 1] - (byte)Colours[j]));
+                                                            if (diff < diff_min)
+                                                            {
+                                                                diff_min = diff;
+                                                                diff_min_index = (byte)(i >> 1);
+                                                            }
+                                                        }
+                                                    }
+                                                    index[w] = (byte)(diff_min_index >> 8);  // adding a short at each iteration
+                                                    index[w + 1] = (byte)diff_min_index;  // casting to byte acts as a % 0xff
+                                                    j += 1;
+                                                }
+                                                index_list.Add(index.ToArray());
+                                            }
+                                            break;
+                                        }
+
+                                }
+                                break;
+                            }
+                        case 1:  // RGB565
+                            {
+
+                                switch (algorithm)
+                                {
+                                    case 2:  // custom  RRRR RGGG GGGB BBBB
+                                        {
+                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
+                                            {
+                                                red = (byte)(bmp_image[i + rgba_channel[0]] * custom_rgba[0]);
+                                                green = (byte)(bmp_image[i + rgba_channel[1]] * custom_rgba[1]);
+                                                blue = (byte)(bmp_image[i + rgba_channel[2]] * custom_rgba[2]);
+                                                if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
+                                                {
+                                                    red += 8;
+                                                }
+                                                if ((green & round6) == round6 && green < 252)  // 6-bit max value on a trimmed byte
+                                                {
+                                                    green += 4;
+                                                }
+                                                if ((blue & 7) > round5 && blue < 248)
+                                                {
+                                                    blue += 8;
+                                                }
+                                                pixel = (ushort)((((byte)(red) >> 3) << 11) + (((byte)(green) >> 2) << 5) + (byte)(blue) >> 3);
+                                                Colours.Add(pixel);
+                                                Colour_Table[pixel][0] += 1;
+                                            }
+                                            break;
+                                        }
+                                    default: // RRRR RGGG GGGB BBBB
+                                        {
+                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
+                                            {
+                                                red = bmp_image[i + rgba_channel[0]];
+                                                green = bmp_image[i + rgba_channel[1]];
+                                                blue = bmp_image[i + rgba_channel[2]];
+                                                if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
+                                                {
+                                                    red += 8;
+                                                }
+                                                if ((green & round6) == round6 && green < 252)  // 6-bit max value on a trimmed byte
+                                                {
+                                                    green += 4;
+                                                }
+                                                if ((blue & 7) > round5 && blue < 248)
+                                                {
+                                                    blue += 8;
+                                                }
+                                                pixel = (ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3));
+                                                Colours.Add(pixel);
+                                                Colour_Table[pixel][0] += 1;
+                                            }
+                                            break;
+                                        }
+                                }
+                                if (!user_palette || fill_palette_start_offset != 0)  // no input palette / partial user input palette = fill it with these colours
+                                {
+                                    Colour_Table.Sort(new IntArrayComparer());  // sorts the table by the most used colour first
+                                    Console.WriteLine("findind most used Colours");
+                                    for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
+                                    {
+                                        not_similar = true;
+                                        if (Colour_Table[i][0] / pixel_count < percentage / 100)
+                                        {
+                                            break;
+                                        }
+                                        for (int k = 0; k < j; k += 2)
+                                        {
+                                            if (Math.Abs((colour_palette[k] & 248) - ((Colour_Table[i][1] >> 8) & 248)) < diversity && Math.Abs(((colour_palette[k] & 7) << 5) + ((colour_palette[k + 1] >> 3) & 28) - ((Colour_Table[i][1] >> 3) & 252)) < diversity && Math.Abs(((colour_palette[k + 1] << 3) & 248) - (Colour_Table[i][1] << 3) & 248) < diversity)
+                                            {
+                                                not_similar = false;
+                                                break;
+                                            }
+                                        }
+                                        if (not_similar)
+                                        {
+                                            colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the RRRR RGGG value
+                                            colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the GGGB BBBB value
+                                            j += 2;
                                         }
                                     }
-                                    break;
-                                case 3:  // most used colours with diversity - no gradient - similar - looks pixelated
+                                    if (j < colour_number_x2) // if the colour palette is not full
                                     {
-                                        for (y = pixel_data_start_offset + (canvas_width << 2) - 16; y < bmp_filesize; y += 4)
+                                        Console.WriteLine("The colour palette was not full, starting second loop...\n");
+                                        for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
                                         {
-                                            red = bmp_image[y + rgba_channel[0]];
-                                            green = bmp_image[y + rgba_channel[1]];
-                                            blue = bmp_image[y + rgba_channel[2]];
-                                            if (alpha > 0 && bmp_image[y + 3] < cmpr_alpha_threshold)
+                                            not_similar = true;
+                                            if (Colour_Table[i][0] / pixel_count < percentage2 / 100)
                                             {
-                                                alpha_bitfield += (ushort)(1 << (j + (z * 4)));
+                                                break;
                                             }
-                                            if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
+                                            for (int k = 0; k < j; k += 2)
                                             {
-                                                red += 8;
-                                            }
-                                            if ((green & round6) == round6 && green < 252)  // 6-bit max value on a trimmed byte
-                                            {
-                                                green += 4;
-                                            }
-                                            if ((blue & 7) > round5 && blue < 248)
-                                            {
-                                                blue += 8;
-                                            }
-                                            // Colour_pixel[0] = // the number of occurences, though it stays to 1 so that's not really a problem lol
-                                            pixel = (ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)); // the RGB565 colour
-                                            Colour_pixel[1] = pixel;
-                                            Colour_list.Add(Colour_pixel.ToArray());
-                                            Colour_rgb565.Add(pixel);
-                                            j++;
-                                            if (j != 4)
-                                            {
-                                                continue;
-                                            }
-                                            j = 0;
-                                            z++;
-                                            y += (canvas_width << 2) - 16; // returns to the start of the next line  - bitmap width << 2 because it's a 32-bit BGRA bmp file
-                                            if (z != 4)
-                                            {
-                                                continue;  // Still within the same 4x4 block
-                                            }
-                                            x++;
-                                            z = 0;
-                                            width += 2;  // triggered 4 times per block
-                                            if (width == canvas_width)
-                                            {
-                                                width = 0;
-                                                y += (canvas_width << 2) - 16; // this has been driving me nuts
-                                                x = 0;
-                                            }
-                                            else if (x == 2)
-                                            {
-                                                // y += (bitmap_width << 4) - 4; // adds 4 lines and put the cursor back to the first block in width (I hope)
-                                                // y += 16; // hmm, it looks like the cursor warped horizontally to the first block in width 4 lines above
-                                                // EDIT: YA DEFINITELY NEED TO CANCEL THE Y OPERATION ABOVE, IT WARPS NORMALLY LIKE IT4S THE PIXEL AFTER
-                                                //y -= (bitmap_width << 2) - 16;  // this has been driving me nuts
-                                                y += 16;  // I can't believe this is right in the mirror and mirrorred mode lol
-                                                          // edit: you just need to add 32 everywhere
-                                            }
-                                            else if (x == 4)
-                                            {
-                                                y -= (canvas_width << 5) + 16; // minus 8 lines + point to next block
-                                                x = 0;
-                                            }
-                                            else
-                                            {
-
-
-                                                y -= ((canvas_width << 4)) + 16;  // substract 4 lines and goes one block to the left
-                                            }
-                                            // now let's just try to take the most two used colours and use diversity I guess
-                                            // implementing my own way to find most used colours:
-                                            // let's count the number of exact same colours in Colour_list
-                                            for (int i = 0; i < 15; i++)  // useless to set it to 16 because of the condition k > i.
-                                            {
-                                                for (int k = 0; k < 16; k++)
+                                                if (Math.Abs((colour_palette[k] & 248) - ((Colour_Table[i][1] >> 8) & 248)) < diversity2 && Math.Abs(((colour_palette[k] & 7) << 5) + ((colour_palette[k + 1] >> 3) & 28) - ((Colour_Table[i][1] >> 3) & 252)) < diversity2 && Math.Abs(((colour_palette[k + 1] << 3) & 248) - (Colour_Table[i][1] << 3) & 248) < diversity2)
                                                 {
-                                                    if (k == i)
-                                                    {
-                                                        continue;
-                                                    }
-                                                    if (Colour_list[k][1] == Colour_list[i][1] && k > i && ((alpha_bitfield >> k) & 1) == 0 && ((alpha_bitfield >> i) & 1) == 0)  // k > i prevents colours occurences from being added twice.
-                                                    {
-                                                        Colour_list[k][0]++;
-                                                        Colour_list[i][0] = 0; // should set it to zero.
-                                                    }
+                                                    not_similar = false;
+                                                    break;
                                                 }
                                             }
-                                            Colour_list.Sort(new UshortArrayComparer());  // sorts the table by the most used colour first
-                                            c = 0;
-                                            for (int i = 0; i < 16 && c < 4; i++)  // build the colour table with the two most used colours and diversityfffffffffffff
+                                            if (not_similar)
+                                            {
+                                                colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the Red and green value
+                                                colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the Green and blue value
+                                                j += 2;
+                                            }
+                                        }
+                                        if (j < colour_number_x2) // if the colour palette is still not full
+                                        {
+                                            Console.WriteLine("The colour palette is not full, this program will fill it with the most used colours\n");
+                                            for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
                                             {
                                                 not_similar = true;
-                                                if (Colour_list[i][0] / 16 < percentage / 100)
+                                                for (int k = 0; k < j; k += 2)
                                                 {
-                                                    // break;  // STOP BREAKING THE F*CKING LOOP
-                                                    continue;
-                                                }
-                                                if (c == 2)  // checks for diversity before adding the second colour ^^
-                                                {
-                                                    if (Math.Abs((index[0] & 248) - ((Colour_list[i][1] >> 8) & 248)) < diversity && Math.Abs(((index[0] & 7) << 5) + ((index[1] >> 3) & 28) - ((Colour_list[i][1] >> 3) & 252)) < diversity && Math.Abs(((index[1] << 3) & 248) - (Colour_list[i][1] << 3) & 248) < diversity)
+                                                    if ((colour_palette[k] == (byte)(Colour_Table[i][1] >> 8)) && colour_palette[k + 1] == (byte)(Colour_Table[i][1]))
                                                     {
                                                         not_similar = false;
-                                                        // break;  // HOLY SHIT YOU4VE BROKEN THE LOOP
-                                                        continue;
+                                                        break;
                                                     }
                                                 }
                                                 if (not_similar)
                                                 {
-                                                    index[c] = (byte)(Colour_list[i][1] >> 8);  // adds the RRRR RGGG value
-                                                    index[c + 1] = (byte)(Colour_list[i][1]);  // adds the GGGB BBBB value
-                                                    c += 2;
+                                                    colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the RRRR RGGG value
+                                                    colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the GGGB BBBB value
+                                                    j += 2;
                                                 }
                                             }
-                                            if (c < 4) // if the colour palette is not full
+                                        }
+                                    }
+                                }
+                                Console.WriteLine("creating indexes");
+                                j = 0;
+                                switch (texture_format_int32[3])
+                                {
+                                    case 8: // CI4
+                                        {
+                                            for (int h = 0; h < canvas_height; h++)
                                             {
-                                                // Console.WriteLine("The colour palette was not full, starting second loop...\n");
+                                                for (int w = 0; w < canvas_width; w++)  // index_size = number of pixels
+                                                {
+                                                    diff_min = 500;
+                                                    for (int i = 0; i < colour_number_x2; i += 2)  // process the colour palette to find the closest colour corresponding to the current pixel
+                                                    {
+                                                        if (colour_palette[i] == (byte)(Colours[j] >> 8) && colour_palette[i + 1] == (byte)Colours[j])  // if it's the exact same colour
+                                                        {
+                                                            diff_min_index = (byte)(i >> 1);  // index is stored on 1 byte, while each colour is stored on 2 bytes
+                                                            break;
+                                                        }
+                                                        else  // calculate difference between each separate colour channel and store the sum
+                                                        {
+                                                            diff = (short)(Math.Abs((colour_palette[i] & 248) - ((Colours[j] >> 8) & 248)) + Math.Abs(((colour_palette[i] & 7) << 5) + ((colour_palette[i + 1] >> 3) & 28) - ((Colours[j] >> 3) & 252)) + Math.Abs(((colour_palette[i + 1] << 3) & 248) - ((Colours[j] << 3) & 248)));
+                                                            if (diff < diff_min)
+                                                            {
+                                                                diff_min = diff;
+                                                                diff_min_index = (byte)(i >> 1);
+                                                            }
+                                                        }
+                                                    }
+                                                    if (w % 2 == 0)  // stores the index on the upper 4 bits
+                                                    {
+                                                        index[w >> 1] = (byte)(diff_min_index << 4);
+                                                    }
+                                                    else  // stores the index on the lower 4 bits
+                                                    {
+                                                        index[w >> 1] += diff_min_index;
+                                                    }
+                                                    j += 1;
+                                                }
+                                                index_list.Add(index.ToArray());
+                                            }
+                                            break;
+                                        }
+                                    case 9: // CI8
+                                        {
+                                            for (int h = 0; h < canvas_height; h++)
+                                            {
+                                                for (int w = 0; w < canvas_width; w++)  // index_size = number of pixels
+                                                {
+                                                    diff_min = 500;
+                                                    for (int i = 0; i < colour_number_x2; i += 2)  // process the colour palette to find the closest colour corresponding to the current pixel
+                                                    {
+                                                        if (colour_palette[i] == (byte)(Colours[j] >> 8) && colour_palette[i + 1] == (byte)Colours[j])  // if it's the exact same colour
+                                                        {
+                                                            diff_min_index = (byte)(i >> 1);  // index is stored on 1 byte, while each colour is stored on 2 bytes
+                                                            break;
+                                                        }
+                                                        else  // calculate difference between each separate colour channel and store the sum
+                                                        {
 
-                                                for (int i = 0; i < 16 && c < 4; i++)
+                                                            diff = (short)(Math.Abs((colour_palette[i] & 248) - ((Colours[j] >> 8) & 248)) + Math.Abs(((colour_palette[i] & 7) << 5) + ((colour_palette[i + 1] >> 3) & 28) - ((Colours[j] >> 3) & 252)) + Math.Abs(((colour_palette[i + 1] << 3) & 248) - ((Colours[j] << 3) & 248))); if (diff < diff_min)
+                                                            {
+                                                                diff_min = diff;
+                                                                diff_min_index = (byte)(i >> 1);
+                                                            }
+                                                        }
+                                                    }
+                                                    index[w] = diff_min_index;
+                                                    j += 1;
+                                                }
+                                                index_list.Add(index.ToArray());
+                                            }
+                                            break;
+                                        }
+                                    case 10:  // CI14x2
+                                        {
+                                            for (int h = 0; h < canvas_height; h++)
+                                            {
+                                                for (int w = 0; w < canvas_width << 1; w += 2)  // multiplied by two because each index is a 14 bytes integer
+                                                {
+                                                    diff_min = 500;
+                                                    for (int i = 0; i < colour_number_x2; i += 2)  // process the colour palette to find the closest colour corresponding to the current pixel
+                                                    {
+                                                        if (colour_palette[i] == (byte)(Colours[j] >> 8) && colour_palette[i + 1] == (byte)Colours[j])  // if it's the exact same colour
+                                                        {
+                                                            diff_min_index = (byte)(i >> 1);  // index is stored on 1 byte, while each colour is stored on 2 bytes
+                                                            break;
+                                                        }
+                                                        else  // calculate difference between each separate colour channel and store the sum
+                                                        {
+
+                                                            diff = (short)(Math.Abs((colour_palette[i] & 248) - ((Colours[j] >> 8) & 248)) + Math.Abs(((colour_palette[i] & 7) << 5) + ((colour_palette[i + 1] >> 3) & 28) - ((Colours[j] >> 3) & 252)) + Math.Abs(((colour_palette[i + 1] << 3) & 248) - ((Colours[j] << 3) & 248))); if (diff < diff_min)
+                                                            {
+                                                                diff_min = diff;
+                                                                diff_min_index = (byte)(i >> 1);
+                                                            }
+                                                        }
+                                                    }
+                                                    index[w] = (byte)(diff_min_index >> 8);  // adding a short at each iteration
+                                                    index[w + 1] = (byte)diff_min_index;  // casting to byte acts as a % 0xff
+                                                    j += 1;
+                                                }
+                                                index_list.Add(index.ToArray());
+                                            }
+                                            break;
+                                        }
+
+                                }
+                                break;
+                            }
+                        case 2:  // RGB5A3
+                            {
+                                switch (algorithm)
+                                {
+                                    case 2:  // custom
+                                        {
+                                            if (alpha == 1)  // 0AAA RRRR GGGG BBBB
+                                            {
+                                                for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
+                                                {
+                                                    a = (byte)(bmp_image[i + rgba_channel[3]] * custom_rgba[3]);
+                                                    red = (byte)(bmp_image[i + rgba_channel[0]] * custom_rgba[0]);
+                                                    green = (byte)(bmp_image[i + rgba_channel[1]] * custom_rgba[1]);
+                                                    blue = (byte)(bmp_image[i + rgba_channel[2]] * custom_rgba[2]);
+                                                    if ((a & 31) > round3 && a < 224)  // 3-bit max value on a trimmed byte
+                                                    {
+                                                        a += 32;
+                                                    }
+                                                    if ((red & 15) > round4 && red < 240)  // 4-bit max value on a trimmed byte
+                                                    {
+                                                        red += 16;
+                                                    }
+                                                    if ((green & 15) > round4 && green < 240)
+                                                    {
+                                                        green += 16;
+                                                    }
+                                                    if ((blue & 15) > round4 && blue < 240)
+                                                    {
+                                                        blue += 16;
+                                                    }
+                                                    pixel = (ushort)(((a >> 5) << 12) + ((red >> 4) << 8) + ((green >> 4) << 4) + (blue >> 4));
+                                                    Colours.Add(pixel);
+                                                    Colour_Table[pixel][0] += 1;
+                                                }
+                                            }
+                                            else if (alpha == 0)  // 1RRR RRGG GGGB BBBB
+                                            {
+                                                for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
+                                                {
+                                                    red = (byte)(bmp_image[i + rgba_channel[0]] * custom_rgba[0]);
+                                                    green = (byte)(bmp_image[i + rgba_channel[1]] * custom_rgba[1]);
+                                                    blue = (byte)(bmp_image[i + rgba_channel[2]] * custom_rgba[2]);
+                                                    if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
+                                                    {
+                                                        red += 8;
+                                                    }
+                                                    if ((green & 7) > round5 && green < 248)
+                                                    {
+                                                        green += 8;
+                                                    }
+                                                    if ((blue & 7) > round5 && blue < 248)
+                                                    {
+                                                        blue += 8;
+                                                    }
+                                                    pixel = (ushort)((1 << 15) + ((red >> 3) << 10) + ((green >> 3) << 5) + (blue >> 3));
+                                                    Colours.Add(pixel);
+                                                    Colour_Table[pixel][0] += 1;
+                                                }
+                                            }
+                                            else  // check for each colour if alpha trimmed to 3 bits is 255
+                                            {
+                                                for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
+                                                {
+                                                    a = (byte)(bmp_image[i + rgba_channel[3]] * custom_rgba[3]);
+                                                    red = (byte)(bmp_image[i + rgba_channel[0]] * custom_rgba[0]);
+                                                    green = (byte)(bmp_image[i + rgba_channel[1]] * custom_rgba[1]);
+                                                    blue = (byte)(bmp_image[i + rgba_channel[2]] * custom_rgba[2]);
+                                                    if ((a & 31) > round3 && a < 224)  // 3-bit max value on a trimmed byte
+                                                    {
+                                                        a += 32;
+                                                    }
+                                                    if ((red & 15) > round4 && red < 240)  // 4-bit max value on a trimmed byte
+                                                    {
+                                                        red += 16;
+                                                    }
+                                                    if ((green & 15) > round4 && green < 240)
+                                                    {
+                                                        green += 16;
+                                                    }
+                                                    if ((blue & 15) > round4 && blue < 240)
+                                                    {
+                                                        blue += 16;
+                                                    }
+                                                    if (a > 223)  // no alpha
+                                                    {
+                                                        pixel = (ushort)((1 << 15) + ((red >> 3) << 10) + ((green >> 3) << 5) + (blue >> 3));
+                                                    }
+                                                    else
+                                                    {
+                                                        pixel = (ushort)(((a >> 5) << 12) + ((red >> 4) << 8) + ((green >> 4) << 4) + (blue >> 4));
+                                                    }
+                                                    Colours.Add(pixel);
+                                                    Colour_Table[pixel][0] += 1;
+                                                }
+                                            }
+                                            break;
+                                        }
+                                    default:
+                                        {
+                                            if (alpha == 1)  // 0AAA RRRR GGGG BBBB
+                                            {
+                                                for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
+                                                {
+                                                    a = bmp_image[i + rgba_channel[3]];
+                                                    red = bmp_image[i + rgba_channel[0]];
+                                                    green = bmp_image[i + rgba_channel[1]];
+                                                    blue = bmp_image[i + rgba_channel[2]];
+                                                    if ((a & 31) > round3 && a < 224)  // 3-bit max value on a trimmed byte
+                                                    {
+                                                        a += 32;
+                                                    }
+                                                    if ((red & 15) > round4 && red < 240)  // 4-bit max value on a trimmed byte
+                                                    {
+                                                        red += 16;
+                                                    }
+                                                    if ((green & 15) > round4 && green < 240)
+                                                    {
+                                                        green += 16;
+                                                    }
+                                                    if ((blue & 15) > round4 && blue < 240)
+                                                    {
+                                                        blue += 16;
+                                                    }
+                                                    pixel = (ushort)(((a >> 5) << 12) + ((red >> 4) << 8) + ((green >> 4) << 4) + (blue >> 4));
+                                                    Colours.Add(pixel);
+                                                    Colour_Table[pixel][0] += 1;
+                                                }
+                                            }
+                                            else if (alpha == 0)  // 1RRR RRGG GGGB BBBB
+                                            {
+                                                for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
+                                                {
+                                                    red = bmp_image[i + rgba_channel[0]];
+                                                    green = bmp_image[i + rgba_channel[1]];
+                                                    blue = bmp_image[i + rgba_channel[2]];
+                                                    if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
+                                                    {
+                                                        red += 8;
+                                                    }
+                                                    if ((green & 7) > round5 && green < 248)
+                                                    {
+                                                        green += 8;
+                                                    }
+                                                    if ((blue & 7) > round5 && blue < 248)
+                                                    {
+                                                        blue += 8;
+                                                    }
+                                                    pixel = (ushort)((1 << 15) + ((red >> 3) << 10) + ((green >> 3) << 5) + (blue >> 3));
+                                                    Colours.Add(pixel);
+                                                    Colour_Table[pixel][0] += 1;
+                                                }
+                                            }
+                                            else  // mix up alpha and no alpha
+                                            {
+                                                for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
+                                                {
+                                                    a = bmp_image[i + rgba_channel[3]];
+                                                    red = bmp_image[i + rgba_channel[0]];
+                                                    green = bmp_image[i + rgba_channel[1]];
+                                                    blue = bmp_image[i + rgba_channel[2]];
+                                                    if ((a & 31) > round3 && a < 224)  // 3-bit max value on a trimmed byte
+                                                    {
+                                                        a += 32;
+                                                    }
+                                                    if ((red & 15) > round4 && red < 240)  // 4-bit max value on a trimmed byte
+                                                    {
+                                                        red += 16;
+                                                    }
+                                                    if ((green & 15) > round4 && green < 240)
+                                                    {
+                                                        green += 16;
+                                                    }
+                                                    if ((blue & 15) > round4 && blue < 240)
+                                                    {
+                                                        blue += 16;
+                                                    }
+                                                    if (a > 223)  // no alpha
+                                                    {
+                                                        pixel = (ushort)((1 << 15) + ((red >> 3) << 10) + ((green >> 3) << 5) + (blue >> 3));
+                                                    }
+                                                    else
+                                                    {
+                                                        pixel = (ushort)(((a >> 5) << 12) + ((red >> 4) << 8) + ((green >> 4) << 4) + (blue >> 4));
+                                                    }
+                                                    Colours.Add(pixel);
+                                                    Colour_Table[pixel][0] += 1;
+                                                }
+                                            }
+                                            break;
+                                        }
+                                }
+                                byte a2;
+                                byte red2;
+                                byte green2;
+                                byte blue2;
+                                if (!user_palette || fill_palette_start_offset != 0)  // no input palette / partial user input palette = fill it with these colours
+                                {
+
+                                    Colour_Table.Sort(new IntArrayComparer());  // sorts the table by the most used colour first
+                                    Console.WriteLine("findind most used Colours");
+                                    if (alpha == 1)
+                                    {
+                                        for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
+                                        {
+                                            not_similar = true;
+                                            if (Colour_Table[i][0] / pixel_count < percentage / 100)
+                                            {
+                                                break;
+                                            }
+                                            for (int k = 0; k < j; k += 2)
+                                            {
+                                                if (Math.Abs((colour_palette[k] & 112) - (Colour_Table[i][1] >> 8) & 112) < diversity && Math.Abs(((colour_palette[k] << 4) & 240) - ((Colour_Table[i][1] >> 4) & 240)) < diversity && Math.Abs((colour_palette[k + 1] & 240) - ((Colour_Table[i][1]) & 240)) < diversity && Math.Abs(((colour_palette[k + 1] << 4) & 240) - ((Colour_Table[i][1] << 4) & 240)) < diversity)
+                                                {
+                                                    not_similar = false;
+                                                    break;
+                                                }
+                                            }
+                                            if (not_similar)
+                                            {
+                                                colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the 0AAA RRRR value
+                                                colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the GGGG BBBB value
+                                                j += 2;
+                                            }
+                                        }
+                                        if (j < colour_number_x2) // if the colour palette is not full
+                                        {
+                                            Console.WriteLine("The colour palette was not full, starting second loop...\n");
+                                            for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
+                                            {
+                                                not_similar = true;
+                                                if (Colour_Table[i][0] / pixel_count < percentage2 / 100)
+                                                {
+                                                    break;
+                                                }
+                                                for (int k = 0; k < j; k += 2)
+                                                {
+                                                    if (Math.Abs((colour_palette[k] & 112) - (Colour_Table[i][1] >> 8) & 112) < diversity2 && Math.Abs(((colour_palette[k] << 4) & 240) - ((Colour_Table[i][1] >> 4) & 240)) < diversity2 && Math.Abs((colour_palette[k + 1] & 240) - ((Colour_Table[i][1]) & 240)) < diversity2 && Math.Abs(((colour_palette[k + 1] << 4) & 240) - ((Colour_Table[i][1] << 4) & 240)) < diversity2)
+                                                    {
+                                                        not_similar = false;
+                                                        break;
+                                                    }
+                                                }
+                                                if (not_similar)
+                                                {
+                                                    colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the 0AAA RRRR value
+                                                    colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the GGGG BBBB value
+                                                    j += 2;
+                                                }
+                                            }
+                                            if (j < colour_number_x2) // if the colour palette is still not full
+                                            {
+                                                Console.WriteLine("The colour palette is not full, this program will fill it with the most used colours\n");
+                                                for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
                                                 {
                                                     not_similar = true;
-                                                    if (Colour_list[i][0] / 16 < percentage2 / 100)
+                                                    for (int k = 0; k < j; k += 2)
                                                     {
+                                                        if ((colour_palette[k] == (byte)(Colour_Table[i][1] >> 8)) && colour_palette[k + 1] == (byte)(Colour_Table[i][1]))
+                                                        {
+                                                            not_similar = false;
+                                                            break;
+                                                        }
+                                                    }
+                                                    if (not_similar)
+                                                    {
+                                                        colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the 0AAA RRRR value
+                                                        colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the GGGG BBBB value
+                                                        j += 2;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else if (alpha == 0)  // 1RRR RRGG GGGB BBBB
+                                    {
+                                        for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
+                                        {
+                                            not_similar = true;
+                                            if (Colour_Table[i][0] / pixel_count < percentage / 100)
+                                            {
+                                                break;
+                                            }
+                                            for (int k = 0; k < j; k += 2)
+                                            {
+                                                if (Math.Abs(((colour_palette[k] << 1) & 248) - ((Colour_Table[i][1] >> 7) & 248)) < diversity && Math.Abs(((colour_palette[k] & 3) << 6) + ((colour_palette[k + 1] >> 2) & 56) - ((Colour_Table[i][1] >> 2) & 248)) < diversity && Math.Abs(((colour_palette[k + 1] << 3) & 248) - (Colour_Table[i][1] << 3) & 248) < diversity)
+                                                {
+                                                    not_similar = false;
+                                                    break;
+                                                }
+                                            }
+                                            if (not_similar)
+                                            {
+                                                colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the 1RRR RRGG value
+                                                colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the GGGB BBBB value
+                                                j += 2;
+                                            }
+                                        }
+                                        if (j < colour_number_x2) // if the colour palette is not full
+                                        {
+                                            Console.WriteLine("The colour palette was not full, starting second loop...\n");
+                                            for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
+                                            {
+                                                not_similar = true;
+                                                if (Colour_Table[i][0] / pixel_count < percentage2 / 100)
+                                                {
+                                                    break;
+                                                }
+                                                for (int k = 0; k < j; k += 2)
+                                                {
+                                                    if (Math.Abs(((colour_palette[k] << 1) & 248) - ((Colour_Table[i][1] >> 7) & 248)) < diversity2 && Math.Abs(((colour_palette[k] & 3) << 6) + ((colour_palette[k + 1] >> 2) & 56) - ((Colour_Table[i][1] >> 2) & 248)) < diversity2 && Math.Abs(((colour_palette[k + 1] << 3) & 248) - (Colour_Table[i][1] << 3) & 248) < diversity2)
+                                                    {
+                                                        not_similar = false;
+                                                        break;
+                                                    }
+                                                }
+                                                if (not_similar)
+                                                {
+                                                    colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the Alpha and red value
+                                                    colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the Gren and blue value
+                                                    j += 2;
+                                                }
+                                            }
+                                            if (j < colour_number_x2) // if the colour palette is still not full
+                                            {
+                                                Console.WriteLine("The colour palette is not full, this program will fill it with the most used colours\n");
+                                                for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
+                                                {
+                                                    not_similar = true;
+                                                    for (int k = 0; k < j; k += 2)
+                                                    {
+                                                        if ((colour_palette[k] == (byte)(Colour_Table[i][1] >> 8)) && colour_palette[k + 1] == (byte)(Colour_Table[i][1]))
+                                                        {
+                                                            not_similar = false;
+                                                            break;
+                                                        }
+                                                    }
+                                                    if (not_similar)
+                                                    {
+                                                        colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the Alpha and red value
+                                                        colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the Green and blue value
+                                                        j += 2;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else  // mix
+                                    {
+
+                                        for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
+                                        {
+                                            not_similar = true;
+                                            if (Colour_Table[i][0] / pixel_count < percentage / 100)
+                                            {
+                                                break;
+                                            }
+                                            for (int k = 0; k < j; k += 2)
+                                            {
+                                                if ((colour_palette[k] >> 7) == 1)  // no alpha - 1RRR RRGG GGGB BBBB
+                                                {
+                                                    a = 255;
+                                                    red = (byte)((colour_palette[k] << 1) & 248);
+                                                    green = (byte)(((colour_palette[k] & 3) << 6) + ((colour_palette[k + 1] >> 2) & 56));
+                                                    blue = (byte)((colour_palette[k + 1] << 3) & 248);
+                                                }
+                                                else  // alpha - 0AAA RRRR GGGG BBBB
+                                                {
+                                                    a = (byte)(colour_palette[k] & 112);
+                                                    red = (byte)((colour_palette[k] << 4) & 240);
+                                                    green = (byte)(colour_palette[k + 1] & 240);
+                                                    blue = (byte)((colour_palette[k + 1] << 4) & 240);
+                                                }
+                                                if (Colour_Table[i][1] >> 15 == 1)  // no alpha - 1RRR RRGG GGGB BBBB
+                                                {
+                                                    a2 = 255;
+                                                    red2 = (byte)((Colour_Table[i][1] >> 7) & 248);
+                                                    green2 = (byte)((Colour_Table[i][1] >> 2) & 248);
+                                                    blue2 = (byte)((Colour_Table[i][1] << 3) & 248);
+                                                }
+                                                else  // alpha - 0AAA RRRR GGGG BBBB
+                                                {
+                                                    a2 = (byte)((Colour_Table[i][1] >> 8) & 112);
+                                                    red2 = (byte)((Colour_Table[i][1] >> 4) & 240);
+                                                    green2 = (byte)((Colour_Table[i][1]) & 240);
+                                                    blue2 = (byte)((Colour_Table[i][1] << 4) & 240);
+                                                }
+                                                if (Math.Abs(a - a2) < diversity && Math.Abs(red - red2) < diversity && Math.Abs(green - green2) < diversity && Math.Abs(blue - blue2) < diversity)
+                                                {
+                                                    not_similar = false;
+                                                    break;
+                                                }
+                                            }
+                                            if (not_similar)
+                                            {
+                                                colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the Alpha and red value
+                                                colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the Green and blue value
+                                                j += 2;
+                                            }
+                                        }
+                                        if (j < colour_number_x2) // if the colour palette is not full
+                                        {
+                                            Console.WriteLine("The colour palette was not full, starting second loop...\n");
+                                            for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
+                                            {
+                                                not_similar = true;
+                                                if (Colour_Table[i][0] / pixel_count < percentage2 / 100)
+                                                {
+                                                    break;
+                                                }
+                                                for (int k = 0; k < j; k += 2)
+                                                {
+                                                    if ((colour_palette[k] >> 7) == 1)  // no alpha - 1RRR RRGG GGGB BBBB
+                                                    {
+                                                        a = 255;
+                                                        red = (byte)((colour_palette[k] << 1) & 248);
+                                                        green = (byte)(((colour_palette[k] & 3) << 6) + ((colour_palette[k + 1] >> 2) & 56));
+                                                        blue = (byte)((colour_palette[k + 1] << 3) & 248);
+                                                    }
+                                                    else  // alpha - 0AAA RRRR GGGG BBBB
+                                                    {
+                                                        a = (byte)(colour_palette[k] & 112);
+                                                        red = (byte)((colour_palette[k] << 4) & 240);
+                                                        green = (byte)(colour_palette[k + 1] & 240);
+                                                        blue = (byte)((colour_palette[k + 1] << 4) & 240);
+                                                    }
+                                                    if (Colour_Table[i][1] >> 15 == 1)  // no alpha - 1RRR RRGG GGGB BBBB
+                                                    {
+                                                        a2 = 255;
+                                                        red2 = (byte)((Colour_Table[i][1] >> 7) & 248);
+                                                        green2 = (byte)((Colour_Table[i][1] >> 2) & 248);
+                                                        blue2 = (byte)((Colour_Table[i][1] << 3) & 248);
+                                                    }
+                                                    else  // alpha - 0AAA RRRR GGGG BBBB
+                                                    {
+                                                        a2 = (byte)((Colour_Table[i][1] >> 8) & 112);
+                                                        red2 = (byte)((Colour_Table[i][1] >> 4) & 240);
+                                                        green2 = (byte)((Colour_Table[i][1]) & 240);
+                                                        blue2 = (byte)((Colour_Table[i][1] << 4) & 240);
+                                                    }
+                                                    if (Math.Abs(a - a2) < diversity2 && Math.Abs(red - red2) < diversity2 && Math.Abs(green - green2) < diversity2 && Math.Abs(blue - blue2) < diversity2)
+                                                    {
+                                                        not_similar = false;
+                                                        break;
+                                                    }
+                                                }
+                                                if (not_similar)
+                                                {
+                                                    colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the Alpha value
+                                                    colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the Grey value
+                                                    j += 2;
+                                                }
+                                            }
+                                            if (j < colour_number_x2) // if the colour palette is still not full
+                                            {
+                                                Console.WriteLine("The colour palette is not full, this program will fill it with the most used colours\n");
+                                                for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
+                                                {
+                                                    not_similar = true;
+                                                    for (int k = 0; k < j; k += 2)
+                                                    {
+                                                        if ((colour_palette[k] == (byte)(Colour_Table[i][1] >> 8)) && colour_palette[k + 1] == (byte)(Colour_Table[i][1]))
+                                                        {
+                                                            not_similar = false;
+                                                            break;
+                                                        }
+                                                    }
+                                                    if (not_similar)
+                                                    {
+                                                        colour_palette[j] = (byte)(Colour_Table[i][1] >> 8);  // adds the Alpha value
+                                                        colour_palette[j + 1] = (byte)(Colour_Table[i][1]);  // adds the Grey value
+                                                        j += 2;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                Console.WriteLine("creating indexes");
+                                j = 0;
+                                switch (texture_format_int32[3])
+                                {
+                                    case 8: // CI4
+                                        {
+                                            for (int h = 0; h < canvas_height; h++)
+                                            {
+                                                for (int w = 0; w < canvas_width; w++)  // index_size = number of pixels
+                                                {
+                                                    diff_min = 500;
+                                                    for (int i = 0; i < colour_number_x2; i += 2)  // process the colour palette to find the closest colour corresponding to the current pixel
+                                                    {
+                                                        if (colour_palette[i] == (byte)(Colours[j] >> 8) && colour_palette[i + 1] == (byte)Colours[j])  // if it's the exact same colour
+                                                        {
+                                                            diff_min_index = (byte)(i >> 1);  // index is stored on 1 byte, while each colour is stored on 2 bytes
+                                                            break;
+                                                        }
+                                                        else  // calculate difference between each separate colour channel and store the sum
+                                                        {
+                                                            if ((colour_palette[i] >> 7) == 1)  // no alpha - 1RRR RRGG GGGB BBBB
+                                                            {
+                                                                a = 255;
+                                                                red = (byte)((colour_palette[i] << 1) & 248);
+                                                                green = (byte)(((colour_palette[i] & 3) << 6) + ((colour_palette[i + 1] >> 2) & 56));
+                                                                blue = (byte)((colour_palette[i + 1] << 3) & 248);
+                                                            }
+                                                            else  // alpha - 0AAA RRRR GGGG BBBB
+                                                            {
+                                                                a = (byte)(colour_palette[i] & 112);
+                                                                red = (byte)((colour_palette[i] << 4) & 240);
+                                                                green = (byte)(colour_palette[i + 1] & 240);
+                                                                blue = (byte)((colour_palette[i + 1] << 4) & 240);
+                                                            }
+                                                            if (Colours[j] >> 15 == 1)  // no alpha - 1RRR RRGG GGGB BBBB
+                                                            {
+                                                                a2 = 255;
+                                                                red2 = (byte)((Colours[j] >> 7) & 248);
+                                                                green2 = (byte)((Colours[j] >> 2) & 248);
+                                                                blue2 = (byte)((Colours[j] << 3) & 248);
+                                                            }
+                                                            else  // alpha - 0AAA RRRR GGGG BBBB
+                                                            {
+                                                                a2 = (byte)((Colours[j] >> 8) & 112);
+                                                                red2 = (byte)((Colours[j] >> 4) & 240);
+                                                                green2 = (byte)((Colours[j]) & 240);
+                                                                blue2 = (byte)((Colours[j] << 4) & 240);
+                                                            }
+                                                            diff = (short)(Math.Abs(a - a2) + Math.Abs(red - red2) + Math.Abs(green - green2) + Math.Abs(blue - blue2));
+                                                            if (diff < diff_min)
+                                                            {
+                                                                diff_min = diff;
+                                                                diff_min_index = (byte)(i >> 1);
+                                                            }
+                                                        }
+                                                    }
+                                                    if (w % 2 == 0)  // stores the index on the upper 4 bits
+                                                    {
+                                                        index[w >> 1] = (byte)(diff_min_index << 4);
+                                                    }
+                                                    else  // stores the index on the lower 4 bits
+                                                    {
+                                                        index[w >> 1] += diff_min_index;
+                                                    }
+                                                    j += 1;
+                                                }
+                                                index_list.Add(index.ToArray());
+                                            }
+                                            break;
+                                        }
+                                    case 9: // CI8
+                                        {
+                                            for (int h = 0; h < canvas_height; h++)
+                                            {
+                                                for (int w = 0; w < canvas_width; w++)  // index_size = number of pixels
+                                                {
+                                                    diff_min = 500;
+                                                    for (int i = 0; i < colour_number_x2; i += 2)  // process the colour palette to find the closest colour corresponding to the current pixel
+                                                    {
+                                                        if (colour_palette[i] == (byte)(Colours[j] >> 8) && colour_palette[i + 1] == (byte)Colours[j])  // if it's the exact same colour
+                                                        {
+                                                            diff_min_index = (byte)(i >> 1);  // index is stored on 1 byte, while each colour is stored on 2 bytes
+                                                            break;
+                                                        }
+                                                        else  // calculate difference between each separate colour channel and store the sum
+                                                        {
+                                                            if ((colour_palette[i] >> 7) == 1)  // no alpha - 1RRR RRGG GGGB BBBB
+                                                            {
+                                                                a = 255;
+                                                                red = (byte)((colour_palette[i] << 1) & 248);
+                                                                green = (byte)(((colour_palette[i] & 3) << 6) + ((colour_palette[i + 1] >> 2) & 56));
+                                                                blue = (byte)((colour_palette[i + 1] << 3) & 248);
+                                                            }
+                                                            else  // alpha - 0AAA RRRR GGGG BBBB
+                                                            {
+                                                                a = (byte)(colour_palette[i] & 112);
+                                                                red = (byte)((colour_palette[i] << 4) & 240);
+                                                                green = (byte)(colour_palette[i + 1] & 240);
+                                                                blue = (byte)((colour_palette[i + 1] << 4) & 240);
+                                                            }
+                                                            if (Colours[j] >> 15 == 1)  // no alpha - 1RRR RRGG GGGB BBBB
+                                                            {
+                                                                a2 = 255;
+                                                                red2 = (byte)((Colours[j] >> 7) & 248);
+                                                                green2 = (byte)((Colours[j] >> 2) & 248);
+                                                                blue2 = (byte)((Colours[j] << 3) & 248);
+                                                            }
+                                                            else  // alpha - 0AAA RRRR GGGG BBBB
+                                                            {
+                                                                a2 = (byte)((Colours[j] >> 8) & 112);
+                                                                red2 = (byte)((Colours[j] >> 4) & 240);
+                                                                green2 = (byte)((Colours[j]) & 240);
+                                                                blue2 = (byte)((Colours[j] << 4) & 240);
+                                                            }
+                                                            diff = (short)(Math.Abs(a - a2) + Math.Abs(red - red2) + Math.Abs(green - green2) + Math.Abs(blue - blue2));
+                                                            if (diff < diff_min)
+                                                            {
+                                                                diff_min = diff;
+                                                                diff_min_index = (byte)(i >> 1);
+                                                            }
+                                                        }
+                                                    }
+                                                    index[w] = diff_min_index;
+                                                    j += 1;
+                                                }
+                                                index_list.Add(index.ToArray());
+                                            }
+                                            break;
+                                        }
+                                    case 10:  // CI14x2
+                                        {
+                                            for (int h = 0; h < canvas_height; h++)
+                                            {
+                                                for (int w = 0; w < canvas_width << 1; w += 2)  // multiplied by two because each index is a 14 bytes integer
+                                                {
+                                                    diff_min = 500;
+                                                    for (int i = 0; i < colour_number_x2; i += 2)  // process the colour palette to find the closest colour corresponding to the current pixel
+                                                    {
+                                                        if (colour_palette[i] == (byte)(Colours[j] >> 8) && colour_palette[i + 1] == (byte)Colours[j])  // if it's the exact same colour
+                                                        {
+                                                            diff_min_index = (byte)(i >> 1);  // index is stored on 1 byte, while each colour is stored on 2 bytes
+                                                            break;
+                                                        }
+                                                        else  // calculate difference between each separate colour channel and store the sum
+                                                        {
+                                                            if ((colour_palette[i] >> 7) == 1)  // no alpha - 1RRR RRGG GGGB BBBB
+                                                            {
+                                                                a = 255;
+                                                                red = (byte)((colour_palette[i] << 1) & 248);
+                                                                green = (byte)(((colour_palette[i] & 3) << 6) + ((colour_palette[i + 1] >> 2) & 56));
+                                                                blue = (byte)((colour_palette[i + 1] << 3) & 248);
+                                                            }
+                                                            else  // alpha - 0AAA RRRR GGGG BBBB
+                                                            {
+                                                                a = (byte)(colour_palette[i] & 112);
+                                                                red = (byte)((colour_palette[i] << 4) & 240);
+                                                                green = (byte)(colour_palette[i + 1] & 240);
+                                                                blue = (byte)((colour_palette[i + 1] << 4) & 240);
+                                                            }
+                                                            if (Colours[j] >> 15 == 1)  // no alpha - 1RRR RRGG GGGB BBBB
+                                                            {
+                                                                a2 = 255;
+                                                                red2 = (byte)((Colours[j] >> 7) & 248);
+                                                                green2 = (byte)((Colours[j] >> 2) & 248);
+                                                                blue2 = (byte)((Colours[j] << 3) & 248);
+                                                            }
+                                                            else  // alpha - 0AAA RRRR GGGG BBBB
+                                                            {
+                                                                a2 = (byte)((Colours[j] >> 8) & 112);
+                                                                red2 = (byte)((Colours[j] >> 4) & 240);
+                                                                green2 = (byte)((Colours[j]) & 240);
+                                                                blue2 = (byte)((Colours[j] << 4) & 240);
+                                                            }
+                                                            diff = (short)(Math.Abs(a - a2) + Math.Abs(red - red2) + Math.Abs(green - green2) + Math.Abs(blue - blue2));
+                                                            if (diff < diff_min)
+                                                            {
+                                                                diff_min = diff;
+                                                                diff_min_index = (byte)(i >> 1);
+                                                            }
+                                                        }
+                                                    }
+                                                    index[w] = (byte)(diff_min_index >> 8);  // adding a short at each iteration
+                                                    index[w + 1] = (byte)diff_min_index;  // casting to byte acts as a % 0xff
+                                                    j += 1;
+                                                }
+                                                index_list.Add(index.ToArray());
+                                            }
+                                            break;
+                                        }  // end of case 10 CI14x2
+                                } // end of switch texture format
+                                break;
+                            }  // end of case 2 palette RGB5A3
+                    }  // end of switch palette format
+                }  // end of if (has palette)
+                else
+                {
+                    j = 0;
+                    switch (texture_format_int32[3])
+                    {
+                        case 0: // I4 - works as expected
+                            {
+                                switch (algorithm)
+                                {
+                                    case 0: // cie_601
+                                        {
+                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 8)  // process every pixel by groups of two to fit the AAAA BBBB  profile
+                                            {
+                                                a = (byte)(bmp_image[i + rgba_channel[2]] * 0.114 + bmp_image[i + rgba_channel[1]] * 0.587 + bmp_image[i + rgba_channel[0]] * 0.299);  // grey colour trimmed to 4 bit
+                                                if ((a & 0xf) > round4 && a < 240)
+                                                {
+                                                    a += 16;
+                                                }
+                                                grey = (byte)(bmp_image[i + 4 + rgba_channel[2]] * 0.114 + bmp_image[i + 4 + rgba_channel[1]] * 0.587 + bmp_image[i + 4 + rgba_channel[0]] * 0.299);
+                                                if ((grey & 0xf) > round4 && grey < 240)
+                                                {
+                                                    grey += 16;
+                                                }
+                                                index[j] = (byte)((a & 0xf0) + (grey >> 4));
+                                                j++;
+                                                if (j == index.Length)
+                                                {
+                                                    j = 0;
+                                                    index_list.Add(index.ToArray());
+                                                }
+                                            }
+                                            break;
+                                        }
+                                    case 1: // cie_709
+                                        {
+                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 8)
+                                            {
+                                                a = (byte)(bmp_image[i + rgba_channel[2]] * 0.0721 + bmp_image[i + rgba_channel[1]] * 0.7154 + bmp_image[i + rgba_channel[0]] * 0.2125);
+                                                if ((a & 0xf) > round4 && a < 240)
+                                                {
+                                                    a += 16;
+                                                }
+                                                grey = (byte)(bmp_image[i + 4 + rgba_channel[2]] * 0.0721 + bmp_image[i + 4 + rgba_channel[1]] * 0.7154 + bmp_image[i + 4 + rgba_channel[0]] * 0.2125);
+                                                if ((grey & 0xf) > round4 && grey < 240)
+                                                {
+                                                    grey += 16;
+                                                }
+                                                index[j] = (byte)((a & 0xf0) + (grey >> 4));
+                                                j++;
+                                                if (j == index.Length)
+                                                {
+                                                    j = 0;
+                                                    index_list.Add(index.ToArray());
+                                                }
+                                            }
+                                            break;
+                                        }
+                                    case 2:  // custom
+                                        {
+                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 8)
+                                            {
+                                                a = (byte)(bmp_image[i + rgba_channel[2]] * custom_rgba[2] + bmp_image[i + rgba_channel[1]] * custom_rgba[1] + bmp_image[i + rgba_channel[0]] * custom_rgba[0]);
+                                                if ((a & 0xf) > round4 && a < 240)
+                                                {
+                                                    a += 16;
+                                                }
+                                                grey = (byte)(bmp_image[i + 4 + rgba_channel[2]] * custom_rgba[2] + bmp_image[i + 4 + rgba_channel[1]] * custom_rgba[1] + bmp_image[i + 4 + rgba_channel[0]] * custom_rgba[0]);
+                                                if ((grey & 0xf) > round4 && grey < 240)
+                                                {
+                                                    grey += 16;
+                                                }
+                                                index[j] = (byte)((a & 0xf0) + (grey >> 4));
+                                                j++;
+                                                if (j == index.Length)
+                                                {
+                                                    j = 0;
+                                                    index_list.Add(index.ToArray());
+                                                }
+                                            }
+                                            break;
+                                        }
+                                }
+                                break;
+                            }
+                        case 1: // I8 - works as expected
+                            {
+                                switch (algorithm)
+                                {
+                                    case 0: // cie_601
+                                        {
+                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)  // process every pixel to fit the CCCC CCCC profile
+                                            {
+                                                index[j] = (byte)(bmp_image[i + rgba_channel[2]] * 0.114 + bmp_image[i + rgba_channel[1]] * 0.587 + bmp_image[i + rgba_channel[0]] * 0.299);
+                                                j++;
+                                                if (j == canvas_width)
+                                                {
+                                                    j = 0;
+                                                    index_list.Add(index.ToArray());
+                                                }
+                                            }
+                                            break;
+                                        }
+                                    case 1: // cie_709
+                                        {
+                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
+                                            {
+                                                index[j] = (byte)(bmp_image[i + rgba_channel[2]] * 0.0721 + bmp_image[i + rgba_channel[1]] * 0.7154 + bmp_image[i + rgba_channel[0]] * 0.2125);
+                                                j++;
+                                                if (j == canvas_width)
+                                                {
+                                                    j = 0;
+                                                    index_list.Add(index.ToArray());
+                                                }
+                                            }
+                                            break;
+                                        }
+                                    case 2:  // custom
+                                        {
+                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
+                                            {
+                                                index[j] = (byte)(bmp_image[i + rgba_channel[2]] * custom_rgba[2] + bmp_image[i + rgba_channel[1]] * custom_rgba[1] + bmp_image[i + rgba_channel[0]] * custom_rgba[0]);
+                                                j++;
+                                                if (j == canvas_width)
+                                                {
+                                                    j = 0;
+                                                    index_list.Add(index.ToArray());
+                                                }
+                                            }
+                                            break;
+                                        }
+                                }
+                                break;
+                            }
+                        case 2: // IA4 - works as expected
+                            {
+                                switch (algorithm)
+                                {
+                                    case 0: // cie_601
+                                        {
+                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)  // process every pixel to fit the AAAA CCCC profile
+                                            {
+                                                a = (bmp_image[i + rgba_channel[3]]);  // alpha value
+                                                if ((a & 0xf) > round4 && a < 240)
+                                                {
+                                                    a += 16;
+                                                }
+                                                grey = (byte)(bmp_image[i + rgba_channel[2]] * 0.114 + bmp_image[i + rgba_channel[1]] * 0.587 + bmp_image[i + rgba_channel[0]] * 0.299);
+                                                if ((grey & 0xf) > round4 && grey < 240)
+                                                {
+                                                    grey += 16;
+                                                }
+                                                index[j] = (byte)((a & 0xf0) + (grey >> 4));
+                                                j++;
+                                                if (j == canvas_width)
+                                                {
+                                                    j = 0;
+                                                    index_list.Add(index.ToArray());
+                                                }
+                                            }
+                                            break;
+                                        }
+                                    case 1: // cie_709
+                                        {
+                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
+                                            {
+                                                a = (bmp_image[i + rgba_channel[3]]);  // alpha value
+                                                if ((a & 0xf) > round4 && a < 240)
+                                                {
+                                                    a += 16;
+                                                }
+                                                grey = (byte)(bmp_image[i + rgba_channel[2]] * 0.0721 + bmp_image[i + rgba_channel[1]] * 0.7154 + bmp_image[i + rgba_channel[0]] * 0.2125);
+                                                if ((grey & 0xf) > round4 && grey < 240)
+                                                {
+                                                    grey += 16;
+                                                }
+                                                index[j] = (byte)((a & 0xf0) + (grey >> 4));
+                                                j++;
+                                                if (j == canvas_width)
+                                                {
+                                                    j = 0;
+                                                    index_list.Add(index.ToArray());
+                                                }
+                                            }
+                                            break;
+                                        }
+                                    case 2:  // custom
+                                        {
+                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
+                                            {
+                                                a = (byte)(bmp_image[i + rgba_channel[3]] * custom_rgba[3]);  // alpha value
+                                                if ((a & 0xf) > round4 && a < 240)
+                                                {
+                                                    a += 16;
+                                                }
+                                                grey = (byte)(bmp_image[i + rgba_channel[2]] * custom_rgba[2] + bmp_image[i + rgba_channel[1]] * custom_rgba[1] + bmp_image[i + rgba_channel[0]] * custom_rgba[0]);
+                                                if ((grey & 0xf) > round4 && grey < 240)
+                                                {
+                                                    grey += 16;
+                                                }
+                                                index[j] = (byte)((a & 0xf0) + (grey >> 4));
+                                                j++;
+                                                if (j == canvas_width)
+                                                {
+                                                    j = 0;
+                                                    index_list.Add(index.ToArray());
+                                                }
+                                            }
+                                            break;
+                                        }
+                                }
+                                break;
+                            }
+                        case 3:  // AI8
+                            {
+
+                                switch (algorithm)
+                                {
+                                    case 0: // cie_601
+                                        {
+                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)  // process every pixel to fit the AAAA AAAA  CCCC CCCC  profile
+                                            {
+                                                index[j] = bmp_image[i + rgba_channel[3]];  // alpha value
+                                                index[j + 1] = (byte)(bmp_image[i + rgba_channel[2]] * 0.114 + bmp_image[i + rgba_channel[1]] * 0.587 + bmp_image[i + rgba_channel[0]] * 0.299);  // Grey Value
+                                                j += 2;
+                                                if (j == canvas_width << 1)
+                                                {
+                                                    j = 0;
+                                                    index_list.Add(index.ToArray());
+                                                }
+                                            }
+                                            break;
+                                        }
+                                    case 1: // cie_709
+                                        {
+                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
+                                            {
+                                                index[j] = bmp_image[i + rgba_channel[3]];  // alpha value
+                                                index[j + 1] = (byte)(bmp_image[i + rgba_channel[2]] * 0.0721 + bmp_image[i + rgba_channel[1]] * 0.7154 + bmp_image[i + rgba_channel[0]] * 0.2125);  // Grey Value
+                                                j += 2;
+                                                if (j == canvas_width << 1)
+                                                {
+                                                    j = 0;
+                                                    index_list.Add(index.ToArray());
+                                                }
+                                            }
+                                            break;
+                                        }
+                                    case 2:  // custom
+                                        {
+                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
+                                            {
+                                                index[j] = (byte)(bmp_image[i + rgba_channel[3]] * custom_rgba[3]);  // alpha value
+                                                index[j + 1] = (byte)(bmp_image[i + rgba_channel[2]] * custom_rgba[2] + bmp_image[i + rgba_channel[1]] * custom_rgba[1] + bmp_image[i + rgba_channel[0]] * custom_rgba[0]);  // Grey Value
+                                                j += 2;
+                                                if (j == canvas_width << 1)
+                                                {
+                                                    j = 0;
+                                                    index_list.Add(index.ToArray());
+                                                }
+                                            }
+                                            break;
+                                        }
+                                }
+                                break;
+                            }
+                        case 4:  // RGB565
+                            {
+
+                                switch (algorithm)
+                                {
+                                    case 2:  // custom  RRRR RGGG GGGB BBBB
+                                        {
+                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
+                                            {
+                                                red = (byte)(bmp_image[i + rgba_channel[0]] * custom_rgba[0]);
+                                                green = (byte)(bmp_image[i + rgba_channel[1]] * custom_rgba[1]);
+                                                blue = (byte)(bmp_image[i + rgba_channel[2]] * custom_rgba[2]);
+                                                if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
+                                                {
+                                                    red += 8;
+                                                }
+                                                if ((green & round6) == round6 && green < 252)  // 6-bit max value on a trimmed byte
+                                                {
+                                                    green += 4;
+                                                }
+                                                if ((blue & 7) > round5 && blue < 248)
+                                                {
+                                                    blue += 8;
+                                                }
+                                                index[j] = (byte)((red & 0xf8) + (green >> 5));
+                                                index[j + 1] = (byte)(((green << 3) & 224) + (blue >> 3));
+                                                j += 2;
+                                                if (j == canvas_width << 1)
+                                                {
+                                                    j = 0;
+                                                    index_list.Add(index.ToArray());
+                                                }
+                                            }
+
+                                            break;
+                                        }
+                                    default: // RRRR RGGG GGGB BBBB
+                                        {
+                                            for (y = pixel_data_start_offset; y < bmp_filesize; y += 4)
+                                            {
+                                                red = bmp_image[y + rgba_channel[0]];
+                                                green = bmp_image[y + rgba_channel[1]];
+                                                blue = bmp_image[y + rgba_channel[2]];
+                                                if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
+                                                {
+                                                    red += 8;
+                                                }
+                                                if ((green & round6) == round6 && green < 252)  // 6-bit max value on a trimmed byte
+                                                {
+                                                    green += 4;
+                                                }
+                                                if ((blue & 7) > round5 && blue < 248)
+                                                {
+                                                    blue += 8;
+                                                }
+                                                index[j] = (byte)((red & 0xf8) + (green >> 5));
+                                                index[j + 1] = (byte)(((green << 3) & 224) + (blue >> 3));
+                                                j += 2;
+                                                if (j == canvas_width << 1)
+                                                {
+                                                    j = 0;
+                                                    index_list.Add(index.ToArray());
+                                                }
+                                            }
+                                            break;
+                                        }
+                                }
+                                break;
+                            }
+                        case 5:  // RGB5A3
+                            {
+                                switch (algorithm)
+                                {
+                                    case 2:  // custom
+                                        {
+                                            if (alpha == 1)  // 0AAA RRRR GGGG BBBB
+                                            {
+                                                for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
+                                                {
+                                                    a = (byte)(bmp_image[i + rgba_channel[3]] * custom_rgba[3]);
+                                                    red = (byte)(bmp_image[i + rgba_channel[0]] * custom_rgba[0]);
+                                                    green = (byte)(bmp_image[i + rgba_channel[1]] * custom_rgba[1]);
+                                                    blue = (byte)(bmp_image[i + rgba_channel[2]] * custom_rgba[2]);
+                                                    if ((a & 31) > round3 && a < 224)  // 3-bit max value on a trimmed byte
+                                                    {
+                                                        a += 32;
+                                                    }
+                                                    if ((red & 15) > round4 && red < 240)  // 4-bit max value on a trimmed byte
+                                                    {
+                                                        red += 16;
+                                                    }
+                                                    if ((green & 15) > round4 && green < 240)
+                                                    {
+                                                        green += 16;
+                                                    }
+                                                    if ((blue & 15) > round4 && blue < 240)
+                                                    {
+                                                        blue += 16;
+                                                    }
+                                                    index[j] = (byte)(((a >> 1) & 0x70) + (red >> 4));
+                                                    index[j + 1] = (byte)((green & 0xf0) + (blue >> 4));
+                                                    j += 2;
+                                                    if (j == canvas_width << 1)
+                                                    {
+                                                        j = 0;
+                                                        index_list.Add(index.ToArray());
+                                                    }
+                                                }
+                                            }
+                                            else if (alpha == 0)  // 1RRR RRGG GGGB BBBB
+                                            {
+                                                for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
+                                                {
+                                                    red = (byte)(bmp_image[i + rgba_channel[0]] * custom_rgba[0]);
+                                                    green = (byte)(bmp_image[i + rgba_channel[1]] * custom_rgba[1]);
+                                                    blue = (byte)(bmp_image[i + rgba_channel[2]] * custom_rgba[2]);
+                                                    if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
+                                                    {
+                                                        red += 8;
+                                                    }
+                                                    if ((green & 7) > round5 && green < 248)
+                                                    {
+                                                        green += 8;
+                                                    }
+                                                    if ((blue & 7) > round5 && blue < 248)
+                                                    {
+                                                        blue += 8;
+                                                    }
+                                                    index[j] = (byte)(0x80 + ((red >> 1) & 0x7c) + (green >> 6));
+                                                    index[j + 1] = (byte)(((green << 2) & 0xe0) + (blue >> 3));
+                                                    j += 2;
+                                                    if (j == canvas_width << 1)
+                                                    {
+                                                        j = 0;
+                                                        index_list.Add(index.ToArray());
+                                                    }
+                                                }
+                                            }
+                                            else  // check for each colour if alpha trimmed to 3 bits is 255
+                                            {
+                                                for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
+                                                {
+                                                    a = (byte)(bmp_image[i + rgba_channel[3]] * custom_rgba[3]);
+                                                    red = (byte)(bmp_image[i + rgba_channel[0]] * custom_rgba[0]);
+                                                    green = (byte)(bmp_image[i + rgba_channel[1]] * custom_rgba[1]);
+                                                    blue = (byte)(bmp_image[i + rgba_channel[2]] * custom_rgba[2]);
+                                                    if ((a & 31) > round3 && a < 224)  // 3-bit max value on a trimmed byte
+                                                    {
+                                                        a += 32;
+                                                    }
+                                                    if ((red & 15) > round4 && red < 240)  // 4-bit max value on a trimmed byte
+                                                    {
+                                                        red += 16;
+                                                    }
+                                                    if ((green & 15) > round4 && green < 240)
+                                                    {
+                                                        green += 16;
+                                                    }
+                                                    if ((blue & 15) > round4 && blue < 240)
+                                                    {
+                                                        blue += 16;
+                                                    }
+                                                    if (a > 223)  // 0AAA RRRR GGGG BBBB
+                                                    {
+
+                                                        index[j] = (byte)(0x80 + ((red >> 1) & 0x7c) + (green >> 6));
+                                                        index[j + 1] = (byte)(((green << 2) & 0xe0) + (blue >> 3));
+                                                    }
+                                                    else  // 1RRR RRGG GGGB BBBB
+                                                    {
+
+                                                        index[j] = (byte)(((a >> 1) & 0x70) + (red >> 4));
+                                                        index[j + 1] = (byte)((green & 0xf0) + (blue >> 4));
+
+                                                    }
+                                                    j += 2;
+                                                    if (j == canvas_width << 1)
+                                                    {
+                                                        j = 0;
+                                                        index_list.Add(index.ToArray());
+                                                    }
+                                                }
+                                            }
+                                            break;
+                                        }
+                                    default:
+                                        {
+                                            if (alpha == 1)  // 0AAA RRRR GGGG BBBB
+                                            {
+                                                for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
+                                                {
+                                                    a = bmp_image[i + rgba_channel[3]];
+                                                    red = bmp_image[i + rgba_channel[0]];
+                                                    green = bmp_image[i + rgba_channel[1]];
+                                                    blue = bmp_image[i + rgba_channel[2]];
+                                                    if ((a & 31) > round3 && a < 224)  // 3-bit max value on a trimmed byte
+                                                    {
+                                                        a += 32;
+                                                    }
+                                                    if ((red & 15) > round4 && red < 240)  // 4-bit max value on a trimmed byte
+                                                    {
+                                                        red += 16;
+                                                    }
+                                                    if ((green & 15) > round4 && green < 240)
+                                                    {
+                                                        green += 16;
+                                                    }
+                                                    if ((blue & 15) > round4 && blue < 240)
+                                                    {
+                                                        blue += 16;
+                                                    }
+                                                    j += 2;
+                                                    if (j == canvas_width << 1)
+                                                    {
+                                                        j = 0;
+                                                        index_list.Add(index.ToArray());
+                                                    }
+                                                }
+                                            }
+                                            else if (alpha == 0)  // 1RRR RRGG GGGB BBBB
+                                            {
+                                                for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
+                                                {
+                                                    red = bmp_image[i + rgba_channel[0]];
+                                                    green = bmp_image[i + rgba_channel[1]];
+                                                    blue = bmp_image[i + rgba_channel[2]];
+                                                    if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
+                                                    {
+                                                        red += 8;
+                                                    }
+                                                    if ((green & 7) > round5 && green < 248)
+                                                    {
+                                                        green += 8;
+                                                    }
+                                                    if ((blue & 7) > round5 && blue < 248)
+                                                    {
+                                                        blue += 8;
+                                                    }
+
+                                                    index[j] = (byte)(0x80 + ((red >> 1) & 0x7c) + (green >> 6));
+                                                    index[j + 1] = (byte)(((green << 2) & 0xe0) + (blue >> 3));
+                                                    j += 2;
+                                                    if (j == canvas_width << 1)
+                                                    {
+                                                        j = 0;
+                                                        index_list.Add(index.ToArray());
+                                                    }
+                                                }
+                                            }
+                                            else  // mix up alpha and no alpha
+                                            {
+                                                for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)
+                                                {
+                                                    a = bmp_image[i + rgba_channel[3]];
+                                                    red = bmp_image[i + rgba_channel[0]];
+                                                    green = bmp_image[i + rgba_channel[1]];
+                                                    blue = bmp_image[i + rgba_channel[2]];
+                                                    if ((a & 31) > round3 && a < 224)  // 3-bit max value on a trimmed byte
+                                                    {
+                                                        a += 32;
+                                                    }
+                                                    if ((red & 15) > round4 && red < 240)  // 4-bit max value on a trimmed byte
+                                                    {
+                                                        red += 16;
+                                                    }
+                                                    if ((green & 15) > round4 && green < 240)
+                                                    {
+                                                        green += 16;
+                                                    }
+                                                    if ((blue & 15) > round4 && blue < 240)
+                                                    {
+                                                        blue += 16;
+                                                    }
+                                                    if (a > 223)  // 1RRR RRGG GGGB BBBB
+                                                    {
+                                                        index[j] = (byte)(0x80 + ((red >> 1) & 0x7c) + (green >> 6));
+                                                        index[j + 1] = (byte)(((green << 2) & 0xe0) + (blue >> 3));
+                                                    }
+                                                    else  // 0AAA RRRR GGGG BBBB
+                                                    {
+                                                        index[j] = (byte)(((a >> 1) & 0x70) + (red >> 4));
+                                                        index[j + 1] = (byte)((green & 0xf0) + (blue >> 4));
+                                                    }
+                                                    j += 2;
+                                                    if (j == canvas_width << 1)
+                                                    {
+                                                        j = 0;
+                                                        index_list.Add(index.ToArray());
+                                                    }
+                                                }
+                                            }
+                                            break;
+                                        }
+                                }
+                                break;
+                            }
+                        case 6: // RGBA32
+                            {
+                                /* 4x4 pixel block
+                                 * warning: THESE ARE BYTES
+                                 * I4M SERIOUS ALL OTHERS ABOVE ARE BITS BUT THIS ONE IS BYTES
+                                 * I'll name the first pixel 1234 and the last 5678
+                                   12AR ARAR ARAR ARAR
+                                   ARAR ARAR ARAR AR56
+                                   34GB GBGB GBGB GBGB
+                                   GBGB GBGB GBGB GB78
+
+                                 but I'm going to encode each row in this order:
+                                   ARAR ARAR GBGB GBGB
+                                */
+                                switch (algorithm)
+                                {
+                                    case 2:  // custom
+                                        {
+                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 16)
+                                            {
+                                                // alpha and red
+                                                index[j] = (byte)(bmp_image[i + rgba_channel[3]] * custom_rgba[3]);       // A
+                                                index[j + 1] = (byte)(bmp_image[i + rgba_channel[0]] * custom_rgba[0]);   // R
+                                                index[j + 2] = (byte)(bmp_image[i + 4 + rgba_channel[3]] * custom_rgba[3]);   // A
+                                                index[j + 3] = (byte)(bmp_image[i + 4 + rgba_channel[0]] * custom_rgba[0]);   // R
+                                                index[j + 4] = (byte)(bmp_image[i + 8 + rgba_channel[3]] * custom_rgba[3]);  // A
+                                                index[j + 5] = (byte)(bmp_image[i + 8 + rgba_channel[0]] * custom_rgba[0]);  // R
+                                                index[j + 6] = (byte)(bmp_image[i + 12 + rgba_channel[3]] * custom_rgba[3]);  // A
+                                                index[j + 7] = (byte)(bmp_image[i + 12 + rgba_channel[0]] * custom_rgba[0]);  // R
+                                                                                                                              // Green and Blue
+                                                index[j + 8] = (byte)(bmp_image[i + rgba_channel[1]] * custom_rgba[1]);   // G
+                                                index[j + 9] = (byte)(bmp_image[i + rgba_channel[2]] * custom_rgba[2]);       // B
+                                                index[j + 10] = (byte)(bmp_image[i + 4 + rgba_channel[1]] * custom_rgba[1]);  // G
+                                                index[j + 11] = (byte)(bmp_image[i + 4 + rgba_channel[2]] * custom_rgba[2]);  // B
+                                                index[j + 12] = (byte)(bmp_image[i + 8 + rgba_channel[1]] * custom_rgba[1]);  // G
+                                                index[j + 13] = (byte)(bmp_image[i + 8 + rgba_channel[2]] * custom_rgba[2]);  // B
+                                                index[j + 14] = (byte)(bmp_image[i + 12 + rgba_channel[1]] * custom_rgba[1]); // G
+                                                index[j + 15] = (byte)(bmp_image[i + 12 + rgba_channel[2]] * custom_rgba[2]); // B
+                                                j += 16;
+                                                if (j == index.Length)
+                                                {
+                                                    j = 0;
+                                                    index_list.Add(index.ToArray());
+                                                }
+
+                                            }
+                                            break;
+                                        }
+                                    default:
+                                        {
+                                            for (int i = pixel_data_start_offset; i < bmp_filesize; i += 16)
+                                            {
+                                                // alpha and red
+                                                index[j] = (byte)(bmp_image[i + rgba_channel[3]]);       // A
+                                                index[j + 1] = (byte)(bmp_image[i + rgba_channel[0]]);   // R
+                                                index[j + 2] = (byte)(bmp_image[i + 4 + rgba_channel[3]]);   // A
+                                                index[j + 3] = (byte)(bmp_image[i + 4 + rgba_channel[0]]);   // R
+                                                index[j + 4] = (byte)(bmp_image[i + 8 + rgba_channel[3]]);  // A
+                                                index[j + 5] = (byte)(bmp_image[i + 8 + rgba_channel[0]]);  // R
+                                                index[j + 6] = (byte)(bmp_image[i + 12 + rgba_channel[3]]);  // A
+                                                index[j + 7] = (byte)(bmp_image[i + 12 + rgba_channel[0]]);  // R
+                                                                                                             // Green and Blue
+                                                index[j + 8] = (byte)(bmp_image[i + rgba_channel[1]]);   // G
+                                                index[j + 9] = (byte)(bmp_image[i + rgba_channel[2]]);       // B
+                                                index[j + 10] = (byte)(bmp_image[i + 4 + rgba_channel[1]]);  // G
+                                                index[j + 11] = (byte)(bmp_image[i + 4 + rgba_channel[2]]);  // B
+                                                index[j + 12] = (byte)(bmp_image[i + 8 + rgba_channel[1]]);  // G
+                                                index[j + 13] = (byte)(bmp_image[i + 8 + rgba_channel[2]]);  // B
+                                                index[j + 14] = (byte)(bmp_image[i + 12 + rgba_channel[1]]); // G
+                                                index[j + 15] = (byte)(bmp_image[i + 12 + rgba_channel[2]]); // B
+                                                j += 16;
+                                                if (j == index.Length)
+                                                {
+                                                    j = 0;
+                                                    index_list.Add(index.ToArray());
+                                                }
+                                            }
+                                            break;
+                                        }
+                                }
+                                break;
+                            }
+                        case 0xE: // CMPR
+                            {
+
+                                /* hmm, well. let's be honest. this is the harderest encoding to write, and the most efficient one
+                                 * I'll be directly storing sub-blocks here because the rgb565 values can't be added like that lol 
+
+                                 each block is 4 sub blocks
+                                this is a sub-block structure. with 4x4 pixel and 2 rgb565 colours
+                                RRRR  RGGG    GGGB  BBBB
+                                RRRR  RGGG    GGGB  BBBB
+                                II II II II   II II II II  - 2 bit index per pixel
+                                II II II II   II II II II
+                                II II II II   II II II II
+                                II II II II   II II II II
+
+                                 */
+                                index_list.Clear();  // removes the "fill height" lines, because UH YOUVE GUESSED IT, I4M NOT STORING THESE IN LINE ORDER BUT IN SUB-BLOCK ORDER
+                                                     // I swear this is a nightmare
+                                List<ushort> Colour_rgb565 = new List<ushort>();  // won't be sorted
+                                List<ushort[]> Colour_list = new List<ushort[]>();  // a list of every 2 bytes pixel transformed to correspond to the current colour format
+                                                                                    // byte[] Colour_count = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };  // 16 pixels, because a block is 4x4
+                                j = 0;
+                                z = 0;
+                                int x = 0;
+                                byte c;
+                                ushort alpha_bitfield = 0;
+                                byte red2;
+                                byte green2;
+                                byte blue2;
+                                // byte f;
+                                // int[] total_diff = {0, 0, 0};  // total_diff, e, f
+                                // List<int[]> diff_array = new List<int[]>();
+                                // List<byte> ef = new List<byte>();
+                                ushort[] Colour_pixel = { 1, 0 };  // case 3
+                                ushort width = 0;
+                                ushort[] Colour_array = { 1, 0, 0 };  // default
+                                ushort diff_max;
+                                byte diff_max_index = 0;
+                                List<ushort> Colour_palette = new List<ushort>();
+                                // bool use_alpha = false;
+                                // bool done = false;
+                                Array.Resize(ref index, 8);  // sub block length
+                                switch (algorithm)
+                                {
+                                    case 2: // custom
+                                        {
+                                            for (y = pixel_data_start_offset + (canvas_width << 2) - 16; y < bmp_filesize; y += 4)
+                                            {
+                                                red = (byte)(bmp_image[y + rgba_channel[0]] * custom_rgba[0]);
+                                                green = (byte)(bmp_image[y + rgba_channel[1]] * custom_rgba[1]);
+                                                blue = (byte)(bmp_image[y + rgba_channel[2]] * custom_rgba[2]);
+                                                if (alpha > 0 && bmp_image[y + 3] < cmpr_alpha_threshold)
+                                                {
+                                                    alpha_bitfield += (ushort)(1 << (j + (z * 4)));
+                                                }
+                                                if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
+                                                {
+                                                    red += 8;
+                                                }
+                                                if ((green & round6) == round6 && green < 252)  // 6-bit max value on a trimmed byte
+                                                {
+                                                    green += 4;
+                                                }
+                                                if ((blue & 7) > round5 && blue < 248)
+                                                {
+                                                    blue += 8;
+                                                }
+                                                // Colour_pixel[0] = // the number of occurences, though it stays to 1 so that's not really a problem lol
+                                                pixel = (ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)); // the RGB565 colour
+                                                Colour_array[1] = pixel;
+                                                Colour_array[2] = (ushort)(red + green + blue); // best way to find darkest colour :D
+                                                Colour_list.Add(Colour_array.ToArray());
+                                                Colour_rgb565.Add(pixel);
+                                                j++;
+                                                if (j != 4)
+                                                {
+                                                    continue;
+                                                }
+                                                j = 0;
+                                                z++;
+                                                y += (canvas_width << 2) - 16; // returns to the start of the next line  - bitmap width << 2 because it's a 32-bit BGRA bmp file
+                                                if (z != 4)
+                                                {
+                                                    continue;  // Still within the same 4x4 block
+                                                }
+                                                x++;
+                                                z = 0;
+                                                width += 2;  // triggered 4 times per block
+                                                if (width == canvas_width)
+                                                {
+                                                    width = 0;
+                                                    y += (canvas_width << 2) - 16;
+                                                    x = 0;
+                                                }
+                                                else if (x == 2)
+                                                {
+                                                    y += 16;  // you just need to add 32 everywhere
+                                                }
+                                                else if (x == 4)
+                                                {
+                                                    y -= (canvas_width << 5) + 16;// minus 8 lines + point to next block
+                                                    x = 0;
+                                                }
+                                                else
+                                                {
+                                                    y -= ((canvas_width << 4)) + 16;  // substract 4 lines and goes one block to the left
+                                                }
+                                                // now let's just try to take the most two used colours and use diversity I guess
+                                                // implementing my own way to find most used colours:
+                                                // let's count the number of exact same colours in Colour_list
+                                                for (byte i = 0; i < 15; i++)  // useless to set it to 16 because of the condition k > i.
+                                                {
+                                                    for (byte k = 0; k < 16; k++)
+                                                    {
+                                                        if (k == i)
+                                                        {
+                                                            continue;
+                                                        }
+                                                        if (Colour_list[k][1] == Colour_list[i][1] && k > i && ((alpha_bitfield >> k) & 1) == 0 && ((alpha_bitfield >> i) & 1) == 0)  // k > i prevents colours occurences from being added twice.
+                                                        {
+                                                            Colour_list[k][0]++;
+                                                            Colour_list[i][0] = 0; // should set it to zero.
+                                                        }
+                                                    }
+                                                }
+                                                Colour_list.Sort(new UshortArrayComparer());  // sorts the table by the most used colour first
+                                                                                              //now let's take the darkest and the brightest colour from the cmpr_max most used ones
+                                                diff_min = 1024;
+                                                diff_max = 0;
+                                                for (byte i = 0; i < cmpr_max && Colour_list[i][0] != 0; i++)
+                                                {
+                                                    if (Colour_list[i][2] < diff_min)
+                                                    {
+                                                        diff_min = (short)(Colour_list[i][2]);
+                                                        diff_min_index = i;
+                                                    }
+                                                    if (Colour_list[i][2] > diff_max)
+                                                    {
+                                                        diff_max = Colour_list[i][2];
+                                                        diff_max_index = i;
+                                                    }
+                                                }
+
+                                                if (alpha_bitfield == 0)  // put the biggest ushort in second place
+                                                {
+                                                    Colour_palette.Add(Colour_list[diff_min_index][1]);
+                                                    Colour_palette.Add(Colour_list[diff_max_index][1]);
+                                                    index[0] = (byte)(Colour_list[diff_min_index][1] >> 8);
+                                                    index[1] = (byte)(Colour_list[diff_min_index][1]);
+                                                    index[2] = (byte)(Colour_list[diff_max_index][1] >> 8);
+                                                    index[3] = (byte)(Colour_list[diff_max_index][1]);
+                                                    red = (byte)(((index[0] & 248) + (index[2] & 248)) / 2);
+                                                    green = (byte)(((((index[0] & 7) << 5) + ((index[1] >> 3) & 28)) + (((index[2] & 7) << 5) + ((index[3] >> 3) & 28))) / 2);
+                                                    blue = (byte)((((index[1] << 3) & 248) + ((index[3] << 3) & 248)) / 2);
+                                                    Colour_palette.Add((ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)));  // the RGB565 third colour
+                                                                                                                                           // last colour isn't in the palette, it's in alpha_bitfield
+                                                }
+                                                else
+                                                {
+                                                    // of course, that's the exact opposite!
+                                                    Colour_palette.Add(Colour_list[diff_max_index][1]);
+                                                    Colour_palette.Add(Colour_list[diff_min_index][1]);
+                                                    index[0] = (byte)(Colour_list[diff_max_index][1] >> 8);
+                                                    index[1] = (byte)(Colour_list[diff_max_index][1]);
+                                                    index[2] = (byte)(Colour_list[diff_min_index][1] >> 8);
+                                                    index[3] = (byte)(Colour_list[diff_min_index][1]);
+
+                                                    red = (byte)(index[0] & 248);
+                                                    green = (byte)(((index[0] & 7) << 5) + ((index[1] >> 3) & 28));
+                                                    blue = (byte)((index[1] << 3) & 248);
+
+                                                    red2 = (byte)(index[2] & 248);
+                                                    green2 = (byte)(((index[2] & 7) << 5) + ((index[3] >> 3) & 28));
+                                                    blue2 = (byte)((index[3] << 3) & 248);
+
+                                                    pixel = (ushort)(((((red * 2 / 3) + (red2 / 3)) >> 3) << 11) + ((((green * 2 / 3) + (green2 / 3)) >> 2) << 5) + (((blue * 2 / 3) + (blue2 / 3)) >> 3));
+                                                    Colour_palette.Add(pixel);  // the RGB565 third colour
+                                                    pixel = (ushort)(((((red / 3) + (red2 * 2 / 3)) >> 3) << 11) + ((((green / 3) + (green2 * 2 / 3)) >> 2) << 5) + (((blue / 3) + (blue2 * 2 / 3)) >> 3));
+                                                    Colour_palette.Add(pixel);  // the RGB565 fourth colour
+                                                }
+                                                /*
+                                                 * t = (pixel_posN - pixel_pos1) / (pixel_pos2 - pixel_pos1)
+    pixelN_red = (t-1)*pixel1_red + (t)*pixel2_red
+    same for blue + green*/
+                                                for (byte i = 4; i < 8; i++)
+                                                {
+                                                    index[i] = 0;
+                                                }
+                                                // time to get the "linear interpolation to add third and fourth colour
+                                                // Console.WriteLine("creating indexes"); SHUT THE F*CK UP
+                                                // CI2 if that's a name lol
+                                                for (sbyte h = 3; h >= 0; h--)
+                                                //for (byte h = 0; h < 4; h++)
+                                                {
+                                                    for (byte w = 0; w < 4; w++)  // index_size = number of pixels
+                                                    {
+                                                        if (((alpha_bitfield >> (h * 4) + w) & 1) == 1)
+                                                        {
+                                                            index[7 - h] += (byte)(3 << (6 - (w << 1)));
+                                                            continue;
+                                                        }
+                                                        diff_min = 500;
+                                                        // diff_min_index = w;
+                                                        for (byte i = 0; i < Colour_palette.Count; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
+                                                        {
+                                                            if (Colour_palette[i] == Colour_rgb565[(h * 4) + w])  // if it's the exact same colour
+                                                            {
+                                                                diff_min_index = i;  // index is stored on 1 byte, while each colour is stored on 2 bytes
+                                                                break;
+                                                            }
+                                                            else  // calculate difference between each separate colour channel and store the sum
+                                                            {
+                                                                diff = (short)(Math.Abs(((Colour_palette[i] >> 8) & 248) - ((Colour_rgb565[(h * 4) + w] >> 8) & 248)) + Math.Abs(((Colour_palette[i] >> 3) & 252) - ((Colour_rgb565[(h * 4) + w] >> 3) & 252)) + Math.Abs(((Colour_palette[i] << 3) & 248) - ((Colour_rgb565[(h * 4) + w] << 3) & 248)));
+                                                                if (diff < diff_min)
+                                                                {
+                                                                    diff_min = diff;
+                                                                    diff_min_index = i;
+                                                                }
+                                                            }
+                                                        }
+                                                        index[7 - h] += (byte)(diff_min_index << (6 - (w << 1)));
+                                                        // Console.WriteLine(index[4 + h]);
+                                                    }
+                                                }
+                                                index_list.Add(index.ToArray());
+                                                // index is overwritten each time
+                                                // the lists need to be cleaned
+                                                Colour_list.Clear();
+                                                Colour_palette.Clear();
+                                                Colour_rgb565.Clear();
+                                                alpha_bitfield = 0;
+                                                // THAT INDEX ARRAY THAT I CAN4T SEE CONTENTS IN THE DEBUGGER ALSO NEEDS TO BE CLEANED
+                                                // edit: moved it after the swap function THAT FREAKING DOES CHANGE ARRAY CONTENTS
+                                            }
+                                        }
+                                        break;
+                                    case 3:  // most used colours with diversity - no gradient - similar - looks pixelated
+                                        {
+                                            for (y = pixel_data_start_offset + (canvas_width << 2) - 16; y < bmp_filesize; y += 4)
+                                            {
+                                                red = bmp_image[y + rgba_channel[0]];
+                                                green = bmp_image[y + rgba_channel[1]];
+                                                blue = bmp_image[y + rgba_channel[2]];
+                                                if (alpha > 0 && bmp_image[y + 3] < cmpr_alpha_threshold)
+                                                {
+                                                    alpha_bitfield += (ushort)(1 << (j + (z * 4)));
+                                                }
+                                                if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
+                                                {
+                                                    red += 8;
+                                                }
+                                                if ((green & round6) == round6 && green < 252)  // 6-bit max value on a trimmed byte
+                                                {
+                                                    green += 4;
+                                                }
+                                                if ((blue & 7) > round5 && blue < 248)
+                                                {
+                                                    blue += 8;
+                                                }
+                                                // Colour_pixel[0] = // the number of occurences, though it stays to 1 so that's not really a problem lol
+                                                pixel = (ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)); // the RGB565 colour
+                                                Colour_pixel[1] = pixel;
+                                                Colour_list.Add(Colour_pixel.ToArray());
+                                                Colour_rgb565.Add(pixel);
+                                                j++;
+                                                if (j != 4)
+                                                {
+                                                    continue;
+                                                }
+                                                j = 0;
+                                                z++;
+                                                y += (canvas_width << 2) - 16; // returns to the start of the next line  - bitmap width << 2 because it's a 32-bit BGRA bmp file
+                                                if (z != 4)
+                                                {
+                                                    continue;  // Still within the same 4x4 block
+                                                }
+                                                x++;
+                                                z = 0;
+                                                width += 2;  // triggered 4 times per block
+                                                if (width == canvas_width)
+                                                {
+                                                    width = 0;
+                                                    y += (canvas_width << 2) - 16; // this has been driving me nuts
+                                                    x = 0;
+                                                }
+                                                else if (x == 2)
+                                                {
+                                                    // y += (bitmap_width << 4) - 4; // adds 4 lines and put the cursor back to the first block in width (I hope)
+                                                    // y += 16; // hmm, it looks like the cursor warped horizontally to the first block in width 4 lines above
+                                                    // EDIT: YA DEFINITELY NEED TO CANCEL THE Y OPERATION ABOVE, IT WARPS NORMALLY LIKE IT4S THE PIXEL AFTER
+                                                    //y -= (bitmap_width << 2) - 16;  // this has been driving me nuts
+                                                    y += 16;  // I can't believe this is right in the mirror and mirrorred mode lol
+                                                              // edit: you just need to add 32 everywhere
+                                                }
+                                                else if (x == 4)
+                                                {
+                                                    y -= (canvas_width << 5) + 16; // minus 8 lines + point to next block
+                                                    x = 0;
+                                                }
+                                                else
+                                                {
+
+
+                                                    y -= ((canvas_width << 4)) + 16;  // substract 4 lines and goes one block to the left
+                                                }
+                                                // now let's just try to take the most two used colours and use diversity I guess
+                                                // implementing my own way to find most used colours:
+                                                // let's count the number of exact same colours in Colour_list
+                                                for (int i = 0; i < 15; i++)  // useless to set it to 16 because of the condition k > i.
+                                                {
+                                                    for (int k = 0; k < 16; k++)
+                                                    {
+                                                        if (k == i)
+                                                        {
+                                                            continue;
+                                                        }
+                                                        if (Colour_list[k][1] == Colour_list[i][1] && k > i && ((alpha_bitfield >> k) & 1) == 0 && ((alpha_bitfield >> i) & 1) == 0)  // k > i prevents colours occurences from being added twice.
+                                                        {
+                                                            Colour_list[k][0]++;
+                                                            Colour_list[i][0] = 0; // should set it to zero.
+                                                        }
+                                                    }
+                                                }
+                                                Colour_list.Sort(new UshortArrayComparer());  // sorts the table by the most used colour first
+                                                c = 0;
+                                                for (int i = 0; i < 16 && c < 4; i++)  // build the colour table with the two most used colours and diversityfffffffffffff
+                                                {
+                                                    not_similar = true;
+                                                    if (Colour_list[i][0] / 16 < percentage / 100)
+                                                    {
+                                                        // break;  // STOP BREAKING THE F*CKING LOOP
                                                         continue;
                                                     }
                                                     if (c == 2)  // checks for diversity before adding the second colour ^^
                                                     {
-                                                        if (Math.Abs((index[0] & 248) - ((Colour_list[i][1] >> 8) & 248)) < diversity2 && Math.Abs(((index[0] & 7) << 5) + ((index[1] >> 3) & 28) - ((Colour_list[i][1] >> 3) & 252)) < diversity2 && Math.Abs(((index[1] << 3) & 248) - (Colour_list[i][1] << 3) & 248) < diversity2)
+                                                        if (Math.Abs((index[0] & 248) - ((Colour_list[i][1] >> 8) & 248)) < diversity && Math.Abs(((index[0] & 7) << 5) + ((index[1] >> 3) & 28) - ((Colour_list[i][1] >> 3) & 252)) < diversity && Math.Abs(((index[1] << 3) & 248) - (Colour_list[i][1] << 3) & 248) < diversity)
                                                         {
                                                             not_similar = false;
+                                                            // break;  // HOLY SHIT YOU4VE BROKEN THE LOOP
                                                             continue;
                                                         }
                                                     }
@@ -5694,15 +5882,20 @@ same for blue + green*/
                                                         c += 2;
                                                     }
                                                 }
-                                                if (c < 4) // if the colour palette is still not full
+                                                if (c < 4) // if the colour palette is not full
                                                 {
-                                                    // Console.WriteLine("The colour palette is not full, this program will fill it with the most used colours\n");
+                                                    // Console.WriteLine("The colour palette was not full, starting second loop...\n");
+
                                                     for (int i = 0; i < 16 && c < 4; i++)
                                                     {
                                                         not_similar = true;
-                                                        if (c == 2)
+                                                        if (Colour_list[i][0] / 16 < percentage2 / 100)
                                                         {
-                                                            if ((index[0] == (byte)(Colour_list[i][1] >> 8)) && index[1] == (byte)(Colour_list[i][1]))
+                                                            continue;
+                                                        }
+                                                        if (c == 2)  // checks for diversity before adding the second colour ^^
+                                                        {
+                                                            if (Math.Abs((index[0] & 248) - ((Colour_list[i][1] >> 8) & 248)) < diversity2 && Math.Abs(((index[0] & 7) << 5) + ((index[1] >> 3) & 28) - ((Colour_list[i][1] >> 3) & 252)) < diversity2 && Math.Abs(((index[1] << 3) & 248) - (Colour_list[i][1] << 3) & 248) < diversity2)
                                                             {
                                                                 not_similar = false;
                                                                 continue;
@@ -5715,511 +5908,532 @@ same for blue + green*/
                                                             c += 2;
                                                         }
                                                     }
-                                                }
-                                            }
-                                            if (alpha_bitfield == 0)  // put the biggest ushort in second place
-                                            {
-                                                if (index[0] > index[2] || (index[0] == index[2] && index[1] > index[3]))  // swap
-                                                {
-                                                    index[4] = index[0];
-                                                    index[5] = index[1];
-                                                    index[0] = index[2];
-                                                    index[1] = index[3];
-                                                    index[2] = index[4];
-                                                    index[3] = index[5];
-                                                }
-                                                Colour_palette.Add((ushort)((index[0] << 8) + index[1]));
-                                                Colour_palette.Add((ushort)((index[2] << 8) + index[3]));
-                                                red = (byte)(((index[0] & 248) + (index[2] & 248)) / 2);
-                                                green = (byte)(((((index[0] & 7) << 5) + ((index[1] >> 3) & 28)) + (((index[2] & 7) << 5) + ((index[3] >> 3) & 28))) / 2);
-                                                blue = (byte)((((index[1] << 3) & 248) + ((index[3] << 3) & 248)) / 2);
-                                                Colour_palette.Add((ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)));  // the RGB565 third colour
-                                                                                                                                       // last colour isn't in the palette, it's in alpha_bitfield
-                                            }
-                                            else
-                                            {
-                                                // of course, that's the exact opposite!
-                                                if (index[0] < index[2] || (index[0] == index[2] && index[1] < index[3]))  // swap
-                                                {
-                                                    index[4] = index[0];
-                                                    index[5] = index[1];
-                                                    index[0] = index[2];
-                                                    index[1] = index[3];
-                                                    index[2] = index[4];
-                                                    index[3] = index[5];  // this is confusing
-                                                }
-                                                Colour_palette.Add((ushort)((index[0] << 8) + index[1]));
-                                                Colour_palette.Add((ushort)((index[2] << 8) + index[3]));
-                                                /*
-                                                red2 = (short)((index[0] & 248) - (index[2] & 248));
-                                                green2 = (short)(((((index[0] & 7) << 5) + ((index[1] >> 3) & 28)) - (((index[2] & 7) << 5) + ((index[3] >> 3) & 28))));
-                                                blue2 = (short)(((index[1] << 3) & 248) - ((index[3] << 3) & 248));
-                                                for (byte i = 0; i < 2; i++)
-                                                {
-                                                    if (red2 >= 0)
+                                                    if (c < 4) // if the colour palette is still not full
                                                     {
-                                                        red2 = (short)((index[0] & 248) + (red2 * (5 - i) / 3));
-                                                    }
-                                                    else
-                                                    {
-                                                        red2 = (short)((index[0] & 248) + (red2 * (1 + i) / 3));
-                                                    }
-                                                    if (green2 >= 0)
-                                                    {
-                                                        green2 = (short)((index[0] & 248) + (green2 * (5 - i) / 3));
-                                                    }
-                                                    else
-                                                    {
-                                                        green2 = (short)((index[0] & 248) + (green2 * (1 + i) / 3));
-                                                    }
-                                                    if (blue2 >= 0)
-                                                    {
-                                                        blue2 = (short)((index[1] & 248) + (blue2 * (5 - i) / 3));
-                                                    }
-                                                    else
-                                                    {
-                                                        blue2 = (short)((index[1] & 248) + (blue2 * (1 + i) / 3));
-                                                    }
-                                                    pixel = (ushort)((((red2) >> 3) << 11) + (((green2) >> 2) << 5) + ((blue2) >> 3));
-                                                    Colour_palette.Add(pixel);  // the RGB565 third and fourth colour
-                                                }*/
-
-                                                red = (byte)(index[0] & 248);
-                                                green = (byte)(((index[0] & 7) << 5) + ((index[1] >> 3) & 28));
-                                                blue = (byte)((index[1] << 3) & 248);
-
-                                                red2 = (byte)(index[2] & 248);
-                                                green2 = (byte)(((index[2] & 7) << 5) + ((index[3] >> 3) & 28));
-                                                blue2 = (byte)((index[3] << 3) & 248);
-
-                                                pixel = (ushort)(((((red * 2 / 3) + (red2 / 3)) >> 3) << 11) + ((((green * 2 / 3) + (green2 / 3)) >> 2) << 5) + (((blue * 2 / 3) + (blue2 / 3)) >> 3));
-                                                Colour_palette.Add(pixel);  // the RGB565 third colour
-                                                pixel = (ushort)(((((red / 3) + (red2 * 2 / 3)) >> 3) << 11) + ((((green / 3) + (green2 * 2 / 3)) >> 2) << 5) + (((blue / 3) + (blue2 * 2 / 3)) >> 3));
-                                                Colour_palette.Add(pixel);  // the RGB565 fourth colour
-                                            }
-                                            /*
-                                             * t = (pixel_posN - pixel_pos1) / (pixel_pos2 - pixel_pos1)
-pixelN_red = (t-1)*pixel1_red + (t)*pixel2_red
-same for blue + green*/
-                                            for (byte i = 4; i < 8; i++)
-                                            {
-                                                index[i] = 0;
-                                            }
-                                            // time to get the "linear interpolation to add third and fourth colour
-                                            // Console.WriteLine("creating indexes"); SHUT THE F*CK UP
-                                            // CI2 if that's a name lol
-                                            for (sbyte h = 3; h >= 0; h--)
-                                            //for (byte h = 0; h < 4; h++)
-                                            {
-                                                for (byte w = 0; w < 4; w++)  // index_size = number of pixels
-                                                {
-                                                    if (((alpha_bitfield >> (h * 4) + w) & 1) == 1)
-                                                    {
-                                                        index[7 - h] += (byte)(3 << (6 - (w << 1)));
-                                                        continue;
-                                                    }
-                                                    diff_min = 500;
-                                                    // diff_min_index = w;
-                                                    for (byte i = 0; i < Colour_palette.Count; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
-                                                    {
-                                                        if (Colour_palette[i] == Colour_rgb565[(h * 4) + w])  // if it's the exact same colour
+                                                        // Console.WriteLine("The colour palette is not full, this program will fill it with the most used colours\n");
+                                                        for (int i = 0; i < 16 && c < 4; i++)
                                                         {
-                                                            diff_min_index = i;  // index is stored on 1 byte, while each colour is stored on 2 bytes
-                                                            break;
-                                                        }
-                                                        else  // calculate difference between each separate colour channel and store the sum
-                                                        {
-                                                            diff = (short)(Math.Abs(((Colour_palette[i] >> 8) & 248) - ((Colour_rgb565[(h * 4) + w] >> 8) & 248)) + Math.Abs(((Colour_palette[i] >> 3) & 252) - ((Colour_rgb565[(h * 4) + w] >> 3) & 252)) + Math.Abs(((Colour_palette[i] << 3) & 248) - ((Colour_rgb565[(h * 4) + w] << 3) & 248)));
-                                                            if (diff < diff_min)
+                                                            not_similar = true;
+                                                            if (c == 2)
                                                             {
-                                                                diff_min = diff;
-                                                                diff_min_index = i;
+                                                                if ((index[0] == (byte)(Colour_list[i][1] >> 8)) && index[1] == (byte)(Colour_list[i][1]))
+                                                                {
+                                                                    not_similar = false;
+                                                                    continue;
+                                                                }
+                                                            }
+                                                            if (not_similar)
+                                                            {
+                                                                index[c] = (byte)(Colour_list[i][1] >> 8);  // adds the RRRR RGGG value
+                                                                index[c + 1] = (byte)(Colour_list[i][1]);  // adds the GGGB BBBB value
+                                                                c += 2;
                                                             }
                                                         }
                                                     }
-                                                    index[7 - h] += (byte)(diff_min_index << (6 - (w << 1)));
-                                                    // Console.WriteLine(index[4 + h]);
+                                                }
+                                                if (alpha_bitfield == 0)  // put the biggest ushort in second place
+                                                {
+                                                    if (index[0] > index[2] || (index[0] == index[2] && index[1] > index[3]))  // swap
+                                                    {
+                                                        index[4] = index[0];
+                                                        index[5] = index[1];
+                                                        index[0] = index[2];
+                                                        index[1] = index[3];
+                                                        index[2] = index[4];
+                                                        index[3] = index[5];
+                                                    }
+                                                    Colour_palette.Add((ushort)((index[0] << 8) + index[1]));
+                                                    Colour_palette.Add((ushort)((index[2] << 8) + index[3]));
+                                                    red = (byte)(((index[0] & 248) + (index[2] & 248)) / 2);
+                                                    green = (byte)(((((index[0] & 7) << 5) + ((index[1] >> 3) & 28)) + (((index[2] & 7) << 5) + ((index[3] >> 3) & 28))) / 2);
+                                                    blue = (byte)((((index[1] << 3) & 248) + ((index[3] << 3) & 248)) / 2);
+                                                    Colour_palette.Add((ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)));  // the RGB565 third colour
+                                                                                                                                           // last colour isn't in the palette, it's in alpha_bitfield
+                                                }
+                                                else
+                                                {
+                                                    // of course, that's the exact opposite!
+                                                    if (index[0] < index[2] || (index[0] == index[2] && index[1] < index[3]))  // swap
+                                                    {
+                                                        index[4] = index[0];
+                                                        index[5] = index[1];
+                                                        index[0] = index[2];
+                                                        index[1] = index[3];
+                                                        index[2] = index[4];
+                                                        index[3] = index[5];  // this is confusing
+                                                    }
+                                                    Colour_palette.Add((ushort)((index[0] << 8) + index[1]));
+                                                    Colour_palette.Add((ushort)((index[2] << 8) + index[3]));
+                                                    /*
+                                                    red2 = (short)((index[0] & 248) - (index[2] & 248));
+                                                    green2 = (short)(((((index[0] & 7) << 5) + ((index[1] >> 3) & 28)) - (((index[2] & 7) << 5) + ((index[3] >> 3) & 28))));
+                                                    blue2 = (short)(((index[1] << 3) & 248) - ((index[3] << 3) & 248));
+                                                    for (byte i = 0; i < 2; i++)
+                                                    {
+                                                        if (red2 >= 0)
+                                                        {
+                                                            red2 = (short)((index[0] & 248) + (red2 * (5 - i) / 3));
+                                                        }
+                                                        else
+                                                        {
+                                                            red2 = (short)((index[0] & 248) + (red2 * (1 + i) / 3));
+                                                        }
+                                                        if (green2 >= 0)
+                                                        {
+                                                            green2 = (short)((index[0] & 248) + (green2 * (5 - i) / 3));
+                                                        }
+                                                        else
+                                                        {
+                                                            green2 = (short)((index[0] & 248) + (green2 * (1 + i) / 3));
+                                                        }
+                                                        if (blue2 >= 0)
+                                                        {
+                                                            blue2 = (short)((index[1] & 248) + (blue2 * (5 - i) / 3));
+                                                        }
+                                                        else
+                                                        {
+                                                            blue2 = (short)((index[1] & 248) + (blue2 * (1 + i) / 3));
+                                                        }
+                                                        pixel = (ushort)((((red2) >> 3) << 11) + (((green2) >> 2) << 5) + ((blue2) >> 3));
+                                                        Colour_palette.Add(pixel);  // the RGB565 third and fourth colour
+                                                    }*/
+
+                                                    red = (byte)(index[0] & 248);
+                                                    green = (byte)(((index[0] & 7) << 5) + ((index[1] >> 3) & 28));
+                                                    blue = (byte)((index[1] << 3) & 248);
+
+                                                    red2 = (byte)(index[2] & 248);
+                                                    green2 = (byte)(((index[2] & 7) << 5) + ((index[3] >> 3) & 28));
+                                                    blue2 = (byte)((index[3] << 3) & 248);
+
+                                                    pixel = (ushort)(((((red * 2 / 3) + (red2 / 3)) >> 3) << 11) + ((((green * 2 / 3) + (green2 / 3)) >> 2) << 5) + (((blue * 2 / 3) + (blue2 / 3)) >> 3));
+                                                    Colour_palette.Add(pixel);  // the RGB565 third colour
+                                                    pixel = (ushort)(((((red / 3) + (red2 * 2 / 3)) >> 3) << 11) + ((((green / 3) + (green2 * 2 / 3)) >> 2) << 5) + (((blue / 3) + (blue2 * 2 / 3)) >> 3));
+                                                    Colour_palette.Add(pixel);  // the RGB565 fourth colour
                                                 }
                                                 /*
-                                                pixel = (ushort)(Math.Abs(block_width - bitmap_width) % block_width);
-                                                if (pixel != 0) // fills the block width data by adding zeros to the width
+                                                 * t = (pixel_posN - pixel_pos1) / (pixel_pos2 - pixel_pos1)
+    pixelN_red = (t-1)*pixel1_red + (t)*pixel2_red
+    same for blue + green*/
+                                                for (byte i = 4; i < 8; i++)
                                                 {
-                                                    if (pixel % 2 != 0)
+                                                    index[i] = 0;
+                                                }
+                                                // time to get the "linear interpolation to add third and fourth colour
+                                                // Console.WriteLine("creating indexes"); SHUT THE F*CK UP
+                                                // CI2 if that's a name lol
+                                                for (sbyte h = 3; h >= 0; h--)
+                                                //for (byte h = 0; h < 4; h++)
+                                                {
+                                                    for (byte w = 0; w < 4; w++)  // index_size = number of pixels
                                                     {
-                                                        pixel++;
+                                                        if (((alpha_bitfield >> (h * 4) + w) & 1) == 1)
+                                                        {
+                                                            index[7 - h] += (byte)(3 << (6 - (w << 1)));
+                                                            continue;
+                                                        }
+                                                        diff_min = 500;
+                                                        // diff_min_index = w;
+                                                        for (byte i = 0; i < Colour_palette.Count; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
+                                                        {
+                                                            if (Colour_palette[i] == Colour_rgb565[(h * 4) + w])  // if it's the exact same colour
+                                                            {
+                                                                diff_min_index = i;  // index is stored on 1 byte, while each colour is stored on 2 bytes
+                                                                break;
+                                                            }
+                                                            else  // calculate difference between each separate colour channel and store the sum
+                                                            {
+                                                                diff = (short)(Math.Abs(((Colour_palette[i] >> 8) & 248) - ((Colour_rgb565[(h * 4) + w] >> 8) & 248)) + Math.Abs(((Colour_palette[i] >> 3) & 252) - ((Colour_rgb565[(h * 4) + w] >> 3) & 252)) + Math.Abs(((Colour_palette[i] << 3) & 248) - ((Colour_rgb565[(h * 4) + w] << 3) & 248)));
+                                                                if (diff < diff_min)
+                                                                {
+                                                                    diff_min = diff;
+                                                                    diff_min_index = i;
+                                                                }
+                                                            }
+                                                        }
+                                                        index[7 - h] += (byte)(diff_min_index << (6 - (w << 1)));
+                                                        // Console.WriteLine(index[4 + h]);
                                                     }
-                                                    for (; pixel < block_width; pixel++)
+                                                    /*
+                                                    pixel = (ushort)(Math.Abs(block_width - bitmap_width) % block_width);
+                                                    if (pixel != 0) // fills the block width data by adding zeros to the width
                                                     {
-                                                        index[pixel >> 1] = 0;
-                                                    }
-                                                }*/
+                                                        if (pixel % 2 != 0)
+                                                        {
+                                                            pixel++;
+                                                        }
+                                                        for (; pixel < block_width; pixel++)
+                                                        {
+                                                            index[pixel >> 1] = 0;
+                                                        }
+                                                    }*/
+                                                }
+                                                index_list.Add(index.ToArray());
+                                                // index is overwritten each time
+                                                // the lists need to be cleaned
+                                                Colour_list.Clear();
+                                                Colour_palette.Clear();
+                                                Colour_rgb565.Clear();
+                                                alpha_bitfield = 0;
+                                                // THAT INDEX ARRAY THAT I CAN4T SEE CONTENTS IN THE DEBUGGER ALSO NEEDS TO BE CLEANED
+                                                // edit: moved it after the swap function THAT FREAKING DOES CHANGE ARRAY CONTENTS
                                             }
-                                            index_list.Add(index.ToArray());
-                                            // index is overwritten each time
-                                            // the lists need to be cleaned
-                                            Colour_list.Clear();
-                                            Colour_palette.Clear();
-                                            Colour_rgb565.Clear();
-                                            alpha_bitfield = 0;
-                                            // THAT INDEX ARRAY THAT I CAN4T SEE CONTENTS IN THE DEBUGGER ALSO NEEDS TO BE CLEANED
-                                            // edit: moved it after the swap function THAT FREAKING DOES CHANGE ARRAY CONTENTS
                                         }
-                                    }
-                                    break;
+                                        break;
 
-                                default: // linear
-                                    {
-                                        for (y = pixel_data_start_offset + (canvas_width << 2) - 16; y < bmp_filesize; y += 4)
+                                    default: // linear
                                         {
-                                            red = bmp_image[y + rgba_channel[0]];
-                                            green = bmp_image[y + rgba_channel[1]];
-                                            blue = bmp_image[y + rgba_channel[2]];
-                                            if (alpha > 0 && bmp_image[y + 3] < cmpr_alpha_threshold)
+                                            for (y = pixel_data_start_offset + (canvas_width << 2) - 16; y < bmp_filesize; y += 4)
                                             {
-                                                alpha_bitfield += (ushort)(1 << (j + (z * 4)));
-                                            }
-                                            if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
-                                            {
-                                                red += 8;
-                                            }
-                                            if ((green & round6) == round6 && green < 252)  // 6-bit max value on a trimmed byte
-                                            {
-                                                green += 4;
-                                            }
-                                            if ((blue & 7) > round5 && blue < 248)
-                                            {
-                                                blue += 8;
-                                            }
-                                            // Colour_pixel[0] = // the number of occurences, though it stays to 1 so that's not really a problem lol
-                                            pixel = (ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)); // the RGB565 colour
-                                            Colour_array[1] = pixel;
-                                            Colour_array[2] = (ushort)(red + green + blue); // best way to find darkest colour :D
-                                            Colour_list.Add(Colour_array.ToArray());
-                                            Colour_rgb565.Add(pixel);
-                                            j++;
-                                            if (j != 4)
-                                            {
-                                                continue;
-                                            }
-                                            j = 0;
-                                            z++;
-                                            y += (canvas_width << 2) - 16; // returns to the start of the next line  - bitmap width << 2 because it's a 32-bit BGRA bmp file
-                                            if (z != 4)
-                                            {
-                                                continue;  // Still within the same 4x4 block
-                                            }
-                                            x++;
-                                            z = 0;
-                                            width += 2;  // triggered 4 times per block
-                                            if (width == canvas_width)
-                                            {
-                                                width = 0;
-                                                // y -= (bitmap_width << 1) - 16;  // this has been driving me nuts
-                                                y += (canvas_width << 2) - 16;
-                                                x = 0;
-                                            }
-                                            else if (x == 2)
-                                            {
-                                                // y += (bitmap_width << 4) - 4; // adds 4 lines and put the cursor back to the first block in width (I hope)
-                                                // y += 16; // hmm, it looks like the cursor warped horizontally to the first block in width 4 lines above
-                                                // EDIT: YA DEFINITELY NEED TO CANCEL THE Y OPERATION ABOVE, IT WARPS NORMALLY LIKE IT4S THE PIXEL AFTER
-                                                //y -= (bitmap_width << 2) - 16;  // this has been driving me nuts
-                                                y += 16;  // I can't believe this is right in the mirror and mirrorred mode lol
-                                                          // edit: you just need to add 32 everywhere
-                                            }
-                                            else if (x == 4)
-                                            {
-                                                //y -= (bitmap_width << 5) - 16; // minus 8 lines + point to next block
-                                                y -= (canvas_width << 5) + 16;
-                                                x = 0;
-                                            }
-                                            else
-                                            {
-                                                /* y -= (bitmap_width << 4) - 16; // on retire 4 lignes et on passe le 1er block héhé
-                                                 substract 4 lines and jumps over the first block */
-
-
-                                                y -= ((canvas_width << 4)) + 16;  // substract 4 lines and goes one block to the left
-                                            }
-                                            // now let's just try to take the most two used colours and use diversity I guess
-                                            // implementing my own way to find most used colours:
-                                            // let's count the number of exact same colours in Colour_list
-                                            for (byte i = 0; i < 15; i++)  // useless to set it to 16 because of the condition k > i.
-                                            {
-                                                for (byte k = 0; k < 16; k++)
+                                                red = bmp_image[y + rgba_channel[0]];
+                                                green = bmp_image[y + rgba_channel[1]];
+                                                blue = bmp_image[y + rgba_channel[2]];
+                                                if (alpha > 0 && bmp_image[y + 3] < cmpr_alpha_threshold)
                                                 {
-                                                    if (k == i)
-                                                    {
-                                                        continue;
-                                                    }
-                                                    if (Colour_list[k][1] == Colour_list[i][1] && k > i && ((alpha_bitfield >> k) & 1) == 0 && ((alpha_bitfield >> i) & 1) == 0)  // k > i prevents colours occurences from being added twice.
-                                                    {
-                                                        Colour_list[k][0]++;
-                                                        Colour_list[i][0] = 0; // should set it to zero.
-                                                    }
+                                                    alpha_bitfield += (ushort)(1 << (j + (z * 4)));
                                                 }
-                                            }
-                                            Colour_list.Sort(new UshortArrayComparer());  // sorts the table by the most used colour first
-                                                                                          //now let's take the darkest and the brightest colour from the cmpr_max most used ones
-                                            diff_min = 1024;
-                                            diff_max = 0;
-                                            for (byte i = 0; i < cmpr_max && Colour_list[i][0] != 0; i++)
-                                            {
-                                                if (Colour_list[i][2] < diff_min)
+                                                if ((red & 7) > round5 && red < 248)  // 5-bit max value on a trimmed byte
                                                 {
-                                                    diff_min = (short)(Colour_list[i][2]);
-                                                    diff_min_index = i;
+                                                    red += 8;
                                                 }
-                                                if (Colour_list[i][2] > diff_max)
+                                                if ((green & round6) == round6 && green < 252)  // 6-bit max value on a trimmed byte
                                                 {
-                                                    diff_max = Colour_list[i][2];
-                                                    diff_max_index = i;
+                                                    green += 4;
                                                 }
-                                            }
-
-                                            if (alpha_bitfield == 0)  // put the biggest ushort in second place
-                                            {
-                                                Colour_palette.Add(Colour_list[diff_min_index][1]);
-                                                Colour_palette.Add(Colour_list[diff_max_index][1]);
-                                                index[0] = (byte)(Colour_list[diff_min_index][1] >> 8);
-                                                index[1] = (byte)(Colour_list[diff_min_index][1]);
-                                                index[2] = (byte)(Colour_list[diff_max_index][1] >> 8);
-                                                index[3] = (byte)(Colour_list[diff_max_index][1]);
-                                                red = (byte)(((index[0] & 248) + (index[2] & 248)) / 2);
-                                                green = (byte)(((((index[0] & 7) << 5) + ((index[1] >> 3) & 28)) + (((index[2] & 7) << 5) + ((index[3] >> 3) & 28))) / 2);
-                                                blue = (byte)((((index[1] << 3) & 248) + ((index[3] << 3) & 248)) / 2);
-                                                Colour_palette.Add((ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)));  // the RGB565 third colour
-                                                                                                                                       // last colour isn't in the palette, it's in alpha_bitfield
-                                            }
-                                            else
-                                            {
-                                                // of course, that's the exact opposite!
-                                                Colour_palette.Add(Colour_list[diff_max_index][1]);
-                                                Colour_palette.Add(Colour_list[diff_min_index][1]);
-                                                index[0] = (byte)(Colour_list[diff_max_index][1] >> 8);
-                                                index[1] = (byte)(Colour_list[diff_max_index][1]);
-                                                index[2] = (byte)(Colour_list[diff_min_index][1] >> 8);
-                                                index[3] = (byte)(Colour_list[diff_min_index][1]);
-
-                                                red = (byte)(index[0] & 248);
-                                                green = (byte)(((index[0] & 7) << 5) + ((index[1] >> 3) & 28));
-                                                blue = (byte)((index[1] << 3) & 248);
-
-                                                red2 = (byte)(index[2] & 248);
-                                                green2 = (byte)(((index[2] & 7) << 5) + ((index[3] >> 3) & 28));
-                                                blue2 = (byte)((index[3] << 3) & 248);
-
-                                                pixel = (ushort)(((((red * 2 / 3) + (red2 / 3)) >> 3) << 11) + ((((green * 2 / 3) + (green2 / 3)) >> 2) << 5) + (((blue * 2 / 3) + (blue2 / 3)) >> 3));
-                                                Colour_palette.Add(pixel);  // the RGB565 third colour
-                                                pixel = (ushort)(((((red / 3) + (red2 * 2 / 3)) >> 3) << 11) + ((((green / 3) + (green2 * 2 / 3)) >> 2) << 5) + (((blue / 3) + (blue2 * 2 / 3)) >> 3));
-                                                Colour_palette.Add(pixel);  // the RGB565 fourth colour
-                                            }
-                                            /*
-                                             * t = (pixel_posN - pixel_pos1) / (pixel_pos2 - pixel_pos1)
-pixelN_red = (t-1)*pixel1_red + (t)*pixel2_red
-same for blue + green*/
-                                            for (byte i = 4; i < 8; i++)
-                                            {
-                                                index[i] = 0;
-                                            }
-                                            // time to get the "linear interpolation to add third and fourth colour
-                                            // Console.WriteLine("creating indexes"); SHUT THE F*CK UP
-                                            // CI2 if that's a name lol
-                                            for (sbyte h = 3; h >= 0; h--)
-                                            //for (byte h = 0; h < 4; h++)
-                                            {
-                                                for (byte w = 0; w < 4; w++)  // index_size = number of pixels
+                                                if ((blue & 7) > round5 && blue < 248)
                                                 {
-                                                    if (((alpha_bitfield >> (h * 4) + w) & 1) == 1)
+                                                    blue += 8;
+                                                }
+                                                // Colour_pixel[0] = // the number of occurences, though it stays to 1 so that's not really a problem lol
+                                                pixel = (ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)); // the RGB565 colour
+                                                Colour_array[1] = pixel;
+                                                Colour_array[2] = (ushort)(red + green + blue); // best way to find darkest colour :D
+                                                Colour_list.Add(Colour_array.ToArray());
+                                                Colour_rgb565.Add(pixel);
+                                                j++;
+                                                if (j != 4)
+                                                {
+                                                    continue;
+                                                }
+                                                j = 0;
+                                                z++;
+                                                y += (canvas_width << 2) - 16; // returns to the start of the next line  - bitmap width << 2 because it's a 32-bit BGRA bmp file
+                                                if (z != 4)
+                                                {
+                                                    continue;  // Still within the same 4x4 block
+                                                }
+                                                x++;
+                                                z = 0;
+                                                width += 2;  // triggered 4 times per block
+                                                if (width == canvas_width)
+                                                {
+                                                    width = 0;
+                                                    // y -= (bitmap_width << 1) - 16;  // this has been driving me nuts
+                                                    y += (canvas_width << 2) - 16;
+                                                    x = 0;
+                                                }
+                                                else if (x == 2)
+                                                {
+                                                    // y += (bitmap_width << 4) - 4; // adds 4 lines and put the cursor back to the first block in width (I hope)
+                                                    // y += 16; // hmm, it looks like the cursor warped horizontally to the first block in width 4 lines above
+                                                    // EDIT: YA DEFINITELY NEED TO CANCEL THE Y OPERATION ABOVE, IT WARPS NORMALLY LIKE IT4S THE PIXEL AFTER
+                                                    //y -= (bitmap_width << 2) - 16;  // this has been driving me nuts
+                                                    y += 16;  // I can't believe this is right in the mirror and mirrorred mode lol
+                                                              // edit: you just need to add 32 everywhere
+                                                }
+                                                else if (x == 4)
+                                                {
+                                                    //y -= (bitmap_width << 5) - 16; // minus 8 lines + point to next block
+                                                    y -= (canvas_width << 5) + 16;
+                                                    x = 0;
+                                                }
+                                                else
+                                                {
+                                                    /* y -= (bitmap_width << 4) - 16; // on retire 4 lignes et on passe le 1er block héhé
+                                                     substract 4 lines and jumps over the first block */
+
+
+                                                    y -= ((canvas_width << 4)) + 16;  // substract 4 lines and goes one block to the left
+                                                }
+                                                // now let's just try to take the most two used colours and use diversity I guess
+                                                // implementing my own way to find most used colours:
+                                                // let's count the number of exact same colours in Colour_list
+                                                for (byte i = 0; i < 15; i++)  // useless to set it to 16 because of the condition k > i.
+                                                {
+                                                    for (byte k = 0; k < 16; k++)
                                                     {
-                                                        index[7 - h] += (byte)(3 << (6 - (w << 1)));
-                                                        continue;
-                                                    }
-                                                    diff_min = 500;
-                                                    // diff_min_index = w;
-                                                    for (byte i = 0; i < Colour_palette.Count; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
-                                                    {
-                                                        if (Colour_palette[i] == Colour_rgb565[(h * 4) + w])  // if it's the exact same colour
+                                                        if (k == i)
                                                         {
-                                                            diff_min_index = i;  // index is stored on 1 byte, while each colour is stored on 2 bytes
-                                                            break;
+                                                            continue;
                                                         }
-                                                        else  // calculate difference between each separate colour channel and store the sum
+                                                        if (Colour_list[k][1] == Colour_list[i][1] && k > i && ((alpha_bitfield >> k) & 1) == 0 && ((alpha_bitfield >> i) & 1) == 0)  // k > i prevents colours occurences from being added twice.
                                                         {
-                                                            diff = (short)(Math.Abs(((Colour_palette[i] >> 8) & 248) - ((Colour_rgb565[(h * 4) + w] >> 8) & 248)) + Math.Abs(((Colour_palette[i] >> 3) & 252) - ((Colour_rgb565[(h * 4) + w] >> 3) & 252)) + Math.Abs(((Colour_palette[i] << 3) & 248) - ((Colour_rgb565[(h * 4) + w] << 3) & 248)));
-                                                            if (diff < diff_min)
+                                                            Colour_list[k][0]++;
+                                                            Colour_list[i][0] = 0; // should set it to zero.
+                                                        }
+                                                    }
+                                                }
+                                                Colour_list.Sort(new UshortArrayComparer());  // sorts the table by the most used colour first
+                                                                                              //now let's take the darkest and the brightest colour from the cmpr_max most used ones
+                                                diff_min = 1024;
+                                                diff_max = 0;
+                                                for (byte i = 0; i < cmpr_max && Colour_list[i][0] != 0; i++)
+                                                {
+                                                    if (Colour_list[i][2] < diff_min)
+                                                    {
+                                                        diff_min = (short)(Colour_list[i][2]);
+                                                        diff_min_index = i;
+                                                    }
+                                                    if (Colour_list[i][2] > diff_max)
+                                                    {
+                                                        diff_max = Colour_list[i][2];
+                                                        diff_max_index = i;
+                                                    }
+                                                }
+
+                                                if (alpha_bitfield == 0)  // put the biggest ushort in second place
+                                                {
+                                                    Colour_palette.Add(Colour_list[diff_min_index][1]);
+                                                    Colour_palette.Add(Colour_list[diff_max_index][1]);
+                                                    index[0] = (byte)(Colour_list[diff_min_index][1] >> 8);
+                                                    index[1] = (byte)(Colour_list[diff_min_index][1]);
+                                                    index[2] = (byte)(Colour_list[diff_max_index][1] >> 8);
+                                                    index[3] = (byte)(Colour_list[diff_max_index][1]);
+                                                    red = (byte)(((index[0] & 248) + (index[2] & 248)) / 2);
+                                                    green = (byte)(((((index[0] & 7) << 5) + ((index[1] >> 3) & 28)) + (((index[2] & 7) << 5) + ((index[3] >> 3) & 28))) / 2);
+                                                    blue = (byte)((((index[1] << 3) & 248) + ((index[3] << 3) & 248)) / 2);
+                                                    Colour_palette.Add((ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)));  // the RGB565 third colour
+                                                                                                                                           // last colour isn't in the palette, it's in alpha_bitfield
+                                                }
+                                                else
+                                                {
+                                                    // of course, that's the exact opposite!
+                                                    Colour_palette.Add(Colour_list[diff_max_index][1]);
+                                                    Colour_palette.Add(Colour_list[diff_min_index][1]);
+                                                    index[0] = (byte)(Colour_list[diff_max_index][1] >> 8);
+                                                    index[1] = (byte)(Colour_list[diff_max_index][1]);
+                                                    index[2] = (byte)(Colour_list[diff_min_index][1] >> 8);
+                                                    index[3] = (byte)(Colour_list[diff_min_index][1]);
+
+                                                    red = (byte)(index[0] & 248);
+                                                    green = (byte)(((index[0] & 7) << 5) + ((index[1] >> 3) & 28));
+                                                    blue = (byte)((index[1] << 3) & 248);
+
+                                                    red2 = (byte)(index[2] & 248);
+                                                    green2 = (byte)(((index[2] & 7) << 5) + ((index[3] >> 3) & 28));
+                                                    blue2 = (byte)((index[3] << 3) & 248);
+
+                                                    pixel = (ushort)(((((red * 2 / 3) + (red2 / 3)) >> 3) << 11) + ((((green * 2 / 3) + (green2 / 3)) >> 2) << 5) + (((blue * 2 / 3) + (blue2 / 3)) >> 3));
+                                                    Colour_palette.Add(pixel);  // the RGB565 third colour
+                                                    pixel = (ushort)(((((red / 3) + (red2 * 2 / 3)) >> 3) << 11) + ((((green / 3) + (green2 * 2 / 3)) >> 2) << 5) + (((blue / 3) + (blue2 * 2 / 3)) >> 3));
+                                                    Colour_palette.Add(pixel);  // the RGB565 fourth colour
+                                                }
+                                                /*
+                                                 * t = (pixel_posN - pixel_pos1) / (pixel_pos2 - pixel_pos1)
+    pixelN_red = (t-1)*pixel1_red + (t)*pixel2_red
+    same for blue + green*/
+                                                for (byte i = 4; i < 8; i++)
+                                                {
+                                                    index[i] = 0;
+                                                }
+                                                // time to get the "linear interpolation to add third and fourth colour
+                                                // Console.WriteLine("creating indexes"); SHUT THE F*CK UP
+                                                // CI2 if that's a name lol
+                                                for (sbyte h = 3; h >= 0; h--)
+                                                //for (byte h = 0; h < 4; h++)
+                                                {
+                                                    for (byte w = 0; w < 4; w++)  // index_size = number of pixels
+                                                    {
+                                                        if (((alpha_bitfield >> (h * 4) + w) & 1) == 1)
+                                                        {
+                                                            index[7 - h] += (byte)(3 << (6 - (w << 1)));
+                                                            continue;
+                                                        }
+                                                        diff_min = 500;
+                                                        // diff_min_index = w;
+                                                        for (byte i = 0; i < Colour_palette.Count; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
+                                                        {
+                                                            if (Colour_palette[i] == Colour_rgb565[(h * 4) + w])  // if it's the exact same colour
                                                             {
-                                                                diff_min = diff;
-                                                                diff_min_index = i;
+                                                                diff_min_index = i;  // index is stored on 1 byte, while each colour is stored on 2 bytes
+                                                                break;
+                                                            }
+                                                            else  // calculate difference between each separate colour channel and store the sum
+                                                            {
+                                                                diff = (short)(Math.Abs(((Colour_palette[i] >> 8) & 248) - ((Colour_rgb565[(h * 4) + w] >> 8) & 248)) + Math.Abs(((Colour_palette[i] >> 3) & 252) - ((Colour_rgb565[(h * 4) + w] >> 3) & 252)) + Math.Abs(((Colour_palette[i] << 3) & 248) - ((Colour_rgb565[(h * 4) + w] << 3) & 248)));
+                                                                if (diff < diff_min)
+                                                                {
+                                                                    diff_min = diff;
+                                                                    diff_min_index = i;
+                                                                }
                                                             }
                                                         }
+                                                        index[7 - h] += (byte)(diff_min_index << (6 - (w << 1)));
+                                                        // Console.WriteLine(index[4 + h]);
                                                     }
-                                                    index[7 - h] += (byte)(diff_min_index << (6 - (w << 1)));
-                                                    // Console.WriteLine(index[4 + h]);
                                                 }
+                                                index_list.Add(index.ToArray());
+                                                // index is overwritten each time
+                                                // the lists need to be cleaned
+                                                Colour_list.Clear();
+                                                Colour_palette.Clear();
+                                                Colour_rgb565.Clear();
+                                                alpha_bitfield = 0;
+                                                // THAT INDEX ARRAY THAT I CAN4T SEE CONTENTS IN THE DEBUGGER ALSO NEEDS TO BE CLEANED
+                                                // edit: moved it after the swap function THAT FREAKING DOES CHANGE ARRAY CONTENTS
                                             }
-                                            index_list.Add(index.ToArray());
-                                            // index is overwritten each time
-                                            // the lists need to be cleaned
-                                            Colour_list.Clear();
-                                            Colour_palette.Clear();
-                                            Colour_rgb565.Clear();
-                                            alpha_bitfield = 0;
-                                            // THAT INDEX ARRAY THAT I CAN4T SEE CONTENTS IN THE DEBUGGER ALSO NEEDS TO BE CLEANED
-                                            // edit: moved it after the swap function THAT FREAKING DOES CHANGE ARRAY CONTENTS
                                         }
-                                    }
-                                    break;
+                                        break;
 
+                                }
+                                break;
                             }
-                            break;
-                        }
 
+                    }
                 }
-            }
 
-            return index_list;
-        }
-        public byte[] Convert_to_bmp(System.Drawing.Bitmap imageIn)
-        {
-            // Console.WriteLine(imageIn.PixelFormat.ToString());
-            if (!FORCE_ALPHA)
+                return index_list;
+            }
+            public byte[] Convert_to_bmp(System.Drawing.Bitmap imageIn)
             {
-                switch (imageIn.PixelFormat.ToString())
+                Console.WriteLine(imageIn.PixelFormat.ToString());
+                if (!FORCE_ALPHA)
                 {
-                    case "Format32bppRgb":
-                    case "Format24bppRgb":
-                    case "Format1bppIndexed":
-                    case "Format4bppIndexed":
-                    case "Format8bppIndexed":
+                    switch (imageIn.PixelFormat.ToString())
+                    {
+                        case "Format32bppRgb":
+                        case "Format24bppRgb":
+                        case "Format1bppIndexed":
+                        case "Format4bppIndexed":
+                        case "Format8bppIndexed":
+                            {
+                                alpha = 0; // I don't care if the user set alpha to 1 or 2. the input image has no alpha. I won't let him trick my tool unless he uses the parameter "FORCE ALPHA"
+                                break;
+                            }
+                            // case "Format32bppArgb"
+                    }
+                }
+                bitmap_width = (ushort)imageIn.Width;
+                bitmap_height = (ushort)imageIn.Height;
+                pixel_count = bitmap_width * bitmap_height;
+                canvas_width = (ushort)(bitmap_width + ((block_width - (bitmap_width % block_width)) % block_width));
+                canvas_height = (ushort)(bitmap_height + ((block_height - (bitmap_height % block_height)) % block_height));
+                var bmp = new Bitmap(canvas_width, canvas_height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);  // makes it 32 bit in depth
+                using (var gr = Graphics.FromImage(bmp))
+                    gr.DrawImage(imageIn, new Rectangle(0, 0, canvas_width, canvas_height));
+                using (var ms = new MemoryStream())
+                {
+                    bmp.Save(ms, ImageFormat.Bmp);
+                    /*
+                    FileMode mode = System.IO.FileMode.CreateNew;
+                    if (System.IO.File.Exists(output_file + ".bmp"))
+                    {
+                        mode = System.IO.FileMode.Truncate;
+                        if (warn)
                         {
-                            alpha = 0; // I don't care if the user set alpha to 1 or 2. the input image has no alpha. I won't let him trick my tool unless he uses the parameter "FORCE ALPHA"
-                            break;
+                            Console.WriteLine("Press enter to overwrite " + output_file + ".bmp");
+                            Console.ReadLine();
                         }
-                        // case "Format32bppArgb"
-                }
-            }
-            bitmap_width = (ushort)imageIn.Width;
-            bitmap_height = (ushort)imageIn.Height;
-            pixel_count = bitmap_width * bitmap_height;
-            canvas_width = (ushort)(bitmap_width + ((block_width - (bitmap_width % block_width)) % block_width));
-            canvas_height = (ushort)(bitmap_height + ((block_height - (bitmap_height % block_height)) % block_height));
-            var bmp = new Bitmap(canvas_width, canvas_height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);  // makes it 32 bit in depth
-            using (var gr = Graphics.FromImage(bmp))
-                gr.DrawImage(imageIn, new Rectangle(0, 0, canvas_width, canvas_height));
-            using (var ms = new MemoryStream())
-            {
-                bmp.Save(ms, ImageFormat.Bmp);
-                /*
-                FileMode mode = System.IO.FileMode.CreateNew;
-                if (System.IO.File.Exists(output_file + ".bmp"))
-                {
-                    mode = System.IO.FileMode.Truncate;
-                    if (warn)
-                    {
-                        Console.WriteLine("Press enter to overwrite " + output_file + ".bmp");
-                        Console.ReadLine();
                     }
-                }
-                using (System.IO.FileStream file = System.IO.File.Open(output_file + ".bmp", mode, System.IO.FileAccess.Write))
-                {
-                    file.Write(ms.ToArray(), 0, (int)ms.Length);
-                    file.Close();
-                    Console.WriteLine(output_file + ".bmp");
-                }
-                alright. Format16bppRgb565 is compressed only
-                */
-
-                return ms.ToArray();
-            }
-        }
-        /// <summary>
-        /// Convert an image to specified format.
-        /// </summary>
-        /// <param name="imageIn">The image to convert.</param>
-        /// <param name="current_mipmap">The actual numnber of mipmap (used to add .mm1 at the end).</param>
-        /// <returns>The converted image written in a free-to-edit file.</returns>
-        public bool ConvertAndSave(System.Drawing.Bitmap imageIn, int current_mipmap)
-        {
-            string end = ".bmp";
-            using (var ms = new MemoryStream())
-            {
-                if (png)
-                {
-                    imageIn.Save(ms, ImageFormat.Png);
-                    end = ".png";
-                }
-                else if (tif)
-                {
-                    imageIn.Save(ms, ImageFormat.Tiff);
-                    end = ".tif";
-                }
-                else if (tiff)
-                {
-                    imageIn.Save(ms, ImageFormat.Tiff);
-                    end = ".tiff";
-                }
-                else if (ico)
-                {
-                    imageIn.Save(ms, ImageFormat.Icon);
-                    end = ".ico";
-                }
-                else if (jpg)
-                {
-                    imageIn.Save(ms, ImageFormat.Jpeg);
-                    end = ".jpg";
-                }
-                else if (jpeg)
-                {
-                    imageIn.Save(ms, ImageFormat.Jpeg);
-                    end = ".jpeg";
-                }
-                else if (gif)
-                {
-                    imageIn.Save(ms, ImageFormat.Gif);
-                    end = ".gif";
-                }
-                if (current_mipmap != 0)
-                {
-                    end = ".mm" + current_mipmap + end;
-                }
-                FileMode mode = System.IO.FileMode.CreateNew;
-                if (System.IO.File.Exists(output_file + end))
-                {
-                    mode = System.IO.FileMode.Truncate;
-                    if (warn)
+                    using (System.IO.FileStream file = System.IO.File.Open(output_file + ".bmp", mode, System.IO.FileAccess.Write))
                     {
-                        Console.WriteLine("Press enter to overwrite " + output_file + end);
-                        Console.ReadLine();
+                        file.Write(ms.ToArray(), 0, (int)ms.Length);
+                        file.Close();
+                        Console.WriteLine(output_file + ".bmp");
                     }
-                }
-                using (System.IO.FileStream file = System.IO.File.Open(output_file + end, mode, System.IO.FileAccess.Write))
-                {
-                    file.Write(ms.ToArray(), 0, (int)ms.Length);
-                    file.Close();
-                    Console.WriteLine(output_file + end);
-                }
-                return true;
-            }
-        }
-        /*
-        public static Bitmap ConvertTo32bpp(Image img)
-        {
-            var bmp = new Bitmap(img.Width, img.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            using (var gr = Graphics.FromImage(bmp))
-                gr.DrawImage(img, new Rectangle(0, 0, img.Width, img.Height));
-            return bmp;
-        }*/
+                    alright. Format16bppRgb565 is compressed only
+                    */
 
-        public byte[] ImageToByteArray(System.Drawing.Image imageIn)
-        {
-            using (var ms = new MemoryStream())
-            {
-                imageIn.Save(ms, imageIn.RawFormat);
-                return ms.ToArray();
+                    return ms.ToArray();
+                }
             }
+            /// <summary>
+            /// Convert an image to specified format.
+            /// </summary>
+            /// <param name="imageIn">The image to convert.</param>
+            /// <param name="current_mipmap">The actual numnber of mipmap (used to add .mm1 at the end).</param>
+            /// <returns>The converted image written in a free-to-edit file.</returns>
+            public bool ConvertAndSave(System.Drawing.Bitmap imageIn, int current_mipmap)
+            {
+                string end = ".bmp";
+                using (var ms = new MemoryStream())
+                {
+                    if (png)
+                    {
+                        imageIn.Save(ms, ImageFormat.Png);
+                        end = ".png";
+                    }
+                    else if (tif)
+                    {
+                        imageIn.Save(ms, ImageFormat.Tiff);
+                        end = ".tif";
+                    }
+                    else if (tiff)
+                    {
+                        imageIn.Save(ms, ImageFormat.Tiff);
+                        end = ".tiff";
+                    }
+                    else if (ico)
+                    {
+                        imageIn.Save(ms, ImageFormat.Icon);
+                        end = ".ico";
+                    }
+                    else if (jpg)
+                    {
+                        imageIn.Save(ms, ImageFormat.Jpeg);
+                        end = ".jpg";
+                    }
+                    else if (jpeg)
+                    {
+                        imageIn.Save(ms, ImageFormat.Jpeg);
+                        end = ".jpeg";
+                    }
+                    else if (gif)
+                    {
+                        imageIn.Save(ms, ImageFormat.Gif);
+                        end = ".gif";
+                    }
+                    if (current_mipmap != 0)
+                    {
+                        end = ".mm" + current_mipmap + end;
+                    }
+                    FileMode mode = System.IO.FileMode.CreateNew;
+                    if (System.IO.File.Exists(output_file + end))
+                    {
+                        mode = System.IO.FileMode.Truncate;
+                        if (warn)
+                        {
+                            Console.WriteLine("Press enter to overwrite " + output_file + end);
+                            Console.ReadLine();
+                        }
+                    }
+                    using (System.IO.FileStream file = System.IO.File.Open(output_file + end, mode, System.IO.FileAccess.Write))
+                    {
+                        file.Write(ms.ToArray(), 0, (int)ms.Length);
+                        file.Close();
+                        Console.WriteLine(output_file + end);
+                    }
+                    return true;
+                }
+            }
+            /*
+            public static Bitmap ConvertTo32bpp(Image img)
+            {
+                var bmp = new Bitmap(img.Width, img.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                using (var gr = Graphics.FromImage(bmp))
+                    gr.DrawImage(img, new Rectangle(0, 0, img.Width, img.Height));
+                return bmp;
+            }*/
+
+            public byte[] ImageToByteArray(System.Drawing.Image imageIn)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    imageIn.Save(ms, imageIn.RawFormat);
+                    return ms.ToArray();
+                }
+            }
+
         }
 
     }
-
-}
