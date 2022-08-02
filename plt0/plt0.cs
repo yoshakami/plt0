@@ -2078,7 +2078,6 @@ namespace plt0
 
                     case 4:  // RGB565
                     case 10: // CI14x2
-                    case 0xE:  // CMPR
                         {
                             data[28] = 24; // converted to 24bpp to prevent loss
                             break;
@@ -2087,6 +2086,7 @@ namespace plt0
                     case 3:  // IA8
                     case 6:  // RGBA32
                     case 5:  // RGB5A3
+                    case 0xE:  // CMPR
                         {
                             data[28] = 32; // 32 bits per pixel
                             break;
@@ -2948,14 +2948,38 @@ namespace plt0
                                     color2 = (ushort)((index_list[z][j][2] << 8) + index_list[z][j][3]);
 
                                     color_rgba[0] = (byte)(index_list[z][j][0] & 248);  // red
+                                    if (color_rgba[0] == 248)
+                                    {
+                                        color_rgba[0] = 255;
+                                    }
                                     color_rgba[1] = (byte)(((index_list[z][j][0] << 5) + (index_list[z][j][1] >> 3)) & 0xfc);  // green
+                                    if (color_rgba[1] == 252)
+                                    {
+                                        color_rgba[1] = 255;
+                                    }
                                     color_rgba[2] = (byte)((index_list[z][j][1] << 3) & 248);  // blue
+                                    if (color_rgba[2] == 248)
+                                    {
+                                        color_rgba[2] = 255;
+                                    }
                                     color_rgba[3] = 0xff; // rgb565 value has no alpha
                                     colour_palette.Add(color_rgba.ToArray());
                                     color_rgba[0] = (byte)(index_list[z][j][2] & 248);  // red
+                                    if (color_rgba[0] == 248)
+                                    {
+                                        color_rgba[0] = 255;
+                                    }
                                     color_rgba[1] = (byte)(((index_list[z][j][2] << 5) + (index_list[z][j][3] >> 3)) & 0xfc);  // green
+                                    if (color_rgba[1] == 252)
+                                    {
+                                        color_rgba[1] = 255;
+                                    }
                                     color_rgba[2] = (byte)((index_list[z][j][3] << 3) & 248);  // blue
-                                                                                               // color_rgba[3] = 0xff; // rgb565 value has no alpha
+                                    if (color_rgba[2] == 248)
+                                    {
+                                        color_rgba[2] = 255;
+                                    }
+                                    // color_rgba[3] = 0xff; // rgb565 value has no alpha
                                     colour_palette.Add(color_rgba.ToArray());
                                     if (color1 > color2)
                                     {
@@ -2991,6 +3015,7 @@ namespace plt0
                                             pixel[index + 3] = colour_palette[(index_list[z][j][7 - h] >> (6 - (w << 1))) & 3][3];  // alpha
                                         }
                                     }
+                                    colour_palette.Clear();  // removes the 4 colours of the previous block
                                 }
                                 break;
                             }
