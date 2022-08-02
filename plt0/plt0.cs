@@ -2432,7 +2432,7 @@ namespace plt0
                                                 {
                                                     for (int k = 0; k < index_list[z][0].Length; k++, index += 8)
                                                     {
-                                                        if (colour_palette[index_list[z][j][k] << 1] >> 7 == 0)  // alpha - 
+                                                        if (colour_palette[(index_list[z][j][k] >> 4) << 1] >> 7 == 0)  // alpha - 
                                                         {
                                                             pixel_alpha = (byte)((colour_palette[(index_list[z][j][k] >> 4) << 1] << 1) & 0xe0);
                                                             if (pixel_alpha == 0xe0)
@@ -2590,7 +2590,7 @@ namespace plt0
                                                 {
                                                     for (int k = 0; k < index_list[z][0].Length; k += 2, index += 4)
                                                     {
-                                                        if (colour_palette[index_list[z][j][k] << 1] >> 7 == 0)  // alpha - 
+                                                        if (colour_palette[(index_list[z][j][k] << 9) + (index_list[z][j][k + 1] << 1)] >> 7 == 0)  // alpha - 
                                                         {
                                                             pixel_alpha = (byte)((colour_palette[(index_list[z][j][k] << 9) + (index_list[z][j][k + 1] << 1)] << 1) & 0xe0);
                                                             if (pixel_alpha == 0xe0)
