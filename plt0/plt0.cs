@@ -2162,14 +2162,14 @@ namespace plt0
                                                 {
                                                     for (int k = 0; k < index_list[z][0].Length; k++, index += 8)
                                                     {
-                                                        pixel[index] = colour_palette[(index_list[z][j][k] >> 4) << 1];
-                                                        pixel[index + 1] = colour_palette[(index_list[z][j][k] >> 4) << 1];
-                                                        pixel[index + 2] = colour_palette[(index_list[z][j][k] >> 4) << 1];
-                                                        pixel[index + 3] = colour_palette[((index_list[z][j][k] >> 4) << 1) + 1];
-                                                        pixel[index + 4] = colour_palette[(index_list[z][j][k] & 15) << 1];
-                                                        pixel[index + 5] = colour_palette[(index_list[z][j][k] & 15) << 1];
-                                                        pixel[index + 6] = colour_palette[(index_list[z][j][k] & 15) << 1];
-                                                        pixel[index + 7] = colour_palette[((index_list[z][j][k] & 15) << 1) + 1];
+                                                        pixel[index] = colour_palette[((index_list[z][j][k] >> 4) << 1) + 1];
+                                                        pixel[index + 1] = colour_palette[((index_list[z][j][k] >> 4) << 1) + 1];
+                                                        pixel[index + 2] = colour_palette[((index_list[z][j][k] >> 4) << 1) + 1];
+                                                        pixel[index + 3] = colour_palette[((index_list[z][j][k] >> 4) << 1)];
+                                                        pixel[index + 4] = colour_palette[((index_list[z][j][k] & 15) << 1) + 1];
+                                                        pixel[index + 5] = colour_palette[((index_list[z][j][k] & 15) << 1) + 1];
+                                                        pixel[index + 6] = colour_palette[((index_list[z][j][k] & 15) << 1) + 1];
+                                                        pixel[index + 7] = colour_palette[((index_list[z][j][k] & 15) << 1)];
                                                     }
                                                     for (int k = 0; k < padding; k++, index++)
                                                     {
@@ -2184,10 +2184,10 @@ namespace plt0
                                                 {
                                                     for (int k = 0; k < index_list[z][0].Length; k++, index += 4)
                                                     {
-                                                        pixel[index] = colour_palette[index_list[z][j][k] << 1];
-                                                        pixel[index + 1] = colour_palette[index_list[z][j][k] << 1];
-                                                        pixel[index + 2] = colour_palette[index_list[z][j][k] << 1];
-                                                        pixel[index + 3] = colour_palette[(index_list[z][j][k] << 1) + 1];
+                                                        pixel[index] = colour_palette[(index_list[z][j][k] << 1) + 1];
+                                                        pixel[index + 1] = colour_palette[(index_list[z][j][k] << 1) + 1];
+                                                        pixel[index + 2] = colour_palette[(index_list[z][j][k] << 1) + 1];
+                                                        pixel[index + 3] = colour_palette[(index_list[z][j][k] << 1)];
                                                     }
                                                     for (int k = 0; k < padding; k++, index++)
                                                     {
@@ -2203,10 +2203,10 @@ namespace plt0
                                                 {
                                                     for (int k = 0; k < index_list[z][0].Length; k += 2, index += 4)
                                                     {
-                                                        pixel[index] = colour_palette[(index_list[z][j][k] << 9) + (index_list[z][j][k + 1] << 1)];
-                                                        pixel[index + 1] = colour_palette[(index_list[z][j][k] << 9) + (index_list[z][j][k + 1] << 1)];
-                                                        pixel[index + 2] = colour_palette[(index_list[z][j][k] << 9) + (index_list[z][j][k + 1] << 1)];
-                                                        pixel[index + 3] = colour_palette[((index_list[z][j][k] << 9) + (index_list[z][j][k + 1] << 1)) + 1];
+                                                        pixel[index] = colour_palette[((index_list[z][j][k] << 9) + (index_list[z][j][k + 1] << 1)) + 1];
+                                                        pixel[index + 1] = colour_palette[((index_list[z][j][k] << 9) + (index_list[z][j][k + 1] << 1)) + 1];
+                                                        pixel[index + 2] = colour_palette[((index_list[z][j][k] << 9) + (index_list[z][j][k + 1] << 1)) + 1];
+                                                        pixel[index + 3] = colour_palette[((index_list[z][j][k] << 9) + (index_list[z][j][k + 1] << 1))];
                                                     }
                                                     for (int k = 0; k < padding; k++, index++)
                                                     {
@@ -4028,7 +4028,7 @@ namespace plt0
         /// <param name="bmp_filesize">the size of the file, it can be read from the array itself, it's also the length of the array</param>
         /// <param name="pixel_data_start_offset">read from the array itself</param>
         /// <returns>a list of each row of the image (starting by the bottom one) and each row is a byte array which contains every pixel of a row.</returns>
-        // [MethodImpl(MethodImplOptions.NoOptimization)]
+        [MethodImpl(MethodImplOptions.NoOptimization)]
         public List<byte[]> create_PLT0(byte[] bmp_image, int bmp_filesize, int pixel_data_start_offset)
         {
             ushort pixel = bitmap_width;
@@ -4324,7 +4324,7 @@ namespace plt0
                                                 {
                                                     if (colour_palette[i] == (byte)(Colours[j] >> 8) && colour_palette[i + 1] == (byte)Colours[j])  // if it's the exact same colour
                                                     {
-                                                        diff_min_ind14x2 = (byte)(i >> 1);  // index is stored on 1 byte, while each colour is stored on 2 bytes
+                                                        diff_min_ind14x2 = (ushort)(i >> 1);  // index is stored on 1 byte, while each colour is stored on 2 bytes
                                                         break;
                                                     }
                                                     else
@@ -4333,7 +4333,7 @@ namespace plt0
                                                         if (diff < diff_min)
                                                         {
                                                             diff_min = diff;
-                                                            diff_min_ind14x2 = (byte)(i >> 1);
+                                                            diff_min_ind14x2 = (ushort)(i >> 1);
                                                         }
                                                     }
                                                 }
@@ -4564,7 +4564,7 @@ namespace plt0
                                                 {
                                                     if (colour_palette[i] == (byte)(Colours[j] >> 8) && colour_palette[i + 1] == (byte)Colours[j])  // if it's the exact same colour
                                                     {
-                                                        diff_min_ind14x2 = (byte)(i >> 1);  // index is stored on 1 byte, while each colour is stored on 2 bytes
+                                                        diff_min_ind14x2 = (ushort)(i >> 1);  // index is stored on 1 byte, while each colour is stored on 2 bytes
                                                         break;
                                                     }
                                                     else  // calculate difference between each separate colour channel and store the sum
@@ -4574,7 +4574,7 @@ namespace plt0
                                                         if (diff < diff_min)
                                                         {
                                                             diff_min = diff;
-                                                            diff_min_ind14x2 = (byte)(i >> 1);
+                                                            diff_min_ind14x2 = (ushort)(i >> 1);
                                                         }
                                                     }
                                                 }
@@ -5207,7 +5207,7 @@ namespace plt0
                                                 {
                                                     if (colour_palette[i] == (byte)(Colours[j] >> 8) && colour_palette[i + 1] == (byte)Colours[j])  // if it's the exact same colour
                                                     {
-                                                        diff_min_ind14x2 = (byte)(i >> 1);  // index is stored on 1 byte, while each colour is stored on 2 bytes
+                                                        diff_min_ind14x2 = (ushort)(i >> 1);  // index is stored on 1 byte, while each colour is stored on 2 bytes
                                                         break;
                                                     }
                                                     else  // calculate difference between each separate colour channel and store the sum
@@ -5244,7 +5244,7 @@ namespace plt0
                                                         if (diff < diff_min)
                                                         {
                                                             diff_min = diff;
-                                                            diff_min_ind14x2 = (byte)(i >> 1);
+                                                            diff_min_ind14x2 = (ushort)(i >> 1);
                                                         }
                                                     }
                                                 }
