@@ -2942,6 +2942,9 @@ namespace plt0
                                 byte[] color_rgba = { 0, 0, 0, 0 };
                                 ushort color1;
                                 ushort color2;
+                                index = ref_width - 16;
+                                byte block = 0;  // also known as x in the encoding code part
+                                ushort x = 0;  // also known as width, but here it's the ref_width of the main image
                                 for (int j = 0; j < index_list[z].Count; j++)
                                 {
                                     color1 = (ushort)((index_list[z][j][0] << 8) + index_list[z][j][1]);
@@ -3005,7 +3008,8 @@ namespace plt0
                                         color_rgba[3] = 0;
                                         colour_palette.Add(color_rgba.ToArray());
                                     }
-                                    for (sbyte h = 3; h >= 0; h--)
+                                    Console.WriteLine(index);
+                                    for (sbyte h = 0; h < 4; h++, index += ref_width - 16)
                                     {
                                         for (byte w = 0; w < 4; w++, index += 4)
                                         {
@@ -3015,7 +3019,30 @@ namespace plt0
                                             pixel[index + 3] = colour_palette[(index_list[z][j][7 - h] >> (6 - (w << 1))) & 3][3];  // alpha
                                         }
                                     }
-                                    colour_palette.Clear();  // removes the 4 colours of the previous block
+                                    Console.WriteLine(index);
+                                    block++;
+                                    x += 8;  // basically the same width +=2 but here ref_width is 4 times canvas_width because of 32-bit depth bmp
+                                    if (x == ref_width)
+                                    {
+                                        x = 0;
+                                        index += ref_width - 16;
+                                        block = 0;
+                                    }
+
+                                    else if (block == 2)
+                                            {
+                                                index += 16;  // point to the top right sub-block 
+                                            }
+                                    else if (block == 4)
+                                            {
+                                            index -= (ref_width << 3) + 16;  // minus 8 lines and point to the bottom right sub-block of the next block
+                                        block = 0;
+                                    }
+                                    else
+                                    {
+                                        index -= (ref_width << 2) + 16; // removes 4 lines and goes to the left sub-block
+                                    }
+                                    colour_palette.Clear();  // removes the 4 colours of the previous sub-block
                                 }
                                 break;
                             }
