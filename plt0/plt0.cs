@@ -2147,6 +2147,13 @@ namespace plt0
                                 }
                                 else
                                 {
+                                    data[46] = 0;
+                                    data[47] = 0;
+                                    data[48] = 0;
+                                    data[49] = 0;
+                                    data[50] = 0;
+                                    data[51] = 0;
+                                    data[28] = 32;  // converts it to 32-bit depth, as 8-bit depth bmp files don't have alpha despite STORING A F*CKING ALPHA BYTE FOR. EACH. PIXEL.
                                     switch (texture_format_int32[3])
                                     {
                                         case 8: // CI4
