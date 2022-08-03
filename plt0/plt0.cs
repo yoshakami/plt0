@@ -466,6 +466,9 @@ namespace plt0
                     case "32_BIT":
                     case "32BPP":
                     case "32BIT":
+                    case "BMP32":
+                    case "BMP_32":
+                    case "BMP-32":
                         {
                             bmp_32 = true;
                             break;
@@ -1974,18 +1977,13 @@ namespace plt0
                 case 10: // CI14x2
                 case 0xE:  // CMPR
                     {
+                        colour_number_x4 = 0;
                         alpha_header_size = 0x44;
                         ref_width <<= 2; // 32 bits per pixel
                         break;
                     }
             }
-            if (palette_format_int32[3] == 2 && alpha > 0)  // RGB5A3 Palette with alpha
-            {
-                colour_number_x4 = 0;
-                alpha_header_size = 0x44;
-                ref_width = canvas_width << 2; // 32 bits per pixel
-            }
-            if (palette_format_int32[3] == 0 && alpha > 0)  // AI8 Palette with alpha
+            if ((palette_format_int32[3] == 2 && alpha > 0) || bmp_32 || (palette_format_int32[3] == 0 && alpha > 0))  // AI8 Palette with alpha  // RGB5A3 Palette with alpha
             {
                 colour_number_x4 = 0;
                 alpha_header_size = 0x44;
@@ -2261,22 +2259,38 @@ namespace plt0
                                                     for (int k = 0; k < index_list[z][0].Length; k++, index += 8)
                                                     {
                                                         pixel[index] = (byte)(colour_palette[((index_list[z][j][k] >> 4) << 1) + 1] << 3);  // Blue
-                                        if (pixel[index] == 248)
-                                        {
+                                                        if (pixel[index] == 248)
+                                                        {
                                                             pixel[index] = 255;
-                                        }
+                                                        }
                                                         pixel[index + 1] = (byte)(((colour_palette[(index_list[z][j][k] >> 4) << 1] << 5) | (colour_palette[((index_list[z][j][k] >> 4) << 1) + 1] >> 3)) & 0xfc);  // Green
-                                        if (pixel[index + 1] == 252)
-                                        {
+                                                        if (pixel[index + 1] == 252)
+                                                        {
                                                             pixel[index + 1] = 255;
-                                        }
+                                                        }
                                                         pixel[index + 2] = (byte)(colour_palette[(index_list[z][j][k] >> 4) << 1] & 0xf8);  // Red
-                                        if (pixel[index + 2] == 248)
-                                        {
+                                                        if (pixel[index + 2] == 248)
+                                                        {
                                                             pixel[index + 2] = 255;
-                                        }
+                                                        }
                                                         pixel[index + 3] = 0xff;  // No Alpha
 
+                                                        pixel[index + 4] = (byte)(colour_palette[((index_list[z][j][k] >> 4) << 1) + 1] << 3);  // Blue
+                                                        if (pixel[index + 4] == 248)
+                                                        {
+                                                            pixel[index +4] = 255;
+                                                        }
+                                                        pixel[index + 5] = (byte)(((colour_palette[(index_list[z][j][k] >> 4) << 1] << 5) | (colour_palette[((index_list[z][j][k] >> 4) << 1) + 1] >> 3)) & 0xfc);  // Green
+                                                        if (pixel[index + 5] == 252)
+                                                        {
+                                                            pixel[index + 5] = 255;
+                                                        }
+                                                        pixel[index + 6] = (byte)(colour_palette[(index_list[z][j][k] >> 4) << 1] & 0xf8);  // Red
+                                                        if (pixel[index + 6] == 248)
+                                                        {
+                                                            pixel[index + 6] = 255;
+                                                        }
+                                                        pixel[index + 7] = 0xff;  // No Alpha
                                                     }
                                                     for (int k = 0; k < padding; k++, index++)
                                                     {
@@ -2291,49 +2305,22 @@ namespace plt0
                                                 {
                                                     for (int k = 0; k < index_list[z][0].Length; k++, index += 4)
                                                     {
-                                                        if (colour_palette[index_list[z][j][k] << 1] >> 7 == 0)  // alpha - 
+                                                        pixel[index] = (byte)(colour_palette[(index_list[z][j][k] << 1) + 1] << 3);  // Blue
+                                                        if (pixel[index] == 248)
                                                         {
-                                                            pixel_alpha = (byte)((colour_palette[index_list[z][j][k] << 1] << 1) & 0xe0);
-                                                            if (pixel_alpha == 0xe0)
-                                                            {
-                                                                pixel_alpha = 0xff;
-                                                            }
-                                                            pixel[index + 3] = pixel_alpha;  // alpha
-                                                            pixel[index + 2] = (byte)((colour_palette[index_list[z][j][k] << 1] & 0x0f) << 4);  // red
-                                                            if (pixel[index + 2] == 0xf0)
-                                                            {
-                                                                pixel[index + 2] = 0xff;
-                                                            }
-                                                            pixel[index + 1] = (byte)(colour_palette[(index_list[z][j][k] << 1) + 1] & 0xf0);  // green
-                                                            if (pixel[index + 1] == 0xf0)
-                                                            {
-                                                                pixel[index + 1] = 0xff;
-                                                            }
-                                                            pixel[index] = (byte)((colour_palette[(index_list[z][j][k] << 1) + 1] & 0x0f) << 4);  // blue
-                                                            if (pixel[index] == 0xf0)
-                                                            {
-                                                                pixel[index] = 0xff;
-                                                            }
+                                                            pixel[index] = 255;
                                                         }
-                                                        else  // reads 0RRR RRGG GGGB BBBB
+                                                        pixel[index + 1] = (byte)(((colour_palette[index_list[z][j][k] << 1] << 5) | (colour_palette[(index_list[z][j][k] << 1) + 1] >> 3)) & 0xfc);  // Green
+                                                        if (pixel[index + 1] == 252)
                                                         {
-                                                            pixel[index + 2] = (byte)((colour_palette[index_list[z][j][k] << 1] << 1) & 248);  // red
-                                                            if (pixel[index + 2] == 248)
-                                                            {
-                                                                pixel[index + 2] = 255;
-                                                            }
-                                                            pixel[index + 1] = (byte)((colour_palette[index_list[z][j][k] << 1] << 6) + (colour_palette[(index_list[z][j][k] << 1) + 1] >> 2));  // green
-                                                            if (pixel[index + 1] == 248)
-                                                            {
-                                                                pixel[index + 1] = 0xff;
-                                                            }
-                                                            pixel[index] = (byte)(colour_palette[(index_list[z][j][k] << 1) + 1] << 3);  // blue
-                                                            if (pixel[index] == 248)
-                                                            {
-                                                                pixel[index] = 0xff;
-                                                            }
-                                                            pixel[index + 3] = 0xff; // no alpha
+                                                            pixel[index + 1] = 255;
                                                         }
+                                                        pixel[index + 2] = (byte)(colour_palette[index_list[z][j][k] << 1] & 0xf8);  // Red
+                                                        if (pixel[index + 2] == 248)
+                                                        {
+                                                            pixel[index + 2] = 255;
+                                                        }
+                                                        pixel[index + 3] = 0xff;  // No Alpha
 
                                                     }
                                                     for (int k = 0; k < padding; k++, index++)
@@ -2350,49 +2337,22 @@ namespace plt0
                                                 {
                                                     for (int k = 0; k < index_list[z][0].Length; k += 2, index += 4)
                                                     {
-                                                        if (colour_palette[(index_list[z][j][k] << 9) + (index_list[z][j][k + 1] << 1)] >> 7 == 0)  // alpha - 
+                                                        pixel[index] = (byte)(colour_palette[(index_list[z][j][k] << 9) + (index_list[z][j][k + 1] << 1) + 1] << 3);  // Blue
+                                                        if (pixel[index] == 248)
                                                         {
-                                                            pixel_alpha = (byte)((colour_palette[(index_list[z][j][k] << 9) + (index_list[z][j][k + 1] << 1)] << 1) & 0xe0);
-                                                            if (pixel_alpha == 0xe0)
-                                                            {
-                                                                pixel_alpha = 0xff;
-                                                            }
-                                                            pixel[index + 3] = pixel_alpha;  // alpha
-                                                            pixel[index + 2] = (byte)((colour_palette[(index_list[z][j][k] << 9) + (index_list[z][j][k + 1] << 1)] & 0x0f) << 4);  // red
-                                                            if (pixel[index + 2] == 0xf0)
-                                                            {
-                                                                pixel[index + 2] = 0xff;
-                                                            }
-                                                            pixel[index + 1] = (byte)(colour_palette[((index_list[z][j][k] << 9) + (index_list[z][j][k + 1] << 1)) + 1] & 0xf0);  // green
-                                                            if (pixel[index + 1] == 0xf0)
-                                                            {
-                                                                pixel[index + 1] = 0xff;
-                                                            }
-                                                            pixel[index] = (byte)((colour_palette[((index_list[z][j][k] << 9) + (index_list[z][j][k + 1] << 1)) + 1] & 0x0f) << 4);  // blue
-                                                            if (pixel[index] == 0xf0)
-                                                            {
-                                                                pixel[index] = 0xff;
-                                                            }
+                                                            pixel[index] = 255;
                                                         }
-                                                        else  // reads 0RRR RRGG GGGB BBBB
+                                                        pixel[index + 1] = (byte)(((colour_palette[(index_list[z][j][k] << 9) + (index_list[z][j][k + 1] << 1)] << 5) | (colour_palette[(index_list[z][j][k] << 9) + (index_list[z][j][k + 1] << 1) + 1] >> 3)) & 0xfc);  // Green
+                                                        if (pixel[index + 1] == 252)
                                                         {
-                                                            pixel[index + 2] = (byte)((colour_palette[(index_list[z][j][k] << 9) + (index_list[z][j][k + 1] << 1)] << 1) & 248);  // red
-                                                            if (pixel[index + 2] == 248)
-                                                            {
-                                                                pixel[index + 2] = 255;
-                                                            }
-                                                            pixel[index + 1] = (byte)((colour_palette[(index_list[z][j][k] << 9) + (index_list[z][j][k + 1] << 1)] << 6) + (colour_palette[((index_list[z][j][k] << 9) + (index_list[z][j][k + 1] << 1)) + 1] >> 2));  // green
-                                                            if (pixel[index + 1] == 248)
-                                                            {
-                                                                pixel[index + 1] = 0xff;
-                                                            }
-                                                            pixel[index] = (byte)(colour_palette[((index_list[z][j][k] << 9) + (index_list[z][j][k + 1] << 1)) + 1] << 3);  // blue
-                                                            if (pixel[index] == 248)
-                                                            {
-                                                                pixel[index] = 0xff;
-                                                            }
-                                                            pixel[index + 3] = 0xff; // no alpha
+                                                            pixel[index + 1] = 255;
                                                         }
+                                                        pixel[index + 2] = (byte)(colour_palette[(index_list[z][j][k] << 9) + (index_list[z][j][k + 1] << 1)] & 0xf8);  // Red
+                                                        if (pixel[index + 2] == 248)
+                                                        {
+                                                            pixel[index + 2] = 255;
+                                                        }
+                                                        pixel[index + 3] = 0xff;  // No Alpha
 
                                                     }
                                                     for (int k = 0; k < padding; k++, index++)
@@ -2812,7 +2772,7 @@ namespace plt0
                             }
                     }
                 }
-                if ((has_palette && (palette_format_int32[3] != 0 || alpha < 1) && (palette_format_int32[3] != 2 || alpha < 1)) || funky) // && (texture_format_int32[3] > 2 || texture_format_int32[3] != 0xe)))
+                if ((has_palette && texture_format_int32[3] != 10 && !bmp_32 && (palette_format_int32[3] != 0 || alpha < 1) && (palette_format_int32[3] != 2 || alpha < 1)) || funky) // && (texture_format_int32[3] > 2 || texture_format_int32[3] != 0xe)))
                 {
                     if (texture_format_int32[3] == 3 || texture_format_int32[3] == 4 || texture_format_int32[3] == 5)
                     {
@@ -3194,12 +3154,12 @@ namespace plt0
                                     }
 
                                     else if (block == 2)
-                                            {
-                                                index += 16;  // point to the top right sub-block 
-                                            }
+                                    {
+                                        index += 16;  // point to the top right sub-block 
+                                    }
                                     else if (block == 4)
-                                            {
-                                            index -= (ref_width << 3) + 16;  // minus 8 lines and point to the bottom right sub-block of the next block
+                                    {
+                                        index -= (ref_width << 3) + 16;  // minus 8 lines and point to the bottom right sub-block of the next block
                                         block = 0;
                                     }
                                     else
