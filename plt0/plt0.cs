@@ -3244,7 +3244,7 @@ namespace plt0
                                 Console.WriteLine(output_file + end);
                             done = true;  // fun fact, this statement IS executed. I DON4T F4CKING KNOW WHY I HAD TO PASTE IT THRICE
                         }
-                        if (png||gif||jpeg||ico||tiff||tif)
+                        if (png || gif || jpeg || ico || tiff || tif)
                         {
                             ConvertAndSave((Bitmap)Bitmap.FromFile(output_file + end), z);
                             done = true;  // fun fact, this statement is never executed.
@@ -3265,7 +3265,16 @@ namespace plt0
                                 output_file += "-" + index;
                             }
                         }
-                        continue;
+                        else if (safe_mode)
+                        {
+                            if (!no_warning)
+                            Console.WriteLine("an error occured while trying to write the output file");
+                            continue;
+                        }
+                        else
+                        {
+                            throw ex;
+                        }
                     }
                 }
 
@@ -6916,61 +6925,54 @@ same for blue + green*/
         /// <returns>The converted image written in a free-to-edit file.</returns>
         public bool ConvertAndSave(System.Drawing.Bitmap imageIn, int current_mipmap)
         {
+            byte last_value_index = 0;
             string end = ".bmp";
-            using (var ms = new MemoryStream())
+            success = true;
+            while (success)
             {
-                success = true;
-                while(success)
+                using (var ms = new MemoryStream())
                 {
-                    success = false;
-                    if (png)
+                    if (png && last_value_index < 1)
                     {
                         imageIn.Save(ms, ImageFormat.Png);
                         end = ".png";
-                        png = false;
-                        success = true;
+                        last_value_index = 1;
                     }
-                    else if (tif)
+                    else if (tif && last_value_index < 2)
                     {
                         imageIn.Save(ms, ImageFormat.Tiff);
                         end = ".tif";
-                        tif = false;
-                        success = true;
+                        last_value_index = 2;
                     }
-                    else if (tiff)
+                    else if (tiff && last_value_index < 3)
                     {
                         imageIn.Save(ms, ImageFormat.Tiff);
                         end = ".tiff";
-                        tiff = false;
-                        success = true;
+                        last_value_index = 3;
                     }
-                    else if (ico)
-                    {
-                        imageIn.Save(ms, ImageFormat.Icon);
-                        end = ".ico";
-                        ico = false;
-                        success = true;
-                    }
-                    else if (jpg)
+                    else if (jpg && last_value_index < 4)
                     {
                         imageIn.Save(ms, ImageFormat.Jpeg);
                         end = ".jpg";
-                        jpg = false;
-                        success = true;
+                        last_value_index = 4;
                     }
-                    else if (jpeg)
+                    else if (jpeg && last_value_index < 5)
                     {
                         imageIn.Save(ms, ImageFormat.Jpeg);
                         end = ".jpeg";
-                        jpeg = false;
-                        success = true;
+                        last_value_index = 5;
                     }
-                    else if (gif)
+                    else if (gif && last_value_index < 6)
                     {
                         imageIn.Save(ms, ImageFormat.Gif);
                         end = ".gif";
-                        gif = false;
-                        success = true;
+                        last_value_index = 6;
+                    }
+                    else if (ico && last_value_index < 7)
+                    {
+                        imageIn.Save(ms, ImageFormat.Icon);
+                        end = ".ico";
+                        last_value_index = 7;
                     }
                     else
                     {
@@ -6998,8 +7000,8 @@ same for blue + green*/
                             Console.WriteLine(output_file + end);
                     }
                 }
-                return true;
             }
+            return true;
         }
         /*
         public static Bitmap ConvertTo32bpp(Image img)
