@@ -274,6 +274,8 @@ namespace plt0
         bool tex0 = false;
         bool user_palette = false;
         bool warn = false;
+        bool stfu = false;
+        bool no_warning = false;
         byte cmpr_max = 16;  // number of colours that the program should take care in each 4x4 block - should always be set to 16 for better results.  // wimgt's cmpr encoding is better than mine. I gotta admit. 
         byte WrapS = 1; // 0 = Clamp   1 = Repeat   2 = Mirror
         byte WrapT = 1; // 0 = Clamp   1 = Repeat   2 = Mirror
@@ -347,8 +349,14 @@ namespace plt0
                         break;
                     }
                 }  // who had the stupid idea to add -- before each argument. I'm removing them all lol
-                switch (args[i].ToUpper())
+                switch (args[i].ToUpper())  // this needs to be sorted sooner or later. it's becoming really big with all the options lol
                 {
+                    case "STFU":
+                    case "SHUT":
+                        {
+                            stfu = true;
+                            break;
+                        }
                     case "IA8":
                     case "AI8":
                         {
@@ -504,7 +512,7 @@ namespace plt0
                             if (success)
                             {
                                 pass = 1;
-                                if (round3 > 31)
+                                if (round3 > 31 && !no_warning)
                                 {
                                     Console.WriteLine("um, so you would like to round up the 3rd bit if the value of the truncated bytes is greater than their max value, which means always round down (a.k.a BrawlCrate method), sure but be aware that the accuracy of the image is lowered");
                                 }
@@ -521,7 +529,7 @@ namespace plt0
                             if (success)
                             {
                                 pass = 1;
-                                if (round4 > 15)
+                                if (round4 > 15 && !no_warning)
                                 {
                                     Console.WriteLine("um, so you would like to round up the 4th bit if the value of the truncated bytes is greater than their max value, which means always round down (a.k.a BrawlCrate method), sure but be aware that the accuracy of the image is lowered");
                                 }
@@ -538,7 +546,7 @@ namespace plt0
                             if (success)
                             {
                                 pass = 1;
-                                if (round5 > 7)
+                                if (round5 > 7 && !no_warning)
                                 {
                                     Console.WriteLine("um, so you would like to round up the 5th bit if the value of the truncated bytes is greater than their max value, which means always round down (a.k.a BrawlCrate method), sure but be aware that the accuracy of the image is lowered");
                                 }
@@ -555,7 +563,7 @@ namespace plt0
                             if (success)
                             {
                                 pass = 1;
-                                if (round6 > 3)
+                                if (round6 > 3 && !no_warning)
                                 {
                                     Console.WriteLine("um, so you would like to round up the 6th bit if the value of the truncated bytes is greater than their max value, which means always round down (a.k.a BrawlCrate method), sure but be aware that the accuracy of the image is lowered");
                                 }
@@ -877,6 +885,15 @@ namespace plt0
                             magnification_filter = 5;
                             break;
                         }
+                    case "NW":
+                    case "NOWARNING":
+                    case "NO WARNING":
+                    case "NO_WARNING":
+                    case "NO-WARNING":
+                        {
+                            no_warning = true;
+                            break;
+                        }
                     case "NA":
                     case "NOALPHA":
                     case "NO ALPHA":
@@ -886,10 +903,11 @@ namespace plt0
                             alpha = 0;
                             break;
                         }
-                    case "NO_GRADIENT":
-                    case "NO GRADIENT":
-                    case "NO-GRADIENT":
                     case "NG":
+                    case "NOGRADIENT":
+                    case "NO GRADIENT":
+                    case "NO_GRADIENT":
+                    case "NO-GRADIENT":
                     case "SIMILAR":
                         {
                             algorithm = 3;
@@ -909,6 +927,11 @@ namespace plt0
                             if (args[i + 1].ToUpper() == "GRADIENT")
                             {
                                 algorithm = 3;
+                                pass = 1;
+                            }
+                            if (args[i + 1].ToUpper() == "WARNING")
+                            {
+                                no_warning = true;
                                 pass = 1;
                             }
                             /*
@@ -1230,7 +1253,8 @@ namespace plt0
             }
             if (input_file == "")
             {
-                Console.WriteLine("no input file specified\nusage: PLT0 <file> [pal custom palette|bmd file|plt0 file|bmp file|png file|jpeg file|tiff file|ico file|gif file|rle file] [dest] [tpl|bti|bmd|bmp|png|gif|jpeg|ico|tiff] [Encoding Format] [Palette Format] [alpha|no alpha|mix] [c colour number] [d diversity] [d2 diversity2] [m mipmaps] [p percentage] [p2 percentage2] [g2|no_gradient|cc 0.7 0.369 0.4 1.0] [warn|w] [exit|ask] [safe|noerror] [random] [min nearest neighbour] [mag linear] [Wrap Clamp Clamp] [funky] [round3] [round4] [round5] [round6] [force alpha]\nthis is the usage format for parameters : [optional] <mandatory>\n\nthe order of the parameters doesn't matter, but the image to encode must be put before the second input file (bmd/image used as palette)\nif you don't specify tpl, this program will output by default a tex0 and a plt0 file.\nAvailable Encoding Formats: C4, CI4, C8, CI8, CI14x2, C14x2, default = CI8\nAvailable Palette Formats : IA8 (Black and White), RGB565 (RGB), RGB5A3 (RGBA), default = (auto)\n\nif the palette chosen is RGB5A3, you can force the image to have no alpha for all colours (so the RGB values will be stored on 5 bits each), or force all colours to use an alpha channel, by default it's set on 'mix'\n\ndashes are not needed before each parameter, it will still work if you add some as you please lol, this cli parsing function should be unbreakable\nthe number of colours is stored on 2 bytes, but the index bit length of the colour encoding format limits the max number of colours to these:\nCI4 : from 0 to 16\nCI8 : from 0 to 256\nCI14x2 : from 0 to 16384\n\nbmd = inject directly the bti file in a bmd (if the bti filename isn't in the bmd or you haven't entered a bmd second input file, this will notice you of the failure).\n\npal #RRGGBB #RRGGBB #RRGGBB ... is used to directly input your colour palette to a tex0 so it'll encode it with this palette. (example creating a 2 colour palette:plt0 pal #000000 #FFFFFF)\nif you input two existing images, the second one will be taken as the input palette.\n\nd | diversity = a minimum amount of difference for at least one colour channel in the colour palette\n(prevents a palette from having colours close to each other) default : 16 colours -> diversity = 60 | 256 colours -> diversity = 20\nvalue between 0 and 255, if the program heaven't filled the colour table with this parameter on, it'll fill it again with diversity2, then it'll let you know and fill it with the most used colours\n\n d2 | diversity2 = the diversity parameter for the second loop that fills the colour table if it's not full after the first loop.\n\n-m | --n-mm | m | --n-mipmaps = mipmaps number (number of duplicates versions of lower resolution of the input image stored in the output texture) default = 0\n\n p | percentage a double (64 bit float) between zero and 100. Alongside the diversity setting, if a colour counts for less than p % of the whole number of pixels, then it won't be added to the palette. default = 0 (0%)\n-p2 | p2 | percentage2 = the minimum percentage for the second loop that fills the colour table. default = 0 (0%)\nadd w or warn to make the program ask to you before overwriting the output file or tell you which parameters the program used.\n\nexit or ask is used to always make the tool make you press enter before exit.\nsafe or noerror is used to make the program never throw execution error code (useful for using subsystem.check_output in python without crash)\nrandom = random colour palette\n\ntype g2 to use grayscale recommendation CIE 709, the default one used is the recommendation CIE 601.\ntype cc then your float RGBA factors to multiply every pixel of the input image by this factor\n the order of parameters doesn't matter, though you need to add a number after commands like 'm', 'c' or 'd',\nmin or mag filters are used to choose the algorithm for downscaling/upscaling textures in a tpl file : (nearest neighbour, linear, NearestMipmapNearest, NearestMipmapLinear, LinearMipmapNearest, LinearMipmapLinear) you can just type nn or nearest instead of nearest neighbour or the filter number.\nwrap X Y is the syntax to define the wrap mode for both horizontal and vertical within the same option. X and Y can have these values (clamp, repeat, mirror) or just type the first letter. \nplease note that if a parameter corresponds to nothing described above and doesn't exists, it'll be taken as the output file name.\n\nRound3 : threshold for 3-bit values (alpha in RGB5A3). every value of the trimmed bits above this threshold will round up the last bit. Default: 16.\nRound4 : Default: 8 (it's the middle between 0 and 16)\nRound5 : Default: 4 (brawlcrate uses to put 0 everywhere)\nRound6 : Default: 2 (wimgt has every default value here +1 eg here it would be 3)\n\nFORCE ALPHA: by default only 32 bits RGBA Images will have alpha enabled automatically or not (if the image has transparent pixels) on RGBA32 and RGB5A3 and CMPR textures.\n1-bit, 4-bit, 8-bit and 24-bit depth images won't have alpha enabled unless you FORCE ALPHA (which will likely result in a fully transparent image)\nthreshold / cmpr_alpha_threshold : every pixel that has an alpha below this value will be fully transparent (only for cmpr format, value between 0 and 255). default = 100\nfunky : gives funky results if your output image is a bmp/png/gif etc. because it paste the raw encoded format in the bmp who's supposed to have a GBRA byte array 🤣🤣🤣\n\n Examples: (using wimgt synthax can work as seen below)\nplt0 rosalina.png -d 0 -x ci8 rgb5a3 --n-mipmaps 5 -w -c 256 (output name will be '-x.plt0' and '-x.tex0', as this is not an existing option)\nplt0 tpl ci4 rosalina.jpeg AI8 c 4 d 16 g2 m 1 warn texture.tex0");
+                if (!no_warning)
+                    Console.WriteLine("no input file specified\nusage: PLT0 <file> <tex0|tpl|bti|bmd|bmp|png|gif|jpeg|ico|tiff> <Encoding Format> [Palette Format] [pal custom palette|bmd file|plt0 file|bmp file|png file|jpeg file|tiff file|ico file|gif file|rle file] [dest file name without extension] [alpha|no alpha|mix] [c colour number] [d diversity] [d2 diversity2] [m mipmaps] [p percentage] [p2 percentage2] [g2|no_gradient|cc 0.7 0.369 0.4 1.0] [warn|w] [exit|ask] [safe|noerror] [random] [min nearest neighbour] [mag linear] [Wrap Clamp Clamp] [funky] [round3] [round4] [round5] [round6] [force alpha]\nthis is the usage format for parameters : [optional] <mandatory> \n\nthe order of the parameters doesn't matter, but the image to encode must be put before the second input file (bmd/image used as palette)\nAvailable Encoding Formats: C4, CI4, C8, CI8, CI14x2, C14x2, default = CI8\nAvailable Palette Formats : IA8 (Black and White), RGB565 (RGB), RGB5A3 (RGBA), default = (auto)\n\nif the palette chosen is RGB5A3, you can force the image to have no alpha for all colours (so the RGB values will be stored on 5 bits each), or force all colours to use an alpha channel, by default it's set on 'mix'\n\ndashes are not needed before each parameter, it will still work if you add some as you please lol, this cli parsing function should be unbreakable\nthe number of colours is stored on 2 bytes, but the index bit length of the colour encoding format limits the max number of colours to these:\nCI4 : from 0 to 16\nCI8 : from 0 to 256\nCI14x2 : from 0 to 16384\n\nbmd = inject directly the bti file in a bmd (if the bti filename isn't in the bmd or you haven't entered a bmd second input file, this will notice you of the failure).\n\npal #RRGGBB #RRGGBB #RRGGBB ... is used to directly input your colour palette to a tex0 so it'll encode it with this palette. (example creating a 2 colour palette:plt0 pal #000000 #FFFFFF)\nif you input two existing images, the second one will be taken as the input palette.\n\nd | diversity = a minimum amount of difference for at least one colour channel in the colour palette\n(prevents a palette from having colours close to each other) default : 16 colours -> diversity = 60 | 256 colours -> diversity = 20\nvalue between 0 and 255, if the program heaven't filled the colour table with this parameter on, it'll fill it again with diversity2, then it'll let you know and fill it with the most used colours\n\n d2 | diversity2 = the diversity parameter for the second loop that fills the colour table if it's not full after the first loop.\n\n-m | --n-mm | m | --n-mipmaps = mipmaps number (number of duplicates versions of lower resolution of the input image stored in the output texture) default = 0\n\n p | percentage a double (64 bit float) between zero and 100. Alongside the diversity setting, if a colour counts for less than p % of the whole number of pixels, then it won't be added to the palette. default = 0 (0%)\n-p2 | p2 | percentage2 = the minimum percentage for the second loop that fills the colour table. default = 0 (0%)\nadd w or warn to make the program ask to you before overwriting the output file or tell you which parameters the program used.\n\nexit or ask is used to always make the tool make you press enter before exit.\nsafe or noerror is used to make the program never throw execution error code (useful for using subsystem.check_output in python without crash)\nrandom = random colour palette\n\ntype g2 to use grayscale recommendation CIE 709, the default one used is the recommendation CIE 601.\ntype cc then your float RGBA factors to multiply every pixel of the input image by this factor\n the order of parameters doesn't matter, though you need to add a number after commands like 'm', 'c' or 'd',\nmin or mag filters are used to choose the algorithm for downscaling/upscaling textures in a tpl file : (nearest neighbour, linear, NearestMipmapNearest, NearestMipmapLinear, LinearMipmapNearest, LinearMipmapLinear) you can just type nn or nearest instead of nearest neighbour or the filter number.\nwrap X Y is the syntax to define the wrap mode for both horizontal and vertical within the same option. X and Y can have these values (clamp, repeat, mirror) or just type the first letter. \nplease note that if a parameter corresponds to nothing described above and doesn't exists, it'll be taken as the output file name.\n\nRound3 : threshold for 3-bit values (alpha in RGB5A3). every value of the trimmed bits above this threshold will round up the last bit. Default: 16.\nRound4 : Default: 8 (it's the middle between 0 and 16)\nRound5 : Default: 4 (brawlcrate uses to put 0 everywhere)\nRound6 : Default: 2 (wimgt has every default value here +1 eg here it would be 3)\n\nFORCE ALPHA: by default only 32 bits RGBA Images will have alpha enabled automatically or not (if the image has transparent pixels) on RGBA32 and RGB5A3 and CMPR textures.\n1-bit, 4-bit, 8-bit and 24-bit depth images won't have alpha enabled unless you FORCE ALPHA (which will likely result in a fully transparent image)\nthreshold / cmpr_alpha_threshold : every pixel that has an alpha below this value will be fully transparent (only for cmpr format, value between 0 and 255). default = 100\nfunky : gives funky results if your output image is a bmp/png/gif etc. because it paste the raw encoded format in the bmp who's supposed to have a GBRA byte array 🤣🤣🤣\n\n Examples: (using wimgt synthax can work as seen below)\nplt0 rosalina.png -d 0 -x ci8 rgb5a3 --n-mipmaps 5 -w -c 256 (output name will be '-x.plt0' and '-x.tex0', as this is not an existing option)\nplt0 tpl ci4 rosalina.jpeg AI8 c 4 d 16 g2 m 1 warn texture.tex0");
                 return;
             }
             if (output_file == "")
@@ -1239,17 +1263,20 @@ namespace plt0
             }
             if (colour_number > max_colours && max_colours == 16)
             {
-                Console.WriteLine("CI4 can only supports up to 16 colours as each pixel index is stored on 4 bits");
+                if (!no_warning)
+                    Console.WriteLine("CI4 can only supports up to 16 colours as each pixel index is stored on 4 bits");
                 return;
             }
             if (colour_number > max_colours && max_colours == 256)
             {
-                Console.WriteLine("CI8 can only supports up to 256 colours as each pixel index is stored on 8 bits");
+                if (!no_warning)
+                    Console.WriteLine("CI8 can only supports up to 256 colours as each pixel index is stored on 8 bits");
                 return;
             }
             if (colour_number > 65535 && max_colours == 16385)
             {
-                Console.WriteLine("Colour number is stored on 2 bytes for CI14x2");
+                if (!no_warning)
+                    Console.WriteLine("Colour number is stored on 2 bytes for CI14x2");
                 return;
             }
             if (minificaction_filter == 0 && mipmaps_number > 0)
@@ -1293,7 +1320,8 @@ namespace plt0
 
             if (texture_format_int32[3] == 7 && palette_format_int32[3] == 9)
             {
-                Console.WriteLine("add a texture encoding format as argument.\n\nList of available formats: \nI4  (black and white 4 bit shade of gray)\nI8  (1 black and white byte per pixel)\nAI4  (4-bit alpha then 4-bit I4)\nAI8  (1 byte alpha and 1 byte I8)\nRGB565  (best colour encoding, 5-bit red, 6-bit green, and 5-bit blue)\nRGB5A3  (rgb555 if pixel doesn't have alpha, and 3-bit alpha + rgb444 if pixel have alpha)\nRGBA8  (lossless encoding, biggest one though, 4 bytes per pixel)\nCI4 * (uses a colour palette of max 16 colours)\nCI8 * (uses a colour palette of max 256 colours)\nCI14x2 * (uses a colour palette of max 65536 colours) - untested in-game\nCMPR  (4-bit depth, max 2 colours per 4x4 image chunk + 2 software interpolated ones) - wimgt encoding for this format is pretty decent, you should check it out\n\n* you can force a palette format to be set for these textures format\nPalette formats: AI8, RGB565, RGB5A3");
+                if (!no_warning)
+                    Console.WriteLine("add a texture encoding format as argument.\n\nList of available formats: \nI4      (black and white 4 bit shade of gray)\nI8      (1 black and white byte per pixel)\nAI4     (4-bit alpha then 4-bit I4)\nAI8     (1 byte alpha and 1 byte I8)\nRGB565  (best colour encoding, 5-bit red, 6-bit green, and 5-bit blue)\nRGB5A3  (rgb555 if pixel doesn't have alpha, and 3-bit alpha + rgb444 if pixel have alpha)\nRGBA8   (lossless encoding, biggest one though, 4 bytes per pixel)\nCI4   * (uses a colour palette of max 16 colours)\nCI8   * (uses a colour palette of max 256 colours)\nCI14x2 *(uses a colour palette of max 65536 colours) - untested in-game\nCMPR  (4-bit depth, max 2 colours per 4x4 image chunk + 2 software interpolated ones) - wimgt encoding for this format is pretty decent, you should check it out\n\n* you can force a palette format to be set for these textures format\nPalette formats: AI8, RGB565, RGB5A3");
                 return;
                 // need to change this for decoding
             }
@@ -1339,7 +1367,8 @@ namespace plt0
 
             if (bmp_image[0x15] != 0 || bmp_image[0x14] != 0 || bmp_image[0x19] != 0 || bmp_image[0x18] != 0)
             {
-                Console.WriteLine("Textures Dimensions are too high for a TEX0. Maximum dimensions are the values of a 2 bytes integer (65535 x 65535)");
+                if (!no_warning)
+                    Console.WriteLine("Textures Dimensions are too high for a TEX0. Maximum dimensions are the values of a 2 bytes integer (65535 x 65535)");
                 return;
             }
             /***** BMP File Process *****/
@@ -1410,7 +1439,8 @@ namespace plt0
                 byte[] colors = BGRA.ToArray();
                 if (colors.Length > colour_number_x4)
                 {
-                    Console.WriteLine((int)(colors.Length / 4) + " colours sent in the palette but colour number is set to " + colour_number + " trimming the palette to " + colour_number);
+                    if (!no_warning)
+                        Console.WriteLine((int)(colors.Length / 4) + " colours sent in the palette but colour number is set to " + colour_number + " trimming the palette to " + colour_number);
                     Array.Resize(ref colors, colour_number_x4);
                 }
                 fill_palette(colors, 0, colors.Length);
@@ -1456,7 +1486,8 @@ namespace plt0
                             ushort pixel = (ushort)(bitmap_w * bitmap_h);
                             if (pixel != colour_number)
                             {
-                                Console.WriteLine("Second image input has " + pixel + " pixels while there are " + colour_number + " max colours in the palette.");
+                                if (!no_warning)
+                                    Console.WriteLine("Second image input has " + pixel + " pixels while there are " + colour_number + " max colours in the palette.");
                                 return;
                             }
                             fill_palette(bmp_palette, pixel_start_offset, array_size);
@@ -1468,11 +1499,13 @@ namespace plt0
             {
                 if (ex.Message == "Out of memory." && ex.Source == "System.Drawing")
                 {
-                    Console.WriteLine("Second image input format not supported (convert it to jpeg or png)");
+                    if (!no_warning)
+                        Console.WriteLine("Second image input format not supported (convert it to jpeg or png)");
                 }
                 else if (safe_mode)
                 {
-                    Console.WriteLine("error on " + input_file2 + "\nsafe mode is enabled, this program will exit silently");
+                    if (!no_warning)
+                        Console.WriteLine("error on " + input_file2 + "\nsafe mode is enabled, this program will exit silently");
                 }
                 else
                 {
@@ -1486,20 +1519,23 @@ namespace plt0
 
             if (warn)
             {
-                Console.WriteLine("v-- bool --v\nbmd=" + bmd + " bmd_file=" + bmd_file + " bmp=" + bmp + " bti=" + bti + " fill_height=" + fill_height + " fill_width=" + fill_width + " gif=" + gif + " grey=" + grey + " ico=" + ico + " jpeg=" + jpeg + " jpg=" + jpg + " png=" + png + " success=" + success + " tif=" + tif + " tiff=" + tiff + " tpl=" + tpl + " user_palette=" + user_palette + " warn=" + warn + "\n\nv-- byte --v\nWrapS=" + WrapS + " WrapT=" + WrapT + " algorithm=" + algorithm + " alpha=" + alpha + " color=" + color + " diversity=" + diversity + " diversity2=" + diversity2 + " magnification_filter=" + magnification_filter + " minificaction_filter=" + minificaction_filter + " mipmaps_number=" + mipmaps_number + "\n\nv-- byte[] --v\ncolour_palette=" + colour_palette + " palette_format_int32=" + palette_format_int32 + " texture_format_int32=" + texture_format_int32 + "\n\nv-- double --v\nformat_ratio=" + format_ratio + " percentage=" + percentage + " percentage2=" + percentage2 + "\n\nv-- float[] --v\ncustom_rgba=" + custom_rgba + "\n\nv-- int --v\ncolour_number_x2=" + colour_number_x2 + " colour_number_x4=" + colour_number_x4 + " pass=" + pass + " pixel_count=" + pixel_count + "\n\nv-- signed byte --v\nblock_height=" + block_height + " block_width=" + block_width + "\n\nv-- string --v\ninput_file=" + input_file + " input_file2=" + input_file2 + " output_file=" + output_file + " swap=" + swap + "\n\nv-- unsigned short --v\nbitmap_height=" + bitmap_height + " bitmap_width=" + bitmap_width + " colour_number=" + colour_number + " max_colours=" + max_colours + " z=" + z + "\n\nv-- List<byte> --v\nBGRA=" + BGRA);
+                if (!no_warning)
+                    Console.WriteLine("v-- bool --v\nbmd=" + bmd + " bmd_file=" + bmd_file + " bmp=" + bmp + " bti=" + bti + " fill_height=" + fill_height + " fill_width=" + fill_width + " gif=" + gif + " grey=" + grey + " ico=" + ico + " jpeg=" + jpeg + " jpg=" + jpg + " png=" + png + " success=" + success + " tif=" + tif + " tiff=" + tiff + " tpl=" + tpl + " user_palette=" + user_palette + " warn=" + warn + "\n\nv-- byte --v\nWrapS=" + WrapS + " WrapT=" + WrapT + " algorithm=" + algorithm + " alpha=" + alpha + " color=" + color + " diversity=" + diversity + " diversity2=" + diversity2 + " magnification_filter=" + magnification_filter + " minificaction_filter=" + minificaction_filter + " mipmaps_number=" + mipmaps_number + "\n\nv-- byte[] --v\ncolour_palette=" + colour_palette + " palette_format_int32=" + palette_format_int32 + " texture_format_int32=" + texture_format_int32 + "\n\nv-- double --v\nformat_ratio=" + format_ratio + " percentage=" + percentage + " percentage2=" + percentage2 + "\n\nv-- float[] --v\ncustom_rgba=" + custom_rgba + "\n\nv-- int --v\ncolour_number_x2=" + colour_number_x2 + " colour_number_x4=" + colour_number_x4 + " pass=" + pass + " pixel_count=" + pixel_count + "\n\nv-- signed byte --v\nblock_height=" + block_height + " block_width=" + block_width + "\n\nv-- string --v\ninput_file=" + input_file + " input_file2=" + input_file2 + " output_file=" + output_file + " swap=" + swap + "\n\nv-- unsigned short --v\nbitmap_height=" + bitmap_height + " bitmap_width=" + bitmap_width + " colour_number=" + colour_number + " max_colours=" + max_colours + " z=" + z + "\n\nv-- List<byte> --v\nBGRA=" + BGRA);
             }
             for (z = 1; z <= mipmaps_number; z++)
             {
                 if (warn)
                 {
-                    Console.WriteLine("processing mipmap " + z);
+                    if (!no_warning)
+                        Console.WriteLine("processing mipmap " + z);
                 }
                 if (System.IO.File.Exists(input_fil + ".mm" + z + input_ext))  // image with mipmap: input.png -> input.mm1.png -> input.mm2.png
                 {
                     byte[] bmp_mipmap = Convert_to_bmp((Bitmap)Bitmap.FromFile(input_fil + ".mm" + z + input_ext));
                     if (bmp_mipmap[0x15] != 0 || bmp_mipmap[0x14] != 0 || bmp_mipmap[0x19] != 0 || bmp_mipmap[0x18] != 0)
                     {
-                        Console.WriteLine("Textures Dimensions are too high for a TEX0. Maximum dimensions are the values of a 2 bytes integer (65535 x 65535)");
+                        if (!no_warning)
+                            Console.WriteLine("Textures Dimensions are too high for a TEX0. Maximum dimensions are the values of a 2 bytes integer (65535 x 65535)");
                         return;
                     }
                     /***** BMP File Process *****/
@@ -1519,7 +1555,8 @@ namespace plt0
                     bitmap_height >>= 1; // divides by 2   - also YES 1 DIVIDED BY TWO IS ZERO
                     if (bitmap_width == 0 || bitmap_height == 0)
                     {
-                        Console.WriteLine("Too many mipmaps. " + (z - 1) + " is the maximum for this file");
+                        if (!no_warning)
+                            Console.WriteLine("Too many mipmaps. " + (z - 1) + " is the maximum for this file");
                         exit = true;
                         return;
                     }
@@ -1528,7 +1565,8 @@ namespace plt0
 
                     if (bmp_mipmap[0x15] != 0 || bmp_mipmap[0x14] != 0 || bmp_mipmap[0x19] != 0 || bmp_mipmap[0x18] != 0)
                     {
-                        Console.WriteLine("Textures Dimensions are too high for a TEX0. Maximum dimensions are the values of a 2 bytes integer (65535 x 65535)");
+                        if (!no_warning)
+                            Console.WriteLine("Textures Dimensions are too high for a TEX0. Maximum dimensions are the values of a 2 bytes integer (65535 x 65535)");
                         return;
                     }
                     /***** BMP File Process *****/
@@ -1553,7 +1591,8 @@ namespace plt0
             {
                 if (bmd && !bmd_file)
                 {
-                    Console.WriteLine("specified bmd output but no bmd file given");
+                    if (!no_warning)
+                        Console.WriteLine("specified bmd output but no bmd file given");
                     return;
                 }
                 write_BTI(index_list);
@@ -2278,7 +2317,7 @@ namespace plt0
                                                         pixel[index + 4] = (byte)(colour_palette[((index_list[z][j][k] >> 4) << 1) + 1] << 3);  // Blue
                                                         if (pixel[index + 4] == 248)
                                                         {
-                                                            pixel[index +4] = 255;
+                                                            pixel[index + 4] = 255;
                                                         }
                                                         pixel[index + 5] = (byte)(((colour_palette[(index_list[z][j][k] >> 4) << 1] << 5) | (colour_palette[((index_list[z][j][k] >> 4) << 1) + 1] >> 3)) & 0xfc);  // Green
                                                         if (pixel[index + 5] == 252)
@@ -3132,7 +3171,7 @@ namespace plt0
                                         color_rgba[3] = 0;
                                         colour_palette.Add(color_rgba.ToArray());
                                     }
-                                    Console.WriteLine(index);
+                                    //Console.WriteLine(index);
                                     for (sbyte h = 0; h < 4; h++, index += ref_width - 16)
                                     {
                                         for (byte w = 0; w < 4; w++, index += 4)
@@ -3143,7 +3182,7 @@ namespace plt0
                                             pixel[index + 3] = colour_palette[(index_list[z][j][7 - h] >> (6 - (w << 1))) & 3][3];  // alpha
                                         }
                                     }
-                                    Console.WriteLine(index);
+                                    //Console.WriteLine(index);
                                     block++;
                                     x += 8;  // basically the same width +=2 but here ref_width is 4 times canvas_width because of 32-bit depth bmp
                                     if (x == ref_width)
@@ -3178,7 +3217,7 @@ namespace plt0
                 }
                 index = 0;
                 done = false;
-                while (!done)
+                while (!done)  // makes sure it writes the file.
                 {
 
                     try
@@ -3197,18 +3236,18 @@ namespace plt0
                         {
                             file.Write(data, 0, data.Length);
                             file.Write(palette, 0, colour_number_x4);
-                            Console.WriteLine(alpha_header_size + " " + alpha_header.Length);
+                            // Console.WriteLine(alpha_header_size + " " + alpha_header.Length);
                             file.Write(alpha_header, 0, alpha_header_size);
                             file.Write(pixel, 0, pixel.Length);
                             file.Close();
-                            Console.WriteLine(output_file + end);
+                            if (!stfu)
+                                Console.WriteLine(output_file + end);
                         }
-                        if (!bmp)
+                        if (png||gif||jpeg||ico||tiff||tif)
                         {
-
                             ConvertAndSave((Bitmap)Bitmap.FromFile(output_file + end), z);
                         }
-                        done = true;
+                        done = true;  // fun fact, this statement is never executed.
                     }
                     catch (Exception ex)
                     {
@@ -3405,7 +3444,8 @@ namespace plt0
                     {
                         if (y + 9 > j3d.Length)
                         {
-                            Console.WriteLine("Couldn't find the TEX1 Section. This bmd file is corrupted. the program will exit");
+                            if (!no_warning)
+                                Console.WriteLine("Couldn't find the TEX1 Section. This bmd file is corrupted. the program will exit");
                             return;
                         }
                         y += (j3d[y + 4] << 24) + (j3d[y + 5] << 16) + (j3d[y + 6] << 8) + j3d[y + 7];  // size of current section
@@ -3417,7 +3457,9 @@ namespace plt0
                     int string_count_5 = string_count << 5;
                     if (string_count == 0)  // ARE YOU KIDDING ME
                     {
-                        Console.WriteLine("I could have sworn you were smart enough to take a bmd with bti textures in it, but this one contains none.");
+                        if (!no_warning)
+                            Console.WriteLine("I could have sworn you were smart enough to take a bmd with bti textures in it, but this one contains none.");
+                        return;
                     }
                     string name = "";
                     x += 4 + (string_count << 2); // 4 is the string pool table header size
@@ -3598,7 +3640,8 @@ namespace plt0
                             ofile.Write(j3d, start_2, j3d.Length - start_2);
                         }
                         ofile.Close();
-                        Console.WriteLine(output_file + ".bmd");
+                        if (!stfu)
+                            Console.WriteLine(output_file + ".bmd");
                     }
                 }
             }
@@ -3621,7 +3664,8 @@ namespace plt0
                     file.Write(tex_data, 0, tex_data.Length);
                     file.Write(data2, 0, data2.Length);
                     file.Close();
-                    Console.WriteLine(output_file + ".bti");
+                    if (!stfu)
+                        Console.WriteLine(output_file + ".bti");
                 }
             }
         }
@@ -3813,7 +3857,8 @@ namespace plt0
                 file.Write(tex_data, 0, tex_data.Length);
                 file.Write(data2, 0, data2.Length);
                 file.Close();
-                Console.WriteLine(output_file + ".tpl");
+                if (!stfu)
+                    Console.WriteLine(output_file + ".tpl");
             }
         }
 
@@ -3887,7 +3932,8 @@ namespace plt0
                 file.Write(colour_palette, 0, colour_palette.Length);
                 file.Write(data2, 0, data2.Length);
                 file.Close();
-                Console.WriteLine(output_file + ".plt0");
+                if (!stfu)
+                    Console.WriteLine(output_file + ".plt0");
             }
         }
 
@@ -4057,7 +4103,8 @@ namespace plt0
                 file.Write(tex_data, 0, size - 64);
                 file.Write(data2, 0, data2.Length);
                 file.Close();
-                Console.WriteLine(output_file + ".tex0");
+                if (!stfu)
+                    Console.WriteLine(output_file + ".tex0");
                 // Console.ReadLine();
             }
         }
@@ -4161,23 +4208,22 @@ namespace plt0
                 fill_height = true;
                 if (bitmap_width % block_width != 0)
                 {
-                    Console.WriteLine("Height is not a multiple of " + block_height + " (this value changes for each format), just be aware that the file size would be the same with an image of dimensions " + (bitmap_width + (block_width - (bitmap_width % block_width))) + "x" + ((bitmap_height + (block_height - (bitmap_height % block_height)))));
+                    if (!no_warning)
+                        Console.WriteLine("Height is not a multiple of " + block_height + " (this value changes for each format), just be aware that the file size would be the same with an image of dimensions " + (bitmap_width + (block_width - (bitmap_width % block_width))) + "x" + ((bitmap_height + (block_height - (bitmap_height % block_height)))));
                 }
                 else
                 {
-                    Console.WriteLine("Height is not a multiple of " + block_height + " (this value changes for each format), just be aware that the file size would be the same with an image of dimensions " + bitmap_width + "x" + ((bitmap_height + (block_height - (bitmap_height % block_height)))));
+                    if (!no_warning)
+                        Console.WriteLine("Height is not a multiple of " + block_height + " (this value changes for each format), just be aware that the file size would be the same with an image of dimensions " + bitmap_width + "x" + ((bitmap_height + (block_height - (bitmap_height % block_height)))));
                 }
             }
             if (bitmap_width % block_width != 0)
             {
                 fill_width = true;
-                if (fill_height)
+                if (!fill_height)
                 {
-                    Console.WriteLine("Width is not a multiple of " + block_width + " (this value changes for each format), just be aware that the file size would be the same with an image of dimensions " + (bitmap_width + (block_width - (bitmap_width % block_width))) + "x" + ((bitmap_height + (block_height - (bitmap_height % block_height)))));
-                }
-                else
-                {
-                    Console.WriteLine("Width is not a multiple of " + block_width + " (this value changes for each format), just be aware that the file size would be the same with an image of dimensions " + (bitmap_width + (block_width - (bitmap_width % block_width))) + "x" + bitmap_height);
+                    if (!no_warning)
+                        Console.WriteLine("Width is not a multiple of " + block_width + " (this value changes for each format), just be aware that the file size would be the same with an image of dimensions " + (bitmap_width + (block_width - (bitmap_width % block_width))) + "x" + bitmap_height);
                 }
             }
             // pixel = (ushort)(bitmap_width + ((block_width - (bitmap_width % block_width)) % block_width));  // replaced by canvas_width
@@ -4224,7 +4270,8 @@ namespace plt0
             ushort diff_min_ind14x2 = 0;
             if (bmp_image[0x1C] != 32)
             {
-                Console.WriteLine("HOLY SHIT (colour depth of the converted bmp image is " + bmp_image[0x1C] + ")");
+                if (!no_warning)
+                    Console.WriteLine("HOLY SHIT (colour depth of the converted bmp image is " + bmp_image[0x1C] + ")");
                 Environment.Exit(0);
             }
             // colour depth
@@ -4292,7 +4339,8 @@ namespace plt0
                             if (!user_palette || fill_palette_start_offset != 0)  // no input palette / partial user input palette = fill it with these colours
                             {
                                 Colour_Table.Sort(new IntArrayComparer());  // sorts the table by the most used colour first
-                                Console.WriteLine("findind most used Colours");
+                                if (!stfu)
+                                    Console.WriteLine("findind most used Colours");
                                 for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
                                 {
                                     not_similar = true;
@@ -4317,7 +4365,8 @@ namespace plt0
                                 }
                                 if (j < colour_number_x2) // if the colour palette is not full
                                 {
-                                    Console.WriteLine("The colour palette was not full, starting second loop...\n");
+                                    if (!stfu)
+                                        Console.WriteLine("The colour palette was not full, starting second loop...\n");
                                     for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
                                     {
                                         not_similar = true;
@@ -4342,7 +4391,8 @@ namespace plt0
                                     }
                                     if (j < colour_number_x2) // if the colour palette is still not full
                                     {
-                                        Console.WriteLine("The colour palette is not full, this program will fill it with the most used colours\n");
+                                        if (!stfu)
+                                            Console.WriteLine("The colour palette is not full, this program will fill it with the most used colours\n");
                                         for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
                                         {
                                             not_similar = true;
@@ -4364,7 +4414,8 @@ namespace plt0
                                     }
                                 }
                             }
-                            Console.WriteLine("creating indexes");
+                            if (!stfu)
+                                Console.WriteLine("creating indexes");
                             j = 0;
                             switch (texture_format_int32[3])
                             {
@@ -4532,7 +4583,8 @@ namespace plt0
                             if (!user_palette || fill_palette_start_offset != 0)  // no input palette / partial user input palette = fill it with these colours
                             {
                                 Colour_Table.Sort(new IntArrayComparer());  // sorts the table by the most used colour first
-                                Console.WriteLine("findind most used Colours");
+                                if (!stfu)
+                                    Console.WriteLine("findind most used Colours");
                                 for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
                                 {
                                     not_similar = true;
@@ -4557,7 +4609,8 @@ namespace plt0
                                 }
                                 if (j < colour_number_x2) // if the colour palette is not full
                                 {
-                                    Console.WriteLine("The colour palette was not full, starting second loop...\n");
+                                    if (!stfu)
+                                        Console.WriteLine("The colour palette was not full, starting second loop...\n");
                                     for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
                                     {
                                         not_similar = true;
@@ -4582,7 +4635,8 @@ namespace plt0
                                     }
                                     if (j < colour_number_x2) // if the colour palette is still not full
                                     {
-                                        Console.WriteLine("The colour palette is not full, this program will fill it with the most used colours\n");
+                                        if (!stfu)
+                                            Console.WriteLine("The colour palette is not full, this program will fill it with the most used colours\n");
                                         for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
                                         {
                                             not_similar = true;
@@ -4604,7 +4658,8 @@ namespace plt0
                                     }
                                 }
                             }
-                            Console.WriteLine("creating indexes");
+                            if (!stfu)
+                                Console.WriteLine("creating indexes");
                             j = 0;
                             switch (texture_format_int32[3])
                             {
@@ -4913,7 +4968,8 @@ namespace plt0
                             {
 
                                 Colour_Table.Sort(new IntArrayComparer());  // sorts the table by the most used colour first
-                                Console.WriteLine("findind most used Colours");
+                                if (!stfu)
+                                    Console.WriteLine("findind most used Colours");
                                 if (alpha == 1)
                                 {
                                     for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
@@ -4940,7 +4996,8 @@ namespace plt0
                                     }
                                     if (j < colour_number_x2) // if the colour palette is not full
                                     {
-                                        Console.WriteLine("The colour palette was not full, starting second loop...\n");
+                                        if (!stfu)
+                                            Console.WriteLine("The colour palette was not full, starting second loop...\n");
                                         for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
                                         {
                                             not_similar = true;
@@ -4965,7 +5022,8 @@ namespace plt0
                                         }
                                         if (j < colour_number_x2) // if the colour palette is still not full
                                         {
-                                            Console.WriteLine("The colour palette is not full, this program will fill it with the most used colours\n");
+                                            if (!stfu)
+                                                Console.WriteLine("The colour palette is not full, this program will fill it with the most used colours\n");
                                             for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
                                             {
                                                 not_similar = true;
@@ -5013,7 +5071,8 @@ namespace plt0
                                     }
                                     if (j < colour_number_x2) // if the colour palette is not full
                                     {
-                                        Console.WriteLine("The colour palette was not full, starting second loop...\n");
+                                        if (!stfu)
+                                            Console.WriteLine("The colour palette was not full, starting second loop...\n");
                                         for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
                                         {
                                             not_similar = true;
@@ -5038,7 +5097,8 @@ namespace plt0
                                         }
                                         if (j < colour_number_x2) // if the colour palette is still not full
                                         {
-                                            Console.WriteLine("The colour palette is not full, this program will fill it with the most used colours\n");
+                                            if (!stfu)
+                                                Console.WriteLine("The colour palette is not full, this program will fill it with the most used colours\n");
                                             for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
                                             {
                                                 not_similar = true;
@@ -5115,7 +5175,8 @@ namespace plt0
                                     }
                                     if (j < colour_number_x2) // if the colour palette is not full
                                     {
-                                        Console.WriteLine("The colour palette was not full, starting second loop...\n");
+                                        if (!stfu)
+                                            Console.WriteLine("The colour palette was not full, starting second loop...\n");
                                         for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
                                         {
                                             not_similar = true;
@@ -5168,7 +5229,8 @@ namespace plt0
                                         }
                                         if (j < colour_number_x2) // if the colour palette is still not full
                                         {
-                                            Console.WriteLine("The colour palette is not full, this program will fill it with the most used colours\n");
+                                            if (!stfu)
+                                                Console.WriteLine("The colour palette is not full, this program will fill it with the most used colours\n");
                                             for (int i = 0; i < Colour_Table.Count && j < colour_number_x2; i++)
                                             {
                                                 not_similar = true;
@@ -5191,7 +5253,8 @@ namespace plt0
                                     }
                                 }
                             }
-                            Console.WriteLine("creating indexes");
+                            if (!stfu)
+                                Console.WriteLine("creating indexes");
                             j = 0;
                             switch (texture_format_int32[3])
                             {
@@ -6791,7 +6854,8 @@ same for blue + green*/
         }
         public byte[] Convert_to_bmp(System.Drawing.Bitmap imageIn)
         {
-            Console.WriteLine(imageIn.PixelFormat.ToString());
+            if (!stfu)
+                Console.WriteLine(imageIn.PixelFormat.ToString());
             if (!FORCE_ALPHA)
             {
                 switch (imageIn.PixelFormat.ToString())
@@ -6853,60 +6917,84 @@ same for blue + green*/
             string end = ".bmp";
             using (var ms = new MemoryStream())
             {
-                if (png)
+                success = true;
+                while(success)
                 {
-                    imageIn.Save(ms, ImageFormat.Png);
-                    end = ".png";
-                }
-                else if (tif)
-                {
-                    imageIn.Save(ms, ImageFormat.Tiff);
-                    end = ".tif";
-                }
-                else if (tiff)
-                {
-                    imageIn.Save(ms, ImageFormat.Tiff);
-                    end = ".tiff";
-                }
-                else if (ico)
-                {
-                    imageIn.Save(ms, ImageFormat.Icon);
-                    end = ".ico";
-                }
-                else if (jpg)
-                {
-                    imageIn.Save(ms, ImageFormat.Jpeg);
-                    end = ".jpg";
-                }
-                else if (jpeg)
-                {
-                    imageIn.Save(ms, ImageFormat.Jpeg);
-                    end = ".jpeg";
-                }
-                else if (gif)
-                {
-                    imageIn.Save(ms, ImageFormat.Gif);
-                    end = ".gif";
-                }
-                if (current_mipmap != 0)
-                {
-                    end = ".mm" + current_mipmap + end;
-                }
-                FileMode mode = System.IO.FileMode.CreateNew;
-                if (System.IO.File.Exists(output_file + end))
-                {
-                    mode = System.IO.FileMode.Truncate;
-                    if (warn)
+                    success = false;
+                    if (png)
                     {
-                        Console.WriteLine("Press enter to overwrite " + output_file + end);
-                        Console.ReadLine();
+                        imageIn.Save(ms, ImageFormat.Png);
+                        end = ".png";
+                        png = false;
+                        success = true;
                     }
-                }
-                using (System.IO.FileStream file = System.IO.File.Open(output_file + end, mode, System.IO.FileAccess.Write))
-                {
-                    file.Write(ms.ToArray(), 0, (int)ms.Length);
-                    file.Close();
-                    Console.WriteLine(output_file + end);
+                    else if (tif)
+                    {
+                        imageIn.Save(ms, ImageFormat.Tiff);
+                        end = ".tif";
+                        tif = false;
+                        success = true;
+                    }
+                    else if (tiff)
+                    {
+                        imageIn.Save(ms, ImageFormat.Tiff);
+                        end = ".tiff";
+                        tiff = false;
+                        success = true;
+                    }
+                    else if (ico)
+                    {
+                        imageIn.Save(ms, ImageFormat.Icon);
+                        end = ".ico";
+                        ico = false;
+                        success = true;
+                    }
+                    else if (jpg)
+                    {
+                        imageIn.Save(ms, ImageFormat.Jpeg);
+                        end = ".jpg";
+                        jpg = false;
+                        success = true;
+                    }
+                    else if (jpeg)
+                    {
+                        imageIn.Save(ms, ImageFormat.Jpeg);
+                        end = ".jpeg";
+                        jpeg = false;
+                        success = true;
+                    }
+                    else if (gif)
+                    {
+                        imageIn.Save(ms, ImageFormat.Gif);
+                        end = ".gif";
+                        gif = false;
+                        success = true;
+                    }
+                    else
+                    {
+                        break;  // prevents the function from being called infinitely :P
+                    }
+                    if (current_mipmap != 0)
+                    {
+                        end = ".mm" + current_mipmap + end;
+                    }
+                    FileMode mode = System.IO.FileMode.CreateNew;
+                    if (System.IO.File.Exists(output_file + end))
+                    {
+                        mode = System.IO.FileMode.Truncate;
+                        if (warn)
+                        {
+                            Console.WriteLine("Press enter to overwrite " + output_file + end);
+                            Console.ReadLine();
+                        }
+                    }
+                    using (System.IO.FileStream file = System.IO.File.Open(output_file + end, mode, System.IO.FileAccess.Write))
+                    {
+                        file.Write(ms.ToArray(), 0, (int)ms.Length);
+                        file.Close();
+                        if (!stfu)
+                            Console.WriteLine(output_file + end);
+                    }
                 }
                 return true;
             }
