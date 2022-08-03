@@ -2251,7 +2251,7 @@ namespace plt0
                                     data[49] = 0;
                                     data[50] = 0;
                                     data[51] = 0;
-                                    data[28] = 32;  // converts it to 32-bit depth, as it's either rgb555 or rgba4443
+                                    data[28] = 32;  // converts it to 32-bit depth
                                     switch (texture_format_int32[3])
                                     {
                                         case 8: // CI4
@@ -2260,90 +2260,22 @@ namespace plt0
                                                 {
                                                     for (int k = 0; k < index_list[z][0].Length; k++, index += 8)
                                                     {
-                                                        if (colour_palette[(index_list[z][j][k] >> 4) << 1] >> 7 == 0)  // alpha - 
-                                                        {
-                                                            pixel_alpha = (byte)((colour_palette[(index_list[z][j][k] >> 4) << 1] << 1) & 0xe0);
-                                                            if (pixel_alpha == 0xe0)
-                                                            {
-                                                                pixel_alpha = 0xff;
-                                                            }
-                                                            pixel[index + 3] = pixel_alpha;  // alpha
-                                                            pixel[index + 2] = (byte)((colour_palette[(index_list[z][j][k] >> 4) << 1] & 0x0f) << 4);  // red
-                                                            if (pixel[index + 2] == 0xf0)
-                                                            {
-                                                                pixel[index + 2] = 0xff;
-                                                            }
-                                                            pixel[index + 1] = (byte)(colour_palette[((index_list[z][j][k] >> 4) << 1) + 1] & 0xf0);  // green
-                                                            if (pixel[index + 1] == 0xf0)
-                                                            {
-                                                                pixel[index + 1] = 0xff;
-                                                            }
-                                                            pixel[index] = (byte)((colour_palette[((index_list[z][j][k] >> 4) << 1) + 1] & 0x0f) << 4);  // blue
-                                                            if (pixel[index] == 0xf0)
-                                                            {
-                                                                pixel[index] = 0xff;
-                                                            }
-                                                            pixel_alpha = (byte)((colour_palette[(index_list[z][j][k] >> 4) << 1] << 1) & 0xe0);
-                                                            if (pixel_alpha == 0xe0)
-                                                            {
-                                                                pixel_alpha = 0xff;
-                                                            }
-
-                                                            // adds the second part of the byte
-                                                            pixel[index + 7] = pixel_alpha;  // alpha
-                                                            pixel[index + 6] = (byte)((colour_palette[(index_list[z][j][k] & 15) << 1] & 0x0f) << 4);  // red
-                                                            if (pixel[index + 6] == 0xf0)
-                                                            {
-                                                                pixel[index + 6] = 0xff;
-                                                            }
-                                                            pixel[index + 5] = (byte)(colour_palette[((index_list[z][j][k] & 15) << 1) + 1] & 0xf0);  // green
-                                                            if (pixel[index + 5] == 0xf0)
-                                                            {
-                                                                pixel[index + 5] = 0xff;
-                                                            }
-                                                            pixel[index + 4] = (byte)((colour_palette[((index_list[z][j][k] & 15) << 1) + 1] & 0x0f) << 4);  // blue
-                                                            if (pixel[index + 4] == 0xf0)
-                                                            {
-                                                                pixel[index + 4] = 0xff;
-                                                            }
-                                                        }
-                                                        else  // reads 0RRR RRGG GGGB BBBB
-                                                        {
-                                                            pixel[index + 2] = (byte)((colour_palette[(index_list[z][j][k] >> 4) << 1] << 1) & 248);  // red
-                                                            if (pixel[index + 2] == 248)
-                                                            {
-                                                                pixel[index + 2] = 255;
-                                                            }
-                                                            pixel[index + 1] = (byte)((colour_palette[(index_list[z][j][k] >> 4) << 1] << 6) + (colour_palette[((index_list[z][j][k] >> 4) << 1) + 1] >> 2));  // green
-                                                            if (pixel[index + 1] == 248)
-                                                            {
-                                                                pixel[index + 1] = 0xff;
-                                                            }
-                                                            pixel[index] = (byte)(colour_palette[((index_list[z][j][k] >> 4) << 1) + 1] << 3);  // blue
-                                                            if (pixel[index] == 248)
-                                                            {
-                                                                pixel[index] = 0xff;
-                                                            }
-                                                            pixel[index + 3] = 0xff; // no alpha
-
-                                                            //adds the second part of the byte
-                                                            pixel[index + 6] = (byte)((colour_palette[(index_list[z][j][k] & 15) << 1] << 1) & 248);  // red
-                                                            if (pixel[index + 6] == 248)
-                                                            {
-                                                                pixel[index + 6] = 255;
-                                                            }
-                                                            pixel[index + 5] = (byte)((colour_palette[(index_list[z][j][k] & 15) << 1] << 6) + (colour_palette[((index_list[z][j][k] & 15) << 1) + 1] >> 2));  // green
-                                                            if (pixel[index + 5] == 248)
-                                                            {
-                                                                pixel[index + 5] = 0xff;
-                                                            }
-                                                            pixel[index + 4] = (byte)(colour_palette[((index_list[z][j][k] & 15) << 1) + 1] << 3);  // blue
-                                                            if (pixel[index + 4] == 248)
-                                                            {
-                                                                pixel[index + 4] = 0xff;
-                                                            }
-                                                            pixel[index + 7] = 0xff; // no alpha
-                                                        }
+                                                        pixel[index] = (byte)(colour_palette[((index_list[z][j][k] >> 4) << 1) + 1] << 3);  // Blue
+                                        if (pixel[index] == 248)
+                                        {
+                                                            pixel[index] = 255;
+                                        }
+                                                        pixel[index + 1] = (byte)(((colour_palette[(index_list[z][j][k] >> 4) << 1] << 5) | (colour_palette[((index_list[z][j][k] >> 4) << 1) + 1] >> 3)) & 0xfc);  // Green
+                                        if (pixel[index + 1] == 252)
+                                        {
+                                                            pixel[index + 1] = 255;
+                                        }
+                                                        pixel[index + 2] = (byte)(colour_palette[(index_list[z][j][k] >> 4) << 1] & 0xf8);  // Red
+                                        if (pixel[index + 2] == 248)
+                                        {
+                                                            pixel[index + 2] = 255;
+                                        }
+                                                        pixel[index + 3] = 0xff;  // No Alpha
 
                                                     }
                                                     for (int k = 0; k < padding; k++, index++)
