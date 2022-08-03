@@ -3242,10 +3242,12 @@ namespace plt0
                             file.Close();
                             if (!stfu)
                                 Console.WriteLine(output_file + end);
+                            done = true;  // fun fact, this statement IS executed. I DON4T F4CKING KNOW WHY I HAD TO PASTE IT THRICE
                         }
                         if (png||gif||jpeg||ico||tiff||tif)
                         {
                             ConvertAndSave((Bitmap)Bitmap.FromFile(output_file + end), z);
+                            done = true;  // fun fact, this statement is never executed.
                         }
                         done = true;  // fun fact, this statement is never executed.
                     }
