@@ -328,6 +328,7 @@ namespace plt0
         ushort canvas_width;
         ushort canvas_height;
         List<byte> BGRA = new List<byte>();
+        List<ushort[]> canvas_dim = new List<ushort[]>();
         public void parse_args()
         {
             string[] args = Environment.GetCommandLineArgs();
@@ -1432,7 +1433,9 @@ namespace plt0
             // I hope there could be a keyboard shortcut to format every tabs :')
             // I'm too lazy to do that manually, + that's just visual lol
             //edit: It's Ctrl + E
-            ushort[] vanilla_size = { bitmap_width, bitmap_height };
+            ushort[] mipmap_dimensions = { bitmap_width, bitmap_height, canvas_width, canvas_height };
+            
+            canvas_dim.Add(mipmap_dimensions.ToArray());
             Array.Resize(ref colour_palette, colour_number_x2);
             if (BGRA.Count != 0)
             {
@@ -1553,6 +1556,7 @@ namespace plt0
                 {
                     bitmap_width >>= 1; // divides by 2
                     bitmap_height >>= 1; // divides by 2   - also YES 1 DIVIDED BY TWO IS ZERO
+                    // note: depending on the number of mipmaps, this will make unused block space with images that are not power of two because sooner or later width or height won't be a multiple or 4 or 8
                     if (bitmap_width == 0 || bitmap_height == 0)
                     {
                         if (!no_warning)
@@ -1580,13 +1584,18 @@ namespace plt0
                     object w = create_PLT0(bmp_mipmap, bmp_size, pixel_start_offset);
                     index_list.Add((List<byte[]>)w);
                 }
+                mipmap_dimensions[2] = canvas_width;
+                mipmap_dimensions[3] = canvas_height;
+                canvas_dim.Add(mipmap_dimensions.ToArray());
             }
             if (exit)
             {
                 return;
             }
-            bitmap_width = vanilla_size[0];
-            bitmap_height = vanilla_size[1];
+            bitmap_width = canvas_dim[0][0];
+            bitmap_height = canvas_dim[0][1];
+            canvas_width = canvas_dim[0][2];
+            canvas_height = canvas_dim[0][3];
             if (bti || bmd)
             {
                 if (bmd && !bmd_file)
@@ -1980,66 +1989,21 @@ namespace plt0
             {
                 padding = 0;
             }
-            int ref_width = canvas_width;
             byte alpha_header_size = 0;
-            switch (texture_format_int32[3])
-            {
-                case 0:  // I4
-                    {
-                        ref_width >>= 1;  // 4-bit per pixel
-                        colour_number_x4 = 64; // 16 * 4
-                        break;
-                    }
-                case 8: // CI4
-                    {
-                        ref_width >>= 1;  // 4-bit per pixel
-                        break;
-                    }
-                case 1: // I8
-                    {
-                        colour_number_x4 = 1024; // 256 * 4
-                        break;
-                    }
-                /* 
-                  case 9:  // CI8
-                    nothing happens
-               */
-                case 4:  // RGB565
-                    {
-                        ref_width *= 3; // converted to 24bpp to prevent loss
-                        break;
-                    }
-                case 2: // AI4
-                case 3:  // IA8
-                case 5:  // RGB5A3
-                case 6:  // RGBA32
-                case 10: // CI14x2
-                case 0xE:  // CMPR
-                    {
-                        colour_number_x4 = 0;
-                        alpha_header_size = 0x44;
-                        ref_width <<= 2; // 32 bits per pixel
-                        break;
-                    }
-            }
-            if ((palette_format_int32[3] == 2 && alpha > 0) || bmp_32 || (palette_format_int32[3] == 0 && alpha > 0))  // AI8 Palette with alpha  // RGB5A3 Palette with alpha
-            {
-                colour_number_x4 = 0;
-                alpha_header_size = 0x44;
-                ref_width = canvas_width << 2; // 32 bits per pixel
-            }
-            int image_size = ((ref_width + padding) * canvas_height);
-            int pixel_start_offset = 0x36 + colour_number_x4 + alpha_header_size;
-            int size = pixel_start_offset + image_size;  // fixed size at 1 image
+            
+            int image_size; // = ((ref_width + padding) * canvas_height);
+            int pixel_start_offset; // = 0x36 + colour_number_x4 + alpha_header_size;
+            int size; // = pixel_start_offset + image_size;  // fixed size at 1 image
             // int size2 = pixel_start_offset + image_size;  // plus the header?????? added it twice lol
-            int width = 0;  // will change when equal to 4 or 16 bit because of bypass lol
-            ushort header_width = 0; // width written in the header
-            ushort height = 0;
+            int width;  // will change when equal to 4 or 16 bit because of bypass lol
+            ushort header_width; // width written in the header
+            ushort height;
             int index;
             byte pixel_color;
             byte pixel_alpha;
             byte[] data = new byte[54];  // header data
             byte[] palette = new byte[colour_number_x4];
+            byte[] pixel = new byte[0];
             string end = ".bmp";
             bool done = false;
             // vanilla BITMAPV4HEADER
@@ -2049,19 +2013,69 @@ namespace plt0
             byte[] alpha_header = { 0, 0, 255, 0, 0, 255, 0, 0, 255, 0, 0, 0, 0, 0, 0, 255, 32, 110, 105, 87, 0, 104, 116, 116, 112, 115, 58, 47, 47, 100, 105, 115, 99, 111, 114, 100, 46, 103, 103, 47, 118, 57, 86, 112, 68, 90, 57, 0, 116, 104, 105, 115, 32, 105, 115, 32, 112, 97, 100, 100, 105, 110, 103, 32, 100, 97, 116, 97 };
             for (z = 0; z < mipmaps_number + 1; z++)
             {
-                byte[] pixel = new byte[image_size];
-                if (z == 0)
+                width = canvas_dim[z][2];
+                header_width = canvas_dim[z][3];
+                height = canvas_dim[z][3];
+                switch (texture_format_int32[3])
                 {
-                    width = ref_width;
-                    header_width = canvas_width;
-                    height = canvas_height;
+                    case 0:  // I4
+                        {
+                            width >>= 1;  // 4-bit per pixel
+                            colour_number_x4 = 64; // 16 * 4
+                            break;
+                        }
+                    case 8: // CI4
+                        {
+                            width >>= 1;  // 4-bit per pixel
+                            break;
+                        }
+                    case 1: // I8
+                        {
+                            colour_number_x4 = 1024; // 256 * 4
+                            break;
+                        }
+                    /* 
+                      case 9:  // CI8
+                        nothing happens
+                   */
+                    case 4:  // RGB565
+                        {
+                            width *= 3; // converted to 24bpp to prevent loss
+                            break;
+                        }
+                    case 2: // AI4
+                    case 3:  // IA8
+                    case 5:  // RGB5A3
+                    case 6:  // RGBA32
+                    case 10: // CI14x2
+                    case 0xE:  // CMPR
+                        {
+                            colour_number_x4 = 0;
+                            alpha_header_size = 0x44;
+                            width <<= 2; // 32 bits per pixel
+                            break;
+                        }
                 }
-                else
+                if ((palette_format_int32[3] == 2 && alpha > 0) || bmp_32 || (palette_format_int32[3] == 0 && alpha > 0))  // AI8 Palette with alpha  // RGB5A3 Palette with alpha
                 {
-                    width >>= 1;  // divides by 2
-                    header_width >>= 1;  // divides by 2
-                    height >>= 1; // divides by 2
+                    colour_number_x4 = 0;
+                    alpha_header_size = 0x44;
+                    width = canvas_dim[z][2] << 2; // 32 bits per pixel
                 }
+                image_size = ((width + padding) * height);
+                pixel_start_offset = 0x36 + colour_number_x4 + alpha_header_size;
+                size = pixel_start_offset + image_size;  // fixed size at 1 image
+
+                /* that doesn't work for images with dimensions not a power of two
+                image_size >>= 2; // for next loop - divides by 4 because it's half the width size and half the height size
+                width >>= 1;  // divides by 2
+                header_width >>= 1;  // divides by 2
+                height >>= 1; // divides by 2 */
+
+                //size = pixel_start_offset + image_size;
+
+                Array.Resize(ref pixel, image_size);
+
                 index = 0;
                 // fill header
                 data[0] = 0x42;  // B
@@ -3105,7 +3119,7 @@ namespace plt0
                                 byte[] color_rgba = { 0, 0, 0, 0 };
                                 ushort color1;
                                 ushort color2;
-                                index = ref_width - 16;
+                                index = width - 16;
                                 byte block = 0;  // also known as x in the encoding code part
                                 ushort x = 0;  // also known as width, but here it's the ref_width of the main image
                                 for (int j = 0; j < index_list[z].Count; j++)
@@ -3172,7 +3186,7 @@ namespace plt0
                                         colour_palette.Add(color_rgba.ToArray());
                                     }
                                     //Console.WriteLine(index);
-                                    for (sbyte h = 0; h < 4; h++, index += ref_width - 16)
+                                    for (sbyte h = 0; h < 4; h++, index += width - 16)
                                     {
                                         for (byte w = 0; w < 4; w++, index += 4)
                                         {
@@ -3185,10 +3199,10 @@ namespace plt0
                                     //Console.WriteLine(index);
                                     block++;
                                     x += 8;  // basically the same width +=2 but here ref_width is 4 times canvas_width because of 32-bit depth bmp
-                                    if (x == ref_width)
+                                    if (x == width)
                                     {
                                         x = 0;
-                                        index += ref_width - 16;
+                                        index += width - 16;
                                         block = 0;
                                     }
 
@@ -3198,12 +3212,12 @@ namespace plt0
                                     }
                                     else if (block == 4)
                                     {
-                                        index -= (ref_width << 3) + 16;  // minus 8 lines and point to the bottom right sub-block of the next block
+                                        index -= (width << 3) + 16;  // minus 8 lines and point to the bottom right sub-block of the next block
                                         block = 0;
                                     }
                                     else
                                     {
-                                        index -= (ref_width << 2) + 16; // removes 4 lines and goes to the left sub-block
+                                        index -= (width << 2) + 16; // removes 4 lines and goes to the left sub-block
                                     }
                                     colour_palette.Clear();  // removes the 4 colours of the previous sub-block
                                 }
@@ -3234,22 +3248,22 @@ namespace plt0
                         }
                         using (System.IO.FileStream file = System.IO.File.Open(output_file + end, mode, System.IO.FileAccess.Write))
                         {
-                            file.Write(data, 0, data.Length);
+                            file.Write(data, 0, data.Length); // byte[54]
                             file.Write(palette, 0, colour_number_x4);
                             // Console.WriteLine(alpha_header_size + " " + alpha_header.Length);
                             file.Write(alpha_header, 0, alpha_header_size);
-                            file.Write(pixel, 0, pixel.Length);
+                            file.Write(pixel, 0, image_size);
                             file.Close();
                             if (!stfu)
                                 Console.WriteLine(output_file + end);
-                            done = true;  // fun fact, this statement IS executed. I DON4T F4CKING KNOW WHY I HAD TO PASTE IT THRICE
+                            // done = true;  // fun fact, this statement IS executed. I DON4T F4CKING KNOW WHY I HAD TO PASTE IT THRICE
                         }
                         if (png || gif || jpeg || ico || tiff || tif)
                         {
-                            ConvertAndSave((Bitmap)Bitmap.FromFile(output_file + end), z);
-                            done = true;  // fun fact, this statement is never executed.
+                            ConvertAndSave((Bitmap)Bitmap.FromFile(output_file + end), z);  // the problem was in this func.....
+                                                                                            // done = true;  // fun fact, this statement is never executed.
                         }
-                        done = true;  // fun fact, this statement is never executed.
+                        done = true;
                     }
                     catch (Exception ex)
                     {
@@ -3268,7 +3282,7 @@ namespace plt0
                         else if (safe_mode)
                         {
                             if (!no_warning)
-                            Console.WriteLine("an error occured while trying to write the output file");
+                                Console.WriteLine("an error occured while trying to write the output file");
                             continue;
                         }
                         else
@@ -3278,7 +3292,8 @@ namespace plt0
                     }
                 }
 
-                size = size >> 2;  // for next loop - divides by 4 because it's half the width size and half the height size
+                //size = size >> 2;  // for next loop - divides by 4 because it's half the width size and half the height size
+                //Array.Resize(ref pixel, pixel.Length >> 1);
             }
         }
 
@@ -6865,7 +6880,7 @@ same for blue + green*/
         }
         public byte[] Convert_to_bmp(System.Drawing.Bitmap imageIn)
         {
-            if (!stfu)
+            if (warn)
                 Console.WriteLine(imageIn.PixelFormat.ToString());
             if (!FORCE_ALPHA)
             {
@@ -6928,9 +6943,9 @@ same for blue + green*/
             byte last_value_index = 0;
             string end = ".bmp";
             success = true;
-            while (success)
+            using (var ms = new MemoryStream())
             {
-                using (var ms = new MemoryStream())
+                while (success)
                 {
                     if (png && last_value_index < 1)
                     {
@@ -6970,9 +6985,17 @@ same for blue + green*/
                     }
                     else if (ico && last_value_index < 7)
                     {
-                        imageIn.Save(ms, ImageFormat.Icon);
-                        end = ".ico";
-                        last_value_index = 7;
+                        if ((canvas_width >> current_mipmap) <= 256 && (canvas_height >> current_mipmap) <= 256)
+                        {
+                            if (!no_warning)
+                            Console.WriteLine("max dimensions for a .ico file are 256x256");
+                        }
+                        else
+                        {
+                            imageIn.Save(ms, ImageFormat.Icon);
+                            end = ".ico";
+                            last_value_index = 7;
+                        }
                     }
                     else
                     {
@@ -7011,7 +7034,7 @@ same for blue + green*/
                 gr.DrawImage(img, new Rectangle(0, 0, img.Width, img.Height));
             return bmp;
         }*/
-
+        /*
         public byte[] ImageToByteArray(System.Drawing.Image imageIn)
         {
             using (var ms = new MemoryStream())
@@ -7019,7 +7042,7 @@ same for blue + green*/
                 imageIn.Save(ms, imageIn.RawFormat);
                 return ms.ToArray();
             }
-        }
+        } */
 
     }
 
