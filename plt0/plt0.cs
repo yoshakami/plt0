@@ -1332,6 +1332,7 @@ namespace plt0
             {
                 byte[] id = new byte[4];
                 file.Read(id, 0, 4);
+
                 // msm tools handles these. the user can also make scripts to launch the program for every file he wants.
                 //case "bres":
                 //case .arc file from wii games
@@ -1346,15 +1347,36 @@ namespace plt0
                         if (input_file2 == "")
                         {
                             // get the palette file from the same directory or exit
+                            if (System.IO.File.Exists(input_fil + ".plt0"))
+                            {
+                                Decode_Texture();
+                            }
                         }
                         else
                         {
                             // check if second file is the palette or exit
+                            using (System.IO.FileStream file_2 = System.IO.File.Open(input_file2, System.IO.FileMode.Open, System.IO.FileAccess.Read))
+                            {
+                                byte[] id_2 = new byte[4];
+                                file_2.Read(id_2, 0, 4);
+                                if (id_2.ToString().Substring(0, 4) == "PLT0")
+                                {
+                                    byte[] data = new byte[0x20];
+                                    file_2.Read(data, 0, 0x20);
+                                    colour_number = (ushort)((data[0x1C] << 8) + data[0x1D]);
+                                    colour_number_x2 = colour_number << 1;
+                                    colour_number_x4 = colour_number << 2;
+                                    palette_format_int32[3] = data[0x1B];
+                                    file_2.Read(colour_palette, 0x40, colour_number_x2);
+                                    user_palette = true;
+                                }
+                            }
                         }
                     }
                     else
                     {
                         // decode the image
+                        Decode_Texture();
                     }
                 }
             }
@@ -1679,7 +1701,10 @@ namespace plt0
 
             return destImage;
         }
-
+        public void Decode_Texture()
+        {
+            // fill index_list the same way write_bmp handles it
+        }
         public void fill_palette(byte[] BGRA_array, int pixel_start_offset, int array_size)
         {
             byte red, green, blue, a;
@@ -2014,7 +2039,7 @@ namespace plt0
             for (z = 0; z < mipmaps_number + 1; z++)
             {
                 width = canvas_dim[z][2];
-                header_width = canvas_dim[z][3];
+                header_width = canvas_dim[z][2];
                 height = canvas_dim[z][3];
                 switch (texture_format_int32[3])
                 {
