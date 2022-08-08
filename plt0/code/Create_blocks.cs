@@ -10,9 +10,9 @@ class Create_blocks_class
         int count = 0;
         int height;
         int width;
-        Console.WriteLine(block_width);
-        block_width = (sbyte)(block_width / format_ratio);
-        Console.WriteLine(block_width);
+        //Console.WriteLine(block_width);
+        block_width = (sbyte)(block_width / format_ratio);  // cool thing: changing this value will only be effective in the current function. not in the one it was called from
+        //Console.WriteLine(block_width);
         if (texture_format_int32[3] == 6)  // RGBA32 has a f-cking byte order
         {
             for (int i = 0; i < settings.Count; i++)  // mipmaps

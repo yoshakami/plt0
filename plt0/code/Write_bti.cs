@@ -138,8 +138,8 @@ class Write_bti_class
         data[31] = (byte)(0x20 + colour_palette.Length);  // offset to image0 header, (byte) acts as %256
                                                           // now's palette data, but it's already stored in colour_palette, so let's jump onto image data.
         byte[] tex_data = new byte[size - 0x20 - colour_palette.Length];
-        Create_blocks_class.Create_blocks(tex_data, settings, index_list, block_width, block_height, format_ratio, texture_format_int32);
-
+        // tex_data = Create_blocks_class.Create_blocks(tex_data, settings, index_list, block_width, block_height, format_ratio, texture_format_int32);
+        Create_blocks_class.Create_blocks(tex_data, settings, index_list, block_width, block_height, format_ratio, texture_format_int32); // how the f*ck does this change tex_data's values
         // finished to get everything of the bti
         // now we'll check if that bti needs to be injected in a bmd
         // I made extract-bti.py first, so I'm using it as a template

@@ -6,7 +6,7 @@ using System.Linq;
 
 class Parse_args_class
 {
-    bool ask_exit = false;
+    static bool ask_exit = false;
     bool bmd = false;
     bool bmd_file = false;
     bool bmp = false;
@@ -1126,6 +1126,7 @@ class Parse_args_class
                             if (id_2.ToString().Substring(0, 4) == "PLT0")
                             {
                                 byte[] data = new byte[0x20];
+                                //byte[0x20] data;  // what is "on the stack" synthax in C#
                                 file_2.Read(data, 0, 0x20);
                                 colour_number = (ushort)((data[0x1C] << 8) + data[0x1D]);
                                 colour_number_x2 = colour_number << 1;
@@ -1154,7 +1155,8 @@ class Parse_args_class
                 }
             }
         }
-        byte[] bmp_image = Convert_to_bmp_class.Convert_to_bmp((Bitmap)Bitmap.FromFile(input_file));
+        Convert_to_bmp_class _bmp = new Convert_to_bmp_class(this);
+        byte[] bmp_image = _bmp.Convert_to_bmp((Bitmap)Bitmap.FromFile(input_file));
 
         /* if (colour_number > max_colours && max_colours == 16385)
     {
@@ -1276,7 +1278,7 @@ class Parse_args_class
                     }
                     else
                     {
-                        byte[] bmp_palette = Convert_to_bmp_class.Convert_to_bmp((Bitmap)Bitmap.FromFile(input_file2));  // will fail if this isn't a supported image
+                        byte[] bmp_palette = _bmp.Convert_to_bmp((Bitmap)Bitmap.FromFile(input_file2));  // will fail if this isn't a supported image
                         user_palette = true;
                         int array_size = bmp_palette[2] | bmp_palette[3] << 8 | bmp_palette[4] << 16 | bmp_palette[5] << 24;
                         int pixel_start_offset = bmp_palette[10] | bmp_palette[11] << 8 | bmp_palette[12] << 16 | bmp_palette[13] << 24;
@@ -1312,10 +1314,10 @@ class Parse_args_class
             }
             return;
         }
+        Create_plt0_class _plt0 = new Create_plt0_class(this);
         List<List<byte[]>> index_list = new List<List<byte[]>>();
-        object v = Create_plt0_class.Create_plt0(bmp_image, bmp_filesize, pixel_data_start_offset);
+        object v = _plt0.Create_plt0(bmp_image, bmp_filesize, pixel_data_start_offset);
         index_list.Add((List<byte[]>)v);
-
         if (warn)
         {
             if (!no_warning)
@@ -1330,7 +1332,7 @@ class Parse_args_class
             }
             if (System.IO.File.Exists(input_fil + ".mm" + z + input_ext))  // image with mipmap: input.png -> input.mm1.png -> input.mm2.png
             {
-                byte[] bmp_mipmap = Convert_to_bmp_class.Convert_to_bmp((Bitmap)Bitmap.FromFile(input_fil + ".mm" + z + input_ext));
+                byte[] bmp_mipmap = _bmp.Convert_to_bmp((Bitmap)Bitmap.FromFile(input_fil + ".mm" + z + input_ext));
                 if (bmp_mipmap[0x15] != 0 || bmp_mipmap[0x14] != 0 || bmp_mipmap[0x19] != 0 || bmp_mipmap[0x18] != 0)
                 {
                     if (!no_warning)
@@ -1345,7 +1347,7 @@ class Parse_args_class
                 //bitmap_height = (ushort)(bmp_mipmap[0x17] << 8 | bmp_mipmap[0x16]);
                 //pixel_count = bitmap_width * bitmap_height;
                 user_palette = true; // won't edit palette with mipmaps
-                object w = Create_plt0_class.Create_plt0(bmp_mipmap, bmp_size, pixel_start_offset);
+                object w = _plt0.Create_plt0(bmp_mipmap, bmp_size, pixel_start_offset);
                 index_list.Add((List<byte[]>)w);
             }
             else
@@ -1360,7 +1362,7 @@ class Parse_args_class
                     exit = true;
                     return;
                 }
-                byte[] bmp_mipmap = Convert_to_bmp_class.Convert_to_bmp(ResizeImage_class.ResizeImage((Bitmap)Bitmap.FromFile(input_file), bitmap_width, bitmap_height));
+                byte[] bmp_mipmap = _bmp.Convert_to_bmp(ResizeImage_class.ResizeImage((Bitmap)Bitmap.FromFile(input_file), bitmap_width, bitmap_height));
 
 
                 if (bmp_mipmap[0x15] != 0 || bmp_mipmap[0x14] != 0 || bmp_mipmap[0x19] != 0 || bmp_mipmap[0x18] != 0)
@@ -1377,7 +1379,7 @@ class Parse_args_class
                 //bitmap_height = (ushort)(bmp_mipmap[0x17] << 8 | bmp_mipmap[0x16]);
                 //pixel_count = bitmap_width * bitmap_height;
                 user_palette = true; // won't edit palette with mipmaps
-                object w = Create_plt0_class.Create_plt0(bmp_mipmap, bmp_size, pixel_start_offset);
+                object w = _plt0.Create_plt0(bmp_mipmap, bmp_size, pixel_start_offset);
                 index_list.Add((List<byte[]>)w);
             }
             mipmap_dimensions[2] = canvas_width;

@@ -155,8 +155,8 @@ class Write_tex0_class
             data[i] = 0;
         }
         byte[] tex_data = new byte[size - 64];
-        Create_blocks_class.Create_blocks(tex_data, settings, index_list, block_width, block_height, format_ratio, texture_format_int32);
-        Console.WriteLine(block_width);
+        // tex_data = Create_blocks_class.Create_blocks(tex_data, settings, index_list, block_width, block_height, format_ratio, texture_format_int32);
+        Create_blocks_class.Create_blocks(tex_data, settings, index_list, block_width, block_height, format_ratio, texture_format_int32); // WTF, tex_data values are changed in this function
         FileMode mode = System.IO.FileMode.CreateNew;
         if (System.IO.File.Exists(output_file + ".tex0"))
         {

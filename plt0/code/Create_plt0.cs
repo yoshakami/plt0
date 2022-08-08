@@ -5,9 +5,11 @@ using System.Linq;
 // I used dependancy injection here because there are too many variables from the main class, AND they're edited for some of them, so passing as function's argument won't work.
 // it looks ugly at some parts, sorry about that. I used _plt0 instead of _Parse_args_class to improve readability for a bit.
 
+//also, yes, this is what the peeps call "Encode", but it's not really encoded because you can read it, so I'd rather call it Create.
+// technically the "Decode" function is both Decode and Write_bmp
 class Create_plt0_class
 {
-    static Parse_args_class _plt0;
+    Parse_args_class _plt0;
     public Create_plt0_class(Parse_args_class Parse_args_class)
     {
         _plt0 = Parse_args_class;
@@ -20,7 +22,7 @@ class Create_plt0_class
     /// <param name="pixel_data_start_offset">read from the array itself</param>
     /// <returns>a list of each row of the image (starting by the bottom one) and each row is a byte array which contains every pixel of a row.</returns>
     // [MethodImpl(MethodImplOptions.NoOptimization)]
-    public static List<byte[]> Create_plt0(byte[] bmp_image, int bmp_filesize, int pixel_data_start_offset)
+    public List<byte[]> Create_plt0(byte[] bmp_image, int bmp_filesize, int pixel_data_start_offset)
     {
         ushort pixel = _plt0.bitmap_width;
         if (_plt0.bitmap_height % _plt0.block_height != 0)

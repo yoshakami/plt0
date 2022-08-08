@@ -6,12 +6,12 @@ using System.IO;
 // same here. as the parse_args class's variables are being edited, I have to use dependancy injection.
 class Convert_to_bmp_class
 {
-    static Parse_args_class _plt0;
+    Parse_args_class _plt0;
     public Convert_to_bmp_class(Parse_args_class Parse_args_class)
     {
         _plt0 = Parse_args_class;
     }
-    public static byte[] Convert_to_bmp(System.Drawing.Bitmap imageIn)
+    public byte[] Convert_to_bmp(System.Drawing.Bitmap imageIn)
     {
         if (_plt0.warn)
             Console.WriteLine(imageIn.PixelFormat.ToString());
