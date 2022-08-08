@@ -1,9 +1,9 @@
 # plt0
 Wii/GC texture encoder with palette support (png, jpeg, gif, bmp, tiff, tpl, tex0, plt0, bti)
 
-v0.1 - support for all palette formats
+v0.1: support for all palette formats
 
-v0.2 - support input palette and mipmaps
+v0.2: support input palette and mipmaps
 
 v0.3: inject into bmd files
 
@@ -11,11 +11,13 @@ v0.4: all image formats except cmpr
 
 v0.5: CMPR (I swear DXT1 Compression will be hard)
 
-v0.6: decode images
+v0.6: Optimize the project by splitting it in more than 1 file
 
-v0.7: GUI
+v0.7: decode images
 
-currently developping v0.5
+v0.8: GUI
+
+currently developping v0.6
 
 ## why this project
 wimgt doesn't support textures with palette (or corrupts them), except tpl files. which makes his whole tool a bit annoying
@@ -45,7 +47,7 @@ then that list is sorted by the usage number, and the most used values have thei
 
 if it is too similar to another colour in the palette, it won't be added to the palette. (I decided to name this parameter "diversity" or "d" for short)
 
-then the program will do a second loop with parameters "d2" it couldn't find anymore colour with the diversity parameter.
+then the program will do a second loop with parameters "d2" if it couldn't find anymore colour with the diversity parameter.
 
 there is also another paramter called "percentage" or "p" ("p2" for second loop) that will set the percentage limit of a colour (by its usage number) at which it will trigger second loop.
 
