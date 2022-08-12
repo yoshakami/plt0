@@ -15,9 +15,11 @@ v0.6: Optimize the project by splitting it in more than 1 file
 
 v0.7: decode images
 
-v0.8: GUI
+v0.8: TPL files options (add image to existing file)
 
-currently developping v0.6
+v0.9: GUI
+
+currently developping v0.8
 
 ## why this project
 wimgt doesn't support textures with palette (or corrupts them), except tpl files. which makes his whole tool a bit annoying
