@@ -31,6 +31,7 @@ class Parse_args_class
     bool tiff = false;
     bool tpl = false;
     bool tex0 = false;
+    bool reverse = false;
     public bool user_palette = false;
     public bool warn = false;
     public bool stfu = false;
@@ -59,8 +60,9 @@ class Parse_args_class
     public byte[] rgba_channel = { 2, 1, 0, 3 };
     public byte[] palette_format_int32 = { 0, 0, 0, 9 };  // 0 = AI8   1 = RGB565  2 = RGB5A3
     public byte[] texture_format_int32 = { 0, 0, 0, 7 };  // 8 = CI4   9 = CI8    10 = CI14x2
-    byte[] block_width_array = { 4, 8, 8, 8, 8, 8, 16, 4, 8, 8, 4 }; // altered to match bit-per pixel size.
-    byte[] block_height_array = { 8, 4, 4, 4, 4, 4, 4, 8, 4, 4, 8 };
+    byte[] real_block_width_array = { 8, 8, 8, 4, 4, 4, 4, 255, 8, 8, 4, 255, 255, 255, 8 }; // real one to calculate canvas size.
+    byte[] block_width_array = { 4, 8, 8, 8, 8, 8, 16, 255, 4, 8, 8, 255, 255, 255, 4 }; // altered to match bit-per pixel size.
+    byte[] block_height_array = { 8, 4, 4, 4, 4, 4, 4, 255, 8, 4, 4, 255, 255, 255, 8 }; // 255 = unused image format
     double format_ratio = 1;  // bit par pixel * format_ratio = 8
     public double percentage = 0;
     public double percentage2 = 0;
@@ -328,6 +330,11 @@ class Parse_args_class
                                 Console.WriteLine("um, so you would like to round up the 6th bit if the value of the truncated bytes is greater than their max value, which means always round down (a.k.a BrawlCrate method), sure but be aware that the accuracy of the image is lowered");
                             }
                         }
+                        break;
+                    }
+                case "REVERSE":
+                    {
+                        reverse = true;
                         break;
                     }
                 case "FUNKY":
@@ -1077,6 +1084,93 @@ class Parse_args_class
             colour_number_x2 = colour_number << 1;
             colour_number_x4 = colour_number << 2;
         }
+        //try
+        //{
+        byte[] id = new byte[9];
+        using (System.IO.FileStream file = System.IO.File.Open(input_file, System.IO.FileMode.Open, System.IO.FileAccess.Read))
+        {
+            file.Read(id, 0, 8);
+            file.Position = 0x23;
+            file.Read(id, 8, 1);
+        }
+        Decode_texture_class dec = new Decode_texture_class();
+        // msm tools handles these. the user can also make scripts to launch the program for every file he wants.
+        //case "bres":
+        //case .arc file from wii games
+        //case bmd
+        //case bti ??? how do I write that lol
+
+        if (id[0] == 84 && id[1] == 69 && id[2] == 88 && id[3] == 48) // TEX0
+        {
+            if (id[8] == 8 || id[8] == 9 || id[8] == 10)  // CI4, CI8, CI14x2
+            {
+                if (input_file2 == "")
+                {
+                    // get the palette file from the same directory or exit
+                    if (System.IO.File.Exists(input_fil + ".plt0"))
+                    {
+                        dec.Decode_texture(input_file, input_fil + ".plt0", output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, 0, bmp_32, funky, reverse, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
+                    }
+                    else
+                    {
+                        if (!no_warning)
+                            Console.WriteLine("your input texture missing plt0 file. it should be named " + input_fil + ".plt0");
+                    }
+                }
+                else
+                {
+                    // check if second file is the palette or exit
+                    byte[] data = new byte[0x20];
+                    using (System.IO.FileStream file_2 = System.IO.File.Open(input_file2, System.IO.FileMode.Open, System.IO.FileAccess.Read))
+                    {
+                        file_2.Read(id, 0, 4);
+                        file_2.Read(data, 0, 0x20);
+                        colour_number = (ushort)((data[0x1C] << 8) + data[0x1D]);
+                        colour_number_x2 = colour_number << 1;
+                        Array.Resize(ref colour_palette, colour_number_x2);
+                        file_2.Position = 0x40;
+                        file_2.Read(colour_palette, 0, colour_number_x2);
+                    }
+                    if (id[0] == 80 && id[1] == 76 && id[2] == 84 && id[3] == 48)
+                    {
+                        //byte[0x20] data;  // what is "on the stack" synthax in C#
+                        // colour_number_x4 = colour_number << 2;
+                        // palette_format_int32[3] = data[0x1B];
+                        //file_2.Read(colour_palette, 0x40, colour_number_x2);  // check if this is right. second parameter should always be ZERO
+                        // user_palette = true;
+                        dec.Decode_texture(input_file, input_file2, output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, data[0x1B], bmp_32, funky, reverse, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
+                    }
+                    // get the palette file from the same directory or exit
+                    else if (System.IO.File.Exists(input_fil + ".plt0"))
+                    {
+                        dec.Decode_texture(input_file, input_fil + ".plt0", output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, 0, bmp_32, funky, reverse, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
+                    }
+                    else
+                    {
+                        if (!no_warning)
+                            Console.WriteLine("your input texture missing plt0 file. it should be named " + input_fil + ".plt0");
+                    }
+
+                }
+            }
+            else
+            {
+                // decode the image
+                dec.Decode_texture(input_file, "", output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, 0, bmp_32, funky, reverse, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
+            }
+            return;
+        }
+        else if (id[0] == 0 && id[1] == 32 && id[2] == 0xaf && id[3] == 48)  // tpl file header
+        {
+            dec.Decode_texture(input_file, "", output_file, real_block_width_array, block_width_array, block_height_array, false, true, colour_palette, 0, bmp_32, funky, reverse, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
+            return;
+        }
+        else if (id[0] < 15 && id[6] < 3 && id[7] < 3)  // rough bti check
+        {
+            dec.Decode_texture(input_file, "", output_file, real_block_width_array, block_width_array, block_height_array, false, false, colour_palette, 0, bmp_32, funky, reverse, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
+            return;
+        }
+
 
         if (texture_format_int32[3] == 7 && palette_format_int32[3] == 9)
         {
@@ -1084,76 +1178,6 @@ class Parse_args_class
                 Console.WriteLine("add a texture encoding format as argument.\n\nList of available formats: \nI4      (black and white 4 bit shade of gray)\nI8      (1 black and white byte per pixel)\nAI4     (4-bit alpha then 4-bit I4)\nAI8     (1 byte alpha and 1 byte I8)\nRGB565  (best colour encoding, 5-bit red, 6-bit green, and 5-bit blue)\nRGB5A3  (rgb555 if pixel doesn't have alpha, and 3-bit alpha + rgb444 if pixel have alpha)\nRGBA8   (lossless encoding, biggest one though, 4 bytes per pixel)\nCI4   * (uses a colour palette of max 16 colours)\nCI8   * (uses a colour palette of max 256 colours)\nCI14x2 *(uses a colour palette of max 65536 colours) - untested in-game\nCMPR  (4-bit depth, max 2 colours per 4x4 image chunk + 2 software interpolated ones) - wimgt encoding for this format is pretty decent, you should check it out\n\n* you can force a palette format to be set for these textures format\nPalette formats: AI8, RGB565, RGB5A3");
             return;
             // need to change this for decoding
-        }
-        //try
-        //{
-        using (System.IO.FileStream file = System.IO.File.Open(input_file, System.IO.FileMode.Open, System.IO.FileAccess.Read))
-        {
-            byte[] id = new byte[4];
-            file.Read(id, 0, 4);
-
-            // msm tools handles these. the user can also make scripts to launch the program for every file he wants.
-            //case "bres":
-            //case .arc file from wii games
-            //case bmd
-            //case bti ??? how do I write that lol
-
-            if (id.ToString() == "TEX0")
-            {
-                file.Read(id, 0x23, 1);
-                if (id[0] == 8 || id[0] == 9 || id[0] == 10)  // CI4, CI8, CI14x2
-                {
-                    if (input_file2 == "")
-                    {
-                        // get the palette file from the same directory or exit
-                        if (System.IO.File.Exists(input_fil + ".plt0"))
-                        {
-                            Decode_texture_class.Decode_texture();
-                        }
-                        else
-                        {
-                            if (!no_warning)
-                                Console.WriteLine("your input texture missing plt0 file. it should be named " + input_fil + ".plt0");
-                        }
-                    }
-                    else
-                    {
-                        // check if second file is the palette or exit
-                        using (System.IO.FileStream file_2 = System.IO.File.Open(input_file2, System.IO.FileMode.Open, System.IO.FileAccess.Read))
-                        {
-                            byte[] id_2 = new byte[4];
-                            file_2.Read(id_2, 0, 4);
-                            if (id_2.ToString().Substring(0, 4) == "PLT0")
-                            {
-                                byte[] data = new byte[0x20];
-                                //byte[0x20] data;  // what is "on the stack" synthax in C#
-                                file_2.Read(data, 0, 0x20);
-                                colour_number = (ushort)((data[0x1C] << 8) + data[0x1D]);
-                                colour_number_x2 = colour_number << 1;
-                                colour_number_x4 = colour_number << 2;
-                                palette_format_int32[3] = data[0x1B];
-                                file_2.Read(colour_palette, 0x40, colour_number_x2);
-                                user_palette = true;
-                            }
-                            // get the palette file from the same directory or exit
-                            else if (System.IO.File.Exists(input_fil + ".plt0"))
-                            {
-                                Decode_texture_class.Decode_texture();
-                            }
-                            else
-                            {
-                                if (!no_warning)
-                                    Console.WriteLine("your input texture missing plt0 file. it should be named " + input_fil + ".plt0");
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    // decode the image
-                    Decode_texture_class.Decode_texture();
-                }
-            }
         }
         Convert_to_bmp_class _bmp = new Convert_to_bmp_class(this);
         byte[] bmp_image = _bmp.Convert_to_bmp((Bitmap)Bitmap.FromFile(input_file));
@@ -1273,7 +1297,9 @@ class Parse_args_class
                         colour_number_x2 = colour_number << 1;
                         colour_number_x4 = colour_number << 2;
                         palette_format_int32[3] = data[0x1B];
-                        file2.Read(colour_palette, 0x40, colour_number_x2);
+                        // file2.Read(colour_palette, 0x40, colour_number_x2); // check if this is right
+                        file2.Position = 0x40;
+                        file2.Read(colour_palette, 0, colour_number_x2);
                         user_palette = true;
                     }
                     else

@@ -289,8 +289,8 @@ class Write_bti_class
                     }
                     int data_offset = (j3d[y + z + 0x3C] << 24) + (j3d[y + z + 0x3D] << 16) + (j3d[y + z + 0x3E] << 8) + (j3d[y + z + 0x3F]);
                     data_offset_array.Add(data_offset);
-                    blocks_wide = (j3d[y + 0x22 + z] + j3d[y + 0x23 + z] + block_width_array[j3d[y + 0x20 + z]]) / block_width_array[j3d[y + 0x20 + z]];
-                    blocks_tall = (j3d[y + 0x24 + z] + j3d[y + 0x25 + z] + block_width_array[j3d[y + 0x20 + z]]) / block_height_array[j3d[y + 0x20 + z]];
+                    blocks_wide = (j3d[y + 0x22 + z] + j3d[y + 0x23 + z] + block_width_array[j3d[y + 0x20 + z]] - 1) / block_width_array[j3d[y + 0x20 + z]];
+                    blocks_tall = (j3d[y + 0x24 + z] + j3d[y + 0x25 + z] + block_width_array[j3d[y + 0x20 + z]] - 1) / block_height_array[j3d[y + 0x20 + z]];
                     int data_size = (blocks_wide * blocks_tall);
                     if (j3d[y + 0x20 + z] == 6)
                     {

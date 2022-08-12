@@ -89,7 +89,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'plt0|x64' ">
     <OutputPath>..\..\..\..\..\root\Mario Party 9 [SSQP01]\DATA\files\common\bdresult\option2.brres_DECOMP\tex0\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <LangVersion>7.3</LangVersion>
@@ -116,6 +116,7 @@
     <Compile Include="code\Create_blocks.cs" />
     <Compile Include="code\Create_plt0.cs" />
     <Compile Include="code\Decode_texture.cs" />
+    <Compile Include="code\Fill_index_list.cs" />
     <Compile Include="code\Fill_palette.cs" />
     <Compile Include="code\IntArrayComparer.cs" />
     <Compile Include="code\Parse_args.cs" />

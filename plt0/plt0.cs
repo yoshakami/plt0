@@ -1,11 +1,12 @@
 ﻿using System;
+/*
 using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Drawing.Drawing2D;
-using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices; */
 /*
 PLT0 (File Format) Made by me
 ```
@@ -89,7 +90,7 @@ v-- Palette Data --v
 this is the same palette data as a PLT0
 
 v-- Image Header --v
-0x00    2    Height
+0x00    2    Height  // height is indeed written before width
 0x02    2    Width
 0x04    4    Texture Format
 0x08    4    Image Data Address
@@ -130,7 +131,7 @@ Offset Size  Description
 0x17    1    MaxLOD  (equal to (image_count-1)*8)
 0x18    1    Total number of images, thus number of mipmaps + 1. (substract 1 and multiply by 8 to have the value at 0x17)
 0x19    1    Unknown. always 0 outside bmd files. has a lot of different values in mkdd (safe to freely change)
-0x1A    2    LODBias (apparently it's the distance from which the game should switch to mipmaps)  <------------------- I don't know how that works so I've made it to be always zero in the write_BTI function
+0x1A    2    LODBias (apparently it's the distance from which the game should switch to mipmaps)  <------------------- I can't know how that works so I've made it to be always zero in the write_BTI function
 0x1C    4    Offset to image data, relative to the start of the file header.
 * according to SuperBMD, 0x11  = EdgeLOD (bool),  0x12 = BiasClamp (bool), 0x13 =  MaxAniso, but they're always 0 in mkdd
 
