@@ -964,6 +964,8 @@ class Parse_args_class
                                                 }
                                         }
                                     }
+                                    pass = 3;
+                                    continue;
                                 }
                             }
                             else if (args[i].Length == 4)
@@ -971,7 +973,7 @@ class Parse_args_class
                                 success = true;
                                 for (byte c = 0; c < 4; c++)
                                 {
-                                    if (args[i + c].ToUpper() != "R" && args[i + c].ToUpper() != "G" && args[i + c].ToUpper() != "B" && args[i + c].ToUpper() != "A")
+                                    if (args[i].ToUpper().Substring(c, 1) != "R" && args[i].ToUpper().Substring(c, 1) != "G" && args[i].ToUpper().Substring(c, 1) != "B" && args[i].ToUpper().Substring(c, 1) != "A")
                                     {
                                         success = false;
                                         break;
@@ -981,7 +983,7 @@ class Parse_args_class
                                 {
                                     for (byte c = 0; c < 4; c++)
                                     {
-                                        switch (args[i + c].ToUpper())
+                                        switch (args[i].ToUpper().Substring(c, 1))
                                         {
                                             case "R":
                                                 {
@@ -1005,6 +1007,8 @@ class Parse_args_class
                                                 }
                                         }
                                     }
+                                    pass = 4;
+                                    continue;
                                 }
                             }
                             if (args[i].Contains(".") && args[i].Length > 1)
