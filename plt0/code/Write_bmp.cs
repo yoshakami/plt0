@@ -1286,7 +1286,7 @@ class Write_bmp_class
                     {
                         // LMAO THE NUMBER OF ARGS, that's how you do dependancy injection without renaming EACH VARIABLE
                         Convert_from_bmp_class.Convert_from_bmp((Bitmap)Bitmap.FromFile(output_file + end), z, output_file, canvas_dim[z][2], canvas_dim[z][3], png, tif, tiff, jpg, jpeg, gif, ico, no_warning, warn, stfu);  // the problem was in this func.....
-                                                                                        // done = true;  // fun fact, this statement is never executed.
+                                                                                                                                                                                                                               // done = true;  // fun fact, this statement is never executed.
                     }
                     done = true;
                 }

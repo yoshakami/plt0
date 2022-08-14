@@ -14,7 +14,7 @@ class Write_tex0_class
     /// each mipmap contains a list of every row of the image (starting by the bottom one). <br/>
     /// each row is actually a byte array of every pixel encoded in a specific format.</param>
     /// <returns>nothing. but writes the file into the output name given in CLI argument</returns>
-    static public void Write_tex0(List<List<byte[]>> index_list, byte[] texture_format_int32, ushort bitmap_width, ushort bitmap_height, double format_ratio, string output_file, bool has_palette, bool warn, bool stfu, sbyte block_width, sbyte block_height, byte mipmaps_number)  // index_list contains all mipmaps.
+    static public void Write_tex0(List<List<byte[]>> index_list, byte[] texture_format_int32, ushort bitmap_width, ushort bitmap_height, double format_ratio, string output_file, bool has_palette, bool safe_mode, bool no_warning, bool warn, bool stfu, sbyte block_width, sbyte block_height, byte mipmaps_number)  // index_list contains all mipmaps.
     {
         int size = 0x40;
         double temp;
@@ -158,24 +158,58 @@ class Write_tex0_class
         // tex_data = Create_blocks_class.Create_blocks(tex_data, settings, index_list, block_width, block_height, format_ratio, texture_format_int32);
         Create_blocks_class.Create_blocks(tex_data, settings, index_list, block_width, block_height, format_ratio, texture_format_int32); // WTF, tex_data values are changed in this function
         FileMode mode = System.IO.FileMode.CreateNew;
-        if (System.IO.File.Exists(output_file + ".tex0"))
+        uint u = 0;
+        bool done = false;
+        while (!done)
         {
-            mode = System.IO.FileMode.Truncate;
-            if (warn)
+            try
             {
-                Console.WriteLine("Press enter to overwrite " + output_file + ".tex0");
-                Console.ReadLine();
+                if (System.IO.File.Exists(output_file + ".tex0"))
+                {
+                    mode = System.IO.FileMode.Truncate;
+                    if (warn)
+                    {
+                        Console.WriteLine("Press enter to overwrite " + output_file + ".tex0");
+                        Console.ReadLine();
+                    }
+                }
+                using (System.IO.FileStream file = System.IO.File.Open(output_file + ".tex0", mode, System.IO.FileAccess.Write))
+                {
+                    file.Write(data, 0, 64);
+                    file.Write(tex_data, 0, size - 64);
+                    file.Write(data2, 0, data2.Length);
+                    file.Close();
+                    done = true;
+                    if (!stfu)
+                        Console.WriteLine(output_file + ".tex0");
+                    // Console.ReadLine();
+                }
             }
-        }
-        using (System.IO.FileStream file = System.IO.File.Open(output_file + ".tex0", mode, System.IO.FileAccess.Write))
-        {
-            file.Write(data, 0, 64);
-            file.Write(tex_data, 0, size - 64);
-            file.Write(data2, 0, data2.Length);
-            file.Close();
-            if (!stfu)
-                Console.WriteLine(output_file + ".tex0");
-            // Console.ReadLine();
+            catch (Exception ex)
+            {
+                u += 1;
+                if (ex.Message.Substring(0, 34) == "The process cannot access the file")  // because it is being used by another process
+                {
+                    if (u > 1)
+                    {
+                        output_file = output_file.Substring(output_file.Length - 2) + "-" + u;
+                    }
+                    else
+                    {
+                        output_file += "-" + u;
+                    }
+                }
+                else if (safe_mode)
+                {
+                    if (!no_warning)
+                        Console.WriteLine("an error occured while trying to write the output file");
+                    continue;
+                }
+                else
+                {
+                    throw ex;
+                }
+            }
         }
     }
 }

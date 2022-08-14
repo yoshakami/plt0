@@ -1864,7 +1864,7 @@ class Create_plt0_class
                                         index[j + 5] = (byte)(bmp_image[i + 8 + _plt0.rgba_channel[0]] * _plt0.custom_rgba[0]);  // R
                                         index[j + 6] = (byte)(bmp_image[i + 12 + _plt0.rgba_channel[3]] * _plt0.custom_rgba[3]);  // A
                                         index[j + 7] = (byte)(bmp_image[i + 12 + _plt0.rgba_channel[0]] * _plt0.custom_rgba[0]);  // R
-                                                                                                                      // Green and Blue
+                                                                                                                                  // Green and Blue
                                         index[j + 8] = (byte)(bmp_image[i + _plt0.rgba_channel[1]] * _plt0.custom_rgba[1]);   // G
                                         index[j + 9] = (byte)(bmp_image[i + _plt0.rgba_channel[2]] * _plt0.custom_rgba[2]);       // B
                                         index[j + 10] = (byte)(bmp_image[i + 4 + _plt0.rgba_channel[1]] * _plt0.custom_rgba[1]);  // G
@@ -1896,7 +1896,7 @@ class Create_plt0_class
                                         index[j + 5] = (byte)(bmp_image[i + 8 + _plt0.rgba_channel[0]]);  // R
                                         index[j + 6] = (byte)(bmp_image[i + 12 + _plt0.rgba_channel[3]]);  // A
                                         index[j + 7] = (byte)(bmp_image[i + 12 + _plt0.rgba_channel[0]]);  // R
-                                                                                                     // Green and Blue
+                                                                                                           // Green and Blue
                                         index[j + 8] = (byte)(bmp_image[i + _plt0.rgba_channel[1]]);   // G
                                         index[j + 9] = (byte)(bmp_image[i + _plt0.rgba_channel[2]]);       // B
                                         index[j + 10] = (byte)(bmp_image[i + 4 + _plt0.rgba_channel[1]]);  // G

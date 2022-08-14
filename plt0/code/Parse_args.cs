@@ -7,6 +7,7 @@ using System.Linq;
 class Parse_args_class
 {
     static bool ask_exit = false;
+    bool add = false;
     bool bmd = false;
     bool bmd_file = false;
     bool bmp = false;
@@ -32,6 +33,8 @@ class Parse_args_class
     bool tpl = false;
     bool tex0 = false;
     bool reverse = false;
+    bool overwrite = false;
+    bool file2_conflict = false;
     public bool user_palette = false;
     public bool warn = false;
     public bool stfu = false;
@@ -961,7 +964,7 @@ class Parse_args_class
                                     }
                                 }
                             }
-                            if (args[i].Length == 4)
+                            else if (args[i].Length == 4)
                             {
                                 success = true;
                                 for (byte c = 0; c < 4; c++)
@@ -1024,8 +1027,14 @@ class Parse_args_class
                 Console.WriteLine("no input file specified\nusage: PLT0 <file> <tex0|tpl|bti|bmd|bmp|png|gif|jpeg|ico|tiff> <Encoding Format> [Palette Format] [pal custom palette|bmd file|plt0 file|bmp file|png file|jpeg file|tiff file|ico file|gif file|rle file] [dest file name without extension] [alpha|no alpha|mix] [c colour number] [d diversity] [d2 diversity2] [m mipmaps] [p percentage] [p2 percentage2] [g2|no_gradient|cc 0.7 0.369 0.4 1.0] [warn|w] [exit|ask] [safe|noerror] [random] [min nearest neighbour] [mag linear] [Wrap Clamp Clamp] [funky] [round3] [round4] [round5] [round6] [force alpha]\nthis is the usage format for parameters : [optional] <mandatory> \n\nthe order of the parameters doesn't matter, but the image to encode must be put before the second input file (bmd/image used as palette)\nAvailable Encoding Formats: C4, CI4, C8, CI8, CI14x2, C14x2, default = CI8\nAvailable Palette Formats : IA8 (Black and White), RGB565 (RGB), RGB5A3 (RGBA), default = (auto)\n\nif the palette chosen is RGB5A3, you can force the image to have no alpha for all colours (so the RGB values will be stored on 5 bits each), or force all colours to use an alpha channel, by default it's set on 'mix'\n\ndashes are not needed before each parameter, it will still work if you add some as you please lol, this cli parsing function should be unbreakable\nthe number of colours is stored on 2 bytes, but the index bit length of the colour encoding format limits the max number of colours to these:\nCI4 : from 0 to 16\nCI8 : from 0 to 256\nCI14x2 : from 0 to 16384\n\nbmd = inject directly the bti file in a bmd (if the bti filename isn't in the bmd or you haven't entered a bmd second input file, this will notice you of the failure).\n\npal #RRGGBB #RRGGBB #RRGGBB ... is used to directly input your colour palette to a tex0 so it'll encode it with this palette. (example creating a 2 colour palette:plt0 pal #000000 #FFFFFF)\nif you input two existing images, the second one will be taken as the input palette.\n\nd | diversity = a minimum amount of difference for at least one colour channel in the colour palette\n(prevents a palette from having colours close to each other) default : 16 colours -> diversity = 60 | 256 colours -> diversity = 20\nvalue between 0 and 255, if the program heaven't filled the colour table with this parameter on, it'll fill it again with diversity2, then it'll let you know and fill it with the most used colours\n\n d2 | diversity2 = the diversity parameter for the second loop that fills the colour table if it's not full after the first loop.\n\n-m | --n-mm | m | --n-mipmaps = mipmaps number (number of duplicates versions of lower resolution of the input image stored in the output texture) default = 0\n\n p | percentage a double (64 bit float) between zero and 100. Alongside the diversity setting, if a colour counts for less than p % of the whole number of pixels, then it won't be added to the palette. default = 0 (0%)\n-p2 | p2 | percentage2 = the minimum percentage for the second loop that fills the colour table. default = 0 (0%)\nadd w or warn to make the program ask to you before overwriting the output file or tell you which parameters the program used.\n\nexit or ask is used to always make the tool make you press enter before exit.\nsafe or noerror is used to make the program never throw execution error code (useful for using subsystem.check_output in python without crash)\nrandom = random colour palette\n\ntype g2 to use grayscale recommendation CIE 709, the default one used is the recommendation CIE 601.\ntype cc then your float RGBA factors to multiply every pixel of the input image by this factor\n the order of parameters doesn't matter, though you need to add a number after commands like 'm', 'c' or 'd',\nmin or mag filters are used to choose the algorithm for downscaling/upscaling textures in a tpl file : (nearest neighbour, linear, NearestMipmapNearest, NearestMipmapLinear, LinearMipmapNearest, LinearMipmapLinear) you can just type nn or nearest instead of nearest neighbour or the filter number.\nwrap X Y is the syntax to define the wrap mode for both horizontal and vertical within the same option. X and Y can have these values (clamp, repeat, mirror) or just type the first letter. \nplease note that if a parameter corresponds to nothing described above and doesn't exists, it'll be taken as the output file name.\n\nRound3 : threshold for 3-bit values (alpha in RGB5A3). every value of the trimmed bits above this threshold will round up the last bit. Default: 16.\nRound4 : Default: 8 (it's the middle between 0 and 16)\nRound5 : Default: 4 (brawlcrate uses to put 0 everywhere)\nRound6 : Default: 2 (wimgt has every default value here +1 eg here it would be 3)\n\nFORCE ALPHA: by default only 32 bits RGBA Images will have alpha enabled automatically or not (if the image has transparent pixels) on RGBA32 and RGB5A3 and CMPR textures.\n1-bit, 4-bit, 8-bit and 24-bit depth images won't have alpha enabled unless you FORCE ALPHA (which will likely result in a fully transparent image)\nthreshold / cmpr_alpha_threshold : every pixel that has an alpha below this value will be fully transparent (only for cmpr format, value between 0 and 255). default = 100\nfunky : gives funky results if your output image is a bmp/png/gif etc. because it paste the raw encoded format in the bmp who's supposed to have a GBRA byte array 🤣🤣🤣\n\n Examples: (using wimgt synthax can work as seen below)\nplt0 rosalina.png -d 0 -x ci8 rgb5a3 --n-mipmaps 5 -w -c 256 (output name will be '-x.plt0' and '-x.tex0', as this is not an existing option)\nplt0 tpl ci4 rosalina.jpeg AI8 c 4 d 16 g2 m 1 warn texture.tex0");
             return;
         }
+        if (System.IO.File.Exists(swap) && input_file2 == "")
+        {
+            input_file2 = swap;
+            file2_conflict = true;
+        }
         if (output_file == "")
         {
+            overwrite = true;
             output_file = input_file.Substring(0, input_file.Length - input_file.Split('.')[input_file.Split('.').Length - 1].Length - 1);
         }
         if (colour_number > max_colours && max_colours == 16)
@@ -1131,7 +1140,7 @@ class Parse_args_class
                         file_2.Position = 0x40;
                         file_2.Read(colour_palette, 0, colour_number_x2);
                     }
-                    if (id[0] == 80 && id[1] == 76 && id[2] == 84 && id[3] == 48)
+                    if (id[0] == 80 && id[1] == 76 && id[2] == 84 && id[3] == 48)  // PLT0
                     {
                         //byte[0x20] data;  // what is "on the stack" synthax in C#
                         // colour_number_x4 = colour_number << 2;
@@ -1283,14 +1292,19 @@ class Parse_args_class
             {
                 using (System.IO.FileStream file2 = System.IO.File.Open(input_file2, System.IO.FileMode.Open, System.IO.FileAccess.Read))
                 {
+                    success = false;
                     byte[] id2 = new byte[8];
                     file2.Read(id2, 0, 8);
-                    if (id2.ToString() == "J3D2bmd3")
+                    //if (id2.ToString() == "J3D2bmd3") // id2.ToString == "System.Byte[]"
+                    if (id2[0] == 74 && id2[1] == 51 && id2[2] == 68 && id2[3] == 50 && id2[4] == 98 && id2[5] == 109 && id2[6] == 100 && id2[7] == 51)
                     {
                         bmd_file = true;
+                        success = true;
                     }
-                    else if (id2.ToString().Substring(0, 4) == "PLT0")
+                    //else if (id2.ToString().Substring(0, 4) == "PLT0")
+                    else if (id2[0] == 80 && id2[1] == 76 && id2[2] == 84 && id2[3] == 48)
                     {
+                        success = true;
                         byte[] data = new byte[0x20];
                         file2.Read(data, 0, 0x20);
                         colour_number = (ushort)((data[0x1C] << 8) + data[0x1D]);
@@ -1302,29 +1316,41 @@ class Parse_args_class
                         file2.Read(colour_palette, 0, colour_number_x2);
                         user_palette = true;
                     }
-                    else
+                    else if (id2[0] == 0 && id2[1] == 32 && id2[2] == 0xaf && id2[3] == 48)  // TPL
                     {
-                        byte[] bmp_palette = _bmp.Convert_to_bmp((Bitmap)Bitmap.FromFile(input_file2));  // will fail if this isn't a supported image
-                        user_palette = true;
-                        int array_size = bmp_palette[2] | bmp_palette[3] << 8 | bmp_palette[4] << 16 | bmp_palette[5] << 24;
-                        int pixel_start_offset = bmp_palette[10] | bmp_palette[11] << 8 | bmp_palette[12] << 16 | bmp_palette[13] << 24;
-                        ushort bitmap_w = (ushort)(bmp_palette[0x13] << 8 | bmp_palette[0x12]);
-                        ushort bitmap_h = (ushort)(bmp_palette[0x17] << 8 | bmp_palette[0x16]);
-                        ushort pixel = (ushort)(bitmap_w * bitmap_h);
-                        if (pixel != colour_number)
-                        {
-                            if (!no_warning)
-                                Console.WriteLine("Second image input has " + pixel + " pixels while there are " + colour_number + " max colours in the palette.");
-                            return;
-                        }
-                        Fill_palette_class.Fill_palette(bmp_palette, pixel_start_offset, array_size, colour_palette, rgba_channel, custom_rgba, palette_format_int32, algorithm, alpha, round3, round4, round5, round6);
+                        // add the encoded image into this file
+                        add = true;
+                        success = true;
                     }
                 }
+                if (!success)
+                {
+                    byte[] bmp_palette = _bmp.Convert_to_bmp((Bitmap)Bitmap.FromFile(input_file2));  // will fail if this isn't a supported image
+                    user_palette = true;
+                    int array_size = bmp_palette[2] | bmp_palette[3] << 8 | bmp_palette[4] << 16 | bmp_palette[5] << 24;
+                    int pixel_start_offset = bmp_palette[10] | bmp_palette[11] << 8 | bmp_palette[12] << 16 | bmp_palette[13] << 24;
+                    ushort bitmap_w = (ushort)(bmp_palette[0x13] << 8 | bmp_palette[0x12]);
+                    ushort bitmap_h = (ushort)(bmp_palette[0x17] << 8 | bmp_palette[0x16]);
+                    ushort pixel = (ushort)(bitmap_w * bitmap_h);
+                    if (pixel != colour_number)
+                    {
+                        if (!no_warning)
+                            Console.WriteLine("Second image input has " + pixel + " pixels while there are " + colour_number + " max colours in the palette.");
+                        return;
+                    }
+                    Fill_palette_class.Fill_palette(bmp_palette, pixel_start_offset, array_size, colour_palette, rgba_channel, custom_rgba, palette_format_int32, algorithm, alpha, round3, round4, round5, round6);
+                }
+
             }
         }
         catch (Exception ex)
         {
-            if (ex.Message == "Out of memory." && ex.Source == "System.Drawing")
+            if (file2_conflict)
+            { 
+                // the arg parser purposefully made a mistake lol, this happens if the output file already exists and input_file2 is empty
+                // let's just pretend the program ran fine and forget about this 
+            }
+            else if (ex.Message == "Out of memory." && ex.Source == "System.Drawing")
             {
                 if (!no_warning)
                     Console.WriteLine("Second image input format not supported (convert it to jpeg or png)");
@@ -1428,11 +1454,18 @@ class Parse_args_class
                     Console.WriteLine("specified bmd output but no bmd file given");
                 return;
             }
-            Write_bti_class.Write_bti(index_list, colour_palette, texture_format_int32, palette_format_int32, block_width_array, block_height_array, bitmap_width, bitmap_height, colour_number, format_ratio, input_fil, input_file2, output_file, bmd_file, no_warning, has_palette, warn, stfu, block_width, block_height, mipmaps_number, minificaction_filter, magnification_filter, WrapS, WrapT, alpha);
+            Write_bti_class.Write_bti(index_list, colour_palette, texture_format_int32, palette_format_int32, block_width_array, block_height_array, bitmap_width, bitmap_height, colour_number, format_ratio, input_fil, input_file2, output_file, bmd_file, has_palette, safe_mode, no_warning, warn, stfu, block_width, block_height, mipmaps_number, minificaction_filter, magnification_filter, WrapS, WrapT, alpha);
         }
         if (tpl)
         {
-            Write_tpl_class.Write_tpl(index_list, colour_palette, texture_format_int32, palette_format_int32, bitmap_width, bitmap_height, colour_number, format_ratio, output_file, has_palette, warn, stfu, block_width, block_height, mipmaps_number, minificaction_filter, magnification_filter, WrapS, WrapT);
+            if (add)
+            {
+                Write_into_tpl_class.Write_into_tpl(index_list, colour_palette, texture_format_int32, palette_format_int32, block_width_array, block_height_array, bitmap_width, bitmap_height, colour_number, format_ratio, input_file2, output_file, has_palette, overwrite, safe_mode, no_warning, warn, stfu, block_width, block_height, mipmaps_number, minificaction_filter, magnification_filter, WrapS, WrapT);
+            }
+            else
+            {
+                Write_tpl_class.Write_tpl(index_list, colour_palette, texture_format_int32, palette_format_int32, bitmap_width, bitmap_height, colour_number, format_ratio, output_file, has_palette, safe_mode, no_warning, warn, stfu, block_width, block_height, mipmaps_number, minificaction_filter, magnification_filter, WrapS, WrapT);
+            }
         }
         if (bmp || png || tif || tiff || ico || jpg || jpeg || gif)  // tell me if there's another format available through some extensions I'll add it
         {
@@ -1442,9 +1475,9 @@ class Parse_args_class
         {
             if (has_palette)
             {
-                Write_plt0_class.Write_plt0(colour_palette, palette_format_int32, colour_number, output_file, warn, stfu);
+                Write_plt0_class.Write_plt0(colour_palette, palette_format_int32, colour_number, output_file, safe_mode, no_warning, warn, stfu);
             }
-            Write_tex0_class.Write_tex0(index_list, texture_format_int32, bitmap_width, bitmap_height, format_ratio, output_file, has_palette, warn, stfu, block_width, block_height, mipmaps_number);
+            Write_tex0_class.Write_tex0(index_list, texture_format_int32, bitmap_width, bitmap_height, format_ratio, output_file, has_palette, safe_mode, no_warning, warn, stfu, block_width, block_height, mipmaps_number);
         }
 
         /* catch (Exception ex)  // remove this when debugging else it'll tell you every error were at this line lol

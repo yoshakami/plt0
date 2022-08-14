@@ -5,7 +5,7 @@ using System.Linq;
 
 class Write_tpl_class
 {
-    static public void Write_tpl(List<List<byte[]>> index_list, byte[] colour_palette, byte[] texture_format_int32, byte[] palette_format_int32, ushort bitmap_width, ushort bitmap_height, ushort colour_number, double format_ratio, string output_file, bool has_palette, bool warn, bool stfu, sbyte block_width, sbyte block_height,byte mipmaps_number, byte minificaction_filter, byte magnification_filter, byte WrapS, byte WrapT)
+    static public void Write_tpl(List<List<byte[]>> index_list, byte[] colour_palette, byte[] texture_format_int32, byte[] palette_format_int32, ushort bitmap_width, ushort bitmap_height, ushort colour_number, double format_ratio, string output_file, bool has_palette, bool safe_mode, bool no_warning, bool warn, bool stfu, sbyte block_width, sbyte block_height, byte mipmaps_number, byte minificaction_filter, byte magnification_filter, byte WrapS, byte WrapT)
     {
         int size = 0x20 + colour_palette.Length + 0x40; // fixed size at 1 image
         double temp;
@@ -98,7 +98,7 @@ class Write_tpl_class
         data[10] = 0;
         data[11] = 0x0C; // offset to image table
         data[12] = 0;  // won't exceed the max number of colours in the colour table which is stored on 2 bytes + header size 0x20
-        
+
         data[16] = 0;
         data[17] = 0;
         data[18] = 0;
@@ -148,7 +148,7 @@ class Write_tpl_class
         header[6] = texture_format_int32[2];
         header[7] = texture_format_int32[3];
         header[8] = 0; // won't exceed the max number of colours in the colour table which is stored on 2 bytes + header size 0x20
-        
+
         header[12] = 0;
         header[13] = 0;
         header[14] = 0;
@@ -181,26 +181,59 @@ class Write_tpl_class
         // tex_data = Create_blocks_class.Create_blocks(tex_data, settings, index_list, block_width, block_height, format_ratio, texture_format_int32);
         Create_blocks_class.Create_blocks(tex_data, settings, index_list, block_width, block_height, format_ratio, texture_format_int32); // I'm surprised. I don't need to assign the array here.
         FileMode mode = System.IO.FileMode.CreateNew;
-        if (System.IO.File.Exists(output_file + ".tpl"))
+        uint u = 0;
+        bool done = false;
+        while (!done)
         {
-            mode = System.IO.FileMode.Truncate;
-            if (warn)
+            try
             {
-                Console.WriteLine("Press enter to overwrite " + output_file + ".tpl");
-                Console.ReadLine();
+                if (System.IO.File.Exists(output_file + ".tpl"))
+                {
+                    mode = System.IO.FileMode.Truncate;
+                    if (warn)
+                    {
+                        Console.WriteLine("Press enter to overwrite " + output_file + ".tpl");
+                        Console.ReadLine();
+                    }
+                }
+                using (System.IO.FileStream file = System.IO.File.Open(output_file + ".tpl", mode, System.IO.FileAccess.Write))
+                {
+                    file.Write(data, 0, data_size);
+                    file.Write(colour_palette, 0, colour_palette.Length);  // can I write nothing? YES!!! :D
+                    file.Write(header, 0, header_size);
+                    file.Write(tex_data, 0, tex_data.Length);
+                    file.Write(data2, 0, data2.Length);
+                    file.Close();
+                    done = true;
+                    if (!stfu)
+                        Console.WriteLine(output_file + ".tpl");
+                }
+            }
+            catch (Exception ex)
+            {
+                u += 1;
+                if (ex.Message.Substring(0, 34) == "The process cannot access the file")  // because it is being used by another process
+                {
+                    if (u > 1)
+                    {
+                        output_file = output_file.Substring(output_file.Length - 2) + "-" + u;
+                    }
+                    else
+                    {
+                        output_file += "-" + u;
+                    }
+                }
+                else if (safe_mode)
+                {
+                    if (!no_warning)
+                        Console.WriteLine("an error occured while trying to write the output file");
+                    continue;
+                }
+                else
+                {
+                    throw ex;
+                }
             }
         }
-        using (System.IO.FileStream file = System.IO.File.Open(output_file + ".tpl", mode, System.IO.FileAccess.Write))
-        {
-            file.Write(data, 0, data_size);
-            file.Write(colour_palette, 0, colour_palette.Length);  // can I write nothing? YES!!! :D
-            file.Write(header, 0, header_size);
-            file.Write(tex_data, 0, tex_data.Length);
-            file.Write(data2, 0, data2.Length);
-            file.Close();
-            if (!stfu)
-                Console.WriteLine(output_file + ".tpl");
-        }
     }
-
 }

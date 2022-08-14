@@ -3,7 +3,7 @@ using System.IO;
 
 class Write_plt0_class
 {
-    static public void Write_plt0(byte[] colour_palette, byte[] palette_format_int32, ushort colour_number, string output_file, bool warn, bool stfu)
+    static public void Write_plt0(byte[] colour_palette, byte[] palette_format_int32, ushort colour_number, string output_file, bool safe_mode, bool no_warning, bool warn, bool stfu)
     {
         int size = 0x40 + colour_palette.Length;
         byte size2 = (byte)(4 + Math.Abs(16 - size) % 16);
@@ -58,24 +58,57 @@ class Write_plt0_class
             data[i] = 0;
         }
         FileMode mode = System.IO.FileMode.CreateNew;
-        if (System.IO.File.Exists(output_file + ".plt0"))
+        uint u = 0;
+        bool done = false;
+        while (!done)
         {
-            mode = System.IO.FileMode.Truncate;
-            if (warn)
+            try
             {
-                Console.WriteLine("Press enter to overwrite " + output_file + ".plt0");
-                Console.ReadLine();
+                if (System.IO.File.Exists(output_file + ".plt0"))
+                {
+                    mode = System.IO.FileMode.Truncate;
+                    if (warn)
+                    {
+                        Console.WriteLine("Press enter to overwrite " + output_file + ".plt0");
+                        Console.ReadLine();
+                    }
+                }
+                using (System.IO.FileStream file = System.IO.File.Open(output_file + ".plt0", mode, System.IO.FileAccess.Write))
+                {
+                    file.Write(data, 0, 64);
+                    file.Write(colour_palette, 0, colour_palette.Length);
+                    file.Write(data2, 0, data2.Length);
+                    file.Close();
+                    done = true;
+                    if (!stfu)
+                        Console.WriteLine(output_file + ".plt0");
+                }
+            }
+            catch (Exception ex)
+            {
+                u += 1;
+                if (ex.Message.Substring(0, 34) == "The process cannot access the file")  // because it is being used by another process
+                {
+                    if (u > 1)
+                    {
+                        output_file = output_file.Substring(output_file.Length - 2) + "-" + u;
+                    }
+                    else
+                    {
+                        output_file += "-" + u;
+                    }
+                }
+                else if (safe_mode)
+                {
+                    if (!no_warning)
+                        Console.WriteLine("an error occured while trying to write the output file");
+                    continue;
+                }
+                else
+                {
+                    throw ex;
+                }
             }
         }
-        using (System.IO.FileStream file = System.IO.File.Open(output_file + ".plt0", mode, System.IO.FileAccess.Write))
-        {
-            file.Write(data, 0, 64);
-            file.Write(colour_palette, 0, colour_palette.Length);
-            file.Write(data2, 0, data2.Length);
-            file.Close();
-            if (!stfu)
-                Console.WriteLine(output_file + ".plt0");
-        }
     }
-
 }

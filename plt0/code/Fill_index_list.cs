@@ -130,10 +130,10 @@ class Fill_index_list_class
                                 len <<= 1; // 16bpp
                                 break;
                             }
-                        /* these are already treated in their own case
-                        case 6:  // RGBA32
-                        case 0xE:  // CMPR
-                        */
+                            /* these are already treated in their own case
+                            case 6:  // RGBA32
+                            case 0xE:  // CMPR
+                            */
                     }
                     byte[] index = new byte[len];
                     for (byte m = 0; m <= mipmaps_number; m++)

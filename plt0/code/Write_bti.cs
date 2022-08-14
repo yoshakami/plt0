@@ -5,7 +5,7 @@ using System.Linq;
 
 class Write_bti_class
 {
-    static public void Write_bti(List<List<byte[]>> index_list, byte[] colour_palette, byte[] texture_format_int32, byte[] palette_format_int32, byte[] block_width_array, byte[] block_height_array, ushort bitmap_width, ushort bitmap_height, ushort colour_number, double format_ratio, string input_fil, string input_file2, string output_file, bool bmd_file, bool no_warning, bool has_palette, bool warn, bool stfu, sbyte block_width, sbyte block_height, byte mipmaps_number, byte minificaction_filter, byte magnification_filter, byte WrapS, byte WrapT, byte alpha)
+    static public void Write_bti(List<List<byte[]>> index_list, byte[] colour_palette, byte[] texture_format_int32, byte[] palette_format_int32, byte[] block_width_array, byte[] block_height_array, ushort bitmap_width, ushort bitmap_height, ushort colour_number, double format_ratio, string input_fil, string input_file2, string output_file, bool bmd_file, bool has_palette, bool safe_mode, bool no_warning, bool warn, bool stfu, sbyte block_width, sbyte block_height, byte mipmaps_number, byte minificaction_filter, byte magnification_filter, byte WrapS, byte WrapT, byte alpha)
     {
         int size = 0x20 + colour_palette.Length + 0x40; // fixed size at 1 image
         double temp;
@@ -344,66 +344,133 @@ class Write_bti_class
                     }
                 }
                 FileMode mode = System.IO.FileMode.CreateNew;
-                if (System.IO.File.Exists(output_file + ".bmd"))
+                uint u = 0;
+                bool done = false;
+                while (!done)
                 {
-                    mode = System.IO.FileMode.Truncate;
-                    if (warn)
+                    try
                     {
-                        Console.WriteLine("Press enter to overwrite " + output_file + ".bmd");
-                        Console.ReadLine();
+                        if (System.IO.File.Exists(output_file + ".bmd"))
+                        {
+                            mode = System.IO.FileMode.Truncate;
+                            if (warn)
+                            {
+                                Console.WriteLine("Press enter to overwrite " + output_file + ".bmd");
+                                Console.ReadLine();
+                            }
+                        }
+                        using (System.IO.FileStream ofile = System.IO.File.Open(output_file + ".bmd", mode, System.IO.FileAccess.Write))
+                        {
+                            ofile.Write(j3d, 0, y);
+                            // write texture headers
+                            if (f != 0)
+                            {
+                                ofile.Write(j3d, y, f << 5);
+                            }
+                            ofile.Write(data, 0, 32);
+                            if (f != string_count - 1)
+                            {
+                                ofile.Write(j3d, x, (string_count - f - 1) << 5);
+                            }
+                            if (middle == start_2)
+                            {
+                                ofile.Write(j3d, start, j3d.Length - start);
+                            }
+                            else
+                            {
+                                ofile.Write(j3d, start, middle);
+                                ofile.Write(j3d, start_2, j3d.Length - start_2);
+                            }
+                            ofile.Close();
+                            done = true;
+                            if (!stfu)
+                                Console.WriteLine(output_file + ".bmd");
+                        }
                     }
-                }
-                using (System.IO.FileStream ofile = System.IO.File.Open(output_file + ".bmd", mode, System.IO.FileAccess.Write))
-                {
-                    ofile.Write(j3d, 0, y);
-                    // write texture headers
-                    if (f != 0)
+                    catch (Exception ex)
                     {
-                        ofile.Write(j3d, y, f << 5);
+                        u += 1;
+                        if (ex.Message.Substring(0, 34) == "The process cannot access the file")  // because it is being used by another process
+                        {
+                            if (u > 1)
+                            {
+                                output_file = output_file.Substring(output_file.Length - 2) + "-" + u;
+                            }
+                            else
+                            {
+                                output_file += "-" + u;
+                            }
+                        }
+                        else if (safe_mode)
+                        {
+                            if (!no_warning)
+                                Console.WriteLine("an error occured while trying to write the output file");
+                            continue;
+                        }
+                        else
+                        {
+                            throw ex;
+                        }
                     }
-                    ofile.Write(data, 0, 32);
-                    if (f != string_count - 1)
-                    {
-                        ofile.Write(j3d, x, (string_count - f - 1) << 5);
-                    }
-                    if (middle == start_2)
-                    {
-                        ofile.Write(j3d, start, j3d.Length - start);
-                    }
-                    else
-                    {
-                        ofile.Write(j3d, start, middle);
-                        ofile.Write(j3d, start_2, j3d.Length - start_2);
-                    }
-                    ofile.Close();
-                    if (!stfu)
-                        Console.WriteLine(output_file + ".bmd");
                 }
             }
         }
         else  // single bti
         {
             FileMode mode = System.IO.FileMode.CreateNew;
-            if (System.IO.File.Exists(output_file + ".bti"))
+            uint u = 0;
+            bool done = false;
+            while (!done)
             {
-                mode = System.IO.FileMode.Truncate;
-                if (warn)
+                try
                 {
-                    Console.WriteLine("Press enter to overwrite " + output_file + ".bti");
-                    Console.ReadLine();
+                    if (System.IO.File.Exists(output_file + ".bti"))
+                    {
+                        mode = System.IO.FileMode.Truncate;
+                        if (warn)
+                        {
+                            Console.WriteLine("Press enter to overwrite " + output_file + ".bti");
+                            Console.ReadLine();
+                        }
+                    }
+                    using (System.IO.FileStream file = System.IO.File.Open(output_file + ".bti", mode, System.IO.FileAccess.Write))
+                    {
+                        file.Write(data, 0, 32);
+                        file.Write(colour_palette, 0, colour_palette.Length);
+                        file.Write(tex_data, 0, tex_data.Length);
+                        file.Write(data2, 0, data2.Length);
+                        file.Close();
+                        done = true;
+                        if (!stfu)
+                            Console.WriteLine(output_file + ".bti");
+                    }
                 }
-            }
-            using (System.IO.FileStream file = System.IO.File.Open(output_file + ".bti", mode, System.IO.FileAccess.Write))
-            {
-                file.Write(data, 0, 32);
-                file.Write(colour_palette, 0, colour_palette.Length);
-                file.Write(tex_data, 0, tex_data.Length);
-                file.Write(data2, 0, data2.Length);
-                file.Close();
-                if (!stfu)
-                    Console.WriteLine(output_file + ".bti");
-            }
-        }
-    }
-
-}
+                catch (Exception ex)
+                {
+                    u += 1;
+                    if (ex.Message.Substring(0, 34) == "The process cannot access the file")  // because it is being used by another process
+                    {
+                        if (u > 1)
+                        {
+                            output_file = output_file.Substring(output_file.Length - 2) + "-" + u;
+                        }
+                        else
+                        {
+                            output_file += "-" + u;
+                        }
+                    }
+                    else if (safe_mode)
+                    {
+                        if (!no_warning)
+                            Console.WriteLine("an error occured while trying to write the output file");
+                        continue;
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }  // catch is triggered if the program can't write the output file
+            }  // while the image hasn't been created
+        }  // if statement to check wether we're writing a bti or a bmd
+    }  // end of write_bti
+}  // end of class
