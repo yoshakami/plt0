@@ -5,7 +5,7 @@ using System.Linq;
 
 class Write_into_tpl_class
 {
-    static public void Write_into_tpl(List<List<byte[]>> index_list, byte[] colour_palette, byte[] texture_format_int32, byte[] palette_format_int32, byte[] real_block_width_array, byte[] block_height_array, ushort bitmap_width, ushort bitmap_height, ushort colour_number, double format_ratio, string input_file2, string output_file, bool has_palette, bool overwrite, bool safe_mode, bool no_warning, bool warn, bool stfu, sbyte block_width, sbyte block_height, byte mipmaps_number, byte minificaction_filter, byte magnification_filter, byte WrapS, byte WrapT)
+    static public void Write_into_tpl(List<List<byte[]>> index_list, byte[] colour_palette, byte[] texture_format_int32, byte[] palette_format_int32, byte[] real_block_width_array, byte[] block_height_array, byte[] add_depth, byte[] sub_depth, ushort bitmap_width, ushort bitmap_height, ushort colour_number, double format_ratio, string input_file2, string output_file, bool has_palette, bool overwrite, bool safe_mode, bool no_warning, bool warn, bool stfu, sbyte block_width, sbyte block_height, byte mipmaps_number, byte minificaction_filter, byte magnification_filter, byte WrapS, byte WrapT)
     {
         int size = 0; // fixed size at 1 image
         double temp;
@@ -67,10 +67,10 @@ class Write_into_tpl_class
         }
         // long tpl_size = 32;
         int data_size;
-        byte header_size = 0x30;
+        // byte header_size = 0x30;
         // byte size2 = (byte)(4 + Math.Abs(16 - size) % 16);
-        byte len = (byte)input_file2.Split('\\').Length;
-        string file_name = (input_file2.Split('\\')[len - 1]);
+        // byte len = (byte)input_file2.Split('\\').Length;
+        // string file_name = (input_file2.Split('\\')[len - 1]);
         // byte[] data2 = new byte[size2 + len + (16 - len) % 16];
         byte[] tpl_header = new byte[12];  // header data
         byte[] image_table = new byte[8];
@@ -186,7 +186,9 @@ class Write_into_tpl_class
                     width = (ushort)((image_header[2] << 8) | image_header[3]);
                     real_height = (ushort)(height + ((block_height_array[image_header[7]] - (height % block_height_array[image_header[7]])) % block_height_array[image_header[7]]));
                     real_width = (ushort)(width + ((real_block_width_array[image_header[7]] - (width % real_block_width_array[image_header[7]])) % real_block_width_array[image_header[7]]));
-                    data_size += height * width_x_depth;
+                    data_size += real_height * real_width;
+                    data_size <<= add_depth[image_header[7]];
+                    data_size >>= sub_depth[image_header[7]];
                 }
                 image_data_offset = (image_header[8] << 24) | (image_header[9] << 16) | (image_header[10] << 8) | image_header[11];
                 tpl.Position = image_data_offset;
