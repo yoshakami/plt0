@@ -935,7 +935,7 @@ class Parse_args_class
                                 success = true;
                                 for (byte c = 0; c < 3; c++)
                                 {
-                                    if (args[i + c].ToUpper() != "R" && args[i + c].ToUpper() != "G" && args[i + c].ToUpper() != "B")
+                                    if (args[i].ToUpper().Substring(c, 1) != "R" && args[i].ToUpper().Substring(c, 1) != "G" && args[i].ToUpper().Substring(c, 1) != "B" && args[i].ToUpper().Substring(c, 1) != "A")
                                     {
                                         success = false;
                                         break;
@@ -945,7 +945,7 @@ class Parse_args_class
                                 {
                                     for (byte c = 0; c < 3; c++)
                                     {
-                                        switch (args[i + c].ToUpper())
+                                        switch (args[i].ToUpper().Substring(c, 1))
                                         {
                                             case "R":
                                                 {
@@ -960,6 +960,11 @@ class Parse_args_class
                                             case "B":
                                                 {
                                                     rgba_channel[c] = 0;
+                                                    break;
+                                                }
+                                            case "A":
+                                                {
+                                                    rgba_channel[c] = 3;
                                                     break;
                                                 }
                                         }
