@@ -19,6 +19,8 @@ v0.8: TPL files options (add image to existing file)
 
 v0.9: GUI
 
+v1 : make a "How to use" image, and test everything (every option, every combination, find anything that breaks the program)
+
 currently developping v0.8
 
 ## why this project
