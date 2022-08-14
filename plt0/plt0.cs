@@ -68,7 +68,7 @@ https://wiki.tockdom.com/wiki/TEX0_(File_Format)
 TPL (File Format)
 ```
 Offset Size  Description
-0x00    4    The magic "TPL0" to identify the sub file. (00 20 AF 30)
+0x00    4    always 00 20 AF 30
 0x04    4    Number of images
 0x08    4    Offset of the Image Table. (00 00 00 0C)
 

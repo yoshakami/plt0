@@ -1460,7 +1460,7 @@ class Parse_args_class
         {
             if (add)
             {
-                Write_into_tpl_class.Write_into_tpl(index_list, colour_palette, texture_format_int32, palette_format_int32, block_width_array, block_height_array, bitmap_width, bitmap_height, colour_number, format_ratio, input_file2, output_file, has_palette, overwrite, safe_mode, no_warning, warn, stfu, block_width, block_height, mipmaps_number, minificaction_filter, magnification_filter, WrapS, WrapT);
+                Write_into_tpl_class.Write_into_tpl(index_list, colour_palette, texture_format_int32, palette_format_int32, real_block_width_array, block_height_array, bitmap_width, bitmap_height, colour_number, format_ratio, input_file2, output_file, has_palette, overwrite, safe_mode, no_warning, warn, stfu, block_width, block_height, mipmaps_number, minificaction_filter, magnification_filter, WrapS, WrapT);
             }
             else
             {

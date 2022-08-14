@@ -5,7 +5,7 @@ using System.Linq;
 
 class Write_into_tpl_class
 {
-    static public void Write_into_tpl(List<List<byte[]>> index_list, byte[] colour_palette, byte[] texture_format_int32, byte[] palette_format_int32, byte[] block_width_array, byte[] block_height_array, ushort bitmap_width, ushort bitmap_height, ushort colour_number, double format_ratio, string input_file2, string output_file, bool has_palette, bool overwrite, bool safe_mode, bool no_warning, bool warn, bool stfu, sbyte block_width, sbyte block_height, byte mipmaps_number, byte minificaction_filter, byte magnification_filter, byte WrapS, byte WrapT)
+    static public void Write_into_tpl(List<List<byte[]>> index_list, byte[] colour_palette, byte[] texture_format_int32, byte[] palette_format_int32, byte[] real_block_width_array, byte[] block_height_array, ushort bitmap_width, ushort bitmap_height, ushort colour_number, double format_ratio, string input_file2, string output_file, bool has_palette, bool overwrite, bool safe_mode, bool no_warning, bool warn, bool stfu, sbyte block_width, sbyte block_height, byte mipmaps_number, byte minificaction_filter, byte magnification_filter, byte WrapS, byte WrapT)
     {
         int size = 0; // fixed size at 1 image
         double temp;
@@ -166,7 +166,7 @@ class Write_into_tpl_class
             ushort width;
             ushort height;
             ushort real_height;  // encoded height (multiple of block_height)
-            ushort width_x_depth;  // fake width (multiple of block_width * bit depth per pixel)
+            ushort real_width;  // fake width (multiple of block_width * bit depth per pixel)
             // ushort[] dim = new ushort[4];  // = {height, width, canvas_height, canvas_width
             // List<ushort[]> dim_list = new List<ushort[]>();
             for (int a = 0; a < image_number; a++)
@@ -185,7 +185,7 @@ class Write_into_tpl_class
                     height = (ushort)((image_header[0] << 8) | image_header[1]);
                     width = (ushort)((image_header[2] << 8) | image_header[3]);
                     real_height = (ushort)(height + ((block_height_array[image_header[7]] - (height % block_height_array[image_header[7]])) % block_height_array[image_header[7]]));
-                    width_x_depth = (ushort)(width + ((block_width_array[image_header[7]] - (width % block_width_array[image_header[7]])) % block_width_array[image_header[7]]));
+                    real_width = (ushort)(width + ((real_block_width_array[image_header[7]] - (width % real_block_width_array[image_header[7]])) % real_block_width_array[image_header[7]]));
                     data_size += height * width_x_depth;
                 }
                 image_data_offset = (image_header[8] << 24) | (image_header[9] << 16) | (image_header[10] << 8) | image_header[11];
@@ -227,7 +227,8 @@ class Write_into_tpl_class
         {
             data_start_offset += palette_header_list[d].Length;
         }
-        data_start_offset = data_start_offset + ((16 - (data_start_offset % 16)) % 16);
+        byte[] header_padding = new byte[(16 - (data_start_offset % 16)) % 16];
+        data_start_offset += header_padding.Length;
         int offset = 0xC + image_table.Length;
         c = 0;
         for (int e = 1; e <= image_number; e++)
@@ -249,14 +250,14 @@ class Write_into_tpl_class
             }
             c += 8;
         }
-        if (palette_header_list[0].Length == 0)  //
+        if (palette_header_list[0].Length == 0)  // unrolled loop
         {
             image_table[c + 4] = 0;
             image_table[c + 5] = 0;
             image_table[c + 6] = 0;
             image_table[c + 7] = 0;
         }
-        else
+        else  // unrolled loop
         {
             image_table[c + 4] = (byte)(offset >> 24);
             image_table[c + 5] = (byte)(offset >> 16);
@@ -266,7 +267,7 @@ class Write_into_tpl_class
         }
         c = 0;
         int f;
-        for (f = 1; f <= image_number; f++)
+        for (f = 1; f <= image_number + 1; f++)  // last loop is rolled in here
         {
             image_table[c] = (byte)(offset >> 24);
             image_table[c + 1] = (byte)(offset >> 16);
@@ -276,7 +277,7 @@ class Write_into_tpl_class
             c += 8;
         }
         offset = data_start_offset;
-        for (f = 1; f < image_number; f++)
+        for (f = 1; f <= image_number; f++)
         {
             if (palette_header_list[f].Length != 0)
             {
@@ -295,18 +296,23 @@ class Write_into_tpl_class
             palette_header_list[0][11] = (byte)(offset);
             offset += palette_data_list[0].Length;
         }
-        for (f = 1; f < image_number; f++)
+        for (f = 1; f <= image_number; f++)
         {
             image_header_list[f][8] = (byte)(offset >> 24);
             image_header_list[f][9] = (byte)(offset >> 16);
             image_header_list[f][10] = (byte)(offset >> 8);
             image_header_list[f][11] = (byte)(offset);
-            offset += image_header_list[f].Length;
+            offset += image_data_list[f].Length;
         }
         image_header_list[0][8] = (byte)(offset >> 24);
         image_header_list[0][9] = (byte)(offset >> 16);
         image_header_list[0][10] = (byte)(offset >> 8);
         image_header_list[0][11] = (byte)(offset);
+        image_number++;
+        tpl_header[4] = (byte)(image_number >> 24);
+        tpl_header[5] = (byte)(image_number >> 16);
+        tpl_header[6] = (byte)(image_number >> 8);
+        tpl_header[7] = (byte)(image_number);
         if (overwrite)
         {
             output_file = input_file2;
@@ -335,22 +341,23 @@ class Write_into_tpl_class
                 {
                     file.Write(tpl_header, 0, tpl_header.Length);
                     file.Write(image_table, 0, image_table.Length);
-                    for (f = 1; f <= image_number; f++)
+                    for (f = 1; f < image_number; f++)
                     {
                         file.Write(palette_header_list[f], 0, palette_header_list[f].Length);
                     }
                     file.Write(palette_header_list[0], 0, palette_header_list[0].Length);
-                    for (f = 1; f <= image_number; f++)
+                    for (f = 1; f < image_number; f++)
                     {
                         file.Write(image_header_list[f], 0, 0x24);
                     }
                     file.Write(image_header_list[0], 0, 0x24);
-                    for (f = 1; f <= image_number; f++)
+                    file.Write(header_padding, 0, header_padding.Length);
+                    for (f = 1; f < image_number; f++)
                     {
                         file.Write(palette_data_list[f], 0, palette_data_list[f].Length);
                     }
                     file.Write(palette_data_list[0], 0, palette_data_list[0].Length);
-                    for (f = 1; f <= image_number; f++)
+                    for (f = 1; f < image_number; f++)
                     {
                         file.Write(image_data_list[f], 0, image_data_list[f].Length);
                     }
