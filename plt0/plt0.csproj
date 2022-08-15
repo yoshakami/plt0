@@ -164,6 +164,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="luma.ico" />
+    <None Include="Resources\%24this.BackgroundImage.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8">
