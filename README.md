@@ -17,9 +17,11 @@ v0.7: decode images
 
 v0.8: TPL files options (add image to existing file)
 
-v0.9: GUI
+v0.9: decode TPL files
 
-v1 : make a "How to use" image, and test everything (every option, every combination, find anything that breaks the program)
+v1.0: GUI
+
+v1.1 : make a "How to use" image, and test everything (every option, every combination, find anything that breaks the program)
 
 currently developping v0.8
 
