@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace plt0_gui
@@ -46,6 +47,7 @@ namespace plt0_gui
         bool warn = false;
         bool stfu = false;
         bool no_warning = false;
+        List<PictureBox> encoding_ck = new List<PictureBox>();
         public plt0_gui()
         {
             InitializeComponent();
@@ -71,6 +73,32 @@ namespace plt0_gui
             unchecked_checkbox(funky_ck);
             unchecked_checkbox(no_warning_ck);
             unchecked_checkbox(gif_ck);
+            unchecked_encoding(i4_ck);
+            unchecked_encoding(i8_ck);
+            unchecked_encoding(ai4_ck);
+            unchecked_encoding(ai8_ck);
+            unchecked_encoding(rgb565_ck);
+            unchecked_encoding(rgb5a3_ck);
+            unchecked_encoding(rgba32_ck);
+            unchecked_encoding(ci4_ck);
+            unchecked_encoding(ci8_ck);
+            unchecked_encoding(ci14x2_ck);
+            unchecked_encoding(cmpr_ck);
+            encoding_ck.Add(i4_ck);
+            encoding_ck.Add(i8_ck);
+            encoding_ck.Add(ai4_ck);
+            encoding_ck.Add(ai8_ck);
+            encoding_ck.Add(rgb565_ck);
+            encoding_ck.Add(rgb5a3_ck);
+            encoding_ck.Add(rgba32_ck);
+            encoding_ck.Add(i4_ck);  // nothing
+            encoding_ck.Add(ci4_ck);
+            encoding_ck.Add(ci8_ck);
+            encoding_ck.Add(ci14x2_ck);
+            encoding_ck.Add(i4_ck);  // nothing
+            encoding_ck.Add(i4_ck);  // nothing
+            encoding_ck.Add(i4_ck);  // nothing
+            encoding_ck.Add(cmpr_ck);
             if (System.IO.File.Exists(execPath + "images/background.png"))
             {
                 this.BackgroundImage = System.Drawing.Image.FromFile(execPath + "images/background.png");
@@ -309,9 +337,6 @@ namespace plt0_gui
             this.bti_ck.Size = new System.Drawing.Size(64, 64);
             this.bti_ck.TabIndex = 129;
             this.bti_ck.TabStop = false;
-            this.bti_ck.Click += new System.EventHandler(this.bti_ck_Click);
-            this.bti_ck.MouseEnter += new System.EventHandler(this.bti_ck_MouseEnter);
-            this.bti_ck.MouseLeave += new System.EventHandler(this.bti_ck_MouseLeave);
             // 
             // bti_label
             // 
@@ -1325,6 +1350,9 @@ namespace plt0_gui
             this.cmpr_label.Size = new System.Drawing.Size(79, 64);
             this.cmpr_label.TabIndex = 231;
             this.cmpr_label.Text = "CMPR";
+            this.cmpr_label.Click += new System.EventHandler(this.CMPR_Click);
+            this.cmpr_label.MouseEnter += new System.EventHandler(this.CMPR_MouseEnter);
+            this.cmpr_label.MouseLeave += new System.EventHandler(this.CMPR_MouseLeave);
             // 
             // cmpr_hitbox
             // 
@@ -1338,6 +1366,9 @@ namespace plt0_gui
             this.cmpr_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
             this.cmpr_hitbox.Size = new System.Drawing.Size(190, 64);
             this.cmpr_hitbox.TabIndex = 232;
+            this.cmpr_hitbox.Click += new System.EventHandler(this.CMPR_Click);
+            this.cmpr_hitbox.MouseEnter += new System.EventHandler(this.CMPR_MouseEnter);
+            this.cmpr_hitbox.MouseLeave += new System.EventHandler(this.CMPR_MouseLeave);
             // 
             // ci14x2_ck
             // 
@@ -1366,6 +1397,9 @@ namespace plt0_gui
             this.ci14x2_label.Size = new System.Drawing.Size(93, 64);
             this.ci14x2_label.TabIndex = 228;
             this.ci14x2_label.Text = "CI14x2";
+            this.ci14x2_label.Click += new System.EventHandler(this.CI14X2_Click);
+            this.ci14x2_label.MouseEnter += new System.EventHandler(this.CI14X2_MouseEnter);
+            this.ci14x2_label.MouseLeave += new System.EventHandler(this.CI14X2_MouseLeave);
             // 
             // ci14x2_hitbox
             // 
@@ -1379,6 +1413,9 @@ namespace plt0_gui
             this.ci14x2_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
             this.ci14x2_hitbox.Size = new System.Drawing.Size(190, 64);
             this.ci14x2_hitbox.TabIndex = 229;
+            this.ci14x2_hitbox.Click += new System.EventHandler(this.CI14X2_Click);
+            this.ci14x2_hitbox.MouseEnter += new System.EventHandler(this.CI14X2_MouseEnter);
+            this.ci14x2_hitbox.MouseLeave += new System.EventHandler(this.CI14X2_MouseLeave);
             // 
             // ci8_ck
             // 
@@ -1407,6 +1444,9 @@ namespace plt0_gui
             this.ci8_label.Size = new System.Drawing.Size(48, 64);
             this.ci8_label.TabIndex = 225;
             this.ci8_label.Text = "CI8";
+            this.ci8_label.Click += new System.EventHandler(this.CI8_Click);
+            this.ci8_label.MouseEnter += new System.EventHandler(this.CI8_MouseEnter);
+            this.ci8_label.MouseLeave += new System.EventHandler(this.CI8_MouseLeave);
             // 
             // ci8_hitbox
             // 
@@ -1420,6 +1460,9 @@ namespace plt0_gui
             this.ci8_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
             this.ci8_hitbox.Size = new System.Drawing.Size(190, 64);
             this.ci8_hitbox.TabIndex = 226;
+            this.ci8_hitbox.Click += new System.EventHandler(this.CI8_Click);
+            this.ci8_hitbox.MouseEnter += new System.EventHandler(this.CI8_MouseEnter);
+            this.ci8_hitbox.MouseLeave += new System.EventHandler(this.CI8_MouseLeave);
             // 
             // ci4_ck
             // 
@@ -1448,6 +1491,9 @@ namespace plt0_gui
             this.ci4_label.Size = new System.Drawing.Size(48, 64);
             this.ci4_label.TabIndex = 222;
             this.ci4_label.Text = "CI4";
+            this.ci4_label.Click += new System.EventHandler(this.CI4_Click);
+            this.ci4_label.MouseEnter += new System.EventHandler(this.CI4_MouseEnter);
+            this.ci4_label.MouseLeave += new System.EventHandler(this.CI4_MouseLeave);
             // 
             // ci4_hitbox
             // 
@@ -1461,6 +1507,9 @@ namespace plt0_gui
             this.ci4_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
             this.ci4_hitbox.Size = new System.Drawing.Size(190, 64);
             this.ci4_hitbox.TabIndex = 223;
+            this.ci4_hitbox.Click += new System.EventHandler(this.CI4_Click);
+            this.ci4_hitbox.MouseEnter += new System.EventHandler(this.CI4_MouseEnter);
+            this.ci4_hitbox.MouseLeave += new System.EventHandler(this.CI4_MouseLeave);
             // 
             // rgba32_ck
             // 
@@ -1489,6 +1538,9 @@ namespace plt0_gui
             this.rgba32_label.Size = new System.Drawing.Size(108, 64);
             this.rgba32_label.TabIndex = 219;
             this.rgba32_label.Text = "RGBA32";
+            this.rgba32_label.Click += new System.EventHandler(this.RGBA32_Click);
+            this.rgba32_label.MouseEnter += new System.EventHandler(this.RGBA32_MouseEnter);
+            this.rgba32_label.MouseLeave += new System.EventHandler(this.RGBA32_MouseLeave);
             // 
             // rgba32_hitbox
             // 
@@ -1502,6 +1554,9 @@ namespace plt0_gui
             this.rgba32_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
             this.rgba32_hitbox.Size = new System.Drawing.Size(190, 64);
             this.rgba32_hitbox.TabIndex = 220;
+            this.rgba32_hitbox.Click += new System.EventHandler(this.RGBA32_Click);
+            this.rgba32_hitbox.MouseEnter += new System.EventHandler(this.RGBA32_MouseEnter);
+            this.rgba32_hitbox.MouseLeave += new System.EventHandler(this.RGBA32_MouseLeave);
             // 
             // rgb5a3_ck
             // 
@@ -1530,6 +1585,9 @@ namespace plt0_gui
             this.rgb5a3_label.Size = new System.Drawing.Size(108, 64);
             this.rgb5a3_label.TabIndex = 216;
             this.rgb5a3_label.Text = "RGB5A3";
+            this.rgb5a3_label.Click += new System.EventHandler(this.RGB5A3_Click);
+            this.rgb5a3_label.MouseEnter += new System.EventHandler(this.RGB5A3_MouseEnter);
+            this.rgb5a3_label.MouseLeave += new System.EventHandler(this.RGB5A3_MouseLeave);
             // 
             // rgb5a3_hitbox
             // 
@@ -1543,6 +1601,9 @@ namespace plt0_gui
             this.rgb5a3_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
             this.rgb5a3_hitbox.Size = new System.Drawing.Size(190, 64);
             this.rgb5a3_hitbox.TabIndex = 217;
+            this.rgb5a3_hitbox.Click += new System.EventHandler(this.RGB5A3_Click);
+            this.rgb5a3_hitbox.MouseEnter += new System.EventHandler(this.RGB5A3_MouseEnter);
+            this.rgb5a3_hitbox.MouseLeave += new System.EventHandler(this.RGB5A3_MouseLeave);
             // 
             // rgb565_ck
             // 
@@ -1571,6 +1632,9 @@ namespace plt0_gui
             this.rgb565_label.Size = new System.Drawing.Size(107, 64);
             this.rgb565_label.TabIndex = 213;
             this.rgb565_label.Text = "RGB565";
+            this.rgb565_label.Click += new System.EventHandler(this.RGB565_Click);
+            this.rgb565_label.MouseEnter += new System.EventHandler(this.RGB565_MouseEnter);
+            this.rgb565_label.MouseLeave += new System.EventHandler(this.RGB565_MouseLeave);
             // 
             // rgb565_hitbox
             // 
@@ -1584,6 +1648,9 @@ namespace plt0_gui
             this.rgb565_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
             this.rgb565_hitbox.Size = new System.Drawing.Size(190, 64);
             this.rgb565_hitbox.TabIndex = 214;
+            this.rgb565_hitbox.Click += new System.EventHandler(this.RGB565_Click);
+            this.rgb565_hitbox.MouseEnter += new System.EventHandler(this.RGB565_MouseEnter);
+            this.rgb565_hitbox.MouseLeave += new System.EventHandler(this.RGB565_MouseLeave);
             // 
             // ai8_ck
             // 
@@ -1612,6 +1679,9 @@ namespace plt0_gui
             this.ai8_label.Size = new System.Drawing.Size(48, 64);
             this.ai8_label.TabIndex = 210;
             this.ai8_label.Text = "AI8";
+            this.ai8_label.Click += new System.EventHandler(this.AI8_Click);
+            this.ai8_label.MouseEnter += new System.EventHandler(this.AI8_MouseEnter);
+            this.ai8_label.MouseLeave += new System.EventHandler(this.AI8_MouseLeave);
             // 
             // ai8_hitbox
             // 
@@ -1625,6 +1695,9 @@ namespace plt0_gui
             this.ai8_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
             this.ai8_hitbox.Size = new System.Drawing.Size(190, 64);
             this.ai8_hitbox.TabIndex = 211;
+            this.ai8_hitbox.Click += new System.EventHandler(this.AI8_Click);
+            this.ai8_hitbox.MouseEnter += new System.EventHandler(this.AI8_MouseEnter);
+            this.ai8_hitbox.MouseLeave += new System.EventHandler(this.AI8_MouseLeave);
             // 
             // ai4_ck
             // 
@@ -1653,6 +1726,9 @@ namespace plt0_gui
             this.ai4_label.Size = new System.Drawing.Size(48, 64);
             this.ai4_label.TabIndex = 207;
             this.ai4_label.Text = "AI4";
+            this.ai4_label.Click += new System.EventHandler(this.AI4_Click);
+            this.ai4_label.MouseEnter += new System.EventHandler(this.AI4_MouseEnter);
+            this.ai4_label.MouseLeave += new System.EventHandler(this.AI4_MouseLeave);
             // 
             // ai4_hitbox
             // 
@@ -1666,6 +1742,9 @@ namespace plt0_gui
             this.ai4_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
             this.ai4_hitbox.Size = new System.Drawing.Size(190, 64);
             this.ai4_hitbox.TabIndex = 208;
+            this.ai4_hitbox.Click += new System.EventHandler(this.AI4_Click);
+            this.ai4_hitbox.MouseEnter += new System.EventHandler(this.AI4_MouseEnter);
+            this.ai4_hitbox.MouseLeave += new System.EventHandler(this.AI4_MouseLeave);
             // 
             // i8_ck
             // 
@@ -1694,6 +1773,9 @@ namespace plt0_gui
             this.i8_label.Size = new System.Drawing.Size(31, 64);
             this.i8_label.TabIndex = 204;
             this.i8_label.Text = "I8";
+            this.i8_label.Click += new System.EventHandler(this.I8_Click);
+            this.i8_label.MouseEnter += new System.EventHandler(this.I8_MouseEnter);
+            this.i8_label.MouseLeave += new System.EventHandler(this.I8_MouseLeave);
             // 
             // i8_hitbox
             // 
@@ -1707,6 +1789,9 @@ namespace plt0_gui
             this.i8_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
             this.i8_hitbox.Size = new System.Drawing.Size(190, 64);
             this.i8_hitbox.TabIndex = 205;
+            this.i8_hitbox.Click += new System.EventHandler(this.I8_Click);
+            this.i8_hitbox.MouseEnter += new System.EventHandler(this.I8_MouseEnter);
+            this.i8_hitbox.MouseLeave += new System.EventHandler(this.I8_MouseLeave);
             // 
             // i4_ck
             // 
@@ -1735,6 +1820,9 @@ namespace plt0_gui
             this.i4_label.Size = new System.Drawing.Size(31, 64);
             this.i4_label.TabIndex = 201;
             this.i4_label.Text = "I4";
+            this.i4_label.Click += new System.EventHandler(this.I4_Click);
+            this.i4_label.MouseEnter += new System.EventHandler(this.I4_MouseEnter);
+            this.i4_label.MouseLeave += new System.EventHandler(this.I4_MouseLeave);
             // 
             // i4_hitbox
             // 
@@ -1748,6 +1836,9 @@ namespace plt0_gui
             this.i4_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
             this.i4_hitbox.Size = new System.Drawing.Size(190, 64);
             this.i4_hitbox.TabIndex = 202;
+            this.i4_hitbox.Click += new System.EventHandler(this.I4_Click);
+            this.i4_hitbox.MouseEnter += new System.EventHandler(this.I4_MouseEnter);
+            this.i4_hitbox.MouseLeave += new System.EventHandler(this.I4_MouseLeave);
             // 
             // encoding_label
             // 
@@ -1981,69 +2072,9 @@ namespace plt0_gui
             e.Effect = DragDropEffects.Move;
         }
 
-        private void bmd_hitbox_Click(object sender, EventArgs e)
-        {
-            if (bmd)
-            {
-                bmd = false;
-                unchecked_checkbox(bmd_ck);
-            }
-            else
-            {
-                bmd = true;
-                checked_checkbox(bmd_ck);
-            }
-        }
 
-        private void bmd_hitbox_MouseEnter(object sender, EventArgs e)
-        {
-            if (!bmd)
-            hover_checkbox(bmd_ck);
-        }
 
-        private void bmd_hitbox_MouseLeave(object sender, EventArgs e)
-        {
-            if (bmd)
-            {
-                checked_checkbox(bmd_ck);
-            }
-            else
-            {
-                unchecked_checkbox(bmd_ck);
-            }
-        }
-
-        private void bti_ck_Click(object sender, EventArgs e)
-        {
-            if (bti)
-            {
-                bti = false;
-                unchecked_checkbox(bti_ck);
-            }
-            else
-            {
-                bti = true;
-                checked_checkbox(bti_ck);
-            }
-        }
-
-        private void bti_ck_MouseEnter(object sender, EventArgs e)
-        {
-            if (!bti)
-                hover_checkbox(bti_ck);
-        }
-
-        private void bti_ck_MouseLeave(object sender, EventArgs e)
-        {
-            if (bti)
-            {
-                checked_checkbox(bti_ck);
-            }
-            else
-            {
-                unchecked_checkbox(bti_ck);
-            }
-        }
+        // generated checkbox behaviour code by the python script in the py folder
         private void bmd_Click(object sender, EventArgs e)
         {
             if (bmd)
@@ -2057,23 +2088,15 @@ namespace plt0_gui
                 checked_checkbox(bmd_ck);
             }
         }
-
         private void bmd_MouseEnter(object sender, EventArgs e)
         {
             if (!bmd)
                 hover_checkbox(bmd_ck);
         }
-
         private void bmd_MouseLeave(object sender, EventArgs e)
         {
-            if (bmd)
-            {
-                checked_checkbox(bmd_ck);
-            }
-            else
-            {
+            if (!bmd)
                 unchecked_checkbox(bmd_ck);
-            }
         }
         private void bti_Click(object sender, EventArgs e)
         {
@@ -2088,23 +2111,15 @@ namespace plt0_gui
                 checked_checkbox(bti_ck);
             }
         }
-
         private void bti_MouseEnter(object sender, EventArgs e)
         {
             if (!bti)
                 hover_checkbox(bti_ck);
         }
-
         private void bti_MouseLeave(object sender, EventArgs e)
         {
-            if (bti)
-            {
-                checked_checkbox(bti_ck);
-            }
-            else
-            {
+            if (!bti)
                 unchecked_checkbox(bti_ck);
-            }
         }
         private void tex0_Click(object sender, EventArgs e)
         {
@@ -2119,23 +2134,15 @@ namespace plt0_gui
                 checked_checkbox(tex0_ck);
             }
         }
-
         private void tex0_MouseEnter(object sender, EventArgs e)
         {
             if (!tex0)
                 hover_checkbox(tex0_ck);
         }
-
         private void tex0_MouseLeave(object sender, EventArgs e)
         {
-            if (tex0)
-            {
-                checked_checkbox(tex0_ck);
-            }
-            else
-            {
+            if (!tex0)
                 unchecked_checkbox(tex0_ck);
-            }
         }
         private void tpl_Click(object sender, EventArgs e)
         {
@@ -2150,23 +2157,15 @@ namespace plt0_gui
                 checked_checkbox(tpl_ck);
             }
         }
-
         private void tpl_MouseEnter(object sender, EventArgs e)
         {
             if (!tpl)
                 hover_checkbox(tpl_ck);
         }
-
         private void tpl_MouseLeave(object sender, EventArgs e)
         {
-            if (tpl)
-            {
-                checked_checkbox(tpl_ck);
-            }
-            else
-            {
+            if (!tpl)
                 unchecked_checkbox(tpl_ck);
-            }
         }
         private void bmp_Click(object sender, EventArgs e)
         {
@@ -2181,23 +2180,15 @@ namespace plt0_gui
                 checked_checkbox(bmp_ck);
             }
         }
-
         private void bmp_MouseEnter(object sender, EventArgs e)
         {
             if (!bmp)
                 hover_checkbox(bmp_ck);
         }
-
         private void bmp_MouseLeave(object sender, EventArgs e)
         {
-            if (bmp)
-            {
-                checked_checkbox(bmp_ck);
-            }
-            else
-            {
+            if (!bmp)
                 unchecked_checkbox(bmp_ck);
-            }
         }
         private void png_Click(object sender, EventArgs e)
         {
@@ -2212,23 +2203,15 @@ namespace plt0_gui
                 checked_checkbox(png_ck);
             }
         }
-
         private void png_MouseEnter(object sender, EventArgs e)
         {
             if (!png)
                 hover_checkbox(png_ck);
         }
-
         private void png_MouseLeave(object sender, EventArgs e)
         {
-            if (png)
-            {
-                checked_checkbox(png_ck);
-            }
-            else
-            {
+            if (!png)
                 unchecked_checkbox(png_ck);
-            }
         }
         private void jpg_Click(object sender, EventArgs e)
         {
@@ -2243,23 +2226,15 @@ namespace plt0_gui
                 checked_checkbox(jpg_ck);
             }
         }
-
         private void jpg_MouseEnter(object sender, EventArgs e)
         {
             if (!jpg)
                 hover_checkbox(jpg_ck);
         }
-
         private void jpg_MouseLeave(object sender, EventArgs e)
         {
-            if (jpg)
-            {
-                checked_checkbox(jpg_ck);
-            }
-            else
-            {
+            if (!jpg)
                 unchecked_checkbox(jpg_ck);
-            }
         }
         private void jpeg_Click(object sender, EventArgs e)
         {
@@ -2274,23 +2249,15 @@ namespace plt0_gui
                 checked_checkbox(jpeg_ck);
             }
         }
-
         private void jpeg_MouseEnter(object sender, EventArgs e)
         {
             if (!jpeg)
                 hover_checkbox(jpeg_ck);
         }
-
         private void jpeg_MouseLeave(object sender, EventArgs e)
         {
-            if (jpeg)
-            {
-                checked_checkbox(jpeg_ck);
-            }
-            else
-            {
+            if (!jpeg)
                 unchecked_checkbox(jpeg_ck);
-            }
         }
         private void gif_Click(object sender, EventArgs e)
         {
@@ -2305,23 +2272,15 @@ namespace plt0_gui
                 checked_checkbox(gif_ck);
             }
         }
-
         private void gif_MouseEnter(object sender, EventArgs e)
         {
             if (!gif)
                 hover_checkbox(gif_ck);
         }
-
         private void gif_MouseLeave(object sender, EventArgs e)
         {
-            if (gif)
-            {
-                checked_checkbox(gif_ck);
-            }
-            else
-            {
+            if (!gif)
                 unchecked_checkbox(gif_ck);
-            }
         }
         private void ico_Click(object sender, EventArgs e)
         {
@@ -2336,23 +2295,15 @@ namespace plt0_gui
                 checked_checkbox(ico_ck);
             }
         }
-
         private void ico_MouseEnter(object sender, EventArgs e)
         {
             if (!ico)
                 hover_checkbox(ico_ck);
         }
-
         private void ico_MouseLeave(object sender, EventArgs e)
         {
-            if (ico)
-            {
-                checked_checkbox(ico_ck);
-            }
-            else
-            {
+            if (!ico)
                 unchecked_checkbox(ico_ck);
-            }
         }
         private void tif_Click(object sender, EventArgs e)
         {
@@ -2367,23 +2318,15 @@ namespace plt0_gui
                 checked_checkbox(tif_ck);
             }
         }
-
         private void tif_MouseEnter(object sender, EventArgs e)
         {
             if (!tif)
                 hover_checkbox(tif_ck);
         }
-
         private void tif_MouseLeave(object sender, EventArgs e)
         {
-            if (tif)
-            {
-                checked_checkbox(tif_ck);
-            }
-            else
-            {
+            if (!tif)
                 unchecked_checkbox(tif_ck);
-            }
         }
         private void tiff_Click(object sender, EventArgs e)
         {
@@ -2398,23 +2341,15 @@ namespace plt0_gui
                 checked_checkbox(tiff_ck);
             }
         }
-
         private void tiff_MouseEnter(object sender, EventArgs e)
         {
             if (!tiff)
                 hover_checkbox(tiff_ck);
         }
-
         private void tiff_MouseLeave(object sender, EventArgs e)
         {
-            if (tiff)
-            {
-                checked_checkbox(tiff_ck);
-            }
-            else
-            {
+            if (!tiff)
                 unchecked_checkbox(tiff_ck);
-            }
         }
         private void no_warning_Click(object sender, EventArgs e)
         {
@@ -2429,23 +2364,15 @@ namespace plt0_gui
                 checked_checkbox(no_warning_ck);
             }
         }
-
         private void no_warning_MouseEnter(object sender, EventArgs e)
         {
             if (!no_warning)
                 hover_checkbox(no_warning_ck);
         }
-
         private void no_warning_MouseLeave(object sender, EventArgs e)
         {
-            if (no_warning)
-            {
-                checked_checkbox(no_warning_ck);
-            }
-            else
-            {
+            if (!no_warning)
                 unchecked_checkbox(no_warning_ck);
-            }
         }
         private void warn_Click(object sender, EventArgs e)
         {
@@ -2460,23 +2387,15 @@ namespace plt0_gui
                 checked_checkbox(warn_ck);
             }
         }
-
         private void warn_MouseEnter(object sender, EventArgs e)
         {
             if (!warn)
                 hover_checkbox(warn_ck);
         }
-
         private void warn_MouseLeave(object sender, EventArgs e)
         {
-            if (warn)
-            {
-                checked_checkbox(warn_ck);
-            }
-            else
-            {
+            if (!warn)
                 unchecked_checkbox(warn_ck);
-            }
         }
         private void funky_Click(object sender, EventArgs e)
         {
@@ -2491,23 +2410,15 @@ namespace plt0_gui
                 checked_checkbox(funky_ck);
             }
         }
-
         private void funky_MouseEnter(object sender, EventArgs e)
         {
             if (!funky)
                 hover_checkbox(funky_ck);
         }
-
         private void funky_MouseLeave(object sender, EventArgs e)
         {
-            if (funky)
-            {
-                checked_checkbox(funky_ck);
-            }
-            else
-            {
+            if (!funky)
                 unchecked_checkbox(funky_ck);
-            }
         }
         private void stfu_Click(object sender, EventArgs e)
         {
@@ -2522,23 +2433,15 @@ namespace plt0_gui
                 checked_checkbox(stfu_ck);
             }
         }
-
         private void stfu_MouseEnter(object sender, EventArgs e)
         {
             if (!stfu)
                 hover_checkbox(stfu_ck);
         }
-
         private void stfu_MouseLeave(object sender, EventArgs e)
         {
-            if (stfu)
-            {
-                checked_checkbox(stfu_ck);
-            }
-            else
-            {
+            if (!stfu)
                 unchecked_checkbox(stfu_ck);
-            }
         }
         private void safe_mode_Click(object sender, EventArgs e)
         {
@@ -2553,23 +2456,15 @@ namespace plt0_gui
                 checked_checkbox(safe_mode_ck);
             }
         }
-
         private void safe_mode_MouseEnter(object sender, EventArgs e)
         {
             if (!safe_mode)
                 hover_checkbox(safe_mode_ck);
         }
-
         private void safe_mode_MouseLeave(object sender, EventArgs e)
         {
-            if (safe_mode)
-            {
-                checked_checkbox(safe_mode_ck);
-            }
-            else
-            {
+            if (!safe_mode)
                 unchecked_checkbox(safe_mode_ck);
-            }
         }
         private void FORCE_ALPHA_Click(object sender, EventArgs e)
         {
@@ -2584,23 +2479,15 @@ namespace plt0_gui
                 checked_checkbox(FORCE_ALPHA_ck);
             }
         }
-
         private void FORCE_ALPHA_MouseEnter(object sender, EventArgs e)
         {
             if (!FORCE_ALPHA)
                 hover_checkbox(FORCE_ALPHA_ck);
         }
-
         private void FORCE_ALPHA_MouseLeave(object sender, EventArgs e)
         {
-            if (FORCE_ALPHA)
-            {
-                checked_checkbox(FORCE_ALPHA_ck);
-            }
-            else
-            {
+            if (!FORCE_ALPHA)
                 unchecked_checkbox(FORCE_ALPHA_ck);
-            }
         }
         private void ask_exit_Click(object sender, EventArgs e)
         {
@@ -2615,23 +2502,15 @@ namespace plt0_gui
                 checked_checkbox(ask_exit_ck);
             }
         }
-
         private void ask_exit_MouseEnter(object sender, EventArgs e)
         {
             if (!ask_exit)
                 hover_checkbox(ask_exit_ck);
         }
-
         private void ask_exit_MouseLeave(object sender, EventArgs e)
         {
-            if (ask_exit)
-            {
-                checked_checkbox(ask_exit_ck);
-            }
-            else
-            {
+            if (!ask_exit)
                 unchecked_checkbox(ask_exit_ck);
-            }
         }
         private void bmp_32_Click(object sender, EventArgs e)
         {
@@ -2646,23 +2525,15 @@ namespace plt0_gui
                 checked_checkbox(bmp_32_ck);
             }
         }
-
         private void bmp_32_MouseEnter(object sender, EventArgs e)
         {
             if (!bmp_32)
                 hover_checkbox(bmp_32_ck);
         }
-
         private void bmp_32_MouseLeave(object sender, EventArgs e)
         {
-            if (bmp_32)
-            {
-                checked_checkbox(bmp_32_ck);
-            }
-            else
-            {
+            if (!bmp_32)
                 unchecked_checkbox(bmp_32_ck);
-            }
         }
         private void reverse_Click(object sender, EventArgs e)
         {
@@ -2677,23 +2548,15 @@ namespace plt0_gui
                 checked_checkbox(reverse_ck);
             }
         }
-
         private void reverse_MouseEnter(object sender, EventArgs e)
         {
             if (!reverse)
                 hover_checkbox(reverse_ck);
         }
-
         private void reverse_MouseLeave(object sender, EventArgs e)
         {
-            if (reverse)
-            {
-                checked_checkbox(reverse_ck);
-            }
-            else
-            {
+            if (!reverse)
                 unchecked_checkbox(reverse_ck);
-            }
         }
         private void random_Click(object sender, EventArgs e)
         {
@@ -2708,44 +2571,219 @@ namespace plt0_gui
                 checked_checkbox(random_ck);
             }
         }
-
         private void random_MouseEnter(object sender, EventArgs e)
         {
             if (!random)
                 hover_checkbox(random_ck);
         }
-
         private void random_MouseLeave(object sender, EventArgs e)
         {
-            if (random)
-            {
-                checked_checkbox(random_ck);
-            }
-            else
-            {
+            if (!random)
                 unchecked_checkbox(random_ck);
-            }
         }
-        private void unchecked_violet(PictureBox radiobutton)
+
+
+
+
+        // implementation of radio buttons
+        private void unchecked_encoding(PictureBox radiobutton)
         {
             if (System.IO.File.Exists(execPath + "images/violet_circle.png"))
             {
                 radiobutton.BackgroundImage = System.Drawing.Image.FromFile(execPath + "images/violet_circle.png");
             }
         }
-        private void checked_violet(PictureBox radiobutton)
+        private void checked_encoding(PictureBox radiobutton)
         {
             if (System.IO.File.Exists(execPath + "images/violet_circle_on.png"))
             {
                 radiobutton.BackgroundImage = System.Drawing.Image.FromFile(execPath + "images/violet_circle_on.png");
             }
         }
-        private void hover_violet(PictureBox radiobutton)
+        private void hover_encoding(PictureBox radiobutton)
         {
-            if (System.IO.File.Exists(execPath + "images/green_circle.png"))
+            if (System.IO.File.Exists(execPath + "images/pink_circle.png"))
             {
-                radiobutton.BackgroundImage = System.Drawing.Image.FromFile(execPath + "images/green_circle.png");
+                radiobutton.BackgroundImage = System.Drawing.Image.FromFile(execPath + "images/pink_circle.png");
             }
+        }
+
+        // code generated by the python script
+        private void I4_Click(object sender, EventArgs e)
+        {
+            unchecked_encoding(encoding_ck[encoding]);
+            checked_encoding(i4_ck);
+            encoding = 0; // I4
+        }
+        private void I4_MouseEnter(object sender, EventArgs e)
+        {
+            if (encoding != 0)
+                hover_encoding(i4_ck);
+        }
+        private void I4_MouseLeave(object sender, EventArgs e)
+        {
+            if (encoding != 0)
+                unchecked_encoding(i4_ck);
+        }
+        private void I8_Click(object sender, EventArgs e)
+        {
+            unchecked_encoding(encoding_ck[encoding]);
+            checked_encoding(i8_ck);
+            encoding = 1; // I8
+        }
+        private void I8_MouseEnter(object sender, EventArgs e)
+        {
+            if (encoding != 1)
+                hover_encoding(i8_ck);
+        }
+        private void I8_MouseLeave(object sender, EventArgs e)
+        {
+            if (encoding != 1)
+                unchecked_encoding(i8_ck);
+        }
+        private void AI4_Click(object sender, EventArgs e)
+        {
+            unchecked_encoding(encoding_ck[encoding]);
+            checked_encoding(ai4_ck);
+            encoding = 2; // AI4
+        }
+        private void AI4_MouseEnter(object sender, EventArgs e)
+        {
+            if (encoding != 2)
+                hover_encoding(ai4_ck);
+        }
+        private void AI4_MouseLeave(object sender, EventArgs e)
+        {
+            if (encoding != 2)
+                unchecked_encoding(ai4_ck);
+        }
+        private void AI8_Click(object sender, EventArgs e)
+        {
+            unchecked_encoding(encoding_ck[encoding]);
+            checked_encoding(ai8_ck);
+            encoding = 3; // AI8
+        }
+        private void AI8_MouseEnter(object sender, EventArgs e)
+        {
+            if (encoding != 3)
+                hover_encoding(ai8_ck);
+        }
+        private void AI8_MouseLeave(object sender, EventArgs e)
+        {
+            if (encoding != 3)
+                unchecked_encoding(ai8_ck);
+        }
+        private void RGB565_Click(object sender, EventArgs e)
+        {
+            unchecked_encoding(encoding_ck[encoding]);
+            checked_encoding(rgb565_ck);
+            encoding = 4; // RGB565
+        }
+        private void RGB565_MouseEnter(object sender, EventArgs e)
+        {
+            if (encoding != 4)
+                hover_encoding(rgb565_ck);
+        }
+        private void RGB565_MouseLeave(object sender, EventArgs e)
+        {
+            if (encoding != 4)
+                unchecked_encoding(rgb565_ck);
+        }
+        private void RGB5A3_Click(object sender, EventArgs e)
+        {
+            unchecked_encoding(encoding_ck[encoding]);
+            checked_encoding(rgb5a3_ck);
+            encoding = 5; // RGB5A3
+        }
+        private void RGB5A3_MouseEnter(object sender, EventArgs e)
+        {
+            if (encoding != 5)
+                hover_encoding(rgb5a3_ck);
+        }
+        private void RGB5A3_MouseLeave(object sender, EventArgs e)
+        {
+            if (encoding != 5)
+                unchecked_encoding(rgb5a3_ck);
+        }
+        private void RGBA32_Click(object sender, EventArgs e)
+        {
+            unchecked_encoding(encoding_ck[encoding]);
+            checked_encoding(rgba32_ck);
+            encoding = 6; // RGBA32
+        }
+        private void RGBA32_MouseEnter(object sender, EventArgs e)
+        {
+            if (encoding != 6)
+                hover_encoding(rgba32_ck);
+        }
+        private void RGBA32_MouseLeave(object sender, EventArgs e)
+        {
+            if (encoding != 6)
+                unchecked_encoding(rgba32_ck);
+        }
+        private void CI4_Click(object sender, EventArgs e)
+        {
+            unchecked_encoding(encoding_ck[encoding]);
+            checked_encoding(ci4_ck);
+            encoding = 8; // CI4
+        }
+        private void CI4_MouseEnter(object sender, EventArgs e)
+        {
+            if (encoding != 8)
+                hover_encoding(ci4_ck);
+        }
+        private void CI4_MouseLeave(object sender, EventArgs e)
+        {
+            if (encoding != 8)
+                unchecked_encoding(ci4_ck);
+        }
+        private void CI8_Click(object sender, EventArgs e)
+        {
+            unchecked_encoding(encoding_ck[encoding]);
+            checked_encoding(ci8_ck);
+            encoding = 9; // CI8
+        }
+        private void CI8_MouseEnter(object sender, EventArgs e)
+        {
+            if (encoding != 9)
+                hover_encoding(ci8_ck);
+        }
+        private void CI8_MouseLeave(object sender, EventArgs e)
+        {
+            if (encoding != 9)
+                unchecked_encoding(ci8_ck);
+        }
+        private void CI14X2_Click(object sender, EventArgs e)
+        {
+            unchecked_encoding(encoding_ck[encoding]);
+            checked_encoding(ci14x2_ck);
+            encoding = 10; // CI14X2
+        }
+        private void CI14X2_MouseEnter(object sender, EventArgs e)
+        {
+            if (encoding != 10)
+                hover_encoding(ci14x2_ck);
+        }
+        private void CI14X2_MouseLeave(object sender, EventArgs e)
+        {
+            if (encoding != 10)
+                unchecked_encoding(ci14x2_ck);
+        }
+        private void CMPR_Click(object sender, EventArgs e)
+        {
+            unchecked_encoding(encoding_ck[encoding]);
+            checked_encoding(cmpr_ck);
+            encoding = 14; // CMPR
+        }
+        private void CMPR_MouseEnter(object sender, EventArgs e)
+        {
+            if (encoding != 14)
+                hover_encoding(cmpr_ck);
+        }
+        private void CMPR_MouseLeave(object sender, EventArgs e)
+        {
+            if (encoding != 14)
+                unchecked_encoding(cmpr_ck);
         }
     }
 }
