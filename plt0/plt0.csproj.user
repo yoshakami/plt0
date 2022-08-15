@@ -7,7 +7,8 @@
     <StartArguments>mp9.exe v0.92 restart</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'plt0|x64'">
-    <StartArguments>geo10.tpl b/geo</StartArguments>
+    <StartArguments>
+    </StartArguments>
     <StartWorkingDirectory>X:\root\Mario Party 9 [SSQP01]\DATA\files\common\bdresult\option2.brres_DECOMP\tex0\</StartWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup>
