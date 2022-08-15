@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,11 +22,12 @@ class Fill_index_list_class
         {
             case 6:  // RGBA32
                 {
-                    byte[] index = new byte[_dec.canvas_dim[0][2] * 4];
+                    byte[] index = new byte[0];
                     for (byte m = 0; m <= mipmaps_number; m++)
                     {
-                        blocks_wide = _dec.canvas_dim[m][2] / 4;
-                        blocks_tall = _dec.canvas_dim[m][3] / 4;
+                        Array.Resize(ref index, _dec.canvas_dim[m][2] << 2);
+                        blocks_wide = _dec.canvas_dim[m][2] >> 2;
+                        blocks_tall = _dec.canvas_dim[m][3] >> 2;
                         for (int t = 0; t < blocks_tall; t++)
                         {
                             for (int h = 0; h < 4; h++) // height of a block - the number of lines
@@ -76,8 +78,8 @@ class Fill_index_list_class
                     byte[] index = new byte[8];
                     for (byte m = 0; m <= mipmaps_number; m++)
                     {
-                        blocks_wide = _dec.canvas_dim[m][2] / 8;
-                        blocks_tall = _dec.canvas_dim[m][3] / 8;
+                        blocks_wide = _dec.canvas_dim[m][2] >> 3;
+                        blocks_tall = _dec.canvas_dim[m][3] >> 3;
                         for (int b = 0; b < (blocks_tall * blocks_wide) << 2; b++)
                         {
                             for (count = 0; count < 8; count++)
@@ -107,37 +109,39 @@ class Fill_index_list_class
                 }
             default:
                 {
-                    int len = _dec.canvas_dim[0][2];
-                    switch (texture_format3)
-                    {
-                        case 0:  // I4
-                        case 8: // CI4
-                            {
-                                len >>= 1;  // 4-bit per pixel
-                                break;
-                            }
-                        /* 
-                          case 9:  // CI8
-                        case 1: // I8
-                        case 2: // AI4
-                            nothing happens
-                       */
-                        case 3:  // IA8
-                        case 4:  // RGB565
-                        case 5:  // RGB5A3
-                        case 10: // CI14x2
-                            {
-                                len <<= 1; // 16bpp
-                                break;
-                            }
-                            /* these are already treated in their own case
-                            case 6:  // RGBA32
-                            case 0xE:  // CMPR
-                            */
-                    }
-                    byte[] index = new byte[len];
+                    int len;
+                    byte[] index = new byte[0];
                     for (byte m = 0; m <= mipmaps_number; m++)
                     {
+                        len = _dec.canvas_dim[m][2];
+                        switch (texture_format3)
+                        {
+                            case 0:  // I4
+                            case 8: // CI4
+                                {
+                                    len >>= 1;  // 4-bit per pixel
+                                    break;
+                                }
+                            /* 
+                              case 9:  // CI8
+                            case 1: // I8
+                            case 2: // AI4
+                                nothing happens
+                           */
+                            case 3:  // IA8
+                            case 4:  // RGB565
+                            case 5:  // RGB5A3
+                            case 10: // CI14x2
+                                {
+                                    len <<= 1; // 16bpp
+                                    break;
+                                }
+                                /* these are already treated in their own case
+                                case 6:  // RGBA32
+                                case 0xE:  // CMPR
+                                */
+                        }
+                        Array.Resize(ref index, len);
                         blocks_wide = _dec.canvas_dim[m][2] / real_block_width_array[texture_format3];
                         blocks_tall = _dec.canvas_dim[m][3] / block_height_array[texture_format3];
                         for (int t = 0; t < blocks_tall; t++)

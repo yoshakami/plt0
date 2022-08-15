@@ -80,7 +80,7 @@ class Write_bmp_class
                         break;
                     }
             }
-            if ((palette_format_int32[3] == 2 && alpha > 0) || bmp_32 || (palette_format_int32[3] == 0 && alpha > 0))  // AI8 Palette with alpha  // RGB5A3 Palette with alpha
+            if ((has_palette && alpha > 0) || bmp_32)  // AI8 Palette with alpha // RGB565 Palette with alpha // RGB5A3 Palette with alpha
             {
                 colour_number_x4 = 0;
                 alpha_header_size = 0x44;
@@ -849,7 +849,7 @@ class Write_bmp_class
                         }
                 }
             }
-            if ((has_palette && texture_format_int32[3] != 10 && !bmp_32 && (palette_format_int32[3] != 0 || alpha < 1) && (palette_format_int32[3] != 2 || alpha < 1)) || funky) // && (texture_format_int32[3] > 2 || texture_format_int32[3] != 0xe)))
+            if (has_palette && texture_format_int32[3] != 10 && !bmp_32 && alpha < 1 || funky) // && (texture_format_int32[3] > 2 || texture_format_int32[3] != 0xe)))
             {
                 if (texture_format_int32[3] == 3 || texture_format_int32[3] == 4 || texture_format_int32[3] == 5)
                 {

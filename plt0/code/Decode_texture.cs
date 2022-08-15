@@ -15,7 +15,7 @@ class Decode_texture_class
         byte[] palette_format_int32 = { 0, 0, 0, 0 };
         byte[] data = new byte[0];
         bool has_palette = false;
-        byte alpha = 9;
+        byte alpha = 1;
         int data_start_offset = 0;
         int palette_start_offset;
         // fill index_list the same way write_bmp handles it
@@ -84,6 +84,10 @@ class Decode_texture_class
             }
             for (int b = 0; b < image_number; b++)
             {
+                has_palette = false;
+                colour_number = 0;
+                colour_number_x2 = 0;
+                colour_number_x4 = 0;
                 if (b == 1)
                 {
                     output_file += b.ToString();
@@ -97,32 +101,32 @@ class Decode_texture_class
                 {
                     has_palette = true;
                     palette_format_int32[3] = data[palette_headers_offset[b] + 7];
-                    colour_number = (byte)((data[palette_headers_offset[b]] << 8) + data[palette_headers_offset[b] + 1]);
+                    colour_number = (ushort)((data[palette_headers_offset[b]] << 8) + data[palette_headers_offset[b] + 1]);
                     colour_number_x2 = colour_number << 1;
                     colour_number_x4 = colour_number << 2;
                     palette_start_offset = (data[palette_headers_offset[b] + 8] << 24) | (data[palette_headers_offset[b] + 9] << 16) | (data[palette_headers_offset[b] + 10] << 8) | data[palette_headers_offset[b] + 11];
                     Array.Resize(ref colour_palette, colour_number_x2);
                     Array.Copy(data, palette_start_offset, colour_palette, 0, colour_number_x2);
                 }
-                if (mipmaps_number > data[image_headers_offset[b] + 0x22] || b != 0)
+                 /*if (mipmaps_number > data[image_headers_offset[b] + 0x22] || b != 0)
                 {
                     mipmaps_number = (byte)(data[image_headers_offset[b] + 0x22]);
                     if (!no_warning)
                         Console.WriteLine("number of images set as input are higher than in the file to decode.\nThis program will output the maximum number of mipmaps possible.");
-                }
+                }*/
                 texture_format_int32[3] = data[image_headers_offset[b] + 7];
                 data_start_offset = (data[image_headers_offset[b] + 8] << 24) | (data[image_headers_offset[b] + 9] << 16) | (data[image_headers_offset[b] + 10] << 8) | data[image_headers_offset[b] + 11];
 
-                canvas[1] = (ushort)((data[image_headers_offset[b] + 2] << 8) + data[image_headers_offset[b] + 3]);
-                canvas[0] = (ushort)((data[image_headers_offset[b]] << 8) + data[image_headers_offset[b] + 1]);
+                canvas[0] = (ushort)((data[image_headers_offset[b] + 2] << 8) + data[image_headers_offset[b] + 3]);
+                canvas[1] = (ushort)((data[image_headers_offset[b]] << 8) + data[image_headers_offset[b] + 1]);
                 // fill canvas_dim first array
                 canvas[2] = (ushort)(canvas[0] + ((real_block_width_array[texture_format_int32[3]] - (canvas[0] % real_block_width_array[texture_format_int32[3]])) % real_block_width_array[texture_format_int32[3]]));
                 canvas[3] = (ushort)(canvas[1] + ((block_height_array[texture_format_int32[3]] - (canvas[1] % block_height_array[texture_format_int32[3]])) % block_height_array[texture_format_int32[3]]));
                 canvas_dim.Add(canvas);
                 // call fill_index_list
                 Fill_index_list_class g = new Fill_index_list_class(this);
-                object tpl_picture = g.Fill_index_list(data, data_start_offset, texture_format_int32[3], mipmaps_number, real_block_width_array, block_width_array, block_height_array, reverse);
-                Write_bmp_class.Write_bmp((List<List<byte[]>>)tpl_picture, canvas_dim, colour_palette, texture_format_int32, palette_format_int32, colour_number, output_file, bmp_32, funky, has_palette, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number, alpha, colour_number_x2, colour_number_x4);
+                object tpl_picture = g.Fill_index_list(data, data_start_offset, texture_format_int32[3], data[image_headers_offset[b] + 0x22], real_block_width_array, block_width_array, block_height_array, reverse);
+                Write_bmp_class.Write_bmp((List<List<byte[]>>)tpl_picture, canvas_dim, colour_palette, texture_format_int32, palette_format_int32, colour_number, output_file, bmp_32, funky, has_palette, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, data[image_headers_offset[b] + 0x22], alpha, colour_number_x2, colour_number_x4);
             }
             return;
         }
