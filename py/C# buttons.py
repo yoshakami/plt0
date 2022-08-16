@@ -23,7 +23,7 @@ alpha = ["No_alpha", "Alpha", "Mix"]
 for b in range(len(alpha)):
     output += """        private void """ + alpha[b] + """_Click(object sender, EventArgs e)
         {
-            unchecked_alpha(alpha_ck[alpha]);
+            unchecked_alpha(alpha_ck_array[alpha]);
             checked_alpha(""" + alpha[b].lower() + """_ck);
             alpha = """ + str(b) + """; // """ + alpha[b] + """
         }
@@ -80,18 +80,18 @@ for e in range(6):
     output += """        private void Minificaction_""" + filter[e] + """_Click(object sender, EventArgs e)
             {
                 unchecked_Minificaction(minificaction_ck[minificaction_filter]);
-                checked_Minificaction(S""" + filter[e].lower() + """_ck);
+                checked_Minificaction(""" + filter[e].lower() + """_ck);
                 minificaction_filter = """ + str(e) + """; // """ + filter[e] + """
             }
             private void Minificaction_""" + filter[e] + """_MouseEnter(object sender, EventArgs e)
             {
                 if (minificaction_filter != """ + str(e) + """)
-                    hover_Minificaction(S""" + filter[e].lower() + """_ck);
+                    hover_Minificaction(""" + filter[e].lower() + """_ck);
             }
             private void Minificaction_""" + filter[e] + """_MouseLeave(object sender, EventArgs e)
             {
                 if (minificaction_filter != """ + str(e) + """)
-                    unchecked_Minificaction(S""" + filter[e].lower() + """_ck);
+                    unchecked_Minificaction(""" + filter[e].lower() + """_ck);
             }
 """
 for f in range(6):
@@ -114,23 +114,25 @@ for f in range(6):
 """
 channel = ["R", "G", "B", "A"]
 channel2 = ["Red", "Green", "Blue", "Alpha"]
+i = -1
 for g in channel:
+    i += 1
     for h in range(4):
-        output += """        private void """ + g + '_' + channel[h].lower() + """_Click(object sender, EventArgs e)
+        output += """        private void """ + g + '_' + channel[h] + """_Click(object sender, EventArgs e)
                     {
-                        unchecked_""" + g + '_' + channel[h].lower() + "(" + g + '_' + channel[h].lower() + "_ck[" + g.lower() + """]);
-                        checked_""" + g + '_' + channel[h].lower() + "(" + g + '_' + channel[h].lower() + """_ck);
-                        """ + g.lower() + " = " + str(h) + "; // " + channel2[h] + " channel set to " + g + """
+                        unchecked_""" + g + '_' + channel[h] + "(" + g.lower() + '_' + channel[h].lower() + "_ck[" + g.lower() + """]);
+                        checked_""" + g + '_' + channel[h] + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
+                        """ + g.lower() + " = " + str(h) + "; // " + channel2[i] + " channel set to " + channel[h] + """
                     }
-                    private void """ + g + '_' + channel[h].lower() + """_MouseEnter(object sender, EventArgs e)
+                    private void """ + g + '_' + channel[h] + """_MouseEnter(object sender, EventArgs e)
                     {
-                        if (magnification_filter != """ + str(f) + """)
-                            hover_Magnification(S""" + filter[f].lower() + """_ck);
+                        if (""" + g.lower() + " != " + str(h) + """)
+                            hover_""" + g + '_' + channel[h] + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
                     }
-                    private void """ + g + '_' + channel[h].lower() + """_MouseLeave(object sender, EventArgs e)
+                    private void """ + g + '_' + channel[h] + """_MouseLeave(object sender, EventArgs e)
                     {
-                        if (magnification_filter != """ + str(f) + """)
-                            unchecked_Magnification(S""" + filter[f].lower() + """_ck);
+                        if (""" + g.lower() + " != " + str(h) + """)
+                            unchecked_""" + g + '_' + channel[h].lower() + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
                     }
 """
 pyperclip.copy(output)
