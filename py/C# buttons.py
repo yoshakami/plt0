@@ -41,81 +41,81 @@ for b in range(len(alpha)):
 wrap = ["Clamp", "Repeat", "Mirror"]
 for c in range(3):
     output += """        private void WrapS_""" + wrap[c] + """_Click(object sender, EventArgs e)
-            {
-                unchecked_WrapS(WrapS_ck[WrapS]);
-                checked_WrapS(S""" + wrap[c].lower() + """_ck);
-                WrapS = """ + str(c) + """; // """ + wrap[c] + """
-            }
-            private void WrapS_""" + wrap[c] + """_MouseEnter(object sender, EventArgs e)
-            {
-                if (WrapS != """ + str(c) + """)
-                    hover_WrapS(S""" + wrap[c].lower() + """_ck);
-            }
-            private void WrapS_""" + wrap[c] + """_MouseLeave(object sender, EventArgs e)
-            {
-                if (WrapS != """ + str(c) + """)
-                    unchecked_WrapS(S""" + wrap[c].lower() + """_ck);
-            }
+        {
+            unchecked_WrapS(WrapS_ck[WrapS]);
+            checked_WrapS(S""" + wrap[c].lower() + """_ck);
+            WrapS = """ + str(c) + """; // """ + wrap[c] + """
+        }
+        private void WrapS_""" + wrap[c] + """_MouseEnter(object sender, EventArgs e)
+        {
+            if (WrapS != """ + str(c) + """)
+                hover_WrapS(S""" + wrap[c].lower() + """_ck);
+        }
+        private void WrapS_""" + wrap[c] + """_MouseLeave(object sender, EventArgs e)
+        {
+            if (WrapS != """ + str(c) + """)
+                unchecked_WrapS(S""" + wrap[c].lower() + """_ck);
+        }
 """
 for d in range(3):
     output += """        private void WrapT_""" + wrap[d] + """_Click(object sender, EventArgs e)
-            {
-                unchecked_WrapT(WrapT_ck[WrapT]);
-                checked_WrapT(T""" + wrap[d].lower() + """_ck);
-                WrapT = """ + str(d) + """; // """ + wrap[d] + """
-            }
-            private void WrapT_""" + wrap[d] + """_MouseEnter(object sender, EventArgs e)
-            {
-                if (WrapT != """ + str(d) + """)
-                    hover_WrapT(T""" + wrap[d].lower() + """_ck);
-            }
-            private void WrapT_""" + wrap[d] + """_MouseLeave(object sender, EventArgs e)
-            {
-                if (WrapT != """ + str(d) + """)
-                    unchecked_WrapT(T""" + wrap[d].lower() + """_ck);
-            }
+        {
+            unchecked_WrapT(WrapT_ck[WrapT]);
+            checked_WrapT(T""" + wrap[d].lower() + """_ck);
+            WrapT = """ + str(d) + """; // """ + wrap[d] + """
+        }
+        private void WrapT_""" + wrap[d] + """_MouseEnter(object sender, EventArgs e)
+        {
+            if (WrapT != """ + str(d) + """)
+                hover_WrapT(T""" + wrap[d].lower() + """_ck);
+        }
+        private void WrapT_""" + wrap[d] + """_MouseLeave(object sender, EventArgs e)
+        {
+            if (WrapT != """ + str(d) + """)
+                unchecked_WrapT(T""" + wrap[d].lower() + """_ck);
+        }
 """
-filter = ["Nearest Neighbour", "Linear", "NearestMipmapNearest", "NearestMipmapLinear", "LinearMipmapNearest", "LinearMipmapLinear"]
+filter = ["Nearest_Neighbour", "Linear", "NearestMipmapNearest", "NearestMipmapLinear", "LinearMipmapNearest", "LinearMipmapLinear"]
 for e in range(6):
     output += """        private void Minificaction_""" + filter[e] + """_Click(object sender, EventArgs e)
-            {
-                unchecked_Minificaction(minificaction_ck[minificaction_filter]);
-                checked_Minificaction(""" + filter[e].lower() + """_ck);
-                minificaction_filter = """ + str(e) + """; // """ + filter[e] + """
-            }
-            private void Minificaction_""" + filter[e] + """_MouseEnter(object sender, EventArgs e)
-            {
-                if (minificaction_filter != """ + str(e) + """)
-                    hover_Minificaction(""" + filter[e].lower() + """_ck);
-            }
-            private void Minificaction_""" + filter[e] + """_MouseLeave(object sender, EventArgs e)
-            {
-                if (minificaction_filter != """ + str(e) + """)
-                    unchecked_Minificaction(""" + filter[e].lower() + """_ck);
-            }
+        {
+            unchecked_Minificaction(minificaction_ck[minificaction_filter]);
+            checked_Minificaction(min_""" + filter[e].lower() + """_ck);
+            minificaction_filter = """ + str(e) + """; // """ + filter[e] + """
+        }
+        private void Minificaction_""" + filter[e] + """_MouseEnter(object sender, EventArgs e)
+        {
+            if (minificaction_filter != """ + str(e) + """)
+                hover_Minificaction(min_""" + filter[e].lower() + """_ck);
+        }
+        private void Minificaction_""" + filter[e] + """_MouseLeave(object sender, EventArgs e)
+        {
+            if (minificaction_filter != """ + str(e) + """)
+                unchecked_Minificaction(min_""" + filter[e].lower() + """_ck);
+        }
 """
 for f in range(6):
     output += """        private void Magnification_""" + filter[f] + """_Click(object sender, EventArgs e)
-            {
-                unchecked_Magnification(magnification_ck[magnification_filter]);
-                checked_Magnification(S""" + filter[f].lower() + """_ck);
-                magnification_filter = """ + str(f) + """; // """ + filter[f] + """
-            }
-            private void Magnification_""" + filter[f] + """_MouseEnter(object sender, EventArgs e)
-            {
-                if (magnification_filter != """ + str(f) + """)
-                    hover_Magnification(S""" + filter[f].lower() + """_ck);
-            }
-            private void Magnification_""" + filter[f] + """_MouseLeave(object sender, EventArgs e)
-            {
-                if (magnification_filter != """ + str(f) + """)
-                    unchecked_Magnification(S""" + filter[f].lower() + """_ck);
-            }
+        {
+            unchecked_Magnification(magnification_ck[magnification_filter]);
+            checked_Magnification(mag_""" + filter[f].lower() + """_ck);
+            magnification_filter = """ + str(f) + """; // Mag_""" + filter[f] + """
+        }
+        private void Magnification_""" + filter[f] + """_MouseEnter(object sender, EventArgs e)
+        {
+            if (magnification_filter != """ + str(f) + """)
+                hover_Magnification(mag_""" + filter[f].lower() + """_ck);
+        }
+        private void Magnification_""" + filter[f] + """_MouseLeave(object sender, EventArgs e)
+        {
+            if (magnification_filter != """ + str(f) + """)
+                unchecked_Magnification(mag_""" + filter[f].lower() + """_ck);
+        }
 """
 channel = ["R", "G", "B", "A"]
 channel2 = ["Red", "Green", "Blue", "Alpha"]
 i = -1
-for g in channel:
+for g in channel:  # this looks unreadable because it's packed up instead of pasting 4 times the h loop
     i += 1
     for h in range(4):
         output += """        private void """ + g + '_' + channel[h] + """_Click(object sender, EventArgs e)
@@ -132,7 +132,7 @@ for g in channel:
                     private void """ + g + '_' + channel[h] + """_MouseLeave(object sender, EventArgs e)
                     {
                         if (""" + g.lower() + " != " + str(h) + """)
-                            unchecked_""" + g + '_' + channel[h].lower() + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
+                            unchecked_""" + g + '_' + channel[h] + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
                     }
 """
 pyperclip.copy(output)
