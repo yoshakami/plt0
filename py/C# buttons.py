@@ -77,21 +77,21 @@ for d in range(3):
 """
 filter = ["Nearest_Neighbour", "Linear", "NearestMipmapNearest", "NearestMipmapLinear", "LinearMipmapNearest", "LinearMipmapLinear"]
 for e in range(6):
-    output += """        private void Minificaction_""" + filter[e] + """_Click(object sender, EventArgs e)
+    output += """        private void Minification_""" + filter[e] + """_Click(object sender, EventArgs e)
         {
-            unchecked_Minificaction(minificaction_ck[minificaction_filter]);
-            checked_Minificaction(min_""" + filter[e].lower() + """_ck);
-            minificaction_filter = """ + str(e) + """; // """ + filter[e] + """
+            unchecked_Minification(minification_ck[minification_filter]);
+            checked_Minification(min_""" + filter[e].lower() + """_ck);
+            minification_filter = """ + str(e) + """; // """ + filter[e] + """
         }
-        private void Minificaction_""" + filter[e] + """_MouseEnter(object sender, EventArgs e)
+        private void Minification_""" + filter[e] + """_MouseEnter(object sender, EventArgs e)
         {
-            if (minificaction_filter != """ + str(e) + """)
-                hover_Minificaction(min_""" + filter[e].lower() + """_ck);
+            if (minification_filter != """ + str(e) + """)
+                hover_Minification(min_""" + filter[e].lower() + """_ck);
         }
-        private void Minificaction_""" + filter[e] + """_MouseLeave(object sender, EventArgs e)
+        private void Minification_""" + filter[e] + """_MouseLeave(object sender, EventArgs e)
         {
-            if (minificaction_filter != """ + str(e) + """)
-                unchecked_Minificaction(min_""" + filter[e].lower() + """_ck);
+            if (minification_filter != """ + str(e) + """)
+                unchecked_Minification(min_""" + filter[e].lower() + """_ck);
         }
 """
 for f in range(6):
@@ -119,21 +119,21 @@ for g in channel:  # this looks unreadable because it's packed up instead of pas
     i += 1
     for h in range(4):
         output += """        private void """ + g + '_' + channel[h] + """_Click(object sender, EventArgs e)
-                    {
-                        unchecked_""" + g + '_' + channel[h] + "(" + g.lower() + '_' + channel[h].lower() + "_ck[" + g.lower() + """]);
-                        checked_""" + g + '_' + channel[h] + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
-                        """ + g.lower() + " = " + str(h) + "; // " + channel2[i] + " channel set to " + channel[h] + """
-                    }
-                    private void """ + g + '_' + channel[h] + """_MouseEnter(object sender, EventArgs e)
-                    {
-                        if (""" + g.lower() + " != " + str(h) + """)
-                            hover_""" + g + '_' + channel[h] + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
-                    }
-                    private void """ + g + '_' + channel[h] + """_MouseLeave(object sender, EventArgs e)
-                    {
-                        if (""" + g.lower() + " != " + str(h) + """)
-                            unchecked_""" + g + '_' + channel[h] + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
-                    }
+        {
+            unchecked_""" + g + '_' + channel[h] + "(" + g.lower() + '_' + channel[h].lower() + "_ck[" + g.lower() + """]);
+            checked_""" + g + '_' + channel[h] + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
+            """ + g.lower() + " = " + str(h) + "; // " + channel2[i] + " channel set to " + channel[h] + """
+        }
+        private void """ + g + '_' + channel[h] + """_MouseEnter(object sender, EventArgs e)
+        {
+            if (""" + g.lower() + " != " + str(h) + """)
+                hover_""" + g + '_' + channel[h] + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
+        }
+        private void """ + g + '_' + channel[h] + """_MouseLeave(object sender, EventArgs e)
+        {
+            if (""" + g.lower() + " != " + str(h) + """)
+                unchecked_""" + g + '_' + channel[h] + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
+        }
 """
 pyperclip.copy(output)
 input(output)

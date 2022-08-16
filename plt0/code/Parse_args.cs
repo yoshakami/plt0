@@ -49,7 +49,7 @@ class Parse_args_class
     public byte diversity = 10;
     public byte diversity2 = 0;
     byte magnification_filter = 1;  // 0 = Nearest Neighbour   1 = Linear
-    byte minificaction_filter = 1;  // 0 = Nearest Neighbour   1 = Linear
+    byte minification_filter = 1;  // 0 = Nearest Neighbour   1 = Linear
     byte mipmaps_number = 0;
     public byte round3 = 16;
     public byte round4 = 8;
@@ -494,38 +494,38 @@ class Parse_args_class
                             case "NEAREST":
                             case "0":
                                 {
-                                    minificaction_filter = 0;
+                                    minification_filter = 0;
                                     break;
                                 }
                             case "LINEAR":
                             case "1":
                                 {
-                                    minificaction_filter = 1;
+                                    minification_filter = 1;
                                     break;
                                 }
                             case "nearestmipmapnearest":
                             case "2":
 
                                 {
-                                    minificaction_filter = 2;
+                                    minification_filter = 2;
                                     break;
                                 }
                             case "nearestmipmaplinear":
                             case "3":
                                 {
-                                    minificaction_filter = 3;
+                                    minification_filter = 3;
                                     break;
                                 }
                             case "linearmipmapnearest":
                             case "4":
                                 {
-                                    minificaction_filter = 4;
+                                    minification_filter = 4;
                                     break;
                                 }
                             case "linearmipmaplinear":
                             case "5":
                                 {
-                                    minificaction_filter = 5;
+                                    minification_filter = 5;
                                     break;
                                 }
                             default:
@@ -626,37 +626,37 @@ class Parse_args_class
                 case "NEIGHBOUR": // bri'ish
                 case "NEIGHBOR": // ricain
                     {
-                        minificaction_filter = 0;
+                        minification_filter = 0;
                         magnification_filter = 0;
                         break;
                     }
                 case "LINEAR":
                     {
-                        minificaction_filter = 1;
+                        minification_filter = 1;
                         magnification_filter = 1;
                         break;
                     }
                 case "NEARESTMIPMAPNEAREST":
                     {
-                        minificaction_filter = 2;
+                        minification_filter = 2;
                         magnification_filter = 2;
                         break;
                     }
                 case "NEARESTMIPMAPLINEAR":
                     {
-                        minificaction_filter = 3;
+                        minification_filter = 3;
                         magnification_filter = 3;
                         break;
                     }
                 case "LINEARMIPMAPNEAREST":
                     {
-                        minificaction_filter = 4;
+                        minification_filter = 4;
                         magnification_filter = 4;
                         break;
                     }
                 case "LINEARMIPMAPLINEAR":
                     {
-                        minificaction_filter = 5;
+                        minification_filter = 5;
                         magnification_filter = 5;
                         break;
                     }
@@ -1072,13 +1072,13 @@ class Parse_args_class
                 Console.WriteLine("Colour number is stored on 2 bytes for CI14x2");
             return;
         }
-        if (minificaction_filter == 0 && mipmaps_number > 0)
+        if (minification_filter == 0 && mipmaps_number > 0)
         {
-            minificaction_filter = 2; // Nearest becomes "NearestMipmapNearest", if you don't want that then why the heck are you adding mipmaps to your file if you're not going to use them
+            minification_filter = 2; // Nearest becomes "NearestMipmapNearest", if you don't want that then why the heck are you adding mipmaps to your file if you're not going to use them
         }
-        if (minificaction_filter == 1 && mipmaps_number > 0)
+        if (minification_filter == 1 && mipmaps_number > 0)
         {
-            minificaction_filter = 5; // Linear becomes "LinearMipmapLinear"
+            minification_filter = 5; // Linear becomes "LinearMipmapLinear"
         }
         if (magnification_filter == 0 && mipmaps_number > 0)
         {
@@ -1390,7 +1390,7 @@ class Parse_args_class
         if (warn)
         {
             if (!no_warning)
-                Console.WriteLine("v-- bool --v\nbmd=" + bmd + " bmd_file=" + bmd_file + " bmp=" + bmp + " bti=" + bti + " fill_height=" + fill_height + " fill_width=" + fill_width + " gif=" + gif + " grey=" + grey + " ico=" + ico + " jpeg=" + jpeg + " jpg=" + jpg + " png=" + png + " success=" + success + " tif=" + tif + " tiff=" + tiff + " tpl=" + tpl + " user_palette=" + user_palette + " warn=" + warn + "\n\nv-- byte --v\nWrapS=" + WrapS + " WrapT=" + WrapT + " algorithm=" + algorithm + " alpha=" + alpha + " color=" + color + " diversity=" + diversity + " diversity2=" + diversity2 + " magnification_filter=" + magnification_filter + " minificaction_filter=" + minificaction_filter + " mipmaps_number=" + mipmaps_number + "\n\nv-- byte[] --v\ncolour_palette=" + colour_palette + " palette_format_int32=" + palette_format_int32 + " texture_format_int32=" + texture_format_int32 + "\n\nv-- double --v\nformat_ratio=" + format_ratio + " percentage=" + percentage + " percentage2=" + percentage2 + "\n\nv-- float[] --v\ncustom_rgba=" + custom_rgba + "\n\nv-- int --v\ncolour_number_x2=" + colour_number_x2 + " colour_number_x4=" + colour_number_x4 + " pass=" + pass + " pixel_count=" + pixel_count + "\n\nv-- signed byte --v\nblock_height=" + block_height + " block_width=" + block_width + "\n\nv-- string --v\ninput_file=" + input_file + " input_file2=" + input_file2 + " output_file=" + output_file + " swap=" + swap + "\n\nv-- unsigned short --v\nbitmap_height=" + bitmap_height + " bitmap_width=" + bitmap_width + " colour_number=" + colour_number + " max_colours=" + max_colours + " z=" + z + "\n\nv-- List<byte> --v\nBGRA=" + BGRA);
+                Console.WriteLine("v-- bool --v\nbmd=" + bmd + " bmd_file=" + bmd_file + " bmp=" + bmp + " bti=" + bti + " fill_height=" + fill_height + " fill_width=" + fill_width + " gif=" + gif + " grey=" + grey + " ico=" + ico + " jpeg=" + jpeg + " jpg=" + jpg + " png=" + png + " success=" + success + " tif=" + tif + " tiff=" + tiff + " tpl=" + tpl + " user_palette=" + user_palette + " warn=" + warn + "\n\nv-- byte --v\nWrapS=" + WrapS + " WrapT=" + WrapT + " algorithm=" + algorithm + " alpha=" + alpha + " color=" + color + " diversity=" + diversity + " diversity2=" + diversity2 + " magnification_filter=" + magnification_filter + " minificaction_filter=" + minification_filter + " mipmaps_number=" + mipmaps_number + "\n\nv-- byte[] --v\ncolour_palette=" + colour_palette + " palette_format_int32=" + palette_format_int32 + " texture_format_int32=" + texture_format_int32 + "\n\nv-- double --v\nformat_ratio=" + format_ratio + " percentage=" + percentage + " percentage2=" + percentage2 + "\n\nv-- float[] --v\ncustom_rgba=" + custom_rgba + "\n\nv-- int --v\ncolour_number_x2=" + colour_number_x2 + " colour_number_x4=" + colour_number_x4 + " pass=" + pass + " pixel_count=" + pixel_count + "\n\nv-- signed byte --v\nblock_height=" + block_height + " block_width=" + block_width + "\n\nv-- string --v\ninput_file=" + input_file + " input_file2=" + input_file2 + " output_file=" + output_file + " swap=" + swap + "\n\nv-- unsigned short --v\nbitmap_height=" + bitmap_height + " bitmap_width=" + bitmap_width + " colour_number=" + colour_number + " max_colours=" + max_colours + " z=" + z + "\n\nv-- List<byte> --v\nBGRA=" + BGRA);
         }
         for (z = 1; z <= mipmaps_number; z++)
         {
@@ -1471,17 +1471,17 @@ class Parse_args_class
                     Console.WriteLine("specified bmd output but no bmd file given");
                 return;
             }
-            Write_bti_class.Write_bti(index_list, colour_palette, texture_format_int32, palette_format_int32, block_width_array, block_height_array, bitmap_width, bitmap_height, colour_number, format_ratio, input_fil, input_file2, output_file, bmd_file, has_palette, safe_mode, no_warning, warn, stfu, block_width, block_height, mipmaps_number, minificaction_filter, magnification_filter, WrapS, WrapT, alpha);
+            Write_bti_class.Write_bti(index_list, colour_palette, texture_format_int32, palette_format_int32, block_width_array, block_height_array, bitmap_width, bitmap_height, colour_number, format_ratio, input_fil, input_file2, output_file, bmd_file, has_palette, safe_mode, no_warning, warn, stfu, block_width, block_height, mipmaps_number, minification_filter, magnification_filter, WrapS, WrapT, alpha);
         }
         if (tpl)
         {
             if (add)
             {
-                Write_into_tpl_class.Write_into_tpl(index_list, colour_palette, texture_format_int32, palette_format_int32, real_block_width_array, block_height_array, add_depth, sub_depth, bitmap_width, bitmap_height, colour_number, format_ratio, input_file2, output_file, has_palette, overwrite, safe_mode, no_warning, warn, stfu, block_width, block_height, mipmaps_number, minificaction_filter, magnification_filter, WrapS, WrapT);
+                Write_into_tpl_class.Write_into_tpl(index_list, colour_palette, texture_format_int32, palette_format_int32, real_block_width_array, block_height_array, add_depth, sub_depth, bitmap_width, bitmap_height, colour_number, format_ratio, input_file2, output_file, has_palette, overwrite, safe_mode, no_warning, warn, stfu, block_width, block_height, mipmaps_number, minification_filter, magnification_filter, WrapS, WrapT);
             }
             else
             {
-                Write_tpl_class.Write_tpl(index_list, colour_palette, texture_format_int32, palette_format_int32, bitmap_width, bitmap_height, colour_number, format_ratio, output_file, has_palette, safe_mode, no_warning, warn, stfu, block_width, block_height, mipmaps_number, minificaction_filter, magnification_filter, WrapS, WrapT);
+                Write_tpl_class.Write_tpl(index_list, colour_palette, texture_format_int32, palette_format_int32, bitmap_width, bitmap_height, colour_number, format_ratio, output_file, has_palette, safe_mode, no_warning, warn, stfu, block_width, block_height, mipmaps_number, minification_filter, magnification_filter, WrapS, WrapT);
             }
         }
         if (bmp || png || tif || tiff || ico || jpg || jpeg || gif)  // tell me if there's another format available through some extensions I'll add it
