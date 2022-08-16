@@ -2620,6 +2620,9 @@ namespace plt0_gui
             this.cie_709_label.Size = new System.Drawing.Size(105, 64);
             this.cie_709_label.TabIndex = 239;
             this.cie_709_label.Text = "CIE 709";
+            this.cie_709_label.Click += new System.EventHandler(this.Cie_709_Click);
+            this.cie_709_label.MouseEnter += new System.EventHandler(this.Cie_709_MouseEnter);
+            this.cie_709_label.MouseLeave += new System.EventHandler(this.Cie_709_MouseLeave);
             // 
             // cie_709_hitbox
             // 
@@ -2633,6 +2636,9 @@ namespace plt0_gui
             this.cie_709_hitbox.Padding = new System.Windows.Forms.Padding(250, 48, 0, 0);
             this.cie_709_hitbox.Size = new System.Drawing.Size(250, 68);
             this.cie_709_hitbox.TabIndex = 240;
+            this.cie_709_hitbox.Click += new System.EventHandler(this.Cie_709_Click);
+            this.cie_709_hitbox.MouseEnter += new System.EventHandler(this.Cie_709_MouseEnter);
+            this.cie_709_hitbox.MouseLeave += new System.EventHandler(this.Cie_709_MouseLeave);
             // 
             // cie_601_ck
             // 
