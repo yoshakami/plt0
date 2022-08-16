@@ -69,10 +69,158 @@ namespace plt0_gui
         Image pink_circle;
         Image violet_circle;
         Image violet_circle_on;
+        Image chartreuse_circle;
+        Image green_circle;
+        Image green_circle_on;
+        Image light_blue_circle;
+        Image blue_circle;
+        Image blue_circle_on;
+        Image light_red_circle;
+        Image red_circle;
+        Image red_circle_on;
+        Image yellow_circle;
+        Image orange_circle;
+        Image orange_circle_on;
 
         public plt0_gui()
         {
             InitializeComponent();
+            encoding_ck.Add(i4_ck);
+            encoding_ck.Add(i8_ck);
+            encoding_ck.Add(ai4_ck);
+            encoding_ck.Add(ai8_ck);
+            encoding_ck.Add(rgb565_ck);
+            encoding_ck.Add(rgb5a3_ck);
+            encoding_ck.Add(rgba32_ck);
+            encoding_ck.Add(i4_ck);  // nothing
+            encoding_ck.Add(ci4_ck);
+            encoding_ck.Add(ci8_ck);
+            encoding_ck.Add(ci14x2_ck);
+            encoding_ck.Add(i4_ck);  // nothing
+            encoding_ck.Add(i4_ck);  // nothing
+            encoding_ck.Add(i4_ck);  // nothing
+            encoding_ck.Add(cmpr_ck);
+            a_ck.Add(a_a_ck);
+            a_ck.Add(a_b_ck);
+            a_ck.Add(a_g_ck);
+            a_ck.Add(a_r_ck);
+            b_ck.Add(b_a_ck);
+            b_ck.Add(b_b_ck);
+            b_ck.Add(b_g_ck);
+            b_ck.Add(b_r_ck);
+            g_ck.Add(g_a_ck);
+            g_ck.Add(g_b_ck);
+            g_ck.Add(g_g_ck);
+            g_ck.Add(g_r_ck);
+            r_ck.Add(r_a_ck);
+            r_ck.Add(r_b_ck);
+            r_ck.Add(r_g_ck);
+            r_ck.Add(r_r_ck);
+            magnification_ck.Add(mag_nearest_neighbour_ck);
+            magnification_ck.Add(mag_linear_ck);
+            magnification_ck.Add(mag_nearestmipmapnearest_ck);
+            magnification_ck.Add(mag_nearestmipmaplinear_ck);
+            magnification_ck.Add(mag_linearmipmapnearest_ck);
+            magnification_ck.Add(mag_linearmipmaplinear_ck);
+            minification_ck.Add(min_nearest_neighbour_ck);
+            minification_ck.Add(min_linear_ck);
+            minification_ck.Add(min_nearestmipmapnearest_ck);
+            minification_ck.Add(min_nearestmipmaplinear_ck);
+            minification_ck.Add(min_linearmipmapnearest_ck);
+            minification_ck.Add(min_linearmipmaplinear_ck);
+            WrapS_ck.Add(Sclamp_ck);
+            WrapS_ck.Add(Srepeat_ck);
+            WrapS_ck.Add(Smirror_ck);
+            WrapT_ck.Add(Tclamp_ck);
+            WrapT_ck.Add(Trepeat_ck);
+            WrapT_ck.Add(Tmirror_ck);
+            alpha_ck_array.Add(no_alpha_ck);
+            alpha_ck_array.Add(alpha_ck);
+            alpha_ck_array.Add(mix_ck);
+            algorithm_ck.Add(cie_601_ck);
+            algorithm_ck.Add(cie_709_ck);
+            algorithm_ck.Add(custom_ck);
+            algorithm_ck.Add(no_gradient_ck);
+            if (System.IO.File.Exists(execPath + "images/background.png"))
+            {
+                this.BackgroundImage = System.Drawing.Image.FromFile(execPath + "images/background.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/surrounding.png"))
+            {
+                surrounding_ck.BackgroundImage = System.Drawing.Image.FromFile(execPath + "images/surrounding.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/white_box.png"))
+            {
+                white_box = System.Drawing.Image.FromFile(execPath + "images/white_box.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/check.png"))
+            {
+                check = System.Drawing.Image.FromFile(execPath + "images/check.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/green_box.png"))
+            {
+                green_box = System.Drawing.Image.FromFile(execPath + "images/green_box.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/pink_circle.png"))
+            {
+                pink_circle = System.Drawing.Image.FromFile(execPath + "images/pink_circle.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/violet_circle_on.png"))
+            {
+                violet_circle_on = System.Drawing.Image.FromFile(execPath + "images/violet_circle_on.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/violet_circle.png"))
+            {
+                violet_circle = System.Drawing.Image.FromFile(execPath + "images/violet_circle.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/chartreuse_circle.png"))
+            {
+                chartreuse_circle = System.Drawing.Image.FromFile(execPath + "images/chartreuse_circle.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/green_circle.png"))
+            {
+                green_circle = System.Drawing.Image.FromFile(execPath + "images/green_circle.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/green_circle_on.png"))
+            {
+                green_circle_on = System.Drawing.Image.FromFile(execPath + "images/green_circle_on.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/light_blue_circle.png"))
+            {
+                light_blue_circle = System.Drawing.Image.FromFile(execPath + "images/light_blue_circle.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/blue_circle.png"))
+            {
+                blue_circle = System.Drawing.Image.FromFile(execPath + "images/blue_circle.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/blue_circle_on.png"))
+            {
+                blue_circle_on = System.Drawing.Image.FromFile(execPath + "images/blue_circle_on.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/light_red_circle.png"))
+            {
+                light_red_circle = System.Drawing.Image.FromFile(execPath + "images/light_red_circle.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/red_circle.png"))
+            {
+                red_circle = System.Drawing.Image.FromFile(execPath + "images/red_circle.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/red_circle_on.png"))
+            {
+                red_circle_on = System.Drawing.Image.FromFile(execPath + "images/red_circle_on.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/yellow_circle.png"))
+            {
+                yellow_circle = System.Drawing.Image.FromFile(execPath + "images/yellow_circle.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/orange_circle.png"))
+            {
+                orange_circle = System.Drawing.Image.FromFile(execPath + "images/orange_circle.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/orange_circle_on.png"))
+            {
+                orange_circle_on = System.Drawing.Image.FromFile(execPath + "images/orange_circle_on.png");
+            }
             unchecked_checkbox(ask_exit_ck);
             unchecked_checkbox(FORCE_ALPHA_ck);
             unchecked_checkbox(jpeg_ck);
@@ -106,53 +254,47 @@ namespace plt0_gui
             unchecked_encoding(ci8_ck);
             unchecked_encoding(ci14x2_ck);
             unchecked_encoding(cmpr_ck);
-            encoding_ck.Add(i4_ck);
-            encoding_ck.Add(i8_ck);
-            encoding_ck.Add(ai4_ck);
-            encoding_ck.Add(ai8_ck);
-            encoding_ck.Add(rgb565_ck);
-            encoding_ck.Add(rgb5a3_ck);
-            encoding_ck.Add(rgba32_ck);
-            encoding_ck.Add(i4_ck);  // nothing
-            encoding_ck.Add(ci4_ck);
-            encoding_ck.Add(ci8_ck);
-            encoding_ck.Add(ci14x2_ck);
-            encoding_ck.Add(i4_ck);  // nothing
-            encoding_ck.Add(i4_ck);  // nothing
-            encoding_ck.Add(i4_ck);  // nothing
-            encoding_ck.Add(cmpr_ck);
-            if (System.IO.File.Exists(execPath + "images/background.png"))
-            {
-                this.BackgroundImage = System.Drawing.Image.FromFile(execPath + "images/background.png");
-            }
-            if (System.IO.File.Exists(execPath + "images/surrounding.png"))
-            {
-                surrounding_ck.BackgroundImage = System.Drawing.Image.FromFile(execPath + "images/surrounding.png");
-            }
-            if (System.IO.File.Exists(execPath + "images/white_box.png"))
-            {
-               white_box = System.Drawing.Image.FromFile(execPath + "images/white_box.png");
-            }
-            if (System.IO.File.Exists(execPath + "images/check.png"))
-            {
-                check = System.Drawing.Image.FromFile(execPath + "images/check.png");
-            }
-            if (System.IO.File.Exists(execPath + "images/green_box.png"))
-            {
-                green_box = System.Drawing.Image.FromFile(execPath + "images/green_box.png");
-            }
-            if (System.IO.File.Exists(execPath + "images/pink_circle.png"))
-            {
-                pink_circle = System.Drawing.Image.FromFile(execPath + "images/pink_circle.png");
-            }
-            if (System.IO.File.Exists(execPath + "images/violet_circle_on.png"))
-            {
-                violet_circle_on = System.Drawing.Image.FromFile(execPath + "images/violet_circle_on.png");
-            }
-            if (System.IO.File.Exists(execPath + "images/violet_circle.png"))
-            {
-                violet_circle = System.Drawing.Image.FromFile(execPath + "images/violet_circle.png");
-            }
+            unchecked_A(a_r_ck);
+            unchecked_A(a_g_ck);
+            unchecked_A(a_b_ck);
+            checked_A(a_a_ck);
+            unchecked_B(b_r_ck);
+            unchecked_B(b_g_ck);
+            checked_B(b_b_ck);
+            unchecked_B(b_a_ck);
+            unchecked_G(g_r_ck);
+            checked_G(g_g_ck);
+            unchecked_G(g_b_ck);
+            unchecked_G(g_a_ck);
+            checked_R(r_r_ck);
+            unchecked_R(r_g_ck);
+            unchecked_R(r_b_ck);
+            unchecked_R(r_a_ck);
+            unchecked_Minification(min_nearest_neighbour_ck);
+            unchecked_Minification(min_linear_ck);
+            unchecked_Minification(min_nearestmipmapnearest_ck);
+            unchecked_Minification(min_nearestmipmaplinear_ck);
+            unchecked_Minification(min_linearmipmapnearest_ck);
+            unchecked_Minification(min_linearmipmaplinear_ck);
+            unchecked_Magnification(mag_nearest_neighbour_ck);
+            unchecked_Magnification(mag_linear_ck);
+            unchecked_Magnification(mag_nearestmipmapnearest_ck);
+            unchecked_Magnification(mag_nearestmipmaplinear_ck);
+            unchecked_Magnification(mag_linearmipmapnearest_ck);
+            unchecked_Magnification(mag_linearmipmaplinear_ck);
+            unchecked_WrapT(Tclamp_ck);
+            unchecked_WrapT(Trepeat_ck);
+            unchecked_WrapT(Tmirror_ck);
+            unchecked_WrapS(Sclamp_ck);
+            unchecked_WrapS(Srepeat_ck);
+            unchecked_WrapS(Smirror_ck);
+            unchecked_alpha(no_alpha_ck);
+            unchecked_alpha(alpha_ck);
+            unchecked_alpha(mix_ck);
+            unchecked_algorithm(cie_601_ck);
+            unchecked_algorithm(cie_709_ck);
+            unchecked_algorithm(custom_ck);
+            unchecked_algorithm(no_gradient_ck);
         }
         private void plt0_DragEnter(object sender, DragEventArgs e)
         {
@@ -255,75 +397,75 @@ namespace plt0_gui
         {
             radiobutton.BackgroundImage = pink_circle;
         }
-        private void unchecked_B_A(PictureBox radiobutton)
+        private void unchecked_Magnification(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = red_circle;
+        }
+        private void checked_Magnification(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = red_circle_on;
+        }
+        private void hover_Magnification(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = light_red_circle;
+        }
+        private void unchecked_Minification(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = blue_circle;
+        }
+        private void checked_Minification(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = blue_circle_on;
+        }
+        private void hover_Minification(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = light_blue_circle;
+        }
+        private void unchecked_WrapT(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = green_circle;
+        }
+        private void checked_WrapT(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = green_circle_on;
+        }
+        private void hover_WrapT(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = chartreuse_circle;
+        }
+        private void unchecked_WrapS(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = orange_circle;
+        }
+        private void checked_WrapS(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = orange_circle_on;
+        }
+        private void hover_WrapS(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = yellow_circle;
+        }
+        private void unchecked_alpha(PictureBox radiobutton)
         {
             radiobutton.BackgroundImage = violet_circle;
         }
-        private void checked_B_A(PictureBox radiobutton)
+        private void checked_alpha(PictureBox radiobutton)
         {
             radiobutton.BackgroundImage = violet_circle_on;
         }
-        private void hover_B_A(PictureBox radiobutton)
+        private void hover_alpha(PictureBox radiobutton)
         {
             radiobutton.BackgroundImage = pink_circle;
         }
-        private void unchecked_B_B(PictureBox radiobutton)
+        private void unchecked_algorithm(PictureBox radiobutton)
         {
             radiobutton.BackgroundImage = violet_circle;
         }
-        private void checked_B_B(PictureBox radiobutton)
+        private void checked_algorithm(PictureBox radiobutton)
         {
             radiobutton.BackgroundImage = violet_circle_on;
         }
-        private void hover_B_B(PictureBox radiobutton)
-        {
-            radiobutton.BackgroundImage = pink_circle;
-        }
-        private void unchecked_B_G(PictureBox radiobutton)
-        {
-            radiobutton.BackgroundImage = violet_circle;
-        }
-        private void checked_B_G(PictureBox radiobutton)
-        {
-            radiobutton.BackgroundImage = violet_circle_on;
-        }
-        private void hover_B_G(PictureBox radiobutton)
-        {
-            radiobutton.BackgroundImage = pink_circle;
-        }
-        private void unchecked_B_R(PictureBox radiobutton)
-        {
-            radiobutton.BackgroundImage = violet_circle;
-        }
-        private void checked_B_R(PictureBox radiobutton)
-        {
-            radiobutton.BackgroundImage = violet_circle_on;
-        }
-        private void hover_B_R(PictureBox radiobutton)
-        {
-            radiobutton.BackgroundImage = pink_circle;
-        }
-        private void unchecked_G_A(PictureBox radiobutton)
-        {
-            radiobutton.BackgroundImage = violet_circle;
-        }
-        private void checked_G_A(PictureBox radiobutton)
-        {
-            radiobutton.BackgroundImage = violet_circle_on;
-        }
-        private void hover_G_A(PictureBox radiobutton)
-        {
-            radiobutton.BackgroundImage = pink_circle;
-        }
-        private void unchecked_G_B(PictureBox radiobutton)
-        {
-            radiobutton.BackgroundImage = violet_circle;
-        }
-        private void checked_G_B(PictureBox radiobutton)
-        {
-            radiobutton.BackgroundImage = violet_circle_on;
-        }
-        private void hover_G_B(PictureBox radiobutton)
+        private void hover_algorithm(PictureBox radiobutton)
         {
             radiobutton.BackgroundImage = pink_circle;
         }
