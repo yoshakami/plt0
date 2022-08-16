@@ -1,30 +1,5 @@
 import pyperclip
 output = ""
-encoding = ["i4", "i8", "ai4", "ai8", "rgb565", "rgb5a3", "rgba32", "", "ci4", "ci8", "ci14x2", "", "", "", "cmpr"]
-for a in range(len(encoding)):
-    if encoding[a] == "":
-        continue
-    output += """        private void """ + encoding[a].upper() + """_Click(object sender, EventArgs e)
-        {
-            hover_encoding(encoding_ck[encoding]);
-            selected_encoding(""" + encoding[a] + """_ck);
-            encoding = """ + str(a) + """; // """ + encoding[a].upper() + """
-        }
-        private void """ + encoding[a].upper() + """_MouseEnter(object sender, EventArgs e)
-        {
-            if (encoding == """ + str(a) + """)
-                selected_encoding(""" + encoding[a] + """_ck);
-            else
-                hover_encoding(""" + encoding[a] + """_ck);
-        }
-        private void """ + encoding[a].upper() + """_MouseLeave(object sender, EventArgs e)
-        {
-            if (encoding == """ + str(a) + """)
-                checked_encoding(""" + encoding[a] + """_ck);
-            else
-                unchecked_encoding(""" + encoding[a] + """_ck);
-        }
-"""
 booleans = ["bmd", "bti", "tex0", "tpl", "bmp", "png", "jpg", "jpeg", "gif", "ico", "tif", "tiff", "no_warning", "warn", "funky", "stfu", "safe_mode", "FORCE_ALPHA", "ask_exit", "bmp_32", "reverse", "random"]
 for a in booleans:
     output += """        private void """ + a + """_Click(object sender, EventArgs e)
@@ -55,11 +30,36 @@ for a in booleans:
                 unchecked_checkbox(""" + a + """_ck);
         }
 """
+encoding = ["i4", "i8", "ai4", "ai8", "rgb565", "rgb5a3", "rgba32", "", "ci4", "ci8", "ci14x2", "", "", "", "cmpr"]
+for a in range(len(encoding)):
+    if encoding[a] == "":
+        continue
+    output += """        private void """ + encoding[a].upper() + """_Click(object sender, EventArgs e)
+        {
+            unchecked_encoding(encoding_ck[encoding]);
+            selected_encoding(""" + encoding[a] + """_ck);
+            encoding = """ + str(a) + """; // """ + encoding[a].upper() + """
+        }
+        private void """ + encoding[a].upper() + """_MouseEnter(object sender, EventArgs e)
+        {
+            if (encoding == """ + str(a) + """)
+                selected_encoding(""" + encoding[a] + """_ck);
+            else
+                hover_encoding(""" + encoding[a] + """_ck);
+        }
+        private void """ + encoding[a].upper() + """_MouseLeave(object sender, EventArgs e)
+        {
+            if (encoding == """ + str(a) + """)
+                checked_encoding(""" + encoding[a] + """_ck);
+            else
+                unchecked_encoding(""" + encoding[a] + """_ck);
+        }
+"""
 algorithm = ["Cie_601", "Cie_709", "Custom", "No_gradient"]
 for a in range(len(algorithm)):
     output += """        private void """ + algorithm[a] + """_Click(object sender, EventArgs e)
         {
-            hover_algorithm(algorithm_ck[algorithm]);
+            unchecked_algorithm(algorithm_ck[algorithm]);
             selected_algorithm(""" + algorithm[a].lower() + """_ck);
             algorithm = """ + str(a) + """; // """ + algorithm[a] + """
         }
@@ -82,7 +82,7 @@ alpha = ["No_alpha", "Alpha", "Mix"]
 for b in range(len(alpha)):
     output += """        private void """ + alpha[b] + """_Click(object sender, EventArgs e)
         {
-            hover_alpha(alpha_ck_array[alpha]);
+            unchecked_alpha(alpha_ck_array[alpha]);
             selected_alpha(""" + alpha[b].lower() + """_ck);
             alpha = """ + str(b) + """; // """ + alpha[b] + """
         }
@@ -105,7 +105,7 @@ wrap = ["Clamp", "Repeat", "Mirror"]
 for c in range(3):
     output += """        private void WrapS_""" + wrap[c] + """_Click(object sender, EventArgs e)
         {
-            hover_WrapS(WrapS_ck[WrapS]);
+            unchecked_WrapS(WrapS_ck[WrapS]);
             selected_WrapS(S""" + wrap[c].lower() + """_ck);
             WrapS = """ + str(c) + """; // """ + wrap[c] + """
         }
@@ -127,7 +127,7 @@ for c in range(3):
 for d in range(3):
     output += """        private void WrapT_""" + wrap[d] + """_Click(object sender, EventArgs e)
         {
-            hover_WrapT(WrapT_ck[WrapT]);
+            unchecked_WrapT(WrapT_ck[WrapT]);
             selected_WrapT(T""" + wrap[d].lower() + """_ck);
             WrapT = """ + str(d) + """; // """ + wrap[d] + """
         }
@@ -150,7 +150,7 @@ filter = ["Nearest_Neighbour", "Linear", "NearestMipmapNearest", "NearestMipmapL
 for e in range(6):
     output += """        private void Minification_""" + filter[e] + """_Click(object sender, EventArgs e)
         {
-            hover_Minification(minification_ck[minification_filter]);
+            unchecked_Minification(minification_ck[minification_filter]);
             selected_Minification(min_""" + filter[e].lower() + """_ck);
             minification_filter = """ + str(e) + """; // """ + filter[e] + """
         }
@@ -172,7 +172,7 @@ for e in range(6):
 for f in range(6):
     output += """        private void Magnification_""" + filter[f] + """_Click(object sender, EventArgs e)
         {
-            hover_Magnification(magnification_ck[magnification_filter]);
+            unchecked_Magnification(magnification_ck[magnification_filter]);
             selected_Magnification(mag_""" + filter[f].lower() + """_ck);
             magnification_filter = """ + str(f) + """; // Mag_""" + filter[f] + """
         }
@@ -199,7 +199,7 @@ for g in channel:  # this looks unreadable because it's packed up instead of pas
     for h in range(4):
         output += """        private void """ + g + '_' + channel[h] + """_Click(object sender, EventArgs e)
         {
-            hover_""" + g + "(" + g.lower() + "_ck[" + g.lower() + """]);
+            unchecked_""" + g + "(" + g.lower() + "_ck[" + g.lower() + """]);
             selected_""" + g + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
             """ + g.lower() + " = " + str(h) + "; // " + channel2[i] + " channel set to " + channel[h] + """
         }

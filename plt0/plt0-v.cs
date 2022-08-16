@@ -64,8 +64,8 @@ namespace plt0_gui
         List<PictureBox> alpha_ck_array = new List<PictureBox>();
         List<PictureBox> algorithm_ck = new List<PictureBox>();
         Image white_box;
-        Image green_box;
-        Image green_check;
+        Image light_blue_box;
+        Image light_blue_check;
         Image check;
         Image pink_circle;
         Image pink_circle_on;
@@ -163,13 +163,13 @@ namespace plt0_gui
             {
                 check = System.Drawing.Image.FromFile(execPath + "images/check.png");
             }
-            if (System.IO.File.Exists(execPath + "images/green_box.png"))
+            if (System.IO.File.Exists(execPath + "images/light_blue_box.png"))
             {
-                green_box = System.Drawing.Image.FromFile(execPath + "images/green_box.png");
+                light_blue_box = System.Drawing.Image.FromFile(execPath + "images/light_blue_box.png");
             }
-            if (System.IO.File.Exists(execPath + "images/green_check.png"))
+            if (System.IO.File.Exists(execPath + "images/light_blue_check.png"))
             {
-                green_check = System.Drawing.Image.FromFile(execPath + "images/green_check.png");
+                light_blue_check = System.Drawing.Image.FromFile(execPath + "images/light_blue_check.png");
             }
             if (System.IO.File.Exists(execPath + "images/pink_circle.png"))
             {
@@ -364,11 +364,11 @@ namespace plt0_gui
         }
         private void hover_checkbox(PictureBox checkbox)
         {
-            checkbox.BackgroundImage = green_box;
+            checkbox.BackgroundImage = light_blue_box;
         }
         private void selected_checkbox(PictureBox checkbox)
         {
-            checkbox.BackgroundImage = green_check;
+            checkbox.BackgroundImage = light_blue_check;
         }
         // implementation of radio buttons
         private void unchecked_encoding(PictureBox radiobutton)
@@ -4321,10 +4321,12 @@ namespace plt0_gui
         // I also had to redirect the labels to each function below, which again, isn't pretty fast
 
         // generated checkbox behaviour code by the python script in the py folder
+
+
         private void I4_Click(object sender, EventArgs e)
         {
-            unchecked_encoding(encoding_ck[encoding]);
-            checked_encoding(i4_ck);
+            hover_encoding(encoding_ck[encoding]);
+            selected_encoding(i4_ck);
             encoding = 0; // I4
         }
         private void I4_MouseEnter(object sender, EventArgs e)
@@ -4343,8 +4345,8 @@ namespace plt0_gui
         }
         private void I8_Click(object sender, EventArgs e)
         {
-            unchecked_encoding(encoding_ck[encoding]);
-            checked_encoding(i8_ck);
+            hover_encoding(encoding_ck[encoding]);
+            selected_encoding(i8_ck);
             encoding = 1; // I8
         }
         private void I8_MouseEnter(object sender, EventArgs e)
@@ -4363,8 +4365,8 @@ namespace plt0_gui
         }
         private void AI4_Click(object sender, EventArgs e)
         {
-            unchecked_encoding(encoding_ck[encoding]);
-            checked_encoding(ai4_ck);
+            hover_encoding(encoding_ck[encoding]);
+            selected_encoding(ai4_ck);
             encoding = 2; // AI4
         }
         private void AI4_MouseEnter(object sender, EventArgs e)
@@ -4383,8 +4385,8 @@ namespace plt0_gui
         }
         private void AI8_Click(object sender, EventArgs e)
         {
-            unchecked_encoding(encoding_ck[encoding]);
-            checked_encoding(ai8_ck);
+            hover_encoding(encoding_ck[encoding]);
+            selected_encoding(ai8_ck);
             encoding = 3; // AI8
         }
         private void AI8_MouseEnter(object sender, EventArgs e)
@@ -4403,8 +4405,8 @@ namespace plt0_gui
         }
         private void RGB565_Click(object sender, EventArgs e)
         {
-            unchecked_encoding(encoding_ck[encoding]);
-            checked_encoding(rgb565_ck);
+            hover_encoding(encoding_ck[encoding]);
+            selected_encoding(rgb565_ck);
             encoding = 4; // RGB565
         }
         private void RGB565_MouseEnter(object sender, EventArgs e)
@@ -4423,8 +4425,8 @@ namespace plt0_gui
         }
         private void RGB5A3_Click(object sender, EventArgs e)
         {
-            unchecked_encoding(encoding_ck[encoding]);
-            checked_encoding(rgb5a3_ck);
+            hover_encoding(encoding_ck[encoding]);
+            selected_encoding(rgb5a3_ck);
             encoding = 5; // RGB5A3
         }
         private void RGB5A3_MouseEnter(object sender, EventArgs e)
@@ -4443,8 +4445,8 @@ namespace plt0_gui
         }
         private void RGBA32_Click(object sender, EventArgs e)
         {
-            unchecked_encoding(encoding_ck[encoding]);
-            checked_encoding(rgba32_ck);
+            hover_encoding(encoding_ck[encoding]);
+            selected_encoding(rgba32_ck);
             encoding = 6; // RGBA32
         }
         private void RGBA32_MouseEnter(object sender, EventArgs e)
@@ -4463,8 +4465,8 @@ namespace plt0_gui
         }
         private void CI4_Click(object sender, EventArgs e)
         {
-            unchecked_encoding(encoding_ck[encoding]);
-            checked_encoding(ci4_ck);
+            hover_encoding(encoding_ck[encoding]);
+            selected_encoding(ci4_ck);
             encoding = 8; // CI4
         }
         private void CI4_MouseEnter(object sender, EventArgs e)
@@ -4483,8 +4485,8 @@ namespace plt0_gui
         }
         private void CI8_Click(object sender, EventArgs e)
         {
-            unchecked_encoding(encoding_ck[encoding]);
-            checked_encoding(ci8_ck);
+            hover_encoding(encoding_ck[encoding]);
+            selected_encoding(ci8_ck);
             encoding = 9; // CI8
         }
         private void CI8_MouseEnter(object sender, EventArgs e)
@@ -4503,8 +4505,8 @@ namespace plt0_gui
         }
         private void CI14X2_Click(object sender, EventArgs e)
         {
-            unchecked_encoding(encoding_ck[encoding]);
-            checked_encoding(ci14x2_ck);
+            hover_encoding(encoding_ck[encoding]);
+            selected_encoding(ci14x2_ck);
             encoding = 10; // CI14X2
         }
         private void CI14X2_MouseEnter(object sender, EventArgs e)
@@ -4523,8 +4525,8 @@ namespace plt0_gui
         }
         private void CMPR_Click(object sender, EventArgs e)
         {
-            unchecked_encoding(encoding_ck[encoding]);
-            checked_encoding(cmpr_ck);
+            hover_encoding(encoding_ck[encoding]);
+            selected_encoding(cmpr_ck);
             encoding = 14; // CMPR
         }
         private void CMPR_MouseEnter(object sender, EventArgs e)
@@ -4546,12 +4548,12 @@ namespace plt0_gui
             if (bmd)
             {
                 bmd = false;
-                unchecked_checkbox(bmd_ck);
+                hover_checkbox(bmd_ck);
             }
             else
             {
                 bmd = true;
-                checked_checkbox(bmd_ck);
+                selected_checkbox(bmd_ck);
             }
         }
         private void bmd_MouseEnter(object sender, EventArgs e)
@@ -4573,12 +4575,12 @@ namespace plt0_gui
             if (bti)
             {
                 bti = false;
-                unchecked_checkbox(bti_ck);
+                hover_checkbox(bti_ck);
             }
             else
             {
                 bti = true;
-                checked_checkbox(bti_ck);
+                selected_checkbox(bti_ck);
             }
         }
         private void bti_MouseEnter(object sender, EventArgs e)
@@ -4600,12 +4602,12 @@ namespace plt0_gui
             if (tex0)
             {
                 tex0 = false;
-                unchecked_checkbox(tex0_ck);
+                hover_checkbox(tex0_ck);
             }
             else
             {
                 tex0 = true;
-                checked_checkbox(tex0_ck);
+                selected_checkbox(tex0_ck);
             }
         }
         private void tex0_MouseEnter(object sender, EventArgs e)
@@ -4627,12 +4629,12 @@ namespace plt0_gui
             if (tpl)
             {
                 tpl = false;
-                unchecked_checkbox(tpl_ck);
+                hover_checkbox(tpl_ck);
             }
             else
             {
                 tpl = true;
-                checked_checkbox(tpl_ck);
+                selected_checkbox(tpl_ck);
             }
         }
         private void tpl_MouseEnter(object sender, EventArgs e)
@@ -4654,12 +4656,12 @@ namespace plt0_gui
             if (bmp)
             {
                 bmp = false;
-                unchecked_checkbox(bmp_ck);
+                hover_checkbox(bmp_ck);
             }
             else
             {
                 bmp = true;
-                checked_checkbox(bmp_ck);
+                selected_checkbox(bmp_ck);
             }
         }
         private void bmp_MouseEnter(object sender, EventArgs e)
@@ -4681,12 +4683,12 @@ namespace plt0_gui
             if (png)
             {
                 png = false;
-                unchecked_checkbox(png_ck);
+                hover_checkbox(png_ck);
             }
             else
             {
                 png = true;
-                checked_checkbox(png_ck);
+                selected_checkbox(png_ck);
             }
         }
         private void png_MouseEnter(object sender, EventArgs e)
@@ -4708,12 +4710,12 @@ namespace plt0_gui
             if (jpg)
             {
                 jpg = false;
-                unchecked_checkbox(jpg_ck);
+                hover_checkbox(jpg_ck);
             }
             else
             {
                 jpg = true;
-                checked_checkbox(jpg_ck);
+                selected_checkbox(jpg_ck);
             }
         }
         private void jpg_MouseEnter(object sender, EventArgs e)
@@ -4735,12 +4737,12 @@ namespace plt0_gui
             if (jpeg)
             {
                 jpeg = false;
-                unchecked_checkbox(jpeg_ck);
+                hover_checkbox(jpeg_ck);
             }
             else
             {
                 jpeg = true;
-                checked_checkbox(jpeg_ck);
+                selected_checkbox(jpeg_ck);
             }
         }
         private void jpeg_MouseEnter(object sender, EventArgs e)
@@ -4762,12 +4764,12 @@ namespace plt0_gui
             if (gif)
             {
                 gif = false;
-                unchecked_checkbox(gif_ck);
+                hover_checkbox(gif_ck);
             }
             else
             {
                 gif = true;
-                checked_checkbox(gif_ck);
+                selected_checkbox(gif_ck);
             }
         }
         private void gif_MouseEnter(object sender, EventArgs e)
@@ -4789,12 +4791,12 @@ namespace plt0_gui
             if (ico)
             {
                 ico = false;
-                unchecked_checkbox(ico_ck);
+                hover_checkbox(ico_ck);
             }
             else
             {
                 ico = true;
-                checked_checkbox(ico_ck);
+                selected_checkbox(ico_ck);
             }
         }
         private void ico_MouseEnter(object sender, EventArgs e)
@@ -4816,12 +4818,12 @@ namespace plt0_gui
             if (tif)
             {
                 tif = false;
-                unchecked_checkbox(tif_ck);
+                hover_checkbox(tif_ck);
             }
             else
             {
                 tif = true;
-                checked_checkbox(tif_ck);
+                selected_checkbox(tif_ck);
             }
         }
         private void tif_MouseEnter(object sender, EventArgs e)
@@ -4843,12 +4845,12 @@ namespace plt0_gui
             if (tiff)
             {
                 tiff = false;
-                unchecked_checkbox(tiff_ck);
+                hover_checkbox(tiff_ck);
             }
             else
             {
                 tiff = true;
-                checked_checkbox(tiff_ck);
+                selected_checkbox(tiff_ck);
             }
         }
         private void tiff_MouseEnter(object sender, EventArgs e)
@@ -4870,12 +4872,12 @@ namespace plt0_gui
             if (no_warning)
             {
                 no_warning = false;
-                unchecked_checkbox(no_warning_ck);
+                hover_checkbox(no_warning_ck);
             }
             else
             {
                 no_warning = true;
-                checked_checkbox(no_warning_ck);
+                selected_checkbox(no_warning_ck);
             }
         }
         private void no_warning_MouseEnter(object sender, EventArgs e)
@@ -4897,12 +4899,12 @@ namespace plt0_gui
             if (warn)
             {
                 warn = false;
-                unchecked_checkbox(warn_ck);
+                hover_checkbox(warn_ck);
             }
             else
             {
                 warn = true;
-                checked_checkbox(warn_ck);
+                selected_checkbox(warn_ck);
             }
         }
         private void warn_MouseEnter(object sender, EventArgs e)
@@ -4924,12 +4926,12 @@ namespace plt0_gui
             if (funky)
             {
                 funky = false;
-                unchecked_checkbox(funky_ck);
+                hover_checkbox(funky_ck);
             }
             else
             {
                 funky = true;
-                checked_checkbox(funky_ck);
+                selected_checkbox(funky_ck);
             }
         }
         private void funky_MouseEnter(object sender, EventArgs e)
@@ -4951,12 +4953,12 @@ namespace plt0_gui
             if (stfu)
             {
                 stfu = false;
-                unchecked_checkbox(stfu_ck);
+                hover_checkbox(stfu_ck);
             }
             else
             {
                 stfu = true;
-                checked_checkbox(stfu_ck);
+                selected_checkbox(stfu_ck);
             }
         }
         private void stfu_MouseEnter(object sender, EventArgs e)
@@ -4978,12 +4980,12 @@ namespace plt0_gui
             if (safe_mode)
             {
                 safe_mode = false;
-                unchecked_checkbox(safe_mode_ck);
+                hover_checkbox(safe_mode_ck);
             }
             else
             {
                 safe_mode = true;
-                checked_checkbox(safe_mode_ck);
+                selected_checkbox(safe_mode_ck);
             }
         }
         private void safe_mode_MouseEnter(object sender, EventArgs e)
@@ -5005,12 +5007,12 @@ namespace plt0_gui
             if (FORCE_ALPHA)
             {
                 FORCE_ALPHA = false;
-                unchecked_checkbox(FORCE_ALPHA_ck);
+                hover_checkbox(FORCE_ALPHA_ck);
             }
             else
             {
                 FORCE_ALPHA = true;
-                checked_checkbox(FORCE_ALPHA_ck);
+                selected_checkbox(FORCE_ALPHA_ck);
             }
         }
         private void FORCE_ALPHA_MouseEnter(object sender, EventArgs e)
@@ -5032,12 +5034,12 @@ namespace plt0_gui
             if (ask_exit)
             {
                 ask_exit = false;
-                unchecked_checkbox(ask_exit_ck);
+                hover_checkbox(ask_exit_ck);
             }
             else
             {
                 ask_exit = true;
-                checked_checkbox(ask_exit_ck);
+                selected_checkbox(ask_exit_ck);
             }
         }
         private void ask_exit_MouseEnter(object sender, EventArgs e)
@@ -5059,12 +5061,12 @@ namespace plt0_gui
             if (bmp_32)
             {
                 bmp_32 = false;
-                unchecked_checkbox(bmp_32_ck);
+                hover_checkbox(bmp_32_ck);
             }
             else
             {
                 bmp_32 = true;
-                checked_checkbox(bmp_32_ck);
+                selected_checkbox(bmp_32_ck);
             }
         }
         private void bmp_32_MouseEnter(object sender, EventArgs e)
@@ -5086,12 +5088,12 @@ namespace plt0_gui
             if (reverse)
             {
                 reverse = false;
-                unchecked_checkbox(reverse_ck);
+                hover_checkbox(reverse_ck);
             }
             else
             {
                 reverse = true;
-                checked_checkbox(reverse_ck);
+                selected_checkbox(reverse_ck);
             }
         }
         private void reverse_MouseEnter(object sender, EventArgs e)
@@ -5113,12 +5115,12 @@ namespace plt0_gui
             if (random)
             {
                 random = false;
-                unchecked_checkbox(random_ck);
+                hover_checkbox(random_ck);
             }
             else
             {
                 random = true;
-                checked_checkbox(random_ck);
+                selected_checkbox(random_ck);
             }
         }
         private void random_MouseEnter(object sender, EventArgs e)
@@ -5137,8 +5139,8 @@ namespace plt0_gui
         }
         private void Cie_601_Click(object sender, EventArgs e)
         {
-            unchecked_algorithm(algorithm_ck[algorithm]);
-            checked_algorithm(cie_601_ck);
+            hover_algorithm(algorithm_ck[algorithm]);
+            selected_algorithm(cie_601_ck);
             algorithm = 0; // Cie_601
         }
         private void Cie_601_MouseEnter(object sender, EventArgs e)
@@ -5157,8 +5159,8 @@ namespace plt0_gui
         }
         private void Cie_709_Click(object sender, EventArgs e)
         {
-            unchecked_algorithm(algorithm_ck[algorithm]);
-            checked_algorithm(cie_709_ck);
+            hover_algorithm(algorithm_ck[algorithm]);
+            selected_algorithm(cie_709_ck);
             algorithm = 1; // Cie_709
         }
         private void Cie_709_MouseEnter(object sender, EventArgs e)
@@ -5177,8 +5179,8 @@ namespace plt0_gui
         }
         private void Custom_Click(object sender, EventArgs e)
         {
-            unchecked_algorithm(algorithm_ck[algorithm]);
-            checked_algorithm(custom_ck);
+            hover_algorithm(algorithm_ck[algorithm]);
+            selected_algorithm(custom_ck);
             algorithm = 2; // Custom
         }
         private void Custom_MouseEnter(object sender, EventArgs e)
@@ -5197,8 +5199,8 @@ namespace plt0_gui
         }
         private void No_gradient_Click(object sender, EventArgs e)
         {
-            unchecked_algorithm(algorithm_ck[algorithm]);
-            checked_algorithm(no_gradient_ck);
+            hover_algorithm(algorithm_ck[algorithm]);
+            selected_algorithm(no_gradient_ck);
             algorithm = 3; // No_gradient
         }
         private void No_gradient_MouseEnter(object sender, EventArgs e)
@@ -5217,8 +5219,8 @@ namespace plt0_gui
         }
         private void No_alpha_Click(object sender, EventArgs e)
         {
-            unchecked_alpha(alpha_ck_array[alpha]);
-            checked_alpha(no_alpha_ck);
+            hover_alpha(alpha_ck_array[alpha]);
+            selected_alpha(no_alpha_ck);
             alpha = 0; // No_alpha
         }
         private void No_alpha_MouseEnter(object sender, EventArgs e)
@@ -5237,8 +5239,8 @@ namespace plt0_gui
         }
         private void Alpha_Click(object sender, EventArgs e)
         {
-            unchecked_alpha(alpha_ck_array[alpha]);
-            checked_alpha(alpha_ck);
+            hover_alpha(alpha_ck_array[alpha]);
+            selected_alpha(alpha_ck);
             alpha = 1; // Alpha
         }
         private void Alpha_MouseEnter(object sender, EventArgs e)
@@ -5257,8 +5259,8 @@ namespace plt0_gui
         }
         private void Mix_Click(object sender, EventArgs e)
         {
-            unchecked_alpha(alpha_ck_array[alpha]);
-            checked_alpha(mix_ck);
+            hover_alpha(alpha_ck_array[alpha]);
+            selected_alpha(mix_ck);
             alpha = 2; // Mix
         }
         private void Mix_MouseEnter(object sender, EventArgs e)
@@ -5277,8 +5279,8 @@ namespace plt0_gui
         }
         private void WrapS_Clamp_Click(object sender, EventArgs e)
         {
-            unchecked_WrapS(WrapS_ck[WrapS]);
-            checked_WrapS(Sclamp_ck);
+            hover_WrapS(WrapS_ck[WrapS]);
+            selected_WrapS(Sclamp_ck);
             WrapS = 0; // Clamp
         }
         private void WrapS_Clamp_MouseEnter(object sender, EventArgs e)
@@ -5297,8 +5299,8 @@ namespace plt0_gui
         }
         private void WrapS_Repeat_Click(object sender, EventArgs e)
         {
-            unchecked_WrapS(WrapS_ck[WrapS]);
-            checked_WrapS(Srepeat_ck);
+            hover_WrapS(WrapS_ck[WrapS]);
+            selected_WrapS(Srepeat_ck);
             WrapS = 1; // Repeat
         }
         private void WrapS_Repeat_MouseEnter(object sender, EventArgs e)
@@ -5317,8 +5319,8 @@ namespace plt0_gui
         }
         private void WrapS_Mirror_Click(object sender, EventArgs e)
         {
-            unchecked_WrapS(WrapS_ck[WrapS]);
-            checked_WrapS(Smirror_ck);
+            hover_WrapS(WrapS_ck[WrapS]);
+            selected_WrapS(Smirror_ck);
             WrapS = 2; // Mirror
         }
         private void WrapS_Mirror_MouseEnter(object sender, EventArgs e)
@@ -5337,8 +5339,8 @@ namespace plt0_gui
         }
         private void WrapT_Clamp_Click(object sender, EventArgs e)
         {
-            unchecked_WrapT(WrapT_ck[WrapT]);
-            checked_WrapT(Tclamp_ck);
+            hover_WrapT(WrapT_ck[WrapT]);
+            selected_WrapT(Tclamp_ck);
             WrapT = 0; // Clamp
         }
         private void WrapT_Clamp_MouseEnter(object sender, EventArgs e)
@@ -5357,8 +5359,8 @@ namespace plt0_gui
         }
         private void WrapT_Repeat_Click(object sender, EventArgs e)
         {
-            unchecked_WrapT(WrapT_ck[WrapT]);
-            checked_WrapT(Trepeat_ck);
+            hover_WrapT(WrapT_ck[WrapT]);
+            selected_WrapT(Trepeat_ck);
             WrapT = 1; // Repeat
         }
         private void WrapT_Repeat_MouseEnter(object sender, EventArgs e)
@@ -5377,8 +5379,8 @@ namespace plt0_gui
         }
         private void WrapT_Mirror_Click(object sender, EventArgs e)
         {
-            unchecked_WrapT(WrapT_ck[WrapT]);
-            checked_WrapT(Tmirror_ck);
+            hover_WrapT(WrapT_ck[WrapT]);
+            selected_WrapT(Tmirror_ck);
             WrapT = 2; // Mirror
         }
         private void WrapT_Mirror_MouseEnter(object sender, EventArgs e)
@@ -5397,8 +5399,8 @@ namespace plt0_gui
         }
         private void Minification_Nearest_Neighbour_Click(object sender, EventArgs e)
         {
-            unchecked_Minification(minification_ck[minification_filter]);
-            checked_Minification(min_nearest_neighbour_ck);
+            hover_Minification(minification_ck[minification_filter]);
+            selected_Minification(min_nearest_neighbour_ck);
             minification_filter = 0; // Nearest_Neighbour
         }
         private void Minification_Nearest_Neighbour_MouseEnter(object sender, EventArgs e)
@@ -5417,8 +5419,8 @@ namespace plt0_gui
         }
         private void Minification_Linear_Click(object sender, EventArgs e)
         {
-            unchecked_Minification(minification_ck[minification_filter]);
-            checked_Minification(min_linear_ck);
+            hover_Minification(minification_ck[minification_filter]);
+            selected_Minification(min_linear_ck);
             minification_filter = 1; // Linear
         }
         private void Minification_Linear_MouseEnter(object sender, EventArgs e)
@@ -5437,8 +5439,8 @@ namespace plt0_gui
         }
         private void Minification_NearestMipmapNearest_Click(object sender, EventArgs e)
         {
-            unchecked_Minification(minification_ck[minification_filter]);
-            checked_Minification(min_nearestmipmapnearest_ck);
+            hover_Minification(minification_ck[minification_filter]);
+            selected_Minification(min_nearestmipmapnearest_ck);
             minification_filter = 2; // NearestMipmapNearest
         }
         private void Minification_NearestMipmapNearest_MouseEnter(object sender, EventArgs e)
@@ -5457,8 +5459,8 @@ namespace plt0_gui
         }
         private void Minification_NearestMipmapLinear_Click(object sender, EventArgs e)
         {
-            unchecked_Minification(minification_ck[minification_filter]);
-            checked_Minification(min_nearestmipmaplinear_ck);
+            hover_Minification(minification_ck[minification_filter]);
+            selected_Minification(min_nearestmipmaplinear_ck);
             minification_filter = 3; // NearestMipmapLinear
         }
         private void Minification_NearestMipmapLinear_MouseEnter(object sender, EventArgs e)
@@ -5477,8 +5479,8 @@ namespace plt0_gui
         }
         private void Minification_LinearMipmapNearest_Click(object sender, EventArgs e)
         {
-            unchecked_Minification(minification_ck[minification_filter]);
-            checked_Minification(min_linearmipmapnearest_ck);
+            hover_Minification(minification_ck[minification_filter]);
+            selected_Minification(min_linearmipmapnearest_ck);
             minification_filter = 4; // LinearMipmapNearest
         }
         private void Minification_LinearMipmapNearest_MouseEnter(object sender, EventArgs e)
@@ -5497,8 +5499,8 @@ namespace plt0_gui
         }
         private void Minification_LinearMipmapLinear_Click(object sender, EventArgs e)
         {
-            unchecked_Minification(minification_ck[minification_filter]);
-            checked_Minification(min_linearmipmaplinear_ck);
+            hover_Minification(minification_ck[minification_filter]);
+            selected_Minification(min_linearmipmaplinear_ck);
             minification_filter = 5; // LinearMipmapLinear
         }
         private void Minification_LinearMipmapLinear_MouseEnter(object sender, EventArgs e)
@@ -5517,8 +5519,8 @@ namespace plt0_gui
         }
         private void Magnification_Nearest_Neighbour_Click(object sender, EventArgs e)
         {
-            unchecked_Magnification(magnification_ck[magnification_filter]);
-            checked_Magnification(mag_nearest_neighbour_ck);
+            hover_Magnification(magnification_ck[magnification_filter]);
+            selected_Magnification(mag_nearest_neighbour_ck);
             magnification_filter = 0; // Mag_Nearest_Neighbour
         }
         private void Magnification_Nearest_Neighbour_MouseEnter(object sender, EventArgs e)
@@ -5537,8 +5539,8 @@ namespace plt0_gui
         }
         private void Magnification_Linear_Click(object sender, EventArgs e)
         {
-            unchecked_Magnification(magnification_ck[magnification_filter]);
-            checked_Magnification(mag_linear_ck);
+            hover_Magnification(magnification_ck[magnification_filter]);
+            selected_Magnification(mag_linear_ck);
             magnification_filter = 1; // Mag_Linear
         }
         private void Magnification_Linear_MouseEnter(object sender, EventArgs e)
@@ -5557,8 +5559,8 @@ namespace plt0_gui
         }
         private void Magnification_NearestMipmapNearest_Click(object sender, EventArgs e)
         {
-            unchecked_Magnification(magnification_ck[magnification_filter]);
-            checked_Magnification(mag_nearestmipmapnearest_ck);
+            hover_Magnification(magnification_ck[magnification_filter]);
+            selected_Magnification(mag_nearestmipmapnearest_ck);
             magnification_filter = 2; // Mag_NearestMipmapNearest
         }
         private void Magnification_NearestMipmapNearest_MouseEnter(object sender, EventArgs e)
@@ -5577,8 +5579,8 @@ namespace plt0_gui
         }
         private void Magnification_NearestMipmapLinear_Click(object sender, EventArgs e)
         {
-            unchecked_Magnification(magnification_ck[magnification_filter]);
-            checked_Magnification(mag_nearestmipmaplinear_ck);
+            hover_Magnification(magnification_ck[magnification_filter]);
+            selected_Magnification(mag_nearestmipmaplinear_ck);
             magnification_filter = 3; // Mag_NearestMipmapLinear
         }
         private void Magnification_NearestMipmapLinear_MouseEnter(object sender, EventArgs e)
@@ -5597,8 +5599,8 @@ namespace plt0_gui
         }
         private void Magnification_LinearMipmapNearest_Click(object sender, EventArgs e)
         {
-            unchecked_Magnification(magnification_ck[magnification_filter]);
-            checked_Magnification(mag_linearmipmapnearest_ck);
+            hover_Magnification(magnification_ck[magnification_filter]);
+            selected_Magnification(mag_linearmipmapnearest_ck);
             magnification_filter = 4; // Mag_LinearMipmapNearest
         }
         private void Magnification_LinearMipmapNearest_MouseEnter(object sender, EventArgs e)
@@ -5617,8 +5619,8 @@ namespace plt0_gui
         }
         private void Magnification_LinearMipmapLinear_Click(object sender, EventArgs e)
         {
-            unchecked_Magnification(magnification_ck[magnification_filter]);
-            checked_Magnification(mag_linearmipmaplinear_ck);
+            hover_Magnification(magnification_ck[magnification_filter]);
+            selected_Magnification(mag_linearmipmaplinear_ck);
             magnification_filter = 5; // Mag_LinearMipmapLinear
         }
         private void Magnification_LinearMipmapLinear_MouseEnter(object sender, EventArgs e)
@@ -5637,8 +5639,8 @@ namespace plt0_gui
         }
         private void R_R_Click(object sender, EventArgs e)
         {
-            unchecked_R(r_ck[r]);
-            checked_R(r_r_ck);
+            hover_R(r_ck[r]);
+            selected_R(r_r_ck);
             r = 0; // Red channel set to R
         }
         private void R_R_MouseEnter(object sender, EventArgs e)
@@ -5657,8 +5659,8 @@ namespace plt0_gui
         }
         private void R_G_Click(object sender, EventArgs e)
         {
-            unchecked_R(r_ck[r]);
-            checked_R(r_g_ck);
+            hover_R(r_ck[r]);
+            selected_R(r_g_ck);
             r = 1; // Red channel set to G
         }
         private void R_G_MouseEnter(object sender, EventArgs e)
@@ -5677,8 +5679,8 @@ namespace plt0_gui
         }
         private void R_B_Click(object sender, EventArgs e)
         {
-            unchecked_R(r_ck[r]);
-            checked_R(r_b_ck);
+            hover_R(r_ck[r]);
+            selected_R(r_b_ck);
             r = 2; // Red channel set to B
         }
         private void R_B_MouseEnter(object sender, EventArgs e)
@@ -5697,8 +5699,8 @@ namespace plt0_gui
         }
         private void R_A_Click(object sender, EventArgs e)
         {
-            unchecked_R(r_ck[r]);
-            checked_R(r_a_ck);
+            hover_R(r_ck[r]);
+            selected_R(r_a_ck);
             r = 3; // Red channel set to A
         }
         private void R_A_MouseEnter(object sender, EventArgs e)
@@ -5717,8 +5719,8 @@ namespace plt0_gui
         }
         private void G_R_Click(object sender, EventArgs e)
         {
-            unchecked_G(g_ck[g]);
-            checked_G(g_r_ck);
+            hover_G(g_ck[g]);
+            selected_G(g_r_ck);
             g = 0; // Green channel set to R
         }
         private void G_R_MouseEnter(object sender, EventArgs e)
@@ -5737,8 +5739,8 @@ namespace plt0_gui
         }
         private void G_G_Click(object sender, EventArgs e)
         {
-            unchecked_G(g_ck[g]);
-            checked_G(g_g_ck);
+            hover_G(g_ck[g]);
+            selected_G(g_g_ck);
             g = 1; // Green channel set to G
         }
         private void G_G_MouseEnter(object sender, EventArgs e)
@@ -5757,8 +5759,8 @@ namespace plt0_gui
         }
         private void G_B_Click(object sender, EventArgs e)
         {
-            unchecked_G(g_ck[g]);
-            checked_G(g_b_ck);
+            hover_G(g_ck[g]);
+            selected_G(g_b_ck);
             g = 2; // Green channel set to B
         }
         private void G_B_MouseEnter(object sender, EventArgs e)
@@ -5777,8 +5779,8 @@ namespace plt0_gui
         }
         private void G_A_Click(object sender, EventArgs e)
         {
-            unchecked_G(g_ck[g]);
-            checked_G(g_a_ck);
+            hover_G(g_ck[g]);
+            selected_G(g_a_ck);
             g = 3; // Green channel set to A
         }
         private void G_A_MouseEnter(object sender, EventArgs e)
@@ -5797,8 +5799,8 @@ namespace plt0_gui
         }
         private void B_R_Click(object sender, EventArgs e)
         {
-            unchecked_B(b_ck[b]);
-            checked_B(b_r_ck);
+            hover_B(b_ck[b]);
+            selected_B(b_r_ck);
             b = 0; // Blue channel set to R
         }
         private void B_R_MouseEnter(object sender, EventArgs e)
@@ -5817,8 +5819,8 @@ namespace plt0_gui
         }
         private void B_G_Click(object sender, EventArgs e)
         {
-            unchecked_B(b_ck[b]);
-            checked_B(b_g_ck);
+            hover_B(b_ck[b]);
+            selected_B(b_g_ck);
             b = 1; // Blue channel set to G
         }
         private void B_G_MouseEnter(object sender, EventArgs e)
@@ -5837,8 +5839,8 @@ namespace plt0_gui
         }
         private void B_B_Click(object sender, EventArgs e)
         {
-            unchecked_B(b_ck[b]);
-            checked_B(b_b_ck);
+            hover_B(b_ck[b]);
+            selected_B(b_b_ck);
             b = 2; // Blue channel set to B
         }
         private void B_B_MouseEnter(object sender, EventArgs e)
@@ -5857,8 +5859,8 @@ namespace plt0_gui
         }
         private void B_A_Click(object sender, EventArgs e)
         {
-            unchecked_B(b_ck[b]);
-            checked_B(b_a_ck);
+            hover_B(b_ck[b]);
+            selected_B(b_a_ck);
             b = 3; // Blue channel set to A
         }
         private void B_A_MouseEnter(object sender, EventArgs e)
@@ -5877,8 +5879,8 @@ namespace plt0_gui
         }
         private void A_R_Click(object sender, EventArgs e)
         {
-            unchecked_A(a_ck[a]);
-            checked_A(a_r_ck);
+            hover_A(a_ck[a]);
+            selected_A(a_r_ck);
             a = 0; // Alpha channel set to R
         }
         private void A_R_MouseEnter(object sender, EventArgs e)
@@ -5897,8 +5899,8 @@ namespace plt0_gui
         }
         private void A_G_Click(object sender, EventArgs e)
         {
-            unchecked_A(a_ck[a]);
-            checked_A(a_g_ck);
+            hover_A(a_ck[a]);
+            selected_A(a_g_ck);
             a = 1; // Alpha channel set to G
         }
         private void A_G_MouseEnter(object sender, EventArgs e)
@@ -5917,8 +5919,8 @@ namespace plt0_gui
         }
         private void A_B_Click(object sender, EventArgs e)
         {
-            unchecked_A(a_ck[a]);
-            checked_A(a_b_ck);
+            hover_A(a_ck[a]);
+            selected_A(a_b_ck);
             a = 2; // Alpha channel set to B
         }
         private void A_B_MouseEnter(object sender, EventArgs e)
@@ -5937,8 +5939,8 @@ namespace plt0_gui
         }
         private void A_A_Click(object sender, EventArgs e)
         {
-            unchecked_A(a_ck[a]);
-            checked_A(a_a_ck);
+            hover_A(a_ck[a]);
+            selected_A(a_a_ck);
             a = 3; // Alpha channel set to A
         }
         private void A_A_MouseEnter(object sender, EventArgs e)
@@ -5955,6 +5957,5 @@ namespace plt0_gui
             else
                 unchecked_A(a_a_ck);
         }
-
     }
 }
