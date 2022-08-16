@@ -6,8 +6,8 @@ for a in range(len(encoding)):
         continue
     output += """        private void """ + encoding[a].upper() + """_Click(object sender, EventArgs e)
         {
-            unchecked_encoding(encoding_ck[encoding]);
-            checked_encoding(""" + encoding[a] + """_ck);
+            hover_encoding(encoding_ck[encoding]);
+            selected_encoding(""" + encoding[a] + """_ck);
             encoding = """ + str(a) + """; // """ + encoding[a].upper() + """
         }
         private void """ + encoding[a].upper() + """_MouseEnter(object sender, EventArgs e)
@@ -32,12 +32,12 @@ for a in booleans:
             if (""" + a + """)
             {
                 """ + a + """ = false;
-                unchecked_checkbox(""" + a + """_ck);
+                hover_checkbox(""" + a + """_ck);
             }
             else
             {
                 """ + a + """ = true;
-                checked_checkbox(""" + a + """_ck);
+                selected_checkbox(""" + a + """_ck);
             }
         }
         private void """ + a + """_MouseEnter(object sender, EventArgs e)
@@ -59,8 +59,8 @@ algorithm = ["Cie_601", "Cie_709", "Custom", "No_gradient"]
 for a in range(len(algorithm)):
     output += """        private void """ + algorithm[a] + """_Click(object sender, EventArgs e)
         {
-            unchecked_algorithm(algorithm_ck[algorithm]);
-            checked_algorithm(""" + algorithm[a].lower() + """_ck);
+            hover_algorithm(algorithm_ck[algorithm]);
+            selected_algorithm(""" + algorithm[a].lower() + """_ck);
             algorithm = """ + str(a) + """; // """ + algorithm[a] + """
         }
         private void """ + algorithm[a] + """_MouseEnter(object sender, EventArgs e)
@@ -82,8 +82,8 @@ alpha = ["No_alpha", "Alpha", "Mix"]
 for b in range(len(alpha)):
     output += """        private void """ + alpha[b] + """_Click(object sender, EventArgs e)
         {
-            unchecked_alpha(alpha_ck_array[alpha]);
-            checked_alpha(""" + alpha[b].lower() + """_ck);
+            hover_alpha(alpha_ck_array[alpha]);
+            selected_alpha(""" + alpha[b].lower() + """_ck);
             alpha = """ + str(b) + """; // """ + alpha[b] + """
         }
         private void """ + alpha[b] + """_MouseEnter(object sender, EventArgs e)
@@ -105,8 +105,8 @@ wrap = ["Clamp", "Repeat", "Mirror"]
 for c in range(3):
     output += """        private void WrapS_""" + wrap[c] + """_Click(object sender, EventArgs e)
         {
-            unchecked_WrapS(WrapS_ck[WrapS]);
-            checked_WrapS(S""" + wrap[c].lower() + """_ck);
+            hover_WrapS(WrapS_ck[WrapS]);
+            selected_WrapS(S""" + wrap[c].lower() + """_ck);
             WrapS = """ + str(c) + """; // """ + wrap[c] + """
         }
         private void WrapS_""" + wrap[c] + """_MouseEnter(object sender, EventArgs e)
@@ -127,8 +127,8 @@ for c in range(3):
 for d in range(3):
     output += """        private void WrapT_""" + wrap[d] + """_Click(object sender, EventArgs e)
         {
-            unchecked_WrapT(WrapT_ck[WrapT]);
-            checked_WrapT(T""" + wrap[d].lower() + """_ck);
+            hover_WrapT(WrapT_ck[WrapT]);
+            selected_WrapT(T""" + wrap[d].lower() + """_ck);
             WrapT = """ + str(d) + """; // """ + wrap[d] + """
         }
         private void WrapT_""" + wrap[d] + """_MouseEnter(object sender, EventArgs e)
@@ -150,8 +150,8 @@ filter = ["Nearest_Neighbour", "Linear", "NearestMipmapNearest", "NearestMipmapL
 for e in range(6):
     output += """        private void Minification_""" + filter[e] + """_Click(object sender, EventArgs e)
         {
-            unchecked_Minification(minification_ck[minification_filter]);
-            checked_Minification(min_""" + filter[e].lower() + """_ck);
+            hover_Minification(minification_ck[minification_filter]);
+            selected_Minification(min_""" + filter[e].lower() + """_ck);
             minification_filter = """ + str(e) + """; // """ + filter[e] + """
         }
         private void Minification_""" + filter[e] + """_MouseEnter(object sender, EventArgs e)
@@ -172,8 +172,8 @@ for e in range(6):
 for f in range(6):
     output += """        private void Magnification_""" + filter[f] + """_Click(object sender, EventArgs e)
         {
-            unchecked_Magnification(magnification_ck[magnification_filter]);
-            checked_Magnification(mag_""" + filter[f].lower() + """_ck);
+            hover_Magnification(magnification_ck[magnification_filter]);
+            selected_Magnification(mag_""" + filter[f].lower() + """_ck);
             magnification_filter = """ + str(f) + """; // Mag_""" + filter[f] + """
         }
         private void Magnification_""" + filter[f] + """_MouseEnter(object sender, EventArgs e)
@@ -199,8 +199,8 @@ for g in channel:  # this looks unreadable because it's packed up instead of pas
     for h in range(4):
         output += """        private void """ + g + '_' + channel[h] + """_Click(object sender, EventArgs e)
         {
-            unchecked_""" + g + "(" + g.lower() + "_ck[" + g.lower() + """]);
-            checked_""" + g + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
+            hover_""" + g + "(" + g.lower() + "_ck[" + g.lower() + """]);
+            selected_""" + g + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
             """ + g.lower() + " = " + str(h) + "; // " + channel2[i] + " channel set to " + channel[h] + """
         }
         private void """ + g + '_' + channel[h] + """_MouseEnter(object sender, EventArgs e)
