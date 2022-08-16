@@ -244,7 +244,7 @@ for i in range(len(view)):
                     """ + ck_name[i] + """[i].Visible = false;
                 }
                 """ + view[i] + """ = false;
-                """ + view[i] + """_ck.BackgroundImage = light_blue_circle;
+                Category_hover(""" + view[i] + """_ck);
             }
             else
             {
@@ -253,22 +253,22 @@ for i in range(len(view)):
                     """ + ck_name[i] + """[i].Visible = true;
                 }
                 """ + view[i] + """ = true;
-                """ + view[i] + """_ck.BackgroundImage = light_blue_circle_on;
+                Category_selected(""" + view[i] + """_ck);
             }
         }
         private void """ + view[i] + """_MouseEnter(object sender, EventArgs e)
         {
             if (""" + view[i] + """)
-                """ + view[i] + """_ck.BackgroundImage = light_blue_circle_on;
+                Category_selected(""" + view[i] + """_ck);
             else
-                """ + view[i] + """_ck.BackgroundImage = light_blue_circle;
+                Category_hover(""" + view[i] + """_ck);
         }
         private void """ + view[i] + """_MouseLeave(object sender, EventArgs e)
         {
             if (""" + view[i] + """)
-                """ + view[i] + """_ck.BackgroundImage = white_circle_on;
+                Category_checked(""" + view[i] + """_ck);
             else
-                """ + view[i] + """_ck.BackgroundImage = white_circle;
+                Category_unchecked(""" + view[i] + """_ck);
         }
 """
 pyperclip.copy(output)

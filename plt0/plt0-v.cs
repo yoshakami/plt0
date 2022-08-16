@@ -36,12 +36,12 @@ namespace plt0_gui
         bool stfu = false;
         bool no_warning = false;
         //view
-        bool view_alpha = false;
-        bool view_WrapS = false;
-        bool view_WrapT = false;
-        bool view_algorithm = false;
-        bool view_min = false;
-        bool view_mag = false;
+        bool view_alpha = true;
+        bool view_WrapS = true;
+        bool view_WrapT = true;
+        bool view_algorithm = true;
+        bool view_min = true;
+        bool view_mag = true;
         // radiobuttons
         byte encoding = 7;
         byte WrapS = 3; // 0 = Clamp   1 = Repeat   2 = Mirror
@@ -485,6 +485,12 @@ namespace plt0_gui
             unchecked_algorithm(cie_709_ck);
             unchecked_algorithm(custom_ck);
             unchecked_algorithm(no_gradient_ck);
+            Category_checked(view_alpha_ck);
+            Category_checked(view_algorithm_ck);
+            Category_checked(view_WrapS_ck);
+            Category_checked(view_WrapT_ck);
+            Category_checked(view_min_ck);
+            Category_checked(view_mag_ck);
         }
         /*private void Change_font_normal()
         {
@@ -710,6 +716,22 @@ namespace plt0_gui
         private void selected_algorithm(PictureBox radiobutton)
         {
             radiobutton.BackgroundImage = purple_circle_on;
+        }
+        private void Category_selected(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = light_blue_circle_on;
+        }
+        private void Category_hover(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = light_blue_circle;
+        }
+        private void Category_checked(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = white_circle_on;
+        }
+        private void Category_unchecked(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = white_circle;
         }
         /* public FontFamily GetFontFamilyByName(string name)
         {
@@ -4435,6 +4457,9 @@ namespace plt0_gui
             this.view_alpha_label.Size = new System.Drawing.Size(74, 42);
             this.view_alpha_label.TabIndex = 376;
             this.view_alpha_label.Text = "Alpha";
+            this.view_alpha_label.Click += new System.EventHandler(this.view_alpha_Click);
+            this.view_alpha_label.MouseEnter += new System.EventHandler(this.view_alpha_MouseEnter);
+            this.view_alpha_label.MouseLeave += new System.EventHandler(this.view_alpha_MouseLeave);
             // 
             // view_alpha_hitbox
             // 
@@ -4448,6 +4473,9 @@ namespace plt0_gui
             this.view_alpha_hitbox.Padding = new System.Windows.Forms.Padding(190, 35, 0, 0);
             this.view_alpha_hitbox.Size = new System.Drawing.Size(190, 55);
             this.view_alpha_hitbox.TabIndex = 377;
+            this.view_alpha_hitbox.Click += new System.EventHandler(this.view_alpha_Click);
+            this.view_alpha_hitbox.MouseEnter += new System.EventHandler(this.view_alpha_MouseEnter);
+            this.view_alpha_hitbox.MouseLeave += new System.EventHandler(this.view_alpha_MouseLeave);
             // 
             // view_algorithm_ck
             // 
@@ -4476,6 +4504,9 @@ namespace plt0_gui
             this.view_algorithm_label.Size = new System.Drawing.Size(119, 64);
             this.view_algorithm_label.TabIndex = 379;
             this.view_algorithm_label.Text = "Algorithm";
+            this.view_algorithm_label.Click += new System.EventHandler(this.view_algorithm_Click);
+            this.view_algorithm_label.MouseEnter += new System.EventHandler(this.view_algorithm_MouseEnter);
+            this.view_algorithm_label.MouseLeave += new System.EventHandler(this.view_algorithm_MouseLeave);
             // 
             // view_algorithm_hitbox
             // 
@@ -4489,6 +4520,9 @@ namespace plt0_gui
             this.view_algorithm_hitbox.Padding = new System.Windows.Forms.Padding(190, 35, 0, 0);
             this.view_algorithm_hitbox.Size = new System.Drawing.Size(190, 55);
             this.view_algorithm_hitbox.TabIndex = 380;
+            this.view_algorithm_hitbox.Click += new System.EventHandler(this.view_algorithm_Click);
+            this.view_algorithm_hitbox.MouseEnter += new System.EventHandler(this.view_algorithm_MouseEnter);
+            this.view_algorithm_hitbox.MouseLeave += new System.EventHandler(this.view_algorithm_MouseLeave);
             // 
             // view_WrapS_ck
             // 
@@ -4517,6 +4551,9 @@ namespace plt0_gui
             this.view_WrapS_label.Size = new System.Drawing.Size(83, 42);
             this.view_WrapS_label.TabIndex = 382;
             this.view_WrapS_label.Text = "WrapS";
+            this.view_WrapS_label.Click += new System.EventHandler(this.view_WrapS_Click);
+            this.view_WrapS_label.MouseEnter += new System.EventHandler(this.view_WrapS_MouseEnter);
+            this.view_WrapS_label.MouseLeave += new System.EventHandler(this.view_WrapS_MouseLeave);
             // 
             // view_WrapS_hitbox
             // 
@@ -4530,6 +4567,9 @@ namespace plt0_gui
             this.view_WrapS_hitbox.Padding = new System.Windows.Forms.Padding(190, 35, 0, 0);
             this.view_WrapS_hitbox.Size = new System.Drawing.Size(190, 55);
             this.view_WrapS_hitbox.TabIndex = 383;
+            this.view_WrapS_hitbox.Click += new System.EventHandler(this.view_WrapS_Click);
+            this.view_WrapS_hitbox.MouseEnter += new System.EventHandler(this.view_WrapS_MouseEnter);
+            this.view_WrapS_hitbox.MouseLeave += new System.EventHandler(this.view_WrapS_MouseLeave);
             // 
             // view_WrapT_ck
             // 
@@ -4558,6 +4598,9 @@ namespace plt0_gui
             this.view_WrapT_label.Size = new System.Drawing.Size(83, 64);
             this.view_WrapT_label.TabIndex = 385;
             this.view_WrapT_label.Text = "WrapT";
+            this.view_WrapT_label.Click += new System.EventHandler(this.view_WrapT_Click);
+            this.view_WrapT_label.MouseEnter += new System.EventHandler(this.view_WrapT_MouseEnter);
+            this.view_WrapT_label.MouseLeave += new System.EventHandler(this.view_WrapT_MouseLeave);
             // 
             // view_WrapT_hitbox
             // 
@@ -4571,6 +4614,9 @@ namespace plt0_gui
             this.view_WrapT_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
             this.view_WrapT_hitbox.Size = new System.Drawing.Size(190, 68);
             this.view_WrapT_hitbox.TabIndex = 386;
+            this.view_WrapT_hitbox.Click += new System.EventHandler(this.view_WrapT_Click);
+            this.view_WrapT_hitbox.MouseEnter += new System.EventHandler(this.view_WrapT_MouseEnter);
+            this.view_WrapT_hitbox.MouseLeave += new System.EventHandler(this.view_WrapT_MouseLeave);
             // 
             // view_mag_ck
             // 
@@ -4599,6 +4645,9 @@ namespace plt0_gui
             this.view_mag_label.Size = new System.Drawing.Size(121, 64);
             this.view_mag_label.TabIndex = 391;
             this.view_mag_label.Text = "Mag filter";
+            this.view_mag_label.Click += new System.EventHandler(this.view_mag_Click);
+            this.view_mag_label.MouseEnter += new System.EventHandler(this.view_mag_MouseEnter);
+            this.view_mag_label.MouseLeave += new System.EventHandler(this.view_mag_MouseLeave);
             // 
             // view_mag_hitbox
             // 
@@ -4612,6 +4661,9 @@ namespace plt0_gui
             this.view_mag_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
             this.view_mag_hitbox.Size = new System.Drawing.Size(190, 68);
             this.view_mag_hitbox.TabIndex = 392;
+            this.view_mag_hitbox.Click += new System.EventHandler(this.view_mag_Click);
+            this.view_mag_hitbox.MouseEnter += new System.EventHandler(this.view_mag_MouseEnter);
+            this.view_mag_hitbox.MouseLeave += new System.EventHandler(this.view_mag_MouseLeave);
             // 
             // view_min_ck
             // 
@@ -4640,6 +4692,9 @@ namespace plt0_gui
             this.view_min_label.Size = new System.Drawing.Size(112, 64);
             this.view_min_label.TabIndex = 388;
             this.view_min_label.Text = "Min filter";
+            this.view_min_label.Click += new System.EventHandler(this.view_min_Click);
+            this.view_min_label.MouseEnter += new System.EventHandler(this.view_min_MouseEnter);
+            this.view_min_label.MouseLeave += new System.EventHandler(this.view_min_MouseLeave);
             // 
             // view_min_hitbox
             // 
@@ -4653,6 +4708,9 @@ namespace plt0_gui
             this.view_min_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
             this.view_min_hitbox.Size = new System.Drawing.Size(190, 68);
             this.view_min_hitbox.TabIndex = 389;
+            this.view_min_hitbox.Click += new System.EventHandler(this.view_min_Click);
+            this.view_min_hitbox.MouseEnter += new System.EventHandler(this.view_min_MouseEnter);
+            this.view_min_hitbox.MouseLeave += new System.EventHandler(this.view_min_MouseLeave);
             // 
             // plt0_gui
             // 
@@ -6867,7 +6925,7 @@ namespace plt0_gui
                     alpha_ck_array[i].Visible = false;
                 }
                 view_alpha = false;
-                view_alpha_ck.BackgroundImage = light_blue_circle;
+                Category_hover(view_alpha_ck);
             }
             else
             {
@@ -6876,22 +6934,22 @@ namespace plt0_gui
                     alpha_ck_array[i].Visible = true;
                 }
                 view_alpha = true;
-                view_alpha_ck.BackgroundImage = light_blue_circle_on;
+                Category_selected(view_alpha_ck);
             }
         }
         private void view_alpha_MouseEnter(object sender, EventArgs e)
         {
             if (view_alpha)
-                view_alpha_ck.BackgroundImage = light_blue_circle_on;
+                Category_selected(view_alpha_ck);
             else
-                view_alpha_ck.BackgroundImage = light_blue_circle;
+                Category_hover(view_alpha_ck);
         }
         private void view_alpha_MouseLeave(object sender, EventArgs e)
         {
             if (view_alpha)
-                view_alpha_ck.BackgroundImage = white_circle_on;
+                Category_checked(view_alpha_ck);
             else
-                view_alpha_ck.BackgroundImage = white_circle;
+                Category_unchecked(view_alpha_ck);
         }
         private void view_algorithm_Click(object sender, EventArgs e)
         {
@@ -6902,7 +6960,7 @@ namespace plt0_gui
                     algorithm_ck[i].Visible = false;
                 }
                 view_algorithm = false;
-                view_algorithm_ck.BackgroundImage = light_blue_circle;
+                Category_hover(view_algorithm_ck);
             }
             else
             {
@@ -6911,22 +6969,22 @@ namespace plt0_gui
                     algorithm_ck[i].Visible = true;
                 }
                 view_algorithm = true;
-                view_algorithm_ck.BackgroundImage = light_blue_circle_on;
+                Category_selected(view_algorithm_ck);
             }
         }
         private void view_algorithm_MouseEnter(object sender, EventArgs e)
         {
             if (view_algorithm)
-                view_algorithm_ck.BackgroundImage = light_blue_circle_on;
+                Category_selected(view_algorithm_ck);
             else
-                view_algorithm_ck.BackgroundImage = light_blue_circle;
+                Category_hover(view_algorithm_ck);
         }
         private void view_algorithm_MouseLeave(object sender, EventArgs e)
         {
             if (view_algorithm)
-                view_algorithm_ck.BackgroundImage = white_circle_on;
+                Category_checked(view_algorithm_ck);
             else
-                view_algorithm_ck.BackgroundImage = white_circle;
+                Category_unchecked(view_algorithm_ck);
         }
         private void view_WrapS_Click(object sender, EventArgs e)
         {
@@ -6937,7 +6995,7 @@ namespace plt0_gui
                     WrapS_ck[i].Visible = false;
                 }
                 view_WrapS = false;
-                view_WrapS_ck.BackgroundImage = light_blue_circle;
+                Category_hover(view_WrapS_ck);
             }
             else
             {
@@ -6946,22 +7004,22 @@ namespace plt0_gui
                     WrapS_ck[i].Visible = true;
                 }
                 view_WrapS = true;
-                view_WrapS_ck.BackgroundImage = light_blue_circle_on;
+                Category_selected(view_WrapS_ck);
             }
         }
         private void view_WrapS_MouseEnter(object sender, EventArgs e)
         {
             if (view_WrapS)
-                view_WrapS_ck.BackgroundImage = light_blue_circle_on;
+                Category_selected(view_WrapS_ck);
             else
-                view_WrapS_ck.BackgroundImage = light_blue_circle;
+                Category_hover(view_WrapS_ck);
         }
         private void view_WrapS_MouseLeave(object sender, EventArgs e)
         {
             if (view_WrapS)
-                view_WrapS_ck.BackgroundImage = white_circle_on;
+                Category_checked(view_WrapS_ck);
             else
-                view_WrapS_ck.BackgroundImage = white_circle;
+                Category_unchecked(view_WrapS_ck);
         }
         private void view_WrapT_Click(object sender, EventArgs e)
         {
@@ -6972,7 +7030,7 @@ namespace plt0_gui
                     WrapT_ck[i].Visible = false;
                 }
                 view_WrapT = false;
-                view_WrapT_ck.BackgroundImage = light_blue_circle;
+                Category_hover(view_WrapT_ck);
             }
             else
             {
@@ -6981,22 +7039,22 @@ namespace plt0_gui
                     WrapT_ck[i].Visible = true;
                 }
                 view_WrapT = true;
-                view_WrapT_ck.BackgroundImage = light_blue_circle_on;
+                Category_selected(view_WrapT_ck);
             }
         }
         private void view_WrapT_MouseEnter(object sender, EventArgs e)
         {
             if (view_WrapT)
-                view_WrapT_ck.BackgroundImage = light_blue_circle_on;
+                Category_selected(view_WrapT_ck);
             else
-                view_WrapT_ck.BackgroundImage = light_blue_circle;
+                Category_hover(view_WrapT_ck);
         }
         private void view_WrapT_MouseLeave(object sender, EventArgs e)
         {
             if (view_WrapT)
-                view_WrapT_ck.BackgroundImage = white_circle_on;
+                Category_checked(view_WrapT_ck);
             else
-                view_WrapT_ck.BackgroundImage = white_circle;
+                Category_unchecked(view_WrapT_ck);
         }
         private void view_min_Click(object sender, EventArgs e)
         {
@@ -7007,7 +7065,7 @@ namespace plt0_gui
                     minification_ck[i].Visible = false;
                 }
                 view_min = false;
-                view_min_ck.BackgroundImage = light_blue_circle;
+                Category_hover(view_min_ck);
             }
             else
             {
@@ -7016,22 +7074,22 @@ namespace plt0_gui
                     minification_ck[i].Visible = true;
                 }
                 view_min = true;
-                view_min_ck.BackgroundImage = light_blue_circle_on;
+                Category_selected(view_min_ck);
             }
         }
         private void view_min_MouseEnter(object sender, EventArgs e)
         {
             if (view_min)
-                view_min_ck.BackgroundImage = light_blue_circle_on;
+                Category_selected(view_min_ck);
             else
-                view_min_ck.BackgroundImage = light_blue_circle;
+                Category_hover(view_min_ck);
         }
         private void view_min_MouseLeave(object sender, EventArgs e)
         {
             if (view_min)
-                view_min_ck.BackgroundImage = white_circle_on;
+                Category_checked(view_min_ck);
             else
-                view_min_ck.BackgroundImage = white_circle;
+                Category_unchecked(view_min_ck);
         }
         private void view_mag_Click(object sender, EventArgs e)
         {
@@ -7042,7 +7100,7 @@ namespace plt0_gui
                     magnification_ck[i].Visible = false;
                 }
                 view_mag = false;
-                view_mag_ck.BackgroundImage = light_blue_circle;
+                Category_hover(view_mag_ck);
             }
             else
             {
@@ -7051,22 +7109,22 @@ namespace plt0_gui
                     magnification_ck[i].Visible = true;
                 }
                 view_mag = true;
-                view_mag_ck.BackgroundImage = light_blue_circle_on;
+                Category_selected(view_mag_ck);
             }
         }
         private void view_mag_MouseEnter(object sender, EventArgs e)
         {
             if (view_mag)
-                view_mag_ck.BackgroundImage = light_blue_circle_on;
+                Category_selected(view_mag_ck);
             else
-                view_mag_ck.BackgroundImage = light_blue_circle;
+                Category_hover(view_mag_ck);
         }
         private void view_mag_MouseLeave(object sender, EventArgs e)
         {
             if (view_mag)
-                view_mag_ck.BackgroundImage = white_circle_on;
+                Category_checked(view_mag_ck);
             else
-                view_mag_ck.BackgroundImage = white_circle;
+                Category_unchecked(view_mag_ck);
         }
     }
 }
