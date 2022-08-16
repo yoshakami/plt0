@@ -906,7 +906,7 @@ namespace plt0_gui
             this.output_file_type_label.ForeColor = System.Drawing.SystemColors.Control;
             this.output_file_type_label.Location = new System.Drawing.Point(16, 84);
             this.output_file_type_label.Name = "output_file_type_label";
-            this.output_file_type_label.Size = new System.Drawing.Size(140, 20);
+            this.output_file_type_label.Size = new System.Drawing.Size(194, 20);
             this.output_file_type_label.TabIndex = 0;
             this.output_file_type_label.Text = "Output file type";
             // 
@@ -918,7 +918,7 @@ namespace plt0_gui
             this.mandatory_settings_label.ForeColor = System.Drawing.SystemColors.Control;
             this.mandatory_settings_label.Location = new System.Drawing.Point(115, 48);
             this.mandatory_settings_label.Name = "mandatory_settings_label";
-            this.mandatory_settings_label.Size = new System.Drawing.Size(190, 20);
+            this.mandatory_settings_label.Size = new System.Drawing.Size(238, 20);
             this.mandatory_settings_label.TabIndex = 123;
             this.mandatory_settings_label.Text = "Mandatory Settings";
             // 
@@ -932,7 +932,7 @@ namespace plt0_gui
             this.bmd_label.Margin = new System.Windows.Forms.Padding(0);
             this.bmd_label.Name = "bmd_label";
             this.bmd_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.bmd_label.Size = new System.Drawing.Size(47, 64);
+            this.bmd_label.Size = new System.Drawing.Size(57, 64);
             this.bmd_label.TabIndex = 124;
             this.bmd_label.Text = "bmd";
             this.bmd_label.Click += new System.EventHandler(this.bmd_Click);
@@ -949,7 +949,7 @@ namespace plt0_gui
             this.bmd_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.bmd_hitbox.Name = "bmd_hitbox";
             this.bmd_hitbox.Padding = new System.Windows.Forms.Padding(128, 48, 0, 0);
-            this.bmd_hitbox.Size = new System.Drawing.Size(128, 64);
+            this.bmd_hitbox.Size = new System.Drawing.Size(128, 68);
             this.bmd_hitbox.TabIndex = 125;
             this.bmd_hitbox.Click += new System.EventHandler(this.bmd_Click);
             this.bmd_hitbox.MouseEnter += new System.EventHandler(this.bmd_MouseEnter);
@@ -993,7 +993,7 @@ namespace plt0_gui
             this.bti_label.Margin = new System.Windows.Forms.Padding(0);
             this.bti_label.Name = "bti_label";
             this.bti_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.bti_label.Size = new System.Drawing.Size(33, 64);
+            this.bti_label.Size = new System.Drawing.Size(38, 64);
             this.bti_label.TabIndex = 127;
             this.bti_label.Text = "bti";
             this.bti_label.Click += new System.EventHandler(this.bti_Click);
@@ -1010,7 +1010,7 @@ namespace plt0_gui
             this.bti_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.bti_hitbox.Name = "bti_hitbox";
             this.bti_hitbox.Padding = new System.Windows.Forms.Padding(128, 48, 0, 0);
-            this.bti_hitbox.Size = new System.Drawing.Size(128, 64);
+            this.bti_hitbox.Size = new System.Drawing.Size(128, 68);
             this.bti_hitbox.TabIndex = 128;
             this.bti_hitbox.Click += new System.EventHandler(this.bti_Click);
             this.bti_hitbox.MouseEnter += new System.EventHandler(this.bti_MouseEnter);
@@ -1040,7 +1040,7 @@ namespace plt0_gui
             this.tex0_label.Margin = new System.Windows.Forms.Padding(0);
             this.tex0_label.Name = "tex0_label";
             this.tex0_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.tex0_label.Size = new System.Drawing.Size(49, 64);
+            this.tex0_label.Size = new System.Drawing.Size(62, 64);
             this.tex0_label.TabIndex = 130;
             this.tex0_label.Text = "tex0";
             this.tex0_label.Click += new System.EventHandler(this.tex0_Click);
@@ -1057,7 +1057,7 @@ namespace plt0_gui
             this.tex0_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.tex0_hitbox.Name = "tex0_hitbox";
             this.tex0_hitbox.Padding = new System.Windows.Forms.Padding(128, 48, 0, 0);
-            this.tex0_hitbox.Size = new System.Drawing.Size(128, 64);
+            this.tex0_hitbox.Size = new System.Drawing.Size(128, 68);
             this.tex0_hitbox.TabIndex = 131;
             this.tex0_hitbox.Click += new System.EventHandler(this.tex0_Click);
             this.tex0_hitbox.MouseEnter += new System.EventHandler(this.tex0_MouseEnter);
@@ -1087,7 +1087,7 @@ namespace plt0_gui
             this.tpl_label.Margin = new System.Windows.Forms.Padding(0);
             this.tpl_label.Name = "tpl_label";
             this.tpl_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.tpl_label.Size = new System.Drawing.Size(33, 64);
+            this.tpl_label.Size = new System.Drawing.Size(39, 64);
             this.tpl_label.TabIndex = 133;
             this.tpl_label.Text = "tpl";
             this.tpl_label.Click += new System.EventHandler(this.tpl_Click);
@@ -1104,7 +1104,7 @@ namespace plt0_gui
             this.tpl_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.tpl_hitbox.Name = "tpl_hitbox";
             this.tpl_hitbox.Padding = new System.Windows.Forms.Padding(128, 48, 0, 0);
-            this.tpl_hitbox.Size = new System.Drawing.Size(128, 64);
+            this.tpl_hitbox.Size = new System.Drawing.Size(128, 68);
             this.tpl_hitbox.TabIndex = 134;
             this.tpl_hitbox.Click += new System.EventHandler(this.tpl_Click);
             this.tpl_hitbox.MouseEnter += new System.EventHandler(this.tpl_MouseEnter);
@@ -1134,7 +1134,7 @@ namespace plt0_gui
             this.bmp_label.Margin = new System.Windows.Forms.Padding(0);
             this.bmp_label.Name = "bmp_label";
             this.bmp_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.bmp_label.Size = new System.Drawing.Size(47, 64);
+            this.bmp_label.Size = new System.Drawing.Size(57, 64);
             this.bmp_label.TabIndex = 136;
             this.bmp_label.Text = "bmp";
             this.bmp_label.Click += new System.EventHandler(this.bmp_Click);
@@ -1151,7 +1151,7 @@ namespace plt0_gui
             this.bmp_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.bmp_hitbox.Name = "bmp_hitbox";
             this.bmp_hitbox.Padding = new System.Windows.Forms.Padding(128, 48, 0, 0);
-            this.bmp_hitbox.Size = new System.Drawing.Size(128, 64);
+            this.bmp_hitbox.Size = new System.Drawing.Size(128, 68);
             this.bmp_hitbox.TabIndex = 137;
             this.bmp_hitbox.Click += new System.EventHandler(this.bmp_Click);
             this.bmp_hitbox.MouseEnter += new System.EventHandler(this.bmp_MouseEnter);
@@ -1181,7 +1181,7 @@ namespace plt0_gui
             this.png_label.Margin = new System.Windows.Forms.Padding(0);
             this.png_label.Name = "png_label";
             this.png_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.png_label.Size = new System.Drawing.Size(41, 64);
+            this.png_label.Size = new System.Drawing.Size(51, 64);
             this.png_label.TabIndex = 139;
             this.png_label.Text = "png";
             this.png_label.Click += new System.EventHandler(this.png_Click);
@@ -1198,7 +1198,7 @@ namespace plt0_gui
             this.png_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.png_hitbox.Name = "png_hitbox";
             this.png_hitbox.Padding = new System.Windows.Forms.Padding(128, 48, 0, 0);
-            this.png_hitbox.Size = new System.Drawing.Size(128, 64);
+            this.png_hitbox.Size = new System.Drawing.Size(128, 68);
             this.png_hitbox.TabIndex = 140;
             this.png_hitbox.Click += new System.EventHandler(this.png_Click);
             this.png_hitbox.MouseEnter += new System.EventHandler(this.png_MouseEnter);
@@ -1228,7 +1228,7 @@ namespace plt0_gui
             this.jpg_label.Margin = new System.Windows.Forms.Padding(0);
             this.jpg_label.Name = "jpg_label";
             this.jpg_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.jpg_label.Size = new System.Drawing.Size(35, 64);
+            this.jpg_label.Size = new System.Drawing.Size(44, 64);
             this.jpg_label.TabIndex = 142;
             this.jpg_label.Text = "jpg";
             this.jpg_label.Click += new System.EventHandler(this.jpg_Click);
@@ -1245,7 +1245,7 @@ namespace plt0_gui
             this.jpg_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.jpg_hitbox.Name = "jpg_hitbox";
             this.jpg_hitbox.Padding = new System.Windows.Forms.Padding(128, 48, 0, 0);
-            this.jpg_hitbox.Size = new System.Drawing.Size(128, 64);
+            this.jpg_hitbox.Size = new System.Drawing.Size(128, 68);
             this.jpg_hitbox.TabIndex = 143;
             this.jpg_hitbox.Click += new System.EventHandler(this.jpg_Click);
             this.jpg_hitbox.MouseEnter += new System.EventHandler(this.jpg_MouseEnter);
@@ -1275,7 +1275,7 @@ namespace plt0_gui
             this.tiff_label.Margin = new System.Windows.Forms.Padding(0);
             this.tiff_label.Name = "tiff_label";
             this.tiff_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.tiff_label.Size = new System.Drawing.Size(36, 64);
+            this.tiff_label.Size = new System.Drawing.Size(42, 64);
             this.tiff_label.TabIndex = 157;
             this.tiff_label.Text = "tiff";
             this.tiff_label.Click += new System.EventHandler(this.tiff_Click);
@@ -1292,7 +1292,7 @@ namespace plt0_gui
             this.tiff_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.tiff_hitbox.Name = "tiff_hitbox";
             this.tiff_hitbox.Padding = new System.Windows.Forms.Padding(128, 48, 0, 0);
-            this.tiff_hitbox.Size = new System.Drawing.Size(128, 64);
+            this.tiff_hitbox.Size = new System.Drawing.Size(128, 68);
             this.tiff_hitbox.TabIndex = 158;
             this.tiff_hitbox.Click += new System.EventHandler(this.tiff_Click);
             this.tiff_hitbox.MouseEnter += new System.EventHandler(this.tiff_MouseEnter);
@@ -1322,7 +1322,7 @@ namespace plt0_gui
             this.tif_label.Margin = new System.Windows.Forms.Padding(0);
             this.tif_label.Name = "tif_label";
             this.tif_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.tif_label.Size = new System.Drawing.Size(29, 64);
+            this.tif_label.Size = new System.Drawing.Size(33, 64);
             this.tif_label.TabIndex = 154;
             this.tif_label.Text = "tif";
             this.tif_label.Click += new System.EventHandler(this.tif_Click);
@@ -1339,7 +1339,7 @@ namespace plt0_gui
             this.tif_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.tif_hitbox.Name = "tif_hitbox";
             this.tif_hitbox.Padding = new System.Windows.Forms.Padding(128, 48, 0, 0);
-            this.tif_hitbox.Size = new System.Drawing.Size(128, 64);
+            this.tif_hitbox.Size = new System.Drawing.Size(128, 68);
             this.tif_hitbox.TabIndex = 155;
             this.tif_hitbox.Click += new System.EventHandler(this.tif_Click);
             this.tif_hitbox.MouseEnter += new System.EventHandler(this.tif_MouseEnter);
@@ -1369,7 +1369,7 @@ namespace plt0_gui
             this.ico_label.Margin = new System.Windows.Forms.Padding(0);
             this.ico_label.Name = "ico_label";
             this.ico_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.ico_label.Size = new System.Drawing.Size(36, 64);
+            this.ico_label.Size = new System.Drawing.Size(42, 64);
             this.ico_label.TabIndex = 151;
             this.ico_label.Text = "ico";
             this.ico_label.Click += new System.EventHandler(this.ico_Click);
@@ -1386,7 +1386,7 @@ namespace plt0_gui
             this.ico_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.ico_hitbox.Name = "ico_hitbox";
             this.ico_hitbox.Padding = new System.Windows.Forms.Padding(128, 48, 0, 0);
-            this.ico_hitbox.Size = new System.Drawing.Size(128, 64);
+            this.ico_hitbox.Size = new System.Drawing.Size(128, 68);
             this.ico_hitbox.TabIndex = 152;
             this.ico_hitbox.Click += new System.EventHandler(this.ico_Click);
             this.ico_hitbox.MouseEnter += new System.EventHandler(this.ico_MouseEnter);
@@ -1416,7 +1416,7 @@ namespace plt0_gui
             this.gib_label.Margin = new System.Windows.Forms.Padding(0);
             this.gib_label.Name = "gib_label";
             this.gib_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.gib_label.Size = new System.Drawing.Size(31, 64);
+            this.gib_label.Size = new System.Drawing.Size(37, 64);
             this.gib_label.TabIndex = 148;
             this.gib_label.Text = "gif";
             this.gib_label.Click += new System.EventHandler(this.gif_Click);
@@ -1433,7 +1433,7 @@ namespace plt0_gui
             this.gif_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.gif_hitbox.Name = "gif_hitbox";
             this.gif_hitbox.Padding = new System.Windows.Forms.Padding(128, 48, 0, 0);
-            this.gif_hitbox.Size = new System.Drawing.Size(128, 64);
+            this.gif_hitbox.Size = new System.Drawing.Size(128, 68);
             this.gif_hitbox.TabIndex = 149;
             this.gif_hitbox.Click += new System.EventHandler(this.gif_Click);
             this.gif_hitbox.MouseEnter += new System.EventHandler(this.gif_MouseEnter);
@@ -1463,7 +1463,7 @@ namespace plt0_gui
             this.jpeg_label.Margin = new System.Windows.Forms.Padding(0);
             this.jpeg_label.Name = "jpeg_label";
             this.jpeg_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.jpeg_label.Size = new System.Drawing.Size(46, 64);
+            this.jpeg_label.Size = new System.Drawing.Size(58, 64);
             this.jpeg_label.TabIndex = 145;
             this.jpeg_label.Text = "jpeg";
             this.jpeg_label.Click += new System.EventHandler(this.jpeg_Click);
@@ -1480,7 +1480,7 @@ namespace plt0_gui
             this.jpeg_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.jpeg_hitbox.Name = "jpeg_hitbox";
             this.jpeg_hitbox.Padding = new System.Windows.Forms.Padding(128, 48, 0, 0);
-            this.jpeg_hitbox.Size = new System.Drawing.Size(128, 64);
+            this.jpeg_hitbox.Size = new System.Drawing.Size(128, 68);
             this.jpeg_hitbox.TabIndex = 146;
             this.jpeg_hitbox.Click += new System.EventHandler(this.jpeg_Click);
             this.jpeg_hitbox.MouseEnter += new System.EventHandler(this.jpeg_MouseEnter);
@@ -1494,7 +1494,7 @@ namespace plt0_gui
             this.options_label.ForeColor = System.Drawing.SystemColors.Control;
             this.options_label.Location = new System.Drawing.Point(1306, 86);
             this.options_label.Name = "options_label";
-            this.options_label.Size = new System.Drawing.Size(80, 20);
+            this.options_label.Size = new System.Drawing.Size(97, 20);
             this.options_label.TabIndex = 160;
             this.options_label.Text = "Options";
             // 
@@ -1522,7 +1522,7 @@ namespace plt0_gui
             this.warn_label.Margin = new System.Windows.Forms.Padding(0);
             this.warn_label.Name = "warn_label";
             this.warn_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.warn_label.Size = new System.Drawing.Size(53, 64);
+            this.warn_label.Size = new System.Drawing.Size(65, 64);
             this.warn_label.TabIndex = 188;
             this.warn_label.Text = "warn";
             this.warn_label.Click += new System.EventHandler(this.warn_Click);
@@ -1553,7 +1553,7 @@ namespace plt0_gui
             this.stfu_label.Margin = new System.Windows.Forms.Padding(0);
             this.stfu_label.Name = "stfu_label";
             this.stfu_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.stfu_label.Size = new System.Drawing.Size(45, 64);
+            this.stfu_label.Size = new System.Drawing.Size(55, 64);
             this.stfu_label.TabIndex = 185;
             this.stfu_label.Text = "stfu";
             this.stfu_label.Click += new System.EventHandler(this.stfu_Click);
@@ -1584,7 +1584,7 @@ namespace plt0_gui
             this.safe_mode_label.Margin = new System.Windows.Forms.Padding(0);
             this.safe_mode_label.Name = "safe_mode_label";
             this.safe_mode_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.safe_mode_label.Size = new System.Drawing.Size(104, 64);
+            this.safe_mode_label.Size = new System.Drawing.Size(131, 64);
             this.safe_mode_label.TabIndex = 182;
             this.safe_mode_label.Text = "safe mode";
             this.safe_mode_label.Click += new System.EventHandler(this.safe_mode_Click);
@@ -1615,7 +1615,7 @@ namespace plt0_gui
             this.reverse_label.Margin = new System.Windows.Forms.Padding(0);
             this.reverse_label.Name = "reverse_label";
             this.reverse_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.reverse_label.Size = new System.Drawing.Size(139, 64);
+            this.reverse_label.Size = new System.Drawing.Size(174, 64);
             this.reverse_label.TabIndex = 179;
             this.reverse_label.Text = "reverse image";
             this.reverse_label.Click += new System.EventHandler(this.reverse_Click);
@@ -1646,7 +1646,7 @@ namespace plt0_gui
             this.random_label.Margin = new System.Windows.Forms.Padding(0);
             this.random_label.Name = "random_label";
             this.random_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.random_label.Size = new System.Drawing.Size(149, 64);
+            this.random_label.Size = new System.Drawing.Size(187, 64);
             this.random_label.TabIndex = 176;
             this.random_label.Text = "random palette";
             this.random_label.Click += new System.EventHandler(this.random_Click);
@@ -1677,7 +1677,7 @@ namespace plt0_gui
             this.no_warning_label.Margin = new System.Windows.Forms.Padding(0);
             this.no_warning_label.Name = "no_warning_label";
             this.no_warning_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.no_warning_label.Size = new System.Drawing.Size(108, 64);
+            this.no_warning_label.Size = new System.Drawing.Size(136, 64);
             this.no_warning_label.TabIndex = 173;
             this.no_warning_label.Text = "no warning";
             this.no_warning_label.Click += new System.EventHandler(this.no_warning_Click);
@@ -1708,7 +1708,7 @@ namespace plt0_gui
             this.funky_label.Margin = new System.Windows.Forms.Padding(0);
             this.funky_label.Name = "funky_label";
             this.funky_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.funky_label.Size = new System.Drawing.Size(59, 64);
+            this.funky_label.Size = new System.Drawing.Size(72, 64);
             this.funky_label.TabIndex = 170;
             this.funky_label.Text = "funky";
             this.funky_label.Click += new System.EventHandler(this.funky_Click);
@@ -1739,7 +1739,7 @@ namespace plt0_gui
             this.FORCE_ALPHA_label.Margin = new System.Windows.Forms.Padding(0);
             this.FORCE_ALPHA_label.Name = "FORCE_ALPHA_label";
             this.FORCE_ALPHA_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.FORCE_ALPHA_label.Size = new System.Drawing.Size(150, 64);
+            this.FORCE_ALPHA_label.Size = new System.Drawing.Size(183, 64);
             this.FORCE_ALPHA_label.TabIndex = 167;
             this.FORCE_ALPHA_label.Text = "FORCE ALPHA";
             this.FORCE_ALPHA_label.Click += new System.EventHandler(this.FORCE_ALPHA_Click);
@@ -1770,7 +1770,7 @@ namespace plt0_gui
             this.bmp_32_label.Margin = new System.Windows.Forms.Padding(0);
             this.bmp_32_label.Name = "bmp_32_label";
             this.bmp_32_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.bmp_32_label.Size = new System.Drawing.Size(111, 64);
+            this.bmp_32_label.Size = new System.Drawing.Size(137, 64);
             this.bmp_32_label.TabIndex = 164;
             this.bmp_32_label.Text = "32-bit bmp";
             this.bmp_32_label.Click += new System.EventHandler(this.bmp_32_Click);
@@ -1801,7 +1801,7 @@ namespace plt0_gui
             this.ask_exit_label.Margin = new System.Windows.Forms.Padding(0);
             this.ask_exit_label.Name = "ask_exit_label";
             this.ask_exit_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.ask_exit_label.Size = new System.Drawing.Size(81, 64);
+            this.ask_exit_label.Size = new System.Drawing.Size(101, 64);
             this.ask_exit_label.TabIndex = 161;
             this.ask_exit_label.Text = "ask exit";
             this.ask_exit_label.Click += new System.EventHandler(this.ask_exit_Click);
@@ -1818,7 +1818,7 @@ namespace plt0_gui
             this.ask_exit_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.ask_exit_hitbox.Name = "ask_exit_hitbox";
             this.ask_exit_hitbox.Padding = new System.Windows.Forms.Padding(250, 48, 0, 0);
-            this.ask_exit_hitbox.Size = new System.Drawing.Size(250, 64);
+            this.ask_exit_hitbox.Size = new System.Drawing.Size(250, 68);
             this.ask_exit_hitbox.TabIndex = 162;
             this.ask_exit_hitbox.Click += new System.EventHandler(this.ask_exit_Click);
             this.ask_exit_hitbox.MouseEnter += new System.EventHandler(this.ask_exit_MouseEnter);
@@ -1834,7 +1834,7 @@ namespace plt0_gui
             this.bmp_32_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.bmp_32_hitbox.Name = "bmp_32_hitbox";
             this.bmp_32_hitbox.Padding = new System.Windows.Forms.Padding(250, 48, 0, 0);
-            this.bmp_32_hitbox.Size = new System.Drawing.Size(250, 64);
+            this.bmp_32_hitbox.Size = new System.Drawing.Size(250, 68);
             this.bmp_32_hitbox.TabIndex = 191;
             this.bmp_32_hitbox.Click += new System.EventHandler(this.bmp_32_Click);
             this.bmp_32_hitbox.MouseEnter += new System.EventHandler(this.bmp_32_MouseEnter);
@@ -1850,7 +1850,7 @@ namespace plt0_gui
             this.FORCE_ALPHA_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.FORCE_ALPHA_hitbox.Name = "FORCE_ALPHA_hitbox";
             this.FORCE_ALPHA_hitbox.Padding = new System.Windows.Forms.Padding(250, 48, 0, 0);
-            this.FORCE_ALPHA_hitbox.Size = new System.Drawing.Size(250, 64);
+            this.FORCE_ALPHA_hitbox.Size = new System.Drawing.Size(250, 68);
             this.FORCE_ALPHA_hitbox.TabIndex = 192;
             this.FORCE_ALPHA_hitbox.Click += new System.EventHandler(this.FORCE_ALPHA_Click);
             this.FORCE_ALPHA_hitbox.MouseEnter += new System.EventHandler(this.FORCE_ALPHA_MouseEnter);
@@ -1866,7 +1866,7 @@ namespace plt0_gui
             this.funky_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.funky_hitbox.Name = "funky_hitbox";
             this.funky_hitbox.Padding = new System.Windows.Forms.Padding(250, 48, 0, 0);
-            this.funky_hitbox.Size = new System.Drawing.Size(250, 64);
+            this.funky_hitbox.Size = new System.Drawing.Size(250, 68);
             this.funky_hitbox.TabIndex = 193;
             this.funky_hitbox.Click += new System.EventHandler(this.funky_Click);
             this.funky_hitbox.MouseEnter += new System.EventHandler(this.funky_MouseEnter);
@@ -1882,7 +1882,7 @@ namespace plt0_gui
             this.no_warning_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.no_warning_hitbox.Name = "no_warning_hitbox";
             this.no_warning_hitbox.Padding = new System.Windows.Forms.Padding(250, 48, 0, 0);
-            this.no_warning_hitbox.Size = new System.Drawing.Size(250, 64);
+            this.no_warning_hitbox.Size = new System.Drawing.Size(250, 68);
             this.no_warning_hitbox.TabIndex = 194;
             this.no_warning_hitbox.Click += new System.EventHandler(this.no_warning_Click);
             this.no_warning_hitbox.MouseEnter += new System.EventHandler(this.no_warning_MouseEnter);
@@ -1898,7 +1898,7 @@ namespace plt0_gui
             this.random_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.random_hitbox.Name = "random_hitbox";
             this.random_hitbox.Padding = new System.Windows.Forms.Padding(250, 48, 0, 0);
-            this.random_hitbox.Size = new System.Drawing.Size(250, 64);
+            this.random_hitbox.Size = new System.Drawing.Size(250, 68);
             this.random_hitbox.TabIndex = 195;
             this.random_hitbox.Click += new System.EventHandler(this.random_Click);
             this.random_hitbox.MouseEnter += new System.EventHandler(this.random_MouseEnter);
@@ -1914,7 +1914,7 @@ namespace plt0_gui
             this.reverse_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.reverse_hitbox.Name = "reverse_hitbox";
             this.reverse_hitbox.Padding = new System.Windows.Forms.Padding(250, 48, 0, 0);
-            this.reverse_hitbox.Size = new System.Drawing.Size(250, 64);
+            this.reverse_hitbox.Size = new System.Drawing.Size(250, 68);
             this.reverse_hitbox.TabIndex = 196;
             this.reverse_hitbox.Click += new System.EventHandler(this.reverse_Click);
             this.reverse_hitbox.MouseEnter += new System.EventHandler(this.reverse_MouseEnter);
@@ -1930,7 +1930,7 @@ namespace plt0_gui
             this.safe_mode_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.safe_mode_hitbox.Name = "safe_mode_hitbox";
             this.safe_mode_hitbox.Padding = new System.Windows.Forms.Padding(250, 48, 0, 0);
-            this.safe_mode_hitbox.Size = new System.Drawing.Size(250, 64);
+            this.safe_mode_hitbox.Size = new System.Drawing.Size(250, 68);
             this.safe_mode_hitbox.TabIndex = 197;
             this.safe_mode_hitbox.Click += new System.EventHandler(this.safe_mode_Click);
             this.safe_mode_hitbox.MouseEnter += new System.EventHandler(this.safe_mode_MouseEnter);
@@ -1946,7 +1946,7 @@ namespace plt0_gui
             this.stfu_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.stfu_hitbox.Name = "stfu_hitbox";
             this.stfu_hitbox.Padding = new System.Windows.Forms.Padding(250, 48, 0, 0);
-            this.stfu_hitbox.Size = new System.Drawing.Size(250, 64);
+            this.stfu_hitbox.Size = new System.Drawing.Size(250, 68);
             this.stfu_hitbox.TabIndex = 198;
             this.stfu_hitbox.Click += new System.EventHandler(this.stfu_Click);
             this.stfu_hitbox.MouseEnter += new System.EventHandler(this.stfu_MouseEnter);
@@ -1962,7 +1962,7 @@ namespace plt0_gui
             this.warn_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.warn_hitbox.Name = "warn_hitbox";
             this.warn_hitbox.Padding = new System.Windows.Forms.Padding(250, 48, 0, 0);
-            this.warn_hitbox.Size = new System.Drawing.Size(250, 64);
+            this.warn_hitbox.Size = new System.Drawing.Size(250, 68);
             this.warn_hitbox.TabIndex = 199;
             this.warn_hitbox.Click += new System.EventHandler(this.warn_Click);
             this.warn_hitbox.MouseEnter += new System.EventHandler(this.warn_MouseEnter);
@@ -1992,7 +1992,7 @@ namespace plt0_gui
             this.cmpr_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_label.Name = "cmpr_label";
             this.cmpr_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.cmpr_label.Size = new System.Drawing.Size(66, 64);
+            this.cmpr_label.Size = new System.Drawing.Size(79, 64);
             this.cmpr_label.TabIndex = 231;
             this.cmpr_label.Text = "CMPR";
             this.cmpr_label.Click += new System.EventHandler(this.CMPR_Click);
@@ -2009,7 +2009,7 @@ namespace plt0_gui
             this.cmpr_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_hitbox.Name = "cmpr_hitbox";
             this.cmpr_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
-            this.cmpr_hitbox.Size = new System.Drawing.Size(190, 64);
+            this.cmpr_hitbox.Size = new System.Drawing.Size(190, 68);
             this.cmpr_hitbox.TabIndex = 232;
             this.cmpr_hitbox.Click += new System.EventHandler(this.CMPR_Click);
             this.cmpr_hitbox.MouseEnter += new System.EventHandler(this.CMPR_MouseEnter);
@@ -2039,7 +2039,7 @@ namespace plt0_gui
             this.ci14x2_label.Margin = new System.Windows.Forms.Padding(0);
             this.ci14x2_label.Name = "ci14x2_label";
             this.ci14x2_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.ci14x2_label.Size = new System.Drawing.Size(72, 64);
+            this.ci14x2_label.Size = new System.Drawing.Size(93, 64);
             this.ci14x2_label.TabIndex = 228;
             this.ci14x2_label.Text = "CI14x2";
             this.ci14x2_label.Click += new System.EventHandler(this.CI14X2_Click);
@@ -2056,7 +2056,7 @@ namespace plt0_gui
             this.ci14x2_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.ci14x2_hitbox.Name = "ci14x2_hitbox";
             this.ci14x2_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
-            this.ci14x2_hitbox.Size = new System.Drawing.Size(190, 64);
+            this.ci14x2_hitbox.Size = new System.Drawing.Size(190, 68);
             this.ci14x2_hitbox.TabIndex = 229;
             this.ci14x2_hitbox.Click += new System.EventHandler(this.CI14X2_Click);
             this.ci14x2_hitbox.MouseEnter += new System.EventHandler(this.CI14X2_MouseEnter);
@@ -2086,7 +2086,7 @@ namespace plt0_gui
             this.ci8_label.Margin = new System.Windows.Forms.Padding(0);
             this.ci8_label.Name = "ci8_label";
             this.ci8_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.ci8_label.Size = new System.Drawing.Size(40, 64);
+            this.ci8_label.Size = new System.Drawing.Size(48, 64);
             this.ci8_label.TabIndex = 225;
             this.ci8_label.Text = "CI8";
             this.ci8_label.Click += new System.EventHandler(this.CI8_Click);
@@ -2103,7 +2103,7 @@ namespace plt0_gui
             this.ci8_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.ci8_hitbox.Name = "ci8_hitbox";
             this.ci8_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
-            this.ci8_hitbox.Size = new System.Drawing.Size(190, 64);
+            this.ci8_hitbox.Size = new System.Drawing.Size(190, 68);
             this.ci8_hitbox.TabIndex = 226;
             this.ci8_hitbox.Click += new System.EventHandler(this.CI8_Click);
             this.ci8_hitbox.MouseEnter += new System.EventHandler(this.CI8_MouseEnter);
@@ -2133,7 +2133,7 @@ namespace plt0_gui
             this.ci4_label.Margin = new System.Windows.Forms.Padding(0);
             this.ci4_label.Name = "ci4_label";
             this.ci4_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.ci4_label.Size = new System.Drawing.Size(40, 64);
+            this.ci4_label.Size = new System.Drawing.Size(48, 64);
             this.ci4_label.TabIndex = 222;
             this.ci4_label.Text = "CI4";
             this.ci4_label.Click += new System.EventHandler(this.CI4_Click);
@@ -2150,7 +2150,7 @@ namespace plt0_gui
             this.ci4_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.ci4_hitbox.Name = "ci4_hitbox";
             this.ci4_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
-            this.ci4_hitbox.Size = new System.Drawing.Size(190, 64);
+            this.ci4_hitbox.Size = new System.Drawing.Size(190, 68);
             this.ci4_hitbox.TabIndex = 223;
             this.ci4_hitbox.Click += new System.EventHandler(this.CI4_Click);
             this.ci4_hitbox.MouseEnter += new System.EventHandler(this.CI4_MouseEnter);
@@ -2180,7 +2180,7 @@ namespace plt0_gui
             this.rgba32_label.Margin = new System.Windows.Forms.Padding(0);
             this.rgba32_label.Name = "rgba32_label";
             this.rgba32_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.rgba32_label.Size = new System.Drawing.Size(88, 64);
+            this.rgba32_label.Size = new System.Drawing.Size(108, 64);
             this.rgba32_label.TabIndex = 219;
             this.rgba32_label.Text = "RGBA32";
             this.rgba32_label.Click += new System.EventHandler(this.RGBA32_Click);
@@ -2197,7 +2197,7 @@ namespace plt0_gui
             this.rgba32_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.rgba32_hitbox.Name = "rgba32_hitbox";
             this.rgba32_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
-            this.rgba32_hitbox.Size = new System.Drawing.Size(190, 64);
+            this.rgba32_hitbox.Size = new System.Drawing.Size(190, 68);
             this.rgba32_hitbox.TabIndex = 220;
             this.rgba32_hitbox.Click += new System.EventHandler(this.RGBA32_Click);
             this.rgba32_hitbox.MouseEnter += new System.EventHandler(this.RGBA32_MouseEnter);
@@ -2227,7 +2227,7 @@ namespace plt0_gui
             this.rgb5a3_label.Margin = new System.Windows.Forms.Padding(0);
             this.rgb5a3_label.Name = "rgb5a3_label";
             this.rgb5a3_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.rgb5a3_label.Size = new System.Drawing.Size(88, 64);
+            this.rgb5a3_label.Size = new System.Drawing.Size(108, 64);
             this.rgb5a3_label.TabIndex = 216;
             this.rgb5a3_label.Text = "RGB5A3";
             this.rgb5a3_label.Click += new System.EventHandler(this.RGB5A3_Click);
@@ -2244,7 +2244,7 @@ namespace plt0_gui
             this.rgb5a3_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.rgb5a3_hitbox.Name = "rgb5a3_hitbox";
             this.rgb5a3_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
-            this.rgb5a3_hitbox.Size = new System.Drawing.Size(190, 64);
+            this.rgb5a3_hitbox.Size = new System.Drawing.Size(190, 68);
             this.rgb5a3_hitbox.TabIndex = 217;
             this.rgb5a3_hitbox.Click += new System.EventHandler(this.RGB5A3_Click);
             this.rgb5a3_hitbox.MouseEnter += new System.EventHandler(this.RGB5A3_MouseEnter);
@@ -2274,7 +2274,7 @@ namespace plt0_gui
             this.rgb565_label.Margin = new System.Windows.Forms.Padding(0);
             this.rgb565_label.Name = "rgb565_label";
             this.rgb565_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.rgb565_label.Size = new System.Drawing.Size(85, 64);
+            this.rgb565_label.Size = new System.Drawing.Size(107, 64);
             this.rgb565_label.TabIndex = 213;
             this.rgb565_label.Text = "RGB565";
             this.rgb565_label.Click += new System.EventHandler(this.RGB565_Click);
@@ -2291,7 +2291,7 @@ namespace plt0_gui
             this.rgb565_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.rgb565_hitbox.Name = "rgb565_hitbox";
             this.rgb565_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
-            this.rgb565_hitbox.Size = new System.Drawing.Size(190, 64);
+            this.rgb565_hitbox.Size = new System.Drawing.Size(190, 68);
             this.rgb565_hitbox.TabIndex = 214;
             this.rgb565_hitbox.Click += new System.EventHandler(this.RGB565_Click);
             this.rgb565_hitbox.MouseEnter += new System.EventHandler(this.RGB565_MouseEnter);
@@ -2321,7 +2321,7 @@ namespace plt0_gui
             this.ai8_label.Margin = new System.Windows.Forms.Padding(0);
             this.ai8_label.Name = "ai8_label";
             this.ai8_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.ai8_label.Size = new System.Drawing.Size(40, 64);
+            this.ai8_label.Size = new System.Drawing.Size(48, 64);
             this.ai8_label.TabIndex = 210;
             this.ai8_label.Text = "AI8";
             this.ai8_label.Click += new System.EventHandler(this.AI8_Click);
@@ -2338,7 +2338,7 @@ namespace plt0_gui
             this.ai8_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.ai8_hitbox.Name = "ai8_hitbox";
             this.ai8_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
-            this.ai8_hitbox.Size = new System.Drawing.Size(190, 64);
+            this.ai8_hitbox.Size = new System.Drawing.Size(190, 68);
             this.ai8_hitbox.TabIndex = 211;
             this.ai8_hitbox.Click += new System.EventHandler(this.AI8_Click);
             this.ai8_hitbox.MouseEnter += new System.EventHandler(this.AI8_MouseEnter);
@@ -2368,7 +2368,7 @@ namespace plt0_gui
             this.ai4_label.Margin = new System.Windows.Forms.Padding(0);
             this.ai4_label.Name = "ai4_label";
             this.ai4_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.ai4_label.Size = new System.Drawing.Size(40, 64);
+            this.ai4_label.Size = new System.Drawing.Size(48, 64);
             this.ai4_label.TabIndex = 207;
             this.ai4_label.Text = "AI4";
             this.ai4_label.Click += new System.EventHandler(this.AI4_Click);
@@ -2385,7 +2385,7 @@ namespace plt0_gui
             this.ai4_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.ai4_hitbox.Name = "ai4_hitbox";
             this.ai4_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
-            this.ai4_hitbox.Size = new System.Drawing.Size(190, 64);
+            this.ai4_hitbox.Size = new System.Drawing.Size(190, 68);
             this.ai4_hitbox.TabIndex = 208;
             this.ai4_hitbox.Click += new System.EventHandler(this.AI4_Click);
             this.ai4_hitbox.MouseEnter += new System.EventHandler(this.AI4_MouseEnter);
@@ -2415,7 +2415,7 @@ namespace plt0_gui
             this.i8_label.Margin = new System.Windows.Forms.Padding(0);
             this.i8_label.Name = "i8_label";
             this.i8_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.i8_label.Size = new System.Drawing.Size(26, 64);
+            this.i8_label.Size = new System.Drawing.Size(31, 64);
             this.i8_label.TabIndex = 204;
             this.i8_label.Text = "I8";
             this.i8_label.Click += new System.EventHandler(this.I8_Click);
@@ -2432,7 +2432,7 @@ namespace plt0_gui
             this.i8_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.i8_hitbox.Name = "i8_hitbox";
             this.i8_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
-            this.i8_hitbox.Size = new System.Drawing.Size(190, 64);
+            this.i8_hitbox.Size = new System.Drawing.Size(190, 68);
             this.i8_hitbox.TabIndex = 205;
             this.i8_hitbox.Click += new System.EventHandler(this.I8_Click);
             this.i8_hitbox.MouseEnter += new System.EventHandler(this.I8_MouseEnter);
@@ -2462,7 +2462,7 @@ namespace plt0_gui
             this.i4_label.Margin = new System.Windows.Forms.Padding(0);
             this.i4_label.Name = "i4_label";
             this.i4_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.i4_label.Size = new System.Drawing.Size(26, 64);
+            this.i4_label.Size = new System.Drawing.Size(31, 64);
             this.i4_label.TabIndex = 201;
             this.i4_label.Text = "I4";
             this.i4_label.Click += new System.EventHandler(this.I4_Click);
@@ -2479,7 +2479,7 @@ namespace plt0_gui
             this.i4_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.i4_hitbox.Name = "i4_hitbox";
             this.i4_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
-            this.i4_hitbox.Size = new System.Drawing.Size(190, 64);
+            this.i4_hitbox.Size = new System.Drawing.Size(190, 68);
             this.i4_hitbox.TabIndex = 202;
             this.i4_hitbox.Click += new System.EventHandler(this.I4_Click);
             this.i4_hitbox.MouseEnter += new System.EventHandler(this.I4_MouseEnter);
@@ -2493,7 +2493,7 @@ namespace plt0_gui
             this.encoding_label.ForeColor = System.Drawing.SystemColors.Control;
             this.encoding_label.Location = new System.Drawing.Point(289, 84);
             this.encoding_label.Name = "encoding_label";
-            this.encoding_label.Size = new System.Drawing.Size(91, 20);
+            this.encoding_label.Size = new System.Drawing.Size(113, 20);
             this.encoding_label.TabIndex = 200;
             this.encoding_label.Text = "Encoding";
             // 
@@ -2535,7 +2535,7 @@ namespace plt0_gui
             this.no_gradient_label.Margin = new System.Windows.Forms.Padding(0);
             this.no_gradient_label.Name = "no_gradient_label";
             this.no_gradient_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.no_gradient_label.Size = new System.Drawing.Size(121, 64);
+            this.no_gradient_label.Size = new System.Drawing.Size(148, 64);
             this.no_gradient_label.TabIndex = 245;
             this.no_gradient_label.Text = "No Gradient";
             // 
@@ -2549,7 +2549,7 @@ namespace plt0_gui
             this.no_gradient_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.no_gradient_hitbox.Name = "no_gradient_hitbox";
             this.no_gradient_hitbox.Padding = new System.Windows.Forms.Padding(250, 48, 0, 0);
-            this.no_gradient_hitbox.Size = new System.Drawing.Size(250, 64);
+            this.no_gradient_hitbox.Size = new System.Drawing.Size(250, 68);
             this.no_gradient_hitbox.TabIndex = 246;
             // 
             // custom_ck
@@ -2576,7 +2576,7 @@ namespace plt0_gui
             this.custom_label.Margin = new System.Windows.Forms.Padding(0);
             this.custom_label.Name = "custom_label";
             this.custom_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.custom_label.Size = new System.Drawing.Size(143, 64);
+            this.custom_label.Size = new System.Drawing.Size(174, 64);
             this.custom_label.TabIndex = 242;
             this.custom_label.Text = "Custom RGBA";
             // 
@@ -2590,7 +2590,7 @@ namespace plt0_gui
             this.custom_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.custom_hitbox.Name = "custom_hitbox";
             this.custom_hitbox.Padding = new System.Windows.Forms.Padding(250, 48, 0, 0);
-            this.custom_hitbox.Size = new System.Drawing.Size(250, 64);
+            this.custom_hitbox.Size = new System.Drawing.Size(250, 68);
             this.custom_hitbox.TabIndex = 243;
             // 
             // cie_709_ck
@@ -2617,7 +2617,7 @@ namespace plt0_gui
             this.cie_709_label.Margin = new System.Windows.Forms.Padding(0);
             this.cie_709_label.Name = "cie_709_label";
             this.cie_709_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.cie_709_label.Size = new System.Drawing.Size(81, 64);
+            this.cie_709_label.Size = new System.Drawing.Size(105, 64);
             this.cie_709_label.TabIndex = 239;
             this.cie_709_label.Text = "CIE 709";
             // 
@@ -2631,7 +2631,7 @@ namespace plt0_gui
             this.cie_709_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.cie_709_hitbox.Name = "cie_709_hitbox";
             this.cie_709_hitbox.Padding = new System.Windows.Forms.Padding(250, 48, 0, 0);
-            this.cie_709_hitbox.Size = new System.Drawing.Size(250, 64);
+            this.cie_709_hitbox.Size = new System.Drawing.Size(250, 68);
             this.cie_709_hitbox.TabIndex = 240;
             // 
             // cie_601_ck
@@ -2658,9 +2658,12 @@ namespace plt0_gui
             this.cie_601_label.Margin = new System.Windows.Forms.Padding(0);
             this.cie_601_label.Name = "cie_601_label";
             this.cie_601_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.cie_601_label.Size = new System.Drawing.Size(74, 64);
+            this.cie_601_label.Size = new System.Drawing.Size(105, 64);
             this.cie_601_label.TabIndex = 236;
             this.cie_601_label.Text = "CIE 601";
+            this.cie_601_label.Click += new System.EventHandler(this.Cie_601_Click);
+            this.cie_601_label.MouseEnter += new System.EventHandler(this.Cie_601_MouseEnter);
+            this.cie_601_label.MouseLeave += new System.EventHandler(this.Cie_601_MouseLeave);
             // 
             // cie_601_hitbox
             // 
@@ -2672,8 +2675,11 @@ namespace plt0_gui
             this.cie_601_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.cie_601_hitbox.Name = "cie_601_hitbox";
             this.cie_601_hitbox.Padding = new System.Windows.Forms.Padding(250, 48, 0, 0);
-            this.cie_601_hitbox.Size = new System.Drawing.Size(250, 64);
+            this.cie_601_hitbox.Size = new System.Drawing.Size(250, 68);
             this.cie_601_hitbox.TabIndex = 237;
+            this.cie_601_hitbox.Click += new System.EventHandler(this.Cie_601_Click);
+            this.cie_601_hitbox.MouseEnter += new System.EventHandler(this.Cie_601_MouseEnter);
+            this.cie_601_hitbox.MouseLeave += new System.EventHandler(this.Cie_601_MouseLeave);
             // 
             // algorithm_label
             // 
@@ -2683,7 +2689,7 @@ namespace plt0_gui
             this.algorithm_label.ForeColor = System.Drawing.SystemColors.Control;
             this.algorithm_label.Location = new System.Drawing.Point(541, 84);
             this.algorithm_label.Name = "algorithm_label";
-            this.algorithm_label.Size = new System.Drawing.Size(97, 20);
+            this.algorithm_label.Size = new System.Drawing.Size(119, 20);
             this.algorithm_label.TabIndex = 235;
             this.algorithm_label.Text = "Algorithm";
             // 
@@ -2711,7 +2717,7 @@ namespace plt0_gui
             this.mix_label.Margin = new System.Windows.Forms.Padding(0);
             this.mix_label.Name = "mix_label";
             this.mix_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.mix_label.Size = new System.Drawing.Size(40, 64);
+            this.mix_label.Size = new System.Drawing.Size(47, 64);
             this.mix_label.TabIndex = 255;
             this.mix_label.Text = "Mix";
             // 
@@ -2725,7 +2731,7 @@ namespace plt0_gui
             this.mix_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.mix_hitbox.Name = "mix_hitbox";
             this.mix_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
-            this.mix_hitbox.Size = new System.Drawing.Size(190, 64);
+            this.mix_hitbox.Size = new System.Drawing.Size(190, 68);
             this.mix_hitbox.TabIndex = 256;
             // 
             // alpha_ck
@@ -2752,7 +2758,7 @@ namespace plt0_gui
             this.alpha_label.Margin = new System.Windows.Forms.Padding(0);
             this.alpha_label.Name = "alpha_label";
             this.alpha_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.alpha_label.Size = new System.Drawing.Size(61, 64);
+            this.alpha_label.Size = new System.Drawing.Size(74, 64);
             this.alpha_label.TabIndex = 252;
             this.alpha_label.Text = "Alpha";
             // 
@@ -2766,7 +2772,7 @@ namespace plt0_gui
             this.alpha_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.alpha_hitbox.Name = "alpha_hitbox";
             this.alpha_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
-            this.alpha_hitbox.Size = new System.Drawing.Size(190, 64);
+            this.alpha_hitbox.Size = new System.Drawing.Size(190, 68);
             this.alpha_hitbox.TabIndex = 253;
             // 
             // no_alpha_ck
@@ -2793,7 +2799,7 @@ namespace plt0_gui
             this.no_alpha_label.Margin = new System.Windows.Forms.Padding(0);
             this.no_alpha_label.Name = "no_alpha_label";
             this.no_alpha_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.no_alpha_label.Size = new System.Drawing.Size(93, 64);
+            this.no_alpha_label.Size = new System.Drawing.Size(115, 64);
             this.no_alpha_label.TabIndex = 249;
             this.no_alpha_label.Text = "No Alpha";
             // 
@@ -2807,7 +2813,7 @@ namespace plt0_gui
             this.no_alpha_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.no_alpha_hitbox.Name = "no_alpha_hitbox";
             this.no_alpha_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
-            this.no_alpha_hitbox.Size = new System.Drawing.Size(190, 64);
+            this.no_alpha_hitbox.Size = new System.Drawing.Size(190, 68);
             this.no_alpha_hitbox.TabIndex = 250;
             // 
             // alpha_title
@@ -2818,7 +2824,7 @@ namespace plt0_gui
             this.alpha_title.ForeColor = System.Drawing.SystemColors.Control;
             this.alpha_title.Location = new System.Drawing.Point(541, 404);
             this.alpha_title.Name = "alpha_title";
-            this.alpha_title.Size = new System.Drawing.Size(61, 20);
+            this.alpha_title.Size = new System.Drawing.Size(74, 20);
             this.alpha_title.TabIndex = 248;
             this.alpha_title.Text = "Alpha";
             // 
@@ -2846,7 +2852,7 @@ namespace plt0_gui
             this.Tmirror_label.Margin = new System.Windows.Forms.Padding(0);
             this.Tmirror_label.Name = "Tmirror_label";
             this.Tmirror_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.Tmirror_label.Size = new System.Drawing.Size(65, 64);
+            this.Tmirror_label.Size = new System.Drawing.Size(78, 64);
             this.Tmirror_label.TabIndex = 265;
             this.Tmirror_label.Text = "Mirror";
             // 
@@ -2860,7 +2866,7 @@ namespace plt0_gui
             this.Tmirror_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.Tmirror_hitbox.Name = "Tmirror_hitbox";
             this.Tmirror_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
-            this.Tmirror_hitbox.Size = new System.Drawing.Size(190, 64);
+            this.Tmirror_hitbox.Size = new System.Drawing.Size(190, 68);
             this.Tmirror_hitbox.TabIndex = 266;
             // 
             // Trepeat_ck
@@ -2887,7 +2893,7 @@ namespace plt0_gui
             this.Trepeat_label.Margin = new System.Windows.Forms.Padding(0);
             this.Trepeat_label.Name = "Trepeat_label";
             this.Trepeat_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.Trepeat_label.Size = new System.Drawing.Size(75, 64);
+            this.Trepeat_label.Size = new System.Drawing.Size(92, 64);
             this.Trepeat_label.TabIndex = 262;
             this.Trepeat_label.Text = "Repeat";
             // 
@@ -2901,7 +2907,7 @@ namespace plt0_gui
             this.Trepeat_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.Trepeat_hitbox.Name = "Trepeat_hitbox";
             this.Trepeat_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
-            this.Trepeat_hitbox.Size = new System.Drawing.Size(190, 64);
+            this.Trepeat_hitbox.Size = new System.Drawing.Size(190, 68);
             this.Trepeat_hitbox.TabIndex = 263;
             // 
             // Tclamp_ck
@@ -2928,7 +2934,7 @@ namespace plt0_gui
             this.Tclamp_label.Margin = new System.Windows.Forms.Padding(0);
             this.Tclamp_label.Name = "Tclamp_label";
             this.Tclamp_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.Tclamp_label.Size = new System.Drawing.Size(66, 64);
+            this.Tclamp_label.Size = new System.Drawing.Size(80, 64);
             this.Tclamp_label.TabIndex = 259;
             this.Tclamp_label.Text = "Clamp";
             // 
@@ -2942,7 +2948,7 @@ namespace plt0_gui
             this.Tclamp_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.Tclamp_hitbox.Name = "Tclamp_hitbox";
             this.Tclamp_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
-            this.Tclamp_hitbox.Size = new System.Drawing.Size(190, 64);
+            this.Tclamp_hitbox.Size = new System.Drawing.Size(190, 68);
             this.Tclamp_hitbox.TabIndex = 260;
             // 
             // WrapT_label
@@ -2953,7 +2959,7 @@ namespace plt0_gui
             this.WrapT_label.ForeColor = System.Drawing.SystemColors.Control;
             this.WrapT_label.Location = new System.Drawing.Point(921, 405);
             this.WrapT_label.Name = "WrapT_label";
-            this.WrapT_label.Size = new System.Drawing.Size(68, 20);
+            this.WrapT_label.Size = new System.Drawing.Size(83, 20);
             this.WrapT_label.TabIndex = 258;
             this.WrapT_label.Text = "WrapT";
             // 
@@ -2981,7 +2987,7 @@ namespace plt0_gui
             this.Smirror_label.Margin = new System.Windows.Forms.Padding(0);
             this.Smirror_label.Name = "Smirror_label";
             this.Smirror_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.Smirror_label.Size = new System.Drawing.Size(65, 64);
+            this.Smirror_label.Size = new System.Drawing.Size(78, 64);
             this.Smirror_label.TabIndex = 275;
             this.Smirror_label.Text = "Mirror";
             // 
@@ -2995,7 +3001,7 @@ namespace plt0_gui
             this.Smirror_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.Smirror_hitbox.Name = "Smirror_hitbox";
             this.Smirror_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
-            this.Smirror_hitbox.Size = new System.Drawing.Size(190, 64);
+            this.Smirror_hitbox.Size = new System.Drawing.Size(190, 68);
             this.Smirror_hitbox.TabIndex = 276;
             // 
             // Srepeat_ck
@@ -3022,7 +3028,7 @@ namespace plt0_gui
             this.Srepeat_label.Margin = new System.Windows.Forms.Padding(0);
             this.Srepeat_label.Name = "Srepeat_label";
             this.Srepeat_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.Srepeat_label.Size = new System.Drawing.Size(75, 64);
+            this.Srepeat_label.Size = new System.Drawing.Size(92, 64);
             this.Srepeat_label.TabIndex = 272;
             this.Srepeat_label.Text = "Repeat";
             // 
@@ -3036,7 +3042,7 @@ namespace plt0_gui
             this.Srepeat_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.Srepeat_hitbox.Name = "Srepeat_hitbox";
             this.Srepeat_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
-            this.Srepeat_hitbox.Size = new System.Drawing.Size(190, 64);
+            this.Srepeat_hitbox.Size = new System.Drawing.Size(190, 68);
             this.Srepeat_hitbox.TabIndex = 273;
             // 
             // Sclamp_ck
@@ -3063,7 +3069,7 @@ namespace plt0_gui
             this.Sclamp_label.Margin = new System.Windows.Forms.Padding(0);
             this.Sclamp_label.Name = "Sclamp_label";
             this.Sclamp_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.Sclamp_label.Size = new System.Drawing.Size(66, 64);
+            this.Sclamp_label.Size = new System.Drawing.Size(80, 64);
             this.Sclamp_label.TabIndex = 269;
             this.Sclamp_label.Text = "Clamp";
             // 
@@ -3077,7 +3083,7 @@ namespace plt0_gui
             this.Sclamp_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.Sclamp_hitbox.Name = "Sclamp_hitbox";
             this.Sclamp_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
-            this.Sclamp_hitbox.Size = new System.Drawing.Size(190, 64);
+            this.Sclamp_hitbox.Size = new System.Drawing.Size(190, 68);
             this.Sclamp_hitbox.TabIndex = 270;
             // 
             // WrapS_label
@@ -3088,7 +3094,7 @@ namespace plt0_gui
             this.WrapS_label.ForeColor = System.Drawing.SystemColors.Control;
             this.WrapS_label.Location = new System.Drawing.Point(921, 85);
             this.WrapS_label.Name = "WrapS_label";
-            this.WrapS_label.Size = new System.Drawing.Size(68, 20);
+            this.WrapS_label.Size = new System.Drawing.Size(83, 20);
             this.WrapS_label.TabIndex = 268;
             this.WrapS_label.Text = "WrapS";
             // 
@@ -3100,7 +3106,7 @@ namespace plt0_gui
             this.magnification_label.ForeColor = System.Drawing.SystemColors.Control;
             this.magnification_label.Location = new System.Drawing.Point(892, 661);
             this.magnification_label.Name = "magnification_label";
-            this.magnification_label.Size = new System.Drawing.Size(182, 20);
+            this.magnification_label.Size = new System.Drawing.Size(225, 20);
             this.magnification_label.TabIndex = 291;
             this.magnification_label.Text = "Magnification filter";
             // 
@@ -3112,7 +3118,7 @@ namespace plt0_gui
             this.minification_label.ForeColor = System.Drawing.SystemColors.Control;
             this.minification_label.Location = new System.Drawing.Point(519, 661);
             this.minification_label.Name = "minification_label";
-            this.minification_label.Size = new System.Drawing.Size(166, 20);
+            this.minification_label.Size = new System.Drawing.Size(202, 20);
             this.minification_label.TabIndex = 278;
             this.minification_label.Text = "Minification filter";
             // 
@@ -3140,7 +3146,7 @@ namespace plt0_gui
             this.min_linearmipmaplinear_label.Margin = new System.Windows.Forms.Padding(0);
             this.min_linearmipmaplinear_label.Name = "min_linearmipmaplinear_label";
             this.min_linearmipmaplinear_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.min_linearmipmaplinear_label.Size = new System.Drawing.Size(195, 64);
+            this.min_linearmipmaplinear_label.Size = new System.Drawing.Size(240, 64);
             this.min_linearmipmaplinear_label.TabIndex = 322;
             this.min_linearmipmaplinear_label.Text = "LinearMipmapLinear";
             // 
@@ -3154,7 +3160,7 @@ namespace plt0_gui
             this.min_linearmipmaplinear_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.min_linearmipmaplinear_hitbox.Name = "min_linearmipmaplinear_hitbox";
             this.min_linearmipmaplinear_hitbox.Padding = new System.Windows.Forms.Padding(350, 48, 0, 0);
-            this.min_linearmipmaplinear_hitbox.Size = new System.Drawing.Size(350, 64);
+            this.min_linearmipmaplinear_hitbox.Size = new System.Drawing.Size(350, 68);
             this.min_linearmipmaplinear_hitbox.TabIndex = 323;
             // 
             // min_linearmipmapnearest_ck
@@ -3181,7 +3187,7 @@ namespace plt0_gui
             this.min_linearmipmapnearest_label.Margin = new System.Windows.Forms.Padding(0);
             this.min_linearmipmapnearest_label.Name = "min_linearmipmapnearest_label";
             this.min_linearmipmapnearest_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.min_linearmipmapnearest_label.Size = new System.Drawing.Size(224, 64);
+            this.min_linearmipmapnearest_label.Size = new System.Drawing.Size(280, 64);
             this.min_linearmipmapnearest_label.TabIndex = 319;
             this.min_linearmipmapnearest_label.Text = "LinearMipmapNearest  ";
             // 
@@ -3195,7 +3201,7 @@ namespace plt0_gui
             this.min_linearmipmapnearest_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.min_linearmipmapnearest_hitbox.Name = "min_linearmipmapnearest_hitbox";
             this.min_linearmipmapnearest_hitbox.Padding = new System.Windows.Forms.Padding(350, 48, 0, 0);
-            this.min_linearmipmapnearest_hitbox.Size = new System.Drawing.Size(350, 64);
+            this.min_linearmipmapnearest_hitbox.Size = new System.Drawing.Size(350, 68);
             this.min_linearmipmapnearest_hitbox.TabIndex = 320;
             // 
             // min_nearestmipmaplinear_ck
@@ -3222,7 +3228,7 @@ namespace plt0_gui
             this.min_nearestmipmaplinear_label.Margin = new System.Windows.Forms.Padding(0);
             this.min_nearestmipmaplinear_label.Name = "min_nearestmipmaplinear_label";
             this.min_nearestmipmaplinear_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.min_nearestmipmaplinear_label.Size = new System.Drawing.Size(224, 64);
+            this.min_nearestmipmaplinear_label.Size = new System.Drawing.Size(280, 64);
             this.min_nearestmipmaplinear_label.TabIndex = 316;
             this.min_nearestmipmaplinear_label.Text = "NearestMipmapLinear  ";
             // 
@@ -3236,7 +3242,7 @@ namespace plt0_gui
             this.min_nearestmipmaplinear_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.min_nearestmipmaplinear_hitbox.Name = "min_nearestmipmaplinear_hitbox";
             this.min_nearestmipmaplinear_hitbox.Padding = new System.Windows.Forms.Padding(350, 48, 0, 0);
-            this.min_nearestmipmaplinear_hitbox.Size = new System.Drawing.Size(350, 64);
+            this.min_nearestmipmaplinear_hitbox.Size = new System.Drawing.Size(350, 68);
             this.min_nearestmipmaplinear_hitbox.TabIndex = 317;
             // 
             // min_nearestmipmapnearest_ck
@@ -3263,7 +3269,7 @@ namespace plt0_gui
             this.min_nearestmipmapnearest_label.Margin = new System.Windows.Forms.Padding(0);
             this.min_nearestmipmapnearest_label.Name = "min_nearestmipmapnearest_label";
             this.min_nearestmipmapnearest_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.min_nearestmipmapnearest_label.Size = new System.Drawing.Size(232, 64);
+            this.min_nearestmipmapnearest_label.Size = new System.Drawing.Size(290, 64);
             this.min_nearestmipmapnearest_label.TabIndex = 313;
             this.min_nearestmipmapnearest_label.Text = "NearestMipmapNearest ";
             // 
@@ -3277,7 +3283,7 @@ namespace plt0_gui
             this.min_nearestmipmapnearest_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.min_nearestmipmapnearest_hitbox.Name = "min_nearestmipmapnearest_hitbox";
             this.min_nearestmipmapnearest_hitbox.Padding = new System.Windows.Forms.Padding(350, 48, 0, 0);
-            this.min_nearestmipmapnearest_hitbox.Size = new System.Drawing.Size(350, 64);
+            this.min_nearestmipmapnearest_hitbox.Size = new System.Drawing.Size(350, 68);
             this.min_nearestmipmapnearest_hitbox.TabIndex = 314;
             // 
             // min_linear_ck
@@ -3304,7 +3310,7 @@ namespace plt0_gui
             this.min_linear_label.Margin = new System.Windows.Forms.Padding(0);
             this.min_linear_label.Name = "min_linear_label";
             this.min_linear_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.min_linear_label.Size = new System.Drawing.Size(67, 64);
+            this.min_linear_label.Size = new System.Drawing.Size(81, 64);
             this.min_linear_label.TabIndex = 310;
             this.min_linear_label.Text = "Linear";
             // 
@@ -3318,7 +3324,7 @@ namespace plt0_gui
             this.min_linear_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.min_linear_hitbox.Name = "min_linear_hitbox";
             this.min_linear_hitbox.Padding = new System.Windows.Forms.Padding(350, 48, 0, 0);
-            this.min_linear_hitbox.Size = new System.Drawing.Size(350, 64);
+            this.min_linear_hitbox.Size = new System.Drawing.Size(350, 68);
             this.min_linear_hitbox.TabIndex = 311;
             // 
             // min_nearest_neighbour_ck
@@ -3345,7 +3351,7 @@ namespace plt0_gui
             this.min_nearest_neighbour_label.Margin = new System.Windows.Forms.Padding(0);
             this.min_nearest_neighbour_label.Name = "min_nearest_neighbour_label";
             this.min_nearest_neighbour_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.min_nearest_neighbour_label.Size = new System.Drawing.Size(181, 64);
+            this.min_nearest_neighbour_label.Size = new System.Drawing.Size(227, 64);
             this.min_nearest_neighbour_label.TabIndex = 307;
             this.min_nearest_neighbour_label.Text = "Nearest Neighbour";
             // 
@@ -3359,7 +3365,7 @@ namespace plt0_gui
             this.min_nearest_neighbour_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.min_nearest_neighbour_hitbox.Name = "min_nearest_neighbour_hitbox";
             this.min_nearest_neighbour_hitbox.Padding = new System.Windows.Forms.Padding(350, 48, 0, 0);
-            this.min_nearest_neighbour_hitbox.Size = new System.Drawing.Size(350, 64);
+            this.min_nearest_neighbour_hitbox.Size = new System.Drawing.Size(350, 68);
             this.min_nearest_neighbour_hitbox.TabIndex = 308;
             // 
             // mag_linearmipmaplinear_ck
@@ -3386,7 +3392,7 @@ namespace plt0_gui
             this.mag_linearmipmaplinear_label.Margin = new System.Windows.Forms.Padding(0);
             this.mag_linearmipmaplinear_label.Name = "mag_linearmipmaplinear_label";
             this.mag_linearmipmaplinear_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.mag_linearmipmaplinear_label.Size = new System.Drawing.Size(195, 64);
+            this.mag_linearmipmaplinear_label.Size = new System.Drawing.Size(240, 64);
             this.mag_linearmipmaplinear_label.TabIndex = 340;
             this.mag_linearmipmaplinear_label.Text = "LinearMipmapLinear";
             // 
@@ -3400,7 +3406,7 @@ namespace plt0_gui
             this.mag_linearmipmaplinear_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.mag_linearmipmaplinear_hitbox.Name = "mag_linearmipmaplinear_hitbox";
             this.mag_linearmipmaplinear_hitbox.Padding = new System.Windows.Forms.Padding(350, 48, 0, 0);
-            this.mag_linearmipmaplinear_hitbox.Size = new System.Drawing.Size(350, 64);
+            this.mag_linearmipmaplinear_hitbox.Size = new System.Drawing.Size(350, 68);
             this.mag_linearmipmaplinear_hitbox.TabIndex = 341;
             // 
             // mag_linearmipmapnearest_ck
@@ -3427,7 +3433,7 @@ namespace plt0_gui
             this.mag_linearmipmapnearest_label.Margin = new System.Windows.Forms.Padding(0);
             this.mag_linearmipmapnearest_label.Name = "mag_linearmipmapnearest_label";
             this.mag_linearmipmapnearest_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.mag_linearmipmapnearest_label.Size = new System.Drawing.Size(224, 64);
+            this.mag_linearmipmapnearest_label.Size = new System.Drawing.Size(280, 64);
             this.mag_linearmipmapnearest_label.TabIndex = 337;
             this.mag_linearmipmapnearest_label.Text = "LinearMipmapNearest  ";
             // 
@@ -3441,7 +3447,7 @@ namespace plt0_gui
             this.mag_linearmipmapnearest_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.mag_linearmipmapnearest_hitbox.Name = "mag_linearmipmapnearest_hitbox";
             this.mag_linearmipmapnearest_hitbox.Padding = new System.Windows.Forms.Padding(350, 48, 0, 0);
-            this.mag_linearmipmapnearest_hitbox.Size = new System.Drawing.Size(350, 64);
+            this.mag_linearmipmapnearest_hitbox.Size = new System.Drawing.Size(350, 68);
             this.mag_linearmipmapnearest_hitbox.TabIndex = 338;
             // 
             // mag_nearestmipmaplinear_ck
@@ -3468,7 +3474,7 @@ namespace plt0_gui
             this.mag_nearestmipmaplinear_label.Margin = new System.Windows.Forms.Padding(0);
             this.mag_nearestmipmaplinear_label.Name = "mag_nearestmipmaplinear_label";
             this.mag_nearestmipmaplinear_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.mag_nearestmipmaplinear_label.Size = new System.Drawing.Size(224, 64);
+            this.mag_nearestmipmaplinear_label.Size = new System.Drawing.Size(280, 64);
             this.mag_nearestmipmaplinear_label.TabIndex = 334;
             this.mag_nearestmipmaplinear_label.Text = "NearestMipmapLinear  ";
             // 
@@ -3482,7 +3488,7 @@ namespace plt0_gui
             this.mag_nearestmipmaplinear_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.mag_nearestmipmaplinear_hitbox.Name = "mag_nearestmipmaplinear_hitbox";
             this.mag_nearestmipmaplinear_hitbox.Padding = new System.Windows.Forms.Padding(350, 48, 0, 0);
-            this.mag_nearestmipmaplinear_hitbox.Size = new System.Drawing.Size(350, 64);
+            this.mag_nearestmipmaplinear_hitbox.Size = new System.Drawing.Size(350, 68);
             this.mag_nearestmipmaplinear_hitbox.TabIndex = 335;
             // 
             // mag_nearestmipmapnearest_ck
@@ -3509,7 +3515,7 @@ namespace plt0_gui
             this.mag_nearestmipmapnearest_label.Margin = new System.Windows.Forms.Padding(0);
             this.mag_nearestmipmapnearest_label.Name = "mag_nearestmipmapnearest_label";
             this.mag_nearestmipmapnearest_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.mag_nearestmipmapnearest_label.Size = new System.Drawing.Size(232, 64);
+            this.mag_nearestmipmapnearest_label.Size = new System.Drawing.Size(290, 64);
             this.mag_nearestmipmapnearest_label.TabIndex = 331;
             this.mag_nearestmipmapnearest_label.Text = "NearestMipmapNearest ";
             // 
@@ -3523,7 +3529,7 @@ namespace plt0_gui
             this.mag_nearestmipmapnearest_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.mag_nearestmipmapnearest_hitbox.Name = "mag_nearestmipmapnearest_hitbox";
             this.mag_nearestmipmapnearest_hitbox.Padding = new System.Windows.Forms.Padding(350, 48, 0, 0);
-            this.mag_nearestmipmapnearest_hitbox.Size = new System.Drawing.Size(350, 64);
+            this.mag_nearestmipmapnearest_hitbox.Size = new System.Drawing.Size(350, 68);
             this.mag_nearestmipmapnearest_hitbox.TabIndex = 332;
             // 
             // mag_linear_ck
@@ -3550,7 +3556,7 @@ namespace plt0_gui
             this.mag_linear_label.Margin = new System.Windows.Forms.Padding(0);
             this.mag_linear_label.Name = "mag_linear_label";
             this.mag_linear_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.mag_linear_label.Size = new System.Drawing.Size(67, 64);
+            this.mag_linear_label.Size = new System.Drawing.Size(81, 64);
             this.mag_linear_label.TabIndex = 328;
             this.mag_linear_label.Text = "Linear";
             // 
@@ -3564,7 +3570,7 @@ namespace plt0_gui
             this.mag_linear_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.mag_linear_hitbox.Name = "mag_linear_hitbox";
             this.mag_linear_hitbox.Padding = new System.Windows.Forms.Padding(350, 48, 0, 0);
-            this.mag_linear_hitbox.Size = new System.Drawing.Size(350, 64);
+            this.mag_linear_hitbox.Size = new System.Drawing.Size(350, 68);
             this.mag_linear_hitbox.TabIndex = 329;
             // 
             // mag_nearest_neighbour_ck
@@ -3591,7 +3597,7 @@ namespace plt0_gui
             this.mag_nearest_neighbour_label.Margin = new System.Windows.Forms.Padding(0);
             this.mag_nearest_neighbour_label.Name = "mag_nearest_neighbour_label";
             this.mag_nearest_neighbour_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.mag_nearest_neighbour_label.Size = new System.Drawing.Size(181, 64);
+            this.mag_nearest_neighbour_label.Size = new System.Drawing.Size(227, 64);
             this.mag_nearest_neighbour_label.TabIndex = 325;
             this.mag_nearest_neighbour_label.Text = "Nearest Neighbour";
             // 
@@ -3605,7 +3611,7 @@ namespace plt0_gui
             this.mag_nearest_neighbour_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.mag_nearest_neighbour_hitbox.Name = "mag_nearest_neighbour_hitbox";
             this.mag_nearest_neighbour_hitbox.Padding = new System.Windows.Forms.Padding(350, 48, 0, 0);
-            this.mag_nearest_neighbour_hitbox.Size = new System.Drawing.Size(350, 64);
+            this.mag_nearest_neighbour_hitbox.Size = new System.Drawing.Size(350, 68);
             this.mag_nearest_neighbour_hitbox.TabIndex = 326;
             // 
             // r_r_ck
@@ -3840,7 +3846,7 @@ namespace plt0_gui
             this.colour_channels_label.ForeColor = System.Drawing.SystemColors.Control;
             this.colour_channels_label.Location = new System.Drawing.Point(1306, 783);
             this.colour_channels_label.Name = "colour_channels_label";
-            this.colour_channels_label.Size = new System.Drawing.Size(160, 20);
+            this.colour_channels_label.Size = new System.Drawing.Size(200, 20);
             this.colour_channels_label.TabIndex = 359;
             this.colour_channels_label.Text = "Colour Channels";
             // 
@@ -3854,7 +3860,7 @@ namespace plt0_gui
             this.r_r_ck_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.r_r_ck_hitbox.Name = "r_r_ck_hitbox";
             this.r_r_ck_hitbox.Padding = new System.Windows.Forms.Padding(64, 48, 0, 0);
-            this.r_r_ck_hitbox.Size = new System.Drawing.Size(64, 64);
+            this.r_r_ck_hitbox.Size = new System.Drawing.Size(64, 68);
             this.r_r_ck_hitbox.TabIndex = 360;
             // 
             // g_r_ck_hitbox
@@ -3867,7 +3873,7 @@ namespace plt0_gui
             this.g_r_ck_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.g_r_ck_hitbox.Name = "g_r_ck_hitbox";
             this.g_r_ck_hitbox.Padding = new System.Windows.Forms.Padding(64, 48, 0, 0);
-            this.g_r_ck_hitbox.Size = new System.Drawing.Size(64, 64);
+            this.g_r_ck_hitbox.Size = new System.Drawing.Size(64, 68);
             this.g_r_ck_hitbox.TabIndex = 361;
             // 
             // a_a_ck_hitbox
@@ -3880,7 +3886,7 @@ namespace plt0_gui
             this.a_a_ck_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.a_a_ck_hitbox.Name = "a_a_ck_hitbox";
             this.a_a_ck_hitbox.Padding = new System.Windows.Forms.Padding(64, 48, 0, 0);
-            this.a_a_ck_hitbox.Size = new System.Drawing.Size(64, 64);
+            this.a_a_ck_hitbox.Size = new System.Drawing.Size(64, 68);
             this.a_a_ck_hitbox.TabIndex = 362;
             // 
             // r_g_ck_hitbox
@@ -3893,7 +3899,7 @@ namespace plt0_gui
             this.r_g_ck_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.r_g_ck_hitbox.Name = "r_g_ck_hitbox";
             this.r_g_ck_hitbox.Padding = new System.Windows.Forms.Padding(64, 48, 0, 0);
-            this.r_g_ck_hitbox.Size = new System.Drawing.Size(64, 64);
+            this.r_g_ck_hitbox.Size = new System.Drawing.Size(64, 68);
             this.r_g_ck_hitbox.TabIndex = 363;
             // 
             // r_b_ck_hitbox
@@ -3906,7 +3912,7 @@ namespace plt0_gui
             this.r_b_ck_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.r_b_ck_hitbox.Name = "r_b_ck_hitbox";
             this.r_b_ck_hitbox.Padding = new System.Windows.Forms.Padding(64, 48, 0, 0);
-            this.r_b_ck_hitbox.Size = new System.Drawing.Size(64, 64);
+            this.r_b_ck_hitbox.Size = new System.Drawing.Size(64, 68);
             this.r_b_ck_hitbox.TabIndex = 364;
             // 
             // r_a_ck_hitbox
@@ -3919,7 +3925,7 @@ namespace plt0_gui
             this.r_a_ck_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.r_a_ck_hitbox.Name = "r_a_ck_hitbox";
             this.r_a_ck_hitbox.Padding = new System.Windows.Forms.Padding(64, 48, 0, 0);
-            this.r_a_ck_hitbox.Size = new System.Drawing.Size(64, 64);
+            this.r_a_ck_hitbox.Size = new System.Drawing.Size(64, 68);
             this.r_a_ck_hitbox.TabIndex = 365;
             // 
             // g_g_ck_hitbox
@@ -3932,7 +3938,7 @@ namespace plt0_gui
             this.g_g_ck_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.g_g_ck_hitbox.Name = "g_g_ck_hitbox";
             this.g_g_ck_hitbox.Padding = new System.Windows.Forms.Padding(64, 48, 0, 0);
-            this.g_g_ck_hitbox.Size = new System.Drawing.Size(64, 64);
+            this.g_g_ck_hitbox.Size = new System.Drawing.Size(64, 68);
             this.g_g_ck_hitbox.TabIndex = 366;
             // 
             // g_b_ck_hitbox
@@ -3945,7 +3951,7 @@ namespace plt0_gui
             this.g_b_ck_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.g_b_ck_hitbox.Name = "g_b_ck_hitbox";
             this.g_b_ck_hitbox.Padding = new System.Windows.Forms.Padding(64, 48, 0, 0);
-            this.g_b_ck_hitbox.Size = new System.Drawing.Size(64, 64);
+            this.g_b_ck_hitbox.Size = new System.Drawing.Size(64, 68);
             this.g_b_ck_hitbox.TabIndex = 367;
             // 
             // g_a_ck_hitbox
@@ -3958,7 +3964,7 @@ namespace plt0_gui
             this.g_a_ck_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.g_a_ck_hitbox.Name = "g_a_ck_hitbox";
             this.g_a_ck_hitbox.Padding = new System.Windows.Forms.Padding(64, 48, 0, 0);
-            this.g_a_ck_hitbox.Size = new System.Drawing.Size(64, 64);
+            this.g_a_ck_hitbox.Size = new System.Drawing.Size(64, 68);
             this.g_a_ck_hitbox.TabIndex = 368;
             // 
             // b_r_ck_hitbox
@@ -3971,7 +3977,7 @@ namespace plt0_gui
             this.b_r_ck_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.b_r_ck_hitbox.Name = "b_r_ck_hitbox";
             this.b_r_ck_hitbox.Padding = new System.Windows.Forms.Padding(64, 48, 0, 0);
-            this.b_r_ck_hitbox.Size = new System.Drawing.Size(64, 64);
+            this.b_r_ck_hitbox.Size = new System.Drawing.Size(64, 68);
             this.b_r_ck_hitbox.TabIndex = 369;
             // 
             // b_g_ck_hitbox
@@ -3984,7 +3990,7 @@ namespace plt0_gui
             this.b_g_ck_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.b_g_ck_hitbox.Name = "b_g_ck_hitbox";
             this.b_g_ck_hitbox.Padding = new System.Windows.Forms.Padding(64, 48, 0, 0);
-            this.b_g_ck_hitbox.Size = new System.Drawing.Size(64, 64);
+            this.b_g_ck_hitbox.Size = new System.Drawing.Size(64, 68);
             this.b_g_ck_hitbox.TabIndex = 370;
             // 
             // b_b_ck_hitbox
@@ -3997,7 +4003,7 @@ namespace plt0_gui
             this.b_b_ck_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.b_b_ck_hitbox.Name = "b_b_ck_hitbox";
             this.b_b_ck_hitbox.Padding = new System.Windows.Forms.Padding(64, 48, 0, 0);
-            this.b_b_ck_hitbox.Size = new System.Drawing.Size(64, 64);
+            this.b_b_ck_hitbox.Size = new System.Drawing.Size(64, 68);
             this.b_b_ck_hitbox.TabIndex = 371;
             // 
             // b_a_ck_hitbox
@@ -4010,7 +4016,7 @@ namespace plt0_gui
             this.b_a_ck_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.b_a_ck_hitbox.Name = "b_a_ck_hitbox";
             this.b_a_ck_hitbox.Padding = new System.Windows.Forms.Padding(64, 48, 0, 0);
-            this.b_a_ck_hitbox.Size = new System.Drawing.Size(64, 64);
+            this.b_a_ck_hitbox.Size = new System.Drawing.Size(64, 68);
             this.b_a_ck_hitbox.TabIndex = 372;
             // 
             // a_r_ck_hitbox
@@ -4023,7 +4029,7 @@ namespace plt0_gui
             this.a_r_ck_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.a_r_ck_hitbox.Name = "a_r_ck_hitbox";
             this.a_r_ck_hitbox.Padding = new System.Windows.Forms.Padding(64, 48, 0, 0);
-            this.a_r_ck_hitbox.Size = new System.Drawing.Size(64, 64);
+            this.a_r_ck_hitbox.Size = new System.Drawing.Size(64, 68);
             this.a_r_ck_hitbox.TabIndex = 373;
             // 
             // a_g_ck_hitbox
@@ -4036,7 +4042,7 @@ namespace plt0_gui
             this.a_g_ck_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.a_g_ck_hitbox.Name = "a_g_ck_hitbox";
             this.a_g_ck_hitbox.Padding = new System.Windows.Forms.Padding(64, 48, 0, 0);
-            this.a_g_ck_hitbox.Size = new System.Drawing.Size(64, 64);
+            this.a_g_ck_hitbox.Size = new System.Drawing.Size(64, 68);
             this.a_g_ck_hitbox.TabIndex = 374;
             // 
             // a_b_ck_hitbox
@@ -4049,7 +4055,7 @@ namespace plt0_gui
             this.a_b_ck_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.a_b_ck_hitbox.Name = "a_b_ck_hitbox";
             this.a_b_ck_hitbox.Padding = new System.Windows.Forms.Padding(64, 48, 0, 0);
-            this.a_b_ck_hitbox.Size = new System.Drawing.Size(64, 64);
+            this.a_b_ck_hitbox.Size = new System.Drawing.Size(64, 68);
             this.a_b_ck_hitbox.TabIndex = 375;
             // 
             // plt0_gui
@@ -4276,7 +4282,7 @@ namespace plt0_gui
             this.Controls.Add(this.a_g_ck_hitbox);
             this.Controls.Add(this.a_b_ck_hitbox);
             this.Controls.Add(this.a_a_ck_hitbox);
-            this.Font = new System.Drawing.Font("NintendoP_NewRodin DB", 15F, System.Drawing.FontStyle.Regular);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
