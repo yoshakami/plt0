@@ -4322,227 +4322,6 @@ namespace plt0_gui
 
         // generated checkbox behaviour code by the python script in the py folder
 
-
-        private void I4_Click(object sender, EventArgs e)
-        {
-            hover_encoding(encoding_ck[encoding]);
-            selected_encoding(i4_ck);
-            encoding = 0; // I4
-        }
-        private void I4_MouseEnter(object sender, EventArgs e)
-        {
-            if (encoding == 0)
-                selected_encoding(i4_ck);
-            else
-                hover_encoding(i4_ck);
-        }
-        private void I4_MouseLeave(object sender, EventArgs e)
-        {
-            if (encoding == 0)
-                checked_encoding(i4_ck);
-            else
-                unchecked_encoding(i4_ck);
-        }
-        private void I8_Click(object sender, EventArgs e)
-        {
-            hover_encoding(encoding_ck[encoding]);
-            selected_encoding(i8_ck);
-            encoding = 1; // I8
-        }
-        private void I8_MouseEnter(object sender, EventArgs e)
-        {
-            if (encoding == 1)
-                selected_encoding(i8_ck);
-            else
-                hover_encoding(i8_ck);
-        }
-        private void I8_MouseLeave(object sender, EventArgs e)
-        {
-            if (encoding == 1)
-                checked_encoding(i8_ck);
-            else
-                unchecked_encoding(i8_ck);
-        }
-        private void AI4_Click(object sender, EventArgs e)
-        {
-            hover_encoding(encoding_ck[encoding]);
-            selected_encoding(ai4_ck);
-            encoding = 2; // AI4
-        }
-        private void AI4_MouseEnter(object sender, EventArgs e)
-        {
-            if (encoding == 2)
-                selected_encoding(ai4_ck);
-            else
-                hover_encoding(ai4_ck);
-        }
-        private void AI4_MouseLeave(object sender, EventArgs e)
-        {
-            if (encoding == 2)
-                checked_encoding(ai4_ck);
-            else
-                unchecked_encoding(ai4_ck);
-        }
-        private void AI8_Click(object sender, EventArgs e)
-        {
-            hover_encoding(encoding_ck[encoding]);
-            selected_encoding(ai8_ck);
-            encoding = 3; // AI8
-        }
-        private void AI8_MouseEnter(object sender, EventArgs e)
-        {
-            if (encoding == 3)
-                selected_encoding(ai8_ck);
-            else
-                hover_encoding(ai8_ck);
-        }
-        private void AI8_MouseLeave(object sender, EventArgs e)
-        {
-            if (encoding == 3)
-                checked_encoding(ai8_ck);
-            else
-                unchecked_encoding(ai8_ck);
-        }
-        private void RGB565_Click(object sender, EventArgs e)
-        {
-            hover_encoding(encoding_ck[encoding]);
-            selected_encoding(rgb565_ck);
-            encoding = 4; // RGB565
-        }
-        private void RGB565_MouseEnter(object sender, EventArgs e)
-        {
-            if (encoding == 4)
-                selected_encoding(rgb565_ck);
-            else
-                hover_encoding(rgb565_ck);
-        }
-        private void RGB565_MouseLeave(object sender, EventArgs e)
-        {
-            if (encoding == 4)
-                checked_encoding(rgb565_ck);
-            else
-                unchecked_encoding(rgb565_ck);
-        }
-        private void RGB5A3_Click(object sender, EventArgs e)
-        {
-            hover_encoding(encoding_ck[encoding]);
-            selected_encoding(rgb5a3_ck);
-            encoding = 5; // RGB5A3
-        }
-        private void RGB5A3_MouseEnter(object sender, EventArgs e)
-        {
-            if (encoding == 5)
-                selected_encoding(rgb5a3_ck);
-            else
-                hover_encoding(rgb5a3_ck);
-        }
-        private void RGB5A3_MouseLeave(object sender, EventArgs e)
-        {
-            if (encoding == 5)
-                checked_encoding(rgb5a3_ck);
-            else
-                unchecked_encoding(rgb5a3_ck);
-        }
-        private void RGBA32_Click(object sender, EventArgs e)
-        {
-            hover_encoding(encoding_ck[encoding]);
-            selected_encoding(rgba32_ck);
-            encoding = 6; // RGBA32
-        }
-        private void RGBA32_MouseEnter(object sender, EventArgs e)
-        {
-            if (encoding == 6)
-                selected_encoding(rgba32_ck);
-            else
-                hover_encoding(rgba32_ck);
-        }
-        private void RGBA32_MouseLeave(object sender, EventArgs e)
-        {
-            if (encoding == 6)
-                checked_encoding(rgba32_ck);
-            else
-                unchecked_encoding(rgba32_ck);
-        }
-        private void CI4_Click(object sender, EventArgs e)
-        {
-            hover_encoding(encoding_ck[encoding]);
-            selected_encoding(ci4_ck);
-            encoding = 8; // CI4
-        }
-        private void CI4_MouseEnter(object sender, EventArgs e)
-        {
-            if (encoding == 8)
-                selected_encoding(ci4_ck);
-            else
-                hover_encoding(ci4_ck);
-        }
-        private void CI4_MouseLeave(object sender, EventArgs e)
-        {
-            if (encoding == 8)
-                checked_encoding(ci4_ck);
-            else
-                unchecked_encoding(ci4_ck);
-        }
-        private void CI8_Click(object sender, EventArgs e)
-        {
-            hover_encoding(encoding_ck[encoding]);
-            selected_encoding(ci8_ck);
-            encoding = 9; // CI8
-        }
-        private void CI8_MouseEnter(object sender, EventArgs e)
-        {
-            if (encoding == 9)
-                selected_encoding(ci8_ck);
-            else
-                hover_encoding(ci8_ck);
-        }
-        private void CI8_MouseLeave(object sender, EventArgs e)
-        {
-            if (encoding == 9)
-                checked_encoding(ci8_ck);
-            else
-                unchecked_encoding(ci8_ck);
-        }
-        private void CI14X2_Click(object sender, EventArgs e)
-        {
-            hover_encoding(encoding_ck[encoding]);
-            selected_encoding(ci14x2_ck);
-            encoding = 10; // CI14X2
-        }
-        private void CI14X2_MouseEnter(object sender, EventArgs e)
-        {
-            if (encoding == 10)
-                selected_encoding(ci14x2_ck);
-            else
-                hover_encoding(ci14x2_ck);
-        }
-        private void CI14X2_MouseLeave(object sender, EventArgs e)
-        {
-            if (encoding == 10)
-                checked_encoding(ci14x2_ck);
-            else
-                unchecked_encoding(ci14x2_ck);
-        }
-        private void CMPR_Click(object sender, EventArgs e)
-        {
-            hover_encoding(encoding_ck[encoding]);
-            selected_encoding(cmpr_ck);
-            encoding = 14; // CMPR
-        }
-        private void CMPR_MouseEnter(object sender, EventArgs e)
-        {
-            if (encoding == 14)
-                selected_encoding(cmpr_ck);
-            else
-                hover_encoding(cmpr_ck);
-        }
-        private void CMPR_MouseLeave(object sender, EventArgs e)
-        {
-            if (encoding == 14)
-                checked_encoding(cmpr_ck);
-            else
-                unchecked_encoding(cmpr_ck);
-        }
         private void bmd_Click(object sender, EventArgs e)
         {
             if (bmd)
@@ -5137,9 +4916,229 @@ namespace plt0_gui
             else
                 unchecked_checkbox(random_ck);
         }
+        private void I4_Click(object sender, EventArgs e)
+        {
+            unchecked_encoding(encoding_ck[encoding]);
+            selected_encoding(i4_ck);
+            encoding = 0; // I4
+        }
+        private void I4_MouseEnter(object sender, EventArgs e)
+        {
+            if (encoding == 0)
+                selected_encoding(i4_ck);
+            else
+                hover_encoding(i4_ck);
+        }
+        private void I4_MouseLeave(object sender, EventArgs e)
+        {
+            if (encoding == 0)
+                checked_encoding(i4_ck);
+            else
+                unchecked_encoding(i4_ck);
+        }
+        private void I8_Click(object sender, EventArgs e)
+        {
+            unchecked_encoding(encoding_ck[encoding]);
+            selected_encoding(i8_ck);
+            encoding = 1; // I8
+        }
+        private void I8_MouseEnter(object sender, EventArgs e)
+        {
+            if (encoding == 1)
+                selected_encoding(i8_ck);
+            else
+                hover_encoding(i8_ck);
+        }
+        private void I8_MouseLeave(object sender, EventArgs e)
+        {
+            if (encoding == 1)
+                checked_encoding(i8_ck);
+            else
+                unchecked_encoding(i8_ck);
+        }
+        private void AI4_Click(object sender, EventArgs e)
+        {
+            unchecked_encoding(encoding_ck[encoding]);
+            selected_encoding(ai4_ck);
+            encoding = 2; // AI4
+        }
+        private void AI4_MouseEnter(object sender, EventArgs e)
+        {
+            if (encoding == 2)
+                selected_encoding(ai4_ck);
+            else
+                hover_encoding(ai4_ck);
+        }
+        private void AI4_MouseLeave(object sender, EventArgs e)
+        {
+            if (encoding == 2)
+                checked_encoding(ai4_ck);
+            else
+                unchecked_encoding(ai4_ck);
+        }
+        private void AI8_Click(object sender, EventArgs e)
+        {
+            unchecked_encoding(encoding_ck[encoding]);
+            selected_encoding(ai8_ck);
+            encoding = 3; // AI8
+        }
+        private void AI8_MouseEnter(object sender, EventArgs e)
+        {
+            if (encoding == 3)
+                selected_encoding(ai8_ck);
+            else
+                hover_encoding(ai8_ck);
+        }
+        private void AI8_MouseLeave(object sender, EventArgs e)
+        {
+            if (encoding == 3)
+                checked_encoding(ai8_ck);
+            else
+                unchecked_encoding(ai8_ck);
+        }
+        private void RGB565_Click(object sender, EventArgs e)
+        {
+            unchecked_encoding(encoding_ck[encoding]);
+            selected_encoding(rgb565_ck);
+            encoding = 4; // RGB565
+        }
+        private void RGB565_MouseEnter(object sender, EventArgs e)
+        {
+            if (encoding == 4)
+                selected_encoding(rgb565_ck);
+            else
+                hover_encoding(rgb565_ck);
+        }
+        private void RGB565_MouseLeave(object sender, EventArgs e)
+        {
+            if (encoding == 4)
+                checked_encoding(rgb565_ck);
+            else
+                unchecked_encoding(rgb565_ck);
+        }
+        private void RGB5A3_Click(object sender, EventArgs e)
+        {
+            unchecked_encoding(encoding_ck[encoding]);
+            selected_encoding(rgb5a3_ck);
+            encoding = 5; // RGB5A3
+        }
+        private void RGB5A3_MouseEnter(object sender, EventArgs e)
+        {
+            if (encoding == 5)
+                selected_encoding(rgb5a3_ck);
+            else
+                hover_encoding(rgb5a3_ck);
+        }
+        private void RGB5A3_MouseLeave(object sender, EventArgs e)
+        {
+            if (encoding == 5)
+                checked_encoding(rgb5a3_ck);
+            else
+                unchecked_encoding(rgb5a3_ck);
+        }
+        private void RGBA32_Click(object sender, EventArgs e)
+        {
+            unchecked_encoding(encoding_ck[encoding]);
+            selected_encoding(rgba32_ck);
+            encoding = 6; // RGBA32
+        }
+        private void RGBA32_MouseEnter(object sender, EventArgs e)
+        {
+            if (encoding == 6)
+                selected_encoding(rgba32_ck);
+            else
+                hover_encoding(rgba32_ck);
+        }
+        private void RGBA32_MouseLeave(object sender, EventArgs e)
+        {
+            if (encoding == 6)
+                checked_encoding(rgba32_ck);
+            else
+                unchecked_encoding(rgba32_ck);
+        }
+        private void CI4_Click(object sender, EventArgs e)
+        {
+            unchecked_encoding(encoding_ck[encoding]);
+            selected_encoding(ci4_ck);
+            encoding = 8; // CI4
+        }
+        private void CI4_MouseEnter(object sender, EventArgs e)
+        {
+            if (encoding == 8)
+                selected_encoding(ci4_ck);
+            else
+                hover_encoding(ci4_ck);
+        }
+        private void CI4_MouseLeave(object sender, EventArgs e)
+        {
+            if (encoding == 8)
+                checked_encoding(ci4_ck);
+            else
+                unchecked_encoding(ci4_ck);
+        }
+        private void CI8_Click(object sender, EventArgs e)
+        {
+            unchecked_encoding(encoding_ck[encoding]);
+            selected_encoding(ci8_ck);
+            encoding = 9; // CI8
+        }
+        private void CI8_MouseEnter(object sender, EventArgs e)
+        {
+            if (encoding == 9)
+                selected_encoding(ci8_ck);
+            else
+                hover_encoding(ci8_ck);
+        }
+        private void CI8_MouseLeave(object sender, EventArgs e)
+        {
+            if (encoding == 9)
+                checked_encoding(ci8_ck);
+            else
+                unchecked_encoding(ci8_ck);
+        }
+        private void CI14X2_Click(object sender, EventArgs e)
+        {
+            unchecked_encoding(encoding_ck[encoding]);
+            selected_encoding(ci14x2_ck);
+            encoding = 10; // CI14X2
+        }
+        private void CI14X2_MouseEnter(object sender, EventArgs e)
+        {
+            if (encoding == 10)
+                selected_encoding(ci14x2_ck);
+            else
+                hover_encoding(ci14x2_ck);
+        }
+        private void CI14X2_MouseLeave(object sender, EventArgs e)
+        {
+            if (encoding == 10)
+                checked_encoding(ci14x2_ck);
+            else
+                unchecked_encoding(ci14x2_ck);
+        }
+        private void CMPR_Click(object sender, EventArgs e)
+        {
+            unchecked_encoding(encoding_ck[encoding]);
+            selected_encoding(cmpr_ck);
+            encoding = 14; // CMPR
+        }
+        private void CMPR_MouseEnter(object sender, EventArgs e)
+        {
+            if (encoding == 14)
+                selected_encoding(cmpr_ck);
+            else
+                hover_encoding(cmpr_ck);
+        }
+        private void CMPR_MouseLeave(object sender, EventArgs e)
+        {
+            if (encoding == 14)
+                checked_encoding(cmpr_ck);
+            else
+                unchecked_encoding(cmpr_ck);
+        }
         private void Cie_601_Click(object sender, EventArgs e)
         {
-            hover_algorithm(algorithm_ck[algorithm]);
+            unchecked_algorithm(algorithm_ck[algorithm]);
             selected_algorithm(cie_601_ck);
             algorithm = 0; // Cie_601
         }
@@ -5159,7 +5158,7 @@ namespace plt0_gui
         }
         private void Cie_709_Click(object sender, EventArgs e)
         {
-            hover_algorithm(algorithm_ck[algorithm]);
+            unchecked_algorithm(algorithm_ck[algorithm]);
             selected_algorithm(cie_709_ck);
             algorithm = 1; // Cie_709
         }
@@ -5179,7 +5178,7 @@ namespace plt0_gui
         }
         private void Custom_Click(object sender, EventArgs e)
         {
-            hover_algorithm(algorithm_ck[algorithm]);
+            unchecked_algorithm(algorithm_ck[algorithm]);
             selected_algorithm(custom_ck);
             algorithm = 2; // Custom
         }
@@ -5199,7 +5198,7 @@ namespace plt0_gui
         }
         private void No_gradient_Click(object sender, EventArgs e)
         {
-            hover_algorithm(algorithm_ck[algorithm]);
+            unchecked_algorithm(algorithm_ck[algorithm]);
             selected_algorithm(no_gradient_ck);
             algorithm = 3; // No_gradient
         }
@@ -5219,7 +5218,7 @@ namespace plt0_gui
         }
         private void No_alpha_Click(object sender, EventArgs e)
         {
-            hover_alpha(alpha_ck_array[alpha]);
+            unchecked_alpha(alpha_ck_array[alpha]);
             selected_alpha(no_alpha_ck);
             alpha = 0; // No_alpha
         }
@@ -5239,7 +5238,7 @@ namespace plt0_gui
         }
         private void Alpha_Click(object sender, EventArgs e)
         {
-            hover_alpha(alpha_ck_array[alpha]);
+            unchecked_alpha(alpha_ck_array[alpha]);
             selected_alpha(alpha_ck);
             alpha = 1; // Alpha
         }
@@ -5259,7 +5258,7 @@ namespace plt0_gui
         }
         private void Mix_Click(object sender, EventArgs e)
         {
-            hover_alpha(alpha_ck_array[alpha]);
+            unchecked_alpha(alpha_ck_array[alpha]);
             selected_alpha(mix_ck);
             alpha = 2; // Mix
         }
@@ -5279,7 +5278,7 @@ namespace plt0_gui
         }
         private void WrapS_Clamp_Click(object sender, EventArgs e)
         {
-            hover_WrapS(WrapS_ck[WrapS]);
+            unchecked_WrapS(WrapS_ck[WrapS]);
             selected_WrapS(Sclamp_ck);
             WrapS = 0; // Clamp
         }
@@ -5299,7 +5298,7 @@ namespace plt0_gui
         }
         private void WrapS_Repeat_Click(object sender, EventArgs e)
         {
-            hover_WrapS(WrapS_ck[WrapS]);
+            unchecked_WrapS(WrapS_ck[WrapS]);
             selected_WrapS(Srepeat_ck);
             WrapS = 1; // Repeat
         }
@@ -5319,7 +5318,7 @@ namespace plt0_gui
         }
         private void WrapS_Mirror_Click(object sender, EventArgs e)
         {
-            hover_WrapS(WrapS_ck[WrapS]);
+            unchecked_WrapS(WrapS_ck[WrapS]);
             selected_WrapS(Smirror_ck);
             WrapS = 2; // Mirror
         }
@@ -5339,7 +5338,7 @@ namespace plt0_gui
         }
         private void WrapT_Clamp_Click(object sender, EventArgs e)
         {
-            hover_WrapT(WrapT_ck[WrapT]);
+            unchecked_WrapT(WrapT_ck[WrapT]);
             selected_WrapT(Tclamp_ck);
             WrapT = 0; // Clamp
         }
@@ -5359,7 +5358,7 @@ namespace plt0_gui
         }
         private void WrapT_Repeat_Click(object sender, EventArgs e)
         {
-            hover_WrapT(WrapT_ck[WrapT]);
+            unchecked_WrapT(WrapT_ck[WrapT]);
             selected_WrapT(Trepeat_ck);
             WrapT = 1; // Repeat
         }
@@ -5379,7 +5378,7 @@ namespace plt0_gui
         }
         private void WrapT_Mirror_Click(object sender, EventArgs e)
         {
-            hover_WrapT(WrapT_ck[WrapT]);
+            unchecked_WrapT(WrapT_ck[WrapT]);
             selected_WrapT(Tmirror_ck);
             WrapT = 2; // Mirror
         }
@@ -5399,7 +5398,7 @@ namespace plt0_gui
         }
         private void Minification_Nearest_Neighbour_Click(object sender, EventArgs e)
         {
-            hover_Minification(minification_ck[minification_filter]);
+            unchecked_Minification(minification_ck[minification_filter]);
             selected_Minification(min_nearest_neighbour_ck);
             minification_filter = 0; // Nearest_Neighbour
         }
@@ -5419,7 +5418,7 @@ namespace plt0_gui
         }
         private void Minification_Linear_Click(object sender, EventArgs e)
         {
-            hover_Minification(minification_ck[minification_filter]);
+            unchecked_Minification(minification_ck[minification_filter]);
             selected_Minification(min_linear_ck);
             minification_filter = 1; // Linear
         }
@@ -5439,7 +5438,7 @@ namespace plt0_gui
         }
         private void Minification_NearestMipmapNearest_Click(object sender, EventArgs e)
         {
-            hover_Minification(minification_ck[minification_filter]);
+            unchecked_Minification(minification_ck[minification_filter]);
             selected_Minification(min_nearestmipmapnearest_ck);
             minification_filter = 2; // NearestMipmapNearest
         }
@@ -5459,7 +5458,7 @@ namespace plt0_gui
         }
         private void Minification_NearestMipmapLinear_Click(object sender, EventArgs e)
         {
-            hover_Minification(minification_ck[minification_filter]);
+            unchecked_Minification(minification_ck[minification_filter]);
             selected_Minification(min_nearestmipmaplinear_ck);
             minification_filter = 3; // NearestMipmapLinear
         }
@@ -5479,7 +5478,7 @@ namespace plt0_gui
         }
         private void Minification_LinearMipmapNearest_Click(object sender, EventArgs e)
         {
-            hover_Minification(minification_ck[minification_filter]);
+            unchecked_Minification(minification_ck[minification_filter]);
             selected_Minification(min_linearmipmapnearest_ck);
             minification_filter = 4; // LinearMipmapNearest
         }
@@ -5499,7 +5498,7 @@ namespace plt0_gui
         }
         private void Minification_LinearMipmapLinear_Click(object sender, EventArgs e)
         {
-            hover_Minification(minification_ck[minification_filter]);
+            unchecked_Minification(minification_ck[minification_filter]);
             selected_Minification(min_linearmipmaplinear_ck);
             minification_filter = 5; // LinearMipmapLinear
         }
@@ -5519,7 +5518,7 @@ namespace plt0_gui
         }
         private void Magnification_Nearest_Neighbour_Click(object sender, EventArgs e)
         {
-            hover_Magnification(magnification_ck[magnification_filter]);
+            unchecked_Magnification(magnification_ck[magnification_filter]);
             selected_Magnification(mag_nearest_neighbour_ck);
             magnification_filter = 0; // Mag_Nearest_Neighbour
         }
@@ -5539,7 +5538,7 @@ namespace plt0_gui
         }
         private void Magnification_Linear_Click(object sender, EventArgs e)
         {
-            hover_Magnification(magnification_ck[magnification_filter]);
+            unchecked_Magnification(magnification_ck[magnification_filter]);
             selected_Magnification(mag_linear_ck);
             magnification_filter = 1; // Mag_Linear
         }
@@ -5559,7 +5558,7 @@ namespace plt0_gui
         }
         private void Magnification_NearestMipmapNearest_Click(object sender, EventArgs e)
         {
-            hover_Magnification(magnification_ck[magnification_filter]);
+            unchecked_Magnification(magnification_ck[magnification_filter]);
             selected_Magnification(mag_nearestmipmapnearest_ck);
             magnification_filter = 2; // Mag_NearestMipmapNearest
         }
@@ -5579,7 +5578,7 @@ namespace plt0_gui
         }
         private void Magnification_NearestMipmapLinear_Click(object sender, EventArgs e)
         {
-            hover_Magnification(magnification_ck[magnification_filter]);
+            unchecked_Magnification(magnification_ck[magnification_filter]);
             selected_Magnification(mag_nearestmipmaplinear_ck);
             magnification_filter = 3; // Mag_NearestMipmapLinear
         }
@@ -5599,7 +5598,7 @@ namespace plt0_gui
         }
         private void Magnification_LinearMipmapNearest_Click(object sender, EventArgs e)
         {
-            hover_Magnification(magnification_ck[magnification_filter]);
+            unchecked_Magnification(magnification_ck[magnification_filter]);
             selected_Magnification(mag_linearmipmapnearest_ck);
             magnification_filter = 4; // Mag_LinearMipmapNearest
         }
@@ -5619,7 +5618,7 @@ namespace plt0_gui
         }
         private void Magnification_LinearMipmapLinear_Click(object sender, EventArgs e)
         {
-            hover_Magnification(magnification_ck[magnification_filter]);
+            unchecked_Magnification(magnification_ck[magnification_filter]);
             selected_Magnification(mag_linearmipmaplinear_ck);
             magnification_filter = 5; // Mag_LinearMipmapLinear
         }
@@ -5639,7 +5638,7 @@ namespace plt0_gui
         }
         private void R_R_Click(object sender, EventArgs e)
         {
-            hover_R(r_ck[r]);
+            unchecked_R(r_ck[r]);
             selected_R(r_r_ck);
             r = 0; // Red channel set to R
         }
@@ -5659,7 +5658,7 @@ namespace plt0_gui
         }
         private void R_G_Click(object sender, EventArgs e)
         {
-            hover_R(r_ck[r]);
+            unchecked_R(r_ck[r]);
             selected_R(r_g_ck);
             r = 1; // Red channel set to G
         }
@@ -5679,7 +5678,7 @@ namespace plt0_gui
         }
         private void R_B_Click(object sender, EventArgs e)
         {
-            hover_R(r_ck[r]);
+            unchecked_R(r_ck[r]);
             selected_R(r_b_ck);
             r = 2; // Red channel set to B
         }
@@ -5699,7 +5698,7 @@ namespace plt0_gui
         }
         private void R_A_Click(object sender, EventArgs e)
         {
-            hover_R(r_ck[r]);
+            unchecked_R(r_ck[r]);
             selected_R(r_a_ck);
             r = 3; // Red channel set to A
         }
@@ -5719,7 +5718,7 @@ namespace plt0_gui
         }
         private void G_R_Click(object sender, EventArgs e)
         {
-            hover_G(g_ck[g]);
+            unchecked_G(g_ck[g]);
             selected_G(g_r_ck);
             g = 0; // Green channel set to R
         }
@@ -5739,7 +5738,7 @@ namespace plt0_gui
         }
         private void G_G_Click(object sender, EventArgs e)
         {
-            hover_G(g_ck[g]);
+            unchecked_G(g_ck[g]);
             selected_G(g_g_ck);
             g = 1; // Green channel set to G
         }
@@ -5759,7 +5758,7 @@ namespace plt0_gui
         }
         private void G_B_Click(object sender, EventArgs e)
         {
-            hover_G(g_ck[g]);
+            unchecked_G(g_ck[g]);
             selected_G(g_b_ck);
             g = 2; // Green channel set to B
         }
@@ -5779,7 +5778,7 @@ namespace plt0_gui
         }
         private void G_A_Click(object sender, EventArgs e)
         {
-            hover_G(g_ck[g]);
+            unchecked_G(g_ck[g]);
             selected_G(g_a_ck);
             g = 3; // Green channel set to A
         }
@@ -5799,7 +5798,7 @@ namespace plt0_gui
         }
         private void B_R_Click(object sender, EventArgs e)
         {
-            hover_B(b_ck[b]);
+            unchecked_B(b_ck[b]);
             selected_B(b_r_ck);
             b = 0; // Blue channel set to R
         }
@@ -5819,7 +5818,7 @@ namespace plt0_gui
         }
         private void B_G_Click(object sender, EventArgs e)
         {
-            hover_B(b_ck[b]);
+            unchecked_B(b_ck[b]);
             selected_B(b_g_ck);
             b = 1; // Blue channel set to G
         }
@@ -5839,7 +5838,7 @@ namespace plt0_gui
         }
         private void B_B_Click(object sender, EventArgs e)
         {
-            hover_B(b_ck[b]);
+            unchecked_B(b_ck[b]);
             selected_B(b_b_ck);
             b = 2; // Blue channel set to B
         }
@@ -5859,7 +5858,7 @@ namespace plt0_gui
         }
         private void B_A_Click(object sender, EventArgs e)
         {
-            hover_B(b_ck[b]);
+            unchecked_B(b_ck[b]);
             selected_B(b_a_ck);
             b = 3; // Blue channel set to A
         }
@@ -5879,7 +5878,7 @@ namespace plt0_gui
         }
         private void A_R_Click(object sender, EventArgs e)
         {
-            hover_A(a_ck[a]);
+            unchecked_A(a_ck[a]);
             selected_A(a_r_ck);
             a = 0; // Alpha channel set to R
         }
@@ -5899,7 +5898,7 @@ namespace plt0_gui
         }
         private void A_G_Click(object sender, EventArgs e)
         {
-            hover_A(a_ck[a]);
+            unchecked_A(a_ck[a]);
             selected_A(a_g_ck);
             a = 1; // Alpha channel set to G
         }
@@ -5919,7 +5918,7 @@ namespace plt0_gui
         }
         private void A_B_Click(object sender, EventArgs e)
         {
-            hover_A(a_ck[a]);
+            unchecked_A(a_ck[a]);
             selected_A(a_b_ck);
             a = 2; // Alpha channel set to B
         }
@@ -5939,7 +5938,7 @@ namespace plt0_gui
         }
         private void A_A_Click(object sender, EventArgs e)
         {
-            hover_A(a_ck[a]);
+            unchecked_A(a_ck[a]);
             selected_A(a_a_ck);
             a = 3; // Alpha channel set to A
         }
