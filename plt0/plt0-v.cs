@@ -125,18 +125,19 @@ namespace plt0_gui
         {
             //if (System.IO.File.Exists(execPath + "images/a.ttf"))
             //{
-                // AddFont(System.IO.File.ReadAllBytes(execPath + "images/font.ttf"));
-                // fontname = Get_font_name();
-                /*using (PrivateFontCollection _privateFontCollection = new PrivateFontCollection())
-                {
-                    _privateFontCollection.AddFontFile(execPath + "images/a.ttf");
-                    fontname = _privateFontCollection.Families[0].Name;
-                }
-                font_normal = new System.Drawing.Font(fontname, 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-                /*PrivateFontCollection collection = new PrivateFontCollection();
-                collection.AddFontFile("images/font.ttf");
-                FontFamily fontFamily = new FontFamily(collection.Families[0].Name, collection);
-                font_normal = new System.Drawing.Font(NintendoP-NewRodin DB, 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);*/
+            // AddFont(System.IO.File.ReadAllBytes(execPath + "images/font.ttf"));
+            // fontname = Get_font_name();
+            /*FNintendoP-NewRodin DB
+             * using (PrivateFontCollection _privateFontCollection = new PrivateFontCollection())
+            {
+                _privateFontCollection.AddFontFile(execPath + "images/a.ttf");
+                fontname = _privateFontCollection.Families[0].Name;
+            }
+            font_normal = new System.Drawing.Font(fontname, 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            /*PrivateFontCollection collection = new PrivateFontCollection();
+            collection.AddFontFile("images/font.ttf");
+            FontFamily fontFamily = new FontFamily(collection.Families[0].Name, collection);
+            font_normal = new System.Drawing.Font(fontFamily, 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);*/
             //}
             InitializeComponent();
             //output_file_type_label.Text = fontname;
