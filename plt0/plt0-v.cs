@@ -35,6 +35,13 @@ namespace plt0_gui
         bool warn = false;
         bool stfu = false;
         bool no_warning = false;
+        //view
+        bool view_alpha = false;
+        bool view_WrapS = false;
+        bool view_WrapT = false;
+        bool view_algorithm = false;
+        bool view_min = false;
+        bool view_mag = false;
         // radiobuttons
         byte encoding = 7;
         byte WrapS = 3; // 0 = Clamp   1 = Repeat   2 = Mirror
@@ -948,6 +955,24 @@ namespace plt0_gui
             this.a_r_ck_hitbox = new System.Windows.Forms.Label();
             this.a_g_ck_hitbox = new System.Windows.Forms.Label();
             this.a_b_ck_hitbox = new System.Windows.Forms.Label();
+            this.view_alpha_ck = new System.Windows.Forms.PictureBox();
+            this.view_alpha_label = new System.Windows.Forms.Label();
+            this.view_alpha_hitbox = new System.Windows.Forms.Label();
+            this.view_algorithm_ck = new System.Windows.Forms.PictureBox();
+            this.view_algorithm_label = new System.Windows.Forms.Label();
+            this.view_algorithm_hitbox = new System.Windows.Forms.Label();
+            this.view_WrapS_ck = new System.Windows.Forms.PictureBox();
+            this.view_WrapS_label = new System.Windows.Forms.Label();
+            this.view_WrapS_hitbox = new System.Windows.Forms.Label();
+            this.view_WrapT_ck = new System.Windows.Forms.PictureBox();
+            this.view_WrapT_label = new System.Windows.Forms.Label();
+            this.view_WrapT_hitbox = new System.Windows.Forms.Label();
+            this.view_mag_ck = new System.Windows.Forms.PictureBox();
+            this.view_mag_label = new System.Windows.Forms.Label();
+            this.view_mag_hitbox = new System.Windows.Forms.Label();
+            this.view_min_ck = new System.Windows.Forms.PictureBox();
+            this.view_min_label = new System.Windows.Forms.Label();
+            this.view_min_hitbox = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.bmd_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
@@ -1023,6 +1048,12 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.a_b_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.b_a_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.b_b_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.view_alpha_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.view_algorithm_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.view_WrapS_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.view_WrapT_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.view_mag_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.view_min_ck)).BeginInit();
             this.SuspendLayout();
             // 
             // output_file_type_label
@@ -4133,9 +4164,9 @@ namespace plt0_gui
             this.r_r_ck_hitbox.Padding = new System.Windows.Forms.Padding(64, 48, 0, 0);
             this.r_r_ck_hitbox.Size = new System.Drawing.Size(64, 68);
             this.r_r_ck_hitbox.TabIndex = 360;
-            this.r_r_ck_hitbox.ContextMenuStripChanged += new System.EventHandler(this.R_R_Click);
-            this.r_r_ck_hitbox.MouseLeave += new System.EventHandler(this.R_R_MouseEnter);
-            this.r_r_ck_hitbox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.R_R_MouseLeave);
+            this.r_r_ck_hitbox.Click += new System.EventHandler(this.R_R_Click);
+            this.r_r_ck_hitbox.MouseEnter += new System.EventHandler(this.R_R_MouseEnter);
+            this.r_r_ck_hitbox.MouseLeave += new System.EventHandler(this.R_R_MouseLeave);
             // 
             // g_r_ck_hitbox
             // 
@@ -4149,6 +4180,9 @@ namespace plt0_gui
             this.g_r_ck_hitbox.Padding = new System.Windows.Forms.Padding(64, 48, 0, 0);
             this.g_r_ck_hitbox.Size = new System.Drawing.Size(64, 68);
             this.g_r_ck_hitbox.TabIndex = 361;
+            this.g_r_ck_hitbox.Click += new System.EventHandler(this.G_R_Click);
+            this.g_r_ck_hitbox.MouseEnter += new System.EventHandler(this.G_R_MouseEnter);
+            this.g_r_ck_hitbox.MouseLeave += new System.EventHandler(this.G_R_MouseLeave);
             // 
             // a_a_ck_hitbox
             // 
@@ -4162,6 +4196,9 @@ namespace plt0_gui
             this.a_a_ck_hitbox.Padding = new System.Windows.Forms.Padding(64, 48, 0, 0);
             this.a_a_ck_hitbox.Size = new System.Drawing.Size(64, 68);
             this.a_a_ck_hitbox.TabIndex = 362;
+            this.a_a_ck_hitbox.Click += new System.EventHandler(this.A_A_Click);
+            this.a_a_ck_hitbox.MouseEnter += new System.EventHandler(this.A_A_MouseEnter);
+            this.a_a_ck_hitbox.MouseLeave += new System.EventHandler(this.A_A_MouseLeave);
             // 
             // r_g_ck_hitbox
             // 
@@ -4223,6 +4260,9 @@ namespace plt0_gui
             this.g_g_ck_hitbox.Padding = new System.Windows.Forms.Padding(64, 48, 0, 0);
             this.g_g_ck_hitbox.Size = new System.Drawing.Size(64, 68);
             this.g_g_ck_hitbox.TabIndex = 366;
+            this.g_g_ck_hitbox.Click += new System.EventHandler(this.G_G_Click);
+            this.g_g_ck_hitbox.MouseEnter += new System.EventHandler(this.G_G_MouseEnter);
+            this.g_g_ck_hitbox.MouseLeave += new System.EventHandler(this.G_G_MouseLeave);
             // 
             // g_b_ck_hitbox
             // 
@@ -4236,6 +4276,9 @@ namespace plt0_gui
             this.g_b_ck_hitbox.Padding = new System.Windows.Forms.Padding(64, 48, 0, 0);
             this.g_b_ck_hitbox.Size = new System.Drawing.Size(64, 68);
             this.g_b_ck_hitbox.TabIndex = 367;
+            this.g_b_ck_hitbox.Click += new System.EventHandler(this.G_B_Click);
+            this.g_b_ck_hitbox.MouseEnter += new System.EventHandler(this.G_B_MouseEnter);
+            this.g_b_ck_hitbox.MouseLeave += new System.EventHandler(this.G_B_MouseLeave);
             // 
             // g_a_ck_hitbox
             // 
@@ -4249,6 +4292,9 @@ namespace plt0_gui
             this.g_a_ck_hitbox.Padding = new System.Windows.Forms.Padding(64, 48, 0, 0);
             this.g_a_ck_hitbox.Size = new System.Drawing.Size(64, 68);
             this.g_a_ck_hitbox.TabIndex = 368;
+            this.g_a_ck_hitbox.Click += new System.EventHandler(this.G_A_Click);
+            this.g_a_ck_hitbox.MouseEnter += new System.EventHandler(this.G_A_MouseEnter);
+            this.g_a_ck_hitbox.MouseLeave += new System.EventHandler(this.G_A_MouseLeave);
             // 
             // b_r_ck_hitbox
             // 
@@ -4262,6 +4308,9 @@ namespace plt0_gui
             this.b_r_ck_hitbox.Padding = new System.Windows.Forms.Padding(64, 48, 0, 0);
             this.b_r_ck_hitbox.Size = new System.Drawing.Size(64, 68);
             this.b_r_ck_hitbox.TabIndex = 369;
+            this.b_r_ck_hitbox.Click += new System.EventHandler(this.B_R_Click);
+            this.b_r_ck_hitbox.MouseEnter += new System.EventHandler(this.B_R_MouseEnter);
+            this.b_r_ck_hitbox.MouseLeave += new System.EventHandler(this.B_R_MouseLeave);
             // 
             // b_g_ck_hitbox
             // 
@@ -4275,6 +4324,9 @@ namespace plt0_gui
             this.b_g_ck_hitbox.Padding = new System.Windows.Forms.Padding(64, 48, 0, 0);
             this.b_g_ck_hitbox.Size = new System.Drawing.Size(64, 68);
             this.b_g_ck_hitbox.TabIndex = 370;
+            this.b_g_ck_hitbox.Click += new System.EventHandler(this.B_G_Click);
+            this.b_g_ck_hitbox.MouseEnter += new System.EventHandler(this.B_G_MouseEnter);
+            this.b_g_ck_hitbox.MouseLeave += new System.EventHandler(this.B_G_MouseLeave);
             // 
             // b_b_ck_hitbox
             // 
@@ -4288,6 +4340,9 @@ namespace plt0_gui
             this.b_b_ck_hitbox.Padding = new System.Windows.Forms.Padding(64, 48, 0, 0);
             this.b_b_ck_hitbox.Size = new System.Drawing.Size(64, 68);
             this.b_b_ck_hitbox.TabIndex = 371;
+            this.b_b_ck_hitbox.Click += new System.EventHandler(this.B_B_Click);
+            this.b_b_ck_hitbox.MouseEnter += new System.EventHandler(this.B_B_MouseEnter);
+            this.b_b_ck_hitbox.MouseLeave += new System.EventHandler(this.B_B_MouseLeave);
             // 
             // b_a_ck_hitbox
             // 
@@ -4301,6 +4356,9 @@ namespace plt0_gui
             this.b_a_ck_hitbox.Padding = new System.Windows.Forms.Padding(64, 48, 0, 0);
             this.b_a_ck_hitbox.Size = new System.Drawing.Size(64, 68);
             this.b_a_ck_hitbox.TabIndex = 372;
+            this.b_a_ck_hitbox.Click += new System.EventHandler(this.B_A_Click);
+            this.b_a_ck_hitbox.MouseEnter += new System.EventHandler(this.B_A_MouseEnter);
+            this.b_a_ck_hitbox.MouseLeave += new System.EventHandler(this.B_A_MouseLeave);
             // 
             // a_r_ck_hitbox
             // 
@@ -4314,6 +4372,9 @@ namespace plt0_gui
             this.a_r_ck_hitbox.Padding = new System.Windows.Forms.Padding(64, 48, 0, 0);
             this.a_r_ck_hitbox.Size = new System.Drawing.Size(64, 68);
             this.a_r_ck_hitbox.TabIndex = 373;
+            this.a_r_ck_hitbox.Click += new System.EventHandler(this.A_R_Click);
+            this.a_r_ck_hitbox.MouseEnter += new System.EventHandler(this.A_R_MouseEnter);
+            this.a_r_ck_hitbox.MouseLeave += new System.EventHandler(this.A_R_MouseLeave);
             // 
             // a_g_ck_hitbox
             // 
@@ -4327,6 +4388,9 @@ namespace plt0_gui
             this.a_g_ck_hitbox.Padding = new System.Windows.Forms.Padding(64, 48, 0, 0);
             this.a_g_ck_hitbox.Size = new System.Drawing.Size(64, 68);
             this.a_g_ck_hitbox.TabIndex = 374;
+            this.a_g_ck_hitbox.Click += new System.EventHandler(this.A_G_Click);
+            this.a_g_ck_hitbox.MouseEnter += new System.EventHandler(this.A_G_MouseEnter);
+            this.a_g_ck_hitbox.MouseLeave += new System.EventHandler(this.A_G_MouseLeave);
             // 
             // a_b_ck_hitbox
             // 
@@ -4340,13 +4404,280 @@ namespace plt0_gui
             this.a_b_ck_hitbox.Padding = new System.Windows.Forms.Padding(64, 48, 0, 0);
             this.a_b_ck_hitbox.Size = new System.Drawing.Size(64, 68);
             this.a_b_ck_hitbox.TabIndex = 375;
+            this.a_b_ck_hitbox.Click += new System.EventHandler(this.A_B_Click);
+            this.a_b_ck_hitbox.MouseEnter += new System.EventHandler(this.A_B_MouseEnter);
+            this.a_b_ck_hitbox.MouseLeave += new System.EventHandler(this.A_B_MouseLeave);
+            // 
+            // view_alpha_ck
+            // 
+            this.view_alpha_ck.BackColor = System.Drawing.Color.Transparent;
+            this.view_alpha_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.view_alpha_ck.Enabled = false;
+            this.view_alpha_ck.ErrorImage = null;
+            this.view_alpha_ck.InitialImage = null;
+            this.view_alpha_ck.Location = new System.Drawing.Point(41, 909);
+            this.view_alpha_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.view_alpha_ck.Name = "view_alpha_ck";
+            this.view_alpha_ck.Size = new System.Drawing.Size(64, 64);
+            this.view_alpha_ck.TabIndex = 378;
+            this.view_alpha_ck.TabStop = false;
+            // 
+            // view_alpha_label
+            // 
+            this.view_alpha_label.AutoSize = true;
+            this.view_alpha_label.BackColor = System.Drawing.Color.Transparent;
+            this.view_alpha_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.view_alpha_label.ForeColor = System.Drawing.SystemColors.Window;
+            this.view_alpha_label.Location = new System.Drawing.Point(109, 909);
+            this.view_alpha_label.Margin = new System.Windows.Forms.Padding(0);
+            this.view_alpha_label.Name = "view_alpha_label";
+            this.view_alpha_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
+            this.view_alpha_label.Size = new System.Drawing.Size(74, 42);
+            this.view_alpha_label.TabIndex = 376;
+            this.view_alpha_label.Text = "Alpha";
+            // 
+            // view_alpha_hitbox
+            // 
+            this.view_alpha_hitbox.AutoSize = true;
+            this.view_alpha_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.view_alpha_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.view_alpha_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.view_alpha_hitbox.Location = new System.Drawing.Point(38, 909);
+            this.view_alpha_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.view_alpha_hitbox.Name = "view_alpha_hitbox";
+            this.view_alpha_hitbox.Padding = new System.Windows.Forms.Padding(190, 35, 0, 0);
+            this.view_alpha_hitbox.Size = new System.Drawing.Size(190, 55);
+            this.view_alpha_hitbox.TabIndex = 377;
+            // 
+            // view_algorithm_ck
+            // 
+            this.view_algorithm_ck.BackColor = System.Drawing.Color.Transparent;
+            this.view_algorithm_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.view_algorithm_ck.Enabled = false;
+            this.view_algorithm_ck.ErrorImage = null;
+            this.view_algorithm_ck.InitialImage = null;
+            this.view_algorithm_ck.Location = new System.Drawing.Point(240, 905);
+            this.view_algorithm_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.view_algorithm_ck.Name = "view_algorithm_ck";
+            this.view_algorithm_ck.Size = new System.Drawing.Size(64, 64);
+            this.view_algorithm_ck.TabIndex = 381;
+            this.view_algorithm_ck.TabStop = false;
+            // 
+            // view_algorithm_label
+            // 
+            this.view_algorithm_label.AutoSize = true;
+            this.view_algorithm_label.BackColor = System.Drawing.Color.Transparent;
+            this.view_algorithm_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.view_algorithm_label.ForeColor = System.Drawing.SystemColors.Window;
+            this.view_algorithm_label.Location = new System.Drawing.Point(308, 905);
+            this.view_algorithm_label.Margin = new System.Windows.Forms.Padding(0);
+            this.view_algorithm_label.Name = "view_algorithm_label";
+            this.view_algorithm_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.view_algorithm_label.Size = new System.Drawing.Size(119, 64);
+            this.view_algorithm_label.TabIndex = 379;
+            this.view_algorithm_label.Text = "Algorithm";
+            // 
+            // view_algorithm_hitbox
+            // 
+            this.view_algorithm_hitbox.AutoSize = true;
+            this.view_algorithm_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.view_algorithm_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.view_algorithm_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.view_algorithm_hitbox.Location = new System.Drawing.Point(237, 905);
+            this.view_algorithm_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.view_algorithm_hitbox.Name = "view_algorithm_hitbox";
+            this.view_algorithm_hitbox.Padding = new System.Windows.Forms.Padding(190, 35, 0, 0);
+            this.view_algorithm_hitbox.Size = new System.Drawing.Size(190, 55);
+            this.view_algorithm_hitbox.TabIndex = 380;
+            // 
+            // view_WrapS_ck
+            // 
+            this.view_WrapS_ck.BackColor = System.Drawing.Color.Transparent;
+            this.view_WrapS_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.view_WrapS_ck.Enabled = false;
+            this.view_WrapS_ck.ErrorImage = null;
+            this.view_WrapS_ck.InitialImage = null;
+            this.view_WrapS_ck.Location = new System.Drawing.Point(41, 958);
+            this.view_WrapS_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.view_WrapS_ck.Name = "view_WrapS_ck";
+            this.view_WrapS_ck.Size = new System.Drawing.Size(64, 64);
+            this.view_WrapS_ck.TabIndex = 384;
+            this.view_WrapS_ck.TabStop = false;
+            // 
+            // view_WrapS_label
+            // 
+            this.view_WrapS_label.AutoSize = true;
+            this.view_WrapS_label.BackColor = System.Drawing.Color.Transparent;
+            this.view_WrapS_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.view_WrapS_label.ForeColor = System.Drawing.SystemColors.Window;
+            this.view_WrapS_label.Location = new System.Drawing.Point(109, 958);
+            this.view_WrapS_label.Margin = new System.Windows.Forms.Padding(0);
+            this.view_WrapS_label.Name = "view_WrapS_label";
+            this.view_WrapS_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
+            this.view_WrapS_label.Size = new System.Drawing.Size(83, 42);
+            this.view_WrapS_label.TabIndex = 382;
+            this.view_WrapS_label.Text = "WrapS";
+            // 
+            // view_WrapS_hitbox
+            // 
+            this.view_WrapS_hitbox.AutoSize = true;
+            this.view_WrapS_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.view_WrapS_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.view_WrapS_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.view_WrapS_hitbox.Location = new System.Drawing.Point(38, 958);
+            this.view_WrapS_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.view_WrapS_hitbox.Name = "view_WrapS_hitbox";
+            this.view_WrapS_hitbox.Padding = new System.Windows.Forms.Padding(190, 35, 0, 0);
+            this.view_WrapS_hitbox.Size = new System.Drawing.Size(190, 55);
+            this.view_WrapS_hitbox.TabIndex = 383;
+            // 
+            // view_WrapT_ck
+            // 
+            this.view_WrapT_ck.BackColor = System.Drawing.Color.Transparent;
+            this.view_WrapT_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.view_WrapT_ck.Enabled = false;
+            this.view_WrapT_ck.ErrorImage = null;
+            this.view_WrapT_ck.InitialImage = null;
+            this.view_WrapT_ck.Location = new System.Drawing.Point(240, 958);
+            this.view_WrapT_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.view_WrapT_ck.Name = "view_WrapT_ck";
+            this.view_WrapT_ck.Size = new System.Drawing.Size(64, 64);
+            this.view_WrapT_ck.TabIndex = 387;
+            this.view_WrapT_ck.TabStop = false;
+            // 
+            // view_WrapT_label
+            // 
+            this.view_WrapT_label.AutoSize = true;
+            this.view_WrapT_label.BackColor = System.Drawing.Color.Transparent;
+            this.view_WrapT_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.view_WrapT_label.ForeColor = System.Drawing.SystemColors.Window;
+            this.view_WrapT_label.Location = new System.Drawing.Point(308, 958);
+            this.view_WrapT_label.Margin = new System.Windows.Forms.Padding(0);
+            this.view_WrapT_label.Name = "view_WrapT_label";
+            this.view_WrapT_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.view_WrapT_label.Size = new System.Drawing.Size(83, 64);
+            this.view_WrapT_label.TabIndex = 385;
+            this.view_WrapT_label.Text = "WrapT";
+            // 
+            // view_WrapT_hitbox
+            // 
+            this.view_WrapT_hitbox.AutoSize = true;
+            this.view_WrapT_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.view_WrapT_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.view_WrapT_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.view_WrapT_hitbox.Location = new System.Drawing.Point(237, 958);
+            this.view_WrapT_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.view_WrapT_hitbox.Name = "view_WrapT_hitbox";
+            this.view_WrapT_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
+            this.view_WrapT_hitbox.Size = new System.Drawing.Size(190, 68);
+            this.view_WrapT_hitbox.TabIndex = 386;
+            // 
+            // view_mag_ck
+            // 
+            this.view_mag_ck.BackColor = System.Drawing.Color.Transparent;
+            this.view_mag_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.view_mag_ck.Enabled = false;
+            this.view_mag_ck.ErrorImage = null;
+            this.view_mag_ck.InitialImage = null;
+            this.view_mag_ck.Location = new System.Drawing.Point(240, 1007);
+            this.view_mag_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.view_mag_ck.Name = "view_mag_ck";
+            this.view_mag_ck.Size = new System.Drawing.Size(64, 64);
+            this.view_mag_ck.TabIndex = 393;
+            this.view_mag_ck.TabStop = false;
+            // 
+            // view_mag_label
+            // 
+            this.view_mag_label.AutoSize = true;
+            this.view_mag_label.BackColor = System.Drawing.Color.Transparent;
+            this.view_mag_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.view_mag_label.ForeColor = System.Drawing.SystemColors.Window;
+            this.view_mag_label.Location = new System.Drawing.Point(308, 1007);
+            this.view_mag_label.Margin = new System.Windows.Forms.Padding(0);
+            this.view_mag_label.Name = "view_mag_label";
+            this.view_mag_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.view_mag_label.Size = new System.Drawing.Size(121, 64);
+            this.view_mag_label.TabIndex = 391;
+            this.view_mag_label.Text = "Mag filter";
+            // 
+            // view_mag_hitbox
+            // 
+            this.view_mag_hitbox.AutoSize = true;
+            this.view_mag_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.view_mag_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.view_mag_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.view_mag_hitbox.Location = new System.Drawing.Point(237, 1007);
+            this.view_mag_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.view_mag_hitbox.Name = "view_mag_hitbox";
+            this.view_mag_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
+            this.view_mag_hitbox.Size = new System.Drawing.Size(190, 68);
+            this.view_mag_hitbox.TabIndex = 392;
+            // 
+            // view_min_ck
+            // 
+            this.view_min_ck.BackColor = System.Drawing.Color.Transparent;
+            this.view_min_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.view_min_ck.Enabled = false;
+            this.view_min_ck.ErrorImage = null;
+            this.view_min_ck.InitialImage = null;
+            this.view_min_ck.Location = new System.Drawing.Point(41, 1007);
+            this.view_min_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.view_min_ck.Name = "view_min_ck";
+            this.view_min_ck.Size = new System.Drawing.Size(64, 64);
+            this.view_min_ck.TabIndex = 390;
+            this.view_min_ck.TabStop = false;
+            // 
+            // view_min_label
+            // 
+            this.view_min_label.AutoSize = true;
+            this.view_min_label.BackColor = System.Drawing.Color.Transparent;
+            this.view_min_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.view_min_label.ForeColor = System.Drawing.SystemColors.Window;
+            this.view_min_label.Location = new System.Drawing.Point(109, 1007);
+            this.view_min_label.Margin = new System.Windows.Forms.Padding(0);
+            this.view_min_label.Name = "view_min_label";
+            this.view_min_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.view_min_label.Size = new System.Drawing.Size(112, 64);
+            this.view_min_label.TabIndex = 388;
+            this.view_min_label.Text = "Min filter";
+            // 
+            // view_min_hitbox
+            // 
+            this.view_min_hitbox.AutoSize = true;
+            this.view_min_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.view_min_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.view_min_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.view_min_hitbox.Location = new System.Drawing.Point(38, 1007);
+            this.view_min_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.view_min_hitbox.Name = "view_min_hitbox";
+            this.view_min_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
+            this.view_min_hitbox.Size = new System.Drawing.Size(190, 68);
+            this.view_min_hitbox.TabIndex = 389;
             // 
             // plt0_gui
             // 
             this.AllowDrop = true;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1920, 1061);
+            this.ClientSize = new System.Drawing.Size(1920, 1080);
+            this.Controls.Add(this.view_mag_ck);
+            this.Controls.Add(this.view_mag_label);
+            this.Controls.Add(this.view_mag_hitbox);
+            this.Controls.Add(this.view_min_ck);
+            this.Controls.Add(this.view_min_label);
+            this.Controls.Add(this.view_min_hitbox);
+            this.Controls.Add(this.view_WrapT_ck);
+            this.Controls.Add(this.view_WrapT_label);
+            this.Controls.Add(this.view_WrapT_hitbox);
+            this.Controls.Add(this.view_WrapS_ck);
+            this.Controls.Add(this.view_WrapS_label);
+            this.Controls.Add(this.view_WrapS_hitbox);
+            this.Controls.Add(this.view_algorithm_ck);
+            this.Controls.Add(this.view_algorithm_label);
+            this.Controls.Add(this.view_algorithm_hitbox);
+            this.Controls.Add(this.view_alpha_ck);
+            this.Controls.Add(this.view_alpha_label);
+            this.Controls.Add(this.view_alpha_hitbox);
             this.Controls.Add(this.colour_channels_label);
             this.Controls.Add(this.a_a_ck);
             this.Controls.Add(this.a_b_ck);
@@ -4653,6 +4984,12 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.a_b_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.b_a_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.b_b_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.view_alpha_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.view_algorithm_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.view_WrapS_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.view_WrapT_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.view_mag_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.view_min_ck)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -5979,7 +6316,21 @@ namespace plt0_gui
         }
         private void R_R_Click(object sender, EventArgs e)
         {
-            unchecked_R(r_ck[r]);
+            switch (r)
+            {
+                case 0:
+                    unchecked_R(r_ck[r]);
+                    break;
+                case 1:
+                    unchecked_G(r_ck[r]);
+                    break;
+                case 2:
+                    unchecked_B(r_ck[r]);
+                    break;
+                case 3:
+                    unchecked_A(r_ck[r]);
+                    break;
+            }
             selected_R(r_r_ck);
             r = 0; // Red channel set to R
         }
@@ -5999,7 +6350,21 @@ namespace plt0_gui
         }
         private void R_G_Click(object sender, EventArgs e)
         {
-            unchecked_G(r_ck[r]);
+            switch (r)
+            {
+                case 0:
+                    unchecked_R(r_ck[r]);
+                    break;
+                case 1:
+                    unchecked_G(r_ck[r]);
+                    break;
+                case 2:
+                    unchecked_B(r_ck[r]);
+                    break;
+                case 3:
+                    unchecked_A(r_ck[r]);
+                    break;
+            }
             selected_G(r_g_ck);
             r = 1; // Red channel set to G
         }
@@ -6019,7 +6384,21 @@ namespace plt0_gui
         }
         private void R_B_Click(object sender, EventArgs e)
         {
-            unchecked_B(r_ck[r]);
+            switch (r)
+            {
+                case 0:
+                    unchecked_R(r_ck[r]);
+                    break;
+                case 1:
+                    unchecked_G(r_ck[r]);
+                    break;
+                case 2:
+                    unchecked_B(r_ck[r]);
+                    break;
+                case 3:
+                    unchecked_A(r_ck[r]);
+                    break;
+            }
             selected_B(r_b_ck);
             r = 2; // Red channel set to B
         }
@@ -6039,7 +6418,21 @@ namespace plt0_gui
         }
         private void R_A_Click(object sender, EventArgs e)
         {
-            unchecked_A(r_ck[r]);
+            switch (r)
+            {
+                case 0:
+                    unchecked_R(r_ck[r]);
+                    break;
+                case 1:
+                    unchecked_G(r_ck[r]);
+                    break;
+                case 2:
+                    unchecked_B(r_ck[r]);
+                    break;
+                case 3:
+                    unchecked_A(r_ck[r]);
+                    break;
+            }
             selected_A(r_a_ck);
             r = 3; // Red channel set to A
         }
@@ -6059,7 +6452,21 @@ namespace plt0_gui
         }
         private void G_R_Click(object sender, EventArgs e)
         {
-            unchecked_R(g_ck[g]);
+            switch (g)
+            {
+                case 0:
+                    unchecked_R(g_ck[g]);
+                    break;
+                case 1:
+                    unchecked_G(g_ck[g]);
+                    break;
+                case 2:
+                    unchecked_B(g_ck[g]);
+                    break;
+                case 3:
+                    unchecked_A(g_ck[g]);
+                    break;
+            }
             selected_R(g_r_ck);
             g = 0; // Green channel set to R
         }
@@ -6079,7 +6486,21 @@ namespace plt0_gui
         }
         private void G_G_Click(object sender, EventArgs e)
         {
-            unchecked_G(g_ck[g]);
+            switch (g)
+            {
+                case 0:
+                    unchecked_R(g_ck[g]);
+                    break;
+                case 1:
+                    unchecked_G(g_ck[g]);
+                    break;
+                case 2:
+                    unchecked_B(g_ck[g]);
+                    break;
+                case 3:
+                    unchecked_A(g_ck[g]);
+                    break;
+            }
             selected_G(g_g_ck);
             g = 1; // Green channel set to G
         }
@@ -6099,7 +6520,21 @@ namespace plt0_gui
         }
         private void G_B_Click(object sender, EventArgs e)
         {
-            unchecked_B(g_ck[g]);
+            switch (g)
+            {
+                case 0:
+                    unchecked_R(g_ck[g]);
+                    break;
+                case 1:
+                    unchecked_G(g_ck[g]);
+                    break;
+                case 2:
+                    unchecked_B(g_ck[g]);
+                    break;
+                case 3:
+                    unchecked_A(g_ck[g]);
+                    break;
+            }
             selected_B(g_b_ck);
             g = 2; // Green channel set to B
         }
@@ -6119,7 +6554,21 @@ namespace plt0_gui
         }
         private void G_A_Click(object sender, EventArgs e)
         {
-            unchecked_A(g_ck[g]);
+            switch (g)
+            {
+                case 0:
+                    unchecked_R(g_ck[g]);
+                    break;
+                case 1:
+                    unchecked_G(g_ck[g]);
+                    break;
+                case 2:
+                    unchecked_B(g_ck[g]);
+                    break;
+                case 3:
+                    unchecked_A(g_ck[g]);
+                    break;
+            }
             selected_A(g_a_ck);
             g = 3; // Green channel set to A
         }
@@ -6139,7 +6588,21 @@ namespace plt0_gui
         }
         private void B_R_Click(object sender, EventArgs e)
         {
-            unchecked_R(b_ck[b]);
+            switch (b)
+            {
+                case 0:
+                    unchecked_R(b_ck[b]);
+                    break;
+                case 1:
+                    unchecked_G(b_ck[b]);
+                    break;
+                case 2:
+                    unchecked_B(b_ck[b]);
+                    break;
+                case 3:
+                    unchecked_A(b_ck[b]);
+                    break;
+            }
             selected_R(b_r_ck);
             b = 0; // Blue channel set to R
         }
@@ -6159,7 +6622,21 @@ namespace plt0_gui
         }
         private void B_G_Click(object sender, EventArgs e)
         {
-            unchecked_G(b_ck[b]);
+            switch (b)
+            {
+                case 0:
+                    unchecked_R(b_ck[b]);
+                    break;
+                case 1:
+                    unchecked_G(b_ck[b]);
+                    break;
+                case 2:
+                    unchecked_B(b_ck[b]);
+                    break;
+                case 3:
+                    unchecked_A(b_ck[b]);
+                    break;
+            }
             selected_G(b_g_ck);
             b = 1; // Blue channel set to G
         }
@@ -6179,7 +6656,21 @@ namespace plt0_gui
         }
         private void B_B_Click(object sender, EventArgs e)
         {
-            unchecked_B(b_ck[b]);
+            switch (b)
+            {
+                case 0:
+                    unchecked_R(b_ck[b]);
+                    break;
+                case 1:
+                    unchecked_G(b_ck[b]);
+                    break;
+                case 2:
+                    unchecked_B(b_ck[b]);
+                    break;
+                case 3:
+                    unchecked_A(b_ck[b]);
+                    break;
+            }
             selected_B(b_b_ck);
             b = 2; // Blue channel set to B
         }
@@ -6199,7 +6690,21 @@ namespace plt0_gui
         }
         private void B_A_Click(object sender, EventArgs e)
         {
-            unchecked_A(b_ck[b]);
+            switch (b)
+            {
+                case 0:
+                    unchecked_R(b_ck[b]);
+                    break;
+                case 1:
+                    unchecked_G(b_ck[b]);
+                    break;
+                case 2:
+                    unchecked_B(b_ck[b]);
+                    break;
+                case 3:
+                    unchecked_A(b_ck[b]);
+                    break;
+            }
             selected_A(b_a_ck);
             b = 3; // Blue channel set to A
         }
@@ -6219,7 +6724,21 @@ namespace plt0_gui
         }
         private void A_R_Click(object sender, EventArgs e)
         {
-            unchecked_R(a_ck[a]);
+            switch (a)
+            {
+                case 0:
+                    unchecked_R(a_ck[a]);
+                    break;
+                case 1:
+                    unchecked_G(a_ck[a]);
+                    break;
+                case 2:
+                    unchecked_B(a_ck[a]);
+                    break;
+                case 3:
+                    unchecked_A(a_ck[a]);
+                    break;
+            }
             selected_R(a_r_ck);
             a = 0; // Alpha channel set to R
         }
@@ -6239,7 +6758,21 @@ namespace plt0_gui
         }
         private void A_G_Click(object sender, EventArgs e)
         {
-            unchecked_G(a_ck[a]);
+            switch (a)
+            {
+                case 0:
+                    unchecked_R(a_ck[a]);
+                    break;
+                case 1:
+                    unchecked_G(a_ck[a]);
+                    break;
+                case 2:
+                    unchecked_B(a_ck[a]);
+                    break;
+                case 3:
+                    unchecked_A(a_ck[a]);
+                    break;
+            }
             selected_G(a_g_ck);
             a = 1; // Alpha channel set to G
         }
@@ -6259,7 +6792,21 @@ namespace plt0_gui
         }
         private void A_B_Click(object sender, EventArgs e)
         {
-            unchecked_B(a_ck[a]);
+            switch (a)
+            {
+                case 0:
+                    unchecked_R(a_ck[a]);
+                    break;
+                case 1:
+                    unchecked_G(a_ck[a]);
+                    break;
+                case 2:
+                    unchecked_B(a_ck[a]);
+                    break;
+                case 3:
+                    unchecked_A(a_ck[a]);
+                    break;
+            }
             selected_B(a_b_ck);
             a = 2; // Alpha channel set to B
         }
@@ -6279,7 +6826,21 @@ namespace plt0_gui
         }
         private void A_A_Click(object sender, EventArgs e)
         {
-            unchecked_A(a_ck[a]);
+            switch (a)
+            {
+                case 0:
+                    unchecked_R(a_ck[a]);
+                    break;
+                case 1:
+                    unchecked_G(a_ck[a]);
+                    break;
+                case 2:
+                    unchecked_B(a_ck[a]);
+                    break;
+                case 3:
+                    unchecked_A(a_ck[a]);
+                    break;
+            }
             selected_A(a_a_ck);
             a = 3; // Alpha channel set to A
         }
@@ -6296,6 +6857,216 @@ namespace plt0_gui
                 checked_A(a_a_ck);
             else
                 unchecked_A(a_a_ck);
+        }
+        private void view_alpha_Click(object sender, EventArgs e)
+        {
+            if (view_alpha)
+            {
+                for (byte i = 0; i < alpha_ck_array.Count; i++)
+                {
+                    alpha_ck_array[i].Visible = false;
+                }
+                view_alpha = false;
+                view_alpha_ck.BackgroundImage = light_blue_circle;
+            }
+            else
+            {
+                for (byte i = 0; i < alpha_ck_array.Count; i++)
+                {
+                    alpha_ck_array[i].Visible = true;
+                }
+                view_alpha = true;
+                view_alpha_ck.BackgroundImage = light_blue_circle_on;
+            }
+        }
+        private void view_alpha_MouseEnter(object sender, EventArgs e)
+        {
+            if (view_alpha)
+                view_alpha_ck.BackgroundImage = light_blue_circle_on;
+            else
+                view_alpha_ck.BackgroundImage = light_blue_circle;
+        }
+        private void view_alpha_MouseLeave(object sender, EventArgs e)
+        {
+            if (view_alpha)
+                view_alpha_ck.BackgroundImage = white_circle_on;
+            else
+                view_alpha_ck.BackgroundImage = white_circle;
+        }
+        private void view_algorithm_Click(object sender, EventArgs e)
+        {
+            if (view_algorithm)
+            {
+                for (byte i = 0; i < algorithm_ck.Count; i++)
+                {
+                    algorithm_ck[i].Visible = false;
+                }
+                view_algorithm = false;
+                view_algorithm_ck.BackgroundImage = light_blue_circle;
+            }
+            else
+            {
+                for (byte i = 0; i < algorithm_ck.Count; i++)
+                {
+                    algorithm_ck[i].Visible = true;
+                }
+                view_algorithm = true;
+                view_algorithm_ck.BackgroundImage = light_blue_circle_on;
+            }
+        }
+        private void view_algorithm_MouseEnter(object sender, EventArgs e)
+        {
+            if (view_algorithm)
+                view_algorithm_ck.BackgroundImage = light_blue_circle_on;
+            else
+                view_algorithm_ck.BackgroundImage = light_blue_circle;
+        }
+        private void view_algorithm_MouseLeave(object sender, EventArgs e)
+        {
+            if (view_algorithm)
+                view_algorithm_ck.BackgroundImage = white_circle_on;
+            else
+                view_algorithm_ck.BackgroundImage = white_circle;
+        }
+        private void view_WrapS_Click(object sender, EventArgs e)
+        {
+            if (view_WrapS)
+            {
+                for (byte i = 0; i < WrapS_ck.Count; i++)
+                {
+                    WrapS_ck[i].Visible = false;
+                }
+                view_WrapS = false;
+                view_WrapS_ck.BackgroundImage = light_blue_circle;
+            }
+            else
+            {
+                for (byte i = 0; i < WrapS_ck.Count; i++)
+                {
+                    WrapS_ck[i].Visible = true;
+                }
+                view_WrapS = true;
+                view_WrapS_ck.BackgroundImage = light_blue_circle_on;
+            }
+        }
+        private void view_WrapS_MouseEnter(object sender, EventArgs e)
+        {
+            if (view_WrapS)
+                view_WrapS_ck.BackgroundImage = light_blue_circle_on;
+            else
+                view_WrapS_ck.BackgroundImage = light_blue_circle;
+        }
+        private void view_WrapS_MouseLeave(object sender, EventArgs e)
+        {
+            if (view_WrapS)
+                view_WrapS_ck.BackgroundImage = white_circle_on;
+            else
+                view_WrapS_ck.BackgroundImage = white_circle;
+        }
+        private void view_WrapT_Click(object sender, EventArgs e)
+        {
+            if (view_WrapT)
+            {
+                for (byte i = 0; i < WrapT_ck.Count; i++)
+                {
+                    WrapT_ck[i].Visible = false;
+                }
+                view_WrapT = false;
+                view_WrapT_ck.BackgroundImage = light_blue_circle;
+            }
+            else
+            {
+                for (byte i = 0; i < WrapT_ck.Count; i++)
+                {
+                    WrapT_ck[i].Visible = true;
+                }
+                view_WrapT = true;
+                view_WrapT_ck.BackgroundImage = light_blue_circle_on;
+            }
+        }
+        private void view_WrapT_MouseEnter(object sender, EventArgs e)
+        {
+            if (view_WrapT)
+                view_WrapT_ck.BackgroundImage = light_blue_circle_on;
+            else
+                view_WrapT_ck.BackgroundImage = light_blue_circle;
+        }
+        private void view_WrapT_MouseLeave(object sender, EventArgs e)
+        {
+            if (view_WrapT)
+                view_WrapT_ck.BackgroundImage = white_circle_on;
+            else
+                view_WrapT_ck.BackgroundImage = white_circle;
+        }
+        private void view_min_Click(object sender, EventArgs e)
+        {
+            if (view_min)
+            {
+                for (byte i = 0; i < minification_ck.Count; i++)
+                {
+                    minification_ck[i].Visible = false;
+                }
+                view_min = false;
+                view_min_ck.BackgroundImage = light_blue_circle;
+            }
+            else
+            {
+                for (byte i = 0; i < minification_ck.Count; i++)
+                {
+                    minification_ck[i].Visible = true;
+                }
+                view_min = true;
+                view_min_ck.BackgroundImage = light_blue_circle_on;
+            }
+        }
+        private void view_min_MouseEnter(object sender, EventArgs e)
+        {
+            if (view_min)
+                view_min_ck.BackgroundImage = light_blue_circle_on;
+            else
+                view_min_ck.BackgroundImage = light_blue_circle;
+        }
+        private void view_min_MouseLeave(object sender, EventArgs e)
+        {
+            if (view_min)
+                view_min_ck.BackgroundImage = white_circle_on;
+            else
+                view_min_ck.BackgroundImage = white_circle;
+        }
+        private void view_mag_Click(object sender, EventArgs e)
+        {
+            if (view_mag)
+            {
+                for (byte i = 0; i < magnification_ck.Count; i++)
+                {
+                    magnification_ck[i].Visible = false;
+                }
+                view_mag = false;
+                view_mag_ck.BackgroundImage = light_blue_circle;
+            }
+            else
+            {
+                for (byte i = 0; i < magnification_ck.Count; i++)
+                {
+                    magnification_ck[i].Visible = true;
+                }
+                view_mag = true;
+                view_mag_ck.BackgroundImage = light_blue_circle_on;
+            }
+        }
+        private void view_mag_MouseEnter(object sender, EventArgs e)
+        {
+            if (view_mag)
+                view_mag_ck.BackgroundImage = light_blue_circle_on;
+            else
+                view_mag_ck.BackgroundImage = light_blue_circle;
+        }
+        private void view_mag_MouseLeave(object sender, EventArgs e)
+        {
+            if (view_mag)
+                view_mag_ck.BackgroundImage = white_circle_on;
+            else
+                view_mag_ck.BackgroundImage = white_circle;
         }
     }
 }

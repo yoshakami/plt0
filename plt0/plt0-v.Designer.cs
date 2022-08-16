@@ -220,6 +220,24 @@
         private System.Windows.Forms.Label a_r_ck_hitbox;
         private System.Windows.Forms.Label a_g_ck_hitbox;
         private System.Windows.Forms.Label a_b_ck_hitbox;
+        private System.Windows.Forms.PictureBox view_alpha_ck;
+        private System.Windows.Forms.Label view_alpha_label;
+        private System.Windows.Forms.Label view_alpha_hitbox;
+        private System.Windows.Forms.PictureBox view_algorithm_ck;
+        private System.Windows.Forms.Label view_algorithm_label;
+        private System.Windows.Forms.Label view_algorithm_hitbox;
+        private System.Windows.Forms.PictureBox view_WrapS_ck;
+        private System.Windows.Forms.Label view_WrapS_label;
+        private System.Windows.Forms.Label view_WrapS_hitbox;
+        private System.Windows.Forms.PictureBox view_WrapT_ck;
+        private System.Windows.Forms.Label view_WrapT_label;
+        private System.Windows.Forms.Label view_WrapT_hitbox;
+        private System.Windows.Forms.PictureBox view_mag_ck;
+        private System.Windows.Forms.Label view_mag_label;
+        private System.Windows.Forms.Label view_mag_hitbox;
+        private System.Windows.Forms.PictureBox view_min_ck;
+        private System.Windows.Forms.Label view_min_label;
+        private System.Windows.Forms.Label view_min_hitbox;
         /*
 /// <summary>
 /// Required designer variable.

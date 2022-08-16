@@ -199,7 +199,21 @@ for g in channel:  # this looks unreadable because it's packed up instead of pas
     for h in range(4):
         output += """        private void """ + g + '_' + channel[h] + """_Click(object sender, EventArgs e)
         {
-            unchecked_""" + g.lower() + "_ck[" + g.lower() + "](" + g.lower() + "_ck[" + g.lower() + """]);
+            switch (""" + g.lower() + """)
+            {
+                case 0:
+                    unchecked_R(""" + g.lower() + "_ck[" + g.lower() + """]);
+                    break;
+                case 1:
+                    unchecked_G(""" + g.lower() + "_ck[" + g.lower() + """]);
+                    break;
+                case 2:
+                    unchecked_B(""" + g.lower() + "_ck[" + g.lower() + """]);
+                    break;
+                case 3:
+                    unchecked_A(""" + g.lower() + "_ck[" + g.lower() + """]);
+                    break;
+            }
             selected_""" + channel[h] + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
             """ + g.lower() + " = " + str(h) + "; // " + channel2[i] + " channel set to " + channel[h] + """
         }
@@ -216,6 +230,45 @@ for g in channel:  # this looks unreadable because it's packed up instead of pas
                 checked_""" + channel[h] + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
             else
                 unchecked_""" + channel[h] + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
+        }
+"""
+view = ["view_alpha", "view_algorithm", "view_WrapS", "view_WrapT", "view_min", "view_mag"]
+ck_name = ["alpha_ck_array", "algorithm_ck", "WrapS_ck", "WrapT_ck", "minification_ck", "magnification_ck"]
+for i in range(len(view)):
+    output += """        private void """ + view[i] + """_Click(object sender, EventArgs e)
+        {
+            if (""" + view[i] + """)
+            {
+                for (byte i = 0; i < """ + ck_name[i] + """.Count; i++)
+                {
+                    """ + ck_name[i] + """[i].Visible = false;
+                }
+                """ + view[i] + """ = false;
+                """ + view[i] + """_ck.BackgroundImage = light_blue_circle;
+            }
+            else
+            {
+                for (byte i = 0; i < """ + ck_name[i] + """.Count; i++)
+                {
+                    """ + ck_name[i] + """[i].Visible = true;
+                }
+                """ + view[i] + """ = true;
+                """ + view[i] + """_ck.BackgroundImage = light_blue_circle_on;
+            }
+        }
+        private void """ + view[i] + """_MouseEnter(object sender, EventArgs e)
+        {
+            if (""" + view[i] + """)
+                """ + view[i] + """_ck.BackgroundImage = light_blue_circle_on;
+            else
+                """ + view[i] + """_ck.BackgroundImage = light_blue_circle;
+        }
+        private void """ + view[i] + """_MouseLeave(object sender, EventArgs e)
+        {
+            if (""" + view[i] + """)
+                """ + view[i] + """_ck.BackgroundImage = white_circle_on;
+            else
+                """ + view[i] + """_ck.BackgroundImage = white_circle;
         }
 """
 pyperclip.copy(output)
