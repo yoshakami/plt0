@@ -53,6 +53,16 @@ namespace plt0_gui
         bool stfu = false;
         bool no_warning = false;
         List<PictureBox> encoding_ck = new List<PictureBox>();
+        List<PictureBox> a_ck = new List<PictureBox>();
+        List<PictureBox> b_ck = new List<PictureBox>();
+        List<PictureBox> g_ck = new List<PictureBox>();
+        List<PictureBox> r_ck = new List<PictureBox>();
+        List<PictureBox> magnification_ck = new List<PictureBox>();
+        List<PictureBox> minification_ck = new List<PictureBox>();
+        List<PictureBox> WrapS_ck = new List<PictureBox>();
+        List<PictureBox> WrapT_ck = new List<PictureBox>();
+        List<PictureBox> alpha_ck_array = new List<PictureBox>();
+        List<PictureBox> algorithm_ck = new List<PictureBox>();
         Image white_box;
         Image green_box;
         Image check;
@@ -144,6 +154,10 @@ namespace plt0_gui
                 violet_circle = System.Drawing.Image.FromFile(execPath + "images/violet_circle.png");
             }
         }
+        private void plt0_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Move;
+        }
         private void plt0_DragDrop(object sender, DragEventArgs e)
         {
 
@@ -179,7 +193,8 @@ namespace plt0_gui
         private void hover_checkbox(PictureBox checkbox)
         {
             checkbox.BackgroundImage = green_box;
-        }// implementation of radio buttons
+        }
+        // implementation of radio buttons
         private void unchecked_encoding(PictureBox radiobutton)
         {
             radiobutton.BackgroundImage = violet_circle;
@@ -192,9 +207,125 @@ namespace plt0_gui
         {
             radiobutton.BackgroundImage = pink_circle;
         }
-        private void plt0_DragEnter(object sender, DragEventArgs e)
+        private void unchecked_A(PictureBox radiobutton)
         {
-            e.Effect = DragDropEffects.Move;
+            radiobutton.BackgroundImage = violet_circle;
+        }
+        private void checked_A(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = violet_circle_on;
+        }
+        private void hover_A(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = pink_circle;
+        }
+        private void unchecked_B(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = violet_circle;
+        }
+        private void checked_B(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = violet_circle_on;
+        }
+        private void hover_B(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = pink_circle;
+        }
+        private void unchecked_G(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = violet_circle;
+        }
+        private void checked_G(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = violet_circle_on;
+        }
+        private void hover_G(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = pink_circle;
+        }
+        private void unchecked_R(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = violet_circle;
+        }
+        private void checked_R(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = violet_circle_on;
+        }
+        private void hover_R(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = pink_circle;
+        }
+        private void unchecked_B_A(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = violet_circle;
+        }
+        private void checked_B_A(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = violet_circle_on;
+        }
+        private void hover_B_A(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = pink_circle;
+        }
+        private void unchecked_B_B(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = violet_circle;
+        }
+        private void checked_B_B(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = violet_circle_on;
+        }
+        private void hover_B_B(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = pink_circle;
+        }
+        private void unchecked_B_G(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = violet_circle;
+        }
+        private void checked_B_G(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = violet_circle_on;
+        }
+        private void hover_B_G(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = pink_circle;
+        }
+        private void unchecked_B_R(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = violet_circle;
+        }
+        private void checked_B_R(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = violet_circle_on;
+        }
+        private void hover_B_R(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = pink_circle;
+        }
+        private void unchecked_G_A(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = violet_circle;
+        }
+        private void checked_G_A(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = violet_circle_on;
+        }
+        private void hover_G_A(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = pink_circle;
+        }
+        private void unchecked_G_B(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = violet_circle;
+        }
+        private void checked_G_B(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = violet_circle_on;
+        }
+        private void hover_G_B(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = pink_circle;
         }
         // the whole code below is generated by something else than me typing on my keyboard in Visual Studio
         private void InitializeComponent()
@@ -5059,259 +5190,259 @@ namespace plt0_gui
         }
         private void R_R_Click(object sender, EventArgs e)
         {
-            unchecked_R_R(r_r_ck[r]);
-            checked_R_R(r_r_ck);
+            unchecked_R(r_ck[r]);
+            checked_R(r_r_ck);
             r = 0; // Red channel set to R
         }
         private void R_R_MouseEnter(object sender, EventArgs e)
         {
             if (r != 0)
-                hover_R_R(r_r_ck);
+                hover_R(r_r_ck);
         }
         private void R_R_MouseLeave(object sender, EventArgs e)
         {
             if (r != 0)
-                unchecked_R_R(r_r_ck);
+                unchecked_R(r_r_ck);
         }
         private void R_G_Click(object sender, EventArgs e)
         {
-            unchecked_R_G(r_g_ck[r]);
-            checked_R_G(r_g_ck);
+            unchecked_R(r_ck[r]);
+            checked_R(r_g_ck);
             r = 1; // Red channel set to G
         }
         private void R_G_MouseEnter(object sender, EventArgs e)
         {
             if (r != 1)
-                hover_R_G(r_g_ck);
+                hover_R(r_g_ck);
         }
         private void R_G_MouseLeave(object sender, EventArgs e)
         {
             if (r != 1)
-                unchecked_R_G(r_g_ck);
+                unchecked_R(r_g_ck);
         }
         private void R_B_Click(object sender, EventArgs e)
         {
-            unchecked_R_B(r_b_ck[r]);
-            checked_R_B(r_b_ck);
+            unchecked_R(r_ck[r]);
+            checked_R(r_b_ck);
             r = 2; // Red channel set to B
         }
         private void R_B_MouseEnter(object sender, EventArgs e)
         {
             if (r != 2)
-                hover_R_B(r_b_ck);
+                hover_R(r_b_ck);
         }
         private void R_B_MouseLeave(object sender, EventArgs e)
         {
             if (r != 2)
-                unchecked_R_B(r_b_ck);
+                unchecked_R(r_b_ck);
         }
         private void R_A_Click(object sender, EventArgs e)
         {
-            unchecked_R_A(r_a_ck[r]);
-            checked_R_A(r_a_ck);
+            unchecked_R(r_ck[r]);
+            checked_R(r_a_ck);
             r = 3; // Red channel set to A
         }
         private void R_A_MouseEnter(object sender, EventArgs e)
         {
             if (r != 3)
-                hover_R_A(r_a_ck);
+                hover_R(r_a_ck);
         }
         private void R_A_MouseLeave(object sender, EventArgs e)
         {
             if (r != 3)
-                unchecked_R_A(r_a_ck);
+                unchecked_R(r_a_ck);
         }
         private void G_R_Click(object sender, EventArgs e)
         {
-            unchecked_G_R(g_r_ck[g]);
-            checked_G_R(g_r_ck);
+            unchecked_G(g_ck[g]);
+            checked_G(g_r_ck);
             g = 0; // Green channel set to R
         }
         private void G_R_MouseEnter(object sender, EventArgs e)
         {
             if (g != 0)
-                hover_G_R(g_r_ck);
+                hover_G(g_r_ck);
         }
         private void G_R_MouseLeave(object sender, EventArgs e)
         {
             if (g != 0)
-                unchecked_G_R(g_r_ck);
+                unchecked_G(g_r_ck);
         }
         private void G_G_Click(object sender, EventArgs e)
         {
-            unchecked_G_G(g_g_ck[g]);
-            checked_G_G(g_g_ck);
+            unchecked_G(g_ck[g]);
+            checked_G(g_g_ck);
             g = 1; // Green channel set to G
         }
         private void G_G_MouseEnter(object sender, EventArgs e)
         {
             if (g != 1)
-                hover_G_G(g_g_ck);
+                hover_G(g_g_ck);
         }
         private void G_G_MouseLeave(object sender, EventArgs e)
         {
             if (g != 1)
-                unchecked_G_G(g_g_ck);
+                unchecked_G(g_g_ck);
         }
         private void G_B_Click(object sender, EventArgs e)
         {
-            unchecked_G_B(g_b_ck[g]);
-            checked_G_B(g_b_ck);
+            unchecked_G(g_ck[g]);
+            checked_G(g_b_ck);
             g = 2; // Green channel set to B
         }
         private void G_B_MouseEnter(object sender, EventArgs e)
         {
             if (g != 2)
-                hover_G_B(g_b_ck);
+                hover_G(g_b_ck);
         }
         private void G_B_MouseLeave(object sender, EventArgs e)
         {
             if (g != 2)
-                unchecked_G_B(g_b_ck);
+                unchecked_G(g_b_ck);
         }
         private void G_A_Click(object sender, EventArgs e)
         {
-            unchecked_G_A(g_a_ck[g]);
-            checked_G_A(g_a_ck);
+            unchecked_G(g_ck[g]);
+            checked_G(g_a_ck);
             g = 3; // Green channel set to A
         }
         private void G_A_MouseEnter(object sender, EventArgs e)
         {
             if (g != 3)
-                hover_G_A(g_a_ck);
+                hover_G(g_a_ck);
         }
         private void G_A_MouseLeave(object sender, EventArgs e)
         {
             if (g != 3)
-                unchecked_G_A(g_a_ck);
+                unchecked_G(g_a_ck);
         }
         private void B_R_Click(object sender, EventArgs e)
         {
-            unchecked_B_R(b_r_ck[b]);
-            checked_B_R(b_r_ck);
+            unchecked_B(b_ck[b]);
+            checked_B(b_r_ck);
             b = 0; // Blue channel set to R
         }
         private void B_R_MouseEnter(object sender, EventArgs e)
         {
             if (b != 0)
-                hover_B_R(b_r_ck);
+                hover_B(b_r_ck);
         }
         private void B_R_MouseLeave(object sender, EventArgs e)
         {
             if (b != 0)
-                unchecked_B_R(b_r_ck);
+                unchecked_B(b_r_ck);
         }
         private void B_G_Click(object sender, EventArgs e)
         {
-            unchecked_B_G(b_g_ck[b]);
-            checked_B_G(b_g_ck);
+            unchecked_B(b_ck[b]);
+            checked_B(b_g_ck);
             b = 1; // Blue channel set to G
         }
         private void B_G_MouseEnter(object sender, EventArgs e)
         {
             if (b != 1)
-                hover_B_G(b_g_ck);
+                hover_B(b_g_ck);
         }
         private void B_G_MouseLeave(object sender, EventArgs e)
         {
             if (b != 1)
-                unchecked_B_G(b_g_ck);
+                unchecked_B(b_g_ck);
         }
         private void B_B_Click(object sender, EventArgs e)
         {
-            unchecked_B_B(b_b_ck[b]);
-            checked_B_B(b_b_ck);
+            unchecked_B(b_ck[b]);
+            checked_B(b_b_ck);
             b = 2; // Blue channel set to B
         }
         private void B_B_MouseEnter(object sender, EventArgs e)
         {
             if (b != 2)
-                hover_B_B(b_b_ck);
+                hover_B(b_b_ck);
         }
         private void B_B_MouseLeave(object sender, EventArgs e)
         {
             if (b != 2)
-                unchecked_B_B(b_b_ck);
+                unchecked_B(b_b_ck);
         }
         private void B_A_Click(object sender, EventArgs e)
         {
-            unchecked_B_A(b_a_ck[b]);
-            checked_B_A(b_a_ck);
+            unchecked_B(b_ck[b]);
+            checked_B(b_a_ck);
             b = 3; // Blue channel set to A
         }
         private void B_A_MouseEnter(object sender, EventArgs e)
         {
             if (b != 3)
-                hover_B_A(b_a_ck);
+                hover_B(b_a_ck);
         }
         private void B_A_MouseLeave(object sender, EventArgs e)
         {
             if (b != 3)
-                unchecked_B_A(b_a_ck);
+                unchecked_B(b_a_ck);
         }
         private void A_R_Click(object sender, EventArgs e)
         {
-            unchecked_A_R(a_r_ck[a]);
-            checked_A_R(a_r_ck);
+            unchecked_A(a_ck[a]);
+            checked_A(a_r_ck);
             a = 0; // Alpha channel set to R
         }
         private void A_R_MouseEnter(object sender, EventArgs e)
         {
             if (a != 0)
-                hover_A_R(a_r_ck);
+                hover_A(a_r_ck);
         }
         private void A_R_MouseLeave(object sender, EventArgs e)
         {
             if (a != 0)
-                unchecked_A_R(a_r_ck);
+                unchecked_A(a_r_ck);
         }
         private void A_G_Click(object sender, EventArgs e)
         {
-            unchecked_A_G(a_g_ck[a]);
-            checked_A_G(a_g_ck);
+            unchecked_A(a_ck[a]);
+            checked_A(a_g_ck);
             a = 1; // Alpha channel set to G
         }
         private void A_G_MouseEnter(object sender, EventArgs e)
         {
             if (a != 1)
-                hover_A_G(a_g_ck);
+                hover_A(a_g_ck);
         }
         private void A_G_MouseLeave(object sender, EventArgs e)
         {
             if (a != 1)
-                unchecked_A_G(a_g_ck);
+                unchecked_A(a_g_ck);
         }
         private void A_B_Click(object sender, EventArgs e)
         {
-            unchecked_A_B(a_b_ck[a]);
-            checked_A_B(a_b_ck);
+            unchecked_A(a_ck[a]);
+            checked_A(a_b_ck);
             a = 2; // Alpha channel set to B
         }
         private void A_B_MouseEnter(object sender, EventArgs e)
         {
             if (a != 2)
-                hover_A_B(a_b_ck);
+                hover_A(a_b_ck);
         }
         private void A_B_MouseLeave(object sender, EventArgs e)
         {
             if (a != 2)
-                unchecked_A_B(a_b_ck);
+                unchecked_A(a_b_ck);
         }
         private void A_A_Click(object sender, EventArgs e)
         {
-            unchecked_A_A(a_a_ck[a]);
-            checked_A_A(a_a_ck);
+            unchecked_A(a_ck[a]);
+            checked_A(a_a_ck);
             a = 3; // Alpha channel set to A
         }
         private void A_A_MouseEnter(object sender, EventArgs e)
         {
             if (a != 3)
-                hover_A_A(a_a_ck);
+                hover_A(a_a_ck);
         }
         private void A_A_MouseLeave(object sender, EventArgs e)
         {
             if (a != 3)
-                unchecked_A_A(a_a_ck);
+                unchecked_A(a_a_ck);
         }
     }
 }
