@@ -121,7 +121,7 @@ for g in channel:  # this looks unreadable because it's packed up instead of pas
         output += """        private void """ + g + '_' + channel[h] + """_Click(object sender, EventArgs e)
         {
             unchecked_""" + g + "(" + g.lower() + "_ck[" + g.lower() + """]);
-            checked_""" + g + '_' + channel[h] + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
+            checked_""" + g + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
             """ + g.lower() + " = " + str(h) + "; // " + channel2[i] + " channel set to " + channel[h] + """
         }
         private void """ + g + '_' + channel[h] + """_MouseEnter(object sender, EventArgs e)
