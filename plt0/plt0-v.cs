@@ -101,6 +101,22 @@ namespace plt0_gui
         Image cherry_circle_on;
         Image purple_circle;
         Image purple_circle_on;
+        Image a_on;
+        Image a_off;
+        Image a_hover;
+        Image a_selected;
+        Image b_on;
+        Image b_off;
+        Image b_hover;
+        Image b_selected;
+        Image g_on;
+        Image g_off;
+        Image g_hover;
+        Image g_selected;
+        Image r_on;
+        Image r_off;
+        Image r_hover;
+        Image r_selected;
         // I couldn't manage to get external fonts working. this needs to be specified within the app itself :/
         // static string fontname = "Segoe UI";
         // Font font_normal = new System.Drawing.Font(fontname, 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
@@ -323,6 +339,70 @@ namespace plt0_gui
             {
                 purple_circle_on = System.Drawing.Image.FromFile(execPath + "images/purple_circle_on.png");
             }
+            if (System.IO.File.Exists(execPath + "images/r_on.png"))
+            {
+                r_on = System.Drawing.Image.FromFile(execPath + "images/r_on.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/r_off.png"))
+            {
+                r_off = System.Drawing.Image.FromFile(execPath + "images/r_off.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/r_hover.png"))
+            {
+                r_hover = System.Drawing.Image.FromFile(execPath + "images/r_hover.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/r_selected.png"))
+            {
+                r_selected = System.Drawing.Image.FromFile(execPath + "images/r_selected.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/g_on.png"))
+            {
+                g_on = System.Drawing.Image.FromFile(execPath + "images/g_on.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/g_off.png"))
+            {
+                g_off = System.Drawing.Image.FromFile(execPath + "images/g_off.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/g_hover.png"))
+            {
+                g_hover = System.Drawing.Image.FromFile(execPath + "images/g_hover.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/g_selected.png"))
+            {
+                g_selected = System.Drawing.Image.FromFile(execPath + "images/g_selected.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/b_on.png"))
+            {
+                b_on = System.Drawing.Image.FromFile(execPath + "images/b_on.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/b_off.png"))
+            {
+                b_off = System.Drawing.Image.FromFile(execPath + "images/b_off.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/b_hover.png"))
+            {
+                b_hover = System.Drawing.Image.FromFile(execPath + "images/b_hover.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/b_selected.png"))
+            {
+                b_selected = System.Drawing.Image.FromFile(execPath + "images/b_selected.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/a_on.png"))
+            {
+                a_on = System.Drawing.Image.FromFile(execPath + "images/a_on.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/a_off.png"))
+            {
+                a_off = System.Drawing.Image.FromFile(execPath + "images/a_off.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/a_hover.png"))
+            {
+                a_hover = System.Drawing.Image.FromFile(execPath + "images/a_hover.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/a_selected.png"))
+            {
+                a_selected = System.Drawing.Image.FromFile(execPath + "images/a_selected.png");
+            }
             unchecked_checkbox(ask_exit_ck);
             unchecked_checkbox(FORCE_ALPHA_ck);
             unchecked_checkbox(jpeg_ck);
@@ -465,67 +545,67 @@ namespace plt0_gui
         }
         private void unchecked_A(PictureBox radiobutton)
         {
-            radiobutton.BackgroundImage = violet_circle;
+            radiobutton.BackgroundImage = a_off;
         }
         private void checked_A(PictureBox radiobutton)
         {
-            radiobutton.BackgroundImage = violet_circle_on;
+            radiobutton.BackgroundImage = a_on;
         }
         private void hover_A(PictureBox radiobutton)
         {
-            radiobutton.BackgroundImage = pink_circle;
+            radiobutton.BackgroundImage = a_hover;
         }
         private void selected_A(PictureBox radiobutton)
         {
-            radiobutton.BackgroundImage = pink_circle_on;
+            radiobutton.BackgroundImage = a_selected;
         }
         private void unchecked_B(PictureBox radiobutton)
         {
-            radiobutton.BackgroundImage = violet_circle;
+            radiobutton.BackgroundImage = b_off;
         }
         private void checked_B(PictureBox radiobutton)
         {
-            radiobutton.BackgroundImage = violet_circle_on;
+            radiobutton.BackgroundImage = b_on;
         }
         private void hover_B(PictureBox radiobutton)
         {
-            radiobutton.BackgroundImage = pink_circle;
+            radiobutton.BackgroundImage = b_hover;
         }
         private void selected_B(PictureBox radiobutton)
         {
-            radiobutton.BackgroundImage = pink_circle_on;
+            radiobutton.BackgroundImage = b_selected;
         }
         private void unchecked_G(PictureBox radiobutton)
         {
-            radiobutton.BackgroundImage = violet_circle;
+            radiobutton.BackgroundImage = g_off;
         }
         private void checked_G(PictureBox radiobutton)
         {
-            radiobutton.BackgroundImage = violet_circle_on;
+            radiobutton.BackgroundImage = g_on;
         }
         private void hover_G(PictureBox radiobutton)
         {
-            radiobutton.BackgroundImage = pink_circle;
+            radiobutton.BackgroundImage = g_hover;
         }
         private void selected_G(PictureBox radiobutton)
         {
-            radiobutton.BackgroundImage = pink_circle_on;
+            radiobutton.BackgroundImage = g_selected;
         }
         private void unchecked_R(PictureBox radiobutton)
         {
-            radiobutton.BackgroundImage = violet_circle;
+            radiobutton.BackgroundImage = r_off;
         }
         private void checked_R(PictureBox radiobutton)
         {
-            radiobutton.BackgroundImage = violet_circle_on;
+            radiobutton.BackgroundImage = r_on;
         }
         private void hover_R(PictureBox radiobutton)
         {
-            radiobutton.BackgroundImage = pink_circle;
+            radiobutton.BackgroundImage = r_hover;
         }
         private void selected_R(PictureBox radiobutton)
         {
-            radiobutton.BackgroundImage = pink_circle_on;
+            radiobutton.BackgroundImage = r_selected;
         }
         private void unchecked_Magnification(PictureBox radiobutton)
         {
