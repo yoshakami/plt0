@@ -10,6 +10,8 @@ namespace plt0_gui
     public partial class plt0_gui : Form
     {
         public string execPath = AppDomain.CurrentDomain.BaseDirectory;
+
+        // checkboxes
         bool bmd = false;
         bool bti = false;
         bool tex0 = false;
@@ -22,28 +24,7 @@ namespace plt0_gui
         bool gif = false;
         bool tif = false;
         bool tiff = false;
-        byte encoding = 7;
-        byte cmpr_max = 16;  // number of colours that the program should take care in each 4x4 block - should always be set to 16 for better results.  // wimgt's cmpr encoding is better than mine. I gotta admit. 
-        byte WrapS = 1; // 0 = Clamp   1 = Repeat   2 = Mirror
-        byte WrapT = 1; // 0 = Clamp   1 = Repeat   2 = Mirror
-        byte algorithm = 0;  // 0 = CIE 601    1 = CIE 709     2 = custom RGBA     3 = Most Used Colours (No Gradient)
-        byte alpha = 9;  // 0 = no alpha - 1 = alpha - 2 = mix 
-        byte color;
-        byte cmpr_alpha_threshold = 100;
-        byte diversity = 10;
-        byte diversity2 = 0;
-        byte magnification_filter = 1;  // 0 = Nearest Neighbour   1 = Linear
-        byte minification_filter = 1;  // 0 = Nearest Neighbour   1 = Linear
-        byte mipmaps_number = 0;
-        byte round3 = 16;
-        byte round4 = 8;
-        byte round5 = 4;
-        byte round6 = 2;
-        byte r = 0;
-        byte g = 1;
-        byte b = 2;
-        byte a = 3;
-
+        // options
         bool ask_exit = false;
         bool FORCE_ALPHA = false;
         bool funky = false;
@@ -54,6 +35,29 @@ namespace plt0_gui
         bool warn = false;
         bool stfu = false;
         bool no_warning = false;
+        // radiobuttons
+        byte encoding = 7;
+        byte WrapS = 1; // 0 = Clamp   1 = Repeat   2 = Mirror
+        byte WrapT = 1; // 0 = Clamp   1 = Repeat   2 = Mirror
+        byte algorithm = 0;  // 0 = CIE 601    1 = CIE 709     2 = custom RGBA     3 = Most Used Colours (No Gradient)
+        byte alpha = 9;  // 0 = no alpha - 1 = alpha - 2 = mix 
+        byte magnification_filter = 1;  // 0 = Nearest Neighbour   1 = Linear
+        byte minification_filter = 1;  // 0 = Nearest Neighbour   1 = Linear
+        byte r = 0;
+        byte g = 1;
+        byte b = 2;
+        byte a = 3;
+        // numbers
+        byte cmpr_max = 16;  // number of colours that the program should take care in each 4x4 block - should always be set to 16 for better results.  // wimgt's cmpr encoding is better than mine. I gotta admit. 
+        byte cmpr_alpha_threshold = 100;
+        byte diversity = 10;
+        byte diversity2 = 0;
+        byte mipmaps_number = 0;
+        byte round3 = 16;
+        byte round4 = 8;
+        byte round5 = 4;
+        byte round6 = 2;
+        byte color;
         List<PictureBox> encoding_ck = new List<PictureBox>();
         List<PictureBox> a_ck = new List<PictureBox>();
         List<PictureBox> b_ck = new List<PictureBox>();
