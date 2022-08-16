@@ -37,12 +37,12 @@ namespace plt0_gui
         bool no_warning = false;
         // radiobuttons
         byte encoding = 7;
-        byte WrapS = 1; // 0 = Clamp   1 = Repeat   2 = Mirror
-        byte WrapT = 1; // 0 = Clamp   1 = Repeat   2 = Mirror
-        byte algorithm = 0;  // 0 = CIE 601    1 = CIE 709     2 = custom RGBA     3 = Most Used Colours (No Gradient)
-        byte alpha = 9;  // 0 = no alpha - 1 = alpha - 2 = mix 
-        byte magnification_filter = 1;  // 0 = Nearest Neighbour   1 = Linear
-        byte minification_filter = 1;  // 0 = Nearest Neighbour   1 = Linear
+        byte WrapS = 3; // 0 = Clamp   1 = Repeat   2 = Mirror
+        byte WrapT = 3; // 0 = Clamp   1 = Repeat   2 = Mirror
+        byte algorithm = 4;  // 0 = CIE 601    1 = CIE 709     2 = custom RGBA     3 = Most Used Colours (No Gradient)
+        byte alpha = 3;  // 0 = no alpha - 1 = alpha - 2 = mix 
+        byte magnification_filter = 6;  // 0 = Nearest Neighbour   1 = Linear
+        byte minification_filter = 6;  // 0 = Nearest Neighbour   1 = Linear
         byte r = 0;
         byte g = 1;
         byte b = 2;
@@ -77,8 +77,8 @@ namespace plt0_gui
         Image pink_circle_on;
         Image violet_circle;
         Image violet_circle_on;
-        Image chartreuse_circle;
-        Image chartreuse_circle_on;
+        Image white_circle;
+        Image white_circle_on;
         Image green_circle;
         Image green_circle_on;
         Image light_blue_circle;
@@ -93,6 +93,14 @@ namespace plt0_gui
         Image yellow_circle_on;
         Image orange_circle;
         Image orange_circle_on;
+        Image fushia_circle;
+        Image fushia_circle_on;
+        Image cyan_circle;
+        Image cyan_circle_on;
+        Image cherry_circle;
+        Image cherry_circle_on;
+        Image purple_circle;
+        Image purple_circle_on;
         // I couldn't manage to get external fonts working. this needs to be specified within the app itself :/
         // static string fontname = "Segoe UI";
         // Font font_normal = new System.Drawing.Font(fontname, 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
@@ -154,25 +162,31 @@ namespace plt0_gui
             magnification_ck.Add(mag_nearestmipmaplinear_ck);
             magnification_ck.Add(mag_linearmipmapnearest_ck);
             magnification_ck.Add(mag_linearmipmaplinear_ck);
+            magnification_ck.Add(mag_linearmipmaplinear_ck); // nothing
             minification_ck.Add(min_nearest_neighbour_ck);
             minification_ck.Add(min_linear_ck);
             minification_ck.Add(min_nearestmipmapnearest_ck);
             minification_ck.Add(min_nearestmipmaplinear_ck);
             minification_ck.Add(min_linearmipmapnearest_ck);
             minification_ck.Add(min_linearmipmaplinear_ck);
+            minification_ck.Add(min_linearmipmaplinear_ck); // nothing
             WrapS_ck.Add(Sclamp_ck);
             WrapS_ck.Add(Srepeat_ck);
             WrapS_ck.Add(Smirror_ck);
+            WrapS_ck.Add(Smirror_ck);  // nothing
             WrapT_ck.Add(Tclamp_ck);
             WrapT_ck.Add(Trepeat_ck);
             WrapT_ck.Add(Tmirror_ck);
+            WrapT_ck.Add(Tmirror_ck);  // nothing
             alpha_ck_array.Add(no_alpha_ck);
             alpha_ck_array.Add(alpha_ck);
             alpha_ck_array.Add(mix_ck);
+            alpha_ck_array.Add(mix_ck);  // nothing
             algorithm_ck.Add(cie_601_ck);
             algorithm_ck.Add(cie_709_ck);
             algorithm_ck.Add(custom_ck);
             algorithm_ck.Add(no_gradient_ck);
+            algorithm_ck.Add(cie_601_ck);  // nothing
             if (System.IO.File.Exists(execPath + "images/background.png"))
             {
                 this.BackgroundImage = System.Drawing.Image.FromFile(execPath + "images/background.png");
@@ -213,13 +227,13 @@ namespace plt0_gui
             {
                 violet_circle_on = System.Drawing.Image.FromFile(execPath + "images/violet_circle_on.png");
             }
-            if (System.IO.File.Exists(execPath + "images/chartreuse_circle.png"))
+            if (System.IO.File.Exists(execPath + "images/white_circle.png"))
             {
-                chartreuse_circle = System.Drawing.Image.FromFile(execPath + "images/chartreuse_circle.png");
+                white_circle = System.Drawing.Image.FromFile(execPath + "images/white_circle.png");
             }
-            if (System.IO.File.Exists(execPath + "images/chartreuse_circle_on.png"))
+            if (System.IO.File.Exists(execPath + "images/white_circle_on.png"))
             {
-                chartreuse_circle_on = System.Drawing.Image.FromFile(execPath + "images/chartreuse_circle_on.png");
+                white_circle_on = System.Drawing.Image.FromFile(execPath + "images/white_circle_on.png");
             }
             if (System.IO.File.Exists(execPath + "images/green_circle.png"))
             {
@@ -276,6 +290,38 @@ namespace plt0_gui
             if (System.IO.File.Exists(execPath + "images/orange_circle_on.png"))
             {
                 orange_circle_on = System.Drawing.Image.FromFile(execPath + "images/orange_circle_on.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/fushia_circle.png"))
+            {
+                fushia_circle = System.Drawing.Image.FromFile(execPath + "images/fushia_circle.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/fushia_circle_on.png"))
+            {
+                fushia_circle_on = System.Drawing.Image.FromFile(execPath + "images/fushia_circle_on.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/cyan_circle.png"))
+            {
+                cyan_circle = System.Drawing.Image.FromFile(execPath + "images/cyan_circle.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/cyan_circle_on.png"))
+            {
+                cyan_circle_on = System.Drawing.Image.FromFile(execPath + "images/cyan_circle_on.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/cherry_circle.png"))
+            {
+                cherry_circle = System.Drawing.Image.FromFile(execPath + "images/cherry_circle.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/cherry_circle_on.png"))
+            {
+                cherry_circle_on = System.Drawing.Image.FromFile(execPath + "images/cherry_circle_on.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/purple_circle.png"))
+            {
+                purple_circle = System.Drawing.Image.FromFile(execPath + "images/purple_circle.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/purple_circle_on.png"))
+            {
+                purple_circle_on = System.Drawing.Image.FromFile(execPath + "images/purple_circle_on.png");
             }
             unchecked_checkbox(ask_exit_ck);
             unchecked_checkbox(FORCE_ALPHA_ck);
@@ -523,11 +569,11 @@ namespace plt0_gui
         }
         private void hover_WrapT(PictureBox radiobutton)
         {
-            radiobutton.BackgroundImage = chartreuse_circle;
+            radiobutton.BackgroundImage = white_circle;
         }
         private void selected_WrapT(PictureBox radiobutton)
         {
-            radiobutton.BackgroundImage = chartreuse_circle_on;
+            radiobutton.BackgroundImage = white_circle_on;
         }
         private void unchecked_WrapS(PictureBox radiobutton)
         {
@@ -547,35 +593,35 @@ namespace plt0_gui
         }
         private void unchecked_alpha(PictureBox radiobutton)
         {
-            radiobutton.BackgroundImage = violet_circle;
+            radiobutton.BackgroundImage = fushia_circle;
         }
         private void checked_alpha(PictureBox radiobutton)
         {
-            radiobutton.BackgroundImage = violet_circle_on;
+            radiobutton.BackgroundImage = fushia_circle_on;
         }
         private void hover_alpha(PictureBox radiobutton)
         {
-            radiobutton.BackgroundImage = pink_circle;
+            radiobutton.BackgroundImage = cyan_circle;
         }
         private void selected_alpha(PictureBox radiobutton)
         {
-            radiobutton.BackgroundImage = pink_circle_on;
+            radiobutton.BackgroundImage = cyan_circle_on;
         }
         private void unchecked_algorithm(PictureBox radiobutton)
         {
-            radiobutton.BackgroundImage = violet_circle;
+            radiobutton.BackgroundImage = cherry_circle;
         }
         private void checked_algorithm(PictureBox radiobutton)
         {
-            radiobutton.BackgroundImage = violet_circle_on;
+            radiobutton.BackgroundImage = cherry_circle_on;
         }
         private void hover_algorithm(PictureBox radiobutton)
         {
-            radiobutton.BackgroundImage = pink_circle;
+            radiobutton.BackgroundImage = purple_circle;
         }
         private void selected_algorithm(PictureBox radiobutton)
         {
-            radiobutton.BackgroundImage = pink_circle_on;
+            radiobutton.BackgroundImage = purple_circle_on;
         }
         /* public FontFamily GetFontFamilyByName(string name)
         {
@@ -2518,7 +2564,7 @@ namespace plt0_gui
             this.no_gradient_ck.Enabled = false;
             this.no_gradient_ck.ErrorImage = null;
             this.no_gradient_ck.InitialImage = null;
-            this.no_gradient_ck.Location = new System.Drawing.Point(493, 306);
+            this.no_gradient_ck.Location = new System.Drawing.Point(493, 562);
             this.no_gradient_ck.Margin = new System.Windows.Forms.Padding(0);
             this.no_gradient_ck.Name = "no_gradient_ck";
             this.no_gradient_ck.Size = new System.Drawing.Size(64, 64);
@@ -2531,13 +2577,16 @@ namespace plt0_gui
             this.no_gradient_label.BackColor = System.Drawing.Color.Transparent;
             this.no_gradient_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.no_gradient_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.no_gradient_label.Location = new System.Drawing.Point(561, 307);
+            this.no_gradient_label.Location = new System.Drawing.Point(561, 563);
             this.no_gradient_label.Margin = new System.Windows.Forms.Padding(0);
             this.no_gradient_label.Name = "no_gradient_label";
             this.no_gradient_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
             this.no_gradient_label.Size = new System.Drawing.Size(148, 64);
             this.no_gradient_label.TabIndex = 245;
             this.no_gradient_label.Text = "No Gradient";
+            this.no_gradient_label.Click += new System.EventHandler(this.No_gradient_Click);
+            this.no_gradient_label.MouseEnter += new System.EventHandler(this.No_gradient_MouseEnter);
+            this.no_gradient_label.MouseLeave += new System.EventHandler(this.No_gradient_MouseLeave);
             // 
             // no_gradient_hitbox
             // 
@@ -2545,12 +2594,15 @@ namespace plt0_gui
             this.no_gradient_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.no_gradient_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.no_gradient_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.no_gradient_hitbox.Location = new System.Drawing.Point(490, 306);
+            this.no_gradient_hitbox.Location = new System.Drawing.Point(490, 562);
             this.no_gradient_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.no_gradient_hitbox.Name = "no_gradient_hitbox";
             this.no_gradient_hitbox.Padding = new System.Windows.Forms.Padding(250, 48, 0, 0);
             this.no_gradient_hitbox.Size = new System.Drawing.Size(250, 68);
             this.no_gradient_hitbox.TabIndex = 246;
+            this.no_gradient_hitbox.Click += new System.EventHandler(this.No_gradient_Click);
+            this.no_gradient_hitbox.MouseEnter += new System.EventHandler(this.No_gradient_MouseEnter);
+            this.no_gradient_hitbox.MouseLeave += new System.EventHandler(this.No_gradient_MouseLeave);
             // 
             // custom_ck
             // 
@@ -2559,7 +2611,7 @@ namespace plt0_gui
             this.custom_ck.Enabled = false;
             this.custom_ck.ErrorImage = null;
             this.custom_ck.InitialImage = null;
-            this.custom_ck.Location = new System.Drawing.Point(493, 242);
+            this.custom_ck.Location = new System.Drawing.Point(493, 498);
             this.custom_ck.Margin = new System.Windows.Forms.Padding(0);
             this.custom_ck.Name = "custom_ck";
             this.custom_ck.Size = new System.Drawing.Size(64, 64);
@@ -2572,13 +2624,16 @@ namespace plt0_gui
             this.custom_label.BackColor = System.Drawing.Color.Transparent;
             this.custom_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.custom_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.custom_label.Location = new System.Drawing.Point(561, 243);
+            this.custom_label.Location = new System.Drawing.Point(561, 499);
             this.custom_label.Margin = new System.Windows.Forms.Padding(0);
             this.custom_label.Name = "custom_label";
             this.custom_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
             this.custom_label.Size = new System.Drawing.Size(174, 64);
             this.custom_label.TabIndex = 242;
             this.custom_label.Text = "Custom RGBA";
+            this.custom_label.Click += new System.EventHandler(this.Custom_Click);
+            this.custom_label.MouseEnter += new System.EventHandler(this.Custom_MouseEnter);
+            this.custom_label.MouseLeave += new System.EventHandler(this.Custom_MouseLeave);
             // 
             // custom_hitbox
             // 
@@ -2586,12 +2641,15 @@ namespace plt0_gui
             this.custom_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.custom_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.custom_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.custom_hitbox.Location = new System.Drawing.Point(490, 242);
+            this.custom_hitbox.Location = new System.Drawing.Point(490, 498);
             this.custom_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.custom_hitbox.Name = "custom_hitbox";
             this.custom_hitbox.Padding = new System.Windows.Forms.Padding(250, 48, 0, 0);
             this.custom_hitbox.Size = new System.Drawing.Size(250, 68);
             this.custom_hitbox.TabIndex = 243;
+            this.custom_hitbox.Click += new System.EventHandler(this.Custom_Click);
+            this.custom_hitbox.MouseEnter += new System.EventHandler(this.Custom_MouseEnter);
+            this.custom_hitbox.MouseLeave += new System.EventHandler(this.Custom_MouseLeave);
             // 
             // cie_709_ck
             // 
@@ -2600,7 +2658,7 @@ namespace plt0_gui
             this.cie_709_ck.Enabled = false;
             this.cie_709_ck.ErrorImage = null;
             this.cie_709_ck.InitialImage = null;
-            this.cie_709_ck.Location = new System.Drawing.Point(493, 178);
+            this.cie_709_ck.Location = new System.Drawing.Point(493, 434);
             this.cie_709_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cie_709_ck.Name = "cie_709_ck";
             this.cie_709_ck.Size = new System.Drawing.Size(64, 64);
@@ -2613,7 +2671,7 @@ namespace plt0_gui
             this.cie_709_label.BackColor = System.Drawing.Color.Transparent;
             this.cie_709_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cie_709_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.cie_709_label.Location = new System.Drawing.Point(561, 178);
+            this.cie_709_label.Location = new System.Drawing.Point(561, 434);
             this.cie_709_label.Margin = new System.Windows.Forms.Padding(0);
             this.cie_709_label.Name = "cie_709_label";
             this.cie_709_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -2630,7 +2688,7 @@ namespace plt0_gui
             this.cie_709_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.cie_709_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cie_709_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.cie_709_hitbox.Location = new System.Drawing.Point(490, 178);
+            this.cie_709_hitbox.Location = new System.Drawing.Point(490, 434);
             this.cie_709_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.cie_709_hitbox.Name = "cie_709_hitbox";
             this.cie_709_hitbox.Padding = new System.Windows.Forms.Padding(250, 48, 0, 0);
@@ -2647,7 +2705,7 @@ namespace plt0_gui
             this.cie_601_ck.Enabled = false;
             this.cie_601_ck.ErrorImage = null;
             this.cie_601_ck.InitialImage = null;
-            this.cie_601_ck.Location = new System.Drawing.Point(493, 114);
+            this.cie_601_ck.Location = new System.Drawing.Point(493, 370);
             this.cie_601_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cie_601_ck.Name = "cie_601_ck";
             this.cie_601_ck.Size = new System.Drawing.Size(64, 64);
@@ -2660,7 +2718,7 @@ namespace plt0_gui
             this.cie_601_label.BackColor = System.Drawing.Color.Transparent;
             this.cie_601_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cie_601_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.cie_601_label.Location = new System.Drawing.Point(561, 114);
+            this.cie_601_label.Location = new System.Drawing.Point(561, 370);
             this.cie_601_label.Margin = new System.Windows.Forms.Padding(0);
             this.cie_601_label.Name = "cie_601_label";
             this.cie_601_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -2677,7 +2735,7 @@ namespace plt0_gui
             this.cie_601_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.cie_601_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cie_601_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.cie_601_hitbox.Location = new System.Drawing.Point(490, 114);
+            this.cie_601_hitbox.Location = new System.Drawing.Point(490, 370);
             this.cie_601_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.cie_601_hitbox.Name = "cie_601_hitbox";
             this.cie_601_hitbox.Padding = new System.Windows.Forms.Padding(250, 48, 0, 0);
@@ -2693,7 +2751,7 @@ namespace plt0_gui
             this.algorithm_label.BackColor = System.Drawing.Color.Transparent;
             this.algorithm_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.algorithm_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.algorithm_label.Location = new System.Drawing.Point(541, 84);
+            this.algorithm_label.Location = new System.Drawing.Point(541, 340);
             this.algorithm_label.Name = "algorithm_label";
             this.algorithm_label.Size = new System.Drawing.Size(119, 20);
             this.algorithm_label.TabIndex = 235;
@@ -2706,7 +2764,7 @@ namespace plt0_gui
             this.mix_ck.Enabled = false;
             this.mix_ck.ErrorImage = null;
             this.mix_ck.InitialImage = null;
-            this.mix_ck.Location = new System.Drawing.Point(493, 562);
+            this.mix_ck.Location = new System.Drawing.Point(493, 242);
             this.mix_ck.Margin = new System.Windows.Forms.Padding(0);
             this.mix_ck.Name = "mix_ck";
             this.mix_ck.Size = new System.Drawing.Size(64, 64);
@@ -2719,13 +2777,16 @@ namespace plt0_gui
             this.mix_label.BackColor = System.Drawing.Color.Transparent;
             this.mix_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.mix_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.mix_label.Location = new System.Drawing.Point(561, 563);
+            this.mix_label.Location = new System.Drawing.Point(561, 243);
             this.mix_label.Margin = new System.Windows.Forms.Padding(0);
             this.mix_label.Name = "mix_label";
             this.mix_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
             this.mix_label.Size = new System.Drawing.Size(47, 64);
             this.mix_label.TabIndex = 255;
             this.mix_label.Text = "Mix";
+            this.mix_label.Click += new System.EventHandler(this.Mix_Click);
+            this.mix_label.MouseEnter += new System.EventHandler(this.Mix_MouseEnter);
+            this.mix_label.MouseLeave += new System.EventHandler(this.Mix_MouseLeave);
             // 
             // mix_hitbox
             // 
@@ -2733,12 +2794,15 @@ namespace plt0_gui
             this.mix_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.mix_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.mix_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.mix_hitbox.Location = new System.Drawing.Point(490, 562);
+            this.mix_hitbox.Location = new System.Drawing.Point(490, 242);
             this.mix_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.mix_hitbox.Name = "mix_hitbox";
             this.mix_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
             this.mix_hitbox.Size = new System.Drawing.Size(190, 68);
             this.mix_hitbox.TabIndex = 256;
+            this.mix_hitbox.Click += new System.EventHandler(this.Mix_Click);
+            this.mix_hitbox.MouseEnter += new System.EventHandler(this.Mix_MouseEnter);
+            this.mix_hitbox.MouseLeave += new System.EventHandler(this.Mix_MouseLeave);
             // 
             // alpha_ck
             // 
@@ -2747,7 +2811,7 @@ namespace plt0_gui
             this.alpha_ck.Enabled = false;
             this.alpha_ck.ErrorImage = null;
             this.alpha_ck.InitialImage = null;
-            this.alpha_ck.Location = new System.Drawing.Point(493, 498);
+            this.alpha_ck.Location = new System.Drawing.Point(493, 178);
             this.alpha_ck.Margin = new System.Windows.Forms.Padding(0);
             this.alpha_ck.Name = "alpha_ck";
             this.alpha_ck.Size = new System.Drawing.Size(64, 64);
@@ -2760,13 +2824,16 @@ namespace plt0_gui
             this.alpha_label.BackColor = System.Drawing.Color.Transparent;
             this.alpha_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.alpha_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.alpha_label.Location = new System.Drawing.Point(561, 498);
+            this.alpha_label.Location = new System.Drawing.Point(561, 178);
             this.alpha_label.Margin = new System.Windows.Forms.Padding(0);
             this.alpha_label.Name = "alpha_label";
             this.alpha_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
             this.alpha_label.Size = new System.Drawing.Size(74, 64);
             this.alpha_label.TabIndex = 252;
             this.alpha_label.Text = "Alpha";
+            this.alpha_label.Click += new System.EventHandler(this.Alpha_Click);
+            this.alpha_label.MouseEnter += new System.EventHandler(this.Alpha_MouseEnter);
+            this.alpha_label.MouseLeave += new System.EventHandler(this.Alpha_MouseLeave);
             // 
             // alpha_hitbox
             // 
@@ -2774,12 +2841,15 @@ namespace plt0_gui
             this.alpha_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.alpha_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.alpha_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.alpha_hitbox.Location = new System.Drawing.Point(490, 498);
+            this.alpha_hitbox.Location = new System.Drawing.Point(490, 178);
             this.alpha_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.alpha_hitbox.Name = "alpha_hitbox";
             this.alpha_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
             this.alpha_hitbox.Size = new System.Drawing.Size(190, 68);
             this.alpha_hitbox.TabIndex = 253;
+            this.alpha_hitbox.Click += new System.EventHandler(this.Alpha_Click);
+            this.alpha_hitbox.MouseEnter += new System.EventHandler(this.Alpha_MouseEnter);
+            this.alpha_hitbox.MouseLeave += new System.EventHandler(this.Alpha_MouseLeave);
             // 
             // no_alpha_ck
             // 
@@ -2788,7 +2858,7 @@ namespace plt0_gui
             this.no_alpha_ck.Enabled = false;
             this.no_alpha_ck.ErrorImage = null;
             this.no_alpha_ck.InitialImage = null;
-            this.no_alpha_ck.Location = new System.Drawing.Point(493, 434);
+            this.no_alpha_ck.Location = new System.Drawing.Point(493, 114);
             this.no_alpha_ck.Margin = new System.Windows.Forms.Padding(0);
             this.no_alpha_ck.Name = "no_alpha_ck";
             this.no_alpha_ck.Size = new System.Drawing.Size(64, 64);
@@ -2801,13 +2871,16 @@ namespace plt0_gui
             this.no_alpha_label.BackColor = System.Drawing.Color.Transparent;
             this.no_alpha_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.no_alpha_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.no_alpha_label.Location = new System.Drawing.Point(561, 434);
+            this.no_alpha_label.Location = new System.Drawing.Point(561, 114);
             this.no_alpha_label.Margin = new System.Windows.Forms.Padding(0);
             this.no_alpha_label.Name = "no_alpha_label";
             this.no_alpha_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
             this.no_alpha_label.Size = new System.Drawing.Size(115, 64);
             this.no_alpha_label.TabIndex = 249;
             this.no_alpha_label.Text = "No Alpha";
+            this.no_alpha_label.Click += new System.EventHandler(this.No_alpha_Click);
+            this.no_alpha_label.MouseEnter += new System.EventHandler(this.No_alpha_MouseEnter);
+            this.no_alpha_label.MouseLeave += new System.EventHandler(this.No_alpha_MouseLeave);
             // 
             // no_alpha_hitbox
             // 
@@ -2815,12 +2888,15 @@ namespace plt0_gui
             this.no_alpha_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.no_alpha_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.no_alpha_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.no_alpha_hitbox.Location = new System.Drawing.Point(490, 434);
+            this.no_alpha_hitbox.Location = new System.Drawing.Point(490, 114);
             this.no_alpha_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.no_alpha_hitbox.Name = "no_alpha_hitbox";
             this.no_alpha_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
             this.no_alpha_hitbox.Size = new System.Drawing.Size(190, 68);
             this.no_alpha_hitbox.TabIndex = 250;
+            this.no_alpha_hitbox.Click += new System.EventHandler(this.No_alpha_Click);
+            this.no_alpha_hitbox.MouseEnter += new System.EventHandler(this.No_alpha_MouseEnter);
+            this.no_alpha_hitbox.MouseLeave += new System.EventHandler(this.No_alpha_MouseLeave);
             // 
             // alpha_title
             // 
@@ -2828,7 +2904,7 @@ namespace plt0_gui
             this.alpha_title.BackColor = System.Drawing.Color.Transparent;
             this.alpha_title.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.alpha_title.ForeColor = System.Drawing.SystemColors.Control;
-            this.alpha_title.Location = new System.Drawing.Point(541, 404);
+            this.alpha_title.Location = new System.Drawing.Point(541, 84);
             this.alpha_title.Name = "alpha_title";
             this.alpha_title.Size = new System.Drawing.Size(74, 20);
             this.alpha_title.TabIndex = 248;
@@ -2841,7 +2917,7 @@ namespace plt0_gui
             this.Tmirror_ck.Enabled = false;
             this.Tmirror_ck.ErrorImage = null;
             this.Tmirror_ck.InitialImage = null;
-            this.Tmirror_ck.Location = new System.Drawing.Point(873, 563);
+            this.Tmirror_ck.Location = new System.Drawing.Point(873, 498);
             this.Tmirror_ck.Margin = new System.Windows.Forms.Padding(0);
             this.Tmirror_ck.Name = "Tmirror_ck";
             this.Tmirror_ck.Size = new System.Drawing.Size(64, 64);
@@ -2854,13 +2930,16 @@ namespace plt0_gui
             this.Tmirror_label.BackColor = System.Drawing.Color.Transparent;
             this.Tmirror_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.Tmirror_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.Tmirror_label.Location = new System.Drawing.Point(941, 564);
+            this.Tmirror_label.Location = new System.Drawing.Point(941, 499);
             this.Tmirror_label.Margin = new System.Windows.Forms.Padding(0);
             this.Tmirror_label.Name = "Tmirror_label";
             this.Tmirror_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
             this.Tmirror_label.Size = new System.Drawing.Size(78, 64);
             this.Tmirror_label.TabIndex = 265;
             this.Tmirror_label.Text = "Mirror";
+            this.Tmirror_label.Click += new System.EventHandler(this.WrapT_Mirror_Click);
+            this.Tmirror_label.MouseEnter += new System.EventHandler(this.WrapT_Mirror_MouseEnter);
+            this.Tmirror_label.MouseLeave += new System.EventHandler(this.WrapT_Mirror_MouseLeave);
             // 
             // Tmirror_hitbox
             // 
@@ -2868,12 +2947,15 @@ namespace plt0_gui
             this.Tmirror_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.Tmirror_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.Tmirror_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.Tmirror_hitbox.Location = new System.Drawing.Point(870, 563);
+            this.Tmirror_hitbox.Location = new System.Drawing.Point(870, 498);
             this.Tmirror_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.Tmirror_hitbox.Name = "Tmirror_hitbox";
             this.Tmirror_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
             this.Tmirror_hitbox.Size = new System.Drawing.Size(190, 68);
             this.Tmirror_hitbox.TabIndex = 266;
+            this.Tmirror_hitbox.Click += new System.EventHandler(this.WrapT_Mirror_Click);
+            this.Tmirror_hitbox.MouseEnter += new System.EventHandler(this.WrapT_Mirror_MouseEnter);
+            this.Tmirror_hitbox.MouseLeave += new System.EventHandler(this.WrapT_Mirror_MouseLeave);
             // 
             // Trepeat_ck
             // 
@@ -2882,7 +2964,7 @@ namespace plt0_gui
             this.Trepeat_ck.Enabled = false;
             this.Trepeat_ck.ErrorImage = null;
             this.Trepeat_ck.InitialImage = null;
-            this.Trepeat_ck.Location = new System.Drawing.Point(873, 499);
+            this.Trepeat_ck.Location = new System.Drawing.Point(873, 434);
             this.Trepeat_ck.Margin = new System.Windows.Forms.Padding(0);
             this.Trepeat_ck.Name = "Trepeat_ck";
             this.Trepeat_ck.Size = new System.Drawing.Size(64, 64);
@@ -2895,13 +2977,16 @@ namespace plt0_gui
             this.Trepeat_label.BackColor = System.Drawing.Color.Transparent;
             this.Trepeat_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.Trepeat_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.Trepeat_label.Location = new System.Drawing.Point(941, 499);
+            this.Trepeat_label.Location = new System.Drawing.Point(941, 434);
             this.Trepeat_label.Margin = new System.Windows.Forms.Padding(0);
             this.Trepeat_label.Name = "Trepeat_label";
             this.Trepeat_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
             this.Trepeat_label.Size = new System.Drawing.Size(92, 64);
             this.Trepeat_label.TabIndex = 262;
             this.Trepeat_label.Text = "Repeat";
+            this.Trepeat_label.Click += new System.EventHandler(this.WrapT_Repeat_Click);
+            this.Trepeat_label.MouseEnter += new System.EventHandler(this.WrapT_Repeat_MouseEnter);
+            this.Trepeat_label.MouseLeave += new System.EventHandler(this.WrapT_Repeat_MouseLeave);
             // 
             // Trepeat_hitbox
             // 
@@ -2909,12 +2994,15 @@ namespace plt0_gui
             this.Trepeat_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.Trepeat_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.Trepeat_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.Trepeat_hitbox.Location = new System.Drawing.Point(870, 499);
+            this.Trepeat_hitbox.Location = new System.Drawing.Point(870, 434);
             this.Trepeat_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.Trepeat_hitbox.Name = "Trepeat_hitbox";
             this.Trepeat_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
             this.Trepeat_hitbox.Size = new System.Drawing.Size(190, 68);
             this.Trepeat_hitbox.TabIndex = 263;
+            this.Trepeat_hitbox.Click += new System.EventHandler(this.WrapT_Repeat_Click);
+            this.Trepeat_hitbox.MouseEnter += new System.EventHandler(this.WrapT_Repeat_MouseEnter);
+            this.Trepeat_hitbox.MouseLeave += new System.EventHandler(this.WrapT_Repeat_MouseLeave);
             // 
             // Tclamp_ck
             // 
@@ -2923,7 +3011,7 @@ namespace plt0_gui
             this.Tclamp_ck.Enabled = false;
             this.Tclamp_ck.ErrorImage = null;
             this.Tclamp_ck.InitialImage = null;
-            this.Tclamp_ck.Location = new System.Drawing.Point(873, 435);
+            this.Tclamp_ck.Location = new System.Drawing.Point(873, 370);
             this.Tclamp_ck.Margin = new System.Windows.Forms.Padding(0);
             this.Tclamp_ck.Name = "Tclamp_ck";
             this.Tclamp_ck.Size = new System.Drawing.Size(64, 64);
@@ -2936,13 +3024,16 @@ namespace plt0_gui
             this.Tclamp_label.BackColor = System.Drawing.Color.Transparent;
             this.Tclamp_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.Tclamp_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.Tclamp_label.Location = new System.Drawing.Point(941, 435);
+            this.Tclamp_label.Location = new System.Drawing.Point(941, 370);
             this.Tclamp_label.Margin = new System.Windows.Forms.Padding(0);
             this.Tclamp_label.Name = "Tclamp_label";
             this.Tclamp_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
             this.Tclamp_label.Size = new System.Drawing.Size(80, 64);
             this.Tclamp_label.TabIndex = 259;
             this.Tclamp_label.Text = "Clamp";
+            this.Tclamp_label.Click += new System.EventHandler(this.WrapT_Clamp_Click);
+            this.Tclamp_label.MouseEnter += new System.EventHandler(this.WrapT_Clamp_MouseEnter);
+            this.Tclamp_label.MouseLeave += new System.EventHandler(this.WrapT_Clamp_MouseLeave);
             // 
             // Tclamp_hitbox
             // 
@@ -2950,12 +3041,15 @@ namespace plt0_gui
             this.Tclamp_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.Tclamp_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.Tclamp_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.Tclamp_hitbox.Location = new System.Drawing.Point(870, 435);
+            this.Tclamp_hitbox.Location = new System.Drawing.Point(870, 370);
             this.Tclamp_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.Tclamp_hitbox.Name = "Tclamp_hitbox";
             this.Tclamp_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
             this.Tclamp_hitbox.Size = new System.Drawing.Size(190, 68);
             this.Tclamp_hitbox.TabIndex = 260;
+            this.Tclamp_hitbox.Click += new System.EventHandler(this.WrapT_Clamp_Click);
+            this.Tclamp_hitbox.MouseEnter += new System.EventHandler(this.WrapT_Clamp_MouseEnter);
+            this.Tclamp_hitbox.MouseLeave += new System.EventHandler(this.WrapT_Clamp_MouseLeave);
             // 
             // WrapT_label
             // 
@@ -2963,7 +3057,7 @@ namespace plt0_gui
             this.WrapT_label.BackColor = System.Drawing.Color.Transparent;
             this.WrapT_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.WrapT_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.WrapT_label.Location = new System.Drawing.Point(921, 405);
+            this.WrapT_label.Location = new System.Drawing.Point(921, 340);
             this.WrapT_label.Name = "WrapT_label";
             this.WrapT_label.Size = new System.Drawing.Size(83, 20);
             this.WrapT_label.TabIndex = 258;
@@ -2996,6 +3090,9 @@ namespace plt0_gui
             this.Smirror_label.Size = new System.Drawing.Size(78, 64);
             this.Smirror_label.TabIndex = 275;
             this.Smirror_label.Text = "Mirror";
+            this.Smirror_label.Click += new System.EventHandler(this.WrapS_Mirror_Click);
+            this.Smirror_label.MouseEnter += new System.EventHandler(this.WrapS_Mirror_MouseEnter);
+            this.Smirror_label.MouseLeave += new System.EventHandler(this.WrapS_Mirror_MouseLeave);
             // 
             // Smirror_hitbox
             // 
@@ -3009,6 +3106,9 @@ namespace plt0_gui
             this.Smirror_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
             this.Smirror_hitbox.Size = new System.Drawing.Size(190, 68);
             this.Smirror_hitbox.TabIndex = 276;
+            this.Smirror_hitbox.Click += new System.EventHandler(this.WrapS_Mirror_Click);
+            this.Smirror_hitbox.MouseEnter += new System.EventHandler(this.WrapS_Mirror_MouseEnter);
+            this.Smirror_hitbox.MouseLeave += new System.EventHandler(this.WrapS_Mirror_MouseLeave);
             // 
             // Srepeat_ck
             // 
@@ -3037,6 +3137,9 @@ namespace plt0_gui
             this.Srepeat_label.Size = new System.Drawing.Size(92, 64);
             this.Srepeat_label.TabIndex = 272;
             this.Srepeat_label.Text = "Repeat";
+            this.Srepeat_label.Click += new System.EventHandler(this.WrapS_Repeat_Click);
+            this.Srepeat_label.MouseEnter += new System.EventHandler(this.WrapS_Repeat_MouseEnter);
+            this.Srepeat_label.MouseLeave += new System.EventHandler(this.WrapS_Repeat_MouseLeave);
             // 
             // Srepeat_hitbox
             // 
@@ -3050,6 +3153,9 @@ namespace plt0_gui
             this.Srepeat_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
             this.Srepeat_hitbox.Size = new System.Drawing.Size(190, 68);
             this.Srepeat_hitbox.TabIndex = 273;
+            this.Srepeat_hitbox.Click += new System.EventHandler(this.WrapS_Repeat_Click);
+            this.Srepeat_hitbox.MouseEnter += new System.EventHandler(this.WrapS_Repeat_MouseEnter);
+            this.Srepeat_hitbox.MouseLeave += new System.EventHandler(this.WrapS_Repeat_MouseLeave);
             // 
             // Sclamp_ck
             // 
@@ -3078,6 +3184,9 @@ namespace plt0_gui
             this.Sclamp_label.Size = new System.Drawing.Size(80, 64);
             this.Sclamp_label.TabIndex = 269;
             this.Sclamp_label.Text = "Clamp";
+            this.Sclamp_label.Click += new System.EventHandler(this.WrapS_Clamp_Click);
+            this.Sclamp_label.MouseEnter += new System.EventHandler(this.WrapS_Clamp_MouseEnter);
+            this.Sclamp_label.MouseLeave += new System.EventHandler(this.WrapS_Clamp_MouseLeave);
             // 
             // Sclamp_hitbox
             // 
@@ -3091,6 +3200,9 @@ namespace plt0_gui
             this.Sclamp_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
             this.Sclamp_hitbox.Size = new System.Drawing.Size(190, 68);
             this.Sclamp_hitbox.TabIndex = 270;
+            this.Sclamp_hitbox.Click += new System.EventHandler(this.WrapS_Clamp_Click);
+            this.Sclamp_hitbox.MouseEnter += new System.EventHandler(this.WrapS_Clamp_MouseEnter);
+            this.Sclamp_hitbox.MouseLeave += new System.EventHandler(this.WrapS_Clamp_MouseLeave);
             // 
             // WrapS_label
             // 
@@ -3155,6 +3267,9 @@ namespace plt0_gui
             this.min_linearmipmaplinear_label.Size = new System.Drawing.Size(240, 64);
             this.min_linearmipmaplinear_label.TabIndex = 322;
             this.min_linearmipmaplinear_label.Text = "LinearMipmapLinear";
+            this.min_linearmipmaplinear_label.Click += new System.EventHandler(this.Minification_LinearMipmapLinear_Click);
+            this.min_linearmipmaplinear_label.MouseEnter += new System.EventHandler(this.Minification_LinearMipmapLinear_MouseEnter);
+            this.min_linearmipmaplinear_label.MouseLeave += new System.EventHandler(this.Minification_LinearMipmapLinear_MouseLeave);
             // 
             // min_linearmipmaplinear_hitbox
             // 
@@ -3168,6 +3283,9 @@ namespace plt0_gui
             this.min_linearmipmaplinear_hitbox.Padding = new System.Windows.Forms.Padding(350, 48, 0, 0);
             this.min_linearmipmaplinear_hitbox.Size = new System.Drawing.Size(350, 68);
             this.min_linearmipmaplinear_hitbox.TabIndex = 323;
+            this.min_linearmipmaplinear_hitbox.Click += new System.EventHandler(this.Minification_LinearMipmapLinear_Click);
+            this.min_linearmipmaplinear_hitbox.MouseEnter += new System.EventHandler(this.Minification_LinearMipmapLinear_MouseEnter);
+            this.min_linearmipmaplinear_hitbox.MouseLeave += new System.EventHandler(this.Minification_LinearMipmapLinear_MouseLeave);
             // 
             // min_linearmipmapnearest_ck
             // 
@@ -3196,6 +3314,9 @@ namespace plt0_gui
             this.min_linearmipmapnearest_label.Size = new System.Drawing.Size(280, 64);
             this.min_linearmipmapnearest_label.TabIndex = 319;
             this.min_linearmipmapnearest_label.Text = "LinearMipmapNearest  ";
+            this.min_linearmipmapnearest_label.Click += new System.EventHandler(this.Minification_LinearMipmapNearest_Click);
+            this.min_linearmipmapnearest_label.MouseEnter += new System.EventHandler(this.Minification_LinearMipmapNearest_MouseEnter);
+            this.min_linearmipmapnearest_label.MouseLeave += new System.EventHandler(this.Minification_LinearMipmapNearest_MouseLeave);
             // 
             // min_linearmipmapnearest_hitbox
             // 
@@ -3209,6 +3330,9 @@ namespace plt0_gui
             this.min_linearmipmapnearest_hitbox.Padding = new System.Windows.Forms.Padding(350, 48, 0, 0);
             this.min_linearmipmapnearest_hitbox.Size = new System.Drawing.Size(350, 68);
             this.min_linearmipmapnearest_hitbox.TabIndex = 320;
+            this.min_linearmipmapnearest_hitbox.Click += new System.EventHandler(this.Minification_LinearMipmapNearest_Click);
+            this.min_linearmipmapnearest_hitbox.MouseEnter += new System.EventHandler(this.Minification_LinearMipmapNearest_MouseEnter);
+            this.min_linearmipmapnearest_hitbox.MouseLeave += new System.EventHandler(this.Minification_LinearMipmapNearest_MouseLeave);
             // 
             // min_nearestmipmaplinear_ck
             // 
@@ -3237,6 +3361,9 @@ namespace plt0_gui
             this.min_nearestmipmaplinear_label.Size = new System.Drawing.Size(280, 64);
             this.min_nearestmipmaplinear_label.TabIndex = 316;
             this.min_nearestmipmaplinear_label.Text = "NearestMipmapLinear  ";
+            this.min_nearestmipmaplinear_label.Click += new System.EventHandler(this.Minification_NearestMipmapLinear_Click);
+            this.min_nearestmipmaplinear_label.MouseEnter += new System.EventHandler(this.Minification_NearestMipmapLinear_MouseEnter);
+            this.min_nearestmipmaplinear_label.MouseLeave += new System.EventHandler(this.Minification_NearestMipmapLinear_MouseLeave);
             // 
             // min_nearestmipmaplinear_hitbox
             // 
@@ -3250,6 +3377,9 @@ namespace plt0_gui
             this.min_nearestmipmaplinear_hitbox.Padding = new System.Windows.Forms.Padding(350, 48, 0, 0);
             this.min_nearestmipmaplinear_hitbox.Size = new System.Drawing.Size(350, 68);
             this.min_nearestmipmaplinear_hitbox.TabIndex = 317;
+            this.min_nearestmipmaplinear_hitbox.Click += new System.EventHandler(this.Minification_NearestMipmapLinear_Click);
+            this.min_nearestmipmaplinear_hitbox.MouseEnter += new System.EventHandler(this.Minification_NearestMipmapLinear_MouseEnter);
+            this.min_nearestmipmaplinear_hitbox.MouseLeave += new System.EventHandler(this.Minification_NearestMipmapLinear_MouseLeave);
             // 
             // min_nearestmipmapnearest_ck
             // 
@@ -3278,6 +3408,9 @@ namespace plt0_gui
             this.min_nearestmipmapnearest_label.Size = new System.Drawing.Size(290, 64);
             this.min_nearestmipmapnearest_label.TabIndex = 313;
             this.min_nearestmipmapnearest_label.Text = "NearestMipmapNearest ";
+            this.min_nearestmipmapnearest_label.Click += new System.EventHandler(this.Minification_NearestMipmapNearest_Click);
+            this.min_nearestmipmapnearest_label.MouseEnter += new System.EventHandler(this.Minification_NearestMipmapNearest_MouseEnter);
+            this.min_nearestmipmapnearest_label.MouseLeave += new System.EventHandler(this.Minification_NearestMipmapNearest_MouseLeave);
             // 
             // min_nearestmipmapnearest_hitbox
             // 
@@ -3291,6 +3424,9 @@ namespace plt0_gui
             this.min_nearestmipmapnearest_hitbox.Padding = new System.Windows.Forms.Padding(350, 48, 0, 0);
             this.min_nearestmipmapnearest_hitbox.Size = new System.Drawing.Size(350, 68);
             this.min_nearestmipmapnearest_hitbox.TabIndex = 314;
+            this.min_nearestmipmapnearest_hitbox.Click += new System.EventHandler(this.Minification_NearestMipmapNearest_Click);
+            this.min_nearestmipmapnearest_hitbox.MouseEnter += new System.EventHandler(this.Minification_NearestMipmapNearest_MouseEnter);
+            this.min_nearestmipmapnearest_hitbox.MouseLeave += new System.EventHandler(this.Minification_NearestMipmapNearest_MouseLeave);
             // 
             // min_linear_ck
             // 
@@ -3319,6 +3455,9 @@ namespace plt0_gui
             this.min_linear_label.Size = new System.Drawing.Size(81, 64);
             this.min_linear_label.TabIndex = 310;
             this.min_linear_label.Text = "Linear";
+            this.min_linear_label.Click += new System.EventHandler(this.Minification_Linear_Click);
+            this.min_linear_label.MouseEnter += new System.EventHandler(this.Minification_Linear_MouseEnter);
+            this.min_linear_label.MouseLeave += new System.EventHandler(this.Minification_Linear_MouseLeave);
             // 
             // min_linear_hitbox
             // 
@@ -3332,6 +3471,9 @@ namespace plt0_gui
             this.min_linear_hitbox.Padding = new System.Windows.Forms.Padding(350, 48, 0, 0);
             this.min_linear_hitbox.Size = new System.Drawing.Size(350, 68);
             this.min_linear_hitbox.TabIndex = 311;
+            this.min_linear_hitbox.Click += new System.EventHandler(this.Minification_Linear_Click);
+            this.min_linear_hitbox.MouseEnter += new System.EventHandler(this.Minification_Linear_MouseEnter);
+            this.min_linear_hitbox.MouseLeave += new System.EventHandler(this.Minification_Linear_MouseLeave);
             // 
             // min_nearest_neighbour_ck
             // 
@@ -3360,6 +3502,9 @@ namespace plt0_gui
             this.min_nearest_neighbour_label.Size = new System.Drawing.Size(227, 64);
             this.min_nearest_neighbour_label.TabIndex = 307;
             this.min_nearest_neighbour_label.Text = "Nearest Neighbour";
+            this.min_nearest_neighbour_label.Click += new System.EventHandler(this.Minification_Nearest_Neighbour_Click);
+            this.min_nearest_neighbour_label.MouseEnter += new System.EventHandler(this.Minification_Nearest_Neighbour_MouseEnter);
+            this.min_nearest_neighbour_label.MouseLeave += new System.EventHandler(this.Minification_Nearest_Neighbour_MouseLeave);
             // 
             // min_nearest_neighbour_hitbox
             // 
@@ -3373,6 +3518,9 @@ namespace plt0_gui
             this.min_nearest_neighbour_hitbox.Padding = new System.Windows.Forms.Padding(350, 48, 0, 0);
             this.min_nearest_neighbour_hitbox.Size = new System.Drawing.Size(350, 68);
             this.min_nearest_neighbour_hitbox.TabIndex = 308;
+            this.min_nearest_neighbour_hitbox.Click += new System.EventHandler(this.Minification_Nearest_Neighbour_Click);
+            this.min_nearest_neighbour_hitbox.MouseEnter += new System.EventHandler(this.Minification_Nearest_Neighbour_MouseEnter);
+            this.min_nearest_neighbour_hitbox.MouseLeave += new System.EventHandler(this.Minification_Nearest_Neighbour_MouseLeave);
             // 
             // mag_linearmipmaplinear_ck
             // 
@@ -3401,6 +3549,9 @@ namespace plt0_gui
             this.mag_linearmipmaplinear_label.Size = new System.Drawing.Size(240, 64);
             this.mag_linearmipmaplinear_label.TabIndex = 340;
             this.mag_linearmipmaplinear_label.Text = "LinearMipmapLinear";
+            this.mag_linearmipmaplinear_label.Click += new System.EventHandler(this.Magnification_LinearMipmapLinear_Click);
+            this.mag_linearmipmaplinear_label.MouseEnter += new System.EventHandler(this.Magnification_LinearMipmapLinear_MouseEnter);
+            this.mag_linearmipmaplinear_label.MouseLeave += new System.EventHandler(this.Magnification_LinearMipmapLinear_MouseLeave);
             // 
             // mag_linearmipmaplinear_hitbox
             // 
@@ -3414,6 +3565,9 @@ namespace plt0_gui
             this.mag_linearmipmaplinear_hitbox.Padding = new System.Windows.Forms.Padding(350, 48, 0, 0);
             this.mag_linearmipmaplinear_hitbox.Size = new System.Drawing.Size(350, 68);
             this.mag_linearmipmaplinear_hitbox.TabIndex = 341;
+            this.mag_linearmipmaplinear_hitbox.Click += new System.EventHandler(this.Magnification_LinearMipmapLinear_Click);
+            this.mag_linearmipmaplinear_hitbox.MouseEnter += new System.EventHandler(this.Magnification_LinearMipmapLinear_MouseEnter);
+            this.mag_linearmipmaplinear_hitbox.MouseLeave += new System.EventHandler(this.Magnification_LinearMipmapLinear_MouseLeave);
             // 
             // mag_linearmipmapnearest_ck
             // 
@@ -3442,6 +3596,9 @@ namespace plt0_gui
             this.mag_linearmipmapnearest_label.Size = new System.Drawing.Size(280, 64);
             this.mag_linearmipmapnearest_label.TabIndex = 337;
             this.mag_linearmipmapnearest_label.Text = "LinearMipmapNearest  ";
+            this.mag_linearmipmapnearest_label.Click += new System.EventHandler(this.Magnification_LinearMipmapNearest_Click);
+            this.mag_linearmipmapnearest_label.MouseEnter += new System.EventHandler(this.Magnification_LinearMipmapNearest_MouseEnter);
+            this.mag_linearmipmapnearest_label.MouseLeave += new System.EventHandler(this.Magnification_LinearMipmapNearest_MouseLeave);
             // 
             // mag_linearmipmapnearest_hitbox
             // 
@@ -3455,6 +3612,9 @@ namespace plt0_gui
             this.mag_linearmipmapnearest_hitbox.Padding = new System.Windows.Forms.Padding(350, 48, 0, 0);
             this.mag_linearmipmapnearest_hitbox.Size = new System.Drawing.Size(350, 68);
             this.mag_linearmipmapnearest_hitbox.TabIndex = 338;
+            this.mag_linearmipmapnearest_hitbox.Click += new System.EventHandler(this.Magnification_LinearMipmapNearest_Click);
+            this.mag_linearmipmapnearest_hitbox.MouseEnter += new System.EventHandler(this.Magnification_LinearMipmapNearest_MouseEnter);
+            this.mag_linearmipmapnearest_hitbox.MouseLeave += new System.EventHandler(this.Magnification_LinearMipmapNearest_MouseLeave);
             // 
             // mag_nearestmipmaplinear_ck
             // 
@@ -3483,6 +3643,9 @@ namespace plt0_gui
             this.mag_nearestmipmaplinear_label.Size = new System.Drawing.Size(280, 64);
             this.mag_nearestmipmaplinear_label.TabIndex = 334;
             this.mag_nearestmipmaplinear_label.Text = "NearestMipmapLinear  ";
+            this.mag_nearestmipmaplinear_label.Click += new System.EventHandler(this.Magnification_NearestMipmapLinear_Click);
+            this.mag_nearestmipmaplinear_label.MouseEnter += new System.EventHandler(this.Magnification_NearestMipmapLinear_MouseEnter);
+            this.mag_nearestmipmaplinear_label.MouseLeave += new System.EventHandler(this.Magnification_NearestMipmapLinear_MouseLeave);
             // 
             // mag_nearestmipmaplinear_hitbox
             // 
@@ -3496,6 +3659,9 @@ namespace plt0_gui
             this.mag_nearestmipmaplinear_hitbox.Padding = new System.Windows.Forms.Padding(350, 48, 0, 0);
             this.mag_nearestmipmaplinear_hitbox.Size = new System.Drawing.Size(350, 68);
             this.mag_nearestmipmaplinear_hitbox.TabIndex = 335;
+            this.mag_nearestmipmaplinear_hitbox.Click += new System.EventHandler(this.Magnification_NearestMipmapLinear_Click);
+            this.mag_nearestmipmaplinear_hitbox.MouseEnter += new System.EventHandler(this.Magnification_NearestMipmapLinear_MouseEnter);
+            this.mag_nearestmipmaplinear_hitbox.MouseLeave += new System.EventHandler(this.Magnification_NearestMipmapLinear_MouseLeave);
             // 
             // mag_nearestmipmapnearest_ck
             // 
@@ -3524,6 +3690,9 @@ namespace plt0_gui
             this.mag_nearestmipmapnearest_label.Size = new System.Drawing.Size(290, 64);
             this.mag_nearestmipmapnearest_label.TabIndex = 331;
             this.mag_nearestmipmapnearest_label.Text = "NearestMipmapNearest ";
+            this.mag_nearestmipmapnearest_label.Click += new System.EventHandler(this.Magnification_NearestMipmapNearest_Click);
+            this.mag_nearestmipmapnearest_label.MouseEnter += new System.EventHandler(this.Magnification_NearestMipmapNearest_MouseEnter);
+            this.mag_nearestmipmapnearest_label.MouseLeave += new System.EventHandler(this.Magnification_NearestMipmapNearest_MouseLeave);
             // 
             // mag_nearestmipmapnearest_hitbox
             // 
@@ -3537,6 +3706,9 @@ namespace plt0_gui
             this.mag_nearestmipmapnearest_hitbox.Padding = new System.Windows.Forms.Padding(350, 48, 0, 0);
             this.mag_nearestmipmapnearest_hitbox.Size = new System.Drawing.Size(350, 68);
             this.mag_nearestmipmapnearest_hitbox.TabIndex = 332;
+            this.mag_nearestmipmapnearest_hitbox.Click += new System.EventHandler(this.Magnification_NearestMipmapNearest_Click);
+            this.mag_nearestmipmapnearest_hitbox.MouseEnter += new System.EventHandler(this.Magnification_NearestMipmapNearest_MouseEnter);
+            this.mag_nearestmipmapnearest_hitbox.MouseLeave += new System.EventHandler(this.Magnification_NearestMipmapNearest_MouseLeave);
             // 
             // mag_linear_ck
             // 
@@ -3565,6 +3737,9 @@ namespace plt0_gui
             this.mag_linear_label.Size = new System.Drawing.Size(81, 64);
             this.mag_linear_label.TabIndex = 328;
             this.mag_linear_label.Text = "Linear";
+            this.mag_linear_label.Click += new System.EventHandler(this.Magnification_Linear_Click);
+            this.mag_linear_label.MouseEnter += new System.EventHandler(this.Magnification_Linear_MouseEnter);
+            this.mag_linear_label.MouseLeave += new System.EventHandler(this.Magnification_Linear_MouseLeave);
             // 
             // mag_linear_hitbox
             // 
@@ -3578,6 +3753,9 @@ namespace plt0_gui
             this.mag_linear_hitbox.Padding = new System.Windows.Forms.Padding(350, 48, 0, 0);
             this.mag_linear_hitbox.Size = new System.Drawing.Size(350, 68);
             this.mag_linear_hitbox.TabIndex = 329;
+            this.mag_linear_hitbox.Click += new System.EventHandler(this.Magnification_Linear_Click);
+            this.mag_linear_hitbox.MouseEnter += new System.EventHandler(this.Magnification_Linear_MouseEnter);
+            this.mag_linear_hitbox.MouseLeave += new System.EventHandler(this.Magnification_Linear_MouseLeave);
             // 
             // mag_nearest_neighbour_ck
             // 
@@ -3606,6 +3784,9 @@ namespace plt0_gui
             this.mag_nearest_neighbour_label.Size = new System.Drawing.Size(227, 64);
             this.mag_nearest_neighbour_label.TabIndex = 325;
             this.mag_nearest_neighbour_label.Text = "Nearest Neighbour";
+            this.mag_nearest_neighbour_label.Click += new System.EventHandler(this.Magnification_Nearest_Neighbour_Click);
+            this.mag_nearest_neighbour_label.MouseEnter += new System.EventHandler(this.Magnification_Nearest_Neighbour_MouseEnter);
+            this.mag_nearest_neighbour_label.MouseLeave += new System.EventHandler(this.Magnification_Nearest_Neighbour_MouseLeave);
             // 
             // mag_nearest_neighbour_hitbox
             // 
@@ -3619,6 +3800,9 @@ namespace plt0_gui
             this.mag_nearest_neighbour_hitbox.Padding = new System.Windows.Forms.Padding(350, 48, 0, 0);
             this.mag_nearest_neighbour_hitbox.Size = new System.Drawing.Size(350, 68);
             this.mag_nearest_neighbour_hitbox.TabIndex = 326;
+            this.mag_nearest_neighbour_hitbox.Click += new System.EventHandler(this.Magnification_Nearest_Neighbour_Click);
+            this.mag_nearest_neighbour_hitbox.MouseEnter += new System.EventHandler(this.Magnification_Nearest_Neighbour_MouseEnter);
+            this.mag_nearest_neighbour_hitbox.MouseLeave += new System.EventHandler(this.Magnification_Nearest_Neighbour_MouseLeave);
             // 
             // r_r_ck
             // 
@@ -3868,6 +4052,9 @@ namespace plt0_gui
             this.r_r_ck_hitbox.Padding = new System.Windows.Forms.Padding(64, 48, 0, 0);
             this.r_r_ck_hitbox.Size = new System.Drawing.Size(64, 68);
             this.r_r_ck_hitbox.TabIndex = 360;
+            this.r_r_ck_hitbox.ContextMenuStripChanged += new System.EventHandler(this.R_R_Click);
+            this.r_r_ck_hitbox.MouseLeave += new System.EventHandler(this.R_R_MouseEnter);
+            this.r_r_ck_hitbox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.R_R_MouseLeave);
             // 
             // g_r_ck_hitbox
             // 
@@ -3907,6 +4094,9 @@ namespace plt0_gui
             this.r_g_ck_hitbox.Padding = new System.Windows.Forms.Padding(64, 48, 0, 0);
             this.r_g_ck_hitbox.Size = new System.Drawing.Size(64, 68);
             this.r_g_ck_hitbox.TabIndex = 363;
+            this.r_g_ck_hitbox.Click += new System.EventHandler(this.R_G_Click);
+            this.r_g_ck_hitbox.MouseEnter += new System.EventHandler(this.R_G_MouseEnter);
+            this.r_g_ck_hitbox.MouseLeave += new System.EventHandler(this.R_G_MouseLeave);
             // 
             // r_b_ck_hitbox
             // 
@@ -6020,5 +6210,6 @@ namespace plt0_gui
             else
                 unchecked_A(a_a_ck);
         }
+
     }
 }
