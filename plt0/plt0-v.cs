@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -36,6 +37,10 @@ namespace plt0_gui
         byte round4 = 8;
         byte round5 = 4;
         byte round6 = 2;
+        byte r = 0;
+        byte g = 1;
+        byte b = 2;
+        byte a = 3;
 
         bool ask_exit = false;
         bool FORCE_ALPHA = false;
@@ -48,6 +53,7 @@ namespace plt0_gui
         bool stfu = false;
         bool no_warning = false;
         List<PictureBox> encoding_ck = new List<PictureBox>();
+
         public plt0_gui()
         {
             InitializeComponent();
