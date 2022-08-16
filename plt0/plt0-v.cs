@@ -157,22 +157,22 @@ namespace plt0_gui
             encoding_ck.Add(i4_ck);  // nothing
             encoding_ck.Add(i4_ck);  // nothing
             encoding_ck.Add(cmpr_ck);
-            a_ck.Add(a_a_ck);
-            a_ck.Add(a_b_ck);
-            a_ck.Add(a_g_ck);
-            a_ck.Add(a_r_ck);
-            b_ck.Add(b_a_ck);
-            b_ck.Add(b_b_ck);
-            b_ck.Add(b_g_ck);
-            b_ck.Add(b_r_ck);
-            g_ck.Add(g_a_ck);
-            g_ck.Add(g_b_ck);
-            g_ck.Add(g_g_ck);
-            g_ck.Add(g_r_ck);
-            r_ck.Add(r_a_ck);
-            r_ck.Add(r_b_ck);
-            r_ck.Add(r_g_ck);
             r_ck.Add(r_r_ck);
+            r_ck.Add(r_g_ck);
+            r_ck.Add(r_b_ck);
+            r_ck.Add(r_a_ck);
+            g_ck.Add(g_r_ck);
+            g_ck.Add(g_g_ck);
+            g_ck.Add(g_b_ck);
+            g_ck.Add(g_a_ck);
+            b_ck.Add(b_r_ck);
+            b_ck.Add(b_g_ck);
+            b_ck.Add(b_b_ck);
+            b_ck.Add(b_a_ck);
+            a_ck.Add(a_r_ck);
+            a_ck.Add(a_g_ck);
+            a_ck.Add(a_b_ck);
+            a_ck.Add(a_a_ck);
             magnification_ck.Add(mag_nearest_neighbour_ck);
             magnification_ck.Add(mag_linear_ck);
             magnification_ck.Add(mag_nearestmipmapnearest_ck);
@@ -437,22 +437,22 @@ namespace plt0_gui
             unchecked_encoding(ci8_ck);
             unchecked_encoding(ci14x2_ck);
             unchecked_encoding(cmpr_ck);
-            unchecked_A(a_r_ck);
-            unchecked_A(a_g_ck);
-            unchecked_A(a_b_ck);
+            unchecked_R(a_r_ck);
+            unchecked_G(a_g_ck);
+            unchecked_B(a_b_ck);
             checked_A(a_a_ck);
-            unchecked_B(b_r_ck);
-            unchecked_B(b_g_ck);
+            unchecked_R(b_r_ck);
+            unchecked_G(b_g_ck);
             checked_B(b_b_ck);
-            unchecked_B(b_a_ck);
-            unchecked_G(g_r_ck);
+            unchecked_A(b_a_ck);
+            unchecked_R(g_r_ck);
             checked_G(g_g_ck);
-            unchecked_G(g_b_ck);
-            unchecked_G(g_a_ck);
+            unchecked_B(g_b_ck);
+            unchecked_A(g_a_ck);
             checked_R(r_r_ck);
-            unchecked_R(r_g_ck);
-            unchecked_R(r_b_ck);
-            unchecked_R(r_a_ck);
+            unchecked_G(r_g_ck);
+            unchecked_B(r_b_ck);
+            unchecked_A(r_a_ck);
             unchecked_Minification(min_nearest_neighbour_ck);
             unchecked_Minification(min_linear_ck);
             unchecked_Minification(min_nearestmipmapnearest_ck);
@@ -4191,6 +4191,9 @@ namespace plt0_gui
             this.r_b_ck_hitbox.Padding = new System.Windows.Forms.Padding(64, 48, 0, 0);
             this.r_b_ck_hitbox.Size = new System.Drawing.Size(64, 68);
             this.r_b_ck_hitbox.TabIndex = 364;
+            this.r_b_ck_hitbox.Click += new System.EventHandler(this.R_B_Click);
+            this.r_b_ck_hitbox.MouseEnter += new System.EventHandler(this.R_B_MouseEnter);
+            this.r_b_ck_hitbox.MouseLeave += new System.EventHandler(this.R_B_MouseLeave);
             // 
             // r_a_ck_hitbox
             // 
@@ -4204,6 +4207,9 @@ namespace plt0_gui
             this.r_a_ck_hitbox.Padding = new System.Windows.Forms.Padding(64, 48, 0, 0);
             this.r_a_ck_hitbox.Size = new System.Drawing.Size(64, 68);
             this.r_a_ck_hitbox.TabIndex = 365;
+            this.r_a_ck_hitbox.Click += new System.EventHandler(this.R_A_Click);
+            this.r_a_ck_hitbox.MouseEnter += new System.EventHandler(this.R_A_MouseEnter);
+            this.r_a_ck_hitbox.MouseLeave += new System.EventHandler(this.R_A_MouseLeave);
             // 
             // g_g_ck_hitbox
             // 
@@ -5993,83 +5999,83 @@ namespace plt0_gui
         }
         private void R_G_Click(object sender, EventArgs e)
         {
-            unchecked_R(r_ck[r]);
-            selected_R(r_g_ck);
+            unchecked_G(r_ck[r]);
+            selected_G(r_g_ck);
             r = 1; // Red channel set to G
         }
         private void R_G_MouseEnter(object sender, EventArgs e)
         {
             if (r == 1)
-                selected_R(r_g_ck);
+                selected_G(r_g_ck);
             else
-                hover_R(r_g_ck);
+                hover_G(r_g_ck);
         }
         private void R_G_MouseLeave(object sender, EventArgs e)
         {
             if (r == 1)
-                checked_R(r_g_ck);
+                checked_G(r_g_ck);
             else
-                unchecked_R(r_g_ck);
+                unchecked_G(r_g_ck);
         }
         private void R_B_Click(object sender, EventArgs e)
         {
-            unchecked_R(r_ck[r]);
-            selected_R(r_b_ck);
+            unchecked_B(r_ck[r]);
+            selected_B(r_b_ck);
             r = 2; // Red channel set to B
         }
         private void R_B_MouseEnter(object sender, EventArgs e)
         {
             if (r == 2)
-                selected_R(r_b_ck);
+                selected_B(r_b_ck);
             else
-                hover_R(r_b_ck);
+                hover_B(r_b_ck);
         }
         private void R_B_MouseLeave(object sender, EventArgs e)
         {
             if (r == 2)
-                checked_R(r_b_ck);
+                checked_B(r_b_ck);
             else
-                unchecked_R(r_b_ck);
+                unchecked_B(r_b_ck);
         }
         private void R_A_Click(object sender, EventArgs e)
         {
-            unchecked_R(r_ck[r]);
-            selected_R(r_a_ck);
+            unchecked_A(r_ck[r]);
+            selected_A(r_a_ck);
             r = 3; // Red channel set to A
         }
         private void R_A_MouseEnter(object sender, EventArgs e)
         {
             if (r == 3)
-                selected_R(r_a_ck);
+                selected_A(r_a_ck);
             else
-                hover_R(r_a_ck);
+                hover_A(r_a_ck);
         }
         private void R_A_MouseLeave(object sender, EventArgs e)
         {
             if (r == 3)
-                checked_R(r_a_ck);
+                checked_A(r_a_ck);
             else
-                unchecked_R(r_a_ck);
+                unchecked_A(r_a_ck);
         }
         private void G_R_Click(object sender, EventArgs e)
         {
-            unchecked_G(g_ck[g]);
-            selected_G(g_r_ck);
+            unchecked_R(g_ck[g]);
+            selected_R(g_r_ck);
             g = 0; // Green channel set to R
         }
         private void G_R_MouseEnter(object sender, EventArgs e)
         {
             if (g == 0)
-                selected_G(g_r_ck);
+                selected_R(g_r_ck);
             else
-                hover_G(g_r_ck);
+                hover_R(g_r_ck);
         }
         private void G_R_MouseLeave(object sender, EventArgs e)
         {
             if (g == 0)
-                checked_G(g_r_ck);
+                checked_R(g_r_ck);
             else
-                unchecked_G(g_r_ck);
+                unchecked_R(g_r_ck);
         }
         private void G_G_Click(object sender, EventArgs e)
         {
@@ -6093,83 +6099,83 @@ namespace plt0_gui
         }
         private void G_B_Click(object sender, EventArgs e)
         {
-            unchecked_G(g_ck[g]);
-            selected_G(g_b_ck);
+            unchecked_B(g_ck[g]);
+            selected_B(g_b_ck);
             g = 2; // Green channel set to B
         }
         private void G_B_MouseEnter(object sender, EventArgs e)
         {
             if (g == 2)
-                selected_G(g_b_ck);
+                selected_B(g_b_ck);
             else
-                hover_G(g_b_ck);
+                hover_B(g_b_ck);
         }
         private void G_B_MouseLeave(object sender, EventArgs e)
         {
             if (g == 2)
-                checked_G(g_b_ck);
+                checked_B(g_b_ck);
             else
-                unchecked_G(g_b_ck);
+                unchecked_B(g_b_ck);
         }
         private void G_A_Click(object sender, EventArgs e)
         {
-            unchecked_G(g_ck[g]);
-            selected_G(g_a_ck);
+            unchecked_A(g_ck[g]);
+            selected_A(g_a_ck);
             g = 3; // Green channel set to A
         }
         private void G_A_MouseEnter(object sender, EventArgs e)
         {
             if (g == 3)
-                selected_G(g_a_ck);
+                selected_A(g_a_ck);
             else
-                hover_G(g_a_ck);
+                hover_A(g_a_ck);
         }
         private void G_A_MouseLeave(object sender, EventArgs e)
         {
             if (g == 3)
-                checked_G(g_a_ck);
+                checked_A(g_a_ck);
             else
-                unchecked_G(g_a_ck);
+                unchecked_A(g_a_ck);
         }
         private void B_R_Click(object sender, EventArgs e)
         {
-            unchecked_B(b_ck[b]);
-            selected_B(b_r_ck);
+            unchecked_R(b_ck[b]);
+            selected_R(b_r_ck);
             b = 0; // Blue channel set to R
         }
         private void B_R_MouseEnter(object sender, EventArgs e)
         {
             if (b == 0)
-                selected_B(b_r_ck);
+                selected_R(b_r_ck);
             else
-                hover_B(b_r_ck);
+                hover_R(b_r_ck);
         }
         private void B_R_MouseLeave(object sender, EventArgs e)
         {
             if (b == 0)
-                checked_B(b_r_ck);
+                checked_R(b_r_ck);
             else
-                unchecked_B(b_r_ck);
+                unchecked_R(b_r_ck);
         }
         private void B_G_Click(object sender, EventArgs e)
         {
-            unchecked_B(b_ck[b]);
-            selected_B(b_g_ck);
+            unchecked_G(b_ck[b]);
+            selected_G(b_g_ck);
             b = 1; // Blue channel set to G
         }
         private void B_G_MouseEnter(object sender, EventArgs e)
         {
             if (b == 1)
-                selected_B(b_g_ck);
+                selected_G(b_g_ck);
             else
-                hover_B(b_g_ck);
+                hover_G(b_g_ck);
         }
         private void B_G_MouseLeave(object sender, EventArgs e)
         {
             if (b == 1)
-                checked_B(b_g_ck);
+                checked_G(b_g_ck);
             else
-                unchecked_B(b_g_ck);
+                unchecked_G(b_g_ck);
         }
         private void B_B_Click(object sender, EventArgs e)
         {
@@ -6193,83 +6199,83 @@ namespace plt0_gui
         }
         private void B_A_Click(object sender, EventArgs e)
         {
-            unchecked_B(b_ck[b]);
-            selected_B(b_a_ck);
+            unchecked_A(b_ck[b]);
+            selected_A(b_a_ck);
             b = 3; // Blue channel set to A
         }
         private void B_A_MouseEnter(object sender, EventArgs e)
         {
             if (b == 3)
-                selected_B(b_a_ck);
+                selected_A(b_a_ck);
             else
-                hover_B(b_a_ck);
+                hover_A(b_a_ck);
         }
         private void B_A_MouseLeave(object sender, EventArgs e)
         {
             if (b == 3)
-                checked_B(b_a_ck);
+                checked_A(b_a_ck);
             else
-                unchecked_B(b_a_ck);
+                unchecked_A(b_a_ck);
         }
         private void A_R_Click(object sender, EventArgs e)
         {
-            unchecked_A(a_ck[a]);
-            selected_A(a_r_ck);
+            unchecked_R(a_ck[a]);
+            selected_R(a_r_ck);
             a = 0; // Alpha channel set to R
         }
         private void A_R_MouseEnter(object sender, EventArgs e)
         {
             if (a == 0)
-                selected_A(a_r_ck);
+                selected_R(a_r_ck);
             else
-                hover_A(a_r_ck);
+                hover_R(a_r_ck);
         }
         private void A_R_MouseLeave(object sender, EventArgs e)
         {
             if (a == 0)
-                checked_A(a_r_ck);
+                checked_R(a_r_ck);
             else
-                unchecked_A(a_r_ck);
+                unchecked_R(a_r_ck);
         }
         private void A_G_Click(object sender, EventArgs e)
         {
-            unchecked_A(a_ck[a]);
-            selected_A(a_g_ck);
+            unchecked_G(a_ck[a]);
+            selected_G(a_g_ck);
             a = 1; // Alpha channel set to G
         }
         private void A_G_MouseEnter(object sender, EventArgs e)
         {
             if (a == 1)
-                selected_A(a_g_ck);
+                selected_G(a_g_ck);
             else
-                hover_A(a_g_ck);
+                hover_G(a_g_ck);
         }
         private void A_G_MouseLeave(object sender, EventArgs e)
         {
             if (a == 1)
-                checked_A(a_g_ck);
+                checked_G(a_g_ck);
             else
-                unchecked_A(a_g_ck);
+                unchecked_G(a_g_ck);
         }
         private void A_B_Click(object sender, EventArgs e)
         {
-            unchecked_A(a_ck[a]);
-            selected_A(a_b_ck);
+            unchecked_B(a_ck[a]);
+            selected_B(a_b_ck);
             a = 2; // Alpha channel set to B
         }
         private void A_B_MouseEnter(object sender, EventArgs e)
         {
             if (a == 2)
-                selected_A(a_b_ck);
+                selected_B(a_b_ck);
             else
-                hover_A(a_b_ck);
+                hover_B(a_b_ck);
         }
         private void A_B_MouseLeave(object sender, EventArgs e)
         {
             if (a == 2)
-                checked_A(a_b_ck);
+                checked_B(a_b_ck);
             else
-                unchecked_A(a_b_ck);
+                unchecked_B(a_b_ck);
         }
         private void A_A_Click(object sender, EventArgs e)
         {
@@ -6291,6 +6297,5 @@ namespace plt0_gui
             else
                 unchecked_A(a_a_ck);
         }
-
     }
 }

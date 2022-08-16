@@ -199,23 +199,23 @@ for g in channel:  # this looks unreadable because it's packed up instead of pas
     for h in range(4):
         output += """        private void """ + g + '_' + channel[h] + """_Click(object sender, EventArgs e)
         {
-            unchecked_""" + g + "(" + g.lower() + "_ck[" + g.lower() + """]);
-            selected_""" + g + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
+            unchecked_""" + g.lower() + "_ck[" + g.lower() + "](" + g.lower() + "_ck[" + g.lower() + """]);
+            selected_""" + channel[h] + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
             """ + g.lower() + " = " + str(h) + "; // " + channel2[i] + " channel set to " + channel[h] + """
         }
         private void """ + g + '_' + channel[h] + """_MouseEnter(object sender, EventArgs e)
         {
             if (""" + g.lower() + " == " + str(h) + """)
-                selected_""" + g + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
+                selected_""" + channel[h] + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
             else
-                hover_""" + g + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
+                hover_""" + channel[h] + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
         }
         private void """ + g + '_' + channel[h] + """_MouseLeave(object sender, EventArgs e)
         {
             if (""" + g.lower() + " == " + str(h) + """)
-                checked_""" + g + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
+                checked_""" + channel[h] + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
             else
-                unchecked_""" + g + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
+                unchecked_""" + channel[h] + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
         }
 """
 pyperclip.copy(output)
