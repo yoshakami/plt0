@@ -388,19 +388,19 @@ for m in range(len(banner)):
         }
         private void checked_""" + banner_long[m] + """()
         {
-            banner_""" + banner[m] + "_ck.BackgroundImage = " + banner_long[m] + """_on;
+            banner_""" + banner[m] + "_ck.BackgroundImage = " + banner_long[m].lower() + """_on;
         }
         private void unchecked_""" + banner_long[m] + """()
         {
-            banner_""" + banner[m] + "_ck.BackgroundImage = " + banner_long[m] + """_off;
+            banner_""" + banner[m] + "_ck.BackgroundImage = " + banner_long[m].lower() + """_off;
         }
         private void hover_""" + banner_long[m] + """()
         {
-            banner_""" + banner[m] + "_ck.BackgroundImage = " + banner_long[m] + """_hover;
+            banner_""" + banner[m] + "_ck.BackgroundImage = " + banner_long[m].lower() + """_hover;
         }
         private void selected_""" + banner_long[m] + """()
         {
-            banner_""" + banner[m] + "_ck.BackgroundImage = " + banner_long[m] + """_selected;
+            banner_""" + banner[m] + "_ck.BackgroundImage = " + banner_long[m].lower() + """_selected;
         }
 """
 pyperclip.copy(output)
