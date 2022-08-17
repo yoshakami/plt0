@@ -319,7 +319,7 @@ for k in range(len(lyt)):
 """
 banner_common = ["Minimized", "Maximized", "Close"]
 banner_short = ["minus", "5", "x"]
-for l in range(len(banner)):
+for l in range(len(banner_common)):
     output += """        private void """ + banner_common[l] + """_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.""" + banner_common[l] + """;
