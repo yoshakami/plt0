@@ -219,6 +219,10 @@ namespace plt0_gui
             {
                 surrounding_ck.BackgroundImage = System.Drawing.Image.FromFile(execPath + "images/surrounding.png");
             }
+            if (System.IO.File.Exists(execPath + "images/banner.png"))
+            {
+                banner_ck.BackgroundImage = System.Drawing.Image.FromFile(execPath + "images/banner.png");
+            }
             if (System.IO.File.Exists(execPath + "images/white_box.png"))
             {
                 white_box = System.Drawing.Image.FromFile(execPath + "images/white_box.png");
@@ -733,6 +737,217 @@ namespace plt0_gui
         {
             radiobutton.BackgroundImage = white_circle;
         }
+        private void View_alpha()
+        {
+            for (byte i = 0; i < alpha_ck_array.Count; i++)
+            {
+                alpha_ck_array[i].Visible = true;
+            }
+            no_alpha_hitbox.Visible = true;
+            no_alpha_label.Visible = true;
+            alpha_hitbox.Visible = true;
+            alpha_label.Visible = true;
+            alpha_title.Visible = true;
+            mix_hitbox.Visible = true;
+            mix_label.Visible = true;
+            view_alpha = true;
+        }
+        private void Hide_alpha()
+        {
+            //System.Windows.Forms.FormWindowState previous = this.WindowState;
+            //this.WindowState = FormWindowState.Minimized;
+            for (byte i = 0; i < alpha_ck_array.Count; i++)
+            {
+                alpha_ck_array[i].Visible = false;
+            }
+            no_alpha_hitbox.Visible = false;
+            alpha_hitbox.Visible = false;
+            mix_hitbox.Visible = false;
+            alpha_label.Visible = false;
+            no_alpha_label.Visible = false;
+            alpha_title.Visible = false;
+            mix_label.Visible = false;
+            view_alpha = false;
+            //this.WindowState = FormWindowState.Normal;
+        }
+        private void View_algorithm()
+        {
+            for (byte i = 0; i < algorithm_ck.Count; i++)
+            {
+                algorithm_ck[i].Visible = true;
+            }
+            cie_601_hitbox.Visible = true;
+            cie_601_label.Visible = true;
+            cie_709_hitbox.Visible = true;
+            cie_709_label.Visible = true;
+            custom_hitbox.Visible = true;
+            custom_label.Visible = true;
+            no_gradient_hitbox.Visible = true;
+            no_gradient_label.Visible = true;
+            algorithm_label.Visible = true;
+            view_algorithm = true;
+        }
+        private void Hide_algorithm()
+        {
+            for (byte i = 0; i < algorithm_ck.Count; i++)
+            {
+                algorithm_ck[i].Visible = false;
+            }
+            cie_601_hitbox.Visible = false;
+            cie_709_hitbox.Visible = false;
+            custom_hitbox.Visible = false;
+            no_gradient_hitbox.Visible = false;
+            no_gradient_label.Visible = false;
+            algorithm_label.Visible = false;
+            cie_601_label.Visible = false;
+            cie_709_label.Visible = false;
+            custom_label.Visible = false;
+            view_algorithm = false;
+        }
+        private void View_WrapS()
+        {
+            for (byte i = 0; i < WrapS_ck.Count; i++)
+            {
+                WrapS_ck[i].Visible = true;
+            }
+            Sclamp_hitbox.Visible = true;
+            Srepeat_hitbox.Visible = true;
+            Smirror_hitbox.Visible = true;
+            Sclamp_label.Visible = true;
+            Srepeat_label.Visible = true;
+            Smirror_label.Visible = true;
+            WrapS_label.Visible = true;
+            view_WrapS = true;
+        }
+        private void Hide_WrapS()
+        {
+            for (byte i = 0; i < WrapS_ck.Count; i++)
+            {
+                WrapS_ck[i].Visible = false;
+            }
+            Sclamp_hitbox.Visible = false;
+            Srepeat_hitbox.Visible = false;
+            Smirror_hitbox.Visible = false;
+            Sclamp_label.Visible = false;
+            Srepeat_label.Visible = false;
+            Smirror_label.Visible = false;
+            WrapS_label.Visible = false;
+            view_WrapS = false;
+        }
+        private void View_WrapT()
+        {
+            for (byte i = 0; i < WrapT_ck.Count; i++)
+            {
+                WrapT_ck[i].Visible = true;
+            }
+            Tclamp_hitbox.Visible = true;
+            Trepeat_hitbox.Visible = true;
+            Tmirror_hitbox.Visible = true;
+            Tclamp_label.Visible = true;
+            Trepeat_label.Visible = true;
+            Tmirror_label.Visible = true;
+            WrapT_label.Visible = true;
+            view_WrapT = true;
+        }
+        private void Hide_WrapT()
+        {
+            for (byte i = 0; i < WrapT_ck.Count; i++)
+            {
+                WrapT_ck[i].Visible = false;
+            }
+            Tclamp_hitbox.Visible = false;
+            Trepeat_hitbox.Visible = false;
+            Tmirror_hitbox.Visible = false;
+            Tclamp_label.Visible = false;
+            Trepeat_label.Visible = false;
+            Tmirror_label.Visible = false;
+            WrapT_label.Visible = false;
+            view_WrapT = false;
+        }
+        private void View_min()
+        {
+            for (byte i = 0; i < minification_ck.Count; i++)
+            {
+                minification_ck[i].Visible = true;
+            }
+            min_linearmipmaplinear_hitbox.Visible = true;
+            min_linearmipmapnearest_hitbox.Visible = true;
+            min_linear_hitbox.Visible = true;
+            min_nearestmipmaplinear_hitbox.Visible = true;
+            min_nearestmipmapnearest_hitbox.Visible = true;
+            min_nearest_neighbour_hitbox.Visible = true;
+            min_linearmipmaplinear_label.Visible = true;
+            min_linearmipmapnearest_label.Visible = true;
+            min_linear_label.Visible = true;
+            min_nearestmipmaplinear_label.Visible = true;
+            min_nearestmipmapnearest_label.Visible = true;
+            min_nearest_neighbour_label.Visible = true;
+            minification_label.Visible = true;
+            view_min = true;
+        }
+        private void Hide_min()
+        {
+            for (byte i = 0; i < minification_ck.Count; i++)
+            {
+                minification_ck[i].Visible = false;
+            }
+            min_linearmipmaplinear_hitbox.Visible = false;
+            min_linearmipmapnearest_hitbox.Visible = false;
+            min_linear_hitbox.Visible = false;
+            min_nearestmipmaplinear_hitbox.Visible = false;
+            min_nearestmipmapnearest_hitbox.Visible = false;
+            min_nearest_neighbour_hitbox.Visible = false;
+            min_linearmipmaplinear_label.Visible = false;
+            min_linearmipmapnearest_label.Visible = false;
+            min_linear_label.Visible = false;
+            min_nearestmipmaplinear_label.Visible = false;
+            min_nearestmipmapnearest_label.Visible = false;
+            min_nearest_neighbour_label.Visible = false;
+            minification_label.Visible = false;
+            view_min = false;
+        }
+        private void View_mag()
+        {
+            for (byte i = 0; i < magnification_ck.Count; i++)
+            {
+                magnification_ck[i].Visible = true;
+            }
+            mag_linearmipmaplinear_hitbox.Visible = true;
+            mag_linearmipmapnearest_hitbox.Visible = true;
+            mag_linear_hitbox.Visible = true;
+            mag_nearestmipmaplinear_hitbox.Visible = true;
+            mag_nearestmipmapnearest_hitbox.Visible = true;
+            mag_nearest_neighbour_hitbox.Visible = true;
+            mag_linearmipmaplinear_label.Visible = true;
+            mag_linearmipmapnearest_label.Visible = true;
+            mag_linear_label.Visible = true;
+            mag_nearestmipmaplinear_label.Visible = true;
+            mag_nearestmipmapnearest_label.Visible = true;
+            mag_nearest_neighbour_label.Visible = true;
+            magnification_label.Visible = true;
+            view_mag = true;
+        }
+        private void Hide_mag()
+        {
+            for (byte i = 0; i < magnification_ck.Count; i++)
+            {
+                magnification_ck[i].Visible = false;
+            }
+            mag_linearmipmaplinear_hitbox.Visible = false;
+            mag_linearmipmapnearest_hitbox.Visible = false;
+            mag_linear_hitbox.Visible = false;
+            mag_nearestmipmaplinear_hitbox.Visible = false;
+            mag_nearestmipmapnearest_hitbox.Visible = false;
+            mag_nearest_neighbour_hitbox.Visible = false;
+            mag_linearmipmaplinear_label.Visible = false;
+            mag_linearmipmapnearest_label.Visible = false;
+            mag_linear_label.Visible = false;
+            mag_nearestmipmaplinear_label.Visible = false;
+            mag_nearestmipmapnearest_label.Visible = false;
+            mag_nearest_neighbour_label.Visible = false;
+            magnification_label.Visible = false;
+            view_mag = false;
+        }
         /* public FontFamily GetFontFamilyByName(string name)
         {
             return _privateFontCollection.Families.FirstOrDefault(x => x.Name == name);
@@ -995,6 +1210,7 @@ namespace plt0_gui
             this.view_min_ck = new System.Windows.Forms.PictureBox();
             this.view_min_label = new System.Windows.Forms.Label();
             this.view_min_hitbox = new System.Windows.Forms.Label();
+            this.banner_ck = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.bmd_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
@@ -1076,6 +1292,7 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.view_WrapT_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.view_mag_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.view_min_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_ck)).BeginInit();
             this.SuspendLayout();
             // 
             // output_file_type_label
@@ -4443,6 +4660,7 @@ namespace plt0_gui
             this.view_alpha_ck.Size = new System.Drawing.Size(64, 64);
             this.view_alpha_ck.TabIndex = 378;
             this.view_alpha_ck.TabStop = false;
+            this.view_alpha_ck.Visible = false;
             // 
             // view_alpha_label
             // 
@@ -4457,6 +4675,7 @@ namespace plt0_gui
             this.view_alpha_label.Size = new System.Drawing.Size(74, 42);
             this.view_alpha_label.TabIndex = 376;
             this.view_alpha_label.Text = "Alpha";
+            this.view_alpha_label.Visible = false;
             this.view_alpha_label.Click += new System.EventHandler(this.view_alpha_Click);
             this.view_alpha_label.MouseEnter += new System.EventHandler(this.view_alpha_MouseEnter);
             this.view_alpha_label.MouseLeave += new System.EventHandler(this.view_alpha_MouseLeave);
@@ -4473,6 +4692,7 @@ namespace plt0_gui
             this.view_alpha_hitbox.Padding = new System.Windows.Forms.Padding(190, 35, 0, 0);
             this.view_alpha_hitbox.Size = new System.Drawing.Size(190, 55);
             this.view_alpha_hitbox.TabIndex = 377;
+            this.view_alpha_hitbox.Visible = false;
             this.view_alpha_hitbox.Click += new System.EventHandler(this.view_alpha_Click);
             this.view_alpha_hitbox.MouseEnter += new System.EventHandler(this.view_alpha_MouseEnter);
             this.view_alpha_hitbox.MouseLeave += new System.EventHandler(this.view_alpha_MouseLeave);
@@ -4490,6 +4710,7 @@ namespace plt0_gui
             this.view_algorithm_ck.Size = new System.Drawing.Size(64, 64);
             this.view_algorithm_ck.TabIndex = 381;
             this.view_algorithm_ck.TabStop = false;
+            this.view_algorithm_ck.Visible = false;
             // 
             // view_algorithm_label
             // 
@@ -4504,6 +4725,7 @@ namespace plt0_gui
             this.view_algorithm_label.Size = new System.Drawing.Size(119, 64);
             this.view_algorithm_label.TabIndex = 379;
             this.view_algorithm_label.Text = "Algorithm";
+            this.view_algorithm_label.Visible = false;
             this.view_algorithm_label.Click += new System.EventHandler(this.view_algorithm_Click);
             this.view_algorithm_label.MouseEnter += new System.EventHandler(this.view_algorithm_MouseEnter);
             this.view_algorithm_label.MouseLeave += new System.EventHandler(this.view_algorithm_MouseLeave);
@@ -4520,6 +4742,7 @@ namespace plt0_gui
             this.view_algorithm_hitbox.Padding = new System.Windows.Forms.Padding(190, 35, 0, 0);
             this.view_algorithm_hitbox.Size = new System.Drawing.Size(190, 55);
             this.view_algorithm_hitbox.TabIndex = 380;
+            this.view_algorithm_hitbox.Visible = false;
             this.view_algorithm_hitbox.Click += new System.EventHandler(this.view_algorithm_Click);
             this.view_algorithm_hitbox.MouseEnter += new System.EventHandler(this.view_algorithm_MouseEnter);
             this.view_algorithm_hitbox.MouseLeave += new System.EventHandler(this.view_algorithm_MouseLeave);
@@ -4537,6 +4760,7 @@ namespace plt0_gui
             this.view_WrapS_ck.Size = new System.Drawing.Size(64, 64);
             this.view_WrapS_ck.TabIndex = 384;
             this.view_WrapS_ck.TabStop = false;
+            this.view_WrapS_ck.Visible = false;
             // 
             // view_WrapS_label
             // 
@@ -4551,6 +4775,7 @@ namespace plt0_gui
             this.view_WrapS_label.Size = new System.Drawing.Size(83, 42);
             this.view_WrapS_label.TabIndex = 382;
             this.view_WrapS_label.Text = "WrapS";
+            this.view_WrapS_label.Visible = false;
             this.view_WrapS_label.Click += new System.EventHandler(this.view_WrapS_Click);
             this.view_WrapS_label.MouseEnter += new System.EventHandler(this.view_WrapS_MouseEnter);
             this.view_WrapS_label.MouseLeave += new System.EventHandler(this.view_WrapS_MouseLeave);
@@ -4567,6 +4792,7 @@ namespace plt0_gui
             this.view_WrapS_hitbox.Padding = new System.Windows.Forms.Padding(190, 35, 0, 0);
             this.view_WrapS_hitbox.Size = new System.Drawing.Size(190, 55);
             this.view_WrapS_hitbox.TabIndex = 383;
+            this.view_WrapS_hitbox.Visible = false;
             this.view_WrapS_hitbox.Click += new System.EventHandler(this.view_WrapS_Click);
             this.view_WrapS_hitbox.MouseEnter += new System.EventHandler(this.view_WrapS_MouseEnter);
             this.view_WrapS_hitbox.MouseLeave += new System.EventHandler(this.view_WrapS_MouseLeave);
@@ -4584,6 +4810,7 @@ namespace plt0_gui
             this.view_WrapT_ck.Size = new System.Drawing.Size(64, 64);
             this.view_WrapT_ck.TabIndex = 387;
             this.view_WrapT_ck.TabStop = false;
+            this.view_WrapT_ck.Visible = false;
             // 
             // view_WrapT_label
             // 
@@ -4598,6 +4825,7 @@ namespace plt0_gui
             this.view_WrapT_label.Size = new System.Drawing.Size(83, 64);
             this.view_WrapT_label.TabIndex = 385;
             this.view_WrapT_label.Text = "WrapT";
+            this.view_WrapT_label.Visible = false;
             this.view_WrapT_label.Click += new System.EventHandler(this.view_WrapT_Click);
             this.view_WrapT_label.MouseEnter += new System.EventHandler(this.view_WrapT_MouseEnter);
             this.view_WrapT_label.MouseLeave += new System.EventHandler(this.view_WrapT_MouseLeave);
@@ -4614,6 +4842,7 @@ namespace plt0_gui
             this.view_WrapT_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
             this.view_WrapT_hitbox.Size = new System.Drawing.Size(190, 68);
             this.view_WrapT_hitbox.TabIndex = 386;
+            this.view_WrapT_hitbox.Visible = false;
             this.view_WrapT_hitbox.Click += new System.EventHandler(this.view_WrapT_Click);
             this.view_WrapT_hitbox.MouseEnter += new System.EventHandler(this.view_WrapT_MouseEnter);
             this.view_WrapT_hitbox.MouseLeave += new System.EventHandler(this.view_WrapT_MouseLeave);
@@ -4631,6 +4860,7 @@ namespace plt0_gui
             this.view_mag_ck.Size = new System.Drawing.Size(64, 64);
             this.view_mag_ck.TabIndex = 393;
             this.view_mag_ck.TabStop = false;
+            this.view_mag_ck.Visible = false;
             // 
             // view_mag_label
             // 
@@ -4645,6 +4875,7 @@ namespace plt0_gui
             this.view_mag_label.Size = new System.Drawing.Size(121, 64);
             this.view_mag_label.TabIndex = 391;
             this.view_mag_label.Text = "Mag filter";
+            this.view_mag_label.Visible = false;
             this.view_mag_label.Click += new System.EventHandler(this.view_mag_Click);
             this.view_mag_label.MouseEnter += new System.EventHandler(this.view_mag_MouseEnter);
             this.view_mag_label.MouseLeave += new System.EventHandler(this.view_mag_MouseLeave);
@@ -4661,6 +4892,7 @@ namespace plt0_gui
             this.view_mag_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
             this.view_mag_hitbox.Size = new System.Drawing.Size(190, 68);
             this.view_mag_hitbox.TabIndex = 392;
+            this.view_mag_hitbox.Visible = false;
             this.view_mag_hitbox.Click += new System.EventHandler(this.view_mag_Click);
             this.view_mag_hitbox.MouseEnter += new System.EventHandler(this.view_mag_MouseEnter);
             this.view_mag_hitbox.MouseLeave += new System.EventHandler(this.view_mag_MouseLeave);
@@ -4678,6 +4910,7 @@ namespace plt0_gui
             this.view_min_ck.Size = new System.Drawing.Size(64, 64);
             this.view_min_ck.TabIndex = 390;
             this.view_min_ck.TabStop = false;
+            this.view_min_ck.Visible = false;
             // 
             // view_min_label
             // 
@@ -4692,6 +4925,7 @@ namespace plt0_gui
             this.view_min_label.Size = new System.Drawing.Size(112, 64);
             this.view_min_label.TabIndex = 388;
             this.view_min_label.Text = "Min filter";
+            this.view_min_label.Visible = false;
             this.view_min_label.Click += new System.EventHandler(this.view_min_Click);
             this.view_min_label.MouseEnter += new System.EventHandler(this.view_min_MouseEnter);
             this.view_min_label.MouseLeave += new System.EventHandler(this.view_min_MouseLeave);
@@ -4708,9 +4942,24 @@ namespace plt0_gui
             this.view_min_hitbox.Padding = new System.Windows.Forms.Padding(190, 48, 0, 0);
             this.view_min_hitbox.Size = new System.Drawing.Size(190, 68);
             this.view_min_hitbox.TabIndex = 389;
+            this.view_min_hitbox.Visible = false;
             this.view_min_hitbox.Click += new System.EventHandler(this.view_min_Click);
             this.view_min_hitbox.MouseEnter += new System.EventHandler(this.view_min_MouseEnter);
             this.view_min_hitbox.MouseLeave += new System.EventHandler(this.view_min_MouseLeave);
+            // 
+            // banner_ck
+            // 
+            this.banner_ck.BackColor = System.Drawing.Color.Transparent;
+            this.banner_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.banner_ck.Enabled = false;
+            this.banner_ck.ErrorImage = null;
+            this.banner_ck.InitialImage = null;
+            this.banner_ck.Location = new System.Drawing.Point(0, 0);
+            this.banner_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_ck.Name = "banner_ck";
+            this.banner_ck.Size = new System.Drawing.Size(1920, 32);
+            this.banner_ck.TabIndex = 394;
+            this.banner_ck.TabStop = false;
             // 
             // plt0_gui
             // 
@@ -4718,6 +4967,7 @@ namespace plt0_gui
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1920, 1080);
+            this.Controls.Add(this.banner_ck);
             this.Controls.Add(this.view_mag_ck);
             this.Controls.Add(this.view_mag_label);
             this.Controls.Add(this.view_mag_hitbox);
@@ -4962,9 +5212,8 @@ namespace plt0_gui
             this.MaximumSize = new System.Drawing.Size(1920, 1080);
             this.Name = "plt0_gui";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "PLT0 - Image Encoding tool";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.plt0_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.plt0_DragEnter);
             ((System.ComponentModel.ISupportInitialize)(this.bmd_ck)).EndInit();
@@ -5048,6 +5297,7 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.view_WrapT_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.view_mag_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.view_min_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_ck)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -6920,20 +7170,12 @@ namespace plt0_gui
         {
             if (view_alpha)
             {
-                for (byte i = 0; i < alpha_ck_array.Count; i++)
-                {
-                    alpha_ck_array[i].Visible = false;
-                }
-                view_alpha = false;
+                Hide_alpha();
                 Category_hover(view_alpha_ck);
             }
             else
             {
-                for (byte i = 0; i < alpha_ck_array.Count; i++)
-                {
-                    alpha_ck_array[i].Visible = true;
-                }
-                view_alpha = true;
+                View_alpha();
                 Category_selected(view_alpha_ck);
             }
         }
@@ -6955,20 +7197,12 @@ namespace plt0_gui
         {
             if (view_algorithm)
             {
-                for (byte i = 0; i < algorithm_ck.Count; i++)
-                {
-                    algorithm_ck[i].Visible = false;
-                }
-                view_algorithm = false;
+                Hide_algorithm();
                 Category_hover(view_algorithm_ck);
             }
             else
             {
-                for (byte i = 0; i < algorithm_ck.Count; i++)
-                {
-                    algorithm_ck[i].Visible = true;
-                }
-                view_algorithm = true;
+                View_algorithm();
                 Category_selected(view_algorithm_ck);
             }
         }
@@ -6990,20 +7224,12 @@ namespace plt0_gui
         {
             if (view_WrapS)
             {
-                for (byte i = 0; i < WrapS_ck.Count; i++)
-                {
-                    WrapS_ck[i].Visible = false;
-                }
-                view_WrapS = false;
+                Hide_WrapS();
                 Category_hover(view_WrapS_ck);
             }
             else
             {
-                for (byte i = 0; i < WrapS_ck.Count; i++)
-                {
-                    WrapS_ck[i].Visible = true;
-                }
-                view_WrapS = true;
+                View_WrapS();
                 Category_selected(view_WrapS_ck);
             }
         }
@@ -7025,20 +7251,12 @@ namespace plt0_gui
         {
             if (view_WrapT)
             {
-                for (byte i = 0; i < WrapT_ck.Count; i++)
-                {
-                    WrapT_ck[i].Visible = false;
-                }
-                view_WrapT = false;
+                Hide_WrapT();
                 Category_hover(view_WrapT_ck);
             }
             else
             {
-                for (byte i = 0; i < WrapT_ck.Count; i++)
-                {
-                    WrapT_ck[i].Visible = true;
-                }
-                view_WrapT = true;
+                View_WrapT();
                 Category_selected(view_WrapT_ck);
             }
         }
@@ -7060,20 +7278,12 @@ namespace plt0_gui
         {
             if (view_min)
             {
-                for (byte i = 0; i < minification_ck.Count; i++)
-                {
-                    minification_ck[i].Visible = false;
-                }
-                view_min = false;
+                Hide_min();
                 Category_hover(view_min_ck);
             }
             else
             {
-                for (byte i = 0; i < minification_ck.Count; i++)
-                {
-                    minification_ck[i].Visible = true;
-                }
-                view_min = true;
+                View_min();
                 Category_selected(view_min_ck);
             }
         }
@@ -7095,20 +7305,12 @@ namespace plt0_gui
         {
             if (view_mag)
             {
-                for (byte i = 0; i < magnification_ck.Count; i++)
-                {
-                    magnification_ck[i].Visible = false;
-                }
-                view_mag = false;
+                Hide_mag();
                 Category_hover(view_mag_ck);
             }
             else
             {
-                for (byte i = 0; i < magnification_ck.Count; i++)
-                {
-                    magnification_ck[i].Visible = true;
-                }
-                view_mag = true;
+                View_mag();
                 Category_selected(view_mag_ck);
             }
         }

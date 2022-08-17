@@ -239,20 +239,12 @@ for i in range(len(view)):
         {
             if (""" + view[i] + """)
             {
-                for (byte i = 0; i < """ + ck_name[i] + """.Count; i++)
-                {
-                    """ + ck_name[i] + """[i].Visible = false;
-                }
-                """ + view[i] + """ = false;
+                Hide_""" + view[i].split('_')[1] + """();
                 Category_hover(""" + view[i] + """_ck);
             }
             else
             {
-                for (byte i = 0; i < """ + ck_name[i] + """.Count; i++)
-                {
-                    """ + ck_name[i] + """[i].Visible = true;
-                }
-                """ + view[i] + """ = true;
+                View_""" + view[i].split('_')[1] + """();
                 Category_selected(""" + view[i] + """_ck);
             }
         }
