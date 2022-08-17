@@ -145,8 +145,8 @@ namespace plt0_gui
         Image paint_selected;
         Image bottom_left_on;
         Image bottom_left_off;
-        Image bottom_left_selected;
         Image bottom_left_hover;
+        Image bottom_left_selected;
         Image left_on;
         Image left_off;
         Image left_hover;
@@ -157,8 +157,8 @@ namespace plt0_gui
         Image top_left_selected;
         Image bottom_right_on;
         Image bottom_right_off;
-        Image bottom_right_selected;
         Image bottom_right_hover;
+        Image bottom_right_selected;
         Image right_on;
         Image right_off;
         Image right_hover;
@@ -169,8 +169,8 @@ namespace plt0_gui
         Image top_right_selected;
         Image bottom_on;
         Image bottom_off;
-        Image bottom_selected;
         Image bottom_hover;
+        Image bottom_selected;
         Image top_on;
         Image top_off;
         Image top_hover;
@@ -538,6 +538,158 @@ namespace plt0_gui
             {
                 paint_selected = System.Drawing.Image.FromFile(execPath + "images/paint_selected.png");
             }
+            if (System.IO.File.Exists(execPath + "images/bottom_left_on.png"))
+            {
+                bottom_left_on = System.Drawing.Image.FromFile(execPath + "images/bottom_left_on.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/bottom_left_off.png"))
+            {
+                bottom_left_off = System.Drawing.Image.FromFile(execPath + "images/bottom_left_off.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/bottom_left_hover.png"))
+            {
+                bottom_left_hover = System.Drawing.Image.FromFile(execPath + "images/bottom_left_hover.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/bottom_left_selected.png"))
+            {
+                bottom_left_selected = System.Drawing.Image.FromFile(execPath + "images/bottom_left_selected.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/left_on.png"))
+            {
+                left_on = System.Drawing.Image.FromFile(execPath + "images/left_on.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/left_off.png"))
+            {
+                left_off = System.Drawing.Image.FromFile(execPath + "images/left_off.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/left_hover.png"))
+            {
+                left_hover = System.Drawing.Image.FromFile(execPath + "images/left_hover.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/left_selected.png"))
+            {
+                left_selected = System.Drawing.Image.FromFile(execPath + "images/left_selected.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/top_left_on.png"))
+            {
+                top_left_on = System.Drawing.Image.FromFile(execPath + "images/top_left_on.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/top_left_off.png"))
+            {
+                top_left_off = System.Drawing.Image.FromFile(execPath + "images/top_left_off.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/top_left_hover.png"))
+            {
+                top_left_hover = System.Drawing.Image.FromFile(execPath + "images/top_left_hover.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/top_left_selected.png"))
+            {
+                top_left_selected = System.Drawing.Image.FromFile(execPath + "images/top_left_selected.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/bottom_right_on.png"))
+            {
+                bottom_right_on = System.Drawing.Image.FromFile(execPath + "images/bottom_right_on.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/bottom_right_off.png"))
+            {
+                bottom_right_off = System.Drawing.Image.FromFile(execPath + "images/bottom_right_off.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/bottom_right_hover.png"))
+            {
+                bottom_right_hover = System.Drawing.Image.FromFile(execPath + "images/bottom_right_hover.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/bottom_right_selected.png"))
+            {
+                bottom_right_selected = System.Drawing.Image.FromFile(execPath + "images/bottom_right_selected.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/right_on.png"))
+            {
+                right_on = System.Drawing.Image.FromFile(execPath + "images/right_on.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/right_off.png"))
+            {
+                right_off = System.Drawing.Image.FromFile(execPath + "images/right_off.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/right_hover.png"))
+            {
+                right_hover = System.Drawing.Image.FromFile(execPath + "images/right_hover.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/right_selected.png"))
+            {
+                right_selected = System.Drawing.Image.FromFile(execPath + "images/right_selected.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/top_right_on.png"))
+            {
+                top_right_on = System.Drawing.Image.FromFile(execPath + "images/top_right_on.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/top_right_off.png"))
+            {
+                top_right_off = System.Drawing.Image.FromFile(execPath + "images/top_right_off.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/top_right_hover.png"))
+            {
+                top_right_hover = System.Drawing.Image.FromFile(execPath + "images/top_right_hover.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/top_right_selected.png"))
+            {
+                top_right_selected = System.Drawing.Image.FromFile(execPath + "images/top_right_selected.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/bottom_on.png"))
+            {
+                bottom_on = System.Drawing.Image.FromFile(execPath + "images/bottom_on.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/bottom_off.png"))
+            {
+                bottom_off = System.Drawing.Image.FromFile(execPath + "images/bottom_off.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/bottom_hover.png"))
+            {
+                bottom_hover = System.Drawing.Image.FromFile(execPath + "images/bottom_hover.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/bottom_selected.png"))
+            {
+                bottom_selected = System.Drawing.Image.FromFile(execPath + "images/bottom_selected.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/top_on.png"))
+            {
+                top_on = System.Drawing.Image.FromFile(execPath + "images/top_on.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/top_off.png"))
+            {
+                top_off = System.Drawing.Image.FromFile(execPath + "images/top_off.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/top_hover.png"))
+            {
+                top_hover = System.Drawing.Image.FromFile(execPath + "images/top_hover.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/top_selected.png"))
+            {
+                top_selected = System.Drawing.Image.FromFile(execPath + "images/top_selected.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/close.png"))
+            {
+                close = System.Drawing.Image.FromFile(execPath + "images/close.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/close_hover.png"))
+            {
+                close_hover = System.Drawing.Image.FromFile(execPath + "images/close_hover.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/maximized.png"))
+            {
+                maximized = System.Drawing.Image.FromFile(execPath + "images/maximized.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/maximized_hover.png"))
+            {
+                maximized_hover = System.Drawing.Image.FromFile(execPath + "images/maximized_hover.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/minimized.png"))
+            {
+                minimized = System.Drawing.Image.FromFile(execPath + "images/minimized.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/minimized_hover.png"))
+            {
+                minimized_hover = System.Drawing.Image.FromFile(execPath + "images/minimized_hover.png");
+            }
             unchecked_checkbox(ask_exit_ck);
             unchecked_checkbox(FORCE_ALPHA_ck);
             unchecked_checkbox(jpeg_ck);
@@ -663,38 +815,118 @@ namespace plt0_gui
                             layout = 3;
                             break;
                     }
-                if (lines.Length > 5)
+                if (lines.Length > 4)
                     switch(lines[4].ToUpper())
                     {
                         case "MAXIMIZED":
                             this.WindowState = FormWindowState.Maximized;
+                            banner_1_ck.BackgroundImage = bottom_left_off;
+                            banner_2_ck.BackgroundImage = bottom_off;
+                            banner_3_ck.BackgroundImage = bottom_right_off;
+                            banner_4_ck.BackgroundImage = left_off;
+                            banner_6_ck.BackgroundImage = right_off;
+                            banner_7_ck.BackgroundImage = top_left_off;
+                            banner_8_ck.BackgroundImage = top_off;
+                            banner_9_ck.BackgroundImage = top_right_off;
                             break;
                         case "NORMAL":
                             // default
+                            banner_1_ck.BackgroundImage = bottom_left_off;
+                            banner_2_ck.BackgroundImage = bottom_off;
+                            banner_3_ck.BackgroundImage = bottom_right_off;
+                            banner_4_ck.BackgroundImage = left_off;
+                            banner_6_ck.BackgroundImage = right_off;
+                            banner_7_ck.BackgroundImage = top_left_off;
+                            banner_8_ck.BackgroundImage = top_off;
+                            banner_9_ck.BackgroundImage = top_right_off;
                             break;
                         case "LEFT":
                             arrow = 4;
+                            banner_1_ck.BackgroundImage = bottom_left_off;
+                            banner_2_ck.BackgroundImage = bottom_off;
+                            banner_3_ck.BackgroundImage = bottom_right_off;
+                            banner_4_ck.BackgroundImage = left_on;
+                            banner_6_ck.BackgroundImage = right_off;
+                            banner_7_ck.BackgroundImage = top_left_off;
+                            banner_8_ck.BackgroundImage = top_off;
+                            banner_9_ck.BackgroundImage = top_right_off;
                             break;
                         case "TOP_LEFT":
                             arrow = 7;
+                            banner_1_ck.BackgroundImage = bottom_left_off;
+                            banner_2_ck.BackgroundImage = bottom_off;
+                            banner_3_ck.BackgroundImage = bottom_right_off;
+                            banner_4_ck.BackgroundImage = left_off;
+                            banner_6_ck.BackgroundImage = right_off;
+                            banner_7_ck.BackgroundImage = top_left_on;
+                            banner_8_ck.BackgroundImage = top_off;
+                            banner_9_ck.BackgroundImage = top_right_off;
                             break;
                         case "TOP":
                             arrow = 8;
+                            banner_1_ck.BackgroundImage = bottom_left_off;
+                            banner_2_ck.BackgroundImage = bottom_off;
+                            banner_3_ck.BackgroundImage = bottom_right_off;
+                            banner_4_ck.BackgroundImage = left_off;
+                            banner_6_ck.BackgroundImage = right_off;
+                            banner_7_ck.BackgroundImage = top_left_off;
+                            banner_8_ck.BackgroundImage = top_on;
+                            banner_9_ck.BackgroundImage = top_right_off;
                             break;
                         case "TOP_RIGHT":
                             arrow = 9;
+                            banner_1_ck.BackgroundImage = bottom_left_off;
+                            banner_2_ck.BackgroundImage = bottom_off;
+                            banner_3_ck.BackgroundImage = bottom_right_off;
+                            banner_4_ck.BackgroundImage = left_off;
+                            banner_6_ck.BackgroundImage = right_off;
+                            banner_7_ck.BackgroundImage = top_left_off;
+                            banner_8_ck.BackgroundImage = top_off;
+                            banner_9_ck.BackgroundImage = top_right_on;
                             break;
                         case "RIGHT":
                             arrow = 6;
+                            banner_1_ck.BackgroundImage = bottom_left_off;
+                            banner_2_ck.BackgroundImage = bottom_off;
+                            banner_3_ck.BackgroundImage = bottom_right_off;
+                            banner_4_ck.BackgroundImage = left_off;
+                            banner_6_ck.BackgroundImage = right_on;
+                            banner_7_ck.BackgroundImage = top_left_off;
+                            banner_8_ck.BackgroundImage = top_off;
+                            banner_9_ck.BackgroundImage = top_right_off;
                             break;
                         case "BOTTOM_RIGHT":
                             arrow = 3;
+                            banner_1_ck.BackgroundImage = bottom_left_off;
+                            banner_2_ck.BackgroundImage = bottom_off;
+                            banner_3_ck.BackgroundImage = bottom_right_on;
+                            banner_4_ck.BackgroundImage = left_off;
+                            banner_6_ck.BackgroundImage = right_off;
+                            banner_7_ck.BackgroundImage = top_left_off;
+                            banner_8_ck.BackgroundImage = top_off;
+                            banner_9_ck.BackgroundImage = top_right_off;
                             break;
                         case "BOTTOM":
                             arrow = 2;
+                            banner_1_ck.BackgroundImage = bottom_left_off;
+                            banner_2_ck.BackgroundImage = bottom_on;
+                            banner_3_ck.BackgroundImage = bottom_right_off;
+                            banner_4_ck.BackgroundImage = left_off;
+                            banner_6_ck.BackgroundImage = right_off;
+                            banner_7_ck.BackgroundImage = top_left_off;
+                            banner_8_ck.BackgroundImage = top_off;
+                            banner_9_ck.BackgroundImage = top_right_off;
                             break;
                         case "BOTTOM_LEFT":
                             arrow = 1;
+                            banner_1_ck.BackgroundImage = bottom_left_on;
+                            banner_2_ck.BackgroundImage = bottom_off;
+                            banner_3_ck.BackgroundImage = bottom_right_off;
+                            banner_4_ck.BackgroundImage = left_off;
+                            banner_6_ck.BackgroundImage = right_off;
+                            banner_7_ck.BackgroundImage = top_left_off;
+                            banner_8_ck.BackgroundImage = top_off;
+                            banner_9_ck.BackgroundImage = top_right_off;
                             break;
                     }
             }
@@ -5367,6 +5599,9 @@ namespace plt0_gui
             this.banner_x_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
             this.banner_x_hitbox.Size = new System.Drawing.Size(32, 32);
             this.banner_x_hitbox.TabIndex = 403;
+            this.banner_x_hitbox.Click += new System.EventHandler(this.Close_Click);
+            this.banner_x_hitbox.MouseEnter += new System.EventHandler(this.Close_MouseEnter);
+            this.banner_x_hitbox.MouseLeave += new System.EventHandler(this.Close_MouseLeave);
             // 
             // banner_5_ck
             // 
@@ -5394,6 +5629,9 @@ namespace plt0_gui
             this.banner_5_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
             this.banner_5_hitbox.Size = new System.Drawing.Size(32, 32);
             this.banner_5_hitbox.TabIndex = 405;
+            this.banner_5_hitbox.Click += new System.EventHandler(this.Maximized_Click);
+            this.banner_5_hitbox.MouseEnter += new System.EventHandler(this.Maximized_MouseEnter);
+            this.banner_5_hitbox.MouseLeave += new System.EventHandler(this.Maximized_MouseLeave);
             // 
             // banner_minus_ck
             // 
@@ -5421,6 +5659,9 @@ namespace plt0_gui
             this.banner_minus_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
             this.banner_minus_hitbox.Size = new System.Drawing.Size(32, 32);
             this.banner_minus_hitbox.TabIndex = 407;
+            this.banner_minus_hitbox.Click += new System.EventHandler(this.Minimized_Click);
+            this.banner_minus_hitbox.MouseEnter += new System.EventHandler(this.Minimized_MouseEnter);
+            this.banner_minus_hitbox.MouseLeave += new System.EventHandler(this.Minimized_MouseLeave);
             // 
             // banner_9_ck
             // 
@@ -5448,6 +5689,9 @@ namespace plt0_gui
             this.banner_9_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
             this.banner_9_hitbox.Size = new System.Drawing.Size(32, 32);
             this.banner_9_hitbox.TabIndex = 411;
+            this.banner_9_hitbox.Click += new System.EventHandler(this.Top_right_Click);
+            this.banner_9_hitbox.MouseEnter += new System.EventHandler(this.Top_right_MouseEnter);
+            this.banner_9_hitbox.MouseLeave += new System.EventHandler(this.Top_right_MouseLeave);
             // 
             // banner_8_ck
             // 
@@ -5475,6 +5719,9 @@ namespace plt0_gui
             this.banner_8_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
             this.banner_8_hitbox.Size = new System.Drawing.Size(32, 32);
             this.banner_8_hitbox.TabIndex = 413;
+            this.banner_8_hitbox.Click += new System.EventHandler(this.Top_Click);
+            this.banner_8_hitbox.MouseEnter += new System.EventHandler(this.Top_MouseEnter);
+            this.banner_8_hitbox.MouseLeave += new System.EventHandler(this.Top_MouseLeave);
             // 
             // banner_7_ck
             // 
@@ -5502,6 +5749,9 @@ namespace plt0_gui
             this.banner_7_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
             this.banner_7_hitbox.Size = new System.Drawing.Size(32, 32);
             this.banner_7_hitbox.TabIndex = 415;
+            this.banner_7_hitbox.Click += new System.EventHandler(this.Top_left_Click);
+            this.banner_7_hitbox.MouseEnter += new System.EventHandler(this.Top_left_MouseEnter);
+            this.banner_7_hitbox.MouseLeave += new System.EventHandler(this.Top_left_MouseLeave);
             // 
             // banner_6_ck
             // 
@@ -5529,6 +5779,9 @@ namespace plt0_gui
             this.banner_6_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
             this.banner_6_hitbox.Size = new System.Drawing.Size(32, 32);
             this.banner_6_hitbox.TabIndex = 417;
+            this.banner_6_hitbox.Click += new System.EventHandler(this.Right_Click);
+            this.banner_6_hitbox.MouseEnter += new System.EventHandler(this.Right_MouseEnter);
+            this.banner_6_hitbox.MouseLeave += new System.EventHandler(this.Right_MouseLeave);
             // 
             // banner_4_ck
             // 
@@ -5556,6 +5809,9 @@ namespace plt0_gui
             this.banner_4_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
             this.banner_4_hitbox.Size = new System.Drawing.Size(32, 32);
             this.banner_4_hitbox.TabIndex = 419;
+            this.banner_4_hitbox.Click += new System.EventHandler(this.Left_Click);
+            this.banner_4_hitbox.MouseEnter += new System.EventHandler(this.Left_MouseEnter);
+            this.banner_4_hitbox.MouseLeave += new System.EventHandler(this.Left_MouseLeave);
             // 
             // banner_3_ck
             // 
@@ -5583,6 +5839,9 @@ namespace plt0_gui
             this.banner_3_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
             this.banner_3_hitbox.Size = new System.Drawing.Size(32, 32);
             this.banner_3_hitbox.TabIndex = 421;
+            this.banner_3_hitbox.Click += new System.EventHandler(this.Bottom_right_Click);
+            this.banner_3_hitbox.MouseEnter += new System.EventHandler(this.Bottom_right_MouseEnter);
+            this.banner_3_hitbox.MouseLeave += new System.EventHandler(this.Bottom_right_MouseLeave);
             // 
             // banner_2_ck
             // 
@@ -5610,6 +5869,9 @@ namespace plt0_gui
             this.banner_2_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
             this.banner_2_hitbox.Size = new System.Drawing.Size(32, 32);
             this.banner_2_hitbox.TabIndex = 423;
+            this.banner_2_hitbox.Click += new System.EventHandler(this.Bottom_Click);
+            this.banner_2_hitbox.MouseEnter += new System.EventHandler(this.Bottom_MouseEnter);
+            this.banner_2_hitbox.MouseLeave += new System.EventHandler(this.Bottom_MouseLeave);
             // 
             // banner_1_ck
             // 
@@ -5637,6 +5899,9 @@ namespace plt0_gui
             this.banner_1_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
             this.banner_1_hitbox.Size = new System.Drawing.Size(32, 32);
             this.banner_1_hitbox.TabIndex = 425;
+            this.banner_1_hitbox.Click += new System.EventHandler(this.Bottom_left_Click);
+            this.banner_1_hitbox.MouseEnter += new System.EventHandler(this.Bottom_left_MouseEnter);
+            this.banner_1_hitbox.MouseLeave += new System.EventHandler(this.Bottom_left_MouseLeave);
             // 
             // plt0_gui
             // 
@@ -8723,42 +8988,11 @@ namespace plt0_gui
         }
         private void Bottom_left_Click(object sender, EventArgs e)
         {
-            switch (arrow)
-            {
-                case 4:
-                    unchecked_Left();
-                    break;
-                case 7:
-                    unchecked_Top_left();
-                    break;
-                case 8:
-                    unchecked_Top();
-                    break;
-                case 9:
-                    unchecked_Top_right();
-                    break;
-                case 6:
-                    unchecked_Right();
-                    break;
-                case 3:
-                    unchecked_Bottom_right();
-                    break;
-                case 2:
-                    unchecked_Bottom();
-                    break;
-                case 1:
-                    unchecked_Bottom_left();
-                    break;
-            }
-            selected_Bottom_left();
-            arrow = 1;
+
         }
         private void Bottom_left_MouseEnter(object sender, EventArgs e)
         {
-            if (arrow == 1)
-                selected_Bottom_left();
-            else
-                hover_Bottom_left();
+
         }
         private void Bottom_left_MouseLeave(object sender, EventArgs e)
         {
