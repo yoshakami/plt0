@@ -239,6 +239,14 @@
         private System.Windows.Forms.Label view_min_label;
         private System.Windows.Forms.Label view_min_hitbox;
         private System.Windows.Forms.PictureBox banner_ck;
+        private System.Windows.Forms.Label all_hitbox;
+        private System.Windows.Forms.Label preview_hitbox;
+        private System.Windows.Forms.Label paint_hitbox;
+        private System.Windows.Forms.Label auto_hitbox;
+        private System.Windows.Forms.PictureBox all_ck;
+        private System.Windows.Forms.PictureBox preview_ck;
+        private System.Windows.Forms.PictureBox auto_ck;
+        private System.Windows.Forms.PictureBox paint_ck;
         /*
 /// <summary>
 /// Required designer variable.

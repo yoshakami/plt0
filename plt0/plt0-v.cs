@@ -124,6 +124,23 @@ namespace plt0_gui
         Image r_off;
         Image r_hover;
         Image r_selected;
+        Image surrounding;
+        Image all_on;
+        Image all_off;
+        Image all_hover;
+        Image all_selected;
+        Image auto_on;
+        Image auto_off;
+        Image auto_hover;
+        Image auto_selected;
+        Image preview_on;
+        Image preview_off;
+        Image preview_hover;
+        Image preview_selected;
+        Image paint_on;
+        Image paint_off;
+        Image paint_hover;
+        Image paint_selected;
         // I couldn't manage to get external fonts working. this needs to be specified within the app itself :/
         // static string fontname = "Segoe UI";
         // Font font_normal = new System.Drawing.Font(fontname, 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
@@ -217,7 +234,9 @@ namespace plt0_gui
             }
             if (System.IO.File.Exists(execPath + "images/surrounding.png"))
             {
-                surrounding_ck.BackgroundImage = System.Drawing.Image.FromFile(execPath + "images/surrounding.png");
+
+                surrounding = System.Drawing.Image.FromFile(execPath + "images/surrounding.png");
+                surrounding_ck.BackgroundImage = surrounding;
             }
             if (System.IO.File.Exists(execPath + "images/banner.png"))
             {
@@ -415,6 +434,70 @@ namespace plt0_gui
             {
                 a_selected = System.Drawing.Image.FromFile(execPath + "images/a_selected.png");
             }
+            if (System.IO.File.Exists(execPath + "images/all_on.png"))
+            {
+                all_on = System.Drawing.Image.FromFile(execPath + "images/all_on.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/all_off.png"))
+            {
+                all_off = System.Drawing.Image.FromFile(execPath + "images/all_off.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/all_hover.png"))
+            {
+                all_hover = System.Drawing.Image.FromFile(execPath + "images/all_hover.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/all_selected.png"))
+            {
+                all_selected = System.Drawing.Image.FromFile(execPath + "images/all_selected.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/auto_on.png"))
+            {
+                auto_on = System.Drawing.Image.FromFile(execPath + "images/auto_on.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/auto_off.png"))
+            {
+                auto_off = System.Drawing.Image.FromFile(execPath + "images/auto_off.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/auto_hover.png"))
+            {
+                auto_hover = System.Drawing.Image.FromFile(execPath + "images/auto_hover.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/auto_selected.png"))
+            {
+                auto_selected = System.Drawing.Image.FromFile(execPath + "images/auto_selected.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/preview_on.png"))
+            {
+                preview_on = System.Drawing.Image.FromFile(execPath + "images/preview_on.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/preview_off.png"))
+            {
+                preview_off = System.Drawing.Image.FromFile(execPath + "images/preview_off.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/preview_hover.png"))
+            {
+                preview_hover = System.Drawing.Image.FromFile(execPath + "images/preview_hover.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/preview_selected.png"))
+            {
+                preview_selected = System.Drawing.Image.FromFile(execPath + "images/preview_selected.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/paint_on.png"))
+            {
+                paint_on = System.Drawing.Image.FromFile(execPath + "images/paint_on.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/paint_off.png"))
+            {
+                paint_off = System.Drawing.Image.FromFile(execPath + "images/paint_off.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/paint_hover.png"))
+            {
+                paint_hover = System.Drawing.Image.FromFile(execPath + "images/paint_hover.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/paint_selected.png"))
+            {
+                paint_selected = System.Drawing.Image.FromFile(execPath + "images/paint_selected.png");
+            }
             unchecked_checkbox(ask_exit_ck);
             unchecked_checkbox(FORCE_ALPHA_ck);
             unchecked_checkbox(jpeg_ck);
@@ -495,6 +578,43 @@ namespace plt0_gui
             Category_checked(view_WrapT_ck);
             Category_checked(view_min_ck);
             Category_checked(view_mag_ck);
+            if (System.IO.File.Exists(execPath + "images/zettings.txt"))
+            {
+                string[] lines = System.IO.File.ReadAllLines(execPath + "images/zettings.txt");
+                if (lines.Length > 2)
+                    switch (lines[2].ToUpper())
+                    {
+                        case "ALL":
+                            View_alpha();
+                            View_algorithm();
+                            View_WrapS();
+                            View_WrapT();
+                            View_mag();
+                            View_min();
+                            break;
+                        case "AUTO":
+                            break;
+                        case "PREVIEW":
+                            View_algorithm();
+                            View_alpha();
+                            // view encoding and channel swap and some options
+                            break;
+                        case "PAINT":
+                            break;
+                    }
+            }
+            else
+            {
+                try
+                {
+                    string[] lines = { "plt0 config v1.0", "Layout (change the next line with one of these \"All\", \"Auto\", \"Preview\", \"Paint\")", "All" };
+                    System.IO.File.WriteAllLines(execPath + "images/zettings.txt", lines);
+                }
+                catch
+                {
+                    // um, idk what to do here if the user doesn't let the app write a file.
+                }
+            }
         }
         /*private void Change_font_normal()
         {
@@ -1211,6 +1331,14 @@ namespace plt0_gui
             this.view_min_label = new System.Windows.Forms.Label();
             this.view_min_hitbox = new System.Windows.Forms.Label();
             this.banner_ck = new System.Windows.Forms.PictureBox();
+            this.all_hitbox = new System.Windows.Forms.Label();
+            this.preview_hitbox = new System.Windows.Forms.Label();
+            this.paint_hitbox = new System.Windows.Forms.Label();
+            this.auto_hitbox = new System.Windows.Forms.Label();
+            this.all_ck = new System.Windows.Forms.PictureBox();
+            this.preview_ck = new System.Windows.Forms.PictureBox();
+            this.auto_ck = new System.Windows.Forms.PictureBox();
+            this.paint_ck = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.bmd_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
@@ -1293,6 +1421,10 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.view_mag_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.view_min_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.banner_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.all_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.preview_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.auto_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.paint_ck)).BeginInit();
             this.SuspendLayout();
             // 
             // output_file_type_label
@@ -4961,12 +5093,128 @@ namespace plt0_gui
             this.banner_ck.TabIndex = 394;
             this.banner_ck.TabStop = false;
             // 
+            // all_hitbox
+            // 
+            this.all_hitbox.AutoSize = true;
+            this.all_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.all_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.all_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.all_hitbox.Location = new System.Drawing.Point(48, 0);
+            this.all_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.all_hitbox.Name = "all_hitbox";
+            this.all_hitbox.Padding = new System.Windows.Forms.Padding(96, 6, 0, 6);
+            this.all_hitbox.Size = new System.Drawing.Size(96, 32);
+            this.all_hitbox.TabIndex = 395;
+            // 
+            // preview_hitbox
+            // 
+            this.preview_hitbox.AutoSize = true;
+            this.preview_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.preview_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.preview_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.preview_hitbox.Location = new System.Drawing.Point(240, 0);
+            this.preview_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.preview_hitbox.Name = "preview_hitbox";
+            this.preview_hitbox.Padding = new System.Windows.Forms.Padding(96, 6, 0, 6);
+            this.preview_hitbox.Size = new System.Drawing.Size(96, 32);
+            this.preview_hitbox.TabIndex = 396;
+            // 
+            // paint_hitbox
+            // 
+            this.paint_hitbox.AutoSize = true;
+            this.paint_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.paint_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.paint_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.paint_hitbox.Location = new System.Drawing.Point(336, 0);
+            this.paint_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.paint_hitbox.Name = "paint_hitbox";
+            this.paint_hitbox.Padding = new System.Windows.Forms.Padding(96, 6, 0, 6);
+            this.paint_hitbox.Size = new System.Drawing.Size(96, 32);
+            this.paint_hitbox.TabIndex = 397;
+            // 
+            // auto_hitbox
+            // 
+            this.auto_hitbox.AutoSize = true;
+            this.auto_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.auto_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.auto_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.auto_hitbox.Location = new System.Drawing.Point(144, 0);
+            this.auto_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.auto_hitbox.Name = "auto_hitbox";
+            this.auto_hitbox.Padding = new System.Windows.Forms.Padding(96, 6, 0, 6);
+            this.auto_hitbox.Size = new System.Drawing.Size(96, 32);
+            this.auto_hitbox.TabIndex = 398;
+            // 
+            // all_ck
+            // 
+            this.all_ck.BackColor = System.Drawing.Color.Transparent;
+            this.all_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.all_ck.Enabled = false;
+            this.all_ck.ErrorImage = null;
+            this.all_ck.InitialImage = null;
+            this.all_ck.Location = new System.Drawing.Point(48, 0);
+            this.all_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.all_ck.Name = "all_ck";
+            this.all_ck.Size = new System.Drawing.Size(96, 32);
+            this.all_ck.TabIndex = 399;
+            this.all_ck.TabStop = false;
+            // 
+            // preview_ck
+            // 
+            this.preview_ck.BackColor = System.Drawing.Color.Transparent;
+            this.preview_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.preview_ck.Enabled = false;
+            this.preview_ck.ErrorImage = null;
+            this.preview_ck.InitialImage = null;
+            this.preview_ck.Location = new System.Drawing.Point(240, 0);
+            this.preview_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.preview_ck.Name = "preview_ck";
+            this.preview_ck.Size = new System.Drawing.Size(96, 32);
+            this.preview_ck.TabIndex = 400;
+            this.preview_ck.TabStop = false;
+            // 
+            // auto_ck
+            // 
+            this.auto_ck.BackColor = System.Drawing.Color.Transparent;
+            this.auto_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.auto_ck.Enabled = false;
+            this.auto_ck.ErrorImage = null;
+            this.auto_ck.InitialImage = null;
+            this.auto_ck.Location = new System.Drawing.Point(144, 0);
+            this.auto_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.auto_ck.Name = "auto_ck";
+            this.auto_ck.Size = new System.Drawing.Size(96, 32);
+            this.auto_ck.TabIndex = 401;
+            this.auto_ck.TabStop = false;
+            // 
+            // paint_ck
+            // 
+            this.paint_ck.BackColor = System.Drawing.Color.Transparent;
+            this.paint_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.paint_ck.Enabled = false;
+            this.paint_ck.ErrorImage = null;
+            this.paint_ck.InitialImage = null;
+            this.paint_ck.Location = new System.Drawing.Point(336, 0);
+            this.paint_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.paint_ck.Name = "paint_ck";
+            this.paint_ck.Size = new System.Drawing.Size(96, 32);
+            this.paint_ck.TabIndex = 402;
+            this.paint_ck.TabStop = false;
+            // 
             // plt0_gui
             // 
             this.AllowDrop = true;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1920, 1080);
+            this.Controls.Add(this.paint_ck);
+            this.Controls.Add(this.auto_ck);
+            this.Controls.Add(this.preview_ck);
+            this.Controls.Add(this.all_ck);
+            this.Controls.Add(this.auto_hitbox);
+            this.Controls.Add(this.paint_hitbox);
+            this.Controls.Add(this.preview_hitbox);
+            this.Controls.Add(this.all_hitbox);
             this.Controls.Add(this.banner_ck);
             this.Controls.Add(this.view_mag_ck);
             this.Controls.Add(this.view_mag_label);
@@ -5298,6 +5546,10 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.view_mag_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.view_min_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.banner_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.all_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.preview_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.auto_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.paint_ck)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -7327,6 +7579,206 @@ namespace plt0_gui
                 Category_checked(view_mag_ck);
             else
                 Category_unchecked(view_mag_ck);
+        }
+        private void All_Click(object sender, EventArgs e)
+        {
+            switch (layout)
+            {
+                case 0:
+                    All_unchecked();
+                    break;
+                case 1:
+                    Auto_unchecked();
+                    break;
+                case 2:
+                    Preview_unchecked();
+                    break;
+                case 3:
+                    Paint_unchecked();
+                    break;
+            }
+            All_selected();
+            layout = 0;
+        }
+        private void All_MouseEnter(object sender, EventArgs e)
+        {
+            if (layout == 0)
+                All_selected();
+            else
+                All_hover();
+        }
+        private void All_MouseLeave(object sender, EventArgs e)
+        {
+            if (layout == 0)
+                All_checked();
+            else
+                All_unchecked();
+        }
+        private void All_checked()
+        {
+            all_ck.BackgroundImage = all_on;
+        }
+        private void All_unchecked()
+        {
+            all_ck.BackgroundImage = all_off;
+        }
+        private void All_hover()
+        {
+            all_ck.BackgroundImage = all_hover;
+        }
+        private void All_selected()
+        {
+            all_ck.BackgroundImage = all_selected;
+        }
+        private void Auto_Click(object sender, EventArgs e)
+        {
+            switch (layout)
+            {
+                case 0:
+                    All_unchecked();
+                    break;
+                case 1:
+                    Auto_unchecked();
+                    break;
+                case 2:
+                    Preview_unchecked();
+                    break;
+                case 3:
+                    Paint_unchecked();
+                    break;
+            }
+            Auto_selected();
+            layout = 1;
+        }
+        private void Auto_MouseEnter(object sender, EventArgs e)
+        {
+            if (layout == 1)
+                Auto_selected();
+            else
+                Auto_hover();
+        }
+        private void Auto_MouseLeave(object sender, EventArgs e)
+        {
+            if (layout == 1)
+                Auto_checked();
+            else
+                Auto_unchecked();
+        }
+        private void Auto_checked()
+        {
+            auto_ck.BackgroundImage = auto_on;
+        }
+        private void Auto_unchecked()
+        {
+            auto_ck.BackgroundImage = auto_off;
+        }
+        private void Auto_hover()
+        {
+            auto_ck.BackgroundImage = auto_hover;
+        }
+        private void Auto_selected()
+        {
+            auto_ck.BackgroundImage = auto_selected;
+        }
+        private void Preview_Click(object sender, EventArgs e)
+        {
+            switch (layout)
+            {
+                case 0:
+                    All_unchecked();
+                    break;
+                case 1:
+                    Auto_unchecked();
+                    break;
+                case 2:
+                    Preview_unchecked();
+                    break;
+                case 3:
+                    Paint_unchecked();
+                    break;
+            }
+            Preview_selected();
+            layout = 2;
+        }
+        private void Preview_MouseEnter(object sender, EventArgs e)
+        {
+            if (layout == 2)
+                Preview_selected();
+            else
+                Preview_hover();
+        }
+        private void Preview_MouseLeave(object sender, EventArgs e)
+        {
+            if (layout == 2)
+                Preview_checked();
+            else
+                Preview_unchecked();
+        }
+        private void Preview_checked()
+        {
+            preview_ck.BackgroundImage = preview_on;
+        }
+        private void Preview_unchecked()
+        {
+            preview_ck.BackgroundImage = preview_off;
+        }
+        private void Preview_hover()
+        {
+            preview_ck.BackgroundImage = preview_hover;
+        }
+        private void Preview_selected()
+        {
+            preview_ck.BackgroundImage = preview_selected;
+        }
+        private void Paint_Click(object sender, EventArgs e)
+        {
+            switch (layout)
+            {
+                case 0:
+                    All_unchecked();
+                    break;
+                case 1:
+                    Auto_unchecked();
+                    break;
+                case 2:
+                    Preview_unchecked();
+                    break;
+                case 3:
+                    Paint_unchecked();
+                    break;
+            }
+            Paint_selected();
+            layout = 3;
+        }
+        private void Paint_MouseEnter(object sender, EventArgs e)
+        {
+            if (layout == 3)
+                Paint_selected();
+            else
+                Paint_hover();
+        }
+        private void Paint_MouseLeave(object sender, EventArgs e)
+        {
+            if (layout == 3)
+                Paint_checked();
+            else
+                Paint_unchecked();
+        }
+        private void Paint_checked()
+        {
+            paint_ck.BackgroundImage = paint_on;
+        }
+        private void Paint_unchecked()
+        {
+            paint_ck.BackgroundImage = paint_off;
+        }
+        private void Paint_hover()
+        {
+            paint_ck.BackgroundImage = paint_hover;
+        }
+        private void Paint_selected()
+        {
+            paint_ck.BackgroundImage = paint_selected;
         }
     }
 }

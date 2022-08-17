@@ -263,5 +263,59 @@ for i in range(len(view)):
                 Category_unchecked(""" + view[i] + """_ck);
         }
 """
+lyt = ["all", "auto", "preview", "paint"]
+Lyt = ["All", "Auto", "Preview", "Paint"]
+for i in range(len(lyt)):
+    output += """        private void """ + Lyt[i] + """_Click(object sender, EventArgs e)
+        {
+            switch (layout)
+            {
+                case 0:
+                    All_unchecked();
+                    break;
+                case 1:
+                    Auto_unchecked();
+                    break;
+                case 2:
+                    Preview_unchecked();
+                    break;
+                case 3:
+                    Paint_unchecked();
+                    break;
+            }
+            """ + Lyt[i] + """_selected();
+            layout = """ + str(i) + """;
+        }
+        private void """ + Lyt[i] + """_MouseEnter(object sender, EventArgs e)
+        {
+            if (layout == """ + str(i) + """)
+                """ + Lyt[i] + """_selected();
+            else
+                """ + Lyt[i] + """_hover();
+        }
+        private void """ + Lyt[i] + """_MouseLeave(object sender, EventArgs e)
+        {
+            if (layout == """ + str(i) + """)
+                """ + Lyt[i] + """_checked();
+            else
+                """ + Lyt[i] + """_unchecked();
+        }
+        private void """ + Lyt[i] + """_checked()
+        {
+            """ + lyt[i] + "_ck.BackgroundImage = " + lyt[i] + """_on;
+        }
+        private void """ + Lyt[i] + """_unchecked()
+        {
+            """ + lyt[i] + "_ck.BackgroundImage = " + lyt[i] + """_off;
+        }
+        private void """ + Lyt[i] + """_hover()
+        {
+            """ + lyt[i] + "_ck.BackgroundImage = " + lyt[i] + """_hover;
+        }
+        private void """ + Lyt[i] + """_selected()
+        {
+            """ + lyt[i] + "_ck.BackgroundImage = " + lyt[i] + """_selected;
+        }
+"""
 pyperclip.copy(output)
 input(output)
