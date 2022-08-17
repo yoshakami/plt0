@@ -65,6 +65,7 @@ namespace plt0_gui
         byte round5 = 4;
         byte round6 = 2;
         byte color;
+        byte layout;
         List<PictureBox> encoding_ck = new List<PictureBox>();
         List<PictureBox> a_ck = new List<PictureBox>();
         List<PictureBox> b_ck = new List<PictureBox>();
@@ -585,21 +586,42 @@ namespace plt0_gui
                     switch (lines[2].ToUpper())
                     {
                         case "ALL":
+                            layout = 0;
+                            checked_All();
+                            unchecked_Auto();
+                            unchecked_Preview();
+                            unchecked_Paint();
+                            /*
                             View_alpha();
                             View_algorithm();
                             View_WrapS();
                             View_WrapT();
                             View_mag();
-                            View_min();
+                            View_min();*/
                             break;
                         case "AUTO":
+                            unchecked_All();
+                            checked_Auto();
+                            unchecked_Preview();
+                            unchecked_Paint();
+                            layout = 1;
                             break;
                         case "PREVIEW":
-                            View_algorithm();
-                            View_alpha();
+                            unchecked_All();
+                            unchecked_Auto();
+                            checked_Preview();
+                            unchecked_Paint();
+                            layout = 2;
+                            //View_algorithm();
+                            //View_alpha();
                             // view encoding and channel swap and some options
                             break;
                         case "PAINT":
+                            unchecked_All();
+                            unchecked_Auto();
+                            unchecked_Preview();
+                            checked_Paint();
+                            layout = 3;
                             break;
                     }
             }
@@ -1339,6 +1361,28 @@ namespace plt0_gui
             this.preview_ck = new System.Windows.Forms.PictureBox();
             this.auto_ck = new System.Windows.Forms.PictureBox();
             this.paint_ck = new System.Windows.Forms.PictureBox();
+            this.banner_x_ck = new System.Windows.Forms.PictureBox();
+            this.banner_x_hitbox = new System.Windows.Forms.Label();
+            this.banner_5_ck = new System.Windows.Forms.PictureBox();
+            this.banner_5_hitbox = new System.Windows.Forms.Label();
+            this.banner_minus_ck = new System.Windows.Forms.PictureBox();
+            this.banner_minus_hitbox = new System.Windows.Forms.Label();
+            this.banner_9_ck = new System.Windows.Forms.PictureBox();
+            this.banner_9_hitbox = new System.Windows.Forms.Label();
+            this.banner_8_ck = new System.Windows.Forms.PictureBox();
+            this.banner_8_hitbox = new System.Windows.Forms.Label();
+            this.banner_7_ck = new System.Windows.Forms.PictureBox();
+            this.banner_7_hitbox = new System.Windows.Forms.Label();
+            this.banner_6_ck = new System.Windows.Forms.PictureBox();
+            this.banner_6_hitbox = new System.Windows.Forms.Label();
+            this.banner_4_ck = new System.Windows.Forms.PictureBox();
+            this.banner_4_hitbox = new System.Windows.Forms.Label();
+            this.banner_3_ck = new System.Windows.Forms.PictureBox();
+            this.banner_3_hitbox = new System.Windows.Forms.Label();
+            this.banner_2_ck = new System.Windows.Forms.PictureBox();
+            this.banner_2_hitbox = new System.Windows.Forms.Label();
+            this.banner_1_ck = new System.Windows.Forms.PictureBox();
+            this.banner_1_hitbox = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.bmd_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
@@ -1425,6 +1469,17 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.preview_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.auto_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.paint_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_x_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_5_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_minus_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_9_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_8_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_7_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_6_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_4_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_3_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_2_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_1_ck)).BeginInit();
             this.SuspendLayout();
             // 
             // output_file_type_label
@@ -5102,9 +5157,12 @@ namespace plt0_gui
             this.all_hitbox.Location = new System.Drawing.Point(48, 0);
             this.all_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.all_hitbox.Name = "all_hitbox";
-            this.all_hitbox.Padding = new System.Windows.Forms.Padding(96, 6, 0, 6);
-            this.all_hitbox.Size = new System.Drawing.Size(96, 32);
+            this.all_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
+            this.all_hitbox.Size = new System.Drawing.Size(32, 32);
             this.all_hitbox.TabIndex = 395;
+            this.all_hitbox.Click += new System.EventHandler(this.All_Click);
+            this.all_hitbox.MouseEnter += new System.EventHandler(this.All_MouseEnter);
+            this.all_hitbox.MouseLeave += new System.EventHandler(this.All_MouseLeave);
             // 
             // preview_hitbox
             // 
@@ -5112,12 +5170,15 @@ namespace plt0_gui
             this.preview_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.preview_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.preview_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.preview_hitbox.Location = new System.Drawing.Point(240, 0);
+            this.preview_hitbox.Location = new System.Drawing.Point(176, 0);
             this.preview_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.preview_hitbox.Name = "preview_hitbox";
             this.preview_hitbox.Padding = new System.Windows.Forms.Padding(96, 6, 0, 6);
             this.preview_hitbox.Size = new System.Drawing.Size(96, 32);
             this.preview_hitbox.TabIndex = 396;
+            this.preview_hitbox.Click += new System.EventHandler(this.Preview_Click);
+            this.preview_hitbox.MouseEnter += new System.EventHandler(this.Preview_MouseEnter);
+            this.preview_hitbox.MouseLeave += new System.EventHandler(this.Preview_MouseLeave);
             // 
             // paint_hitbox
             // 
@@ -5125,12 +5186,15 @@ namespace plt0_gui
             this.paint_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.paint_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.paint_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.paint_hitbox.Location = new System.Drawing.Point(336, 0);
+            this.paint_hitbox.Location = new System.Drawing.Point(272, 0);
             this.paint_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.paint_hitbox.Name = "paint_hitbox";
             this.paint_hitbox.Padding = new System.Windows.Forms.Padding(96, 6, 0, 6);
             this.paint_hitbox.Size = new System.Drawing.Size(96, 32);
             this.paint_hitbox.TabIndex = 397;
+            this.paint_hitbox.Click += new System.EventHandler(this.Paint_Click);
+            this.paint_hitbox.MouseEnter += new System.EventHandler(this.Paint_MouseEnter);
+            this.paint_hitbox.MouseLeave += new System.EventHandler(this.Paint_MouseLeave);
             // 
             // auto_hitbox
             // 
@@ -5138,12 +5202,15 @@ namespace plt0_gui
             this.auto_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.auto_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.auto_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.auto_hitbox.Location = new System.Drawing.Point(144, 0);
+            this.auto_hitbox.Location = new System.Drawing.Point(80, 0);
             this.auto_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.auto_hitbox.Name = "auto_hitbox";
             this.auto_hitbox.Padding = new System.Windows.Forms.Padding(96, 6, 0, 6);
             this.auto_hitbox.Size = new System.Drawing.Size(96, 32);
             this.auto_hitbox.TabIndex = 398;
+            this.auto_hitbox.Click += new System.EventHandler(this.Auto_Click);
+            this.auto_hitbox.MouseEnter += new System.EventHandler(this.Auto_MouseEnter);
+            this.auto_hitbox.MouseLeave += new System.EventHandler(this.Auto_MouseLeave);
             // 
             // all_ck
             // 
@@ -5155,7 +5222,7 @@ namespace plt0_gui
             this.all_ck.Location = new System.Drawing.Point(48, 0);
             this.all_ck.Margin = new System.Windows.Forms.Padding(0);
             this.all_ck.Name = "all_ck";
-            this.all_ck.Size = new System.Drawing.Size(96, 32);
+            this.all_ck.Size = new System.Drawing.Size(32, 32);
             this.all_ck.TabIndex = 399;
             this.all_ck.TabStop = false;
             // 
@@ -5166,7 +5233,7 @@ namespace plt0_gui
             this.preview_ck.Enabled = false;
             this.preview_ck.ErrorImage = null;
             this.preview_ck.InitialImage = null;
-            this.preview_ck.Location = new System.Drawing.Point(240, 0);
+            this.preview_ck.Location = new System.Drawing.Point(176, 0);
             this.preview_ck.Margin = new System.Windows.Forms.Padding(0);
             this.preview_ck.Name = "preview_ck";
             this.preview_ck.Size = new System.Drawing.Size(96, 32);
@@ -5180,7 +5247,7 @@ namespace plt0_gui
             this.auto_ck.Enabled = false;
             this.auto_ck.ErrorImage = null;
             this.auto_ck.InitialImage = null;
-            this.auto_ck.Location = new System.Drawing.Point(144, 0);
+            this.auto_ck.Location = new System.Drawing.Point(80, 0);
             this.auto_ck.Margin = new System.Windows.Forms.Padding(0);
             this.auto_ck.Name = "auto_ck";
             this.auto_ck.Size = new System.Drawing.Size(96, 32);
@@ -5194,19 +5261,338 @@ namespace plt0_gui
             this.paint_ck.Enabled = false;
             this.paint_ck.ErrorImage = null;
             this.paint_ck.InitialImage = null;
-            this.paint_ck.Location = new System.Drawing.Point(336, 0);
+            this.paint_ck.Location = new System.Drawing.Point(272, 0);
             this.paint_ck.Margin = new System.Windows.Forms.Padding(0);
             this.paint_ck.Name = "paint_ck";
             this.paint_ck.Size = new System.Drawing.Size(96, 32);
             this.paint_ck.TabIndex = 402;
             this.paint_ck.TabStop = false;
             // 
+            // banner_x_ck
+            // 
+            this.banner_x_ck.BackColor = System.Drawing.Color.Transparent;
+            this.banner_x_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.banner_x_ck.Enabled = false;
+            this.banner_x_ck.ErrorImage = null;
+            this.banner_x_ck.InitialImage = null;
+            this.banner_x_ck.Location = new System.Drawing.Point(1888, 0);
+            this.banner_x_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_x_ck.Name = "banner_x_ck";
+            this.banner_x_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_x_ck.TabIndex = 404;
+            this.banner_x_ck.TabStop = false;
+            // 
+            // banner_x_hitbox
+            // 
+            this.banner_x_hitbox.AutoSize = true;
+            this.banner_x_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.banner_x_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.banner_x_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.banner_x_hitbox.Location = new System.Drawing.Point(1888, 0);
+            this.banner_x_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_x_hitbox.Name = "banner_x_hitbox";
+            this.banner_x_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
+            this.banner_x_hitbox.Size = new System.Drawing.Size(32, 32);
+            this.banner_x_hitbox.TabIndex = 403;
+            // 
+            // banner_5_ck
+            // 
+            this.banner_5_ck.BackColor = System.Drawing.Color.Transparent;
+            this.banner_5_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.banner_5_ck.Enabled = false;
+            this.banner_5_ck.ErrorImage = null;
+            this.banner_5_ck.InitialImage = null;
+            this.banner_5_ck.Location = new System.Drawing.Point(1856, 0);
+            this.banner_5_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_5_ck.Name = "banner_5_ck";
+            this.banner_5_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_5_ck.TabIndex = 406;
+            this.banner_5_ck.TabStop = false;
+            // 
+            // banner_5_hitbox
+            // 
+            this.banner_5_hitbox.AutoSize = true;
+            this.banner_5_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.banner_5_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.banner_5_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.banner_5_hitbox.Location = new System.Drawing.Point(1856, 0);
+            this.banner_5_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_5_hitbox.Name = "banner_5_hitbox";
+            this.banner_5_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
+            this.banner_5_hitbox.Size = new System.Drawing.Size(32, 32);
+            this.banner_5_hitbox.TabIndex = 405;
+            // 
+            // banner_minus_ck
+            // 
+            this.banner_minus_ck.BackColor = System.Drawing.Color.Transparent;
+            this.banner_minus_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.banner_minus_ck.Enabled = false;
+            this.banner_minus_ck.ErrorImage = null;
+            this.banner_minus_ck.InitialImage = null;
+            this.banner_minus_ck.Location = new System.Drawing.Point(1824, 0);
+            this.banner_minus_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_minus_ck.Name = "banner_minus_ck";
+            this.banner_minus_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_minus_ck.TabIndex = 408;
+            this.banner_minus_ck.TabStop = false;
+            // 
+            // banner_minus_hitbox
+            // 
+            this.banner_minus_hitbox.AutoSize = true;
+            this.banner_minus_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.banner_minus_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.banner_minus_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.banner_minus_hitbox.Location = new System.Drawing.Point(1824, 0);
+            this.banner_minus_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_minus_hitbox.Name = "banner_minus_hitbox";
+            this.banner_minus_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
+            this.banner_minus_hitbox.Size = new System.Drawing.Size(32, 32);
+            this.banner_minus_hitbox.TabIndex = 407;
+            // 
+            // banner_9_ck
+            // 
+            this.banner_9_ck.BackColor = System.Drawing.Color.Transparent;
+            this.banner_9_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.banner_9_ck.Enabled = false;
+            this.banner_9_ck.ErrorImage = null;
+            this.banner_9_ck.InitialImage = null;
+            this.banner_9_ck.Location = new System.Drawing.Point(480, 0);
+            this.banner_9_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_9_ck.Name = "banner_9_ck";
+            this.banner_9_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_9_ck.TabIndex = 412;
+            this.banner_9_ck.TabStop = false;
+            // 
+            // banner_9_hitbox
+            // 
+            this.banner_9_hitbox.AutoSize = true;
+            this.banner_9_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.banner_9_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.banner_9_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.banner_9_hitbox.Location = new System.Drawing.Point(480, 0);
+            this.banner_9_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_9_hitbox.Name = "banner_9_hitbox";
+            this.banner_9_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
+            this.banner_9_hitbox.Size = new System.Drawing.Size(32, 32);
+            this.banner_9_hitbox.TabIndex = 411;
+            // 
+            // banner_8_ck
+            // 
+            this.banner_8_ck.BackColor = System.Drawing.Color.Transparent;
+            this.banner_8_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.banner_8_ck.Enabled = false;
+            this.banner_8_ck.ErrorImage = null;
+            this.banner_8_ck.InitialImage = null;
+            this.banner_8_ck.Location = new System.Drawing.Point(448, 0);
+            this.banner_8_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_8_ck.Name = "banner_8_ck";
+            this.banner_8_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_8_ck.TabIndex = 414;
+            this.banner_8_ck.TabStop = false;
+            // 
+            // banner_8_hitbox
+            // 
+            this.banner_8_hitbox.AutoSize = true;
+            this.banner_8_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.banner_8_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.banner_8_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.banner_8_hitbox.Location = new System.Drawing.Point(448, 0);
+            this.banner_8_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_8_hitbox.Name = "banner_8_hitbox";
+            this.banner_8_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
+            this.banner_8_hitbox.Size = new System.Drawing.Size(32, 32);
+            this.banner_8_hitbox.TabIndex = 413;
+            // 
+            // banner_7_ck
+            // 
+            this.banner_7_ck.BackColor = System.Drawing.Color.Transparent;
+            this.banner_7_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.banner_7_ck.Enabled = false;
+            this.banner_7_ck.ErrorImage = null;
+            this.banner_7_ck.InitialImage = null;
+            this.banner_7_ck.Location = new System.Drawing.Point(416, 0);
+            this.banner_7_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_7_ck.Name = "banner_7_ck";
+            this.banner_7_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_7_ck.TabIndex = 416;
+            this.banner_7_ck.TabStop = false;
+            // 
+            // banner_7_hitbox
+            // 
+            this.banner_7_hitbox.AutoSize = true;
+            this.banner_7_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.banner_7_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.banner_7_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.banner_7_hitbox.Location = new System.Drawing.Point(416, 0);
+            this.banner_7_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_7_hitbox.Name = "banner_7_hitbox";
+            this.banner_7_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
+            this.banner_7_hitbox.Size = new System.Drawing.Size(32, 32);
+            this.banner_7_hitbox.TabIndex = 415;
+            // 
+            // banner_6_ck
+            // 
+            this.banner_6_ck.BackColor = System.Drawing.Color.Transparent;
+            this.banner_6_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.banner_6_ck.Enabled = false;
+            this.banner_6_ck.ErrorImage = null;
+            this.banner_6_ck.InitialImage = null;
+            this.banner_6_ck.Location = new System.Drawing.Point(512, 0);
+            this.banner_6_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_6_ck.Name = "banner_6_ck";
+            this.banner_6_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_6_ck.TabIndex = 418;
+            this.banner_6_ck.TabStop = false;
+            // 
+            // banner_6_hitbox
+            // 
+            this.banner_6_hitbox.AutoSize = true;
+            this.banner_6_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.banner_6_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.banner_6_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.banner_6_hitbox.Location = new System.Drawing.Point(512, 0);
+            this.banner_6_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_6_hitbox.Name = "banner_6_hitbox";
+            this.banner_6_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
+            this.banner_6_hitbox.Size = new System.Drawing.Size(32, 32);
+            this.banner_6_hitbox.TabIndex = 417;
+            // 
+            // banner_4_ck
+            // 
+            this.banner_4_ck.BackColor = System.Drawing.Color.Transparent;
+            this.banner_4_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.banner_4_ck.Enabled = false;
+            this.banner_4_ck.ErrorImage = null;
+            this.banner_4_ck.InitialImage = null;
+            this.banner_4_ck.Location = new System.Drawing.Point(384, 0);
+            this.banner_4_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_4_ck.Name = "banner_4_ck";
+            this.banner_4_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_4_ck.TabIndex = 420;
+            this.banner_4_ck.TabStop = false;
+            // 
+            // banner_4_hitbox
+            // 
+            this.banner_4_hitbox.AutoSize = true;
+            this.banner_4_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.banner_4_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.banner_4_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.banner_4_hitbox.Location = new System.Drawing.Point(384, 0);
+            this.banner_4_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_4_hitbox.Name = "banner_4_hitbox";
+            this.banner_4_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
+            this.banner_4_hitbox.Size = new System.Drawing.Size(32, 32);
+            this.banner_4_hitbox.TabIndex = 419;
+            // 
+            // banner_3_ck
+            // 
+            this.banner_3_ck.BackColor = System.Drawing.Color.Transparent;
+            this.banner_3_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.banner_3_ck.Enabled = false;
+            this.banner_3_ck.ErrorImage = null;
+            this.banner_3_ck.InitialImage = null;
+            this.banner_3_ck.Location = new System.Drawing.Point(544, 0);
+            this.banner_3_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_3_ck.Name = "banner_3_ck";
+            this.banner_3_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_3_ck.TabIndex = 422;
+            this.banner_3_ck.TabStop = false;
+            // 
+            // banner_3_hitbox
+            // 
+            this.banner_3_hitbox.AutoSize = true;
+            this.banner_3_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.banner_3_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.banner_3_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.banner_3_hitbox.Location = new System.Drawing.Point(544, 0);
+            this.banner_3_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_3_hitbox.Name = "banner_3_hitbox";
+            this.banner_3_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
+            this.banner_3_hitbox.Size = new System.Drawing.Size(32, 32);
+            this.banner_3_hitbox.TabIndex = 421;
+            // 
+            // banner_2_ck
+            // 
+            this.banner_2_ck.BackColor = System.Drawing.Color.Transparent;
+            this.banner_2_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.banner_2_ck.Enabled = false;
+            this.banner_2_ck.ErrorImage = null;
+            this.banner_2_ck.InitialImage = null;
+            this.banner_2_ck.Location = new System.Drawing.Point(576, 0);
+            this.banner_2_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_2_ck.Name = "banner_2_ck";
+            this.banner_2_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_2_ck.TabIndex = 424;
+            this.banner_2_ck.TabStop = false;
+            // 
+            // banner_2_hitbox
+            // 
+            this.banner_2_hitbox.AutoSize = true;
+            this.banner_2_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.banner_2_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.banner_2_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.banner_2_hitbox.Location = new System.Drawing.Point(576, 0);
+            this.banner_2_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_2_hitbox.Name = "banner_2_hitbox";
+            this.banner_2_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
+            this.banner_2_hitbox.Size = new System.Drawing.Size(32, 32);
+            this.banner_2_hitbox.TabIndex = 423;
+            // 
+            // banner_1_ck
+            // 
+            this.banner_1_ck.BackColor = System.Drawing.Color.Transparent;
+            this.banner_1_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.banner_1_ck.Enabled = false;
+            this.banner_1_ck.ErrorImage = null;
+            this.banner_1_ck.InitialImage = null;
+            this.banner_1_ck.Location = new System.Drawing.Point(608, 0);
+            this.banner_1_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_1_ck.Name = "banner_1_ck";
+            this.banner_1_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_1_ck.TabIndex = 426;
+            this.banner_1_ck.TabStop = false;
+            // 
+            // banner_1_hitbox
+            // 
+            this.banner_1_hitbox.AutoSize = true;
+            this.banner_1_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.banner_1_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.banner_1_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.banner_1_hitbox.Location = new System.Drawing.Point(608, 0);
+            this.banner_1_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_1_hitbox.Name = "banner_1_hitbox";
+            this.banner_1_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
+            this.banner_1_hitbox.Size = new System.Drawing.Size(32, 32);
+            this.banner_1_hitbox.TabIndex = 425;
+            // 
             // plt0_gui
             // 
             this.AllowDrop = true;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1920, 1080);
+            this.ClientSize = new System.Drawing.Size(1920, 1061);
+            this.Controls.Add(this.banner_1_ck);
+            this.Controls.Add(this.banner_1_hitbox);
+            this.Controls.Add(this.banner_2_ck);
+            this.Controls.Add(this.banner_2_hitbox);
+            this.Controls.Add(this.banner_3_ck);
+            this.Controls.Add(this.banner_3_hitbox);
+            this.Controls.Add(this.banner_4_ck);
+            this.Controls.Add(this.banner_4_hitbox);
+            this.Controls.Add(this.banner_6_ck);
+            this.Controls.Add(this.banner_6_hitbox);
+            this.Controls.Add(this.banner_7_ck);
+            this.Controls.Add(this.banner_7_hitbox);
+            this.Controls.Add(this.banner_8_ck);
+            this.Controls.Add(this.banner_8_hitbox);
+            this.Controls.Add(this.banner_9_ck);
+            this.Controls.Add(this.banner_9_hitbox);
+            this.Controls.Add(this.banner_minus_ck);
+            this.Controls.Add(this.banner_minus_hitbox);
+            this.Controls.Add(this.banner_5_ck);
+            this.Controls.Add(this.banner_5_hitbox);
+            this.Controls.Add(this.banner_x_ck);
+            this.Controls.Add(this.banner_x_hitbox);
             this.Controls.Add(this.paint_ck);
             this.Controls.Add(this.auto_ck);
             this.Controls.Add(this.preview_ck);
@@ -5550,6 +5936,17 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.preview_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.auto_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.paint_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_x_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_5_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_minus_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_9_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_8_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_7_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_6_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_4_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_3_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_2_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_1_ck)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -7585,48 +7982,48 @@ namespace plt0_gui
             switch (layout)
             {
                 case 0:
-                    All_unchecked();
+                    unchecked_All();
                     break;
                 case 1:
-                    Auto_unchecked();
+                    unchecked_Auto();
                     break;
                 case 2:
-                    Preview_unchecked();
+                    unchecked_Preview();
                     break;
                 case 3:
-                    Paint_unchecked();
+                    unchecked_Paint();
                     break;
             }
-            All_selected();
+            selected_All();
             layout = 0;
         }
         private void All_MouseEnter(object sender, EventArgs e)
         {
             if (layout == 0)
-                All_selected();
+                selected_All();
             else
-                All_hover();
+                hover_All();
         }
         private void All_MouseLeave(object sender, EventArgs e)
         {
             if (layout == 0)
-                All_checked();
+                checked_All();
             else
-                All_unchecked();
+                unchecked_All();
         }
-        private void All_checked()
+        private void checked_All()
         {
             all_ck.BackgroundImage = all_on;
         }
-        private void All_unchecked()
+        private void unchecked_All()
         {
             all_ck.BackgroundImage = all_off;
         }
-        private void All_hover()
+        private void hover_All()
         {
             all_ck.BackgroundImage = all_hover;
         }
-        private void All_selected()
+        private void selected_All()
         {
             all_ck.BackgroundImage = all_selected;
         }
@@ -7635,48 +8032,48 @@ namespace plt0_gui
             switch (layout)
             {
                 case 0:
-                    All_unchecked();
+                    unchecked_All();
                     break;
                 case 1:
-                    Auto_unchecked();
+                    unchecked_Auto();
                     break;
                 case 2:
-                    Preview_unchecked();
+                    unchecked_Preview();
                     break;
                 case 3:
-                    Paint_unchecked();
+                    unchecked_Paint();
                     break;
             }
-            Auto_selected();
+            selected_Auto();
             layout = 1;
         }
         private void Auto_MouseEnter(object sender, EventArgs e)
         {
             if (layout == 1)
-                Auto_selected();
+                selected_Auto();
             else
-                Auto_hover();
+                hover_Auto();
         }
         private void Auto_MouseLeave(object sender, EventArgs e)
         {
             if (layout == 1)
-                Auto_checked();
+                checked_Auto();
             else
-                Auto_unchecked();
+                unchecked_Auto();
         }
-        private void Auto_checked()
+        private void checked_Auto()
         {
             auto_ck.BackgroundImage = auto_on;
         }
-        private void Auto_unchecked()
+        private void unchecked_Auto()
         {
             auto_ck.BackgroundImage = auto_off;
         }
-        private void Auto_hover()
+        private void hover_Auto()
         {
             auto_ck.BackgroundImage = auto_hover;
         }
-        private void Auto_selected()
+        private void selected_Auto()
         {
             auto_ck.BackgroundImage = auto_selected;
         }
@@ -7685,48 +8082,48 @@ namespace plt0_gui
             switch (layout)
             {
                 case 0:
-                    All_unchecked();
+                    unchecked_All();
                     break;
                 case 1:
-                    Auto_unchecked();
+                    unchecked_Auto();
                     break;
                 case 2:
-                    Preview_unchecked();
+                    unchecked_Preview();
                     break;
                 case 3:
-                    Paint_unchecked();
+                    unchecked_Paint();
                     break;
             }
-            Preview_selected();
+            selected_Preview();
             layout = 2;
         }
         private void Preview_MouseEnter(object sender, EventArgs e)
         {
             if (layout == 2)
-                Preview_selected();
+                selected_Preview();
             else
-                Preview_hover();
+                hover_Preview();
         }
         private void Preview_MouseLeave(object sender, EventArgs e)
         {
             if (layout == 2)
-                Preview_checked();
+                checked_Preview();
             else
-                Preview_unchecked();
+                unchecked_Preview();
         }
-        private void Preview_checked()
+        private void checked_Preview()
         {
             preview_ck.BackgroundImage = preview_on;
         }
-        private void Preview_unchecked()
+        private void unchecked_Preview()
         {
             preview_ck.BackgroundImage = preview_off;
         }
-        private void Preview_hover()
+        private void hover_Preview()
         {
             preview_ck.BackgroundImage = preview_hover;
         }
-        private void Preview_selected()
+        private void selected_Preview()
         {
             preview_ck.BackgroundImage = preview_selected;
         }
@@ -7735,48 +8132,48 @@ namespace plt0_gui
             switch (layout)
             {
                 case 0:
-                    All_unchecked();
+                    unchecked_All();
                     break;
                 case 1:
-                    Auto_unchecked();
+                    unchecked_Auto();
                     break;
                 case 2:
-                    Preview_unchecked();
+                    unchecked_Preview();
                     break;
                 case 3:
-                    Paint_unchecked();
+                    unchecked_Paint();
                     break;
             }
-            Paint_selected();
+            selected_Paint();
             layout = 3;
         }
         private void Paint_MouseEnter(object sender, EventArgs e)
         {
             if (layout == 3)
-                Paint_selected();
+                selected_Paint();
             else
-                Paint_hover();
+                hover_Paint();
         }
         private void Paint_MouseLeave(object sender, EventArgs e)
         {
             if (layout == 3)
-                Paint_checked();
+                checked_Paint();
             else
-                Paint_unchecked();
+                unchecked_Paint();
         }
-        private void Paint_checked()
+        private void checked_Paint()
         {
             paint_ck.BackgroundImage = paint_on;
         }
-        private void Paint_unchecked()
+        private void unchecked_Paint()
         {
             paint_ck.BackgroundImage = paint_off;
         }
-        private void Paint_hover()
+        private void hover_Paint()
         {
             paint_ck.BackgroundImage = paint_hover;
         }
-        private void Paint_selected()
+        private void selected_Paint()
         {
             paint_ck.BackgroundImage = paint_selected;
         }

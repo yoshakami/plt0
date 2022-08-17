@@ -247,6 +247,28 @@
         private System.Windows.Forms.PictureBox preview_ck;
         private System.Windows.Forms.PictureBox auto_ck;
         private System.Windows.Forms.PictureBox paint_ck;
+        private System.Windows.Forms.PictureBox banner_x_ck;
+        private System.Windows.Forms.Label banner_x_hitbox;
+        private System.Windows.Forms.PictureBox banner_5_ck;
+        private System.Windows.Forms.Label banner_5_hitbox;
+        private System.Windows.Forms.PictureBox banner_minus_ck;
+        private System.Windows.Forms.Label banner_minus_hitbox;
+        private System.Windows.Forms.PictureBox banner_9_ck;
+        private System.Windows.Forms.Label banner_9_hitbox;
+        private System.Windows.Forms.PictureBox banner_8_ck;
+        private System.Windows.Forms.Label banner_8_hitbox;
+        private System.Windows.Forms.PictureBox banner_7_ck;
+        private System.Windows.Forms.Label banner_7_hitbox;
+        private System.Windows.Forms.PictureBox banner_6_ck;
+        private System.Windows.Forms.Label banner_6_hitbox;
+        private System.Windows.Forms.PictureBox banner_4_ck;
+        private System.Windows.Forms.Label banner_4_hitbox;
+        private System.Windows.Forms.PictureBox banner_3_ck;
+        private System.Windows.Forms.Label banner_3_hitbox;
+        private System.Windows.Forms.PictureBox banner_2_ck;
+        private System.Windows.Forms.Label banner_2_hitbox;
+        private System.Windows.Forms.PictureBox banner_1_ck;
+        private System.Windows.Forms.Label banner_1_hitbox;
         /*
 /// <summary>
 /// Required designer variable.
