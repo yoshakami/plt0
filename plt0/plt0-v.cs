@@ -5994,7 +5994,7 @@ namespace plt0_gui
             this.AllowDrop = true;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1924, 1080);
+            this.ClientSize = new System.Drawing.Size(1920, 1080);
             this.Controls.Add(this.run_ck);
             this.Controls.Add(this.cli_textbox_ck);
             this.Controls.Add(this.banner_1_ck);
@@ -6266,15 +6266,16 @@ namespace plt0_gui
             this.Controls.Add(this.a_a_ck_hitbox);
             this.Controls.Add(this.run_hitbox);
             this.Controls.Add(this.cli_textbox_hitbox);
+            this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
-            this.MaximumSize = new System.Drawing.Size(99999999, 99999999);
+            this.MaximumSize = new System.Drawing.Size(99999, 99999);
             this.Name = "plt0_gui";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.WindowsDefaultBounds;
             this.Text = "PLT0 - Image Encoding tool";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.plt0_DragDrop);
