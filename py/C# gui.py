@@ -335,7 +335,11 @@ for l in range(len(banner_common)):
 """
 banner_long = ["Left", "Top_left", "Top", "Top_right", "Right", "Bottom_right", "Bottom", "Bottom_left"]
 banner = ["4", "7", "8", "9", "6", "3", "2", "1"]  # it's faster to look at the numpad arrows
+#banner_long = ["Left", "Top_left", "Top", "Top_right", "Right", "Bottom_right", "Bottom", "Bottom_left"]
+#banner = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 for m in range(len(banner)):
+    #if banner[m] == "":
+    #    continue
     output += """        private void """ + banner_long[m] + """_Click(object sender, EventArgs e)
         {
             switch (arrow)
@@ -366,35 +370,35 @@ for m in range(len(banner)):
                     break;
             }
             selected_""" + banner_long[m] + """();
-            arrow = """ + str(m) + """;
+            arrow = """ + banner[m] + """;
         }
-        private void """ + Banner_long[m] + """_MouseEnter(object sender, EventArgs e)
+        private void """ + banner_long[m] + """_MouseEnter(object sender, EventArgs e)
         {
-            if (arrow == """ + str(m) + """)
-                selected_""" + Banner_long[m] + """();
+            if (arrow == """ + banner[m] + """)
+                selected_""" + banner_long[m] + """();
             else
-                hover_""" + Banner_long[m] + """();
+                hover_""" + banner_long[m] + """();
         }
-        private void """ + Banner_long[m] + """_MouseLeave(object sender, EventArgs e)
+        private void """ + banner_long[m] + """_MouseLeave(object sender, EventArgs e)
         {
-            if (arrow == """ + str(m) + """)
-                checked_""" + Banner_long[m] + """();
+            if (arrow == """ + banner[m] + """)
+                checked_""" + banner_long[m] + """();
             else
-                unchecked_""" + Banner_long[m] + """();
+                unchecked_""" + banner_long[m] + """();
         }
-        private void checked_""" + Banner_long[m] + """()
+        private void checked_""" + banner_long[m] + """()
         {
             banner_""" + banner[m] + "_ck.BackgroundImage = " + banner_long[m] + """_on;
         }
-        private void unchecked_""" + Banner_long[m] + """()
+        private void unchecked_""" + banner_long[m] + """()
         {
             banner_""" + banner[m] + "_ck.BackgroundImage = " + banner_long[m] + """_off;
         }
-        private void hover_""" + Banner_long[m] + """()
+        private void hover_""" + banner_long[m] + """()
         {
             banner_""" + banner[m] + "_ck.BackgroundImage = " + banner_long[m] + """_hover;
         }
-        private void selected_""" + Banner_long[m] + """()
+        private void selected_""" + banner_long[m] + """()
         {
             banner_""" + banner[m] + "_ck.BackgroundImage = " + banner_long[m] + """_selected;
         }
