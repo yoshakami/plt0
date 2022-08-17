@@ -66,6 +66,7 @@ namespace plt0_gui
         byte round6 = 2;
         byte color;
         byte layout;
+        byte arrow;
         List<PictureBox> encoding_ck = new List<PictureBox>();
         List<PictureBox> a_ck = new List<PictureBox>();
         List<PictureBox> b_ck = new List<PictureBox>();
@@ -142,6 +143,44 @@ namespace plt0_gui
         Image paint_off;
         Image paint_hover;
         Image paint_selected;
+        Image bottom_left_on;
+        Image bottom_left_off;
+        Image bottom_left_selected;
+        Image bottom_left_hover;
+        Image left_on;
+        Image left_off;
+        Image left_hover;
+        Image left_selected;
+        Image top_left_on;
+        Image top_left_off;
+        Image top_left_hover;
+        Image top_left_selected;
+        Image bottom_right_on;
+        Image bottom_right_off;
+        Image bottom_right_selected;
+        Image bottom_right_hover;
+        Image right_on;
+        Image right_off;
+        Image right_hover;
+        Image right_selected;
+        Image top_right_on;
+        Image top_right_off;
+        Image top_right_hover;
+        Image top_right_selected;
+        Image bottom_on;
+        Image bottom_off;
+        Image bottom_selected;
+        Image bottom_hover;
+        Image top_on;
+        Image top_off;
+        Image top_hover;
+        Image top_selected;
+        Image close;
+        Image close_hover;
+        Image maximized;
+        Image maximized_hover;
+        Image minimized;
+        Image minimized_hover;
         // I couldn't manage to get external fonts working. this needs to be specified within the app itself :/
         // static string fontname = "Segoe UI";
         // Font font_normal = new System.Drawing.Font(fontname, 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
@@ -622,6 +661,40 @@ namespace plt0_gui
                             unchecked_Preview();
                             checked_Paint();
                             layout = 3;
+                            break;
+                    }
+                if (lines.Length > 5)
+                    switch(lines[4].ToUpper())
+                    {
+                        case "MAXIMIZED":
+                            this.WindowState = FormWindowState.Maximized;
+                            break;
+                        case "NORMAL":
+                            // default
+                            break;
+                        case "LEFT":
+                            arrow = 4;
+                            break;
+                        case "TOP_LEFT":
+                            arrow = 7;
+                            break;
+                        case "TOP":
+                            arrow = 8;
+                            break;
+                        case "TOP_RIGHT":
+                            arrow = 9;
+                            break;
+                        case "RIGHT":
+                            arrow = 6;
+                            break;
+                        case "BOTTOM_RIGHT":
+                            arrow = 3;
+                            break;
+                        case "BOTTOM":
+                            arrow = 2;
+                            break;
+                        case "BOTTOM_LEFT":
+                            arrow = 1;
                             break;
                     }
             }
@@ -8176,6 +8249,539 @@ namespace plt0_gui
         private void selected_Paint()
         {
             paint_ck.BackgroundImage = paint_selected;
+        }
+        private void Minimized_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+        private void Minimized_MouseEnter(object sender, EventArgs e)
+        {
+            banner_minus_ck.BackgroundImage = minimized_hover;
+        }
+        private void Minimized_MouseLeave(object sender, EventArgs e)
+        {
+            banner_minus_ck.BackgroundImage = minimized;
+        }
+        private void Maximized_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Maximized;
+        }
+        private void Maximized_MouseEnter(object sender, EventArgs e)
+        {
+            banner_5_ck.BackgroundImage = maximized_hover;
+        }
+        private void Maximized_MouseLeave(object sender, EventArgs e)
+        {
+            banner_5_ck.BackgroundImage = maximized;
+        }
+        private void Close_Click(object sender, EventArgs e)
+        {
+            // this.WindowState = FormWindowState.Close;
+            Environment.Exit(0);
+        }
+        private void Close_MouseEnter(object sender, EventArgs e)
+        {
+            banner_x_ck.BackgroundImage = close_hover;
+        }
+        private void Close_MouseLeave(object sender, EventArgs e)
+        {
+            banner_x_ck.BackgroundImage = close;
+        }
+        private void Left_Click(object sender, EventArgs e)
+        {
+            switch (arrow)
+            {
+                case 4:
+                    unchecked_Left();
+                    break;
+                case 7:
+                    unchecked_Top_left();
+                    break;
+                case 8:
+                    unchecked_Top();
+                    break;
+                case 9:
+                    unchecked_Top_right();
+                    break;
+                case 6:
+                    unchecked_Right();
+                    break;
+                case 3:
+                    unchecked_Bottom_right();
+                    break;
+                case 2:
+                    unchecked_Bottom();
+                    break;
+                case 1:
+                    unchecked_Bottom_left();
+                    break;
+            }
+            selected_Left();
+            arrow = 4;
+        }
+        private void Left_MouseEnter(object sender, EventArgs e)
+        {
+            if (arrow == 4)
+                selected_Left();
+            else
+                hover_Left();
+        }
+        private void Left_MouseLeave(object sender, EventArgs e)
+        {
+            if (arrow == 4)
+                checked_Left();
+            else
+                unchecked_Left();
+        }
+        private void checked_Left()
+        {
+            banner_4_ck.BackgroundImage = left_on;
+        }
+        private void unchecked_Left()
+        {
+            banner_4_ck.BackgroundImage = left_off;
+        }
+        private void hover_Left()
+        {
+            banner_4_ck.BackgroundImage = left_hover;
+        }
+        private void selected_Left()
+        {
+            banner_4_ck.BackgroundImage = left_selected;
+        }
+        private void Top_left_Click(object sender, EventArgs e)
+        {
+            switch (arrow)
+            {
+                case 4:
+                    unchecked_Left();
+                    break;
+                case 7:
+                    unchecked_Top_left();
+                    break;
+                case 8:
+                    unchecked_Top();
+                    break;
+                case 9:
+                    unchecked_Top_right();
+                    break;
+                case 6:
+                    unchecked_Right();
+                    break;
+                case 3:
+                    unchecked_Bottom_right();
+                    break;
+                case 2:
+                    unchecked_Bottom();
+                    break;
+                case 1:
+                    unchecked_Bottom_left();
+                    break;
+            }
+            selected_Top_left();
+            arrow = 7;
+        }
+        private void Top_left_MouseEnter(object sender, EventArgs e)
+        {
+            if (arrow == 7)
+                selected_Top_left();
+            else
+                hover_Top_left();
+        }
+        private void Top_left_MouseLeave(object sender, EventArgs e)
+        {
+            if (arrow == 7)
+                checked_Top_left();
+            else
+                unchecked_Top_left();
+        }
+        private void checked_Top_left()
+        {
+            banner_7_ck.BackgroundImage = top_left_on;
+        }
+        private void unchecked_Top_left()
+        {
+            banner_7_ck.BackgroundImage = top_left_off;
+        }
+        private void hover_Top_left()
+        {
+            banner_7_ck.BackgroundImage = top_left_hover;
+        }
+        private void selected_Top_left()
+        {
+            banner_7_ck.BackgroundImage = top_left_selected;
+        }
+        private void Top_Click(object sender, EventArgs e)
+        {
+            switch (arrow)
+            {
+                case 4:
+                    unchecked_Left();
+                    break;
+                case 7:
+                    unchecked_Top_left();
+                    break;
+                case 8:
+                    unchecked_Top();
+                    break;
+                case 9:
+                    unchecked_Top_right();
+                    break;
+                case 6:
+                    unchecked_Right();
+                    break;
+                case 3:
+                    unchecked_Bottom_right();
+                    break;
+                case 2:
+                    unchecked_Bottom();
+                    break;
+                case 1:
+                    unchecked_Bottom_left();
+                    break;
+            }
+            selected_Top();
+            arrow = 8;
+        }
+        private void Top_MouseEnter(object sender, EventArgs e)
+        {
+            if (arrow == 8)
+                selected_Top();
+            else
+                hover_Top();
+        }
+        private void Top_MouseLeave(object sender, EventArgs e)
+        {
+            if (arrow == 8)
+                checked_Top();
+            else
+                unchecked_Top();
+        }
+        private void checked_Top()
+        {
+            banner_8_ck.BackgroundImage = top_on;
+        }
+        private void unchecked_Top()
+        {
+            banner_8_ck.BackgroundImage = top_off;
+        }
+        private void hover_Top()
+        {
+            banner_8_ck.BackgroundImage = top_hover;
+        }
+        private void selected_Top()
+        {
+            banner_8_ck.BackgroundImage = top_selected;
+        }
+        private void Top_right_Click(object sender, EventArgs e)
+        {
+            switch (arrow)
+            {
+                case 4:
+                    unchecked_Left();
+                    break;
+                case 7:
+                    unchecked_Top_left();
+                    break;
+                case 8:
+                    unchecked_Top();
+                    break;
+                case 9:
+                    unchecked_Top_right();
+                    break;
+                case 6:
+                    unchecked_Right();
+                    break;
+                case 3:
+                    unchecked_Bottom_right();
+                    break;
+                case 2:
+                    unchecked_Bottom();
+                    break;
+                case 1:
+                    unchecked_Bottom_left();
+                    break;
+            }
+            selected_Top_right();
+            arrow = 9;
+        }
+        private void Top_right_MouseEnter(object sender, EventArgs e)
+        {
+            if (arrow == 9)
+                selected_Top_right();
+            else
+                hover_Top_right();
+        }
+        private void Top_right_MouseLeave(object sender, EventArgs e)
+        {
+            if (arrow == 9)
+                checked_Top_right();
+            else
+                unchecked_Top_right();
+        }
+        private void checked_Top_right()
+        {
+            banner_9_ck.BackgroundImage = top_right_on;
+        }
+        private void unchecked_Top_right()
+        {
+            banner_9_ck.BackgroundImage = top_right_off;
+        }
+        private void hover_Top_right()
+        {
+            banner_9_ck.BackgroundImage = top_right_hover;
+        }
+        private void selected_Top_right()
+        {
+            banner_9_ck.BackgroundImage = top_right_selected;
+        }
+        private void Right_Click(object sender, EventArgs e)
+        {
+            switch (arrow)
+            {
+                case 4:
+                    unchecked_Left();
+                    break;
+                case 7:
+                    unchecked_Top_left();
+                    break;
+                case 8:
+                    unchecked_Top();
+                    break;
+                case 9:
+                    unchecked_Top_right();
+                    break;
+                case 6:
+                    unchecked_Right();
+                    break;
+                case 3:
+                    unchecked_Bottom_right();
+                    break;
+                case 2:
+                    unchecked_Bottom();
+                    break;
+                case 1:
+                    unchecked_Bottom_left();
+                    break;
+            }
+            selected_Right();
+            arrow = 6;
+        }
+        private void Right_MouseEnter(object sender, EventArgs e)
+        {
+            if (arrow == 6)
+                selected_Right();
+            else
+                hover_Right();
+        }
+        private void Right_MouseLeave(object sender, EventArgs e)
+        {
+            if (arrow == 6)
+                checked_Right();
+            else
+                unchecked_Right();
+        }
+        private void checked_Right()
+        {
+            banner_6_ck.BackgroundImage = right_on;
+        }
+        private void unchecked_Right()
+        {
+            banner_6_ck.BackgroundImage = right_off;
+        }
+        private void hover_Right()
+        {
+            banner_6_ck.BackgroundImage = right_hover;
+        }
+        private void selected_Right()
+        {
+            banner_6_ck.BackgroundImage = right_selected;
+        }
+        private void Bottom_right_Click(object sender, EventArgs e)
+        {
+            switch (arrow)
+            {
+                case 4:
+                    unchecked_Left();
+                    break;
+                case 7:
+                    unchecked_Top_left();
+                    break;
+                case 8:
+                    unchecked_Top();
+                    break;
+                case 9:
+                    unchecked_Top_right();
+                    break;
+                case 6:
+                    unchecked_Right();
+                    break;
+                case 3:
+                    unchecked_Bottom_right();
+                    break;
+                case 2:
+                    unchecked_Bottom();
+                    break;
+                case 1:
+                    unchecked_Bottom_left();
+                    break;
+            }
+            selected_Bottom_right();
+            arrow = 3;
+        }
+        private void Bottom_right_MouseEnter(object sender, EventArgs e)
+        {
+            if (arrow == 3)
+                selected_Bottom_right();
+            else
+                hover_Bottom_right();
+        }
+        private void Bottom_right_MouseLeave(object sender, EventArgs e)
+        {
+            if (arrow == 3)
+                checked_Bottom_right();
+            else
+                unchecked_Bottom_right();
+        }
+        private void checked_Bottom_right()
+        {
+            banner_3_ck.BackgroundImage = bottom_right_on;
+        }
+        private void unchecked_Bottom_right()
+        {
+            banner_3_ck.BackgroundImage = bottom_right_off;
+        }
+        private void hover_Bottom_right()
+        {
+            banner_3_ck.BackgroundImage = bottom_right_hover;
+        }
+        private void selected_Bottom_right()
+        {
+            banner_3_ck.BackgroundImage = bottom_right_selected;
+        }
+        private void Bottom_Click(object sender, EventArgs e)
+        {
+            switch (arrow)
+            {
+                case 4:
+                    unchecked_Left();
+                    break;
+                case 7:
+                    unchecked_Top_left();
+                    break;
+                case 8:
+                    unchecked_Top();
+                    break;
+                case 9:
+                    unchecked_Top_right();
+                    break;
+                case 6:
+                    unchecked_Right();
+                    break;
+                case 3:
+                    unchecked_Bottom_right();
+                    break;
+                case 2:
+                    unchecked_Bottom();
+                    break;
+                case 1:
+                    unchecked_Bottom_left();
+                    break;
+            }
+            selected_Bottom();
+            arrow = 2;
+        }
+        private void Bottom_MouseEnter(object sender, EventArgs e)
+        {
+            if (arrow == 2)
+                selected_Bottom();
+            else
+                hover_Bottom();
+        }
+        private void Bottom_MouseLeave(object sender, EventArgs e)
+        {
+            if (arrow == 2)
+                checked_Bottom();
+            else
+                unchecked_Bottom();
+        }
+        private void checked_Bottom()
+        {
+            banner_2_ck.BackgroundImage = bottom_on;
+        }
+        private void unchecked_Bottom()
+        {
+            banner_2_ck.BackgroundImage = bottom_off;
+        }
+        private void hover_Bottom()
+        {
+            banner_2_ck.BackgroundImage = bottom_hover;
+        }
+        private void selected_Bottom()
+        {
+            banner_2_ck.BackgroundImage = bottom_selected;
+        }
+        private void Bottom_left_Click(object sender, EventArgs e)
+        {
+            switch (arrow)
+            {
+                case 4:
+                    unchecked_Left();
+                    break;
+                case 7:
+                    unchecked_Top_left();
+                    break;
+                case 8:
+                    unchecked_Top();
+                    break;
+                case 9:
+                    unchecked_Top_right();
+                    break;
+                case 6:
+                    unchecked_Right();
+                    break;
+                case 3:
+                    unchecked_Bottom_right();
+                    break;
+                case 2:
+                    unchecked_Bottom();
+                    break;
+                case 1:
+                    unchecked_Bottom_left();
+                    break;
+            }
+            selected_Bottom_left();
+            arrow = 1;
+        }
+        private void Bottom_left_MouseEnter(object sender, EventArgs e)
+        {
+            if (arrow == 1)
+                selected_Bottom_left();
+            else
+                hover_Bottom_left();
+        }
+        private void Bottom_left_MouseLeave(object sender, EventArgs e)
+        {
+            if (arrow == 1)
+                checked_Bottom_left();
+            else
+                unchecked_Bottom_left();
+        }
+        private void checked_Bottom_left()
+        {
+            banner_1_ck.BackgroundImage = bottom_left_on;
+        }
+        private void unchecked_Bottom_left()
+        {
+            banner_1_ck.BackgroundImage = bottom_left_off;
+        }
+        private void hover_Bottom_left()
+        {
+            banner_1_ck.BackgroundImage = bottom_left_hover;
+        }
+        private void selected_Bottom_left()
+        {
+            banner_1_ck.BackgroundImage = bottom_left_selected;
         }
     }
 }
