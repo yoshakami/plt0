@@ -269,6 +269,10 @@
         private System.Windows.Forms.Label banner_2_hitbox;
         private System.Windows.Forms.PictureBox banner_1_ck;
         private System.Windows.Forms.Label banner_1_hitbox;
+        private System.Windows.Forms.PictureBox cli_textbox_ck;
+        private System.Windows.Forms.PictureBox run_ck;
+        private System.Windows.Forms.Label run_hitbox;
+        private System.Windows.Forms.Label cli_textbox_hitbox;
         /*
 /// <summary>
 /// Required designer variable.
