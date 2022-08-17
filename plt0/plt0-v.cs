@@ -177,8 +177,10 @@ namespace plt0_gui
         Image top_selected;
         Image close;
         Image close_hover;
-        Image maximized;
+        Image maximized_on;
+        Image maximized_off;
         Image maximized_hover;
+        Image maximized_selected;
         Image minimized;
         Image minimized_hover;
         // I couldn't manage to get external fonts working. this needs to be specified within the app itself :/
@@ -674,13 +676,21 @@ namespace plt0_gui
             {
                 close_hover = System.Drawing.Image.FromFile(execPath + "images/close_hover.png");
             }
-            if (System.IO.File.Exists(execPath + "images/maximized.png"))
+            if (System.IO.File.Exists(execPath + "images/maximized_on.png"))
             {
-                maximized = System.Drawing.Image.FromFile(execPath + "images/maximized.png");
+                maximized_on = System.Drawing.Image.FromFile(execPath + "images/maximized_on.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/maximized_off.png"))
+            {
+                maximized_off = System.Drawing.Image.FromFile(execPath + "images/maximized_off.png");
             }
             if (System.IO.File.Exists(execPath + "images/maximized_hover.png"))
             {
                 maximized_hover = System.Drawing.Image.FromFile(execPath + "images/maximized_hover.png");
+            }
+            if (System.IO.File.Exists(execPath + "images/maximized_selected.png"))
+            {
+                maximized_selected = System.Drawing.Image.FromFile(execPath + "images/maximized_selected.png");
             }
             if (System.IO.File.Exists(execPath + "images/minimized.png"))
             {
@@ -770,6 +780,8 @@ namespace plt0_gui
             Category_checked(view_WrapT_ck);
             Category_checked(view_min_ck);
             Category_checked(view_mag_ck);
+            banner_minus_ck.BackgroundImage = minimized;
+            banner_x_ck.BackgroundImage = close;
             if (System.IO.File.Exists(execPath + "images/zettings.txt"))
             {
                 string[] lines = System.IO.File.ReadAllLines(execPath + "images/zettings.txt");
@@ -824,6 +836,7 @@ namespace plt0_gui
                             banner_2_ck.BackgroundImage = bottom_off;
                             banner_3_ck.BackgroundImage = bottom_right_off;
                             banner_4_ck.BackgroundImage = left_off;
+                            banner_5_ck.BackgroundImage = maximized_on;
                             banner_6_ck.BackgroundImage = right_off;
                             banner_7_ck.BackgroundImage = top_left_off;
                             banner_8_ck.BackgroundImage = top_off;
@@ -835,6 +848,7 @@ namespace plt0_gui
                             banner_2_ck.BackgroundImage = bottom_off;
                             banner_3_ck.BackgroundImage = bottom_right_off;
                             banner_4_ck.BackgroundImage = left_off;
+                            banner_5_ck.BackgroundImage = maximized_off;
                             banner_6_ck.BackgroundImage = right_off;
                             banner_7_ck.BackgroundImage = top_left_off;
                             banner_8_ck.BackgroundImage = top_off;
@@ -846,6 +860,7 @@ namespace plt0_gui
                             banner_2_ck.BackgroundImage = bottom_off;
                             banner_3_ck.BackgroundImage = bottom_right_off;
                             banner_4_ck.BackgroundImage = left_on;
+                            banner_5_ck.BackgroundImage = maximized_off;
                             banner_6_ck.BackgroundImage = right_off;
                             banner_7_ck.BackgroundImage = top_left_off;
                             banner_8_ck.BackgroundImage = top_off;
@@ -857,6 +872,7 @@ namespace plt0_gui
                             banner_2_ck.BackgroundImage = bottom_off;
                             banner_3_ck.BackgroundImage = bottom_right_off;
                             banner_4_ck.BackgroundImage = left_off;
+                            banner_5_ck.BackgroundImage = maximized_off;
                             banner_6_ck.BackgroundImage = right_off;
                             banner_7_ck.BackgroundImage = top_left_on;
                             banner_8_ck.BackgroundImage = top_off;
@@ -868,6 +884,7 @@ namespace plt0_gui
                             banner_2_ck.BackgroundImage = bottom_off;
                             banner_3_ck.BackgroundImage = bottom_right_off;
                             banner_4_ck.BackgroundImage = left_off;
+                            banner_5_ck.BackgroundImage = maximized_off;
                             banner_6_ck.BackgroundImage = right_off;
                             banner_7_ck.BackgroundImage = top_left_off;
                             banner_8_ck.BackgroundImage = top_on;
@@ -879,6 +896,7 @@ namespace plt0_gui
                             banner_2_ck.BackgroundImage = bottom_off;
                             banner_3_ck.BackgroundImage = bottom_right_off;
                             banner_4_ck.BackgroundImage = left_off;
+                            banner_5_ck.BackgroundImage = maximized_off;
                             banner_6_ck.BackgroundImage = right_off;
                             banner_7_ck.BackgroundImage = top_left_off;
                             banner_8_ck.BackgroundImage = top_off;
@@ -890,6 +908,7 @@ namespace plt0_gui
                             banner_2_ck.BackgroundImage = bottom_off;
                             banner_3_ck.BackgroundImage = bottom_right_off;
                             banner_4_ck.BackgroundImage = left_off;
+                            banner_5_ck.BackgroundImage = maximized_off;
                             banner_6_ck.BackgroundImage = right_on;
                             banner_7_ck.BackgroundImage = top_left_off;
                             banner_8_ck.BackgroundImage = top_off;
@@ -901,6 +920,7 @@ namespace plt0_gui
                             banner_2_ck.BackgroundImage = bottom_off;
                             banner_3_ck.BackgroundImage = bottom_right_on;
                             banner_4_ck.BackgroundImage = left_off;
+                            banner_5_ck.BackgroundImage = maximized_off;
                             banner_6_ck.BackgroundImage = right_off;
                             banner_7_ck.BackgroundImage = top_left_off;
                             banner_8_ck.BackgroundImage = top_off;
@@ -912,6 +932,7 @@ namespace plt0_gui
                             banner_2_ck.BackgroundImage = bottom_on;
                             banner_3_ck.BackgroundImage = bottom_right_off;
                             banner_4_ck.BackgroundImage = left_off;
+                            banner_5_ck.BackgroundImage = maximized_off;
                             banner_6_ck.BackgroundImage = right_off;
                             banner_7_ck.BackgroundImage = top_left_off;
                             banner_8_ck.BackgroundImage = top_off;
@@ -923,6 +944,7 @@ namespace plt0_gui
                             banner_2_ck.BackgroundImage = bottom_off;
                             banner_3_ck.BackgroundImage = bottom_right_off;
                             banner_4_ck.BackgroundImage = left_off;
+                            banner_5_ck.BackgroundImage = maximized_off;
                             banner_6_ck.BackgroundImage = right_off;
                             banner_7_ck.BackgroundImage = top_left_off;
                             banner_8_ck.BackgroundImage = top_off;
@@ -8529,19 +8551,33 @@ namespace plt0_gui
         }
         private void Maximized_Click(object sender, EventArgs e)
         {
-            this.WindowState = FormWindowState.Maximized;
+            if (this.WindowState == FormWindowState.Maximized)
+            {
+                this.WindowState = FormWindowState.Normal;
+                banner_5_ck.BackgroundImage = maximized_hover;
+            }
+            else
+            {
+                this.WindowState = FormWindowState.Maximized;
+                banner_5_ck.BackgroundImage = maximized_selected;
+            }
         }
         private void Maximized_MouseEnter(object sender, EventArgs e)
         {
-            banner_5_ck.BackgroundImage = maximized_hover;
+            if (this.WindowState == FormWindowState.Maximized)
+                banner_5_ck.BackgroundImage = maximized_selected;
+            else
+                banner_5_ck.BackgroundImage = maximized_hover;
         }
         private void Maximized_MouseLeave(object sender, EventArgs e)
         {
-            banner_5_ck.BackgroundImage = maximized;
+            if (this.WindowState == FormWindowState.Maximized)
+                banner_5_ck.BackgroundImage = maximized_on;
+            else
+                banner_5_ck.BackgroundImage = maximized_off;
         }
         private void Close_Click(object sender, EventArgs e)
         {
-            // this.WindowState = FormWindowState.Close;
             Environment.Exit(0);
         }
         private void Close_MouseEnter(object sender, EventArgs e)
@@ -8988,11 +9024,42 @@ namespace plt0_gui
         }
         private void Bottom_left_Click(object sender, EventArgs e)
         {
-
+            switch (arrow)
+            {
+                case 4:
+                    unchecked_Left();
+                    break;
+                case 7:
+                    unchecked_Top_left();
+                    break;
+                case 8:
+                    unchecked_Top();
+                    break;
+                case 9:
+                    unchecked_Top_right();
+                    break;
+                case 6:
+                    unchecked_Right();
+                    break;
+                case 3:
+                    unchecked_Bottom_right();
+                    break;
+                case 2:
+                    unchecked_Bottom();
+                    break;
+                case 1:
+                    unchecked_Bottom_left();
+                    break;
+            }
+            selected_Bottom_left();
+            arrow = 1;
         }
         private void Bottom_left_MouseEnter(object sender, EventArgs e)
         {
-
+            if (arrow == 1)
+                selected_Bottom_left();
+            else
+                hover_Bottom_left();
         }
         private void Bottom_left_MouseLeave(object sender, EventArgs e)
         {

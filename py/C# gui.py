@@ -321,6 +321,37 @@ banner_common = ["Minimized", "Maximized", "Close"]
 banner_short = ["minus", "5", "x"]
 line3 = ["this.WindowState = FormWindowState.Minimized", "this.WindowState = FormWindowState.Maximized", "Environment.Exit(0)"]
 for l in range(len(banner_common)):
+    if (l == 1):
+        output += """
+        private void Maximized_Click(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Maximized)
+            {
+                this.WindowState = FormWindowState.Normal;
+                banner_5_ck.BackgroundImage = maximized_hover;
+            }
+            else
+            {
+                this.WindowState = FormWindowState.Maximized;
+                banner_5_ck.BackgroundImage = maximized_selected;
+            }
+        }
+        private void Maximized_MouseEnter(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Maximized)
+                banner_5_ck.BackgroundImage = maximized_selected;
+            else
+                banner_5_ck.BackgroundImage = maximized_hover;
+        }
+        private void Maximized_MouseLeave(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Maximized)
+                banner_5_ck.BackgroundImage = maximized_on;
+            else
+                banner_5_ck.BackgroundImage = maximized_off;
+        }
+"""
+        continue
     output += """        private void """ + banner_common[l] + """_Click(object sender, EventArgs e)
         {
             """ + line3[l] + """;
@@ -403,6 +434,9 @@ for m in range(len(banner)):
         {
             banner_""" + banner[m] + "_ck.BackgroundImage = " + banner_long[m].lower() + """_selected;
         }
+"""
+output += """    }
+}
 """
 pyperclip.copy(output)
 input(output)
