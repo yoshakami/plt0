@@ -126,6 +126,8 @@ namespace plt0_gui
         Image cherry_circle_on;
         Image purple_circle;
         Image purple_circle_on;
+        Image chartreuse_circle;
+        Image chartreuse_circle_on;
         Image a_on;
         Image a_off;
         Image a_hover;
@@ -199,6 +201,9 @@ namespace plt0_gui
         Image maximized_selected;
         Image minimized;
         Image minimized_hover;
+        Image youtube;
+        Image discord;
+        Image github;
         // I couldn't manage to get external fonts working. this needs to be specified within the app itself :/
         // static string fontname = "Segoe UI";
         // Font font_normal = new System.Drawing.Font(fontname, 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
@@ -942,19 +947,19 @@ namespace plt0_gui
         }
         private void unchecked_palette(PictureBox radiobutton)
         {
-            radiobutton.BackgroundImage = cherry_circle;
+            radiobutton.BackgroundImage = chartreuse_circle;
         }
         private void checked_palette(PictureBox radiobutton)
         {
-            radiobutton.BackgroundImage = cherry_circle_on;
+            radiobutton.BackgroundImage = chartreuse_circle_on;
         }
         private void hover_palette(PictureBox radiobutton)
         {
-            radiobutton.BackgroundImage = purple_circle;
+            radiobutton.BackgroundImage = cherry_circle;
         }
         private void selected_palette(PictureBox radiobutton)
         {
-            radiobutton.BackgroundImage = purple_circle_on;
+            radiobutton.BackgroundImage = cherry_circle_on;
         }
         private void View_alpha()
         {
@@ -7187,6 +7192,14 @@ namespace plt0_gui
             {
                 purple_circle_on = Image.FromFile(execPath + "images/purple_circle_on.png");
             }
+            if (File.Exists(execPath + "images/chartreuse_circle.png"))
+            {
+                chartreuse_circle = Image.FromFile(execPath + "images/chartreuse_circle.png");
+            }
+            if (File.Exists(execPath + "images/chartreuse_circle_on.png"))
+            {
+                chartreuse_circle_on = Image.FromFile(execPath + "images/chartreuse_circle_on.png");
+            }
             if (File.Exists(execPath + "images/a_on.png"))
             {
                 a_on = Image.FromFile(execPath + "images/a_on.png");
@@ -7478,6 +7491,18 @@ namespace plt0_gui
             if (File.Exists(execPath + "images/minimized_hover.png"))
             {
                 minimized_hover = Image.FromFile(execPath + "images/minimized_hover.png");
+            }
+            if (File.Exists(execPath + "images/youtube.png"))
+            {
+                youtube = Image.FromFile(execPath + "images/youtube.png");
+            }
+            if (File.Exists(execPath + "images/discord.png"))
+            {
+                discord = Image.FromFile(execPath + "images/discord.png");
+            }
+            if (File.Exists(execPath + "images/github.png"))
+            {
+                github = Image.FromFile(execPath + "images/github.png");
             }
         }
         private void bmd_Click(object sender, EventArgs e)
