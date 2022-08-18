@@ -1,10 +1,26 @@
 import pyperclip
-output = ""
+output = """        private void Load_Images()
+        {"""
 x = 18
+with open("X:\yoshi\3D Objects\C#\plt0\plt0\plt0-v.cs", "r") as cs:
+    text = cs.read()
+    text = text.splitlines()
+w = 0
+while (text[w][:14] != "        Image "):
+    w += 1
+while (text[w][:14] != "        Image "):
+    output += """
+            if (File.Exists(execPath + "images/""" + text[w][14:-1] + """.png"))
+            {
+                """ + text[w][14:-1] + """ = Image.FromFile(execPath + "images/""" + text[w][14:-1] + """.png");
+            }"""
+output += """
+        }"""
 booleans = ["bmd", "bti", "tex0", "tpl", "bmp", "png", "jpg", "jpeg", "gif", "ico", "tif", "tiff", "no_warning", "warn", "funky", "stfu", "safe_mode", "FORCE_ALPHA", "ask_exit", "bmp_32", "reverse", "random"]
 for y in booleans:
     x += 1
-    output += """        private void """ + y + """_Click(object sender, EventArgs e)
+    output += """
+        private void """ + y + """_Click(object sender, EventArgs e)
         {
             if (""" + y + """)
             {
@@ -32,14 +48,14 @@ for y in booleans:
                 checked_checkbox(""" + y + """_ck);
             else
                 unchecked_checkbox(""" + y + """_ck);
-        }
-"""
+        }"""
 encoding = ["i4", "i8", "ai4", "ai8", "rgb565", "rgb5a3", "rgba32", "", "ci4", "ci8", "ci14x2", "", "", "", "cmpr"]
 for z in range(len(encoding)):
     if encoding[z] == "":
         continue
     x += 1
-    output += """        private void """ + encoding[z].upper() + """_Click(object sender, EventArgs e)
+    output += """
+        private void """ + encoding[z].upper() + """_Click(object sender, EventArgs e)
         {
             unchecked_encoding(encoding_ck[encoding]);
             selected_encoding(""" + encoding[z] + """_ck);
@@ -60,12 +76,12 @@ for z in range(len(encoding)):
                 checked_encoding(""" + encoding[z] + """_ck);
             else
                 unchecked_encoding(""" + encoding[z] + """_ck);
-        }
-"""
+        }"""
 algorithm = ["Cie_601", "Cie_709", "Custom", "No_gradient"]
 for a in range(len(algorithm)):
     x += 1
-    output += """        private void """ + algorithm[a] + """_Click(object sender, EventArgs e)
+    output += """
+        private void """ + algorithm[a] + """_Click(object sender, EventArgs e)
         {
             unchecked_algorithm(algorithm_ck[algorithm]);
             selected_algorithm(""" + algorithm[a].lower() + """_ck);
@@ -86,12 +102,12 @@ for a in range(len(algorithm)):
                 checked_algorithm(""" + algorithm[a].lower() + """_ck);
             else
                 unchecked_algorithm(""" + algorithm[a].lower() + """_ck);
-        }
-"""
+        }"""
 alpha = ["No_alpha", "Alpha", "Mix"]
 for b in range(len(alpha)):
     x += 1
-    output += """        private void """ + alpha[b] + """_Click(object sender, EventArgs e)
+    output += """
+        private void """ + alpha[b] + """_Click(object sender, EventArgs e)
         {
             unchecked_alpha(alpha_ck_array[alpha]);
             selected_alpha(""" + alpha[b].lower() + """_ck);
@@ -112,12 +128,12 @@ for b in range(len(alpha)):
                 checked_alpha(""" + alpha[b].lower() + """_ck);
             else
                 unchecked_alpha(""" + alpha[b].lower() + """_ck);
-        }
-"""
+        }"""
 wrap = ["Clamp", "Repeat", "Mirror"]
 for c in range(3):
     x += 1
-    output += """        private void WrapS_""" + wrap[c] + """_Click(object sender, EventArgs e)
+    output += """
+        private void WrapS_""" + wrap[c] + """_Click(object sender, EventArgs e)
         {
             unchecked_WrapS(WrapS_ck[WrapS]);
             selected_WrapS(S""" + wrap[c].lower() + """_ck);
@@ -138,11 +154,11 @@ for c in range(3):
                 checked_WrapS(S""" + wrap[c].lower() + """_ck);
             else
                 unchecked_WrapS(S""" + wrap[c].lower() + """_ck);
-        }
-"""
+        }"""
 for d in range(3):
     x += 1
-    output += """        private void WrapT_""" + wrap[d] + """_Click(object sender, EventArgs e)
+    output += """
+        private void WrapT_""" + wrap[d] + """_Click(object sender, EventArgs e)
         {
             unchecked_WrapT(WrapT_ck[WrapT]);
             selected_WrapT(T""" + wrap[d].lower() + """_ck);
@@ -163,12 +179,12 @@ for d in range(3):
                 checked_WrapT(T""" + wrap[d].lower() + """_ck);
             else
                 unchecked_WrapT(T""" + wrap[d].lower() + """_ck);
-        }
-"""
+        }"""
 filter = ["Nearest_Neighbour", "Linear", "NearestMipmapNearest", "NearestMipmapLinear", "LinearMipmapNearest", "LinearMipmapLinear"]
 for e in range(6):
     x += 1
-    output += """        private void Minification_""" + filter[e] + """_Click(object sender, EventArgs e)
+    output += """
+        private void Minification_""" + filter[e] + """_Click(object sender, EventArgs e)
         {
             unchecked_Minification(minification_ck[minification_filter]);
             selected_Minification(min_""" + filter[e].lower() + """_ck);
@@ -189,11 +205,11 @@ for e in range(6):
                 checked_Minification(min_""" + filter[e].lower() + """_ck);
             else
                 unchecked_Minification(min_""" + filter[e].lower() + """_ck);
-        }
-"""
+        }"""
 for f in range(6):
     x += 1
-    output += """        private void Magnification_""" + filter[f] + """_Click(object sender, EventArgs e)
+    output += """
+        private void Magnification_""" + filter[f] + """_Click(object sender, EventArgs e)
         {
             unchecked_Magnification(magnification_ck[magnification_filter]);
             selected_Magnification(mag_""" + filter[f].lower() + """_ck);
@@ -214,8 +230,7 @@ for f in range(6):
                 checked_Magnification(mag_""" + filter[f].lower() + """_ck);
             else
                 unchecked_Magnification(mag_""" + filter[f].lower() + """_ck);
-        }
-"""
+        }"""
 channel = ["R", "G", "B", "A"]
 channel2 = ["Red", "Green", "Blue", "Alpha"]
 i = -1
@@ -223,7 +238,8 @@ for g in channel:  # this looks unreadable because it's packed up instead of pas
     i += 1
     x += 1
     for h in range(4):
-        output += """        private void """ + g + '_' + channel[h] + """_Click(object sender, EventArgs e)
+        output += """
+        private void """ + g + '_' + channel[h] + """_Click(object sender, EventArgs e)
         {
             switch (""" + g.lower() + """)
             {
@@ -258,13 +274,13 @@ for g in channel:  # this looks unreadable because it's packed up instead of pas
                 checked_""" + channel[h] + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
             else
                 unchecked_""" + channel[h] + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
-        }
-"""
+        }"""
 view = ["view_alpha", "view_algorithm", "view_WrapS", "view_WrapT", "view_min", "view_mag"]
 # ck_name = ["alpha_ck_array", "algorithm_ck", "WrapS_ck", "WrapT_ck", "minification_ck", "magnification_ck"]
 for j in range(len(view)):
     x += 1
-    output += """        private void """ + view[j] + """_Click(object sender, EventArgs e)
+    output += """
+        private void """ + view[j] + """_Click(object sender, EventArgs e)
         {
             if (""" + view[j] + """)
             {
@@ -292,13 +308,13 @@ for j in range(len(view)):
                 Category_checked(""" + view[j] + """_ck);
             else
                 Category_unchecked(""" + view[j] + """_ck);
-        }
-"""
+        }"""
 lyt = ["all", "auto", "preview", "paint"]
 Lyt = ["All", "Auto", "Preview", "Paint"]
 for k in range(len(lyt)):
     x += 1
-    output += """        private void """ + Lyt[k] + """_Click(object sender, EventArgs e)
+    output += """
+        private void """ + Lyt[k] + """_Click(object sender, EventArgs e)
         {
             switch (layout)
             {
@@ -349,8 +365,7 @@ for k in range(len(lyt)):
         private void selected_""" + Lyt[k] + """()
         {
             """ + lyt[k] + "_ck.BackgroundImage = " + lyt[k] + """_selected;
-        }
-"""
+        }"""
 banner_common = ["Minimized", "Maximized", "Close"]
 banner_short = ["minus", "5", "x"]
 line3 = ["this.WindowState = FormWindowState.Minimized", "this.WindowState = FormWindowState.Maximized", "Environment.Exit(0)"]
@@ -386,10 +401,10 @@ for l in range(len(banner_common)):
                 banner_5_ck.BackgroundImage = maximized_on;
             else
                 banner_5_ck.BackgroundImage = maximized_off;
-        }
-"""
+        }"""
         continue
-    output += """        private void """ + banner_common[l] + """_Click(object sender, EventArgs e)
+    output += """
+        private void """ + banner_common[l] + """_Click(object sender, EventArgs e)
         {
             """ + line3[l] + """;
         }
@@ -402,8 +417,7 @@ for l in range(len(banner_common)):
         {
             description.Text = "";
             banner_""" + banner_short[l] + """_ck.BackgroundImage = """ + banner_common[l].lower() + """;
-        }
-"""
+        }"""
 banner_long = ["Left", "Top_left", "Top", "Top_right", "Right", "Bottom_right", "Bottom", "Bottom_left"]
 banner = ["4", "7", "8", "9", "6", "3", "2", "1"]  # it's faster to look at the numpad arrows
 #banner_long = ["Left", "Top_left", "Top", "Top_right", "Right", "Bottom_right", "Bottom", "Bottom_left"]
@@ -412,7 +426,8 @@ for m in range(len(banner)):
     x += 1
     #if banner[m] == "":
     #    continue
-    output += """        private void """ + banner_long[m] + """_Click(object sender, EventArgs e)
+    output += """
+        private void """ + banner_long[m] + """_Click(object sender, EventArgs e)
         {
             switch (arrow)
             {
@@ -475,8 +490,7 @@ for m in range(len(banner)):
         private void selected_""" + banner_long[m] + """()
         {
             banner_""" + banner[m] + "_ck.BackgroundImage = " + banner_long[m].lower() + """_selected;
-        }
-"""
+        }"""
 textbox = ["input_file_txt",
 "input_file2_txt",
 "output_name_txt",
@@ -505,7 +519,8 @@ filter = ["*.bmp;*.png;*.jfif;*.jpg;*.jpeg;*.jpg;*.ico;*.gif;*.tif;*.tiff;*.rle;
 filter2 = ["*.bti;*.tex0;*.tpl", "*.bmd"]
 file_title = ["Select a picture or a texture", "Select a palette or a bmd"]
 for n in range(2)
-output += """        private void """ + textbox[n][:-4] + """_Click(object sender, EventArgs e)
+output += """
+        private void """ + textbox[n][:-4] + """_Click(object sender, EventArgs e)
         {
             FileDialog dialog = new OpenFileDialog
             {
@@ -532,10 +547,10 @@ for p in range(3):
         private void """ + textbox[p][:-4] + """_TextChanged(object sender, EventArgs e)
         {
             """ + textbox[p] + """.Text = """ + textbox[p] + """.Text;
-        }
-"""
+        }"""
 for o in range(3, len(textbox)):
-    output += """        private void """ + textbox[o][:-4] + """_MouseEnter(object sender, EventArgs e)
+    output += """
+        private void """ + textbox[o][:-4] + """_MouseEnter(object sender, EventArgs e)
         {
             description.Text = lines[""" + str(x) + """];
         }
@@ -560,9 +575,9 @@ for o in range(3, len(textbox)):
                     """ + textbox[o] + """.Text = """ + textbox[o] + """.Text.Substring(0, len - 1);
                 }
             }
-        }
-"""
-output += """    }
+        }"""
+output += """
+    }
 }
 """
 pyperclip.copy(output)
