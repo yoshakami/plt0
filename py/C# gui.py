@@ -585,29 +585,30 @@ for q in range(len(palette_enc)):
     output += """
         private void palette_""" + palette_enc[q] + """_Click(object sender, EventArgs e)
         {
-            unchecked_palette_enc(palette_ck[palette_enc]);
+            unchecked_palette(palette_ck[palette_enc]);
             palette_enc = """ + str(q) + """;
         }
         private void palette_""" + palette_enc[q] + """_MouseEnter(object sender, EventArgs e)
         {
             description.Text = lines[""" + str(x) + """];
-            if (palette_enc == """ + str[q] + """)
-                selected_palette(""" + palette_enc[q] + """)();
+            if (palette_enc == """ + str(q) + """)
+                selected_palette(palette_""" + palette_enc[q].lower() + """_ck)();
             else
-                hover_palette(""" + palette_enc[q] + """)();
-            palette_""" + palette_enc[q] + """_ck.BackgroundImage = """ + palette_enc[l].lower() + """_hover;
+                hover_palette(palette_""" + palette_enc[q].lower() + """_ck)();
         }
         private void palette_""" + palette_enc[q] + """_MouseLeave(object sender, EventArgs e)
         {
             description.Text = "";
-            if (palette_enc == """ + str[q] + """)
-                checked_""" + palette_enc[q] + """();
+            if (palette_enc == """ + str(q) + """)
+                checked_palette(palette_""" + palette_enc[q].lower() + """_ck)();
             else
-                unchecked_""" + palette_enc[q] + """();
+                unchecked_palette(palette_""" + palette_enc[q].lower() + """_ck)();
         }"""
 output += """
     }
 }
 """
 pyperclip.copy(output)
-input(output)
+print(output)
+print("Generated " + str(output.count('\n')) + " lines of C# code")
+input("Press enter to exit...")
