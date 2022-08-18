@@ -1,7 +1,7 @@
 import pyperclip
 output = """        private void Load_Images()
         {"""
-x = 18
+x = 48
 with open("X:\\yoshi\\3D Objects\\C#\\plt0\\plt0\\plt0-v.cs", "r") as cs:
     text = cs.read()
     text = text.splitlines()
@@ -578,6 +578,32 @@ for o in range(3, len(textbox)):
                     """ + textbox[o] + ".Text = " + textbox[o] + """.Text.Substring(0, len - 1);
                 }
             }
+        }"""
+palette_enc = ["AI8", "RGB565", "RGB5A3"]
+for q in range(len(palette_enc)):
+    x += 1
+    output += """
+        private void palette_""" + palette_enc[q] + """_Click(object sender, EventArgs e)
+        {
+            unchecked_palette_enc(palette_ck[palette_enc]);
+            palette_enc = """ + str(q) + """;
+        }
+        private void palette_""" + palette_enc[q] + """_MouseEnter(object sender, EventArgs e)
+        {
+            description.Text = lines[""" + str(x) + """];
+            if (palette_enc == """ + str[q] + """)
+                selected_palette(""" + palette_enc[q] + """)();
+            else
+                hover_palette(""" + palette_enc[q] + """)();
+            palette_""" + palette_enc[q] + """_ck.BackgroundImage = """ + palette_enc[l].lower() + """_hover;
+        }
+        private void palette_""" + palette_enc[q] + """_MouseLeave(object sender, EventArgs e)
+        {
+            description.Text = "";
+            if (palette_enc == """ + str[q] + """)
+                checked_""" + palette_enc[q] + """();
+            else
+                unchecked_""" + palette_enc[q] + """();
         }"""
 output += """
     }

@@ -382,10 +382,10 @@ namespace plt0_gui
                 switch (version)
                 {
                     case "v1.0":
-                        if (version == "v1.0" && lines.Length < 121)  // incorrect v1.0 config file
+                        if (version == "v1.0" && lines.Length < 160)  // incorrect v1.0 config file
                         {
-                            System.Diagnostics.Debug.WriteLine("some tetttttttttt23423423423423423ttttttttttttttttttttttt");
-                            Console.WriteLine("plt0 v1.0 config file should have EXACTLY 121 lines");
+                            //  System.Diagnostics.Debug.WriteLine("some tetttttttttt23423423423423423ttttttttttttttttttttttt");
+                            Console.WriteLine("plt0 v1.0 config file should have EXACTLY 160 lines");
                             Console.ReadLine();
                             Environment.Exit(1);
                         }
@@ -7216,7 +7216,7 @@ namespace plt0_gui
         }
         private void bmd_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[19];
+            description.Text = lines[49];
             if (bmd)
                 selected_checkbox(bmd_ck);
             else
@@ -7245,7 +7245,7 @@ namespace plt0_gui
         }
         private void bti_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[20];
+            description.Text = lines[50];
             if (bti)
                 selected_checkbox(bti_ck);
             else
@@ -7274,7 +7274,7 @@ namespace plt0_gui
         }
         private void tex0_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[21];
+            description.Text = lines[51];
             if (tex0)
                 selected_checkbox(tex0_ck);
             else
@@ -7303,7 +7303,7 @@ namespace plt0_gui
         }
         private void tpl_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[22];
+            description.Text = lines[52];
             if (tpl)
                 selected_checkbox(tpl_ck);
             else
@@ -7332,7 +7332,7 @@ namespace plt0_gui
         }
         private void bmp_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[23];
+            description.Text = lines[53];
             if (bmp)
                 selected_checkbox(bmp_ck);
             else
@@ -7361,7 +7361,7 @@ namespace plt0_gui
         }
         private void png_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[24];
+            description.Text = lines[54];
             if (png)
                 selected_checkbox(png_ck);
             else
@@ -7390,7 +7390,7 @@ namespace plt0_gui
         }
         private void jpg_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[25];
+            description.Text = lines[55];
             if (jpg)
                 selected_checkbox(jpg_ck);
             else
@@ -7419,7 +7419,7 @@ namespace plt0_gui
         }
         private void jpeg_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[26];
+            description.Text = lines[56];
             if (jpeg)
                 selected_checkbox(jpeg_ck);
             else
@@ -7448,7 +7448,7 @@ namespace plt0_gui
         }
         private void gif_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[27];
+            description.Text = lines[57];
             if (gif)
                 selected_checkbox(gif_ck);
             else
@@ -7477,7 +7477,7 @@ namespace plt0_gui
         }
         private void ico_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[28];
+            description.Text = lines[58];
             if (ico)
                 selected_checkbox(ico_ck);
             else
@@ -7506,7 +7506,7 @@ namespace plt0_gui
         }
         private void tif_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[29];
+            description.Text = lines[59];
             if (tif)
                 selected_checkbox(tif_ck);
             else
@@ -7535,7 +7535,7 @@ namespace plt0_gui
         }
         private void tiff_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[30];
+            description.Text = lines[60];
             if (tiff)
                 selected_checkbox(tiff_ck);
             else
@@ -7564,7 +7564,7 @@ namespace plt0_gui
         }
         private void ask_exit_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[31];
+            description.Text = lines[61];
             if (ask_exit)
                 selected_checkbox(ask_exit_ck);
             else
@@ -7593,7 +7593,7 @@ namespace plt0_gui
         }
         private void bmp_32_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[32];
+            description.Text = lines[62];
             if (bmp_32)
                 selected_checkbox(bmp_32_ck);
             else
@@ -7622,7 +7622,7 @@ namespace plt0_gui
         }
         private void FORCE_ALPHA_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[33];
+            description.Text = lines[63];
             if (FORCE_ALPHA)
                 selected_checkbox(FORCE_ALPHA_ck);
             else
@@ -7651,7 +7651,7 @@ namespace plt0_gui
         }
         private void funky_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[34];
+            description.Text = lines[64];
             if (funky)
                 selected_checkbox(funky_ck);
             else
@@ -7680,7 +7680,7 @@ namespace plt0_gui
         }
         private void no_warning_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[35];
+            description.Text = lines[65];
             if (no_warning)
                 selected_checkbox(no_warning_ck);
             else
@@ -7709,7 +7709,7 @@ namespace plt0_gui
         }
         private void random_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[36];
+            description.Text = lines[66];
             if (random)
                 selected_checkbox(random_ck);
             else
@@ -7738,7 +7738,7 @@ namespace plt0_gui
         }
         private void reverse_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[37];
+            description.Text = lines[67];
             if (reverse)
                 selected_checkbox(reverse_ck);
             else
@@ -7767,7 +7767,7 @@ namespace plt0_gui
         }
         private void safe_mode_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[38];
+            description.Text = lines[68];
             if (safe_mode)
                 selected_checkbox(safe_mode_ck);
             else
@@ -7796,7 +7796,7 @@ namespace plt0_gui
         }
         private void stfu_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[39];
+            description.Text = lines[69];
             if (stfu)
                 selected_checkbox(stfu_ck);
             else
@@ -7825,7 +7825,7 @@ namespace plt0_gui
         }
         private void warn_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[40];
+            description.Text = lines[70];
             if (warn)
                 selected_checkbox(warn_ck);
             else
@@ -7847,7 +7847,7 @@ namespace plt0_gui
         }
         private void I4_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[41];
+            description.Text = lines[71];
             if (encoding == 0)
                 selected_encoding(i4_ck);
             else
@@ -7869,7 +7869,7 @@ namespace plt0_gui
         }
         private void I8_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[42];
+            description.Text = lines[72];
             if (encoding == 1)
                 selected_encoding(i8_ck);
             else
@@ -7891,7 +7891,7 @@ namespace plt0_gui
         }
         private void AI4_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[43];
+            description.Text = lines[73];
             if (encoding == 2)
                 selected_encoding(ai4_ck);
             else
@@ -7913,7 +7913,7 @@ namespace plt0_gui
         }
         private void AI8_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[44];
+            description.Text = lines[74];
             if (encoding == 3)
                 selected_encoding(ai8_ck);
             else
@@ -7935,7 +7935,7 @@ namespace plt0_gui
         }
         private void RGB565_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[45];
+            description.Text = lines[75];
             if (encoding == 4)
                 selected_encoding(rgb565_ck);
             else
@@ -7957,7 +7957,7 @@ namespace plt0_gui
         }
         private void RGB5A3_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[46];
+            description.Text = lines[76];
             if (encoding == 5)
                 selected_encoding(rgb5a3_ck);
             else
@@ -7979,7 +7979,7 @@ namespace plt0_gui
         }
         private void RGBA32_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[47];
+            description.Text = lines[77];
             if (encoding == 6)
                 selected_encoding(rgba32_ck);
             else
@@ -8001,7 +8001,7 @@ namespace plt0_gui
         }
         private void CI4_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[48];
+            description.Text = lines[78];
             if (encoding == 8)
                 selected_encoding(ci4_ck);
             else
@@ -8023,7 +8023,7 @@ namespace plt0_gui
         }
         private void CI8_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[49];
+            description.Text = lines[79];
             if (encoding == 9)
                 selected_encoding(ci8_ck);
             else
@@ -8045,7 +8045,7 @@ namespace plt0_gui
         }
         private void CI14X2_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[50];
+            description.Text = lines[80];
             if (encoding == 10)
                 selected_encoding(ci14x2_ck);
             else
@@ -8067,7 +8067,7 @@ namespace plt0_gui
         }
         private void CMPR_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[51].Replace("\\n", "\n");
+            description.Text = lines[81];
             if (encoding == 14)
                 selected_encoding(cmpr_ck);
             else
@@ -8089,7 +8089,7 @@ namespace plt0_gui
         }
         private void Cie_601_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[52];
+            description.Text = lines[82];
             if (algorithm == 0)
                 selected_algorithm(cie_601_ck);
             else
@@ -8111,7 +8111,7 @@ namespace plt0_gui
         }
         private void Cie_709_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[53];
+            description.Text = lines[83];
             if (algorithm == 1)
                 selected_algorithm(cie_709_ck);
             else
@@ -8133,7 +8133,7 @@ namespace plt0_gui
         }
         private void Custom_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[54];
+            description.Text = lines[84];
             if (algorithm == 2)
                 selected_algorithm(custom_ck);
             else
@@ -8155,7 +8155,7 @@ namespace plt0_gui
         }
         private void No_gradient_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[55];
+            description.Text = lines[85];
             if (algorithm == 3)
                 selected_algorithm(no_gradient_ck);
             else
@@ -8177,7 +8177,7 @@ namespace plt0_gui
         }
         private void No_alpha_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[56];
+            description.Text = lines[86];
             if (alpha == 0)
                 selected_alpha(no_alpha_ck);
             else
@@ -8199,7 +8199,7 @@ namespace plt0_gui
         }
         private void Alpha_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[57];
+            description.Text = lines[87];
             if (alpha == 1)
                 selected_alpha(alpha_ck);
             else
@@ -8221,7 +8221,7 @@ namespace plt0_gui
         }
         private void Mix_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[58];
+            description.Text = lines[88];
             if (alpha == 2)
                 selected_alpha(mix_ck);
             else
@@ -8243,7 +8243,7 @@ namespace plt0_gui
         }
         private void WrapS_Clamp_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[59];
+            description.Text = lines[89];
             if (WrapS == 0)
                 selected_WrapS(Sclamp_ck);
             else
@@ -8265,7 +8265,7 @@ namespace plt0_gui
         }
         private void WrapS_Repeat_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[60];
+            description.Text = lines[90];
             if (WrapS == 1)
                 selected_WrapS(Srepeat_ck);
             else
@@ -8287,7 +8287,7 @@ namespace plt0_gui
         }
         private void WrapS_Mirror_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[61];
+            description.Text = lines[91];
             if (WrapS == 2)
                 selected_WrapS(Smirror_ck);
             else
@@ -8309,7 +8309,7 @@ namespace plt0_gui
         }
         private void WrapT_Clamp_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[62];
+            description.Text = lines[92];
             if (WrapT == 0)
                 selected_WrapT(Tclamp_ck);
             else
@@ -8331,7 +8331,7 @@ namespace plt0_gui
         }
         private void WrapT_Repeat_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[63];
+            description.Text = lines[93];
             if (WrapT == 1)
                 selected_WrapT(Trepeat_ck);
             else
@@ -8353,7 +8353,7 @@ namespace plt0_gui
         }
         private void WrapT_Mirror_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[64];
+            description.Text = lines[94];
             if (WrapT == 2)
                 selected_WrapT(Tmirror_ck);
             else
@@ -8375,7 +8375,7 @@ namespace plt0_gui
         }
         private void Minification_Nearest_Neighbour_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[65];
+            description.Text = lines[95];
             if (minification_filter == 0)
                 selected_Minification(min_nearest_neighbour_ck);
             else
@@ -8397,7 +8397,7 @@ namespace plt0_gui
         }
         private void Minification_Linear_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[66];
+            description.Text = lines[96];
             if (minification_filter == 1)
                 selected_Minification(min_linear_ck);
             else
@@ -8419,7 +8419,7 @@ namespace plt0_gui
         }
         private void Minification_NearestMipmapNearest_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[67];
+            description.Text = lines[97];
             if (minification_filter == 2)
                 selected_Minification(min_nearestmipmapnearest_ck);
             else
@@ -8441,7 +8441,7 @@ namespace plt0_gui
         }
         private void Minification_NearestMipmapLinear_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[68];
+            description.Text = lines[98];
             if (minification_filter == 3)
                 selected_Minification(min_nearestmipmaplinear_ck);
             else
@@ -8463,7 +8463,7 @@ namespace plt0_gui
         }
         private void Minification_LinearMipmapNearest_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[69];
+            description.Text = lines[99];
             if (minification_filter == 4)
                 selected_Minification(min_linearmipmapnearest_ck);
             else
@@ -8485,7 +8485,7 @@ namespace plt0_gui
         }
         private void Minification_LinearMipmapLinear_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[70];
+            description.Text = lines[100];
             if (minification_filter == 5)
                 selected_Minification(min_linearmipmaplinear_ck);
             else
@@ -8507,7 +8507,7 @@ namespace plt0_gui
         }
         private void Magnification_Nearest_Neighbour_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[71];
+            description.Text = lines[101];
             if (magnification_filter == 0)
                 selected_Magnification(mag_nearest_neighbour_ck);
             else
@@ -8529,7 +8529,7 @@ namespace plt0_gui
         }
         private void Magnification_Linear_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[72];
+            description.Text = lines[102];
             if (magnification_filter == 1)
                 selected_Magnification(mag_linear_ck);
             else
@@ -8551,7 +8551,7 @@ namespace plt0_gui
         }
         private void Magnification_NearestMipmapNearest_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[73];
+            description.Text = lines[103];
             if (magnification_filter == 2)
                 selected_Magnification(mag_nearestmipmapnearest_ck);
             else
@@ -8573,7 +8573,7 @@ namespace plt0_gui
         }
         private void Magnification_NearestMipmapLinear_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[74];
+            description.Text = lines[104];
             if (magnification_filter == 3)
                 selected_Magnification(mag_nearestmipmaplinear_ck);
             else
@@ -8595,7 +8595,7 @@ namespace plt0_gui
         }
         private void Magnification_LinearMipmapNearest_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[75];
+            description.Text = lines[105];
             if (magnification_filter == 4)
                 selected_Magnification(mag_linearmipmapnearest_ck);
             else
@@ -8617,7 +8617,7 @@ namespace plt0_gui
         }
         private void Magnification_LinearMipmapLinear_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[76];
+            description.Text = lines[106];
             if (magnification_filter == 5)
                 selected_Magnification(mag_linearmipmaplinear_ck);
             else
@@ -8653,7 +8653,7 @@ namespace plt0_gui
         }
         private void R_R_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[77];
+            description.Text = lines[107];
             if (r == 0)
                 selected_R(r_r_ck);
             else
@@ -8689,7 +8689,7 @@ namespace plt0_gui
         }
         private void R_G_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[77];
+            description.Text = lines[107];
             if (r == 1)
                 selected_G(r_g_ck);
             else
@@ -8725,7 +8725,7 @@ namespace plt0_gui
         }
         private void R_B_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[77];
+            description.Text = lines[107];
             if (r == 2)
                 selected_B(r_b_ck);
             else
@@ -8761,7 +8761,7 @@ namespace plt0_gui
         }
         private void R_A_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[77];
+            description.Text = lines[107];
             if (r == 3)
                 selected_A(r_a_ck);
             else
@@ -8797,7 +8797,7 @@ namespace plt0_gui
         }
         private void G_R_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[78];
+            description.Text = lines[108];
             if (g == 0)
                 selected_R(g_r_ck);
             else
@@ -8833,7 +8833,7 @@ namespace plt0_gui
         }
         private void G_G_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[78];
+            description.Text = lines[108];
             if (g == 1)
                 selected_G(g_g_ck);
             else
@@ -8869,7 +8869,7 @@ namespace plt0_gui
         }
         private void G_B_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[78];
+            description.Text = lines[108];
             if (g == 2)
                 selected_B(g_b_ck);
             else
@@ -8905,7 +8905,7 @@ namespace plt0_gui
         }
         private void G_A_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[78];
+            description.Text = lines[108];
             if (g == 3)
                 selected_A(g_a_ck);
             else
@@ -8941,7 +8941,7 @@ namespace plt0_gui
         }
         private void B_R_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[79];
+            description.Text = lines[109];
             if (b == 0)
                 selected_R(b_r_ck);
             else
@@ -8977,7 +8977,7 @@ namespace plt0_gui
         }
         private void B_G_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[79];
+            description.Text = lines[109];
             if (b == 1)
                 selected_G(b_g_ck);
             else
@@ -9013,7 +9013,7 @@ namespace plt0_gui
         }
         private void B_B_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[79];
+            description.Text = lines[109];
             if (b == 2)
                 selected_B(b_b_ck);
             else
@@ -9049,7 +9049,7 @@ namespace plt0_gui
         }
         private void B_A_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[79];
+            description.Text = lines[109];
             if (b == 3)
                 selected_A(b_a_ck);
             else
@@ -9085,7 +9085,7 @@ namespace plt0_gui
         }
         private void A_R_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[80];
+            description.Text = lines[110];
             if (a == 0)
                 selected_R(a_r_ck);
             else
@@ -9121,7 +9121,7 @@ namespace plt0_gui
         }
         private void A_G_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[80];
+            description.Text = lines[110];
             if (a == 1)
                 selected_G(a_g_ck);
             else
@@ -9157,7 +9157,7 @@ namespace plt0_gui
         }
         private void A_B_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[80];
+            description.Text = lines[110];
             if (a == 2)
                 selected_B(a_b_ck);
             else
@@ -9193,7 +9193,7 @@ namespace plt0_gui
         }
         private void A_A_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[80];
+            description.Text = lines[110];
             if (a == 3)
                 selected_A(a_a_ck);
             else
@@ -9222,7 +9222,7 @@ namespace plt0_gui
         }
         private void view_alpha_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[81];
+            description.Text = lines[111];
             if (view_alpha)
                 Category_selected(view_alpha_ck);
             else
@@ -9251,7 +9251,7 @@ namespace plt0_gui
         }
         private void view_algorithm_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[82];
+            description.Text = lines[112];
             if (view_algorithm)
                 Category_selected(view_algorithm_ck);
             else
@@ -9280,7 +9280,7 @@ namespace plt0_gui
         }
         private void view_WrapS_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[83];
+            description.Text = lines[113];
             if (view_WrapS)
                 Category_selected(view_WrapS_ck);
             else
@@ -9309,7 +9309,7 @@ namespace plt0_gui
         }
         private void view_WrapT_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[84];
+            description.Text = lines[114];
             if (view_WrapT)
                 Category_selected(view_WrapT_ck);
             else
@@ -9338,7 +9338,7 @@ namespace plt0_gui
         }
         private void view_min_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[85];
+            description.Text = lines[115];
             if (view_min)
                 Category_selected(view_min_ck);
             else
@@ -9367,7 +9367,7 @@ namespace plt0_gui
         }
         private void view_mag_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[86];
+            description.Text = lines[116];
             if (view_mag)
                 Category_selected(view_mag_ck);
             else
@@ -9403,7 +9403,7 @@ namespace plt0_gui
         }
         private void All_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[87];
+            description.Text = lines[117];
             if (layout == 0)
                 selected_All();
             else
@@ -9455,7 +9455,7 @@ namespace plt0_gui
         }
         private void Auto_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[88];
+            description.Text = lines[118];
             if (layout == 1)
                 selected_Auto();
             else
@@ -9507,7 +9507,7 @@ namespace plt0_gui
         }
         private void Preview_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[89];
+            description.Text = lines[119];
             if (layout == 2)
                 selected_Preview();
             else
@@ -9559,7 +9559,7 @@ namespace plt0_gui
         }
         private void Paint_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[90];
+            description.Text = lines[120];
             if (layout == 3)
                 selected_Paint();
             else
@@ -9595,7 +9595,7 @@ namespace plt0_gui
         }
         private void Minimized_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[91];
+            description.Text = lines[121];
             banner_minus_ck.BackgroundImage = minimized_hover;
         }
         private void Minimized_MouseLeave(object sender, EventArgs e)
@@ -9618,7 +9618,7 @@ namespace plt0_gui
         }
         private void Maximized_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[92];
+            description.Text = lines[122];
             if (this.WindowState == FormWindowState.Maximized)
                 banner_5_ck.BackgroundImage = maximized_selected;
             else
@@ -9638,7 +9638,7 @@ namespace plt0_gui
         }
         private void Close_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[93];
+            description.Text = lines[123];
             banner_x_ck.BackgroundImage = close_hover;
         }
         private void Close_MouseLeave(object sender, EventArgs e)
@@ -9680,7 +9680,7 @@ namespace plt0_gui
         }
         private void Left_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[94];
+            description.Text = lines[124];
             if (arrow == 4)
                 selected_Left();
             else
@@ -9744,7 +9744,7 @@ namespace plt0_gui
         }
         private void Top_left_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[95];
+            description.Text = lines[125];
             if (arrow == 7)
                 selected_Top_left();
             else
@@ -9808,7 +9808,7 @@ namespace plt0_gui
         }
         private void Top_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[96];
+            description.Text = lines[126];
             if (arrow == 8)
                 selected_Top();
             else
@@ -9872,7 +9872,7 @@ namespace plt0_gui
         }
         private void Top_right_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[97];
+            description.Text = lines[127];
             if (arrow == 9)
                 selected_Top_right();
             else
@@ -9936,7 +9936,7 @@ namespace plt0_gui
         }
         private void Right_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[98];
+            description.Text = lines[128];
             if (arrow == 6)
                 selected_Right();
             else
@@ -10000,7 +10000,7 @@ namespace plt0_gui
         }
         private void Bottom_right_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[99];
+            description.Text = lines[129];
             if (arrow == 3)
                 selected_Bottom_right();
             else
@@ -10064,7 +10064,7 @@ namespace plt0_gui
         }
         private void Bottom_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[100];
+            description.Text = lines[130];
             if (arrow == 2)
                 selected_Bottom();
             else
@@ -10128,7 +10128,7 @@ namespace plt0_gui
         }
         private void Bottom_left_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[101];
+            description.Text = lines[131];
             if (arrow == 1)
                 selected_Bottom_left();
             else
@@ -10176,8 +10176,8 @@ namespace plt0_gui
         {
             FileDialog dialog = new OpenFileDialog
             {
-                Title = "Select a palette or a bmd",
-                Filter = "Palette|*.plt0;*.bmp|bmd|*.bmd|All files (*.*)|*.*",
+                Title = "Select a palette, a bmd file, or a tpl file",
+                Filter = "Palette|*.plt0;*.bmp|bmd or tpl|*.bmd;*tpl|All files (*.*)|*.*",
                 RestoreDirectory = true
             };
             if (dialog.ShowDialog() == DialogResult.OK)
@@ -10188,7 +10188,7 @@ namespace plt0_gui
         }
         private void input_file_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[102];
+            description.Text = lines[132];
         }
         private void input_file_MouseLeave(object sender, EventArgs e)
         {
@@ -10200,7 +10200,7 @@ namespace plt0_gui
         }
         private void input_file2_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[103];
+            description.Text = lines[133];
         }
         private void input_file2_MouseLeave(object sender, EventArgs e)
         {
@@ -10212,7 +10212,7 @@ namespace plt0_gui
         }
         private void output_name_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[104];
+            description.Text = lines[134];
         }
         private void output_name_MouseLeave(object sender, EventArgs e)
         {
@@ -10224,7 +10224,7 @@ namespace plt0_gui
         }
         private void mipmaps_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[105];
+            description.Text = lines[135];
         }
         private void mipmaps_MouseLeave(object sender, EventArgs e)
         {
@@ -10250,7 +10250,7 @@ namespace plt0_gui
         }
         private void cmpr_max_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[106];
+            description.Text = lines[136];
         }
         private void cmpr_max_MouseLeave(object sender, EventArgs e)
         {
@@ -10276,7 +10276,7 @@ namespace plt0_gui
         }
         private void cmpr_min_alpha_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[107];
+            description.Text = lines[137];
         }
         private void cmpr_min_alpha_MouseLeave(object sender, EventArgs e)
         {
@@ -10302,7 +10302,7 @@ namespace plt0_gui
         }
         private void num_colours_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[108];
+            description.Text = lines[138];
         }
         private void num_colours_MouseLeave(object sender, EventArgs e)
         {
@@ -10328,7 +10328,7 @@ namespace plt0_gui
         }
         private void round3_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[109];
+            description.Text = lines[139];
         }
         private void round3_MouseLeave(object sender, EventArgs e)
         {
@@ -10354,7 +10354,7 @@ namespace plt0_gui
         }
         private void round4_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[110];
+            description.Text = lines[140];
         }
         private void round4_MouseLeave(object sender, EventArgs e)
         {
@@ -10380,7 +10380,7 @@ namespace plt0_gui
         }
         private void round5_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[111];
+            description.Text = lines[141];
         }
         private void round5_MouseLeave(object sender, EventArgs e)
         {
@@ -10406,7 +10406,7 @@ namespace plt0_gui
         }
         private void round6_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[112];
+            description.Text = lines[142];
         }
         private void round6_MouseLeave(object sender, EventArgs e)
         {
@@ -10432,7 +10432,7 @@ namespace plt0_gui
         }
         private void diversity_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[113];
+            description.Text = lines[143];
         }
         private void diversity_MouseLeave(object sender, EventArgs e)
         {
@@ -10458,7 +10458,7 @@ namespace plt0_gui
         }
         private void diversity2_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[114];
+            description.Text = lines[144];
         }
         private void diversity2_MouseLeave(object sender, EventArgs e)
         {
@@ -10484,7 +10484,7 @@ namespace plt0_gui
         }
         private void percentage_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[115];
+            description.Text = lines[145];
         }
         private void percentage_MouseLeave(object sender, EventArgs e)
         {
@@ -10510,7 +10510,7 @@ namespace plt0_gui
         }
         private void percentage2_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[116];
+            description.Text = lines[146];
         }
         private void percentage2_MouseLeave(object sender, EventArgs e)
         {
@@ -10536,7 +10536,7 @@ namespace plt0_gui
         }
         private void custom_r_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[117];
+            description.Text = lines[147];
         }
         private void custom_r_MouseLeave(object sender, EventArgs e)
         {
@@ -10562,7 +10562,7 @@ namespace plt0_gui
         }
         private void custom_g_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[118];
+            description.Text = lines[148];
         }
         private void custom_g_MouseLeave(object sender, EventArgs e)
         {
@@ -10588,7 +10588,7 @@ namespace plt0_gui
         }
         private void custom_b_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[119];
+            description.Text = lines[149];
         }
         private void custom_b_MouseLeave(object sender, EventArgs e)
         {
@@ -10614,7 +10614,7 @@ namespace plt0_gui
         }
         private void custom_a_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[120];
+            description.Text = lines[150];
         }
         private void custom_a_MouseLeave(object sender, EventArgs e)
         {

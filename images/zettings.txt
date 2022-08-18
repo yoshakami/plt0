@@ -9,11 +9,41 @@ Textboxes color
 Black
 Description color
 Cyan
+Font name (it must be installed on your system)
+default
 
 
+yeah, I decided to implement my own markdown again
+"\a" = %appdata%
+"\b" = block depth of current encoding
+"\d" = depth of input_file
+"\e" = executable name
+"\g" = get input file 2 name
+"\h" = height of the window
+"\i" = input file name
+"\j" = jump to the next label (Max = 20 for each line)
+"\k" = key check (files that are missing in the images folder)
+"\l" = language the user selected
+"\m" = mipmaps number
+"\n" = new line
+"\o" = output file name
+"\p" = path of the executable (execPath, full path to the folder )
+"\q" = query (the args of plt0 cli)
+"\r" = r carriage return
+"\t" = tab
+"\u" = username
+"\v" = visual name of the current layout
+"\w" = window width
+"\x" = x block width
+"\y" = y block height
 
+these apply to a whole label
+"\c Cyan" makes the text following this to be Cyan.
+"\f default" changes the font name of the current label
+"\s 15" changes the size of the text
 
-
+each line is a different label.
+colour names are all the ones allowed in System.Drawing.Color
 
 
 
@@ -23,7 +53,7 @@ writes the texture in a tex0 file and the palette in a plt0 file
 writes the texture in a tpl file
 writes the texture in a bmp image
 writes the texture in a png image
-writes the texture in a jpg image (this format doesn't support alpha))
+writes the texture in a jpg image (this format doesn't support alpha)
 writes the texture in a jpeg image (this format doesn't support alpha)
 writes the texture in a gif image
 writes the texture in a ico image (max dimensions of the image are 256x256)
@@ -119,3 +149,12 @@ Scale the window to the Lower Left Corner of your screen
 119
 120
 121
+Black and white palette format with 1 byte of alpha and 1 byte of grey per colour
+Coloured palette with 16 bits per colour - no alpha
+Coloured palette with smart alpha, 16 bits per colour
+full command if you wanted to run the app with the current parameters from a command line
+Launch the application
+Github Releases Tab
+The version of this tool
+Hello \u ! you found an easter egg lol \n\ndid you know most apps have a folder in \a ?\n\n\c Red this one doesn't though. I prefer using local files.
+this is padding data to alignment. (meme)
