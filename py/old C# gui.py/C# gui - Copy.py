@@ -1,9 +1,7 @@
 import pyperclip
 output = ""
-x = 18
 booleans = ["bmd", "bti", "tex0", "tpl", "bmp", "png", "jpg", "jpeg", "gif", "ico", "tif", "tiff", "no_warning", "warn", "funky", "stfu", "safe_mode", "FORCE_ALPHA", "ask_exit", "bmp_32", "reverse", "random"]
 for y in booleans:
-    x += 1
     output += """        private void """ + y + """_Click(object sender, EventArgs e)
         {
             if (""" + y + """)
@@ -19,7 +17,6 @@ for y in booleans:
         }
         private void """ + y + """_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[""" + str(x) + """];
             if (""" + y + """)
                 selected_checkbox(""" + y + """_ck);
             else
@@ -27,7 +24,6 @@ for y in booleans:
         }
         private void """ + y + """_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
             if (""" + y + """)
                 checked_checkbox(""" + y + """_ck);
             else
@@ -38,7 +34,6 @@ encoding = ["i4", "i8", "ai4", "ai8", "rgb565", "rgb5a3", "rgba32", "", "ci4", "
 for z in range(len(encoding)):
     if encoding[z] == "":
         continue
-    x += 1
     output += """        private void """ + encoding[z].upper() + """_Click(object sender, EventArgs e)
         {
             unchecked_encoding(encoding_ck[encoding]);
@@ -47,7 +42,6 @@ for z in range(len(encoding)):
         }
         private void """ + encoding[z].upper() + """_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[""" + str(x) + """];
             if (encoding == """ + str(z) + """)
                 selected_encoding(""" + encoding[z] + """_ck);
             else
@@ -55,7 +49,6 @@ for z in range(len(encoding)):
         }
         private void """ + encoding[z].upper() + """_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
             if (encoding == """ + str(z) + """)
                 checked_encoding(""" + encoding[z] + """_ck);
             else
@@ -64,7 +57,6 @@ for z in range(len(encoding)):
 """
 algorithm = ["Cie_601", "Cie_709", "Custom", "No_gradient"]
 for a in range(len(algorithm)):
-    x += 1
     output += """        private void """ + algorithm[a] + """_Click(object sender, EventArgs e)
         {
             unchecked_algorithm(algorithm_ck[algorithm]);
@@ -73,7 +65,6 @@ for a in range(len(algorithm)):
         }
         private void """ + algorithm[a] + """_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[""" + str(x) + """];
             if (algorithm == """ + str(a) + """)
                 selected_algorithm(""" + algorithm[a].lower() + """_ck);
             else
@@ -81,7 +72,6 @@ for a in range(len(algorithm)):
         }
         private void """ + algorithm[a] + """_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
             if (algorithm == """ + str(a) + """)
                 checked_algorithm(""" + algorithm[a].lower() + """_ck);
             else
@@ -90,7 +80,6 @@ for a in range(len(algorithm)):
 """
 alpha = ["No_alpha", "Alpha", "Mix"]
 for b in range(len(alpha)):
-    x += 1
     output += """        private void """ + alpha[b] + """_Click(object sender, EventArgs e)
         {
             unchecked_alpha(alpha_ck_array[alpha]);
@@ -99,7 +88,6 @@ for b in range(len(alpha)):
         }
         private void """ + alpha[b] + """_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[""" + str(x) + """];
             if (alpha == """ + str(b) + """)
                 selected_alpha(""" + alpha[b].lower() + """_ck);
             else
@@ -107,7 +95,6 @@ for b in range(len(alpha)):
         }
         private void """ + alpha[b] + """_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
             if (alpha == """ + str(b) + """)
                 checked_alpha(""" + alpha[b].lower() + """_ck);
             else
@@ -116,7 +103,6 @@ for b in range(len(alpha)):
 """
 wrap = ["Clamp", "Repeat", "Mirror"]
 for c in range(3):
-    x += 1
     output += """        private void WrapS_""" + wrap[c] + """_Click(object sender, EventArgs e)
         {
             unchecked_WrapS(WrapS_ck[WrapS]);
@@ -125,7 +111,6 @@ for c in range(3):
         }
         private void WrapS_""" + wrap[c] + """_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[""" + str(x) + """];
             if (WrapS == """ + str(c) + """)
                 selected_WrapS(S""" + wrap[c].lower() + """_ck);
             else
@@ -133,7 +118,6 @@ for c in range(3):
         }
         private void WrapS_""" + wrap[c] + """_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
             if (WrapS == """ + str(c) + """)
                 checked_WrapS(S""" + wrap[c].lower() + """_ck);
             else
@@ -141,7 +125,6 @@ for c in range(3):
         }
 """
 for d in range(3):
-    x += 1
     output += """        private void WrapT_""" + wrap[d] + """_Click(object sender, EventArgs e)
         {
             unchecked_WrapT(WrapT_ck[WrapT]);
@@ -150,7 +133,6 @@ for d in range(3):
         }
         private void WrapT_""" + wrap[d] + """_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[""" + str(x) + """];
             if (WrapT == """ + str(d) + """)
                 selected_WrapT(T""" + wrap[d].lower() + """_ck);
             else
@@ -158,7 +140,6 @@ for d in range(3):
         }
         private void WrapT_""" + wrap[d] + """_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
             if (WrapT == """ + str(d) + """)
                 checked_WrapT(T""" + wrap[d].lower() + """_ck);
             else
@@ -167,7 +148,6 @@ for d in range(3):
 """
 filter = ["Nearest_Neighbour", "Linear", "NearestMipmapNearest", "NearestMipmapLinear", "LinearMipmapNearest", "LinearMipmapLinear"]
 for e in range(6):
-    x += 1
     output += """        private void Minification_""" + filter[e] + """_Click(object sender, EventArgs e)
         {
             unchecked_Minification(minification_ck[minification_filter]);
@@ -176,7 +156,6 @@ for e in range(6):
         }
         private void Minification_""" + filter[e] + """_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[""" + str(x) + """];
             if (minification_filter == """ + str(e) + """)
                 selected_Minification(min_""" + filter[e].lower() + """_ck);
             else
@@ -184,7 +163,6 @@ for e in range(6):
         }
         private void Minification_""" + filter[e] + """_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
             if (minification_filter == """ + str(e) + """)
                 checked_Minification(min_""" + filter[e].lower() + """_ck);
             else
@@ -192,7 +170,6 @@ for e in range(6):
         }
 """
 for f in range(6):
-    x += 1
     output += """        private void Magnification_""" + filter[f] + """_Click(object sender, EventArgs e)
         {
             unchecked_Magnification(magnification_ck[magnification_filter]);
@@ -201,7 +178,6 @@ for f in range(6):
         }
         private void Magnification_""" + filter[f] + """_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[""" + str(x) + """];
             if (magnification_filter == """ + str(f) + """)
                 selected_Magnification(mag_""" + filter[f].lower() + """_ck);
             else
@@ -209,7 +185,6 @@ for f in range(6):
         }
         private void Magnification_""" + filter[f] + """_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
             if (magnification_filter == """ + str(f) + """)
                 checked_Magnification(mag_""" + filter[f].lower() + """_ck);
             else
@@ -221,7 +196,6 @@ channel2 = ["Red", "Green", "Blue", "Alpha"]
 i = -1
 for g in channel:  # this looks unreadable because it's packed up instead of pasting 4 times the h loop
     i += 1
-    x += 1
     for h in range(4):
         output += """        private void """ + g + '_' + channel[h] + """_Click(object sender, EventArgs e)
         {
@@ -245,7 +219,6 @@ for g in channel:  # this looks unreadable because it's packed up instead of pas
         }
         private void """ + g + '_' + channel[h] + """_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[""" + str(x) + """];
             if (""" + g.lower() + " == " + str(h) + """)
                 selected_""" + channel[h] + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
             else
@@ -253,7 +226,6 @@ for g in channel:  # this looks unreadable because it's packed up instead of pas
         }
         private void """ + g + '_' + channel[h] + """_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
             if (""" + g.lower() + " == " + str(h) + """)
                 checked_""" + channel[h] + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
             else
@@ -263,7 +235,6 @@ for g in channel:  # this looks unreadable because it's packed up instead of pas
 view = ["view_alpha", "view_algorithm", "view_WrapS", "view_WrapT", "view_min", "view_mag"]
 # ck_name = ["alpha_ck_array", "algorithm_ck", "WrapS_ck", "WrapT_ck", "minification_ck", "magnification_ck"]
 for j in range(len(view)):
-    x += 1
     output += """        private void """ + view[j] + """_Click(object sender, EventArgs e)
         {
             if (""" + view[j] + """)
@@ -279,7 +250,6 @@ for j in range(len(view)):
         }
         private void """ + view[j] + """_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[""" + str(x) + """];
             if (""" + view[j] + """)
                 Category_selected(""" + view[j] + """_ck);
             else
@@ -287,7 +257,6 @@ for j in range(len(view)):
         }
         private void """ + view[j] + """_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
             if (""" + view[j] + """)
                 Category_checked(""" + view[j] + """_ck);
             else
@@ -297,7 +266,6 @@ for j in range(len(view)):
 lyt = ["all", "auto", "preview", "paint"]
 Lyt = ["All", "Auto", "Preview", "Paint"]
 for k in range(len(lyt)):
-    x += 1
     output += """        private void """ + Lyt[k] + """_Click(object sender, EventArgs e)
         {
             switch (layout)
@@ -320,7 +288,6 @@ for k in range(len(lyt)):
         }
         private void """ + Lyt[k] + """_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[""" + str(x) + """];
             if (layout == """ + str(k) + """)
                 selected_""" + Lyt[k] + """();
             else
@@ -328,7 +295,6 @@ for k in range(len(lyt)):
         }
         private void """ + Lyt[k] + """_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
             if (layout == """ + str(k) + """)
                 checked_""" + Lyt[k] + """();
             else
@@ -355,7 +321,6 @@ banner_common = ["Minimized", "Maximized", "Close"]
 banner_short = ["minus", "5", "x"]
 line3 = ["this.WindowState = FormWindowState.Minimized", "this.WindowState = FormWindowState.Maximized", "Environment.Exit(0)"]
 for l in range(len(banner_common)):
-    x += 1
     if (l == 1):
         output += """
         private void Maximized_Click(object sender, EventArgs e)
@@ -373,7 +338,6 @@ for l in range(len(banner_common)):
         }
         private void Maximized_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[""" + str(x) + """];
             if (this.WindowState == FormWindowState.Maximized)
                 banner_5_ck.BackgroundImage = maximized_selected;
             else
@@ -381,7 +345,6 @@ for l in range(len(banner_common)):
         }
         private void Maximized_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
             if (this.WindowState == FormWindowState.Maximized)
                 banner_5_ck.BackgroundImage = maximized_on;
             else
@@ -395,12 +358,10 @@ for l in range(len(banner_common)):
         }
         private void """ + banner_common[l] + """_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[""" + str(x) + """];
             banner_""" + banner_short[l] + """_ck.BackgroundImage = """ + banner_common[l].lower() + """_hover;
         }
         private void """ + banner_common[l] + """_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
             banner_""" + banner_short[l] + """_ck.BackgroundImage = """ + banner_common[l].lower() + """;
         }
 """
@@ -409,7 +370,6 @@ banner = ["4", "7", "8", "9", "6", "3", "2", "1"]  # it's faster to look at the 
 #banner_long = ["Left", "Top_left", "Top", "Top_right", "Right", "Bottom_right", "Bottom", "Bottom_left"]
 #banner = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 for m in range(len(banner)):
-    x += 1
     #if banner[m] == "":
     #    continue
     output += """        private void """ + banner_long[m] + """_Click(object sender, EventArgs e)
@@ -446,7 +406,6 @@ for m in range(len(banner)):
         }
         private void """ + banner_long[m] + """_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[""" + str(x) + """];
             if (arrow == """ + banner[m] + """)
                 selected_""" + banner_long[m] + """();
             else
@@ -454,7 +413,6 @@ for m in range(len(banner)):
         }
         private void """ + banner_long[m] + """_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
             if (arrow == """ + banner[m] + """)
                 checked_""" + banner_long[m] + """();
             else
@@ -475,91 +433,6 @@ for m in range(len(banner)):
         private void selected_""" + banner_long[m] + """()
         {
             banner_""" + banner[m] + "_ck.BackgroundImage = " + banner_long[m].lower() + """_selected;
-        }
-"""
-textbox = ["input_file_txt",
-"input_file2_txt",
-"output_name_txt",
-"mipmaps_txt",
-"cmpr_max_txt",
-"cmpr_min_alpha_txt",
-"num_colours_txt",
-"round3_txt",
-"round4_txt",
-"round5_txt",
-"round6_txt",
-"diversity_txt",
-"diversity2_txt",
-"percentage_txt",
-"percentage2_txt",
-"custom_r_txt",
-"custom_g_txt",
-"custom_b_txt",
-"custom_a_txt"]
-var_type = ["", "", "",
-"byte", "byte", "byte", "byte", "byte", "byte", "byte", "byte",
- "byte", "byte", "double", "double", "double", "double", "double", "double"]
-name = ["Picture", "Palette"]
-name2 = ["Texture", "bmd"]
-filter = ["*.bmp;*.png;*.jfif;*.jpg;*.jpeg;*.jpg;*.ico;*.gif;*.tif;*.tiff;*.rle;*.dib", "*.plt0;*.bmp"]
-filter2 = ["*.bti;*.tex0;*.tpl", "*.bmd"]
-file_title = ["Select a picture or a texture", "Select a palette or a bmd"]
-for n in range(2)
-output += """        private void """ + textbox[n][:-4] + """_Click(object sender, EventArgs e)
-        {
-            FileDialog dialog = new OpenFileDialog
-            {
-                Title = \"""" + file_title[n] + """",
-                Filter = \"""" + name[n] + '|' + filter[n] + '|' + name2[n] + '|' + filter2[n] + """|All files (*.*)|*.*",
-                RestoreDirectory = true
-            };
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                """ + textbox[n] + """.Text = dialog.FileName;
-                """ + textbox[n][:-4] + """ = dialog.FileName;
-            }
-        }"""
-for p in range(3):
-    output += """
-        private void """ + textbox[p][:-4] + """_MouseEnter(object sender, EventArgs e)
-        {
-            description.Text = lines[""" + str(x) + """];
-        }
-        private void """ + textbox[p][:-4] + """_MouseLeave(object sender, EventArgs e)
-        {
-            description.Text = "";                     
-        }
-        private void """ + textbox[p][:-4] + """_TextChanged(object sender, EventArgs e)
-        {
-            """ + textbox[p] + """.Text = """ + textbox[p] + """.Text;
-        }
-"""
-for o in range(3, len(textbox)):
-    output += """        private void """ + textbox[o][:-4] + """_MouseEnter(object sender, EventArgs e)
-        {
-            description.Text = lines[""" + str(x) + """];
-        }
-        private void """ + textbox[o][:-4] + """_MouseLeave(object sender, EventArgs e)
-        {
-            description.Text = "";                     
-        }
-        private void """ + textbox[o][:-4] + """_TextChanged(object sender, EventArgs e)
-        {
-            len = """ + textbox[o] + """.Text.Length;
-            if (""" + textbox[o] + """.Text.Substring(0, 2) == "0x" || ishex""" + var_type[o] + """(""" + textbox[o] + """.Text.ToLower())
-            {
-                success = """ + var_type[o] + """.TryParse(""" + textbox[o] + """.Text.Substring(2, len - 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out """ + textbox[o][:-4] + """);
-                if (!success)
-                    """ + textbox[o] + """.Text = """ + textbox[o] + """.Text.Substring(0, len - 1);
-            }
-            else
-            {
-                success = byte.TryParse(args[i + 1], out cmpr_max);
-                if (!success)
-                {
-                    """ + textbox[o] + """.Text = """ + textbox[o] + """.Text.Substring(0, len - 1);
-                }
-            }
         }
 """
 output += """    }
