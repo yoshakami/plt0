@@ -2,7 +2,7 @@ import pyperclip
 output = """        private void Load_Images()
         {"""
 x = 18
-with open("X:\yoshi\3D Objects\C#\plt0\plt0\plt0-v.cs", "r") as cs:
+with open("X:\\yoshi\\3D Objects\\C#\\plt0\\plt0\\plt0-v.cs", "r") as cs:
     text = cs.read()
     text = text.splitlines()
 w = 0
@@ -518,8 +518,8 @@ name2 = ["Texture", "bmd"]
 filter = ["*.bmp;*.png;*.jfif;*.jpg;*.jpeg;*.jpg;*.ico;*.gif;*.tif;*.tiff;*.rle;*.dib", "*.plt0;*.bmp"]
 filter2 = ["*.bti;*.tex0;*.tpl", "*.bmd"]
 file_title = ["Select a picture or a texture", "Select a palette or a bmd"]
-for n in range(2)
-output += """
+for n in range(2):
+    output += """
         private void """ + textbox[n][:-4] + """_Click(object sender, EventArgs e)
         {
             FileDialog dialog = new OpenFileDialog

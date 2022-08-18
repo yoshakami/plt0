@@ -2,8 +2,9 @@
 using System.Drawing;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using System.Drawing.Text;
-using System.Linq;
+using System.IO;
+//using System.Drawing.Text;
+//using System.Linq;
 
 namespace plt0_gui
 {
