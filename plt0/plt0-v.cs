@@ -7548,180 +7548,6 @@ namespace plt0_gui
             else
                 unchecked_checkbox(tiff_ck);
         }
-        private void no_warning_Click(object sender, EventArgs e)
-        {
-            if (no_warning)
-            {
-                no_warning = false;
-                hover_checkbox(no_warning_ck);
-            }
-            else
-            {
-                no_warning = true;
-                selected_checkbox(no_warning_ck);
-            }
-        }
-        private void no_warning_MouseEnter(object sender, EventArgs e)
-        {
-            description.Text = lines[31];
-            if (no_warning)
-                selected_checkbox(no_warning_ck);
-            else
-                hover_checkbox(no_warning_ck);
-        }
-        private void no_warning_MouseLeave(object sender, EventArgs e)
-        {
-            description.Text = "";
-            if (no_warning)
-                checked_checkbox(no_warning_ck);
-            else
-                unchecked_checkbox(no_warning_ck);
-        }
-        private void warn_Click(object sender, EventArgs e)
-        {
-            if (warn)
-            {
-                warn = false;
-                hover_checkbox(warn_ck);
-            }
-            else
-            {
-                warn = true;
-                selected_checkbox(warn_ck);
-            }
-        }
-        private void warn_MouseEnter(object sender, EventArgs e)
-        {
-            description.Text = lines[32];
-            if (warn)
-                selected_checkbox(warn_ck);
-            else
-                hover_checkbox(warn_ck);
-        }
-        private void warn_MouseLeave(object sender, EventArgs e)
-        {
-            description.Text = "";
-            if (warn)
-                checked_checkbox(warn_ck);
-            else
-                unchecked_checkbox(warn_ck);
-        }
-        private void funky_Click(object sender, EventArgs e)
-        {
-            if (funky)
-            {
-                funky = false;
-                hover_checkbox(funky_ck);
-            }
-            else
-            {
-                funky = true;
-                selected_checkbox(funky_ck);
-            }
-        }
-        private void funky_MouseEnter(object sender, EventArgs e)
-        {
-            description.Text = lines[33];
-            if (funky)
-                selected_checkbox(funky_ck);
-            else
-                hover_checkbox(funky_ck);
-        }
-        private void funky_MouseLeave(object sender, EventArgs e)
-        {
-            description.Text = "";
-            if (funky)
-                checked_checkbox(funky_ck);
-            else
-                unchecked_checkbox(funky_ck);
-        }
-        private void stfu_Click(object sender, EventArgs e)
-        {
-            if (stfu)
-            {
-                stfu = false;
-                hover_checkbox(stfu_ck);
-            }
-            else
-            {
-                stfu = true;
-                selected_checkbox(stfu_ck);
-            }
-        }
-        private void stfu_MouseEnter(object sender, EventArgs e)
-        {
-            description.Text = lines[34];
-            if (stfu)
-                selected_checkbox(stfu_ck);
-            else
-                hover_checkbox(stfu_ck);
-        }
-        private void stfu_MouseLeave(object sender, EventArgs e)
-        {
-            description.Text = "";
-            if (stfu)
-                checked_checkbox(stfu_ck);
-            else
-                unchecked_checkbox(stfu_ck);
-        }
-        private void safe_mode_Click(object sender, EventArgs e)
-        {
-            if (safe_mode)
-            {
-                safe_mode = false;
-                hover_checkbox(safe_mode_ck);
-            }
-            else
-            {
-                safe_mode = true;
-                selected_checkbox(safe_mode_ck);
-            }
-        }
-        private void safe_mode_MouseEnter(object sender, EventArgs e)
-        {
-            description.Text = lines[35];
-            if (safe_mode)
-                selected_checkbox(safe_mode_ck);
-            else
-                hover_checkbox(safe_mode_ck);
-        }
-        private void safe_mode_MouseLeave(object sender, EventArgs e)
-        {
-            description.Text = "";
-            if (safe_mode)
-                checked_checkbox(safe_mode_ck);
-            else
-                unchecked_checkbox(safe_mode_ck);
-        }
-        private void FORCE_ALPHA_Click(object sender, EventArgs e)
-        {
-            if (FORCE_ALPHA)
-            {
-                FORCE_ALPHA = false;
-                hover_checkbox(FORCE_ALPHA_ck);
-            }
-            else
-            {
-                FORCE_ALPHA = true;
-                selected_checkbox(FORCE_ALPHA_ck);
-            }
-        }
-        private void FORCE_ALPHA_MouseEnter(object sender, EventArgs e)
-        {
-            description.Text = lines[36];
-            if (FORCE_ALPHA)
-                selected_checkbox(FORCE_ALPHA_ck);
-            else
-                hover_checkbox(FORCE_ALPHA_ck);
-        }
-        private void FORCE_ALPHA_MouseLeave(object sender, EventArgs e)
-        {
-            description.Text = "";
-            if (FORCE_ALPHA)
-                checked_checkbox(FORCE_ALPHA_ck);
-            else
-                unchecked_checkbox(FORCE_ALPHA_ck);
-        }
         private void ask_exit_Click(object sender, EventArgs e)
         {
             if (ask_exit)
@@ -7737,7 +7563,7 @@ namespace plt0_gui
         }
         private void ask_exit_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[37];
+            description.Text = lines[31];
             if (ask_exit)
                 selected_checkbox(ask_exit_ck);
             else
@@ -7766,7 +7592,7 @@ namespace plt0_gui
         }
         private void bmp_32_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[38];
+            description.Text = lines[32];
             if (bmp_32)
                 selected_checkbox(bmp_32_ck);
             else
@@ -7780,34 +7606,92 @@ namespace plt0_gui
             else
                 unchecked_checkbox(bmp_32_ck);
         }
-        private void reverse_Click(object sender, EventArgs e)
+        private void FORCE_ALPHA_Click(object sender, EventArgs e)
         {
-            if (reverse)
+            if (FORCE_ALPHA)
             {
-                reverse = false;
-                hover_checkbox(reverse_ck);
+                FORCE_ALPHA = false;
+                hover_checkbox(FORCE_ALPHA_ck);
             }
             else
             {
-                reverse = true;
-                selected_checkbox(reverse_ck);
+                FORCE_ALPHA = true;
+                selected_checkbox(FORCE_ALPHA_ck);
             }
         }
-        private void reverse_MouseEnter(object sender, EventArgs e)
+        private void FORCE_ALPHA_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[39];
-            if (reverse)
-                selected_checkbox(reverse_ck);
+            description.Text = lines[33];
+            if (FORCE_ALPHA)
+                selected_checkbox(FORCE_ALPHA_ck);
             else
-                hover_checkbox(reverse_ck);
+                hover_checkbox(FORCE_ALPHA_ck);
         }
-        private void reverse_MouseLeave(object sender, EventArgs e)
+        private void FORCE_ALPHA_MouseLeave(object sender, EventArgs e)
         {
             description.Text = "";
-            if (reverse)
-                checked_checkbox(reverse_ck);
+            if (FORCE_ALPHA)
+                checked_checkbox(FORCE_ALPHA_ck);
             else
-                unchecked_checkbox(reverse_ck);
+                unchecked_checkbox(FORCE_ALPHA_ck);
+        }
+        private void funky_Click(object sender, EventArgs e)
+        {
+            if (funky)
+            {
+                funky = false;
+                hover_checkbox(funky_ck);
+            }
+            else
+            {
+                funky = true;
+                selected_checkbox(funky_ck);
+            }
+        }
+        private void funky_MouseEnter(object sender, EventArgs e)
+        {
+            description.Text = lines[34];
+            if (funky)
+                selected_checkbox(funky_ck);
+            else
+                hover_checkbox(funky_ck);
+        }
+        private void funky_MouseLeave(object sender, EventArgs e)
+        {
+            description.Text = "";
+            if (funky)
+                checked_checkbox(funky_ck);
+            else
+                unchecked_checkbox(funky_ck);
+        }
+        private void no_warning_Click(object sender, EventArgs e)
+        {
+            if (no_warning)
+            {
+                no_warning = false;
+                hover_checkbox(no_warning_ck);
+            }
+            else
+            {
+                no_warning = true;
+                selected_checkbox(no_warning_ck);
+            }
+        }
+        private void no_warning_MouseEnter(object sender, EventArgs e)
+        {
+            description.Text = lines[35];
+            if (no_warning)
+                selected_checkbox(no_warning_ck);
+            else
+                hover_checkbox(no_warning_ck);
+        }
+        private void no_warning_MouseLeave(object sender, EventArgs e)
+        {
+            description.Text = "";
+            if (no_warning)
+                checked_checkbox(no_warning_ck);
+            else
+                unchecked_checkbox(no_warning_ck);
         }
         private void random_Click(object sender, EventArgs e)
         {
@@ -7824,7 +7708,7 @@ namespace plt0_gui
         }
         private void random_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[40];
+            description.Text = lines[36];
             if (random)
                 selected_checkbox(random_ck);
             else
@@ -7837,6 +7721,122 @@ namespace plt0_gui
                 checked_checkbox(random_ck);
             else
                 unchecked_checkbox(random_ck);
+        }
+        private void reverse_Click(object sender, EventArgs e)
+        {
+            if (reverse)
+            {
+                reverse = false;
+                hover_checkbox(reverse_ck);
+            }
+            else
+            {
+                reverse = true;
+                selected_checkbox(reverse_ck);
+            }
+        }
+        private void reverse_MouseEnter(object sender, EventArgs e)
+        {
+            description.Text = lines[37];
+            if (reverse)
+                selected_checkbox(reverse_ck);
+            else
+                hover_checkbox(reverse_ck);
+        }
+        private void reverse_MouseLeave(object sender, EventArgs e)
+        {
+            description.Text = "";
+            if (reverse)
+                checked_checkbox(reverse_ck);
+            else
+                unchecked_checkbox(reverse_ck);
+        }
+        private void safe_mode_Click(object sender, EventArgs e)
+        {
+            if (safe_mode)
+            {
+                safe_mode = false;
+                hover_checkbox(safe_mode_ck);
+            }
+            else
+            {
+                safe_mode = true;
+                selected_checkbox(safe_mode_ck);
+            }
+        }
+        private void safe_mode_MouseEnter(object sender, EventArgs e)
+        {
+            description.Text = lines[38];
+            if (safe_mode)
+                selected_checkbox(safe_mode_ck);
+            else
+                hover_checkbox(safe_mode_ck);
+        }
+        private void safe_mode_MouseLeave(object sender, EventArgs e)
+        {
+            description.Text = "";
+            if (safe_mode)
+                checked_checkbox(safe_mode_ck);
+            else
+                unchecked_checkbox(safe_mode_ck);
+        }
+        private void stfu_Click(object sender, EventArgs e)
+        {
+            if (stfu)
+            {
+                stfu = false;
+                hover_checkbox(stfu_ck);
+            }
+            else
+            {
+                stfu = true;
+                selected_checkbox(stfu_ck);
+            }
+        }
+        private void stfu_MouseEnter(object sender, EventArgs e)
+        {
+            description.Text = lines[39];
+            if (stfu)
+                selected_checkbox(stfu_ck);
+            else
+                hover_checkbox(stfu_ck);
+        }
+        private void stfu_MouseLeave(object sender, EventArgs e)
+        {
+            description.Text = "";
+            if (stfu)
+                checked_checkbox(stfu_ck);
+            else
+                unchecked_checkbox(stfu_ck);
+        }
+        private void warn_Click(object sender, EventArgs e)
+        {
+            if (warn)
+            {
+                warn = false;
+                hover_checkbox(warn_ck);
+            }
+            else
+            {
+                warn = true;
+                selected_checkbox(warn_ck);
+            }
+        }
+        private void warn_MouseEnter(object sender, EventArgs e)
+        {
+            description.Text = lines[40];
+            if (warn)
+                selected_checkbox(warn_ck);
+            else
+                hover_checkbox(warn_ck);
+        }
+        private void warn_MouseLeave(object sender, EventArgs e)
+        {
+            description.Text = "";
+            if (warn)
+                checked_checkbox(warn_ck);
+            else
+                unchecked_checkbox(warn_ck);
         }
         private void I4_Click(object sender, EventArgs e)
         {

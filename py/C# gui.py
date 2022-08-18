@@ -515,10 +515,10 @@ var_type = ["", "", "",
 "byte", "byte", "byte", "byte", "byte", "byte", "byte", "byte",
  "byte", "byte", "double", "double", "double", "double", "double", "double"]
 name = ["Picture", "Palette"]
-name2 = ["Texture", "bmd"]
+name2 = ["Texture", "bmd or tpl"]
 filter = ["*.bmp;*.png;*.jfif;*.jpg;*.jpeg;*.jpg;*.ico;*.gif;*.tif;*.tiff;*.rle;*.dib", "*.plt0;*.bmp"]
-filter2 = ["*.bti;*.tex0;*.tpl", "*.bmd"]
-file_title = ["Select a picture or a texture", "Select a palette or a bmd"]
+filter2 = ["*.bti;*.tex0;*.tpl", "*.bmd;*tpl"]
+file_title = ["Select a picture or a texture", "Select a palette, a bmd file, or a tpl file"]
 for n in range(2):
     output += """
         private void """ + textbox[n][:-4] + """_Click(object sender, EventArgs e)
