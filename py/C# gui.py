@@ -8,12 +8,13 @@ with open("X:\\yoshi\\3D Objects\\C#\\plt0\\plt0\\plt0-v.cs", "r") as cs:
 w = 0
 while (text[w][:14] != "        Image "):
     w += 1
-while (text[w][:14] != "        Image "):
+while (text[w][:14] == "        Image "):
     output += """
             if (File.Exists(execPath + "images/""" + text[w][14:-1] + """.png"))
             {
                 """ + text[w][14:-1] + """ = Image.FromFile(execPath + "images/""" + text[w][14:-1] + """.png");
             }"""
+    w += 1
 output += """
         }"""
 booleans = ["bmd", "bti", "tex0", "tpl", "bmp", "png", "jpg", "jpeg", "gif", "ico", "tif", "tiff", "no_warning", "warn", "funky", "stfu", "safe_mode", "FORCE_ALPHA", "ask_exit", "bmp_32", "reverse", "random"]
@@ -561,7 +562,7 @@ for o in range(3, len(textbox)):
         private void """ + textbox[o][:-4] + """_TextChanged(object sender, EventArgs e)
         {
             len = """ + textbox[o] + """.Text.Length;
-            if (""" + textbox[o] + """.Text.Substring(0, 2) == "0x" || ishex""" + var_type[o] + """(""" + textbox[o] + """.Text.ToLower())
+            if (""" + textbox[o] + """.Text.Substring(0, 2) == "0x" || ishex""" + var_type[o] + """(""" + textbox[o] + """.Text.ToLower()))
             {
                 success = """ + var_type[o] + """.TryParse(""" + textbox[o] + """.Text.Substring(2, len - 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out """ + textbox[o][:-4] + """);
                 if (!success)
