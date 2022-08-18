@@ -6563,6 +6563,9 @@ namespace plt0_gui
             this.github_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
             this.github_hitbox.Size = new System.Drawing.Size(32, 32);
             this.github_hitbox.TabIndex = 483;
+            this.github_hitbox.Click += new System.EventHandler(this.github_Click);
+            this.github_hitbox.MouseEnter += new System.EventHandler(this.github_MouseEnter);
+            this.github_hitbox.MouseLeave += new System.EventHandler(this.github_MouseLeave);
             // 
             // youtube_ck
             // 
@@ -6590,6 +6593,9 @@ namespace plt0_gui
             this.youtube_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
             this.youtube_hitbox.Size = new System.Drawing.Size(32, 32);
             this.youtube_hitbox.TabIndex = 485;
+            this.youtube_hitbox.Click += new System.EventHandler(this.youtube_Click);
+            this.youtube_hitbox.MouseEnter += new System.EventHandler(this.youtube_MouseEnter);
+            this.youtube_hitbox.MouseLeave += new System.EventHandler(this.youtube_MouseLeave);
             // 
             // discord_ck
             // 
@@ -6617,6 +6623,9 @@ namespace plt0_gui
             this.discord_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
             this.discord_hitbox.Size = new System.Drawing.Size(32, 32);
             this.discord_hitbox.TabIndex = 487;
+            this.discord_hitbox.Click += new System.EventHandler(this.discord_Click);
+            this.discord_hitbox.MouseEnter += new System.EventHandler(this.discord_MouseEnter);
+            this.discord_hitbox.MouseLeave += new System.EventHandler(this.discord_MouseLeave);
             // 
             // input_file_hitbox
             // 
@@ -7797,6 +7806,18 @@ namespace plt0_gui
             if (File.Exists(execPath + "images/github.png"))
             {
                 github = Image.FromFile(execPath + "images/github.png");
+            }
+            if (File.Exists(execPath + "images/youtube_hover.png"))
+            {
+                youtube_hover = Image.FromFile(execPath + "images/youtube_hover.png");
+            }
+            if (File.Exists(execPath + "images/discord_hover.png"))
+            {
+                discord_hover = Image.FromFile(execPath + "images/discord_hover.png");
+            }
+            if (File.Exists(execPath + "images/github_hover.png"))
+            {
+                github_hover = Image.FromFile(execPath + "images/github_hover.png");
             }
         }
         private void bmd_Click(object sender, EventArgs e)
@@ -11307,10 +11328,12 @@ namespace plt0_gui
         private void discord_MouseEnter(object sender, EventArgs e)
         {
             description.Text = lines[154];
+            discord_ck.BackgroundImage = discord_hover;
         }
         private void discord_MouseLeave(object sender, EventArgs e)
         {
             description.Text = "";
+            discord_ck.BackgroundImage = discord;
         }
         private void github_Click(object sender, EventArgs e)
         {
@@ -11320,10 +11343,12 @@ namespace plt0_gui
         private void github_MouseEnter(object sender, EventArgs e)
         {
             description.Text = lines[155];
+            github_ck.BackgroundImage = github_hover;
         }
         private void github_MouseLeave(object sender, EventArgs e)
         {
             description.Text = "";
+            github_ck.BackgroundImage = github;
         }
         private void youtube_Click(object sender, EventArgs e)
         {
@@ -11333,10 +11358,12 @@ namespace plt0_gui
         private void youtube_MouseEnter(object sender, EventArgs e)
         {
             description.Text = lines[156];
+            youtube_ck.BackgroundImage = youtube_hover;
         }
         private void youtube_MouseLeave(object sender, EventArgs e)
         {
             description.Text = "";
+            youtube_ck.BackgroundImage = youtube;
         }
     }
 }
