@@ -9,7 +9,7 @@ v0.3: inject into bmd files
 
 v0.4: all image formats except cmpr
 
-v0.5: CMPR (I swear DXT1 Compression will be hard)
+v0.5: CMPR (finding a decent DXT1 Compression algorithm was hard)
 
 v0.6: Optimize the project by splitting it in more than 1 file
 
@@ -23,7 +23,9 @@ v1.0: GUI
 
 v1.1 : make a "How to use" image, and test everything (every option, every combination, find anything that breaks the program)
 
-currently developping v0.8
+v1.2 : add french zettings.txt
+
+currently developping v1.0
 
 ## why this project
 wimgt doesn't support textures with palette (or corrupts them), except tpl files. which makes his whole tool a bit annoying
