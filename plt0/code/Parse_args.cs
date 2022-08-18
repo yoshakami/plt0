@@ -1051,6 +1051,7 @@ class Parse_args_class
             System.Windows.Forms.Application.EnableVisualStyles();
             System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
             System.Windows.Forms.Application.Run(new plt0_gui.plt0_gui());
+            return; // once you close the gui It'll execute this command. I'm serious.
         }
         if (System.IO.File.Exists(swap) && input_file2 == "")
         {
@@ -1214,7 +1215,6 @@ class Parse_args_class
             System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
             System.Windows.Forms.Application.Run(new plt0_gui.plt0_gui());
             return;
-            // need to change this for decoding
         }
         Convert_to_bmp_class _bmp = new Convert_to_bmp_class(this);
         byte[] bmp_image = _bmp.Convert_to_bmp((Bitmap)Bitmap.FromFile(input_file));

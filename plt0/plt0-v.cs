@@ -606,20 +606,21 @@ namespace plt0_gui
                 description.ForeColor = System.Drawing.Color.FromName(lines[10]);
             }
 
-                else
+            else
+            {
+                try
                 {
-                    try
-                    {
-                        string[] new_lines = { "plt0 config v1.0", "Layout (change the next line with one of these \"All\", \"Auto\", \"Preview\", \"Paint\")", "All" };
-                        System.IO.File.WriteAllLines(execPath + "images/zettings.txt", new_lines);
-                    }
-                    catch
-                    {
-                        // um, idk what to do here if the user doesn't let the app write a file.
-                    }
+                    string[] new_lines = { "plt0 config v1.0", "Layout (change the next line with one of these \"All\", \"Auto\", \"Preview\", \"Paint\")", "All" };
+                    System.IO.File.WriteAllLines(execPath + "images/zettings.txt", new_lines);
+                }
+                catch
+                {
+                    // um, idk what to do here if the user doesn't let the app write a file.
                 }
             }
-        
+            plt0.NativeMethods.FreeConsole();
+        }
+
         /*private void Change_font_normal()
         {
             font_normal = new System.Drawing.Font(fontname, 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
@@ -8066,7 +8067,7 @@ namespace plt0_gui
         }
         private void CMPR_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[51];
+            description.Text = lines[51].Replace("\\n", "\n");
             if (encoding == 14)
                 selected_encoding(cmpr_ck);
             else
