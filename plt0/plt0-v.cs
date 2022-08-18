@@ -10926,17 +10926,17 @@ namespace plt0_gui
         {
             description.Text = lines[151];
             if (palette_enc == 0)
-                selected_palette(palette_ai8_ck)();
+                selected_palette(palette_ai8_ck);
             else
-                hover_palette(palette_ai8_ck)();
+                hover_palette(palette_ai8_ck);
         }
         private void palette_AI8_MouseLeave(object sender, EventArgs e)
         {
             description.Text = "";
             if (palette_enc == 0)
-                checked_palette(palette_ai8_ck)();
+                checked_palette(palette_ai8_ck);
             else
-                unchecked_palette(palette_ai8_ck)();
+                unchecked_palette(palette_ai8_ck);
         }
         private void palette_RGB565_Click(object sender, EventArgs e)
         {
@@ -10947,17 +10947,17 @@ namespace plt0_gui
         {
             description.Text = lines[152];
             if (palette_enc == 1)
-                selected_palette(palette_rgb565_ck)();
+                selected_palette(palette_rgb565_ck);
             else
-                hover_palette(palette_rgb565_ck)();
+                hover_palette(palette_rgb565_ck);
         }
         private void palette_RGB565_MouseLeave(object sender, EventArgs e)
         {
             description.Text = "";
             if (palette_enc == 1)
-                checked_palette(palette_rgb565_ck)();
+                checked_palette(palette_rgb565_ck);
             else
-                unchecked_palette(palette_rgb565_ck)();
+                unchecked_palette(palette_rgb565_ck);
         }
         private void palette_RGB5A3_Click(object sender, EventArgs e)
         {
@@ -10968,17 +10968,17 @@ namespace plt0_gui
         {
             description.Text = lines[153];
             if (palette_enc == 2)
-                selected_palette(palette_rgb5a3_ck)();
+                selected_palette(palette_rgb5a3_ck);
             else
-                hover_palette(palette_rgb5a3_ck)();
+                hover_palette(palette_rgb5a3_ck);
         }
         private void palette_RGB5A3_MouseLeave(object sender, EventArgs e)
         {
             description.Text = "";
             if (palette_enc == 2)
-                checked_palette(palette_rgb5a3_ck)();
+                checked_palette(palette_rgb5a3_ck);
             else
-                unchecked_palette(palette_rgb5a3_ck)();
+                unchecked_palette(palette_rgb5a3_ck);
         }
     }
 }
