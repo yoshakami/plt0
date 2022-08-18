@@ -372,222 +372,240 @@ namespace plt0_gui
             banner_x_ck.BackgroundImage = close;
             if (System.IO.File.Exists(execPath + "images/zettings.txt"))
             {
+                string version = "";
                 lines = System.IO.File.ReadAllLines(execPath + "images/zettings.txt");
-                if (lines.Length > 2)
-                    switch (lines[2].ToUpper())
-                    {
-                        case "ALL":
-                            layout = 0;
-                            checked_All();
-                            unchecked_Auto();
-                            unchecked_Preview();
-                            unchecked_Paint();
-                            /*
-                            View_alpha();
-                            View_algorithm();
-                            View_WrapS();
-                            View_WrapT();
-                            View_mag();
-                            View_min();*/
-                            break;
-                        case "AUTO":
-                            unchecked_All();
-                            checked_Auto();
-                            unchecked_Preview();
-                            unchecked_Paint();
-                            layout = 1;
-                            break;
-                        case "PREVIEW":
-                            unchecked_All();
-                            unchecked_Auto();
-                            checked_Preview();
-                            unchecked_Paint();
-                            layout = 2;
-                            //View_algorithm();
-                            //View_alpha();
-                            // view encoding and channel swap and some options
-                            break;
-                        case "PAINT":
-                            unchecked_All();
-                            unchecked_Auto();
-                            unchecked_Preview();
-                            checked_Paint();
-                            layout = 3;
-                            break;
-                    }
-                if (lines.Length > 4)
-                    switch (lines[4].ToUpper())
-                    {
-                        case "MAXIMIZED":
-                            this.WindowState = FormWindowState.Maximized;
-                            banner_1_ck.BackgroundImage = bottom_left_off;
-                            banner_2_ck.BackgroundImage = bottom_off;
-                            banner_3_ck.BackgroundImage = bottom_right_off;
-                            banner_4_ck.BackgroundImage = left_off;
-                            banner_5_ck.BackgroundImage = maximized_on;
-                            banner_6_ck.BackgroundImage = right_off;
-                            banner_7_ck.BackgroundImage = top_left_off;
-                            banner_8_ck.BackgroundImage = top_off;
-                            banner_9_ck.BackgroundImage = top_right_off;
-                            break;
-                        case "NORMAL":
-                            // default
-                            banner_1_ck.BackgroundImage = bottom_left_off;
-                            banner_2_ck.BackgroundImage = bottom_off;
-                            banner_3_ck.BackgroundImage = bottom_right_off;
-                            banner_4_ck.BackgroundImage = left_off;
-                            banner_5_ck.BackgroundImage = maximized_off;
-                            banner_6_ck.BackgroundImage = right_off;
-                            banner_7_ck.BackgroundImage = top_left_off;
-                            banner_8_ck.BackgroundImage = top_off;
-                            banner_9_ck.BackgroundImage = top_right_off;
-                            break;
-                        case "LEFT":
-                            arrow = 4;
-                            banner_1_ck.BackgroundImage = bottom_left_off;
-                            banner_2_ck.BackgroundImage = bottom_off;
-                            banner_3_ck.BackgroundImage = bottom_right_off;
-                            banner_4_ck.BackgroundImage = left_on;
-                            banner_5_ck.BackgroundImage = maximized_off;
-                            banner_6_ck.BackgroundImage = right_off;
-                            banner_7_ck.BackgroundImage = top_left_off;
-                            banner_8_ck.BackgroundImage = top_off;
-                            banner_9_ck.BackgroundImage = top_right_off;
-                            break;
-                        case "TOP_LEFT":
-                            arrow = 7;
-                            banner_1_ck.BackgroundImage = bottom_left_off;
-                            banner_2_ck.BackgroundImage = bottom_off;
-                            banner_3_ck.BackgroundImage = bottom_right_off;
-                            banner_4_ck.BackgroundImage = left_off;
-                            banner_5_ck.BackgroundImage = maximized_off;
-                            banner_6_ck.BackgroundImage = right_off;
-                            banner_7_ck.BackgroundImage = top_left_on;
-                            banner_8_ck.BackgroundImage = top_off;
-                            banner_9_ck.BackgroundImage = top_right_off;
-                            break;
-                        case "TOP":
-                            arrow = 8;
-                            banner_1_ck.BackgroundImage = bottom_left_off;
-                            banner_2_ck.BackgroundImage = bottom_off;
-                            banner_3_ck.BackgroundImage = bottom_right_off;
-                            banner_4_ck.BackgroundImage = left_off;
-                            banner_5_ck.BackgroundImage = maximized_off;
-                            banner_6_ck.BackgroundImage = right_off;
-                            banner_7_ck.BackgroundImage = top_left_off;
-                            banner_8_ck.BackgroundImage = top_on;
-                            banner_9_ck.BackgroundImage = top_right_off;
-                            break;
-                        case "TOP_RIGHT":
-                            arrow = 9;
-                            banner_1_ck.BackgroundImage = bottom_left_off;
-                            banner_2_ck.BackgroundImage = bottom_off;
-                            banner_3_ck.BackgroundImage = bottom_right_off;
-                            banner_4_ck.BackgroundImage = left_off;
-                            banner_5_ck.BackgroundImage = maximized_off;
-                            banner_6_ck.BackgroundImage = right_off;
-                            banner_7_ck.BackgroundImage = top_left_off;
-                            banner_8_ck.BackgroundImage = top_off;
-                            banner_9_ck.BackgroundImage = top_right_on;
-                            break;
-                        case "RIGHT":
-                            arrow = 6;
-                            banner_1_ck.BackgroundImage = bottom_left_off;
-                            banner_2_ck.BackgroundImage = bottom_off;
-                            banner_3_ck.BackgroundImage = bottom_right_off;
-                            banner_4_ck.BackgroundImage = left_off;
-                            banner_5_ck.BackgroundImage = maximized_off;
-                            banner_6_ck.BackgroundImage = right_on;
-                            banner_7_ck.BackgroundImage = top_left_off;
-                            banner_8_ck.BackgroundImage = top_off;
-                            banner_9_ck.BackgroundImage = top_right_off;
-                            break;
-                        case "BOTTOM_RIGHT":
-                            arrow = 3;
-                            banner_1_ck.BackgroundImage = bottom_left_off;
-                            banner_2_ck.BackgroundImage = bottom_off;
-                            banner_3_ck.BackgroundImage = bottom_right_on;
-                            banner_4_ck.BackgroundImage = left_off;
-                            banner_5_ck.BackgroundImage = maximized_off;
-                            banner_6_ck.BackgroundImage = right_off;
-                            banner_7_ck.BackgroundImage = top_left_off;
-                            banner_8_ck.BackgroundImage = top_off;
-                            banner_9_ck.BackgroundImage = top_right_off;
-                            break;
-                        case "BOTTOM":
-                            arrow = 2;
-                            banner_1_ck.BackgroundImage = bottom_left_off;
-                            banner_2_ck.BackgroundImage = bottom_on;
-                            banner_3_ck.BackgroundImage = bottom_right_off;
-                            banner_4_ck.BackgroundImage = left_off;
-                            banner_5_ck.BackgroundImage = maximized_off;
-                            banner_6_ck.BackgroundImage = right_off;
-                            banner_7_ck.BackgroundImage = top_left_off;
-                            banner_8_ck.BackgroundImage = top_off;
-                            banner_9_ck.BackgroundImage = top_right_off;
-                            break;
-                        case "BOTTOM_LEFT":
-                            arrow = 1;
-                            banner_1_ck.BackgroundImage = bottom_left_on;
-                            banner_2_ck.BackgroundImage = bottom_off;
-                            banner_3_ck.BackgroundImage = bottom_right_off;
-                            banner_4_ck.BackgroundImage = left_off;
-                            banner_5_ck.BackgroundImage = maximized_off;
-                            banner_6_ck.BackgroundImage = right_off;
-                            banner_7_ck.BackgroundImage = top_left_off;
-                            banner_8_ck.BackgroundImage = top_off;
-                            banner_9_ck.BackgroundImage = top_right_off;
-                            break;
-                    }
-                if (lines.Length > 6)
+                if (lines.Length > 0)
                 {
-                    input_file_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                    input_file2_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                    output_name_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                    mipmaps_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                    cmpr_max_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                    cmpr_min_alpha_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                    num_colours_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                    round3_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                    round4_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                    round5_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                    round6_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                    diversity_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                    diversity2_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                    percentage_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                    percentage2_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                    custom_r_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                    custom_g_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                    custom_b_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                    custom_a_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                    version = lines[0].Substring(12);
                 }
-                if (lines.Length > 8)
+
+                switch (version)
                 {
-                    input_file_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                    input_file2_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                    output_name_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                    mipmaps_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                    cmpr_max_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                    cmpr_min_alpha_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                    num_colours_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                    round3_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                    round4_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                    round5_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                    round6_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                    diversity_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                    diversity2_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                    percentage_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                    percentage2_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                    custom_r_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                    custom_g_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                    custom_b_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                    custom_a_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                    case "v1.0":
+                        if (version == "v1.0" && lines.Length < 121)  // incorrect v1.0 config file
+                        {
+                            System.Diagnostics.Debug.WriteLine("some tetttttttttt23423423423423423ttttttttttttttttttttttt");
+                            Console.WriteLine("plt0 v1.0 config file should have EXACTLY 121 lines");
+                            Console.ReadLine();
+                            Environment.Exit(1);
+                        }
+                        break; // in case it needs to get out of this switch
+                               // sarcarm++;
+                    default:
+                        Console.WriteLine("incorrect config version. " + execPath + "images/zettings.txt's First line isn't recognized by this tool");
+                        Console.ReadLine();
+                        Environment.Exit(2);
+                        break; // idk what happens if you don't put a break on a case, but it won't compile otherwise
+
                 }
-                if (lines.Length > 10)
+                switch (lines[2].ToUpper())
                 {
-                    description_title.ForeColor = System.Drawing.Color.FromName(lines[10]);
-                    description.ForeColor = System.Drawing.Color.FromName(lines[10]);
+                    case "ALL":
+                        layout = 0;
+                        checked_All();
+                        unchecked_Auto();
+                        unchecked_Preview();
+                        unchecked_Paint();
+                        /*
+                        View_alpha();
+                        View_algorithm();
+                        View_WrapS();
+                        View_WrapT();
+                        View_mag();
+                        View_min();*/
+                        break;
+                    case "AUTO":
+                        unchecked_All();
+                        checked_Auto();
+                        unchecked_Preview();
+                        unchecked_Paint();
+                        layout = 1;
+                        break;
+                    case "PREVIEW":
+                        unchecked_All();
+                        unchecked_Auto();
+                        checked_Preview();
+                        unchecked_Paint();
+                        layout = 2;
+                        //View_algorithm();
+                        //View_alpha();
+                        // view encoding and channel swap and some options
+                        break;
+                    case "PAINT":
+                        unchecked_All();
+                        unchecked_Auto();
+                        unchecked_Preview();
+                        checked_Paint();
+                        layout = 3;
+                        break;
                 }
+                switch (lines[4].ToUpper())
+                {
+                    case "MAXIMIZED":
+                        this.WindowState = FormWindowState.Maximized;
+                        banner_1_ck.BackgroundImage = bottom_left_off;
+                        banner_2_ck.BackgroundImage = bottom_off;
+                        banner_3_ck.BackgroundImage = bottom_right_off;
+                        banner_4_ck.BackgroundImage = left_off;
+                        banner_5_ck.BackgroundImage = maximized_on;
+                        banner_6_ck.BackgroundImage = right_off;
+                        banner_7_ck.BackgroundImage = top_left_off;
+                        banner_8_ck.BackgroundImage = top_off;
+                        banner_9_ck.BackgroundImage = top_right_off;
+                        break;
+                    case "NORMAL":
+                        // default
+                        banner_1_ck.BackgroundImage = bottom_left_off;
+                        banner_2_ck.BackgroundImage = bottom_off;
+                        banner_3_ck.BackgroundImage = bottom_right_off;
+                        banner_4_ck.BackgroundImage = left_off;
+                        banner_5_ck.BackgroundImage = maximized_off;
+                        banner_6_ck.BackgroundImage = right_off;
+                        banner_7_ck.BackgroundImage = top_left_off;
+                        banner_8_ck.BackgroundImage = top_off;
+                        banner_9_ck.BackgroundImage = top_right_off;
+                        break;
+                    case "LEFT":
+                        arrow = 4;
+                        banner_1_ck.BackgroundImage = bottom_left_off;
+                        banner_2_ck.BackgroundImage = bottom_off;
+                        banner_3_ck.BackgroundImage = bottom_right_off;
+                        banner_4_ck.BackgroundImage = left_on;
+                        banner_5_ck.BackgroundImage = maximized_off;
+                        banner_6_ck.BackgroundImage = right_off;
+                        banner_7_ck.BackgroundImage = top_left_off;
+                        banner_8_ck.BackgroundImage = top_off;
+                        banner_9_ck.BackgroundImage = top_right_off;
+                        break;
+                    case "TOP_LEFT":
+                        arrow = 7;
+                        banner_1_ck.BackgroundImage = bottom_left_off;
+                        banner_2_ck.BackgroundImage = bottom_off;
+                        banner_3_ck.BackgroundImage = bottom_right_off;
+                        banner_4_ck.BackgroundImage = left_off;
+                        banner_5_ck.BackgroundImage = maximized_off;
+                        banner_6_ck.BackgroundImage = right_off;
+                        banner_7_ck.BackgroundImage = top_left_on;
+                        banner_8_ck.BackgroundImage = top_off;
+                        banner_9_ck.BackgroundImage = top_right_off;
+                        break;
+                    case "TOP":
+                        arrow = 8;
+                        banner_1_ck.BackgroundImage = bottom_left_off;
+                        banner_2_ck.BackgroundImage = bottom_off;
+                        banner_3_ck.BackgroundImage = bottom_right_off;
+                        banner_4_ck.BackgroundImage = left_off;
+                        banner_5_ck.BackgroundImage = maximized_off;
+                        banner_6_ck.BackgroundImage = right_off;
+                        banner_7_ck.BackgroundImage = top_left_off;
+                        banner_8_ck.BackgroundImage = top_on;
+                        banner_9_ck.BackgroundImage = top_right_off;
+                        break;
+                    case "TOP_RIGHT":
+                        arrow = 9;
+                        banner_1_ck.BackgroundImage = bottom_left_off;
+                        banner_2_ck.BackgroundImage = bottom_off;
+                        banner_3_ck.BackgroundImage = bottom_right_off;
+                        banner_4_ck.BackgroundImage = left_off;
+                        banner_5_ck.BackgroundImage = maximized_off;
+                        banner_6_ck.BackgroundImage = right_off;
+                        banner_7_ck.BackgroundImage = top_left_off;
+                        banner_8_ck.BackgroundImage = top_off;
+                        banner_9_ck.BackgroundImage = top_right_on;
+                        break;
+                    case "RIGHT":
+                        arrow = 6;
+                        banner_1_ck.BackgroundImage = bottom_left_off;
+                        banner_2_ck.BackgroundImage = bottom_off;
+                        banner_3_ck.BackgroundImage = bottom_right_off;
+                        banner_4_ck.BackgroundImage = left_off;
+                        banner_5_ck.BackgroundImage = maximized_off;
+                        banner_6_ck.BackgroundImage = right_on;
+                        banner_7_ck.BackgroundImage = top_left_off;
+                        banner_8_ck.BackgroundImage = top_off;
+                        banner_9_ck.BackgroundImage = top_right_off;
+                        break;
+                    case "BOTTOM_RIGHT":
+                        arrow = 3;
+                        banner_1_ck.BackgroundImage = bottom_left_off;
+                        banner_2_ck.BackgroundImage = bottom_off;
+                        banner_3_ck.BackgroundImage = bottom_right_on;
+                        banner_4_ck.BackgroundImage = left_off;
+                        banner_5_ck.BackgroundImage = maximized_off;
+                        banner_6_ck.BackgroundImage = right_off;
+                        banner_7_ck.BackgroundImage = top_left_off;
+                        banner_8_ck.BackgroundImage = top_off;
+                        banner_9_ck.BackgroundImage = top_right_off;
+                        break;
+                    case "BOTTOM":
+                        arrow = 2;
+                        banner_1_ck.BackgroundImage = bottom_left_off;
+                        banner_2_ck.BackgroundImage = bottom_on;
+                        banner_3_ck.BackgroundImage = bottom_right_off;
+                        banner_4_ck.BackgroundImage = left_off;
+                        banner_5_ck.BackgroundImage = maximized_off;
+                        banner_6_ck.BackgroundImage = right_off;
+                        banner_7_ck.BackgroundImage = top_left_off;
+                        banner_8_ck.BackgroundImage = top_off;
+                        banner_9_ck.BackgroundImage = top_right_off;
+                        break;
+                    case "BOTTOM_LEFT":
+                        arrow = 1;
+                        banner_1_ck.BackgroundImage = bottom_left_on;
+                        banner_2_ck.BackgroundImage = bottom_off;
+                        banner_3_ck.BackgroundImage = bottom_right_off;
+                        banner_4_ck.BackgroundImage = left_off;
+                        banner_5_ck.BackgroundImage = maximized_off;
+                        banner_6_ck.BackgroundImage = right_off;
+                        banner_7_ck.BackgroundImage = top_left_off;
+                        banner_8_ck.BackgroundImage = top_off;
+                        banner_9_ck.BackgroundImage = top_right_off;
+                        break;
+                }
+                input_file_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                input_file2_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                output_name_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                mipmaps_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                cmpr_max_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                cmpr_min_alpha_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                num_colours_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                round3_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                round4_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                round5_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                round6_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                diversity_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                diversity2_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                percentage_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                percentage2_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                custom_r_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                custom_g_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                custom_b_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                custom_a_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+
+                input_file_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                input_file2_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                output_name_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                mipmaps_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                cmpr_max_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                cmpr_min_alpha_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                num_colours_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                round3_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                round4_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                round5_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                round6_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                diversity_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                diversity2_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                percentage_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                percentage2_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                custom_r_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                custom_g_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                custom_b_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                custom_a_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+
+                description_title.ForeColor = System.Drawing.Color.FromName(lines[10]);
+                description.ForeColor = System.Drawing.Color.FromName(lines[10]);
+            }
+
                 else
                 {
                     try
@@ -601,7 +619,7 @@ namespace plt0_gui
                     }
                 }
             }
-        }
+        
         /*private void Change_font_normal()
         {
             font_normal = new System.Drawing.Font(fontname, 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
@@ -10169,7 +10187,7 @@ namespace plt0_gui
         }
         private void input_file_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[101];
+            description.Text = lines[102];
         }
         private void input_file_MouseLeave(object sender, EventArgs e)
         {
@@ -10177,11 +10195,11 @@ namespace plt0_gui
         }
         private void input_file_TextChanged(object sender, EventArgs e)
         {
-            input_file_txt.Text = input_file_txt.Text;
+            input_file = input_file_txt.Text;
         }
         private void input_file2_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[101];
+            description.Text = lines[103];
         }
         private void input_file2_MouseLeave(object sender, EventArgs e)
         {
@@ -10189,11 +10207,11 @@ namespace plt0_gui
         }
         private void input_file2_TextChanged(object sender, EventArgs e)
         {
-            input_file2_txt.Text = input_file2_txt.Text;
+            input_file2 = input_file2_txt.Text;
         }
         private void output_name_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[101];
+            description.Text = lines[104];
         }
         private void output_name_MouseLeave(object sender, EventArgs e)
         {
@@ -10201,11 +10219,11 @@ namespace plt0_gui
         }
         private void output_name_TextChanged(object sender, EventArgs e)
         {
-            output_name_txt.Text = output_name_txt.Text;
+            output_name = output_name_txt.Text;
         }
         private void mipmaps_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[101];
+            description.Text = lines[105];
         }
         private void mipmaps_MouseLeave(object sender, EventArgs e)
         {
@@ -10231,7 +10249,7 @@ namespace plt0_gui
         }
         private void cmpr_max_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[101];
+            description.Text = lines[106];
         }
         private void cmpr_max_MouseLeave(object sender, EventArgs e)
         {
@@ -10257,7 +10275,7 @@ namespace plt0_gui
         }
         private void cmpr_min_alpha_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[101];
+            description.Text = lines[107];
         }
         private void cmpr_min_alpha_MouseLeave(object sender, EventArgs e)
         {
@@ -10283,7 +10301,7 @@ namespace plt0_gui
         }
         private void num_colours_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[101];
+            description.Text = lines[108];
         }
         private void num_colours_MouseLeave(object sender, EventArgs e)
         {
@@ -10309,7 +10327,7 @@ namespace plt0_gui
         }
         private void round3_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[101];
+            description.Text = lines[109];
         }
         private void round3_MouseLeave(object sender, EventArgs e)
         {
@@ -10335,7 +10353,7 @@ namespace plt0_gui
         }
         private void round4_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[101];
+            description.Text = lines[110];
         }
         private void round4_MouseLeave(object sender, EventArgs e)
         {
@@ -10361,7 +10379,7 @@ namespace plt0_gui
         }
         private void round5_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[101];
+            description.Text = lines[111];
         }
         private void round5_MouseLeave(object sender, EventArgs e)
         {
@@ -10387,7 +10405,7 @@ namespace plt0_gui
         }
         private void round6_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[101];
+            description.Text = lines[112];
         }
         private void round6_MouseLeave(object sender, EventArgs e)
         {
@@ -10413,7 +10431,7 @@ namespace plt0_gui
         }
         private void diversity_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[101];
+            description.Text = lines[113];
         }
         private void diversity_MouseLeave(object sender, EventArgs e)
         {
@@ -10439,7 +10457,7 @@ namespace plt0_gui
         }
         private void diversity2_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[101];
+            description.Text = lines[114];
         }
         private void diversity2_MouseLeave(object sender, EventArgs e)
         {
@@ -10465,7 +10483,7 @@ namespace plt0_gui
         }
         private void percentage_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[101];
+            description.Text = lines[115];
         }
         private void percentage_MouseLeave(object sender, EventArgs e)
         {
@@ -10491,7 +10509,7 @@ namespace plt0_gui
         }
         private void percentage2_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[101];
+            description.Text = lines[116];
         }
         private void percentage2_MouseLeave(object sender, EventArgs e)
         {
@@ -10517,7 +10535,7 @@ namespace plt0_gui
         }
         private void custom_r_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[101];
+            description.Text = lines[117];
         }
         private void custom_r_MouseLeave(object sender, EventArgs e)
         {
@@ -10543,7 +10561,7 @@ namespace plt0_gui
         }
         private void custom_g_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[101];
+            description.Text = lines[118];
         }
         private void custom_g_MouseLeave(object sender, EventArgs e)
         {
@@ -10569,7 +10587,7 @@ namespace plt0_gui
         }
         private void custom_b_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[101];
+            description.Text = lines[119];
         }
         private void custom_b_MouseLeave(object sender, EventArgs e)
         {
@@ -10595,7 +10613,7 @@ namespace plt0_gui
         }
         private void custom_a_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[101];
+            description.Text = lines[120];
         }
         private void custom_a_MouseLeave(object sender, EventArgs e)
         {

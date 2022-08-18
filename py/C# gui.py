@@ -548,7 +548,7 @@ for p in range(3):
         }
         private void """ + textbox[p][:-4] + """_TextChanged(object sender, EventArgs e)
         {
-            """ + textbox[p] + """.Text = """ + textbox[p] + """.Text;
+            """ + textbox[p][:-4] + """ = """ + textbox[p] + """.Text;
         }"""
 for o in range(3, len(textbox)):
     x += 1
