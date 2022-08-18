@@ -331,6 +331,25 @@
         private System.Windows.Forms.Label youtube_hitbox;
         private System.Windows.Forms.PictureBox discord_ck;
         private System.Windows.Forms.Label discord_hitbox;
+        private System.Windows.Forms.Label input_file_hitbox;
+        private System.Windows.Forms.Label input_file2_hitbox;
+        private System.Windows.Forms.Label custom_r_hitbox;
+        private System.Windows.Forms.Label num_colours_hitbox;
+        private System.Windows.Forms.Label diversity_hitbox;
+        private System.Windows.Forms.Label round3_hitbox;
+        private System.Windows.Forms.Label cmpr_min_alpha_hitbox;
+        private System.Windows.Forms.Label cmpr_max_hitbox;
+        private System.Windows.Forms.Label mipmaps_hitbox;
+        private System.Windows.Forms.Label output_name_hitbox;
+        private System.Windows.Forms.Label round4_hitbox;
+        private System.Windows.Forms.Label round5_hitbox;
+        private System.Windows.Forms.Label round6_hitbox;
+        private System.Windows.Forms.Label diversity2_hitbox;
+        private System.Windows.Forms.Label percentage_hitbox;
+        private System.Windows.Forms.Label percentage2_hitbox;
+        private System.Windows.Forms.Label custom_g_hitbox;
+        private System.Windows.Forms.Label custom_b_hitbox;
+        private System.Windows.Forms.Label custom_a_hitbox;
         /*
 /// <summary>
 /// Required designer variable.
