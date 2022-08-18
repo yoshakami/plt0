@@ -592,17 +592,17 @@ for q in range(len(palette_enc)):
         {
             description.Text = lines[""" + str(x) + """];
             if (palette_enc == """ + str(q) + """)
-                selected_palette(palette_""" + palette_enc[q].lower() + """_ck)();
+                selected_palette(palette_""" + palette_enc[q].lower() + """_ck);
             else
-                hover_palette(palette_""" + palette_enc[q].lower() + """_ck)();
+                hover_palette(palette_""" + palette_enc[q].lower() + """_ck);
         }
         private void palette_""" + palette_enc[q] + """_MouseLeave(object sender, EventArgs e)
         {
             description.Text = "";
             if (palette_enc == """ + str(q) + """)
-                checked_palette(palette_""" + palette_enc[q].lower() + """_ck)();
+                checked_palette(palette_""" + palette_enc[q].lower() + """_ck);
             else
-                unchecked_palette(palette_""" + palette_enc[q].lower() + """_ck)();
+                unchecked_palette(palette_""" + palette_enc[q].lower() + """_ck);
         }"""
 output += """
     }

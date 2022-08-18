@@ -49,6 +49,7 @@ namespace plt0_gui
         bool view_mag = true;
         // radiobuttons
         byte encoding = 7;
+        byte palette_enc = 3;
         byte WrapS = 3; // 0 = Clamp   1 = Repeat   2 = Mirror
         byte WrapT = 3; // 0 = Clamp   1 = Repeat   2 = Mirror
         byte algorithm = 4;  // 0 = CIE 601    1 = CIE 709     2 = custom RGBA     3 = Most Used Colours (No Gradient)
@@ -80,6 +81,7 @@ namespace plt0_gui
         double custom_b = 1.0;
         double custom_a = 1.0;
         List<PictureBox> encoding_ck = new List<PictureBox>();
+        List<PictureBox> palette_ck = new List<PictureBox>();
         List<PictureBox> a_ck = new List<PictureBox>();
         List<PictureBox> b_ck = new List<PictureBox>();
         List<PictureBox> g_ck = new List<PictureBox>();
@@ -938,6 +940,22 @@ namespace plt0_gui
         {
             radiobutton.BackgroundImage = white_circle;
         }
+        private void unchecked_palette(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = cherry_circle;
+        }
+        private void checked_palette(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = cherry_circle_on;
+        }
+        private void hover_palette(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = purple_circle;
+        }
+        private void selected_palette(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = purple_circle_on;
+        }
         private void View_alpha()
         {
             for (byte i = 0; i < alpha_ck_array.Count; i++)
@@ -1488,6 +1506,22 @@ namespace plt0_gui
             this.description_title = new System.Windows.Forms.Label();
             this.description = new System.Windows.Forms.Label();
             this.description_surrounding = new System.Windows.Forms.PictureBox();
+            this.palette_rgb5a3_ck = new System.Windows.Forms.PictureBox();
+            this.palette_rgb5a3_label = new System.Windows.Forms.Label();
+            this.palette_rgb5a3_hitbox = new System.Windows.Forms.Label();
+            this.palette_rgb565_ck = new System.Windows.Forms.PictureBox();
+            this.palette_rgb565_label = new System.Windows.Forms.Label();
+            this.palette_rgb565_hitbox = new System.Windows.Forms.Label();
+            this.palette_ai8_ck = new System.Windows.Forms.PictureBox();
+            this.palette_ai8_label = new System.Windows.Forms.Label();
+            this.palette_ai8_hitbox = new System.Windows.Forms.Label();
+            this.palette_label = new System.Windows.Forms.Label();
+            this.github_ck = new System.Windows.Forms.PictureBox();
+            this.github_hitbox = new System.Windows.Forms.Label();
+            this.youtube_ck = new System.Windows.Forms.PictureBox();
+            this.youtube_hitbox = new System.Windows.Forms.Label();
+            this.discord_ck = new System.Windows.Forms.PictureBox();
+            this.discord_hitbox = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.bmd_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
@@ -1588,6 +1622,12 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.cli_textbox_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.run_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.description_surrounding)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.palette_rgb5a3_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.palette_rgb565_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.palette_ai8_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.github_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.youtube_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.discord_ck)).BeginInit();
             this.SuspendLayout();
             // 
             // output_file_type_label
@@ -3411,7 +3451,7 @@ namespace plt0_gui
             this.mix_ck.Enabled = false;
             this.mix_ck.ErrorImage = null;
             this.mix_ck.InitialImage = null;
-            this.mix_ck.Location = new System.Drawing.Point(503, 576);
+            this.mix_ck.Location = new System.Drawing.Point(503, 557);
             this.mix_ck.Margin = new System.Windows.Forms.Padding(0);
             this.mix_ck.Name = "mix_ck";
             this.mix_ck.Size = new System.Drawing.Size(64, 64);
@@ -3424,7 +3464,7 @@ namespace plt0_gui
             this.mix_label.BackColor = System.Drawing.Color.Transparent;
             this.mix_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.mix_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.mix_label.Location = new System.Drawing.Point(571, 576);
+            this.mix_label.Location = new System.Drawing.Point(571, 557);
             this.mix_label.Margin = new System.Windows.Forms.Padding(0);
             this.mix_label.Name = "mix_label";
             this.mix_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -3441,7 +3481,7 @@ namespace plt0_gui
             this.mix_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.mix_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.mix_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.mix_hitbox.Location = new System.Drawing.Point(500, 576);
+            this.mix_hitbox.Location = new System.Drawing.Point(500, 557);
             this.mix_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.mix_hitbox.Name = "mix_hitbox";
             this.mix_hitbox.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
@@ -3458,7 +3498,7 @@ namespace plt0_gui
             this.alpha_ck.Enabled = false;
             this.alpha_ck.ErrorImage = null;
             this.alpha_ck.InitialImage = null;
-            this.alpha_ck.Location = new System.Drawing.Point(503, 512);
+            this.alpha_ck.Location = new System.Drawing.Point(503, 493);
             this.alpha_ck.Margin = new System.Windows.Forms.Padding(0);
             this.alpha_ck.Name = "alpha_ck";
             this.alpha_ck.Size = new System.Drawing.Size(64, 64);
@@ -3471,7 +3511,7 @@ namespace plt0_gui
             this.alpha_label.BackColor = System.Drawing.Color.Transparent;
             this.alpha_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.alpha_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.alpha_label.Location = new System.Drawing.Point(571, 512);
+            this.alpha_label.Location = new System.Drawing.Point(571, 493);
             this.alpha_label.Margin = new System.Windows.Forms.Padding(0);
             this.alpha_label.Name = "alpha_label";
             this.alpha_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -3488,7 +3528,7 @@ namespace plt0_gui
             this.alpha_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.alpha_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.alpha_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.alpha_hitbox.Location = new System.Drawing.Point(500, 512);
+            this.alpha_hitbox.Location = new System.Drawing.Point(500, 493);
             this.alpha_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.alpha_hitbox.Name = "alpha_hitbox";
             this.alpha_hitbox.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
@@ -3505,7 +3545,7 @@ namespace plt0_gui
             this.no_alpha_ck.Enabled = false;
             this.no_alpha_ck.ErrorImage = null;
             this.no_alpha_ck.InitialImage = null;
-            this.no_alpha_ck.Location = new System.Drawing.Point(503, 448);
+            this.no_alpha_ck.Location = new System.Drawing.Point(503, 429);
             this.no_alpha_ck.Margin = new System.Windows.Forms.Padding(0);
             this.no_alpha_ck.Name = "no_alpha_ck";
             this.no_alpha_ck.Size = new System.Drawing.Size(64, 64);
@@ -3518,7 +3558,7 @@ namespace plt0_gui
             this.no_alpha_label.BackColor = System.Drawing.Color.Transparent;
             this.no_alpha_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.no_alpha_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.no_alpha_label.Location = new System.Drawing.Point(571, 448);
+            this.no_alpha_label.Location = new System.Drawing.Point(571, 429);
             this.no_alpha_label.Margin = new System.Windows.Forms.Padding(0);
             this.no_alpha_label.Name = "no_alpha_label";
             this.no_alpha_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -3535,7 +3575,7 @@ namespace plt0_gui
             this.no_alpha_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.no_alpha_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.no_alpha_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.no_alpha_hitbox.Location = new System.Drawing.Point(500, 448);
+            this.no_alpha_hitbox.Location = new System.Drawing.Point(500, 429);
             this.no_alpha_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.no_alpha_hitbox.Name = "no_alpha_hitbox";
             this.no_alpha_hitbox.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
@@ -3551,7 +3591,7 @@ namespace plt0_gui
             this.alpha_title.BackColor = System.Drawing.Color.Transparent;
             this.alpha_title.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.alpha_title.ForeColor = System.Drawing.SystemColors.Control;
-            this.alpha_title.Location = new System.Drawing.Point(544, 416);
+            this.alpha_title.Location = new System.Drawing.Point(544, 397);
             this.alpha_title.Margin = new System.Windows.Forms.Padding(0);
             this.alpha_title.Name = "alpha_title";
             this.alpha_title.Size = new System.Drawing.Size(74, 20);
@@ -6328,12 +6368,245 @@ namespace plt0_gui
             this.description_surrounding.TabIndex = 472;
             this.description_surrounding.TabStop = false;
             // 
+            // palette_rgb5a3_ck
+            // 
+            this.palette_rgb5a3_ck.BackColor = System.Drawing.Color.Transparent;
+            this.palette_rgb5a3_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.palette_rgb5a3_ck.Enabled = false;
+            this.palette_rgb5a3_ck.ErrorImage = null;
+            this.palette_rgb5a3_ck.InitialImage = null;
+            this.palette_rgb5a3_ck.Location = new System.Drawing.Point(503, 800);
+            this.palette_rgb5a3_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.palette_rgb5a3_ck.Name = "palette_rgb5a3_ck";
+            this.palette_rgb5a3_ck.Size = new System.Drawing.Size(64, 64);
+            this.palette_rgb5a3_ck.TabIndex = 482;
+            this.palette_rgb5a3_ck.TabStop = false;
+            // 
+            // palette_rgb5a3_label
+            // 
+            this.palette_rgb5a3_label.AutoSize = true;
+            this.palette_rgb5a3_label.BackColor = System.Drawing.Color.Transparent;
+            this.palette_rgb5a3_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.palette_rgb5a3_label.ForeColor = System.Drawing.SystemColors.Window;
+            this.palette_rgb5a3_label.Location = new System.Drawing.Point(571, 800);
+            this.palette_rgb5a3_label.Margin = new System.Windows.Forms.Padding(0);
+            this.palette_rgb5a3_label.Name = "palette_rgb5a3_label";
+            this.palette_rgb5a3_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.palette_rgb5a3_label.Size = new System.Drawing.Size(108, 64);
+            this.palette_rgb5a3_label.TabIndex = 480;
+            this.palette_rgb5a3_label.Text = "RGB5A3";
+            // 
+            // palette_rgb5a3_hitbox
+            // 
+            this.palette_rgb5a3_hitbox.AutoSize = true;
+            this.palette_rgb5a3_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.palette_rgb5a3_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.palette_rgb5a3_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.palette_rgb5a3_hitbox.Location = new System.Drawing.Point(500, 800);
+            this.palette_rgb5a3_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.palette_rgb5a3_hitbox.Name = "palette_rgb5a3_hitbox";
+            this.palette_rgb5a3_hitbox.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
+            this.palette_rgb5a3_hitbox.Size = new System.Drawing.Size(190, 64);
+            this.palette_rgb5a3_hitbox.TabIndex = 481;
+            // 
+            // palette_rgb565_ck
+            // 
+            this.palette_rgb565_ck.BackColor = System.Drawing.Color.Transparent;
+            this.palette_rgb565_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.palette_rgb565_ck.Enabled = false;
+            this.palette_rgb565_ck.ErrorImage = null;
+            this.palette_rgb565_ck.InitialImage = null;
+            this.palette_rgb565_ck.Location = new System.Drawing.Point(503, 736);
+            this.palette_rgb565_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.palette_rgb565_ck.Name = "palette_rgb565_ck";
+            this.palette_rgb565_ck.Size = new System.Drawing.Size(64, 64);
+            this.palette_rgb565_ck.TabIndex = 479;
+            this.palette_rgb565_ck.TabStop = false;
+            // 
+            // palette_rgb565_label
+            // 
+            this.palette_rgb565_label.AutoSize = true;
+            this.palette_rgb565_label.BackColor = System.Drawing.Color.Transparent;
+            this.palette_rgb565_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.palette_rgb565_label.ForeColor = System.Drawing.SystemColors.Window;
+            this.palette_rgb565_label.Location = new System.Drawing.Point(571, 736);
+            this.palette_rgb565_label.Margin = new System.Windows.Forms.Padding(0);
+            this.palette_rgb565_label.Name = "palette_rgb565_label";
+            this.palette_rgb565_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.palette_rgb565_label.Size = new System.Drawing.Size(107, 64);
+            this.palette_rgb565_label.TabIndex = 477;
+            this.palette_rgb565_label.Text = "RGB565";
+            // 
+            // palette_rgb565_hitbox
+            // 
+            this.palette_rgb565_hitbox.AutoSize = true;
+            this.palette_rgb565_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.palette_rgb565_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.palette_rgb565_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.palette_rgb565_hitbox.Location = new System.Drawing.Point(500, 736);
+            this.palette_rgb565_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.palette_rgb565_hitbox.Name = "palette_rgb565_hitbox";
+            this.palette_rgb565_hitbox.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
+            this.palette_rgb565_hitbox.Size = new System.Drawing.Size(190, 64);
+            this.palette_rgb565_hitbox.TabIndex = 478;
+            // 
+            // palette_ai8_ck
+            // 
+            this.palette_ai8_ck.BackColor = System.Drawing.Color.Transparent;
+            this.palette_ai8_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.palette_ai8_ck.Enabled = false;
+            this.palette_ai8_ck.ErrorImage = null;
+            this.palette_ai8_ck.InitialImage = null;
+            this.palette_ai8_ck.Location = new System.Drawing.Point(503, 672);
+            this.palette_ai8_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.palette_ai8_ck.Name = "palette_ai8_ck";
+            this.palette_ai8_ck.Size = new System.Drawing.Size(64, 64);
+            this.palette_ai8_ck.TabIndex = 476;
+            this.palette_ai8_ck.TabStop = false;
+            // 
+            // palette_ai8_label
+            // 
+            this.palette_ai8_label.AutoSize = true;
+            this.palette_ai8_label.BackColor = System.Drawing.Color.Transparent;
+            this.palette_ai8_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.palette_ai8_label.ForeColor = System.Drawing.SystemColors.Window;
+            this.palette_ai8_label.Location = new System.Drawing.Point(571, 672);
+            this.palette_ai8_label.Margin = new System.Windows.Forms.Padding(0);
+            this.palette_ai8_label.Name = "palette_ai8_label";
+            this.palette_ai8_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.palette_ai8_label.Size = new System.Drawing.Size(48, 64);
+            this.palette_ai8_label.TabIndex = 474;
+            this.palette_ai8_label.Text = "AI8";
+            // 
+            // palette_ai8_hitbox
+            // 
+            this.palette_ai8_hitbox.AutoSize = true;
+            this.palette_ai8_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.palette_ai8_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.palette_ai8_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.palette_ai8_hitbox.Location = new System.Drawing.Point(500, 672);
+            this.palette_ai8_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.palette_ai8_hitbox.Name = "palette_ai8_hitbox";
+            this.palette_ai8_hitbox.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
+            this.palette_ai8_hitbox.Size = new System.Drawing.Size(190, 64);
+            this.palette_ai8_hitbox.TabIndex = 475;
+            // 
+            // palette_label
+            // 
+            this.palette_label.AutoSize = true;
+            this.palette_label.BackColor = System.Drawing.Color.Transparent;
+            this.palette_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.palette_label.ForeColor = System.Drawing.SystemColors.Control;
+            this.palette_label.Location = new System.Drawing.Point(498, 642);
+            this.palette_label.Margin = new System.Windows.Forms.Padding(0);
+            this.palette_label.Name = "palette_label";
+            this.palette_label.Size = new System.Drawing.Size(186, 20);
+            this.palette_label.TabIndex = 473;
+            this.palette_label.Text = "Palette Format";
+            // 
+            // github_ck
+            // 
+            this.github_ck.BackColor = System.Drawing.Color.Transparent;
+            this.github_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.github_ck.Enabled = false;
+            this.github_ck.ErrorImage = null;
+            this.github_ck.InitialImage = null;
+            this.github_ck.Location = new System.Drawing.Point(1711, 0);
+            this.github_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.github_ck.Name = "github_ck";
+            this.github_ck.Size = new System.Drawing.Size(32, 32);
+            this.github_ck.TabIndex = 484;
+            this.github_ck.TabStop = false;
+            // 
+            // github_hitbox
+            // 
+            this.github_hitbox.AutoSize = true;
+            this.github_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.github_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.github_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.github_hitbox.Location = new System.Drawing.Point(1711, 0);
+            this.github_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.github_hitbox.Name = "github_hitbox";
+            this.github_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
+            this.github_hitbox.Size = new System.Drawing.Size(32, 32);
+            this.github_hitbox.TabIndex = 483;
+            // 
+            // youtube_ck
+            // 
+            this.youtube_ck.BackColor = System.Drawing.Color.Transparent;
+            this.youtube_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.youtube_ck.Enabled = false;
+            this.youtube_ck.ErrorImage = null;
+            this.youtube_ck.InitialImage = null;
+            this.youtube_ck.Location = new System.Drawing.Point(1743, 0);
+            this.youtube_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.youtube_ck.Name = "youtube_ck";
+            this.youtube_ck.Size = new System.Drawing.Size(32, 32);
+            this.youtube_ck.TabIndex = 486;
+            this.youtube_ck.TabStop = false;
+            // 
+            // youtube_hitbox
+            // 
+            this.youtube_hitbox.AutoSize = true;
+            this.youtube_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.youtube_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.youtube_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.youtube_hitbox.Location = new System.Drawing.Point(1743, 0);
+            this.youtube_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.youtube_hitbox.Name = "youtube_hitbox";
+            this.youtube_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
+            this.youtube_hitbox.Size = new System.Drawing.Size(32, 32);
+            this.youtube_hitbox.TabIndex = 485;
+            // 
+            // discord_ck
+            // 
+            this.discord_ck.BackColor = System.Drawing.Color.Transparent;
+            this.discord_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.discord_ck.Enabled = false;
+            this.discord_ck.ErrorImage = null;
+            this.discord_ck.InitialImage = null;
+            this.discord_ck.Location = new System.Drawing.Point(1679, 0);
+            this.discord_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.discord_ck.Name = "discord_ck";
+            this.discord_ck.Size = new System.Drawing.Size(32, 32);
+            this.discord_ck.TabIndex = 488;
+            this.discord_ck.TabStop = false;
+            // 
+            // discord_hitbox
+            // 
+            this.discord_hitbox.AutoSize = true;
+            this.discord_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.discord_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.discord_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.discord_hitbox.Location = new System.Drawing.Point(1679, 0);
+            this.discord_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.discord_hitbox.Name = "discord_hitbox";
+            this.discord_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
+            this.discord_hitbox.Size = new System.Drawing.Size(32, 32);
+            this.discord_hitbox.TabIndex = 487;
+            // 
             // plt0_gui
             // 
             this.AllowDrop = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1920, 1080);
+            this.ClientSize = new System.Drawing.Size(1920, 1061);
+            this.Controls.Add(this.discord_ck);
+            this.Controls.Add(this.discord_hitbox);
+            this.Controls.Add(this.youtube_ck);
+            this.Controls.Add(this.youtube_hitbox);
+            this.Controls.Add(this.github_ck);
+            this.Controls.Add(this.github_hitbox);
+            this.Controls.Add(this.palette_rgb5a3_ck);
+            this.Controls.Add(this.palette_rgb5a3_label);
+            this.Controls.Add(this.palette_rgb5a3_hitbox);
+            this.Controls.Add(this.palette_rgb565_ck);
+            this.Controls.Add(this.palette_rgb565_label);
+            this.Controls.Add(this.palette_rgb565_hitbox);
+            this.Controls.Add(this.palette_ai8_ck);
+            this.Controls.Add(this.palette_ai8_label);
+            this.Controls.Add(this.palette_ai8_hitbox);
+            this.Controls.Add(this.palette_label);
             this.Controls.Add(this.description);
             this.Controls.Add(this.description_title);
             this.Controls.Add(this.custom_rgba_label);
@@ -6761,6 +7034,12 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.cli_textbox_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.run_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.description_surrounding)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.palette_rgb5a3_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.palette_rgb565_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.palette_ai8_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.github_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.youtube_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.discord_ck)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -10637,6 +10916,69 @@ namespace plt0_gui
                     custom_a_txt.Text = custom_a_txt.Text.Substring(0, len - 1);
                 }
             }
+        }
+        private void palette_AI8_Click(object sender, EventArgs e)
+        {
+            unchecked_palette(palette_ck[palette_enc]);
+            palette_enc = 0;
+        }
+        private void palette_AI8_MouseEnter(object sender, EventArgs e)
+        {
+            description.Text = lines[151];
+            if (palette_enc == 0)
+                selected_palette(palette_ai8_ck)();
+            else
+                hover_palette(palette_ai8_ck)();
+        }
+        private void palette_AI8_MouseLeave(object sender, EventArgs e)
+        {
+            description.Text = "";
+            if (palette_enc == 0)
+                checked_palette(palette_ai8_ck)();
+            else
+                unchecked_palette(palette_ai8_ck)();
+        }
+        private void palette_RGB565_Click(object sender, EventArgs e)
+        {
+            unchecked_palette(palette_ck[palette_enc]);
+            palette_enc = 1;
+        }
+        private void palette_RGB565_MouseEnter(object sender, EventArgs e)
+        {
+            description.Text = lines[152];
+            if (palette_enc == 1)
+                selected_palette(palette_rgb565_ck)();
+            else
+                hover_palette(palette_rgb565_ck)();
+        }
+        private void palette_RGB565_MouseLeave(object sender, EventArgs e)
+        {
+            description.Text = "";
+            if (palette_enc == 1)
+                checked_palette(palette_rgb565_ck)();
+            else
+                unchecked_palette(palette_rgb565_ck)();
+        }
+        private void palette_RGB5A3_Click(object sender, EventArgs e)
+        {
+            unchecked_palette(palette_ck[palette_enc]);
+            palette_enc = 2;
+        }
+        private void palette_RGB5A3_MouseEnter(object sender, EventArgs e)
+        {
+            description.Text = lines[153];
+            if (palette_enc == 2)
+                selected_palette(palette_rgb5a3_ck)();
+            else
+                hover_palette(palette_rgb5a3_ck)();
+        }
+        private void palette_RGB5A3_MouseLeave(object sender, EventArgs e)
+        {
+            description.Text = "";
+            if (palette_enc == 2)
+                checked_palette(palette_rgb5a3_ck)();
+            else
+                unchecked_palette(palette_rgb5a3_ck)();
         }
     }
 }

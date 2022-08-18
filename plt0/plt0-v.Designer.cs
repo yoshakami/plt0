@@ -315,6 +315,22 @@
         private System.Windows.Forms.Label description_title;
         private System.Windows.Forms.Label description;
         private System.Windows.Forms.PictureBox description_surrounding;
+        private System.Windows.Forms.PictureBox palette_rgb5a3_ck;
+        private System.Windows.Forms.Label palette_rgb5a3_label;
+        private System.Windows.Forms.Label palette_rgb5a3_hitbox;
+        private System.Windows.Forms.PictureBox palette_rgb565_ck;
+        private System.Windows.Forms.Label palette_rgb565_label;
+        private System.Windows.Forms.Label palette_rgb565_hitbox;
+        private System.Windows.Forms.PictureBox palette_ai8_ck;
+        private System.Windows.Forms.Label palette_ai8_label;
+        private System.Windows.Forms.Label palette_ai8_hitbox;
+        private System.Windows.Forms.Label palette_label;
+        private System.Windows.Forms.PictureBox github_ck;
+        private System.Windows.Forms.Label github_hitbox;
+        private System.Windows.Forms.PictureBox youtube_ck;
+        private System.Windows.Forms.Label youtube_hitbox;
+        private System.Windows.Forms.PictureBox discord_ck;
+        private System.Windows.Forms.Label discord_hitbox;
         /*
 /// <summary>
 /// Required designer variable.
