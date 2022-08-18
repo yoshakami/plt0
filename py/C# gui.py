@@ -604,6 +604,33 @@ for q in range(len(palette_enc)):
             else
                 unchecked_palette(palette_""" + palette_enc[q].lower() + """_ck);
         }"""
+banner_icon = ["discord", "github", "youtube"]
+link = ["https://discord.gg/4bpfqDJXnU", "https://github.com/yoshi2999/plt0/releases", 
+for r in range(3):
+x += 1
+    output += """
+        private void """ + banner_icon[r] + """_Click(object sender, EventArgs e)
+        {
+            // launch webbrowser
+            System.Diagnostics.Process.Start("https://google.com");
+        }
+        private void """ + banner_icon[q] + """_MouseEnter(object sender, EventArgs e)
+        {
+            description.Text = lines[""" + str(x) + """];
+            if (palette_enc == """ + str(q) + """)
+                selected_palette(palette_""" + palette_enc[q].lower() + """_ck);
+            else
+                hover_palette(palette_""" + palette_enc[q].lower() + """_ck);
+        }
+        private void palette_""" + banner_icon[q] + """_MouseLeave(object sender, EventArgs e)
+        {
+            description.Text = "";
+            if (palette_enc == """ + str(q) + """)
+                checked_palette(palette_""" + palette_enc[q].lower() + """_ck);
+            else
+                unchecked_palette(palette_""" + palette_enc[q].lower() + """_ck);
+        }"""
+
 output += """
     }
 }
