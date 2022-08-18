@@ -536,6 +536,7 @@ for n in range(2):
             }
         }"""
 for p in range(3):
+    x += 1
     output += """
         private void """ + textbox[p][:-4] + """_MouseEnter(object sender, EventArgs e)
         {
@@ -550,6 +551,7 @@ for p in range(3):
             """ + textbox[p] + """.Text = """ + textbox[p] + """.Text;
         }"""
 for o in range(3, len(textbox)):
+    x += 1
     output += """
         private void """ + textbox[o][:-4] + """_MouseEnter(object sender, EventArgs e)
         {
@@ -562,18 +564,18 @@ for o in range(3, len(textbox)):
         private void """ + textbox[o][:-4] + """_TextChanged(object sender, EventArgs e)
         {
             len = """ + textbox[o] + """.Text.Length;
-            if (""" + textbox[o] + """.Text.Substring(0, 2) == "0x" || ishex""" + var_type[o] + """(""" + textbox[o] + """.Text.ToLower()))
+            if (""" + textbox[o] + """.Text.Substring(0, 2) == "0x" || ishex""" + var_type[o] + "(" + textbox[o] + """.Text.ToLower()))
             {
-                success = """ + var_type[o] + """.TryParse(""" + textbox[o] + """.Text.Substring(2, len - 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out """ + textbox[o][:-4] + """);
+                success = """ + var_type[o] + ".TryParse(" + textbox[o] + ".Text.Substring(2, len - 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out " + textbox[o][:-4] + """);
                 if (!success)
-                    """ + textbox[o] + """.Text = """ + textbox[o] + """.Text.Substring(0, len - 1);
+                    """ + textbox[o] + ".Text = " + textbox[o] + """.Text.Substring(0, len - 1);
             }
             else
             {
-                success = byte.TryParse(args[i + 1], out cmpr_max);
+                success = """ + var_type[o] + ".TryParse(" + textbox[o] + ".Text, out " + textbox[o][:-4] + """);
                 if (!success)
                 {
-                    """ + textbox[o] + """.Text = """ + textbox[o] + """.Text.Substring(0, len - 1);
+                    """ + textbox[o] + ".Text = " + textbox[o] + """.Text.Substring(0, len - 1);
                 }
             }
         }"""

@@ -12,6 +12,9 @@ namespace plt0_gui
     {
         string execPath = AppDomain.CurrentDomain.BaseDirectory;
         string[] lines = new string[255];
+        string input_file;
+        string output_name;
+        string input_file2;
         bool success;
         // checkboxes
         bool bmd = false;
@@ -58,15 +61,15 @@ namespace plt0_gui
         byte a = 3;
         // numbers
         byte cmpr_max = 16;  // number of colours that the program should take care in each 4x4 block - should always be set to 16 for better results.  // wimgt's cmpr encoding is better than mine. I gotta admit. 
-        byte cmpr_alpha_threshold = 100;
+        byte cmpr_min_alpha = 100; // byte cmpr_alpha_threshold = 100;
         byte diversity = 10;
         byte diversity2 = 0;
-        byte mipmaps_number = 0;
+        byte mipmaps = 0;
         byte round3 = 16;
         byte round4 = 8;
         byte round5 = 4;
         byte round6 = 2;
-        byte color;
+        byte num_colours;
         byte layout;
         byte arrow;
         int len;
@@ -630,6 +633,82 @@ namespace plt0_gui
             {
                 //Output.Text += e.Data.GetData(DataFormats.Text) + "\n";
             }
+        }
+        private bool ishexbyte(string txt)
+        {
+            if (txt.Length > 2)
+                return false;
+            for (byte i = 0; i < txt.Length; i++)
+            {
+                switch (txt[i])
+                {
+                    case '0':
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                    case '9':
+                    case 'a':
+                    case 'b':
+                    case 'c':
+                    case 'd':
+                    case 'e':
+                    case 'f':
+                    case 'A':
+                    case 'B':
+                    case 'C':
+                    case 'D':
+                    case 'E':
+                    case 'F':
+                        // that's a correct hex char
+                        break;
+                    default:
+                        return false;
+                }
+            }
+            return true;
+        }
+        private bool ishexdouble(string txt)
+        {
+            if (txt.Length > 8)
+                return false;
+            for (byte i = 0; i < txt.Length; i++)
+            {
+                switch (txt[i])
+                {
+                    case '0':
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                    case '9':
+                    case 'a':
+                    case 'b':
+                    case 'c':
+                    case 'd':
+                    case 'e':
+                    case 'f':
+                    case 'A':
+                    case 'B':
+                    case 'C':
+                    case 'D':
+                    case 'E':
+                    case 'F':
+                        // that's a correct hex char
+                        break;
+                    default:
+                        return false;
+                }
+            }
+            return true;
         }
         private void unchecked_checkbox(PictureBox checkbox)
         {
@@ -6674,6 +6753,434 @@ namespace plt0_gui
         // generated checkbox behaviour code by the python script in the py folder
         private void Load_Images()
         {
+            if (File.Exists(execPath + "images/banner.png"))
+            {
+                banner = Image.FromFile(execPath + "images/banner.png");
+            }
+            if (File.Exists(execPath + "images/background.png"))
+            {
+                background = Image.FromFile(execPath + "images/background.png");
+            }
+            if (File.Exists(execPath + "images/white_box.png"))
+            {
+                white_box = Image.FromFile(execPath + "images/white_box.png");
+            }
+            if (File.Exists(execPath + "images/light_blue_box.png"))
+            {
+                light_blue_box = Image.FromFile(execPath + "images/light_blue_box.png");
+            }
+            if (File.Exists(execPath + "images/light_blue_check.png"))
+            {
+                light_blue_check = Image.FromFile(execPath + "images/light_blue_check.png");
+            }
+            if (File.Exists(execPath + "images/check.png"))
+            {
+                check = Image.FromFile(execPath + "images/check.png");
+            }
+            if (File.Exists(execPath + "images/pink_circle.png"))
+            {
+                pink_circle = Image.FromFile(execPath + "images/pink_circle.png");
+            }
+            if (File.Exists(execPath + "images/pink_circle_on.png"))
+            {
+                pink_circle_on = Image.FromFile(execPath + "images/pink_circle_on.png");
+            }
+            if (File.Exists(execPath + "images/violet_circle.png"))
+            {
+                violet_circle = Image.FromFile(execPath + "images/violet_circle.png");
+            }
+            if (File.Exists(execPath + "images/violet_circle_on.png"))
+            {
+                violet_circle_on = Image.FromFile(execPath + "images/violet_circle_on.png");
+            }
+            if (File.Exists(execPath + "images/white_circle.png"))
+            {
+                white_circle = Image.FromFile(execPath + "images/white_circle.png");
+            }
+            if (File.Exists(execPath + "images/white_circle_on.png"))
+            {
+                white_circle_on = Image.FromFile(execPath + "images/white_circle_on.png");
+            }
+            if (File.Exists(execPath + "images/green_circle.png"))
+            {
+                green_circle = Image.FromFile(execPath + "images/green_circle.png");
+            }
+            if (File.Exists(execPath + "images/green_circle_on.png"))
+            {
+                green_circle_on = Image.FromFile(execPath + "images/green_circle_on.png");
+            }
+            if (File.Exists(execPath + "images/light_blue_circle.png"))
+            {
+                light_blue_circle = Image.FromFile(execPath + "images/light_blue_circle.png");
+            }
+            if (File.Exists(execPath + "images/light_blue_circle_on.png"))
+            {
+                light_blue_circle_on = Image.FromFile(execPath + "images/light_blue_circle_on.png");
+            }
+            if (File.Exists(execPath + "images/blue_circle.png"))
+            {
+                blue_circle = Image.FromFile(execPath + "images/blue_circle.png");
+            }
+            if (File.Exists(execPath + "images/blue_circle_on.png"))
+            {
+                blue_circle_on = Image.FromFile(execPath + "images/blue_circle_on.png");
+            }
+            if (File.Exists(execPath + "images/light_red_circle.png"))
+            {
+                light_red_circle = Image.FromFile(execPath + "images/light_red_circle.png");
+            }
+            if (File.Exists(execPath + "images/light_red_circle_on.png"))
+            {
+                light_red_circle_on = Image.FromFile(execPath + "images/light_red_circle_on.png");
+            }
+            if (File.Exists(execPath + "images/red_circle.png"))
+            {
+                red_circle = Image.FromFile(execPath + "images/red_circle.png");
+            }
+            if (File.Exists(execPath + "images/red_circle_on.png"))
+            {
+                red_circle_on = Image.FromFile(execPath + "images/red_circle_on.png");
+            }
+            if (File.Exists(execPath + "images/yellow_circle.png"))
+            {
+                yellow_circle = Image.FromFile(execPath + "images/yellow_circle.png");
+            }
+            if (File.Exists(execPath + "images/yellow_circle_on.png"))
+            {
+                yellow_circle_on = Image.FromFile(execPath + "images/yellow_circle_on.png");
+            }
+            if (File.Exists(execPath + "images/orange_circle.png"))
+            {
+                orange_circle = Image.FromFile(execPath + "images/orange_circle.png");
+            }
+            if (File.Exists(execPath + "images/orange_circle_on.png"))
+            {
+                orange_circle_on = Image.FromFile(execPath + "images/orange_circle_on.png");
+            }
+            if (File.Exists(execPath + "images/fushia_circle.png"))
+            {
+                fushia_circle = Image.FromFile(execPath + "images/fushia_circle.png");
+            }
+            if (File.Exists(execPath + "images/fushia_circle_on.png"))
+            {
+                fushia_circle_on = Image.FromFile(execPath + "images/fushia_circle_on.png");
+            }
+            if (File.Exists(execPath + "images/cyan_circle.png"))
+            {
+                cyan_circle = Image.FromFile(execPath + "images/cyan_circle.png");
+            }
+            if (File.Exists(execPath + "images/cyan_circle_on.png"))
+            {
+                cyan_circle_on = Image.FromFile(execPath + "images/cyan_circle_on.png");
+            }
+            if (File.Exists(execPath + "images/cherry_circle.png"))
+            {
+                cherry_circle = Image.FromFile(execPath + "images/cherry_circle.png");
+            }
+            if (File.Exists(execPath + "images/cherry_circle_on.png"))
+            {
+                cherry_circle_on = Image.FromFile(execPath + "images/cherry_circle_on.png");
+            }
+            if (File.Exists(execPath + "images/purple_circle.png"))
+            {
+                purple_circle = Image.FromFile(execPath + "images/purple_circle.png");
+            }
+            if (File.Exists(execPath + "images/purple_circle_on.png"))
+            {
+                purple_circle_on = Image.FromFile(execPath + "images/purple_circle_on.png");
+            }
+            if (File.Exists(execPath + "images/a_on.png"))
+            {
+                a_on = Image.FromFile(execPath + "images/a_on.png");
+            }
+            if (File.Exists(execPath + "images/a_off.png"))
+            {
+                a_off = Image.FromFile(execPath + "images/a_off.png");
+            }
+            if (File.Exists(execPath + "images/a_hover.png"))
+            {
+                a_hover = Image.FromFile(execPath + "images/a_hover.png");
+            }
+            if (File.Exists(execPath + "images/a_selected.png"))
+            {
+                a_selected = Image.FromFile(execPath + "images/a_selected.png");
+            }
+            if (File.Exists(execPath + "images/b_on.png"))
+            {
+                b_on = Image.FromFile(execPath + "images/b_on.png");
+            }
+            if (File.Exists(execPath + "images/b_off.png"))
+            {
+                b_off = Image.FromFile(execPath + "images/b_off.png");
+            }
+            if (File.Exists(execPath + "images/b_hover.png"))
+            {
+                b_hover = Image.FromFile(execPath + "images/b_hover.png");
+            }
+            if (File.Exists(execPath + "images/b_selected.png"))
+            {
+                b_selected = Image.FromFile(execPath + "images/b_selected.png");
+            }
+            if (File.Exists(execPath + "images/g_on.png"))
+            {
+                g_on = Image.FromFile(execPath + "images/g_on.png");
+            }
+            if (File.Exists(execPath + "images/g_off.png"))
+            {
+                g_off = Image.FromFile(execPath + "images/g_off.png");
+            }
+            if (File.Exists(execPath + "images/g_hover.png"))
+            {
+                g_hover = Image.FromFile(execPath + "images/g_hover.png");
+            }
+            if (File.Exists(execPath + "images/g_selected.png"))
+            {
+                g_selected = Image.FromFile(execPath + "images/g_selected.png");
+            }
+            if (File.Exists(execPath + "images/r_on.png"))
+            {
+                r_on = Image.FromFile(execPath + "images/r_on.png");
+            }
+            if (File.Exists(execPath + "images/r_off.png"))
+            {
+                r_off = Image.FromFile(execPath + "images/r_off.png");
+            }
+            if (File.Exists(execPath + "images/r_hover.png"))
+            {
+                r_hover = Image.FromFile(execPath + "images/r_hover.png");
+            }
+            if (File.Exists(execPath + "images/r_selected.png"))
+            {
+                r_selected = Image.FromFile(execPath + "images/r_selected.png");
+            }
+            if (File.Exists(execPath + "images/surrounding.png"))
+            {
+                surrounding = Image.FromFile(execPath + "images/surrounding.png");
+            }
+            if (File.Exists(execPath + "images/all_on.png"))
+            {
+                all_on = Image.FromFile(execPath + "images/all_on.png");
+            }
+            if (File.Exists(execPath + "images/all_off.png"))
+            {
+                all_off = Image.FromFile(execPath + "images/all_off.png");
+            }
+            if (File.Exists(execPath + "images/all_hover.png"))
+            {
+                all_hover = Image.FromFile(execPath + "images/all_hover.png");
+            }
+            if (File.Exists(execPath + "images/all_selected.png"))
+            {
+                all_selected = Image.FromFile(execPath + "images/all_selected.png");
+            }
+            if (File.Exists(execPath + "images/auto_on.png"))
+            {
+                auto_on = Image.FromFile(execPath + "images/auto_on.png");
+            }
+            if (File.Exists(execPath + "images/auto_off.png"))
+            {
+                auto_off = Image.FromFile(execPath + "images/auto_off.png");
+            }
+            if (File.Exists(execPath + "images/auto_hover.png"))
+            {
+                auto_hover = Image.FromFile(execPath + "images/auto_hover.png");
+            }
+            if (File.Exists(execPath + "images/auto_selected.png"))
+            {
+                auto_selected = Image.FromFile(execPath + "images/auto_selected.png");
+            }
+            if (File.Exists(execPath + "images/preview_on.png"))
+            {
+                preview_on = Image.FromFile(execPath + "images/preview_on.png");
+            }
+            if (File.Exists(execPath + "images/preview_off.png"))
+            {
+                preview_off = Image.FromFile(execPath + "images/preview_off.png");
+            }
+            if (File.Exists(execPath + "images/preview_hover.png"))
+            {
+                preview_hover = Image.FromFile(execPath + "images/preview_hover.png");
+            }
+            if (File.Exists(execPath + "images/preview_selected.png"))
+            {
+                preview_selected = Image.FromFile(execPath + "images/preview_selected.png");
+            }
+            if (File.Exists(execPath + "images/paint_on.png"))
+            {
+                paint_on = Image.FromFile(execPath + "images/paint_on.png");
+            }
+            if (File.Exists(execPath + "images/paint_off.png"))
+            {
+                paint_off = Image.FromFile(execPath + "images/paint_off.png");
+            }
+            if (File.Exists(execPath + "images/paint_hover.png"))
+            {
+                paint_hover = Image.FromFile(execPath + "images/paint_hover.png");
+            }
+            if (File.Exists(execPath + "images/paint_selected.png"))
+            {
+                paint_selected = Image.FromFile(execPath + "images/paint_selected.png");
+            }
+            if (File.Exists(execPath + "images/bottom_left_on.png"))
+            {
+                bottom_left_on = Image.FromFile(execPath + "images/bottom_left_on.png");
+            }
+            if (File.Exists(execPath + "images/bottom_left_off.png"))
+            {
+                bottom_left_off = Image.FromFile(execPath + "images/bottom_left_off.png");
+            }
+            if (File.Exists(execPath + "images/bottom_left_hover.png"))
+            {
+                bottom_left_hover = Image.FromFile(execPath + "images/bottom_left_hover.png");
+            }
+            if (File.Exists(execPath + "images/bottom_left_selected.png"))
+            {
+                bottom_left_selected = Image.FromFile(execPath + "images/bottom_left_selected.png");
+            }
+            if (File.Exists(execPath + "images/left_on.png"))
+            {
+                left_on = Image.FromFile(execPath + "images/left_on.png");
+            }
+            if (File.Exists(execPath + "images/left_off.png"))
+            {
+                left_off = Image.FromFile(execPath + "images/left_off.png");
+            }
+            if (File.Exists(execPath + "images/left_hover.png"))
+            {
+                left_hover = Image.FromFile(execPath + "images/left_hover.png");
+            }
+            if (File.Exists(execPath + "images/left_selected.png"))
+            {
+                left_selected = Image.FromFile(execPath + "images/left_selected.png");
+            }
+            if (File.Exists(execPath + "images/top_left_on.png"))
+            {
+                top_left_on = Image.FromFile(execPath + "images/top_left_on.png");
+            }
+            if (File.Exists(execPath + "images/top_left_off.png"))
+            {
+                top_left_off = Image.FromFile(execPath + "images/top_left_off.png");
+            }
+            if (File.Exists(execPath + "images/top_left_hover.png"))
+            {
+                top_left_hover = Image.FromFile(execPath + "images/top_left_hover.png");
+            }
+            if (File.Exists(execPath + "images/top_left_selected.png"))
+            {
+                top_left_selected = Image.FromFile(execPath + "images/top_left_selected.png");
+            }
+            if (File.Exists(execPath + "images/bottom_right_on.png"))
+            {
+                bottom_right_on = Image.FromFile(execPath + "images/bottom_right_on.png");
+            }
+            if (File.Exists(execPath + "images/bottom_right_off.png"))
+            {
+                bottom_right_off = Image.FromFile(execPath + "images/bottom_right_off.png");
+            }
+            if (File.Exists(execPath + "images/bottom_right_hover.png"))
+            {
+                bottom_right_hover = Image.FromFile(execPath + "images/bottom_right_hover.png");
+            }
+            if (File.Exists(execPath + "images/bottom_right_selected.png"))
+            {
+                bottom_right_selected = Image.FromFile(execPath + "images/bottom_right_selected.png");
+            }
+            if (File.Exists(execPath + "images/right_on.png"))
+            {
+                right_on = Image.FromFile(execPath + "images/right_on.png");
+            }
+            if (File.Exists(execPath + "images/right_off.png"))
+            {
+                right_off = Image.FromFile(execPath + "images/right_off.png");
+            }
+            if (File.Exists(execPath + "images/right_hover.png"))
+            {
+                right_hover = Image.FromFile(execPath + "images/right_hover.png");
+            }
+            if (File.Exists(execPath + "images/right_selected.png"))
+            {
+                right_selected = Image.FromFile(execPath + "images/right_selected.png");
+            }
+            if (File.Exists(execPath + "images/top_right_on.png"))
+            {
+                top_right_on = Image.FromFile(execPath + "images/top_right_on.png");
+            }
+            if (File.Exists(execPath + "images/top_right_off.png"))
+            {
+                top_right_off = Image.FromFile(execPath + "images/top_right_off.png");
+            }
+            if (File.Exists(execPath + "images/top_right_hover.png"))
+            {
+                top_right_hover = Image.FromFile(execPath + "images/top_right_hover.png");
+            }
+            if (File.Exists(execPath + "images/top_right_selected.png"))
+            {
+                top_right_selected = Image.FromFile(execPath + "images/top_right_selected.png");
+            }
+            if (File.Exists(execPath + "images/bottom_on.png"))
+            {
+                bottom_on = Image.FromFile(execPath + "images/bottom_on.png");
+            }
+            if (File.Exists(execPath + "images/bottom_off.png"))
+            {
+                bottom_off = Image.FromFile(execPath + "images/bottom_off.png");
+            }
+            if (File.Exists(execPath + "images/bottom_hover.png"))
+            {
+                bottom_hover = Image.FromFile(execPath + "images/bottom_hover.png");
+            }
+            if (File.Exists(execPath + "images/bottom_selected.png"))
+            {
+                bottom_selected = Image.FromFile(execPath + "images/bottom_selected.png");
+            }
+            if (File.Exists(execPath + "images/top_on.png"))
+            {
+                top_on = Image.FromFile(execPath + "images/top_on.png");
+            }
+            if (File.Exists(execPath + "images/top_off.png"))
+            {
+                top_off = Image.FromFile(execPath + "images/top_off.png");
+            }
+            if (File.Exists(execPath + "images/top_hover.png"))
+            {
+                top_hover = Image.FromFile(execPath + "images/top_hover.png");
+            }
+            if (File.Exists(execPath + "images/top_selected.png"))
+            {
+                top_selected = Image.FromFile(execPath + "images/top_selected.png");
+            }
+            if (File.Exists(execPath + "images/close.png"))
+            {
+                close = Image.FromFile(execPath + "images/close.png");
+            }
+            if (File.Exists(execPath + "images/close_hover.png"))
+            {
+                close_hover = Image.FromFile(execPath + "images/close_hover.png");
+            }
+            if (File.Exists(execPath + "images/maximized_on.png"))
+            {
+                maximized_on = Image.FromFile(execPath + "images/maximized_on.png");
+            }
+            if (File.Exists(execPath + "images/maximized_off.png"))
+            {
+                maximized_off = Image.FromFile(execPath + "images/maximized_off.png");
+            }
+            if (File.Exists(execPath + "images/maximized_hover.png"))
+            {
+                maximized_hover = Image.FromFile(execPath + "images/maximized_hover.png");
+            }
+            if (File.Exists(execPath + "images/maximized_selected.png"))
+            {
+                maximized_selected = Image.FromFile(execPath + "images/maximized_selected.png");
+            }
+            if (File.Exists(execPath + "images/minimized.png"))
+            {
+                minimized = Image.FromFile(execPath + "images/minimized.png");
+            }
+            if (File.Exists(execPath + "images/minimized_hover.png"))
+            {
+                minimized_hover = Image.FromFile(execPath + "images/minimized_hover.png");
+            }
         }
         private void bmd_Click(object sender, EventArgs e)
         {
@@ -9715,7 +10222,7 @@ namespace plt0_gui
             }
             else
             {
-                success = byte.TryParse(args[i + 1], out cmpr_max);
+                success = byte.TryParse(mipmaps_txt.Text, out mipmaps);
                 if (!success)
                 {
                     mipmaps_txt.Text = mipmaps_txt.Text.Substring(0, len - 1);
@@ -9741,7 +10248,7 @@ namespace plt0_gui
             }
             else
             {
-                success = byte.TryParse(args[i + 1], out cmpr_max);
+                success = byte.TryParse(cmpr_max_txt.Text, out cmpr_max);
                 if (!success)
                 {
                     cmpr_max_txt.Text = cmpr_max_txt.Text.Substring(0, len - 1);
@@ -9767,7 +10274,7 @@ namespace plt0_gui
             }
             else
             {
-                success = byte.TryParse(args[i + 1], out cmpr_max);
+                success = byte.TryParse(cmpr_min_alpha_txt.Text, out cmpr_min_alpha);
                 if (!success)
                 {
                     cmpr_min_alpha_txt.Text = cmpr_min_alpha_txt.Text.Substring(0, len - 1);
@@ -9793,7 +10300,7 @@ namespace plt0_gui
             }
             else
             {
-                success = byte.TryParse(args[i + 1], out cmpr_max);
+                success = byte.TryParse(num_colours_txt.Text, out num_colours);
                 if (!success)
                 {
                     num_colours_txt.Text = num_colours_txt.Text.Substring(0, len - 1);
@@ -9819,7 +10326,7 @@ namespace plt0_gui
             }
             else
             {
-                success = byte.TryParse(args[i + 1], out cmpr_max);
+                success = byte.TryParse(round3_txt.Text, out round3);
                 if (!success)
                 {
                     round3_txt.Text = round3_txt.Text.Substring(0, len - 1);
@@ -9845,7 +10352,7 @@ namespace plt0_gui
             }
             else
             {
-                success = byte.TryParse(args[i + 1], out cmpr_max);
+                success = byte.TryParse(round4_txt.Text, out round4);
                 if (!success)
                 {
                     round4_txt.Text = round4_txt.Text.Substring(0, len - 1);
@@ -9871,7 +10378,7 @@ namespace plt0_gui
             }
             else
             {
-                success = byte.TryParse(args[i + 1], out cmpr_max);
+                success = byte.TryParse(round5_txt.Text, out round5);
                 if (!success)
                 {
                     round5_txt.Text = round5_txt.Text.Substring(0, len - 1);
@@ -9897,7 +10404,7 @@ namespace plt0_gui
             }
             else
             {
-                success = byte.TryParse(args[i + 1], out cmpr_max);
+                success = byte.TryParse(round6_txt.Text, out round6);
                 if (!success)
                 {
                     round6_txt.Text = round6_txt.Text.Substring(0, len - 1);
@@ -9923,7 +10430,7 @@ namespace plt0_gui
             }
             else
             {
-                success = byte.TryParse(args[i + 1], out cmpr_max);
+                success = byte.TryParse(diversity_txt.Text, out diversity);
                 if (!success)
                 {
                     diversity_txt.Text = diversity_txt.Text.Substring(0, len - 1);
@@ -9949,7 +10456,7 @@ namespace plt0_gui
             }
             else
             {
-                success = byte.TryParse(args[i + 1], out cmpr_max);
+                success = byte.TryParse(diversity2_txt.Text, out diversity2);
                 if (!success)
                 {
                     diversity2_txt.Text = diversity2_txt.Text.Substring(0, len - 1);
@@ -9975,7 +10482,7 @@ namespace plt0_gui
             }
             else
             {
-                success = byte.TryParse(args[i + 1], out cmpr_max);
+                success = double.TryParse(percentage_txt.Text, out percentage);
                 if (!success)
                 {
                     percentage_txt.Text = percentage_txt.Text.Substring(0, len - 1);
@@ -10001,7 +10508,7 @@ namespace plt0_gui
             }
             else
             {
-                success = byte.TryParse(args[i + 1], out cmpr_max);
+                success = double.TryParse(percentage2_txt.Text, out percentage2);
                 if (!success)
                 {
                     percentage2_txt.Text = percentage2_txt.Text.Substring(0, len - 1);
@@ -10027,7 +10534,7 @@ namespace plt0_gui
             }
             else
             {
-                success = byte.TryParse(args[i + 1], out cmpr_max);
+                success = double.TryParse(custom_r_txt.Text, out custom_r);
                 if (!success)
                 {
                     custom_r_txt.Text = custom_r_txt.Text.Substring(0, len - 1);
@@ -10053,7 +10560,7 @@ namespace plt0_gui
             }
             else
             {
-                success = byte.TryParse(args[i + 1], out cmpr_max);
+                success = double.TryParse(custom_g_txt.Text, out custom_g);
                 if (!success)
                 {
                     custom_g_txt.Text = custom_g_txt.Text.Substring(0, len - 1);
@@ -10079,7 +10586,7 @@ namespace plt0_gui
             }
             else
             {
-                success = byte.TryParse(args[i + 1], out cmpr_max);
+                success = double.TryParse(custom_b_txt.Text, out custom_b);
                 if (!success)
                 {
                     custom_b_txt.Text = custom_b_txt.Text.Substring(0, len - 1);
@@ -10105,7 +10612,7 @@ namespace plt0_gui
             }
             else
             {
-                success = byte.TryParse(args[i + 1], out cmpr_max);
+                success = double.TryParse(custom_a_txt.Text, out custom_a);
                 if (!success)
                 {
                     custom_a_txt.Text = custom_a_txt.Text.Substring(0, len - 1);
