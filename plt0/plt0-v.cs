@@ -648,6 +648,8 @@ namespace plt0_gui
         }*/
         private void Parse_byte_text(TextBox txt, byte output, byte max)
         {
+            if (txt.Text == "")
+                return;
             success = false;
             len = txt.Text.Length;
             //if (ishexbyte(txt.Text.Substring(2, len - 2).ToLower()))
@@ -661,8 +663,6 @@ namespace plt0_gui
                         success = int.TryParse(txt.Text.Substring(2, len - 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out number);
                 }
             }
-            if (len > 0)
-            {
                 if (txt.Text[0] == '0' && len > 1)
                     txt.Text = txt.Text.Substring(1);
                 if (!success)
@@ -684,10 +684,11 @@ namespace plt0_gui
                 }
                 else
                     txt.Text = txt.Text.Substring(0, len - 1);
-            }
         }
         private void Parse_ushort_text(TextBox txt, ushort output, ushort max)
         {
+            if (txt.Text == "")
+                return;
             success = false;
             len = txt.Text.Length;
             //if (ishexbyte(txt.Text.Substring(2, len - 2).ToLower()))
