@@ -1,7 +1,7 @@
 import pyperclip
 output = """        private void Load_Images()
         {"""
-x = 48
+x = 58
 with open("X:\\yoshi\\3D Objects\\C#\\plt0\\plt0\\plt0-v.cs", "r") as cs:
     text = cs.read()
     text = text.splitlines()

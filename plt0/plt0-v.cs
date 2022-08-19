@@ -12,6 +12,11 @@ namespace plt0_gui
     {
         string execPath = AppDomain.CurrentDomain.BaseDirectory;
         string[] lines = new string[255];
+        string[] layout_name = {"All", "Auto", "Preview", "Paint"};
+        byte[] block_width_array = { 8, 8, 8, 4, 4, 4, 4, 255, 8, 8, 4, 255, 255, 255, 8 }; // real one to calculate canvas size.
+        //byte[] block_width_array = { 4, 8, 8, 8, 8, 8, 16, 255, 4, 8, 8, 255, 255, 255, 4 }; // altered to match bit-per pixel size.
+        byte[] block_height_array = { 8, 4, 4, 4, 4, 4, 4, 255, 8, 4, 4, 255, 255, 255, 8 }; // 255 = unused image format
+        byte[] block_depth_array = {4, 8, 4, 8, 16, 16, 32, 255, 4, 8, 16, 255, 255, 255, 4};  // for \z
         string input_file;
         string output_name;
         string input_file2;
@@ -81,6 +86,7 @@ namespace plt0_gui
         double custom_g = 1.0;
         double custom_b = 1.0;
         double custom_a = 1.0;
+        List<Label> desc = new List<Label>(); 
         List<PictureBox> encoding_ck = new List<PictureBox>();
         List<PictureBox> palette_ck = new List<PictureBox>();
         List<PictureBox> a_ck = new List<PictureBox>();
@@ -300,6 +306,27 @@ namespace plt0_gui
             palette_ck.Add(palette_rgb565_ck);
             palette_ck.Add(palette_rgb5a3_ck);
             palette_ck.Add(palette_ai8_ck);  // nothing
+            desc.Add(description);
+            desc.Add(description2);
+            desc.Add(description3);
+            desc.Add(description4);
+            desc.Add(description5);
+            desc.Add(description6);
+            desc.Add(description7);
+            desc.Add(description8);
+            desc.Add(description9);
+            desc.Add(description10);
+            desc.Add(description11);
+            desc.Add(description12);
+            desc.Add(description13);
+            desc.Add(description14);
+            desc.Add(description15);
+            desc.Add(description16);
+            desc.Add(description17);
+            desc.Add(description18);
+            desc.Add(description19);
+            desc.Add(description20);
+            desc.Add(description21);
             Load_Images();
             banner_ck.BackgroundImage = banner;
             surrounding_ck.BackgroundImage = surrounding;
@@ -652,9 +679,14 @@ namespace plt0_gui
         {
             font_normal = new System.Drawing.Font(fontname, 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
         }*/
+        // https://stackoverflow.com/questions/616584/how-do-i-get-the-name-of-the-current-executable-in-c
         private string Parse_Markdown(string txt)
         {
-            txt = txt.Replace("\\a", Environment.GetEnvironmentVariable("appdata")).Replace("\\d", input_file_image.PixelFormat.ToString()).Replace("\\e", Environment.).Replace("\\n", "\n");
+            // these are variables. easy to replace
+            txt = txt.Replace("\\a", Environment.GetEnvironmentVariable("appdata")).Replace("\\d", input_file_image.PixelFormat.ToString()).Replace("\\e", System.AppDomain.CurrentDomain.FriendlyName).Replace("\\h", this.Height.ToString()).Replace("\\l", layout_name[layout]).Replace("\\m", mipmaps.ToString()).Replace("\\n", "\n").Replace("\\o", output_name).Replace("\\p", execPath).Replace("\\r", "\r").Replace("\\t", "\t").Replace("\\w", this.Width.ToString()).Replace("\\0", block_width_array[encoding].ToString()).Replace("\\y", block_height_array[encoding].ToString()).Replace("\\z", block_depth_array[encoding].ToString());
+            // implement b, c, f, g, i, j, k, q, s, u, v, x
+            txt.Split(new string[] { "\\j" }, StringSplitOptions.RemoveEmptyEntries);
+            
             return txt;
         }
         private void Parse_byte_text(TextBox txt, byte output, byte max)
@@ -1723,6 +1755,26 @@ namespace plt0_gui
             this.custom_g_hitbox = new System.Windows.Forms.Label();
             this.custom_b_hitbox = new System.Windows.Forms.Label();
             this.custom_a_hitbox = new System.Windows.Forms.Label();
+            this.description2 = new System.Windows.Forms.Label();
+            this.description13 = new System.Windows.Forms.Label();
+            this.description15 = new System.Windows.Forms.Label();
+            this.description16 = new System.Windows.Forms.Label();
+            this.description17 = new System.Windows.Forms.Label();
+            this.description18 = new System.Windows.Forms.Label();
+            this.description19 = new System.Windows.Forms.Label();
+            this.description20 = new System.Windows.Forms.Label();
+            this.description21 = new System.Windows.Forms.Label();
+            this.description3 = new System.Windows.Forms.Label();
+            this.description4 = new System.Windows.Forms.Label();
+            this.description5 = new System.Windows.Forms.Label();
+            this.description6 = new System.Windows.Forms.Label();
+            this.description7 = new System.Windows.Forms.Label();
+            this.description8 = new System.Windows.Forms.Label();
+            this.description9 = new System.Windows.Forms.Label();
+            this.description10 = new System.Windows.Forms.Label();
+            this.description11 = new System.Windows.Forms.Label();
+            this.description12 = new System.Windows.Forms.Label();
+            this.description14 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.bmd_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
@@ -6643,7 +6695,7 @@ namespace plt0_gui
             this.description.BackColor = System.Drawing.Color.Transparent;
             this.description.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.description.ForeColor = System.Drawing.Color.Cyan;
-            this.description.Location = new System.Drawing.Point(703, 576);
+            this.description.Location = new System.Drawing.Point(700, 576);
             this.description.Margin = new System.Windows.Forms.Padding(0);
             this.description.MaximumSize = new System.Drawing.Size(480, 280);
             this.description.MinimumSize = new System.Drawing.Size(480, 280);
@@ -7199,12 +7251,392 @@ namespace plt0_gui
             this.custom_a_hitbox.MouseEnter += new System.EventHandler(this.custom_a_MouseEnter);
             this.custom_a_hitbox.MouseLeave += new System.EventHandler(this.custom_a_MouseLeave);
             // 
+            // description2
+            // 
+            this.description2.AutoSize = true;
+            this.description2.BackColor = System.Drawing.Color.Transparent;
+            this.description2.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.description2.ForeColor = System.Drawing.Color.Cyan;
+            this.description2.Location = new System.Drawing.Point(700, 576);
+            this.description2.Margin = new System.Windows.Forms.Padding(0);
+            this.description2.MaximumSize = new System.Drawing.Size(480, 280);
+            this.description2.MinimumSize = new System.Drawing.Size(480, 280);
+            this.description2.Name = "description2";
+            this.description2.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
+            this.description2.Size = new System.Drawing.Size(480, 280);
+            this.description2.TabIndex = 514;
+            this.description2.Text = "Point to something with your mouse!";
+            this.description2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.description2.Visible = false;
+            // 
+            // description13
+            // 
+            this.description13.AutoSize = true;
+            this.description13.BackColor = System.Drawing.Color.Transparent;
+            this.description13.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.description13.ForeColor = System.Drawing.Color.Cyan;
+            this.description13.Location = new System.Drawing.Point(700, 576);
+            this.description13.Margin = new System.Windows.Forms.Padding(0);
+            this.description13.MaximumSize = new System.Drawing.Size(480, 280);
+            this.description13.MinimumSize = new System.Drawing.Size(480, 280);
+            this.description13.Name = "description13";
+            this.description13.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
+            this.description13.Size = new System.Drawing.Size(480, 280);
+            this.description13.TabIndex = 515;
+            this.description13.Text = "Point to something with your mouse!";
+            this.description13.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.description13.Visible = false;
+            // 
+            // description15
+            // 
+            this.description15.AutoSize = true;
+            this.description15.BackColor = System.Drawing.Color.Transparent;
+            this.description15.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.description15.ForeColor = System.Drawing.Color.Cyan;
+            this.description15.Location = new System.Drawing.Point(700, 576);
+            this.description15.Margin = new System.Windows.Forms.Padding(0);
+            this.description15.MaximumSize = new System.Drawing.Size(480, 280);
+            this.description15.MinimumSize = new System.Drawing.Size(480, 280);
+            this.description15.Name = "description15";
+            this.description15.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
+            this.description15.Size = new System.Drawing.Size(480, 280);
+            this.description15.TabIndex = 516;
+            this.description15.Text = "Point to something with your mouse!";
+            this.description15.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.description15.Visible = false;
+            // 
+            // description16
+            // 
+            this.description16.AutoSize = true;
+            this.description16.BackColor = System.Drawing.Color.Transparent;
+            this.description16.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.description16.ForeColor = System.Drawing.Color.Cyan;
+            this.description16.Location = new System.Drawing.Point(700, 576);
+            this.description16.Margin = new System.Windows.Forms.Padding(0);
+            this.description16.MaximumSize = new System.Drawing.Size(480, 280);
+            this.description16.MinimumSize = new System.Drawing.Size(480, 280);
+            this.description16.Name = "description16";
+            this.description16.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
+            this.description16.Size = new System.Drawing.Size(480, 280);
+            this.description16.TabIndex = 517;
+            this.description16.Text = "Point to something with your mouse!";
+            this.description16.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.description16.Visible = false;
+            // 
+            // description17
+            // 
+            this.description17.AutoSize = true;
+            this.description17.BackColor = System.Drawing.Color.Transparent;
+            this.description17.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.description17.ForeColor = System.Drawing.Color.Cyan;
+            this.description17.Location = new System.Drawing.Point(700, 576);
+            this.description17.Margin = new System.Windows.Forms.Padding(0);
+            this.description17.MaximumSize = new System.Drawing.Size(480, 280);
+            this.description17.MinimumSize = new System.Drawing.Size(480, 280);
+            this.description17.Name = "description17";
+            this.description17.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
+            this.description17.Size = new System.Drawing.Size(480, 280);
+            this.description17.TabIndex = 518;
+            this.description17.Text = "Point to something with your mouse!";
+            this.description17.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.description17.Visible = false;
+            // 
+            // description18
+            // 
+            this.description18.AutoSize = true;
+            this.description18.BackColor = System.Drawing.Color.Transparent;
+            this.description18.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.description18.ForeColor = System.Drawing.Color.Cyan;
+            this.description18.Location = new System.Drawing.Point(700, 576);
+            this.description18.Margin = new System.Windows.Forms.Padding(0);
+            this.description18.MaximumSize = new System.Drawing.Size(480, 280);
+            this.description18.MinimumSize = new System.Drawing.Size(480, 280);
+            this.description18.Name = "description18";
+            this.description18.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
+            this.description18.Size = new System.Drawing.Size(480, 280);
+            this.description18.TabIndex = 519;
+            this.description18.Text = "Point to something with your mouse!";
+            this.description18.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.description18.Visible = false;
+            // 
+            // description19
+            // 
+            this.description19.AutoSize = true;
+            this.description19.BackColor = System.Drawing.Color.Transparent;
+            this.description19.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.description19.ForeColor = System.Drawing.Color.Cyan;
+            this.description19.Location = new System.Drawing.Point(700, 576);
+            this.description19.Margin = new System.Windows.Forms.Padding(0);
+            this.description19.MaximumSize = new System.Drawing.Size(480, 280);
+            this.description19.MinimumSize = new System.Drawing.Size(480, 280);
+            this.description19.Name = "description19";
+            this.description19.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
+            this.description19.Size = new System.Drawing.Size(480, 280);
+            this.description19.TabIndex = 520;
+            this.description19.Text = "Point to something with your mouse!";
+            this.description19.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.description19.Visible = false;
+            // 
+            // description20
+            // 
+            this.description20.AutoSize = true;
+            this.description20.BackColor = System.Drawing.Color.Transparent;
+            this.description20.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.description20.ForeColor = System.Drawing.Color.Cyan;
+            this.description20.Location = new System.Drawing.Point(700, 576);
+            this.description20.Margin = new System.Windows.Forms.Padding(0);
+            this.description20.MaximumSize = new System.Drawing.Size(480, 280);
+            this.description20.MinimumSize = new System.Drawing.Size(480, 280);
+            this.description20.Name = "description20";
+            this.description20.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
+            this.description20.Size = new System.Drawing.Size(480, 280);
+            this.description20.TabIndex = 521;
+            this.description20.Text = "Point to something with your mouse!";
+            this.description20.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.description20.Visible = false;
+            // 
+            // description21
+            // 
+            this.description21.AutoSize = true;
+            this.description21.BackColor = System.Drawing.Color.Transparent;
+            this.description21.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.description21.ForeColor = System.Drawing.Color.Cyan;
+            this.description21.Location = new System.Drawing.Point(700, 576);
+            this.description21.Margin = new System.Windows.Forms.Padding(0);
+            this.description21.MaximumSize = new System.Drawing.Size(480, 280);
+            this.description21.MinimumSize = new System.Drawing.Size(480, 280);
+            this.description21.Name = "description21";
+            this.description21.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
+            this.description21.Size = new System.Drawing.Size(480, 280);
+            this.description21.TabIndex = 522;
+            this.description21.Text = "Point to something with your mouse!";
+            this.description21.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.description21.Visible = false;
+            // 
+            // description3
+            // 
+            this.description3.AutoSize = true;
+            this.description3.BackColor = System.Drawing.Color.Transparent;
+            this.description3.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.description3.ForeColor = System.Drawing.Color.Cyan;
+            this.description3.Location = new System.Drawing.Point(700, 576);
+            this.description3.Margin = new System.Windows.Forms.Padding(0);
+            this.description3.MaximumSize = new System.Drawing.Size(480, 280);
+            this.description3.MinimumSize = new System.Drawing.Size(480, 280);
+            this.description3.Name = "description3";
+            this.description3.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
+            this.description3.Size = new System.Drawing.Size(480, 280);
+            this.description3.TabIndex = 523;
+            this.description3.Text = "Point to something with your mouse!";
+            this.description3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.description3.Visible = false;
+            // 
+            // description4
+            // 
+            this.description4.AutoSize = true;
+            this.description4.BackColor = System.Drawing.Color.Transparent;
+            this.description4.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.description4.ForeColor = System.Drawing.Color.Cyan;
+            this.description4.Location = new System.Drawing.Point(700, 576);
+            this.description4.Margin = new System.Windows.Forms.Padding(0);
+            this.description4.MaximumSize = new System.Drawing.Size(480, 280);
+            this.description4.MinimumSize = new System.Drawing.Size(480, 280);
+            this.description4.Name = "description4";
+            this.description4.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
+            this.description4.Size = new System.Drawing.Size(480, 280);
+            this.description4.TabIndex = 524;
+            this.description4.Text = "Point to something with your mouse!";
+            this.description4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.description4.Visible = false;
+            // 
+            // description5
+            // 
+            this.description5.AutoSize = true;
+            this.description5.BackColor = System.Drawing.Color.Transparent;
+            this.description5.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.description5.ForeColor = System.Drawing.Color.Cyan;
+            this.description5.Location = new System.Drawing.Point(700, 576);
+            this.description5.Margin = new System.Windows.Forms.Padding(0);
+            this.description5.MaximumSize = new System.Drawing.Size(480, 280);
+            this.description5.MinimumSize = new System.Drawing.Size(480, 280);
+            this.description5.Name = "description5";
+            this.description5.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
+            this.description5.Size = new System.Drawing.Size(480, 280);
+            this.description5.TabIndex = 525;
+            this.description5.Text = "Point to something with your mouse!";
+            this.description5.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.description5.Visible = false;
+            // 
+            // description6
+            // 
+            this.description6.AutoSize = true;
+            this.description6.BackColor = System.Drawing.Color.Transparent;
+            this.description6.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.description6.ForeColor = System.Drawing.Color.Cyan;
+            this.description6.Location = new System.Drawing.Point(700, 576);
+            this.description6.Margin = new System.Windows.Forms.Padding(0);
+            this.description6.MaximumSize = new System.Drawing.Size(480, 280);
+            this.description6.MinimumSize = new System.Drawing.Size(480, 280);
+            this.description6.Name = "description6";
+            this.description6.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
+            this.description6.Size = new System.Drawing.Size(480, 280);
+            this.description6.TabIndex = 526;
+            this.description6.Text = "Point to something with your mouse!";
+            this.description6.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.description6.Visible = false;
+            // 
+            // description7
+            // 
+            this.description7.AutoSize = true;
+            this.description7.BackColor = System.Drawing.Color.Transparent;
+            this.description7.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.description7.ForeColor = System.Drawing.Color.Cyan;
+            this.description7.Location = new System.Drawing.Point(700, 576);
+            this.description7.Margin = new System.Windows.Forms.Padding(0);
+            this.description7.MaximumSize = new System.Drawing.Size(480, 280);
+            this.description7.MinimumSize = new System.Drawing.Size(480, 280);
+            this.description7.Name = "description7";
+            this.description7.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
+            this.description7.Size = new System.Drawing.Size(480, 280);
+            this.description7.TabIndex = 527;
+            this.description7.Text = "Point to something with your mouse!";
+            this.description7.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.description7.Visible = false;
+            // 
+            // description8
+            // 
+            this.description8.AutoSize = true;
+            this.description8.BackColor = System.Drawing.Color.Transparent;
+            this.description8.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.description8.ForeColor = System.Drawing.Color.Cyan;
+            this.description8.Location = new System.Drawing.Point(700, 576);
+            this.description8.Margin = new System.Windows.Forms.Padding(0);
+            this.description8.MaximumSize = new System.Drawing.Size(480, 280);
+            this.description8.MinimumSize = new System.Drawing.Size(480, 280);
+            this.description8.Name = "description8";
+            this.description8.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
+            this.description8.Size = new System.Drawing.Size(480, 280);
+            this.description8.TabIndex = 528;
+            this.description8.Text = "Point to something with your mouse!";
+            this.description8.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.description8.Visible = false;
+            // 
+            // description9
+            // 
+            this.description9.AutoSize = true;
+            this.description9.BackColor = System.Drawing.Color.Transparent;
+            this.description9.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.description9.ForeColor = System.Drawing.Color.Cyan;
+            this.description9.Location = new System.Drawing.Point(700, 576);
+            this.description9.Margin = new System.Windows.Forms.Padding(0);
+            this.description9.MaximumSize = new System.Drawing.Size(480, 280);
+            this.description9.MinimumSize = new System.Drawing.Size(480, 280);
+            this.description9.Name = "description9";
+            this.description9.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
+            this.description9.Size = new System.Drawing.Size(480, 280);
+            this.description9.TabIndex = 529;
+            this.description9.Text = "Point to something with your mouse!";
+            this.description9.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.description9.Visible = false;
+            // 
+            // description10
+            // 
+            this.description10.AutoSize = true;
+            this.description10.BackColor = System.Drawing.Color.Transparent;
+            this.description10.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.description10.ForeColor = System.Drawing.Color.Cyan;
+            this.description10.Location = new System.Drawing.Point(700, 576);
+            this.description10.Margin = new System.Windows.Forms.Padding(0);
+            this.description10.MaximumSize = new System.Drawing.Size(480, 280);
+            this.description10.MinimumSize = new System.Drawing.Size(480, 280);
+            this.description10.Name = "description10";
+            this.description10.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
+            this.description10.Size = new System.Drawing.Size(480, 280);
+            this.description10.TabIndex = 530;
+            this.description10.Text = "Point to something with your mouse!";
+            this.description10.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.description10.Visible = false;
+            // 
+            // description11
+            // 
+            this.description11.AutoSize = true;
+            this.description11.BackColor = System.Drawing.Color.Transparent;
+            this.description11.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.description11.ForeColor = System.Drawing.Color.Cyan;
+            this.description11.Location = new System.Drawing.Point(700, 576);
+            this.description11.Margin = new System.Windows.Forms.Padding(0);
+            this.description11.MaximumSize = new System.Drawing.Size(480, 280);
+            this.description11.MinimumSize = new System.Drawing.Size(480, 280);
+            this.description11.Name = "description11";
+            this.description11.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
+            this.description11.Size = new System.Drawing.Size(480, 280);
+            this.description11.TabIndex = 531;
+            this.description11.Text = "Point to something with your mouse!";
+            this.description11.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.description11.Visible = false;
+            // 
+            // description12
+            // 
+            this.description12.AutoSize = true;
+            this.description12.BackColor = System.Drawing.Color.Transparent;
+            this.description12.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.description12.ForeColor = System.Drawing.Color.Cyan;
+            this.description12.Location = new System.Drawing.Point(700, 576);
+            this.description12.Margin = new System.Windows.Forms.Padding(0);
+            this.description12.MaximumSize = new System.Drawing.Size(480, 280);
+            this.description12.MinimumSize = new System.Drawing.Size(480, 280);
+            this.description12.Name = "description12";
+            this.description12.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
+            this.description12.Size = new System.Drawing.Size(480, 280);
+            this.description12.TabIndex = 532;
+            this.description12.Text = "Point to something with your mouse!";
+            this.description12.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.description12.Visible = false;
+            // 
+            // description14
+            // 
+            this.description14.AutoSize = true;
+            this.description14.BackColor = System.Drawing.Color.Transparent;
+            this.description14.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.description14.ForeColor = System.Drawing.Color.Cyan;
+            this.description14.Location = new System.Drawing.Point(700, 576);
+            this.description14.Margin = new System.Windows.Forms.Padding(0);
+            this.description14.MaximumSize = new System.Drawing.Size(480, 280);
+            this.description14.MinimumSize = new System.Drawing.Size(480, 280);
+            this.description14.Name = "description14";
+            this.description14.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
+            this.description14.Size = new System.Drawing.Size(480, 280);
+            this.description14.TabIndex = 533;
+            this.description14.Text = "Point to something with your mouse!";
+            this.description14.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.description14.Visible = false;
+            // 
             // plt0_gui
             // 
             this.AllowDrop = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1920, 1061);
+            this.Controls.Add(this.description14);
+            this.Controls.Add(this.description12);
+            this.Controls.Add(this.description11);
+            this.Controls.Add(this.description10);
+            this.Controls.Add(this.description9);
+            this.Controls.Add(this.description8);
+            this.Controls.Add(this.description7);
+            this.Controls.Add(this.description6);
+            this.Controls.Add(this.description5);
+            this.Controls.Add(this.description4);
+            this.Controls.Add(this.description3);
+            this.Controls.Add(this.description21);
+            this.Controls.Add(this.description20);
+            this.Controls.Add(this.description19);
+            this.Controls.Add(this.description18);
+            this.Controls.Add(this.description17);
+            this.Controls.Add(this.description16);
+            this.Controls.Add(this.description15);
+            this.Controls.Add(this.description13);
+            this.Controls.Add(this.description2);
             this.Controls.Add(this.discord_ck);
             this.Controls.Add(this.discord_hitbox);
             this.Controls.Add(this.youtube_ck);
