@@ -210,6 +210,7 @@ namespace plt0_gui
         Image github_hover;
         // I couldn't manage to get external fonts working. this needs to be specified within the app itself :/
         // static string fontname = "Segoe UI";
+        Image input_file_image;
         // Font font_normal = new System.Drawing.Font(fontname, 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
         // Font new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
         public plt0_gui()
@@ -651,6 +652,11 @@ namespace plt0_gui
         {
             font_normal = new System.Drawing.Font(fontname, 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
         }*/
+        private string Parse_Markdown(string txt)
+        {
+            txt = txt.Replace("\\a", Environment.GetEnvironmentVariable("appdata")).Replace("\\d", input_file_image.PixelFormat.ToString()).Replace("\\e", Environment.).Replace("\\n", "\n");
+            return txt;
+        }
         private void Parse_byte_text(TextBox txt, byte output, byte max)
         {
             if (txt.Text == "")
