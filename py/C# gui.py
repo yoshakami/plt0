@@ -36,7 +36,7 @@ for y in booleans:
         }
         private void """ + y + """_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[""" + str(x) + """];
+            description.Text = Parse_Markdown(lines[""" + str(x) + """]);
             if (""" + y + """)
                 selected_checkbox(""" + y + """_ck);
             else
@@ -64,7 +64,7 @@ for z in range(len(encoding)):
         }
         private void """ + encoding[z].upper() + """_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[""" + str(x) + """];
+            description.Text = Parse_Markdown(lines[""" + str(x) + """]);
             if (encoding == """ + str(z) + """)
                 selected_encoding(""" + encoding[z] + """_ck);
             else
@@ -90,7 +90,7 @@ for a in range(len(algorithm)):
         }
         private void """ + algorithm[a] + """_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[""" + str(x) + """];
+            description.Text = Parse_Markdown(lines[""" + str(x) + """]);
             if (algorithm == """ + str(a) + """)
                 selected_algorithm(""" + algorithm[a].lower() + """_ck);
             else
@@ -116,7 +116,7 @@ for b in range(len(alpha)):
         }
         private void """ + alpha[b] + """_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[""" + str(x) + """];
+            description.Text = Parse_Markdown(lines[""" + str(x) + """]);
             if (alpha == """ + str(b) + """)
                 selected_alpha(""" + alpha[b].lower() + """_ck);
             else
@@ -142,7 +142,7 @@ for c in range(3):
         }
         private void WrapS_""" + wrap[c] + """_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[""" + str(x) + """];
+            description.Text = Parse_Markdown(lines[""" + str(x) + """]);
             if (WrapS == """ + str(c) + """)
                 selected_WrapS(S""" + wrap[c].lower() + """_ck);
             else
@@ -167,7 +167,7 @@ for d in range(3):
         }
         private void WrapT_""" + wrap[d] + """_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[""" + str(x) + """];
+            description.Text = Parse_Markdown(lines[""" + str(x) + """]);
             if (WrapT == """ + str(d) + """)
                 selected_WrapT(T""" + wrap[d].lower() + """_ck);
             else
@@ -193,7 +193,7 @@ for e in range(6):
         }
         private void Minification_""" + filter[e] + """_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[""" + str(x) + """];
+            description.Text = Parse_Markdown(lines[""" + str(x) + """]);
             if (minification_filter == """ + str(e) + """)
                 selected_Minification(min_""" + filter[e].lower() + """_ck);
             else
@@ -218,7 +218,7 @@ for f in range(6):
         }
         private void Magnification_""" + filter[f] + """_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[""" + str(x) + """];
+            description.Text = Parse_Markdown(lines[""" + str(x) + """]);
             if (magnification_filter == """ + str(f) + """)
                 selected_Magnification(mag_""" + filter[f].lower() + """_ck);
             else
@@ -262,7 +262,7 @@ for g in channel:  # this looks unreadable because it's packed up instead of pas
         }
         private void """ + g + '_' + channel[h] + """_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[""" + str(x) + """];
+            description.Text = Parse_Markdown(lines[""" + str(x) + """]);
             if (""" + g.lower() + " == " + str(h) + """)
                 selected_""" + channel[h] + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
             else
@@ -296,7 +296,7 @@ for j in range(len(view)):
         }
         private void """ + view[j] + """_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[""" + str(x) + """];
+            description.Text = Parse_Markdown(lines[""" + str(x) + """]);
             if (""" + view[j] + """)
                 Category_selected(""" + view[j] + """_ck);
             else
@@ -337,7 +337,7 @@ for k in range(len(lyt)):
         }
         private void """ + Lyt[k] + """_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[""" + str(x) + """];
+            description.Text = Parse_Markdown(lines[""" + str(x) + """]);
             if (layout == """ + str(k) + """)
                 selected_""" + Lyt[k] + """();
             else
@@ -389,7 +389,7 @@ for l in range(len(banner_common)):
         }
         private void Maximized_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[""" + str(x) + """];
+            description.Text = Parse_Markdown(lines[""" + str(x) + """]);
             if (this.WindowState == FormWindowState.Maximized)
                 banner_5_ck.BackgroundImage = maximized_selected;
             else
@@ -411,7 +411,7 @@ for l in range(len(banner_common)):
         }
         private void """ + banner_common[l] + """_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[""" + str(x) + """];
+            description.Text = Parse_Markdown(lines[""" + str(x) + """]);
             banner_""" + banner_short[l] + """_ck.BackgroundImage = """ + banner_common[l].lower() + """_hover;
         }
         private void """ + banner_common[l] + """_MouseLeave(object sender, EventArgs e)
@@ -462,7 +462,7 @@ for m in range(len(banner)):
         }
         private void """ + banner_long[m] + """_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[""" + str(x) + """];
+            description.Text = Parse_Markdown(lines[""" + str(x) + """]);
             if (arrow == """ + banner[m] + """)
                 selected_""" + banner_long[m] + """();
             else
@@ -543,7 +543,7 @@ for p in range(3):
     output += """
         private void """ + textbox[p][:-4] + """_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[""" + str(x) + """];
+            description.Text = Parse_Markdown(lines[""" + str(x) + """]);
         }
         private void """ + textbox[p][:-4] + """_MouseLeave(object sender, EventArgs e)
         {
@@ -558,7 +558,7 @@ for o in range(3, len(textbox)):
     output += """
         private void """ + textbox[o][:-4] + """_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[""" + str(x) + """];
+            description.Text = Parse_Markdown(lines[""" + str(x) + """]);
         }
         private void """ + textbox[o][:-4] + """_MouseLeave(object sender, EventArgs e)
         {
@@ -580,7 +580,7 @@ for q in range(len(palette_enc)):
         }
         private void palette_""" + palette_enc[q] + """_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[""" + str(x) + """];
+            description.Text = Parse_Markdown(lines[""" + str(x) + """]);
             if (palette_enc == """ + str(q) + """)
                 selected_palette(palette_""" + palette_enc[q].lower() + """_ck);
             else
@@ -606,7 +606,7 @@ for r in range(3):
         }
         private void """ + banner_icon[r] + """_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = lines[""" + str(x) + """];
+            description.Text = Parse_Markdown(lines[""" + str(x) + """]);
             """ + banner_icon[r] + "_ck.BackgroundImage = " + banner_icon[r] + """_hover;
         }
         private void """ + banner_icon[r] + """_MouseLeave(object sender, EventArgs e)
