@@ -512,8 +512,11 @@ textbox = ["input_file_txt",
 "custom_b_txt",
 "custom_a_txt"]
 var_type = ["", "", "",
-"byte", "byte", "byte", "byte", "byte", "byte", "byte", "byte",
+"byte", "byte", "byte", "ushort", "byte", "byte", "byte", "byte",
  "byte", "byte", "double", "double", "double", "double", "double", "double"]
+max_value = [0,0,0,
+255, 16, 255, 65535, 32, 16, 8, 4,
+255, 255, 100.0, 100.0, 255.0, 255.0, 255.0, 255.0]
 name = ["Picture", "Palette"]
 name2 = ["Texture", "bmd or tpl"]
 filter = ["*.bmp;*.png;*.jfif;*.jpg;*.jpeg;*.jpg;*.ico;*.gif;*.tif;*.tiff;*.rle;*.dib", "*.plt0;*.bmp"]
@@ -563,21 +566,7 @@ for o in range(3, len(textbox)):
         }
         private void """ + textbox[o][:-4] + """_TextChanged(object sender, EventArgs e)
         {
-            len = """ + textbox[o] + """.Text.Length;
-            if (""" + textbox[o] + """.Text.Substring(0, 2) == "0x" || ishex""" + var_type[o] + "(" + textbox[o] + """.Text.ToLower()))
-            {
-                success = """ + var_type[o] + ".TryParse(" + textbox[o] + ".Text.Substring(2, len - 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out " + textbox[o][:-4] + """);
-                if (!success)
-                    """ + textbox[o] + ".Text = " + textbox[o] + """.Text.Substring(0, len - 1);
-            }
-            else
-            {
-                success = """ + var_type[o] + ".TryParse(" + textbox[o] + ".Text, out " + textbox[o][:-4] + """);
-                if (!success)
-                {
-                    """ + textbox[o] + ".Text = " + textbox[o] + """.Text.Substring(0, len - 1);
-                }
-            }
+            Parse_""" + var_type[o] + "_text(" + textbox[o] + ", " + textbox[o][:-4] + ", " + str(max_value[o]) + """);
         }"""
 palette_enc = ["AI8", "RGB565", "RGB5A3"]
 for q in range(len(palette_enc)):
@@ -586,6 +575,7 @@ for q in range(len(palette_enc)):
         private void palette_""" + palette_enc[q] + """_Click(object sender, EventArgs e)
         {
             unchecked_palette(palette_ck[palette_enc]);
+            selected_palette(palette_""" + palette_enc[q].lower() + """_ck);
             palette_enc = """ + str(q) + """;
         }
         private void palette_""" + palette_enc[q] + """_MouseEnter(object sender, EventArgs e)

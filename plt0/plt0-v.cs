@@ -73,6 +73,7 @@ namespace plt0_gui
         byte num_colours;
         byte layout;
         byte arrow;
+        int number;
         int len;
         double percentage = 0;
         double percentage2 = 0;
@@ -294,6 +295,10 @@ namespace plt0_gui
             algorithm_ck.Add(custom_ck);
             algorithm_ck.Add(no_gradient_ck);
             algorithm_ck.Add(cie_601_ck);  // nothing
+            palette_ck.Add(palette_ai8_ck);
+            palette_ck.Add(palette_rgb565_ck);
+            palette_ck.Add(palette_rgb5a3_ck);
+            palette_ck.Add(palette_ai8_ck);  // nothing
             Load_Images();
             banner_ck.BackgroundImage = banner;
             surrounding_ck.BackgroundImage = surrounding;
@@ -641,6 +646,142 @@ namespace plt0_gui
         {
             font_normal = new System.Drawing.Font(fontname, 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
         }*/
+        private void Parse_byte_text(TextBox txt, byte output, byte max)
+        {
+            success = false;
+            len = txt.Text.Length;
+            //if (ishexbyte(txt.Text.Substring(2, len - 2).ToLower()))
+            if (len > 1)
+            {
+                if (txt.Text.Substring(0, 2) == "0x")
+                {
+                    if (len == 2)
+                        return;
+                    else
+                        success = int.TryParse(txt.Text.Substring(2, len - 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out number);
+                }
+            }
+            if (len > 0)
+            {
+                if (txt.Text[0] == '0' && len > 1)
+                    txt.Text = txt.Text.Substring(1);
+                if (!success)
+                {
+                    if (ishexchar(txt.Text[0]))
+                        success = int.TryParse(txt.Text.Substring(0, len), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out number);
+                    else
+                        success = int.TryParse(txt.Text, out number);
+                }
+                if (success)
+                {
+                    if (number > max)
+                    {
+                        output = max;
+                        txt.Text = max.ToString();
+                    }
+                    else
+                        output = (byte)number;
+                }
+                else
+                    txt.Text = txt.Text.Substring(0, len - 1);
+            }
+        }
+        private void Parse_ushort_text(TextBox txt, ushort output, ushort max)
+        {
+            success = false;
+            len = txt.Text.Length;
+            //if (ishexbyte(txt.Text.Substring(2, len - 2).ToLower()))
+            if (len > 1)
+            {
+                if (txt.Text.Substring(0, 2) == "0x")
+                {
+                    if (len == 2)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        success = int.TryParse(txt.Text.Substring(2, len - 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out number);
+                    }
+                }
+            }
+            if (txt.Text != "")
+            {
+                if (txt.Text[0] == '0' && len > 1)
+                {
+                    txt.Text = txt.Text.Substring(1);
+                }
+                if (!success && txt.Text != "") // don't ask me why I need to paste it twice. 
+                {
+                    if (ishexchar(txt.Text[0]))
+                    {
+                        success = int.TryParse(txt.Text.Substring(0, len), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out number);
+                    }
+                    else
+                    {
+                        success = int.TryParse(txt.Text, out number);
+                    }
+                }
+                if (success)
+                {
+                    if (number > max)
+                    {
+                        output = max;
+                        txt.Text = max.ToString();
+                    }
+                    else
+                    {
+                        output = (byte)number;
+                    }
+                }
+                else
+                {
+                    txt.Text = txt.Text.Substring(0, len - 1);
+                }
+            }
+        }
+        private void Parse_double_text(TextBox txt, double output, double max)
+        {
+            success = false;
+            len = txt.Text.Length;
+            //if (ishexbyte(txt.Text.Substring(2, len - 2).ToLower()))
+            if (len > 1)
+            {
+                if (txt.Text.Substring(0, 2) == "0x")
+                {
+                    if (len == 2)
+                        return;
+                    else
+                        success = double.TryParse(txt.Text.Substring(2, len - 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out output);
+                }
+            }
+            if (len > 0)
+            {
+                if (!success)
+                {
+                    if (ishexchar(txt.Text[0]))
+                        success = double.TryParse(txt.Text.Substring(0, len), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out output);
+                    else
+                        success = double.TryParse(txt.Text, out output);
+                }
+                if (txt.Text[0] == '0')
+                    if (len > 1)
+                        if (txt.Text[1] != '.')
+                            txt.Text = txt.Text.Substring(1);
+                if (success)
+                {
+                    if (number > max)
+                    {
+                        output = max;
+                        txt.Text = max.ToString();
+                    }
+                    else
+                        output = (double)number;
+                }
+                else
+                    txt.Text = txt.Text.Substring(0, len - 1);
+            }
+        }
         private void plt0_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.Move;
@@ -668,7 +809,7 @@ namespace plt0_gui
             {
                 //Output.Text += e.Data.GetData(DataFormats.Text) + "\n";
             }
-        }
+        }/*
         private bool ishexbyte(string txt)
         {
             if (txt.Length > 2)
@@ -743,6 +884,30 @@ namespace plt0_gui
                         return false;
                 }
             }
+            return true;
+        }*/
+        private bool ishexchar(char txt)
+        {
+            switch (txt)
+            {
+                case 'a':
+                case 'b':
+                case 'c':
+                case 'd':
+                case 'e':
+                case 'f':
+                case 'A':
+                case 'B':
+                case 'C':
+                case 'D':
+                case 'E':
+                case 'F':
+                    // that's a correct hex char
+                    break;
+                default:
+                    return false;
+            }
+
             return true;
         }
         private void unchecked_checkbox(PictureBox checkbox)
@@ -5848,6 +6013,9 @@ namespace plt0_gui
             this.input_file_txt.Name = "input_file_txt";
             this.input_file_txt.Size = new System.Drawing.Size(116, 21);
             this.input_file_txt.TabIndex = 0;
+            this.input_file_txt.TextChanged += new System.EventHandler(this.input_file_TextChanged);
+            this.input_file_txt.MouseEnter += new System.EventHandler(this.input_file_MouseEnter);
+            this.input_file_txt.MouseLeave += new System.EventHandler(this.input_file_MouseLeave);
             // 
             // input_file_label
             // 
@@ -5861,6 +6029,9 @@ namespace plt0_gui
             this.input_file_label.Size = new System.Drawing.Size(111, 20);
             this.input_file_label.TabIndex = 432;
             this.input_file_label.Text = "Input file";
+            this.input_file_label.Click += new System.EventHandler(this.input_file_Click);
+            this.input_file_label.MouseEnter += new System.EventHandler(this.input_file_MouseEnter);
+            this.input_file_label.MouseLeave += new System.EventHandler(this.input_file_MouseLeave);
             // 
             // input_file2_label
             // 
@@ -5874,6 +6045,9 @@ namespace plt0_gui
             this.input_file2_label.Size = new System.Drawing.Size(137, 20);
             this.input_file2_label.TabIndex = 434;
             this.input_file2_label.Text = "Input file 2";
+            this.input_file2_label.Click += new System.EventHandler(this.input_file2_Click);
+            this.input_file2_label.MouseEnter += new System.EventHandler(this.input_file2_MouseEnter);
+            this.input_file2_label.MouseLeave += new System.EventHandler(this.input_file2_MouseLeave);
             // 
             // input_file2_txt
             // 
@@ -5886,6 +6060,9 @@ namespace plt0_gui
             this.input_file2_txt.Name = "input_file2_txt";
             this.input_file2_txt.Size = new System.Drawing.Size(128, 21);
             this.input_file2_txt.TabIndex = 1;
+            this.input_file2_txt.TextChanged += new System.EventHandler(this.input_file2_TextChanged);
+            this.input_file2_txt.MouseEnter += new System.EventHandler(this.input_file2_MouseEnter);
+            this.input_file2_txt.MouseLeave += new System.EventHandler(this.input_file2_MouseLeave);
             // 
             // mipmaps_label
             // 
@@ -5899,6 +6076,8 @@ namespace plt0_gui
             this.mipmaps_label.Size = new System.Drawing.Size(109, 20);
             this.mipmaps_label.TabIndex = 436;
             this.mipmaps_label.Text = "mipmaps";
+            this.mipmaps_label.MouseEnter += new System.EventHandler(this.mipmaps_MouseEnter);
+            this.mipmaps_label.MouseLeave += new System.EventHandler(this.mipmaps_MouseLeave);
             // 
             // mipmaps_txt
             // 
@@ -5913,6 +6092,9 @@ namespace plt0_gui
             this.mipmaps_txt.TabIndex = 3;
             this.mipmaps_txt.Text = "0";
             this.mipmaps_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.mipmaps_txt.TextChanged += new System.EventHandler(this.mipmaps_TextChanged);
+            this.mipmaps_txt.MouseEnter += new System.EventHandler(this.mipmaps_MouseEnter);
+            this.mipmaps_txt.MouseLeave += new System.EventHandler(this.mipmaps_MouseLeave);
             // 
             // diversity_label
             // 
@@ -5926,6 +6108,8 @@ namespace plt0_gui
             this.diversity_label.Size = new System.Drawing.Size(106, 20);
             this.diversity_label.TabIndex = 438;
             this.diversity_label.Text = "diversity";
+            this.diversity_label.MouseEnter += new System.EventHandler(this.diversity_MouseEnter);
+            this.diversity_label.MouseLeave += new System.EventHandler(this.diversity_MouseLeave);
             // 
             // diversity_txt
             // 
@@ -5940,6 +6124,9 @@ namespace plt0_gui
             this.diversity_txt.TabIndex = 7;
             this.diversity_txt.Text = "10";
             this.diversity_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.diversity_txt.TextChanged += new System.EventHandler(this.diversity_TextChanged);
+            this.diversity_txt.MouseEnter += new System.EventHandler(this.diversity_MouseEnter);
+            this.diversity_txt.MouseLeave += new System.EventHandler(this.diversity_MouseLeave);
             // 
             // diversity2_label
             // 
@@ -5953,6 +6140,8 @@ namespace plt0_gui
             this.diversity2_label.Size = new System.Drawing.Size(122, 20);
             this.diversity2_label.TabIndex = 440;
             this.diversity2_label.Text = "diversity2";
+            this.diversity2_label.MouseEnter += new System.EventHandler(this.diversity2_MouseEnter);
+            this.diversity2_label.MouseLeave += new System.EventHandler(this.diversity2_MouseLeave);
             // 
             // diversity2_txt
             // 
@@ -5967,6 +6156,9 @@ namespace plt0_gui
             this.diversity2_txt.TabIndex = 8;
             this.diversity2_txt.Text = "0";
             this.diversity2_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.diversity2_txt.TextChanged += new System.EventHandler(this.diversity2_TextChanged);
+            this.diversity2_txt.MouseEnter += new System.EventHandler(this.diversity2_MouseEnter);
+            this.diversity2_txt.MouseLeave += new System.EventHandler(this.diversity2_MouseLeave);
             // 
             // percentage_label
             // 
@@ -5980,6 +6172,8 @@ namespace plt0_gui
             this.percentage_label.Size = new System.Drawing.Size(141, 20);
             this.percentage_label.TabIndex = 442;
             this.percentage_label.Text = "percentage";
+            this.percentage_label.MouseEnter += new System.EventHandler(this.percentage_MouseEnter);
+            this.percentage_label.MouseLeave += new System.EventHandler(this.percentage_MouseLeave);
             // 
             // percentage_txt
             // 
@@ -5994,6 +6188,9 @@ namespace plt0_gui
             this.percentage_txt.TabIndex = 9;
             this.percentage_txt.Text = "0%";
             this.percentage_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.percentage_txt.TextChanged += new System.EventHandler(this.percentage_TextChanged);
+            this.percentage_txt.MouseEnter += new System.EventHandler(this.percentage_MouseEnter);
+            this.percentage_txt.MouseLeave += new System.EventHandler(this.percentage_MouseLeave);
             // 
             // percentage2_label
             // 
@@ -6007,6 +6204,8 @@ namespace plt0_gui
             this.percentage2_label.Size = new System.Drawing.Size(157, 20);
             this.percentage2_label.TabIndex = 444;
             this.percentage2_label.Text = "percentage2";
+            this.percentage2_label.MouseEnter += new System.EventHandler(this.percentage2_MouseEnter);
+            this.percentage2_label.MouseLeave += new System.EventHandler(this.percentage2_MouseLeave);
             // 
             // percentage2_txt
             // 
@@ -6021,6 +6220,9 @@ namespace plt0_gui
             this.percentage2_txt.TabIndex = 10;
             this.percentage2_txt.Text = "0%";
             this.percentage2_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.percentage2_txt.TextChanged += new System.EventHandler(this.percentage2_TextChanged);
+            this.percentage2_txt.MouseEnter += new System.EventHandler(this.percentage2_MouseEnter);
+            this.percentage2_txt.MouseLeave += new System.EventHandler(this.percentage2_MouseLeave);
             // 
             // cmpr_max_label
             // 
@@ -6034,6 +6236,8 @@ namespace plt0_gui
             this.cmpr_max_label.Size = new System.Drawing.Size(136, 20);
             this.cmpr_max_label.TabIndex = 446;
             this.cmpr_max_label.Text = "CMPR Max";
+            this.cmpr_max_label.MouseEnter += new System.EventHandler(this.cmpr_max_MouseEnter);
+            this.cmpr_max_label.MouseLeave += new System.EventHandler(this.cmpr_max_MouseLeave);
             // 
             // cmpr_max_txt
             // 
@@ -6048,6 +6252,9 @@ namespace plt0_gui
             this.cmpr_max_txt.TabIndex = 4;
             this.cmpr_max_txt.Text = "16";
             this.cmpr_max_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.cmpr_max_txt.TextChanged += new System.EventHandler(this.cmpr_max_TextChanged);
+            this.cmpr_max_txt.MouseEnter += new System.EventHandler(this.cmpr_max_MouseEnter);
+            this.cmpr_max_txt.MouseLeave += new System.EventHandler(this.cmpr_max_MouseLeave);
             // 
             // output_name_label
             // 
@@ -6061,6 +6268,8 @@ namespace plt0_gui
             this.output_name_label.Size = new System.Drawing.Size(161, 20);
             this.output_name_label.TabIndex = 448;
             this.output_name_label.Text = "Output name";
+            this.output_name_label.MouseEnter += new System.EventHandler(this.output_name_MouseEnter);
+            this.output_name_label.MouseLeave += new System.EventHandler(this.output_name_MouseLeave);
             // 
             // output_name_txt
             // 
@@ -6073,6 +6282,9 @@ namespace plt0_gui
             this.output_name_txt.Name = "output_name_txt";
             this.output_name_txt.Size = new System.Drawing.Size(177, 21);
             this.output_name_txt.TabIndex = 2;
+            this.output_name_txt.TextChanged += new System.EventHandler(this.output_name_TextChanged);
+            this.output_name_txt.MouseEnter += new System.EventHandler(this.output_name_MouseEnter);
+            this.output_name_txt.MouseLeave += new System.EventHandler(this.output_name_MouseLeave);
             // 
             // cmpr_min_alpha_label
             // 
@@ -6086,6 +6298,8 @@ namespace plt0_gui
             this.cmpr_min_alpha_label.Size = new System.Drawing.Size(200, 20);
             this.cmpr_min_alpha_label.TabIndex = 450;
             this.cmpr_min_alpha_label.Text = "CMPR Min alpha";
+            this.cmpr_min_alpha_label.MouseEnter += new System.EventHandler(this.cmpr_min_alpha_MouseEnter);
+            this.cmpr_min_alpha_label.MouseLeave += new System.EventHandler(this.cmpr_min_alpha_MouseLeave);
             // 
             // cmpr_min_alpha_txt
             // 
@@ -6100,6 +6314,9 @@ namespace plt0_gui
             this.cmpr_min_alpha_txt.TabIndex = 5;
             this.cmpr_min_alpha_txt.Text = "100";
             this.cmpr_min_alpha_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.cmpr_min_alpha_txt.TextChanged += new System.EventHandler(this.cmpr_min_alpha_TextChanged);
+            this.cmpr_min_alpha_txt.MouseEnter += new System.EventHandler(this.cmpr_min_alpha_MouseEnter);
+            this.cmpr_min_alpha_txt.MouseLeave += new System.EventHandler(this.cmpr_min_alpha_MouseLeave);
             // 
             // num_colours_label
             // 
@@ -6113,6 +6330,8 @@ namespace plt0_gui
             this.num_colours_label.Size = new System.Drawing.Size(152, 20);
             this.num_colours_label.TabIndex = 452;
             this.num_colours_label.Text = "num colours";
+            this.num_colours_label.MouseEnter += new System.EventHandler(this.num_colours_MouseEnter);
+            this.num_colours_label.MouseLeave += new System.EventHandler(this.num_colours_MouseLeave);
             // 
             // num_colours_txt
             // 
@@ -6126,6 +6345,9 @@ namespace plt0_gui
             this.num_colours_txt.Size = new System.Drawing.Size(141, 21);
             this.num_colours_txt.TabIndex = 6;
             this.num_colours_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_colours_txt.TextChanged += new System.EventHandler(this.num_colours_TextChanged);
+            this.num_colours_txt.MouseEnter += new System.EventHandler(this.num_colours_MouseEnter);
+            this.num_colours_txt.MouseLeave += new System.EventHandler(this.num_colours_MouseLeave);
             // 
             // round3_label
             // 
@@ -6139,6 +6361,8 @@ namespace plt0_gui
             this.round3_label.Size = new System.Drawing.Size(91, 20);
             this.round3_label.TabIndex = 454;
             this.round3_label.Text = "round3";
+            this.round3_label.MouseEnter += new System.EventHandler(this.round3_MouseEnter);
+            this.round3_label.MouseLeave += new System.EventHandler(this.round3_MouseLeave);
             // 
             // round3_txt
             // 
@@ -6153,6 +6377,9 @@ namespace plt0_gui
             this.round3_txt.TabIndex = 11;
             this.round3_txt.Text = "16";
             this.round3_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.round3_txt.TextChanged += new System.EventHandler(this.round3_TextChanged);
+            this.round3_txt.MouseEnter += new System.EventHandler(this.round3_MouseEnter);
+            this.round3_txt.MouseLeave += new System.EventHandler(this.round3_MouseLeave);
             // 
             // round4_label
             // 
@@ -6166,6 +6393,8 @@ namespace plt0_gui
             this.round4_label.Size = new System.Drawing.Size(91, 20);
             this.round4_label.TabIndex = 456;
             this.round4_label.Text = "round4";
+            this.round4_label.MouseEnter += new System.EventHandler(this.round4_MouseEnter);
+            this.round4_label.MouseLeave += new System.EventHandler(this.round4_MouseLeave);
             // 
             // round4_txt
             // 
@@ -6180,6 +6409,9 @@ namespace plt0_gui
             this.round4_txt.TabIndex = 12;
             this.round4_txt.Text = "8";
             this.round4_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.round4_txt.TextChanged += new System.EventHandler(this.round4_TextChanged);
+            this.round4_txt.MouseEnter += new System.EventHandler(this.round4_MouseEnter);
+            this.round4_txt.MouseLeave += new System.EventHandler(this.round4_MouseLeave);
             // 
             // round5_label
             // 
@@ -6193,6 +6425,8 @@ namespace plt0_gui
             this.round5_label.Size = new System.Drawing.Size(91, 20);
             this.round5_label.TabIndex = 458;
             this.round5_label.Text = "round5";
+            this.round5_label.MouseEnter += new System.EventHandler(this.round5_MouseEnter);
+            this.round5_label.MouseLeave += new System.EventHandler(this.round5_MouseLeave);
             // 
             // round5_txt
             // 
@@ -6207,6 +6441,9 @@ namespace plt0_gui
             this.round5_txt.TabIndex = 13;
             this.round5_txt.Text = "4";
             this.round5_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.round5_txt.TextChanged += new System.EventHandler(this.round5_TextChanged);
+            this.round5_txt.MouseEnter += new System.EventHandler(this.round5_MouseEnter);
+            this.round5_txt.MouseLeave += new System.EventHandler(this.round5_MouseLeave);
             // 
             // round6_label
             // 
@@ -6220,6 +6457,8 @@ namespace plt0_gui
             this.round6_label.Size = new System.Drawing.Size(91, 20);
             this.round6_label.TabIndex = 460;
             this.round6_label.Text = "round6";
+            this.round6_label.MouseEnter += new System.EventHandler(this.round6_MouseEnter);
+            this.round6_label.MouseLeave += new System.EventHandler(this.round6_MouseLeave);
             // 
             // round6_txt
             // 
@@ -6234,6 +6473,9 @@ namespace plt0_gui
             this.round6_txt.TabIndex = 14;
             this.round6_txt.Text = "2";
             this.round6_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.round6_txt.TextChanged += new System.EventHandler(this.round6_TextChanged);
+            this.round6_txt.MouseEnter += new System.EventHandler(this.round6_MouseEnter);
+            this.round6_txt.MouseLeave += new System.EventHandler(this.round6_MouseLeave);
             // 
             // custom_a_label
             // 
@@ -6247,6 +6489,8 @@ namespace plt0_gui
             this.custom_a_label.Size = new System.Drawing.Size(26, 20);
             this.custom_a_label.TabIndex = 468;
             this.custom_a_label.Text = "A";
+            this.custom_a_label.MouseEnter += new System.EventHandler(this.custom_a_MouseEnter);
+            this.custom_a_label.MouseLeave += new System.EventHandler(this.custom_a_MouseLeave);
             // 
             // custom_a_txt
             // 
@@ -6261,6 +6505,9 @@ namespace plt0_gui
             this.custom_a_txt.TabIndex = 18;
             this.custom_a_txt.Text = "1.0";
             this.custom_a_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.custom_a_txt.TextChanged += new System.EventHandler(this.custom_a_TextChanged);
+            this.custom_a_txt.MouseEnter += new System.EventHandler(this.custom_a_MouseEnter);
+            this.custom_a_txt.MouseLeave += new System.EventHandler(this.custom_a_MouseLeave);
             // 
             // custom_b_label
             // 
@@ -6274,6 +6521,8 @@ namespace plt0_gui
             this.custom_b_label.Size = new System.Drawing.Size(25, 20);
             this.custom_b_label.TabIndex = 466;
             this.custom_b_label.Text = "B";
+            this.custom_b_label.MouseEnter += new System.EventHandler(this.custom_b_MouseEnter);
+            this.custom_b_label.MouseLeave += new System.EventHandler(this.custom_b_MouseLeave);
             // 
             // custom_b_txt
             // 
@@ -6288,6 +6537,9 @@ namespace plt0_gui
             this.custom_b_txt.TabIndex = 17;
             this.custom_b_txt.Text = "1.0";
             this.custom_b_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.custom_b_txt.TextChanged += new System.EventHandler(this.custom_b_TextChanged);
+            this.custom_b_txt.MouseEnter += new System.EventHandler(this.custom_b_MouseEnter);
+            this.custom_b_txt.MouseLeave += new System.EventHandler(this.custom_b_MouseLeave);
             // 
             // custom_g_label
             // 
@@ -6301,6 +6553,8 @@ namespace plt0_gui
             this.custom_g_label.Size = new System.Drawing.Size(26, 20);
             this.custom_g_label.TabIndex = 464;
             this.custom_g_label.Text = "G";
+            this.custom_g_label.MouseEnter += new System.EventHandler(this.custom_g_MouseEnter);
+            this.custom_g_label.MouseLeave += new System.EventHandler(this.custom_g_MouseLeave);
             // 
             // custom_g_txt
             // 
@@ -6315,6 +6569,9 @@ namespace plt0_gui
             this.custom_g_txt.TabIndex = 16;
             this.custom_g_txt.Text = "1.0";
             this.custom_g_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.custom_g_txt.TextChanged += new System.EventHandler(this.custom_g_TextChanged);
+            this.custom_g_txt.MouseEnter += new System.EventHandler(this.custom_g_MouseLeave);
+            this.custom_g_txt.MouseLeave += new System.EventHandler(this.custom_b_MouseEnter);
             // 
             // custom_r_label
             // 
@@ -6328,6 +6585,8 @@ namespace plt0_gui
             this.custom_r_label.Size = new System.Drawing.Size(26, 20);
             this.custom_r_label.TabIndex = 462;
             this.custom_r_label.Text = "R";
+            this.custom_r_label.MouseEnter += new System.EventHandler(this.custom_r_MouseEnter);
+            this.custom_r_label.MouseLeave += new System.EventHandler(this.custom_r_MouseLeave);
             // 
             // custom_r_txt
             // 
@@ -6342,6 +6601,9 @@ namespace plt0_gui
             this.custom_r_txt.TabIndex = 15;
             this.custom_r_txt.Text = "1.0";
             this.custom_r_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.custom_r_txt.TextChanged += new System.EventHandler(this.custom_r_TextChanged);
+            this.custom_r_txt.MouseEnter += new System.EventHandler(this.custom_r_MouseEnter);
+            this.custom_r_txt.MouseLeave += new System.EventHandler(this.custom_r_MouseLeave);
             // 
             // custom_rgba_label
             // 
@@ -6428,6 +6690,9 @@ namespace plt0_gui
             this.palette_rgb5a3_label.Size = new System.Drawing.Size(108, 64);
             this.palette_rgb5a3_label.TabIndex = 480;
             this.palette_rgb5a3_label.Text = "RGB5A3";
+            this.palette_rgb5a3_label.Click += new System.EventHandler(this.palette_RGB5A3_Click);
+            this.palette_rgb5a3_label.MouseEnter += new System.EventHandler(this.palette_RGB5A3_MouseEnter);
+            this.palette_rgb5a3_label.MouseLeave += new System.EventHandler(this.palette_RGB5A3_MouseLeave);
             // 
             // palette_rgb5a3_hitbox
             // 
@@ -6441,6 +6706,9 @@ namespace plt0_gui
             this.palette_rgb5a3_hitbox.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
             this.palette_rgb5a3_hitbox.Size = new System.Drawing.Size(190, 64);
             this.palette_rgb5a3_hitbox.TabIndex = 481;
+            this.palette_rgb5a3_hitbox.Click += new System.EventHandler(this.palette_RGB5A3_Click);
+            this.palette_rgb5a3_hitbox.MouseEnter += new System.EventHandler(this.palette_RGB5A3_MouseEnter);
+            this.palette_rgb5a3_hitbox.MouseLeave += new System.EventHandler(this.palette_RGB5A3_MouseLeave);
             // 
             // palette_rgb565_ck
             // 
@@ -6469,6 +6737,9 @@ namespace plt0_gui
             this.palette_rgb565_label.Size = new System.Drawing.Size(107, 64);
             this.palette_rgb565_label.TabIndex = 477;
             this.palette_rgb565_label.Text = "RGB565";
+            this.palette_rgb565_label.Click += new System.EventHandler(this.palette_RGB565_Click);
+            this.palette_rgb565_label.MouseEnter += new System.EventHandler(this.palette_RGB565_MouseEnter);
+            this.palette_rgb565_label.MouseLeave += new System.EventHandler(this.palette_RGB565_MouseLeave);
             // 
             // palette_rgb565_hitbox
             // 
@@ -6482,6 +6753,9 @@ namespace plt0_gui
             this.palette_rgb565_hitbox.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
             this.palette_rgb565_hitbox.Size = new System.Drawing.Size(190, 64);
             this.palette_rgb565_hitbox.TabIndex = 478;
+            this.palette_rgb565_hitbox.Click += new System.EventHandler(this.palette_RGB565_Click);
+            this.palette_rgb565_hitbox.MouseEnter += new System.EventHandler(this.palette_RGB565_MouseEnter);
+            this.palette_rgb565_hitbox.MouseLeave += new System.EventHandler(this.palette_RGB565_MouseLeave);
             // 
             // palette_ai8_ck
             // 
@@ -6510,6 +6784,9 @@ namespace plt0_gui
             this.palette_ai8_label.Size = new System.Drawing.Size(48, 64);
             this.palette_ai8_label.TabIndex = 474;
             this.palette_ai8_label.Text = "AI8";
+            this.palette_ai8_label.Click += new System.EventHandler(this.palette_AI8_Click);
+            this.palette_ai8_label.MouseEnter += new System.EventHandler(this.palette_AI8_MouseEnter);
+            this.palette_ai8_label.MouseLeave += new System.EventHandler(this.palette_AI8_MouseLeave);
             // 
             // palette_ai8_hitbox
             // 
@@ -6523,6 +6800,9 @@ namespace plt0_gui
             this.palette_ai8_hitbox.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
             this.palette_ai8_hitbox.Size = new System.Drawing.Size(190, 64);
             this.palette_ai8_hitbox.TabIndex = 475;
+            this.palette_ai8_hitbox.Click += new System.EventHandler(this.palette_AI8_Click);
+            this.palette_ai8_hitbox.MouseEnter += new System.EventHandler(this.palette_AI8_MouseEnter);
+            this.palette_ai8_hitbox.MouseLeave += new System.EventHandler(this.palette_AI8_MouseLeave);
             // 
             // palette_label
             // 
@@ -6574,7 +6854,7 @@ namespace plt0_gui
             this.youtube_ck.Enabled = false;
             this.youtube_ck.ErrorImage = null;
             this.youtube_ck.InitialImage = null;
-            this.youtube_ck.Location = new System.Drawing.Point(1743, 0);
+            this.youtube_ck.Location = new System.Drawing.Point(1765, 0);
             this.youtube_ck.Margin = new System.Windows.Forms.Padding(0);
             this.youtube_ck.Name = "youtube_ck";
             this.youtube_ck.Size = new System.Drawing.Size(32, 32);
@@ -6587,7 +6867,7 @@ namespace plt0_gui
             this.youtube_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.youtube_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.youtube_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.youtube_hitbox.Location = new System.Drawing.Point(1743, 0);
+            this.youtube_hitbox.Location = new System.Drawing.Point(1765, 0);
             this.youtube_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.youtube_hitbox.Name = "youtube_hitbox";
             this.youtube_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
@@ -6604,7 +6884,7 @@ namespace plt0_gui
             this.discord_ck.Enabled = false;
             this.discord_ck.ErrorImage = null;
             this.discord_ck.InitialImage = null;
-            this.discord_ck.Location = new System.Drawing.Point(1679, 0);
+            this.discord_ck.Location = new System.Drawing.Point(1661, 0);
             this.discord_ck.Margin = new System.Windows.Forms.Padding(0);
             this.discord_ck.Name = "discord_ck";
             this.discord_ck.Size = new System.Drawing.Size(32, 32);
@@ -6617,7 +6897,7 @@ namespace plt0_gui
             this.discord_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.discord_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.discord_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.discord_hitbox.Location = new System.Drawing.Point(1679, 0);
+            this.discord_hitbox.Location = new System.Drawing.Point(1661, 0);
             this.discord_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.discord_hitbox.Name = "discord_hitbox";
             this.discord_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
@@ -6639,6 +6919,9 @@ namespace plt0_gui
             this.input_file_hitbox.Padding = new System.Windows.Forms.Padding(122, 44, 0, 0);
             this.input_file_hitbox.Size = new System.Drawing.Size(122, 64);
             this.input_file_hitbox.TabIndex = 489;
+            this.input_file_hitbox.Click += new System.EventHandler(this.input_file_Click);
+            this.input_file_hitbox.MouseEnter += new System.EventHandler(this.input_file_MouseEnter);
+            this.input_file_hitbox.MouseLeave += new System.EventHandler(this.input_file_MouseLeave);
             // 
             // input_file2_hitbox
             // 
@@ -6652,6 +6935,9 @@ namespace plt0_gui
             this.input_file2_hitbox.Padding = new System.Windows.Forms.Padding(137, 44, 0, 0);
             this.input_file2_hitbox.Size = new System.Drawing.Size(137, 64);
             this.input_file2_hitbox.TabIndex = 490;
+            this.input_file2_hitbox.Click += new System.EventHandler(this.input_file2_Click);
+            this.input_file2_hitbox.MouseEnter += new System.EventHandler(this.input_file2_MouseEnter);
+            this.input_file2_hitbox.MouseLeave += new System.EventHandler(this.input_file2_MouseLeave);
             // 
             // custom_r_hitbox
             // 
@@ -6665,6 +6951,8 @@ namespace plt0_gui
             this.custom_r_hitbox.Padding = new System.Windows.Forms.Padding(70, 34, 0, 0);
             this.custom_r_hitbox.Size = new System.Drawing.Size(70, 54);
             this.custom_r_hitbox.TabIndex = 493;
+            this.custom_r_hitbox.MouseEnter += new System.EventHandler(this.custom_r_MouseEnter);
+            this.custom_r_hitbox.MouseLeave += new System.EventHandler(this.custom_r_MouseLeave);
             // 
             // num_colours_hitbox
             // 
@@ -6678,6 +6966,8 @@ namespace plt0_gui
             this.num_colours_hitbox.Padding = new System.Windows.Forms.Padding(150, 34, 0, 0);
             this.num_colours_hitbox.Size = new System.Drawing.Size(150, 54);
             this.num_colours_hitbox.TabIndex = 497;
+            this.num_colours_hitbox.MouseEnter += new System.EventHandler(this.num_colours_MouseEnter);
+            this.num_colours_hitbox.MouseLeave += new System.EventHandler(this.num_colours_MouseLeave);
             // 
             // diversity_hitbox
             // 
@@ -6691,6 +6981,8 @@ namespace plt0_gui
             this.diversity_hitbox.Padding = new System.Windows.Forms.Padding(107, 34, 0, 0);
             this.diversity_hitbox.Size = new System.Drawing.Size(107, 54);
             this.diversity_hitbox.TabIndex = 498;
+            this.diversity_hitbox.MouseEnter += new System.EventHandler(this.diversity_MouseEnter);
+            this.diversity_hitbox.MouseLeave += new System.EventHandler(this.diversity_MouseLeave);
             // 
             // round3_hitbox
             // 
@@ -6704,6 +6996,8 @@ namespace plt0_gui
             this.round3_hitbox.Padding = new System.Windows.Forms.Padding(107, 34, 0, 0);
             this.round3_hitbox.Size = new System.Drawing.Size(107, 54);
             this.round3_hitbox.TabIndex = 500;
+            this.round3_hitbox.MouseEnter += new System.EventHandler(this.round3_MouseEnter);
+            this.round3_hitbox.MouseLeave += new System.EventHandler(this.round3_MouseLeave);
             // 
             // cmpr_min_alpha_hitbox
             // 
@@ -6717,6 +7011,8 @@ namespace plt0_gui
             this.cmpr_min_alpha_hitbox.Padding = new System.Windows.Forms.Padding(200, 34, 0, 0);
             this.cmpr_min_alpha_hitbox.Size = new System.Drawing.Size(200, 54);
             this.cmpr_min_alpha_hitbox.TabIndex = 501;
+            this.cmpr_min_alpha_hitbox.MouseEnter += new System.EventHandler(this.cmpr_min_alpha_MouseEnter);
+            this.cmpr_min_alpha_hitbox.MouseLeave += new System.EventHandler(this.cmpr_min_alpha_MouseLeave);
             // 
             // cmpr_max_hitbox
             // 
@@ -6730,6 +7026,8 @@ namespace plt0_gui
             this.cmpr_max_hitbox.Padding = new System.Windows.Forms.Padding(137, 34, 0, 0);
             this.cmpr_max_hitbox.Size = new System.Drawing.Size(137, 54);
             this.cmpr_max_hitbox.TabIndex = 502;
+            this.cmpr_max_hitbox.MouseEnter += new System.EventHandler(this.cmpr_max_MouseEnter);
+            this.cmpr_max_hitbox.MouseLeave += new System.EventHandler(this.cmpr_max_MouseLeave);
             // 
             // mipmaps_hitbox
             // 
@@ -6743,6 +7041,8 @@ namespace plt0_gui
             this.mipmaps_hitbox.Padding = new System.Windows.Forms.Padding(107, 34, 0, 0);
             this.mipmaps_hitbox.Size = new System.Drawing.Size(107, 54);
             this.mipmaps_hitbox.TabIndex = 503;
+            this.mipmaps_hitbox.MouseEnter += new System.EventHandler(this.mipmaps_MouseEnter);
+            this.mipmaps_hitbox.MouseLeave += new System.EventHandler(this.mipmaps_MouseLeave);
             // 
             // output_name_hitbox
             // 
@@ -6756,6 +7056,8 @@ namespace plt0_gui
             this.output_name_hitbox.Padding = new System.Windows.Forms.Padding(185, 44, 0, 0);
             this.output_name_hitbox.Size = new System.Drawing.Size(185, 64);
             this.output_name_hitbox.TabIndex = 504;
+            this.output_name_hitbox.MouseEnter += new System.EventHandler(this.output_name_MouseEnter);
+            this.output_name_hitbox.MouseLeave += new System.EventHandler(this.output_name_MouseLeave);
             // 
             // round4_hitbox
             // 
@@ -6769,6 +7071,8 @@ namespace plt0_gui
             this.round4_hitbox.Padding = new System.Windows.Forms.Padding(107, 34, 0, 0);
             this.round4_hitbox.Size = new System.Drawing.Size(107, 54);
             this.round4_hitbox.TabIndex = 505;
+            this.round4_hitbox.MouseEnter += new System.EventHandler(this.round4_MouseEnter);
+            this.round4_hitbox.MouseLeave += new System.EventHandler(this.round4_MouseLeave);
             // 
             // round5_hitbox
             // 
@@ -6782,6 +7086,8 @@ namespace plt0_gui
             this.round5_hitbox.Padding = new System.Windows.Forms.Padding(107, 34, 0, 0);
             this.round5_hitbox.Size = new System.Drawing.Size(107, 54);
             this.round5_hitbox.TabIndex = 506;
+            this.round5_hitbox.MouseEnter += new System.EventHandler(this.round5_MouseEnter);
+            this.round5_hitbox.MouseLeave += new System.EventHandler(this.round5_MouseLeave);
             // 
             // round6_hitbox
             // 
@@ -6795,6 +7101,8 @@ namespace plt0_gui
             this.round6_hitbox.Padding = new System.Windows.Forms.Padding(107, 34, 0, 0);
             this.round6_hitbox.Size = new System.Drawing.Size(107, 54);
             this.round6_hitbox.TabIndex = 507;
+            this.round6_hitbox.MouseEnter += new System.EventHandler(this.round6_MouseEnter);
+            this.round6_hitbox.MouseLeave += new System.EventHandler(this.round6_MouseLeave);
             // 
             // diversity2_hitbox
             // 
@@ -6808,6 +7116,8 @@ namespace plt0_gui
             this.diversity2_hitbox.Padding = new System.Windows.Forms.Padding(124, 34, 0, 0);
             this.diversity2_hitbox.Size = new System.Drawing.Size(124, 54);
             this.diversity2_hitbox.TabIndex = 508;
+            this.diversity2_hitbox.MouseEnter += new System.EventHandler(this.diversity2_MouseEnter);
+            this.diversity2_hitbox.MouseLeave += new System.EventHandler(this.diversity2_MouseLeave);
             // 
             // percentage_hitbox
             // 
@@ -6821,6 +7131,8 @@ namespace plt0_gui
             this.percentage_hitbox.Padding = new System.Windows.Forms.Padding(138, 34, 0, 0);
             this.percentage_hitbox.Size = new System.Drawing.Size(138, 54);
             this.percentage_hitbox.TabIndex = 509;
+            this.percentage_hitbox.MouseEnter += new System.EventHandler(this.percentage_MouseEnter);
+            this.percentage_hitbox.MouseLeave += new System.EventHandler(this.percentage_MouseLeave);
             // 
             // percentage2_hitbox
             // 
@@ -6834,6 +7146,8 @@ namespace plt0_gui
             this.percentage2_hitbox.Padding = new System.Windows.Forms.Padding(150, 34, 0, 0);
             this.percentage2_hitbox.Size = new System.Drawing.Size(150, 54);
             this.percentage2_hitbox.TabIndex = 510;
+            this.percentage2_hitbox.MouseEnter += new System.EventHandler(this.percentage2_MouseEnter);
+            this.percentage2_hitbox.MouseLeave += new System.EventHandler(this.percentage2_MouseLeave);
             // 
             // custom_g_hitbox
             // 
@@ -6847,6 +7161,8 @@ namespace plt0_gui
             this.custom_g_hitbox.Padding = new System.Windows.Forms.Padding(70, 34, 0, 0);
             this.custom_g_hitbox.Size = new System.Drawing.Size(70, 54);
             this.custom_g_hitbox.TabIndex = 511;
+            this.custom_g_hitbox.MouseEnter += new System.EventHandler(this.custom_g_MouseEnter);
+            this.custom_g_hitbox.MouseLeave += new System.EventHandler(this.custom_g_MouseLeave);
             // 
             // custom_b_hitbox
             // 
@@ -6860,6 +7176,8 @@ namespace plt0_gui
             this.custom_b_hitbox.Padding = new System.Windows.Forms.Padding(70, 34, 0, 0);
             this.custom_b_hitbox.Size = new System.Drawing.Size(70, 54);
             this.custom_b_hitbox.TabIndex = 512;
+            this.custom_b_hitbox.MouseEnter += new System.EventHandler(this.custom_b_MouseEnter);
+            this.custom_b_hitbox.MouseLeave += new System.EventHandler(this.custom_b_MouseLeave);
             // 
             // custom_a_hitbox
             // 
@@ -6873,6 +7191,8 @@ namespace plt0_gui
             this.custom_a_hitbox.Padding = new System.Windows.Forms.Padding(70, 34, 0, 0);
             this.custom_a_hitbox.Size = new System.Drawing.Size(70, 54);
             this.custom_a_hitbox.TabIndex = 513;
+            this.custom_a_hitbox.MouseEnter += new System.EventHandler(this.custom_a_MouseEnter);
+            this.custom_a_hitbox.MouseLeave += new System.EventHandler(this.custom_a_MouseLeave);
             // 
             // plt0_gui
             // 
@@ -10851,21 +11171,7 @@ namespace plt0_gui
         }
         private void mipmaps_TextChanged(object sender, EventArgs e)
         {
-            len = mipmaps_txt.Text.Length;
-            if (mipmaps_txt.Text.Substring(0, 2) == "0x" || ishexbyte(mipmaps_txt.Text.ToLower()))
-            {
-                success = byte.TryParse(mipmaps_txt.Text.Substring(2, len - 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out mipmaps);
-                if (!success)
-                    mipmaps_txt.Text = mipmaps_txt.Text.Substring(0, len - 1);
-            }
-            else
-            {
-                success = byte.TryParse(mipmaps_txt.Text, out mipmaps);
-                if (!success)
-                {
-                    mipmaps_txt.Text = mipmaps_txt.Text.Substring(0, len - 1);
-                }
-            }
+            Parse_byte_text(mipmaps_txt, mipmaps, 255);
         }
         private void cmpr_max_MouseEnter(object sender, EventArgs e)
         {
@@ -10877,21 +11183,7 @@ namespace plt0_gui
         }
         private void cmpr_max_TextChanged(object sender, EventArgs e)
         {
-            len = cmpr_max_txt.Text.Length;
-            if (cmpr_max_txt.Text.Substring(0, 2) == "0x" || ishexbyte(cmpr_max_txt.Text.ToLower()))
-            {
-                success = byte.TryParse(cmpr_max_txt.Text.Substring(2, len - 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out cmpr_max);
-                if (!success)
-                    cmpr_max_txt.Text = cmpr_max_txt.Text.Substring(0, len - 1);
-            }
-            else
-            {
-                success = byte.TryParse(cmpr_max_txt.Text, out cmpr_max);
-                if (!success)
-                {
-                    cmpr_max_txt.Text = cmpr_max_txt.Text.Substring(0, len - 1);
-                }
-            }
+            Parse_byte_text(cmpr_max_txt, cmpr_max, 16);
         }
         private void cmpr_min_alpha_MouseEnter(object sender, EventArgs e)
         {
@@ -10903,21 +11195,7 @@ namespace plt0_gui
         }
         private void cmpr_min_alpha_TextChanged(object sender, EventArgs e)
         {
-            len = cmpr_min_alpha_txt.Text.Length;
-            if (cmpr_min_alpha_txt.Text.Substring(0, 2) == "0x" || ishexbyte(cmpr_min_alpha_txt.Text.ToLower()))
-            {
-                success = byte.TryParse(cmpr_min_alpha_txt.Text.Substring(2, len - 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out cmpr_min_alpha);
-                if (!success)
-                    cmpr_min_alpha_txt.Text = cmpr_min_alpha_txt.Text.Substring(0, len - 1);
-            }
-            else
-            {
-                success = byte.TryParse(cmpr_min_alpha_txt.Text, out cmpr_min_alpha);
-                if (!success)
-                {
-                    cmpr_min_alpha_txt.Text = cmpr_min_alpha_txt.Text.Substring(0, len - 1);
-                }
-            }
+            Parse_byte_text(cmpr_min_alpha_txt, cmpr_min_alpha, 255);
         }
         private void num_colours_MouseEnter(object sender, EventArgs e)
         {
@@ -10929,21 +11207,7 @@ namespace plt0_gui
         }
         private void num_colours_TextChanged(object sender, EventArgs e)
         {
-            len = num_colours_txt.Text.Length;
-            if (num_colours_txt.Text.Substring(0, 2) == "0x" || ishexbyte(num_colours_txt.Text.ToLower()))
-            {
-                success = byte.TryParse(num_colours_txt.Text.Substring(2, len - 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out num_colours);
-                if (!success)
-                    num_colours_txt.Text = num_colours_txt.Text.Substring(0, len - 1);
-            }
-            else
-            {
-                success = byte.TryParse(num_colours_txt.Text, out num_colours);
-                if (!success)
-                {
-                    num_colours_txt.Text = num_colours_txt.Text.Substring(0, len - 1);
-                }
-            }
+            Parse_ushort_text(num_colours_txt, num_colours, 65535);
         }
         private void round3_MouseEnter(object sender, EventArgs e)
         {
@@ -10955,21 +11219,7 @@ namespace plt0_gui
         }
         private void round3_TextChanged(object sender, EventArgs e)
         {
-            len = round3_txt.Text.Length;
-            if (round3_txt.Text.Substring(0, 2) == "0x" || ishexbyte(round3_txt.Text.ToLower()))
-            {
-                success = byte.TryParse(round3_txt.Text.Substring(2, len - 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out round3);
-                if (!success)
-                    round3_txt.Text = round3_txt.Text.Substring(0, len - 1);
-            }
-            else
-            {
-                success = byte.TryParse(round3_txt.Text, out round3);
-                if (!success)
-                {
-                    round3_txt.Text = round3_txt.Text.Substring(0, len - 1);
-                }
-            }
+            Parse_byte_text(round3_txt, round3, 32);
         }
         private void round4_MouseEnter(object sender, EventArgs e)
         {
@@ -10981,21 +11231,7 @@ namespace plt0_gui
         }
         private void round4_TextChanged(object sender, EventArgs e)
         {
-            len = round4_txt.Text.Length;
-            if (round4_txt.Text.Substring(0, 2) == "0x" || ishexbyte(round4_txt.Text.ToLower()))
-            {
-                success = byte.TryParse(round4_txt.Text.Substring(2, len - 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out round4);
-                if (!success)
-                    round4_txt.Text = round4_txt.Text.Substring(0, len - 1);
-            }
-            else
-            {
-                success = byte.TryParse(round4_txt.Text, out round4);
-                if (!success)
-                {
-                    round4_txt.Text = round4_txt.Text.Substring(0, len - 1);
-                }
-            }
+            Parse_byte_text(round4_txt, round4, 16);
         }
         private void round5_MouseEnter(object sender, EventArgs e)
         {
@@ -11007,21 +11243,7 @@ namespace plt0_gui
         }
         private void round5_TextChanged(object sender, EventArgs e)
         {
-            len = round5_txt.Text.Length;
-            if (round5_txt.Text.Substring(0, 2) == "0x" || ishexbyte(round5_txt.Text.ToLower()))
-            {
-                success = byte.TryParse(round5_txt.Text.Substring(2, len - 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out round5);
-                if (!success)
-                    round5_txt.Text = round5_txt.Text.Substring(0, len - 1);
-            }
-            else
-            {
-                success = byte.TryParse(round5_txt.Text, out round5);
-                if (!success)
-                {
-                    round5_txt.Text = round5_txt.Text.Substring(0, len - 1);
-                }
-            }
+            Parse_byte_text(round5_txt, round5, 8);
         }
         private void round6_MouseEnter(object sender, EventArgs e)
         {
@@ -11033,21 +11255,7 @@ namespace plt0_gui
         }
         private void round6_TextChanged(object sender, EventArgs e)
         {
-            len = round6_txt.Text.Length;
-            if (round6_txt.Text.Substring(0, 2) == "0x" || ishexbyte(round6_txt.Text.ToLower()))
-            {
-                success = byte.TryParse(round6_txt.Text.Substring(2, len - 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out round6);
-                if (!success)
-                    round6_txt.Text = round6_txt.Text.Substring(0, len - 1);
-            }
-            else
-            {
-                success = byte.TryParse(round6_txt.Text, out round6);
-                if (!success)
-                {
-                    round6_txt.Text = round6_txt.Text.Substring(0, len - 1);
-                }
-            }
+            Parse_byte_text(round6_txt, round6, 4);
         }
         private void diversity_MouseEnter(object sender, EventArgs e)
         {
@@ -11059,21 +11267,7 @@ namespace plt0_gui
         }
         private void diversity_TextChanged(object sender, EventArgs e)
         {
-            len = diversity_txt.Text.Length;
-            if (diversity_txt.Text.Substring(0, 2) == "0x" || ishexbyte(diversity_txt.Text.ToLower()))
-            {
-                success = byte.TryParse(diversity_txt.Text.Substring(2, len - 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out diversity);
-                if (!success)
-                    diversity_txt.Text = diversity_txt.Text.Substring(0, len - 1);
-            }
-            else
-            {
-                success = byte.TryParse(diversity_txt.Text, out diversity);
-                if (!success)
-                {
-                    diversity_txt.Text = diversity_txt.Text.Substring(0, len - 1);
-                }
-            }
+            Parse_byte_text(diversity_txt, diversity, 255);
         }
         private void diversity2_MouseEnter(object sender, EventArgs e)
         {
@@ -11085,21 +11279,7 @@ namespace plt0_gui
         }
         private void diversity2_TextChanged(object sender, EventArgs e)
         {
-            len = diversity2_txt.Text.Length;
-            if (diversity2_txt.Text.Substring(0, 2) == "0x" || ishexbyte(diversity2_txt.Text.ToLower()))
-            {
-                success = byte.TryParse(diversity2_txt.Text.Substring(2, len - 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out diversity2);
-                if (!success)
-                    diversity2_txt.Text = diversity2_txt.Text.Substring(0, len - 1);
-            }
-            else
-            {
-                success = byte.TryParse(diversity2_txt.Text, out diversity2);
-                if (!success)
-                {
-                    diversity2_txt.Text = diversity2_txt.Text.Substring(0, len - 1);
-                }
-            }
+            Parse_byte_text(diversity2_txt, diversity2, 255);
         }
         private void percentage_MouseEnter(object sender, EventArgs e)
         {
@@ -11111,21 +11291,7 @@ namespace plt0_gui
         }
         private void percentage_TextChanged(object sender, EventArgs e)
         {
-            len = percentage_txt.Text.Length;
-            if (percentage_txt.Text.Substring(0, 2) == "0x" || ishexdouble(percentage_txt.Text.ToLower()))
-            {
-                success = double.TryParse(percentage_txt.Text.Substring(2, len - 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out percentage);
-                if (!success)
-                    percentage_txt.Text = percentage_txt.Text.Substring(0, len - 1);
-            }
-            else
-            {
-                success = double.TryParse(percentage_txt.Text, out percentage);
-                if (!success)
-                {
-                    percentage_txt.Text = percentage_txt.Text.Substring(0, len - 1);
-                }
-            }
+            Parse_double_text(percentage_txt, percentage, 100.0);
         }
         private void percentage2_MouseEnter(object sender, EventArgs e)
         {
@@ -11137,21 +11303,7 @@ namespace plt0_gui
         }
         private void percentage2_TextChanged(object sender, EventArgs e)
         {
-            len = percentage2_txt.Text.Length;
-            if (percentage2_txt.Text.Substring(0, 2) == "0x" || ishexdouble(percentage2_txt.Text.ToLower()))
-            {
-                success = double.TryParse(percentage2_txt.Text.Substring(2, len - 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out percentage2);
-                if (!success)
-                    percentage2_txt.Text = percentage2_txt.Text.Substring(0, len - 1);
-            }
-            else
-            {
-                success = double.TryParse(percentage2_txt.Text, out percentage2);
-                if (!success)
-                {
-                    percentage2_txt.Text = percentage2_txt.Text.Substring(0, len - 1);
-                }
-            }
+            Parse_double_text(percentage2_txt, percentage2, 100.0);
         }
         private void custom_r_MouseEnter(object sender, EventArgs e)
         {
@@ -11163,21 +11315,7 @@ namespace plt0_gui
         }
         private void custom_r_TextChanged(object sender, EventArgs e)
         {
-            len = custom_r_txt.Text.Length;
-            if (custom_r_txt.Text.Substring(0, 2) == "0x" || ishexdouble(custom_r_txt.Text.ToLower()))
-            {
-                success = double.TryParse(custom_r_txt.Text.Substring(2, len - 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out custom_r);
-                if (!success)
-                    custom_r_txt.Text = custom_r_txt.Text.Substring(0, len - 1);
-            }
-            else
-            {
-                success = double.TryParse(custom_r_txt.Text, out custom_r);
-                if (!success)
-                {
-                    custom_r_txt.Text = custom_r_txt.Text.Substring(0, len - 1);
-                }
-            }
+            Parse_double_text(custom_r_txt, custom_r, 255.0);
         }
         private void custom_g_MouseEnter(object sender, EventArgs e)
         {
@@ -11189,21 +11327,7 @@ namespace plt0_gui
         }
         private void custom_g_TextChanged(object sender, EventArgs e)
         {
-            len = custom_g_txt.Text.Length;
-            if (custom_g_txt.Text.Substring(0, 2) == "0x" || ishexdouble(custom_g_txt.Text.ToLower()))
-            {
-                success = double.TryParse(custom_g_txt.Text.Substring(2, len - 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out custom_g);
-                if (!success)
-                    custom_g_txt.Text = custom_g_txt.Text.Substring(0, len - 1);
-            }
-            else
-            {
-                success = double.TryParse(custom_g_txt.Text, out custom_g);
-                if (!success)
-                {
-                    custom_g_txt.Text = custom_g_txt.Text.Substring(0, len - 1);
-                }
-            }
+            Parse_double_text(custom_g_txt, custom_g, 255.0);
         }
         private void custom_b_MouseEnter(object sender, EventArgs e)
         {
@@ -11215,21 +11339,7 @@ namespace plt0_gui
         }
         private void custom_b_TextChanged(object sender, EventArgs e)
         {
-            len = custom_b_txt.Text.Length;
-            if (custom_b_txt.Text.Substring(0, 2) == "0x" || ishexdouble(custom_b_txt.Text.ToLower()))
-            {
-                success = double.TryParse(custom_b_txt.Text.Substring(2, len - 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out custom_b);
-                if (!success)
-                    custom_b_txt.Text = custom_b_txt.Text.Substring(0, len - 1);
-            }
-            else
-            {
-                success = double.TryParse(custom_b_txt.Text, out custom_b);
-                if (!success)
-                {
-                    custom_b_txt.Text = custom_b_txt.Text.Substring(0, len - 1);
-                }
-            }
+            Parse_double_text(custom_b_txt, custom_b, 255.0);
         }
         private void custom_a_MouseEnter(object sender, EventArgs e)
         {
@@ -11241,25 +11351,12 @@ namespace plt0_gui
         }
         private void custom_a_TextChanged(object sender, EventArgs e)
         {
-            len = custom_a_txt.Text.Length;
-            if (custom_a_txt.Text.Substring(0, 2) == "0x" || ishexdouble(custom_a_txt.Text.ToLower()))
-            {
-                success = double.TryParse(custom_a_txt.Text.Substring(2, len - 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out custom_a);
-                if (!success)
-                    custom_a_txt.Text = custom_a_txt.Text.Substring(0, len - 1);
-            }
-            else
-            {
-                success = double.TryParse(custom_a_txt.Text, out custom_a);
-                if (!success)
-                {
-                    custom_a_txt.Text = custom_a_txt.Text.Substring(0, len - 1);
-                }
-            }
+            Parse_double_text(custom_a_txt, custom_a, 255.0);
         }
         private void palette_AI8_Click(object sender, EventArgs e)
         {
             unchecked_palette(palette_ck[palette_enc]);
+            selected_palette(palette_ai8_ck);
             palette_enc = 0;
         }
         private void palette_AI8_MouseEnter(object sender, EventArgs e)
@@ -11281,6 +11378,7 @@ namespace plt0_gui
         private void palette_RGB565_Click(object sender, EventArgs e)
         {
             unchecked_palette(palette_ck[palette_enc]);
+            selected_palette(palette_rgb565_ck);
             palette_enc = 1;
         }
         private void palette_RGB565_MouseEnter(object sender, EventArgs e)
@@ -11302,6 +11400,7 @@ namespace plt0_gui
         private void palette_RGB5A3_Click(object sender, EventArgs e)
         {
             unchecked_palette(palette_ck[palette_enc]);
+            selected_palette(palette_rgb5a3_ck);
             palette_enc = 2;
         }
         private void palette_RGB5A3_MouseEnter(object sender, EventArgs e)
