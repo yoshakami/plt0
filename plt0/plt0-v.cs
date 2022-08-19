@@ -391,10 +391,10 @@ namespace plt0_gui
             unchecked_palette(palette_ai8_ck);
             unchecked_palette(palette_rgb565_ck);
             unchecked_palette(palette_rgb5a3_ck);
-            if (System.IO.File.Exists(execPath + "images/zettings.txt"))
+            if (System.IO.File.Exists(execPath + "images/settings.txt"))
             {
                 string version = "";
-                lines = System.IO.File.ReadAllLines(execPath + "images/zettings.txt");
+                lines = System.IO.File.ReadAllLines(execPath + "images/settings.txt");
                 if (lines.Length > 0)
                 {
                     version = lines[0].Substring(12);
@@ -403,17 +403,17 @@ namespace plt0_gui
                 switch (version)
                 {
                     case "v1.0":
-                        if (version == "v1.0" && lines.Length < 160)  // incorrect v1.0 config file
+                        if (version == "v1.0" && lines.Length < 200)  // incorrect v1.0 config file
                         {
                             //  System.Diagnostics.Debug.WriteLine("some tetttttttttt23423423423423423ttttttttttttttttttttttt");
-                            Console.WriteLine("plt0 v1.0 config file should have EXACTLY 160 lines");
+                            Console.WriteLine("plt0 v1.0 config file should have EXACTLY 200 lines");
                             Console.ReadLine();
                             Environment.Exit(1);
                         }
                         break; // in case it needs to get out of this switch
                                // sarcarm++;
                     default:
-                        Console.WriteLine("incorrect config version. " + execPath + "images/zettings.txt's First line isn't recognized by this tool");
+                        Console.WriteLine("incorrect config version. " + execPath + "images/settings.txt's First line isn't recognized by this tool");
                         Console.ReadLine();
                         Environment.Exit(2);
                         break; // idk what happens if you don't put a break on a case, but it won't compile otherwise
@@ -626,13 +626,18 @@ namespace plt0_gui
                 description_title.ForeColor = System.Drawing.Color.FromName(lines[10]);
                 description.ForeColor = System.Drawing.Color.FromName(lines[10]);
             }
-
             else
             {
                 try
                 {
-                    string[] new_lines = { "plt0 config v1.0", "Layout (change the next line with one of these \"All\", \"Auto\", \"Preview\", \"Paint\")", "All" };
-                    System.IO.File.WriteAllLines(execPath + "images/zettings.txt", new_lines);
+                    string[] new_lines = { "plt0 config v1.0", "Layout (change next line with one of these: \"All\", \"Auto\", \"Preview\", \"Paint\")", "All", "Window Location (\"Normal\", \"Maximized\", \"Bottom_left\", \"Left\", \"Top_left\", \"Top\", \"Top_right\", \"Right\", \"Bottom_right\", \"Bottom\")", "Maximized", "Textboxes text color (System.Drawing.Color)", "White", "Textboxes color", "Black", "Description color", "Cyan", "Font name (it must be installed on your system)", "default" };
+                    Array.Resize(ref new_lines, 255);
+                    for (byte i = 14; i < 255; i++)
+                    {
+                        new_lines[i - 1] = i.ToString();
+                    }
+
+                    System.IO.File.WriteAllLines(execPath + "images/settings.txt", new_lines);
                 }
                 catch
                 {
@@ -652,6 +657,11 @@ namespace plt0_gui
                 return;
             success = false;
             len = txt.Text.Length;
+            if (txt.Text[0] == '0' && len > 1)
+            {
+                txt.Text = txt.Text.Substring(1);
+                return;
+            }
             //if (ishexbyte(txt.Text.Substring(2, len - 2).ToLower()))
             if (len > 1)
             {
@@ -663,27 +673,25 @@ namespace plt0_gui
                         success = int.TryParse(txt.Text.Substring(2, len - 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out number);
                 }
             }
-                if (txt.Text[0] == '0' && len > 1)
-                    txt.Text = txt.Text.Substring(1);
-                if (!success)
+            if (!success)
+            {
+                if (ishexchar(txt.Text[0]))
+                    success = int.TryParse(txt.Text.Substring(0, len), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out number);
+                else
+                    success = int.TryParse(txt.Text, out number);
+            }
+            if (success)
+            {
+                if (number > max)
                 {
-                    if (ishexchar(txt.Text[0]))
-                        success = int.TryParse(txt.Text.Substring(0, len), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out number);
-                    else
-                        success = int.TryParse(txt.Text, out number);
-                }
-                if (success)
-                {
-                    if (number > max)
-                    {
-                        output = max;
-                        txt.Text = max.ToString();
-                    }
-                    else
-                        output = (byte)number;
+                    output = max;
+                    txt.Text = max.ToString();
                 }
                 else
-                    txt.Text = txt.Text.Substring(0, len - 1);
+                    output = (byte)number;
+            }
+            else
+                txt.Text = txt.Text.Substring(0, len - 1);
         }
         private void Parse_ushort_text(TextBox txt, ushort output, ushort max)
         {
@@ -691,58 +699,53 @@ namespace plt0_gui
                 return;
             success = false;
             len = txt.Text.Length;
+            if (txt.Text[0] == '0' && len > 1)
+            {
+                txt.Text = txt.Text.Substring(1);
+                return;
+            }
             //if (ishexbyte(txt.Text.Substring(2, len - 2).ToLower()))
             if (len > 1)
             {
                 if (txt.Text.Substring(0, 2) == "0x")
                 {
                     if (len == 2)
-                    {
                         return;
-                    }
                     else
-                    {
                         success = int.TryParse(txt.Text.Substring(2, len - 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out number);
-                    }
                 }
             }
-            if (txt.Text != "")
+            if (!success)
             {
-                if (txt.Text[0] == '0' && len > 1)
+                if (ishexchar(txt.Text[0]))
+                    success = int.TryParse(txt.Text.Substring(0, len), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out number);
+                else
+                    success = int.TryParse(txt.Text, out number);
+            }
+            if (success)
+            {
+                if (number > max)
                 {
-                    txt.Text = txt.Text.Substring(1);
-                }
-                if (!success && txt.Text != "") // don't ask me why I need to paste it twice. 
-                {
-                    if (ishexchar(txt.Text[0]))
-                    {
-                        success = int.TryParse(txt.Text.Substring(0, len), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out number);
-                    }
-                    else
-                    {
-                        success = int.TryParse(txt.Text, out number);
-                    }
-                }
-                if (success)
-                {
-                    if (number > max)
-                    {
-                        output = max;
-                        txt.Text = max.ToString();
-                    }
-                    else
-                    {
-                        output = (byte)number;
-                    }
+                    output = max;
+                    txt.Text = max.ToString();
                 }
                 else
-                {
-                    txt.Text = txt.Text.Substring(0, len - 1);
-                }
+                    output = (ushort)number;
             }
+            else
+                txt.Text = txt.Text.Substring(0, len - 1);
         }
         private void Parse_double_text(TextBox txt, double output, double max)
         {
+            if (txt.Text == "")
+                return;
+            if (txt.Text[0] == '0')
+                if (len > 1)
+                    if (txt.Text[1] != '.')
+                    {
+                        txt.Text = txt.Text.Substring(1);
+                        return;
+                    }
             success = false;
             len = txt.Text.Length;
             //if (ishexbyte(txt.Text.Substring(2, len - 2).ToLower()))
@@ -756,32 +759,25 @@ namespace plt0_gui
                         success = double.TryParse(txt.Text.Substring(2, len - 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out output);
                 }
             }
-            if (len > 0)
+            if (!success)
             {
-                if (!success)
+                if (ishexchar(txt.Text[0]))
+                    success = double.TryParse(txt.Text.Substring(0, len), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out output);
+                else
+                    success = double.TryParse(txt.Text, out output);
+            }
+            if (success)
+            {
+                if (number > max)
                 {
-                    if (ishexchar(txt.Text[0]))
-                        success = double.TryParse(txt.Text.Substring(0, len), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out output);
-                    else
-                        success = double.TryParse(txt.Text, out output);
-                }
-                if (txt.Text[0] == '0')
-                    if (len > 1)
-                        if (txt.Text[1] != '.')
-                            txt.Text = txt.Text.Substring(1);
-                if (success)
-                {
-                    if (number > max)
-                    {
-                        output = max;
-                        txt.Text = max.ToString();
-                    }
-                    else
-                        output = (double)number;
+                    output = max;
+                    txt.Text = max.ToString();
                 }
                 else
-                    txt.Text = txt.Text.Substring(0, len - 1);
+                    output = (double)number;
             }
+            else
+                txt.Text = txt.Text.Substring(0, len - 1);
         }
         private void plt0_DragEnter(object sender, DragEventArgs e)
         {
@@ -6015,6 +6011,7 @@ namespace plt0_gui
             this.input_file_txt.Size = new System.Drawing.Size(116, 21);
             this.input_file_txt.TabIndex = 0;
             this.input_file_txt.TextChanged += new System.EventHandler(this.input_file_TextChanged);
+            this.input_file_txt.DoubleClick += new System.EventHandler(this.input_file_Click);
             this.input_file_txt.MouseEnter += new System.EventHandler(this.input_file_MouseEnter);
             this.input_file_txt.MouseLeave += new System.EventHandler(this.input_file_MouseLeave);
             // 
@@ -6030,7 +6027,7 @@ namespace plt0_gui
             this.input_file_label.Size = new System.Drawing.Size(111, 20);
             this.input_file_label.TabIndex = 432;
             this.input_file_label.Text = "Input file";
-            this.input_file_label.Click += new System.EventHandler(this.input_file_Click);
+            this.input_file_label.DoubleClick += new System.EventHandler(this.input_file_Click);
             this.input_file_label.MouseEnter += new System.EventHandler(this.input_file_MouseEnter);
             this.input_file_label.MouseLeave += new System.EventHandler(this.input_file_MouseLeave);
             // 
@@ -6046,7 +6043,7 @@ namespace plt0_gui
             this.input_file2_label.Size = new System.Drawing.Size(137, 20);
             this.input_file2_label.TabIndex = 434;
             this.input_file2_label.Text = "Input file 2";
-            this.input_file2_label.Click += new System.EventHandler(this.input_file2_Click);
+            this.input_file2_label.DoubleClick += new System.EventHandler(this.input_file2_Click);
             this.input_file2_label.MouseEnter += new System.EventHandler(this.input_file2_MouseEnter);
             this.input_file2_label.MouseLeave += new System.EventHandler(this.input_file2_MouseLeave);
             // 
@@ -6062,6 +6059,7 @@ namespace plt0_gui
             this.input_file2_txt.Size = new System.Drawing.Size(128, 21);
             this.input_file2_txt.TabIndex = 1;
             this.input_file2_txt.TextChanged += new System.EventHandler(this.input_file2_TextChanged);
+            this.input_file2_txt.DoubleClick += new System.EventHandler(this.input_file2_Click);
             this.input_file2_txt.MouseEnter += new System.EventHandler(this.input_file2_MouseEnter);
             this.input_file2_txt.MouseLeave += new System.EventHandler(this.input_file2_MouseLeave);
             // 
@@ -6571,8 +6569,8 @@ namespace plt0_gui
             this.custom_g_txt.Text = "1.0";
             this.custom_g_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.custom_g_txt.TextChanged += new System.EventHandler(this.custom_g_TextChanged);
-            this.custom_g_txt.MouseEnter += new System.EventHandler(this.custom_g_MouseLeave);
-            this.custom_g_txt.MouseLeave += new System.EventHandler(this.custom_b_MouseEnter);
+            this.custom_g_txt.MouseEnter += new System.EventHandler(this.custom_g_MouseEnter);
+            this.custom_g_txt.MouseLeave += new System.EventHandler(this.custom_g_MouseLeave);
             // 
             // custom_r_label
             // 
@@ -6920,7 +6918,7 @@ namespace plt0_gui
             this.input_file_hitbox.Padding = new System.Windows.Forms.Padding(122, 44, 0, 0);
             this.input_file_hitbox.Size = new System.Drawing.Size(122, 64);
             this.input_file_hitbox.TabIndex = 489;
-            this.input_file_hitbox.Click += new System.EventHandler(this.input_file_Click);
+            this.input_file_hitbox.DoubleClick += new System.EventHandler(this.input_file_Click);
             this.input_file_hitbox.MouseEnter += new System.EventHandler(this.input_file_MouseEnter);
             this.input_file_hitbox.MouseLeave += new System.EventHandler(this.input_file_MouseLeave);
             // 
@@ -6936,7 +6934,7 @@ namespace plt0_gui
             this.input_file2_hitbox.Padding = new System.Windows.Forms.Padding(137, 44, 0, 0);
             this.input_file2_hitbox.Size = new System.Drawing.Size(137, 64);
             this.input_file2_hitbox.TabIndex = 490;
-            this.input_file2_hitbox.Click += new System.EventHandler(this.input_file2_Click);
+            this.input_file2_hitbox.DoubleClick += new System.EventHandler(this.input_file2_Click);
             this.input_file2_hitbox.MouseEnter += new System.EventHandler(this.input_file2_MouseEnter);
             this.input_file2_hitbox.MouseLeave += new System.EventHandler(this.input_file2_MouseLeave);
             // 
