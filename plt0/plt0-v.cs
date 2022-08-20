@@ -12,14 +12,27 @@ namespace plt0_gui
     {
         string execPath = AppDomain.CurrentDomain.BaseDirectory;
         string[] lines = new string[255];
-        string[] layout_name = {"All", "Auto", "Preview", "Paint"};
+        string[] layout_name = { "All", "Auto", "Preview", "Paint" };
         byte[] block_width_array = { 8, 8, 8, 4, 4, 4, 4, 255, 8, 8, 4, 255, 255, 255, 8 }; // real one to calculate canvas size.
         //byte[] block_width_array = { 4, 8, 8, 8, 8, 8, 16, 255, 4, 8, 8, 255, 255, 255, 4 }; // altered to match bit-per pixel size.
         byte[] block_height_array = { 8, 4, 4, 4, 4, 4, 4, 255, 8, 4, 4, 255, 255, 255, 8 }; // 255 = unused image format
-        byte[] block_depth_array = {4, 8, 4, 8, 16, 16, 32, 255, 4, 8, 16, 255, 255, 255, 4};  // for \z
+        byte[] block_depth_array = { 4, 8, 4, 8, 16, 16, 32, 255, 4, 8, 16, 255, 255, 255, 4 };  // for \z
         string input_file;
         string output_name;
         string input_file2;
+        char separator;
+        string font_name;
+        string font_colour;
+        string font_encoding;
+        byte GdiCharSet;
+        string backslash_j;
+        byte jump_line;
+        string backslash_n;
+        string font_size;
+        int size_font;
+        string font_unit;
+        int y;
+        byte byte_text;
         bool success;
         bool bold;
         bool italic;
@@ -91,6 +104,7 @@ namespace plt0_gui
         double custom_g = 1.0;
         double custom_b = 1.0;
         double custom_a = 1.0;
+        List<string> markdown;
         List<Label> desc = new List<Label>(); // duplicates of the description label (used to have more than 1 font colour, style, family, and encoding too)
         List<PictureBox> encoding_ck = new List<PictureBox>();
         List<PictureBox> palette_ck = new List<PictureBox>();
@@ -245,6 +259,11 @@ namespace plt0_gui
             InitializeComponent();
             //output_file_type_label.Text = fontname;
             //algorithm_label.Text = algorithm_label.Font.Name;
+            markdown.Add(font_name);
+            markdown.Add(font_colour);
+            markdown.Add(font_unit);
+            markdown.Add(font_encoding);
+            markdown.Add(font_size);
             encoding_ck.Add(i4_ck);
             encoding_ck.Add(i8_ck);
             encoding_ck.Add(ai4_ck);
@@ -685,6 +704,28 @@ namespace plt0_gui
             font_normal = new System.Drawing.Font(fontname, 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
         }*/
         // https://stackoverflow.com/questions/616584/how-do-i-get-the-name-of-the-current-executable-in-c
+        private string Parse_Special_Markdown(int i, string text, byte arg_number)
+        {
+            if (i == -1)
+                return text;
+            arg = "";
+            separator = ' ';
+            y = i;
+            i += 3;
+            if (text[i] == '"')
+            {
+                i++;
+                separator = '"';
+            }
+            while (text[i] != separator)
+            {
+                arg += text[i];
+                i++;
+            }
+            i++;
+            text = text.Substring(0, y) + text.Substring(i);
+            return text;
+        }
         private string Parse_Markdown(string txt)
         {
             // these are variables. easy to replace
@@ -695,6 +736,25 @@ namespace plt0_gui
             string[] txt_label = txt.Split(new string[] { "\\j" }, StringSplitOptions.RemoveEmptyEntries);
             for (byte i = 0; i < (byte)txt_label.Length; i++)
             {
+                if (i != 0)
+                {
+                    backslash_j = "";
+                    backslash_n = "";
+                    y = 0;
+                    while (txt_label[i][y] != ' ')
+                    {
+                        backslash_j += txt_label[i][y];
+                        y++;
+                    }
+                    byte.TryParse(backslash_j, out jump_line);
+                    for (byte j = 0; j < jump_line; j++)
+                    {
+                        backslash_n += "\n";
+                    }
+                    txt_label[i] = backslash_n + txt_label[i].Substring(y);
+                }
+                font_colour = lines[10];  // default colour
+                font_name = lines[12]; // default font name
                 desc[i].Visible = true;
                 bold = false;
                 italic = false;
@@ -717,19 +777,29 @@ namespace plt0_gui
                 {
                     strikeout = true;
                 }
-                if (txt_label[i].Contains("\\k"))
+                if (txt_label[i].Contains("\\v"))
                 {
                     vertical = false;
                 }
-                txt_label[i].IndexOf("\\c"); // what does this return if none are found?
-                // it returns -1 , pretty cool feature to be honest
-                
+                txt_label[i] = Parse_Special_Markdown(txt_label[i].LastIndexOf("\\c"), txt_label[i], font_colour);
+                txt_label[i] = Parse_Special_Markdown(txt_label[i].LastIndexOf("\\f"), txt_label[i], font_name);
+                txt_label[i] = Parse_Special_Markdown(txt_label[i].LastIndexOf("\\g"), txt_label[i], font_encoding);
+                // txt_label[i] = Parse_Special_Markdown(txt_label[i].LastIndexOf("\\j"), txt_label[i], backslash_j);  OH GOSH I AM IDIOT - that happens when you leave your code for one day lol
+                txt_label[i] = Parse_Special_Markdown(txt_label[i].LastIndexOf("\\q"), txt_label[i], font_unit);
+                txt_label[i] = Parse_Special_Markdown(txt_label[i].LastIndexOf("\\s"), txt_label[i], font_size);
+
+                y = txt_label[i].IndexOf("\\x");
+                if (y != -1)
+                {
+                    byte.TryParse(txt_label[i].Substring(y + 2, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out byte_text);
+                    txt_label[i] = txt_label[i].Substring(0, y) + txt_label[i].Substring(y + 4);
+                }
 
             }
             for (byte i = (byte)txt_label.Length; i < 21; i++)
-                {
-                    desc[i].Visible = false;
-                }
+            {
+                desc[i].Visible = false;
+            }
             return txt;
         }
         private void Parse_byte_text(TextBox txt, byte output, byte max)
@@ -5287,7 +5357,7 @@ namespace plt0_gui
             this.view_alpha_ck.Enabled = false;
             this.view_alpha_ck.ErrorImage = null;
             this.view_alpha_ck.InitialImage = null;
-            this.view_alpha_ck.Location = new System.Drawing.Point(1225, 770);
+            this.view_alpha_ck.Location = new System.Drawing.Point(40, 1131);
             this.view_alpha_ck.Margin = new System.Windows.Forms.Padding(0);
             this.view_alpha_ck.Name = "view_alpha_ck";
             this.view_alpha_ck.Size = new System.Drawing.Size(64, 64);
@@ -5301,7 +5371,7 @@ namespace plt0_gui
             this.view_alpha_label.BackColor = System.Drawing.Color.Transparent;
             this.view_alpha_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.view_alpha_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.view_alpha_label.Location = new System.Drawing.Point(1293, 770);
+            this.view_alpha_label.Location = new System.Drawing.Point(108, 1131);
             this.view_alpha_label.Margin = new System.Windows.Forms.Padding(0);
             this.view_alpha_label.Name = "view_alpha_label";
             this.view_alpha_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
@@ -5319,7 +5389,7 @@ namespace plt0_gui
             this.view_alpha_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.view_alpha_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.view_alpha_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.view_alpha_hitbox.Location = new System.Drawing.Point(1222, 770);
+            this.view_alpha_hitbox.Location = new System.Drawing.Point(37, 1131);
             this.view_alpha_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.view_alpha_hitbox.Name = "view_alpha_hitbox";
             this.view_alpha_hitbox.Padding = new System.Windows.Forms.Padding(190, 35, 0, 0);
@@ -5337,7 +5407,7 @@ namespace plt0_gui
             this.view_algorithm_ck.Enabled = false;
             this.view_algorithm_ck.ErrorImage = null;
             this.view_algorithm_ck.InitialImage = null;
-            this.view_algorithm_ck.Location = new System.Drawing.Point(1424, 766);
+            this.view_algorithm_ck.Location = new System.Drawing.Point(239, 1127);
             this.view_algorithm_ck.Margin = new System.Windows.Forms.Padding(0);
             this.view_algorithm_ck.Name = "view_algorithm_ck";
             this.view_algorithm_ck.Size = new System.Drawing.Size(64, 64);
@@ -5351,7 +5421,7 @@ namespace plt0_gui
             this.view_algorithm_label.BackColor = System.Drawing.Color.Transparent;
             this.view_algorithm_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.view_algorithm_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.view_algorithm_label.Location = new System.Drawing.Point(1492, 766);
+            this.view_algorithm_label.Location = new System.Drawing.Point(307, 1127);
             this.view_algorithm_label.Margin = new System.Windows.Forms.Padding(0);
             this.view_algorithm_label.Name = "view_algorithm_label";
             this.view_algorithm_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -5369,7 +5439,7 @@ namespace plt0_gui
             this.view_algorithm_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.view_algorithm_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.view_algorithm_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.view_algorithm_hitbox.Location = new System.Drawing.Point(1421, 766);
+            this.view_algorithm_hitbox.Location = new System.Drawing.Point(236, 1127);
             this.view_algorithm_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.view_algorithm_hitbox.Name = "view_algorithm_hitbox";
             this.view_algorithm_hitbox.Padding = new System.Windows.Forms.Padding(190, 35, 0, 0);
@@ -5387,7 +5457,7 @@ namespace plt0_gui
             this.view_WrapS_ck.Enabled = false;
             this.view_WrapS_ck.ErrorImage = null;
             this.view_WrapS_ck.InitialImage = null;
-            this.view_WrapS_ck.Location = new System.Drawing.Point(1225, 819);
+            this.view_WrapS_ck.Location = new System.Drawing.Point(40, 1180);
             this.view_WrapS_ck.Margin = new System.Windows.Forms.Padding(0);
             this.view_WrapS_ck.Name = "view_WrapS_ck";
             this.view_WrapS_ck.Size = new System.Drawing.Size(64, 64);
@@ -5401,7 +5471,7 @@ namespace plt0_gui
             this.view_WrapS_label.BackColor = System.Drawing.Color.Transparent;
             this.view_WrapS_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.view_WrapS_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.view_WrapS_label.Location = new System.Drawing.Point(1293, 819);
+            this.view_WrapS_label.Location = new System.Drawing.Point(108, 1180);
             this.view_WrapS_label.Margin = new System.Windows.Forms.Padding(0);
             this.view_WrapS_label.Name = "view_WrapS_label";
             this.view_WrapS_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
@@ -5419,7 +5489,7 @@ namespace plt0_gui
             this.view_WrapS_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.view_WrapS_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.view_WrapS_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.view_WrapS_hitbox.Location = new System.Drawing.Point(1222, 819);
+            this.view_WrapS_hitbox.Location = new System.Drawing.Point(37, 1180);
             this.view_WrapS_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.view_WrapS_hitbox.Name = "view_WrapS_hitbox";
             this.view_WrapS_hitbox.Padding = new System.Windows.Forms.Padding(190, 35, 0, 0);
@@ -5437,7 +5507,7 @@ namespace plt0_gui
             this.view_WrapT_ck.Enabled = false;
             this.view_WrapT_ck.ErrorImage = null;
             this.view_WrapT_ck.InitialImage = null;
-            this.view_WrapT_ck.Location = new System.Drawing.Point(1424, 819);
+            this.view_WrapT_ck.Location = new System.Drawing.Point(239, 1180);
             this.view_WrapT_ck.Margin = new System.Windows.Forms.Padding(0);
             this.view_WrapT_ck.Name = "view_WrapT_ck";
             this.view_WrapT_ck.Size = new System.Drawing.Size(64, 64);
@@ -5451,7 +5521,7 @@ namespace plt0_gui
             this.view_WrapT_label.BackColor = System.Drawing.Color.Transparent;
             this.view_WrapT_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.view_WrapT_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.view_WrapT_label.Location = new System.Drawing.Point(1492, 819);
+            this.view_WrapT_label.Location = new System.Drawing.Point(307, 1180);
             this.view_WrapT_label.Margin = new System.Windows.Forms.Padding(0);
             this.view_WrapT_label.Name = "view_WrapT_label";
             this.view_WrapT_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -5469,7 +5539,7 @@ namespace plt0_gui
             this.view_WrapT_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.view_WrapT_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.view_WrapT_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.view_WrapT_hitbox.Location = new System.Drawing.Point(1421, 819);
+            this.view_WrapT_hitbox.Location = new System.Drawing.Point(236, 1180);
             this.view_WrapT_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.view_WrapT_hitbox.Name = "view_WrapT_hitbox";
             this.view_WrapT_hitbox.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
@@ -5487,7 +5557,7 @@ namespace plt0_gui
             this.view_mag_ck.Enabled = false;
             this.view_mag_ck.ErrorImage = null;
             this.view_mag_ck.InitialImage = null;
-            this.view_mag_ck.Location = new System.Drawing.Point(1424, 868);
+            this.view_mag_ck.Location = new System.Drawing.Point(239, 1229);
             this.view_mag_ck.Margin = new System.Windows.Forms.Padding(0);
             this.view_mag_ck.Name = "view_mag_ck";
             this.view_mag_ck.Size = new System.Drawing.Size(64, 64);
@@ -5501,7 +5571,7 @@ namespace plt0_gui
             this.view_mag_label.BackColor = System.Drawing.Color.Transparent;
             this.view_mag_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.view_mag_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.view_mag_label.Location = new System.Drawing.Point(1492, 868);
+            this.view_mag_label.Location = new System.Drawing.Point(307, 1229);
             this.view_mag_label.Margin = new System.Windows.Forms.Padding(0);
             this.view_mag_label.Name = "view_mag_label";
             this.view_mag_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -5519,7 +5589,7 @@ namespace plt0_gui
             this.view_mag_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.view_mag_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.view_mag_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.view_mag_hitbox.Location = new System.Drawing.Point(1421, 868);
+            this.view_mag_hitbox.Location = new System.Drawing.Point(236, 1229);
             this.view_mag_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.view_mag_hitbox.Name = "view_mag_hitbox";
             this.view_mag_hitbox.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
@@ -5537,7 +5607,7 @@ namespace plt0_gui
             this.view_min_ck.Enabled = false;
             this.view_min_ck.ErrorImage = null;
             this.view_min_ck.InitialImage = null;
-            this.view_min_ck.Location = new System.Drawing.Point(1225, 868);
+            this.view_min_ck.Location = new System.Drawing.Point(40, 1229);
             this.view_min_ck.Margin = new System.Windows.Forms.Padding(0);
             this.view_min_ck.Name = "view_min_ck";
             this.view_min_ck.Size = new System.Drawing.Size(64, 64);
@@ -5551,7 +5621,7 @@ namespace plt0_gui
             this.view_min_label.BackColor = System.Drawing.Color.Transparent;
             this.view_min_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.view_min_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.view_min_label.Location = new System.Drawing.Point(1293, 868);
+            this.view_min_label.Location = new System.Drawing.Point(108, 1229);
             this.view_min_label.Margin = new System.Windows.Forms.Padding(0);
             this.view_min_label.Name = "view_min_label";
             this.view_min_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -5569,7 +5639,7 @@ namespace plt0_gui
             this.view_min_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.view_min_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.view_min_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.view_min_hitbox.Location = new System.Drawing.Point(1222, 868);
+            this.view_min_hitbox.Location = new System.Drawing.Point(37, 1229);
             this.view_min_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.view_min_hitbox.Name = "view_min_hitbox";
             this.view_min_hitbox.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
@@ -7659,7 +7729,7 @@ namespace plt0_gui
             this.AllowDrop = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1920, 1061);
+            this.ClientSize = new System.Drawing.Size(3610, 1959);
             this.Controls.Add(this.description14);
             this.Controls.Add(this.description12);
             this.Controls.Add(this.description11);
