@@ -29,16 +29,17 @@ namespace plt0_gui
         byte jump_line;
         string backslash_n;
         string font_size;
-        int size_font;
+        float size_font;
         string font_unit;
         int y;
         byte byte_text;
         bool success;
-        bool bold;
+        /* bool bold;
         bool italic;
         bool underline;
         bool strikeout;
-        bool vertical;
+        bool vertical;*/
+
         // checkboxes
         bool bmd = false;
         bool bti = false;
@@ -704,11 +705,11 @@ namespace plt0_gui
             font_normal = new System.Drawing.Font(fontname, 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
         }*/
         // https://stackoverflow.com/questions/616584/how-do-i-get-the-name-of-the-current-executable-in-c
-        private string Parse_Special_Markdown(int i, string text, byte arg_number)
+        private string Parse_Special_Markdown(int i, string text, byte arg)
         {
             if (i == -1)
                 return text;
-            arg = "";
+            markdown[arg] = "";
             separator = ' ';
             y = i;
             i += 3;
@@ -719,7 +720,7 @@ namespace plt0_gui
             }
             while (text[i] != separator)
             {
-                arg += text[i];
+                markdown[arg] += text[i];
                 i++;
             }
             i++;
@@ -772,22 +773,19 @@ namespace plt0_gui
                 if (txt_label[i].Contains("\\u"))
                 {
                     underline = true;
-                }
-                if (txt_label[i].Contains("\\k"))
-                {
-                    strikeout = true;
-                }
+                }g
                 if (txt_label[i].Contains("\\v"))
                 {
                     vertical = false;
                 }
-                txt_label[i] = Parse_Special_Markdown(txt_label[i].LastIndexOf("\\c"), txt_label[i], font_colour);
-                txt_label[i] = Parse_Special_Markdown(txt_label[i].LastIndexOf("\\f"), txt_label[i], font_name);
-                txt_label[i] = Parse_Special_Markdown(txt_label[i].LastIndexOf("\\g"), txt_label[i], font_encoding);
+                txt_label[i] = Parse_Special_Markdown(txt_label[i].LastIndexOf("\\f"), txt_label[i], 0);
+                txt_label[i] = Parse_Special_Markdown(txt_label[i].LastIndexOf("\\c"), txt_label[i], 1);
+                txt_label[i] = Parse_Special_Markdown(txt_label[i].LastIndexOf("\\q"), txt_label[i], 2);
+                txt_label[i] = Parse_Special_Markdown(txt_label[i].LastIndexOf("\\g"), txt_label[i], 3);
+                txt_label[i] = Parse_Special_Markdown(txt_label[i].LastIndexOf("\\s"), txt_label[i], 4);
+                byte.TryParse(font_encoding, out GdiCharSet);
+                float.TryParse(font_encoding, out size_font);
                 // txt_label[i] = Parse_Special_Markdown(txt_label[i].LastIndexOf("\\j"), txt_label[i], backslash_j);  OH GOSH I AM IDIOT - that happens when you leave your code for one day lol
-                txt_label[i] = Parse_Special_Markdown(txt_label[i].LastIndexOf("\\q"), txt_label[i], font_unit);
-                txt_label[i] = Parse_Special_Markdown(txt_label[i].LastIndexOf("\\s"), txt_label[i], font_size);
-
                 y = txt_label[i].IndexOf("\\x");
                 if (y != -1)
                 {
@@ -795,6 +793,7 @@ namespace plt0_gui
                     txt_label[i] = txt_label[i].Substring(0, y) + txt_label[i].Substring(y + 4);
                 }
 
+                // desc[i].Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, ((System.Drawing.FontStyle)((((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic) | System.Drawing.FontStyle.Underline) | System.Drawing.FontStyle.Strikeout))), System.Drawing.GraphicsUnit.World, ((byte)(0)), true);
             }
             for (byte i = (byte)txt_label.Length; i < 21; i++)
             {
@@ -4547,13 +4546,15 @@ namespace plt0_gui
             // 
             this.min_nearest_neighbour_label.AutoSize = true;
             this.min_nearest_neighbour_label.BackColor = System.Drawing.Color.Transparent;
-            this.min_nearest_neighbour_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.min_nearest_neighbour_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, ((System.Drawing.FontStyle)((((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic) 
+                | System.Drawing.FontStyle.Underline) 
+                | System.Drawing.FontStyle.Strikeout))), System.Drawing.GraphicsUnit.World, ((byte)(0)), true);
             this.min_nearest_neighbour_label.ForeColor = System.Drawing.SystemColors.Window;
             this.min_nearest_neighbour_label.Location = new System.Drawing.Point(893, 128);
             this.min_nearest_neighbour_label.Margin = new System.Windows.Forms.Padding(0);
             this.min_nearest_neighbour_label.Name = "min_nearest_neighbour_label";
             this.min_nearest_neighbour_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.min_nearest_neighbour_label.Size = new System.Drawing.Size(227, 64);
+            this.min_nearest_neighbour_label.Size = new System.Drawing.Size(172, 59);
             this.min_nearest_neighbour_label.TabIndex = 307;
             this.min_nearest_neighbour_label.Text = "Nearest Neighbour";
             this.min_nearest_neighbour_label.Click += new System.EventHandler(this.Minification_Nearest_Neighbour_Click);
