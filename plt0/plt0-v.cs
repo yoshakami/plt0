@@ -31,14 +31,16 @@ namespace plt0_gui
         string font_size;
         float size_font;
         string font_unit;
+        System.Drawing.GraphicsUnit unit_font;
         int y;
         byte byte_text;
         bool success;
         /* bool bold;
         bool italic;
         bool underline;
-        bool strikeout;
-        bool vertical;*/
+        bool strikeout;*/
+        byte font_style;
+        bool vertical;
 
         // checkboxes
         bool bmd = false;
@@ -756,24 +758,27 @@ namespace plt0_gui
                 }
                 font_colour = lines[10];  // default colour
                 font_name = lines[12]; // default font name
+                byte.TryParse(lines[14], out GdiCharSet);
+                size_font = 15F;
                 desc[i].Visible = true;
-                bold = false;
-                italic = false;
-                underline = false;
-                strikeout = false;
-                vertical = true;
+                font_style = 0;
+                unit_font = GraphicsUnit.Point;
                 if (txt_label[i].Contains("\\b"))
                 {
-                    bold = true;
+                    font_style += 1;
                 }
                 if (txt_label[i].Contains("\\i"))
                 {
-                    italic = true;
+                    font_style += 2;
+                }
+                if (txt_label[i].Contains("\\k"))
+                {
+                    font_style += 4;
                 }
                 if (txt_label[i].Contains("\\u"))
                 {
-                    underline = true;
-                }g
+                    font_style += 8;
+                }
                 if (txt_label[i].Contains("\\v"))
                 {
                     vertical = false;
@@ -785,15 +790,51 @@ namespace plt0_gui
                 txt_label[i] = Parse_Special_Markdown(txt_label[i].LastIndexOf("\\s"), txt_label[i], 4);
                 byte.TryParse(font_encoding, out GdiCharSet);
                 float.TryParse(font_encoding, out size_font);
+                switch (font_unit.ToLower())
+                {
+                    case "world":
+                        unit_font = GraphicsUnit.World;
+                        break;
+                    case "pixel":
+                        unit_font = GraphicsUnit.Pixel;
+                        break;
+                    case "point":
+                        unit_font = GraphicsUnit.Point;
+                        break;
+                    case "inch":
+                        unit_font = GraphicsUnit.Inch;
+                        break;
+                    case "document":
+                        unit_font = GraphicsUnit.Document;
+                        break;
+                    case "display":
+                        unit_font = GraphicsUnit.Display;
+                        break;
+                    case "milimeter":
+                        unit_font = GraphicsUnit.Display;
+                        break;
+                    default:  // I were to always suppose the setting file's markdown would never have errors so I haven't made any hard check. It's not worth securing everything since it's just visual and I'm doing this for free.
+                        unit_font = GraphicsUnit.Point;
+                        break;
+
+                }
                 // txt_label[i] = Parse_Special_Markdown(txt_label[i].LastIndexOf("\\j"), txt_label[i], backslash_j);  OH GOSH I AM IDIOT - that happens when you leave your code for one day lol
+                y = 0;
                 y = txt_label[i].IndexOf("\\x");
-                if (y != -1)
+                while (y != -1)
                 {
                     byte.TryParse(txt_label[i].Substring(y + 2, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out byte_text);
-                    txt_label[i] = txt_label[i].Substring(0, y) + txt_label[i].Substring(y + 4);
+                    txt_label[i] = txt_label[i].Substring(0, y) + byte_text.ToString() + txt_label[i].Substring(y + 4);
+                    y = txt_label[i].IndexOf("\\x");
                 }
-
+                txt_label[i] = txt_label[i].Replace("\\b", "").Replace("\\i", "").Replace("\\k", "").Replace("\\u", "").Replace("\\v", "");
                 // desc[i].Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, ((System.Drawing.FontStyle)((((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic) | System.Drawing.FontStyle.Underline) | System.Drawing.FontStyle.Strikeout))), System.Drawing.GraphicsUnit.World, ((byte)(0)), true);
+                switch (font_style)
+                {
+                    case 0:
+                        desc[i].Font = new System.Drawing.Font(font_name, size_font, FontStyle.Regular, System.Drawing.GraphicsUnit.World, ((byte)(0)), true);
+                        break;
+                }
             }
             for (byte i = (byte)txt_label.Length; i < 21; i++)
             {
@@ -4546,8 +4587,8 @@ namespace plt0_gui
             // 
             this.min_nearest_neighbour_label.AutoSize = true;
             this.min_nearest_neighbour_label.BackColor = System.Drawing.Color.Transparent;
-            this.min_nearest_neighbour_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, ((System.Drawing.FontStyle)((((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic) 
-                | System.Drawing.FontStyle.Underline) 
+            this.min_nearest_neighbour_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, ((System.Drawing.FontStyle)((((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic)
+                | System.Drawing.FontStyle.Underline)
                 | System.Drawing.FontStyle.Strikeout))), System.Drawing.GraphicsUnit.World, ((byte)(0)), true);
             this.min_nearest_neighbour_label.ForeColor = System.Drawing.SystemColors.Window;
             this.min_nearest_neighbour_label.Location = new System.Drawing.Point(893, 128);
