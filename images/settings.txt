@@ -10,7 +10,7 @@ Black
 Description color
 Cyan
 Font name (it must be installed on your system)
-default
+NintendoP-NewRodin DB
 Encoding number (internally named GdiCharSetsee https://docs.microsoft.com/en-us/dotnet/api/system.drawing.font.gdicharset?view=dotnet-plat-ext-6.0)
 128
 
@@ -20,23 +20,23 @@ Encoding number (internally named GdiCharSetsee https://docs.microsoft.com/en-us
 yeah, I decided to implement my own markdown again.
 "\a" = %appdata%
 "\b" = sets the current label's text to bold
-"\c Cyan" makes the text of the current label be Cyan.
+"\c Cyan " makes the text of the current label be Cyan. - put "quotes" around the colour name if it has spaces
 "\d" = depth of input_file
 "\e" = executable name
-"\f default" font name of the current label
-"\g 128" = GdiCharSet of the current label 
+"\f default " font name of the current label - put "quotes" around the font name if it has spaces
+"\g 128 " = GdiCharSet of the current label 
 "\h" = height of the window
 "\i" = set current label's text to italic
-"\j 3" = jump to the next label and tells at which line the text starts
+"\j 3 " = jump to the next label and tells at which line the text starts - can't be the same line as the one you're on (else an override occurs and previous text can't be seen)
 "\k" = knit a strikeout text style
 "\l" = Layout name that you're browsing
 "\m" = mipmaps number
 "\n" = new line
 "\o" = output file name
 "\p" = path of the executable (execPath, full path to the folder )
-"\q Point" = query a font size unit for current label
+"\q Point " = query a font size unit for current label 
 "\r" = r carriage return
-"\s 15" changes the size of the text in the current label
+"\s 15 " changes the size of the text in the current label
 "\t" = tab
 "\u" = underline the whole text of current label
 "\v" = Vertical font set to false for current label
@@ -48,25 +48,25 @@ yeah, I decided to implement my own markdown again.
 notes: 
 colour names are all the ones allowed in System.Drawing.Color
 \v (GdiVerticalFont = true by default) see https://docs.microsoft.com/en-us/dotnet/api/system.drawing.font.gdiverticalfont?view=dotnet-plat-ext-6.0
-\l values are {"World", "Pixel", "Point", "Inch", "Document", "Milimeter"}
+\q values are {"World", "Pixel", "Point", "Inch", "Document", "Milimeter", "Display"}
 \g is actually the encoding, 0 is ANSI for example. see https://docs.microsoft.com/en-us/dotnet/api/system.drawing.font.gdicharset?view=dotnet-plat-ext-6.0
+if it doesn't have quotes, make markdown with arguments always end with a space (\c \f \g \j \q \s)
+the byte \x00 must always have 2 digits (that way, the program know where it ends, and you don't need to add a ending character after it)
+
+you can use \j 9 times at most in one line of this .txt
 
 
 
-
-
-
-
-writes a bmd file (a bmd file must be provided in input_file2)
+edit textures of a bmd file \j 0 \c red (a bmd file must be provided in input_file2)
 writes the texture in a bti file
 writes the texture in a tex0 file and the palette in a plt0 file
 writes the texture in a tpl file
 writes the texture in a bmp image
 writes the texture in a png image
-writes the texture in a jpg image (this format doesn't support alpha)
-writes the texture in a jpeg image (this format doesn't support alpha)
+writes the texture in a jpg image \j 0 \c red (this format doesn't support alpha)
+writes the texture in a jpeg image \j 0 \c red (this format doesn't support alpha)
 writes the texture in a gif image
-writes the texture in a ico image (max dimensions of the image are 256x256)
+writes the texture in a ico image \j 0 \c red (max dimensions of the image are 256x256)
 writes the texture in a tif image
 writes the texture in a tiff image
 option asking you to press enter before the console window disappears in cli mode
@@ -79,11 +79,11 @@ I have nothing more to describe here, output will be vertically and horizontally
 makes the program to never throw any exception (useful when using subprocess.checkoutput in python)
 silent mode (with a cool small internal name)
 verbose mode (prints the internal variables content and some other text in the console)
-black and white, 4 bit per pixel - no alpha (will look bad if your image is colorful)
+black and white, 4 bit per pixel - no alpha \n(will look bad if your image is colorful)
 black and white, 8 bit per pixel - no alpha
-black and white, 4 bit per pixel - alpha (looks bad, and an alpha value is stored for each pixel)
+black and white, 4 bit per pixel - alpha \n(looks bad, and an alpha value is stored for each pixel)
 black and white, 8 bit per pixel - alpha
-color, 16 bits per pixel - no alpha (5 bits red, 6 bits green, 5 bits blue)
+color, 16 bits per pixel - no alpha \n\j 0 \c red 5 bits red\j 0 \c green 6 bits green\j 0 \c blue 5 bits blue)
 color, 16 bits per pixel - smart alpha (1RRR RRGG GGGB BBBB - or - 0AAA RRRR GGGG BBBB)
 color, 32 bits per pixel - alpha (this encoding is the only one that isn't lossy)
 palette, 4 bits per pixel (CI4 palette has a capacity of 16 colours)
@@ -168,16 +168,6 @@ Yosh's Youtube Channel
 The version of this tool
 full command if you wanted to run the app with the current parameters from a command line
 Launch the application
-this is padding data to alignment.
-this is padding data to alignment.
-this is padding data to alignment.
-this is padding data to alignment.
-this is padding data to alignment.
-this is padding data to alignment.
-this is padding data to alignment.
-this is padding data to alignment.
-this is padding data to alignment.
-this is padding data to alignment.
 this is padding data to alignment.
 this is padding data to alignment.
 this is padding data to alignment.

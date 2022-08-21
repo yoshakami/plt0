@@ -748,6 +748,8 @@ namespace plt0_gui
             txt = txt.Replace("\\a", appdata).Replace("\\e", execName).Replace("\\h", this.Height.ToString()).Replace("\\l", layout_name[layout]).Replace("\\m", mipmaps.ToString()).Replace("\\n", "\n").Replace("\\o", output_name).Replace("\\p", execPath).Replace("\\r", "\r").Replace("\\t", "\t").Replace("\\w", this.Width.ToString()).Replace("\\0", block_width_array[encoding].ToString()).Replace("\\y", block_height_array[encoding].ToString()).Replace("\\z", block_depth_array[encoding].ToString());
             if (input_file_image != null)
                 txt = txt.Replace("\\d", input_file_image.PixelFormat.ToString());
+            else
+                txt = txt.Replace("\\d", "");
             // implement b, c, f, g, i, j, k, q, s, u, v, x
             string[] txt_label = txt.Split(new string[] { "\\j" }, StringSplitOptions.RemoveEmptyEntries);
             for (byte i = 0; i < (byte)txt_label.Length; i++)
@@ -846,7 +848,7 @@ namespace plt0_gui
                 while (y != -1)
                 {
                     byte.TryParse(txt_label[i].Substring(y + 2, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out byte_text);
-                    txt_label[i] = txt_label[i].Substring(0, y) + byte_text.ToString() + txt_label[i].Substring(y + 4);
+                    txt_label[i] = txt_label[i].Substring(0, y) + System.Text.Encoding.Unicode.GetString(new[] { byte_text }) + txt_label[i].Substring(y + 4);
                     y = txt_label[i].IndexOf("\\x");
                 }
                 txt_label[i] = txt_label[i].Replace("\\b", "").Replace("\\i", "").Replace("\\k", "").Replace("\\u", "").Replace("\\v", "");
