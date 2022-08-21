@@ -1,7 +1,8 @@
 import pyperclip
+# the goal of this code is to be able to easily change variable or function names in the designer, and generate them in bulk. also adds code to load images declared 
 output = """        private void Load_Images()
         {"""
-x = 58
+x = 58  # settings start line minus two
 with open("X:\\yoshi\\3D Objects\\C#\\plt0\\plt0\\plt0-v.cs", "r") as cs:
     text = cs.read()
     text = text.splitlines()
@@ -17,22 +18,27 @@ while (text[w][:14] == "        Image "):
     w += 1
 output += """
         }"""
+w = 0
 booleans = ["bmd", "bti", "tex0", "tpl", "bmp", "png", "jpg", "jpeg", "gif", "ico", "tif", "tiff", "ask_exit", "bmp_32", "FORCE_ALPHA", "funky", "no_warning", "random", "reverse", "safe_mode", "stfu", "warn"]
+check_run = ["\n            Check_run();"] * 12 + [""] * 30
 for y in booleans:
     x += 1
+    w += 1
     output += """
         private void """ + y + """_Click(object sender, EventArgs e)
         {
             if (""" + y + """)
             {
                 """ + y + """ = false;
+                cli_textbox_label.Text = cli_textbox_label.Text.Replace(\"""" + y + """", "");
                 hover_checkbox(""" + y + """_ck);
             }
             else
             {
                 """ + y + """ = true;
+                cli_textbox_label.Text += """ + y + """;
                 selected_checkbox(""" + y + """_ck);
-            }
+            }""" + check_run[w] + """
         }
         private void """ + y + """_MouseEnter(object sender, EventArgs e)
         {
@@ -51,6 +57,7 @@ for y in booleans:
                 unchecked_checkbox(""" + y + """_ck);
         }"""
 encoding = ["i4", "i8", "ai4", "ai8", "rgb565", "rgb5a3", "rgba32", "", "ci4", "ci8", "ci14x2", "", "", "", "cmpr"]
+check_run[7] = check_run[11] = check_run[12] = check_run[13] = ""
 for z in range(len(encoding)):
     if encoding[z] == "":
         continue
@@ -60,7 +67,7 @@ for z in range(len(encoding)):
         {
             unchecked_encoding(encoding_ck[encoding]);
             selected_encoding(""" + encoding[z] + """_ck);
-            encoding = """ + str(z) + """; // """ + encoding[z].upper() + """
+            encoding = """ + str(z) + """; // """ + encoding[z].upper() + check_run[z] + """
         }
         private void """ + encoding[z].upper() + """_MouseEnter(object sender, EventArgs e)
         {
@@ -522,6 +529,7 @@ name2 = ["Texture", "bmd or tpl"]
 filter = ["*.bmp;*.png;*.jfif;*.jpg;*.jpeg;*.jpg;*.ico;*.gif;*.tif;*.tiff;*.rle;*.dib", "*.plt0;*.bmp"]
 filter2 = ["*.bti;*.tex0;*.tpl", "*.bmd;*tpl"]
 file_title = ["Select a picture or a texture", "Select a palette, a bmd file, or a tpl file"]
+w = 7
 for n in range(2):
     output += """
         private void """ + textbox[n][:-4] + """_Click(object sender, EventArgs e)
@@ -536,10 +544,12 @@ for n in range(2):
             {
                 """ + textbox[n] + """.Text = dialog.FileName;
                 """ + textbox[n][:-4] + """ = dialog.FileName;
+                Check_run();
             }
         }"""
 for p in range(3):
     x += 1
+    w += 1
     output += """
         private void """ + textbox[p][:-4] + """_MouseEnter(object sender, EventArgs e)
         {
@@ -551,7 +561,7 @@ for p in range(3):
         }
         private void """ + textbox[p][:-4] + """_TextChanged(object sender, EventArgs e)
         {
-            """ + textbox[p][:-4] + """ = """ + textbox[p] + """.Text;
+            """ + textbox[p][:-4] + """ = """ + textbox[p] + """.Text;""" + check_run[w] + """
         }"""
 for o in range(3, len(textbox)):
     x += 1
@@ -615,19 +625,18 @@ for r in range(3):
             """ + banner_icon[r] + "_ck.BackgroundImage = " + banner_icon[r] + """;
         }"""
 text_icon = ["version", "cli_textbox", "run", "Output_label"]
-line2 = [text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover"] * 2 + ["            Check_run();", ""]
 for s in range(4):
+    line2 = ["\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;"] * 2 + ["\n            Check_run();", ""]
+    line3 = ["\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + ";"] * 2 + ["\n            Check_run();", ""]
     x += 1
     output += """
         private void """ + text_icon[s] + """_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[""" + str(x) + """]);
-            """ + line2 + """;
+            Parse_Markdown(lines[""" + str(x) + """]);""" + line2[s] + """
         }
         private void """ + text_icon[s] + """_MouseLeave(object sender, EventArgs e)
         {
-            Hide_description();
-            """ + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + """;
+            Hide_description();""" + line3[s] + """
         }"""
 output += """
     }

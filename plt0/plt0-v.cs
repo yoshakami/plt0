@@ -359,6 +359,9 @@ namespace plt0_gui
             discord_ck.BackgroundImage = discord;
             github_ck.BackgroundImage = github;
             youtube_ck.BackgroundImage = youtube;
+            version_ck.BackgroundImage = version;
+            run_ck.BackgroundImage = run_off;
+            cli_textbox_ck.BackgroundImage = cli_textbox;
             this.BackgroundImage = background;
             unchecked_checkbox(ask_exit_ck);
             unchecked_checkbox(FORCE_ALPHA_ck);
@@ -1019,32 +1022,14 @@ namespace plt0_gui
             success = false;
             len = txt.Text.Length;
             //if (ishexbyte(txt.Text.Substring(2, len - 2).ToLower()))
-            if (len > 1)
-            {
-                if (txt.Text.Substring(0, 2) == "0x")
-                {
-                    if (len == 2)
-                        return;
-                    else
-                        success = double.TryParse(txt.Text.Substring(2, len - 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out output);
-                }
-            }
-            if (!success)
-            {
-                if (ishexchar(txt.Text[0]))
-                    success = double.TryParse(txt.Text.Substring(0, len), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out output);
-                else
-                    success = double.TryParse(txt.Text, out output);
-            }
+            success = double.TryParse(txt.Text, out output);
             if (success)
             {
-                if (number > max)
+                if (output > max)
                 {
                     output = max;
                     txt.Text = max.ToString();
                 }
-                else
-                    output = (double)number;
             }
             else
                 txt.Text = txt.Text.Substring(0, len - 1);
@@ -7626,7 +7611,7 @@ namespace plt0_gui
             this.version_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.version_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.version_hitbox.ForeColor = System.Drawing.Color.Gray;
-            this.version_hitbox.Location = new System.Drawing.Point(722, 0);
+            this.version_hitbox.Location = new System.Drawing.Point(757, 0);
             this.version_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.version_hitbox.Name = "version_hitbox";
             this.version_hitbox.Padding = new System.Windows.Forms.Padding(64, 6, 0, 6);
@@ -7660,7 +7645,7 @@ namespace plt0_gui
             this.version_ck.Enabled = false;
             this.version_ck.ErrorImage = null;
             this.version_ck.InitialImage = null;
-            this.version_ck.Location = new System.Drawing.Point(726, 0);
+            this.version_ck.Location = new System.Drawing.Point(757, 0);
             this.version_ck.Margin = new System.Windows.Forms.Padding(0);
             this.version_ck.Name = "version_ck";
             this.version_ck.Size = new System.Drawing.Size(64, 32);
@@ -8639,9 +8624,13 @@ namespace plt0_gui
             {
                 github_hover = Image.FromFile(execPath + "images/github_hover.png");
             }
-            if (File.Exists(execPath + "images/run.png"))
+            if (File.Exists(execPath + "images/run_on.png"))
             {
-                run = Image.FromFile(execPath + "images/run.png");
+                run_on = Image.FromFile(execPath + "images/run_on.png");
+            }
+            if (File.Exists(execPath + "images/run_off.png"))
+            {
+                run_off = Image.FromFile(execPath + "images/run_off.png");
             }
             if (File.Exists(execPath + "images/run_hover.png"))
             {
@@ -8676,6 +8665,7 @@ namespace plt0_gui
                 bmd = true;
                 selected_checkbox(bmd_ck);
             }
+            Check_run();
         }
         private void bmd_MouseEnter(object sender, EventArgs e)
         {
@@ -8705,6 +8695,7 @@ namespace plt0_gui
                 bti = true;
                 selected_checkbox(bti_ck);
             }
+            Check_run();
         }
         private void bti_MouseEnter(object sender, EventArgs e)
         {
@@ -8734,6 +8725,7 @@ namespace plt0_gui
                 tex0 = true;
                 selected_checkbox(tex0_ck);
             }
+            Check_run();
         }
         private void tex0_MouseEnter(object sender, EventArgs e)
         {
@@ -8763,6 +8755,7 @@ namespace plt0_gui
                 tpl = true;
                 selected_checkbox(tpl_ck);
             }
+            Check_run();
         }
         private void tpl_MouseEnter(object sender, EventArgs e)
         {
@@ -8792,6 +8785,7 @@ namespace plt0_gui
                 bmp = true;
                 selected_checkbox(bmp_ck);
             }
+            Check_run();
         }
         private void bmp_MouseEnter(object sender, EventArgs e)
         {
@@ -8821,6 +8815,7 @@ namespace plt0_gui
                 png = true;
                 selected_checkbox(png_ck);
             }
+            Check_run();
         }
         private void png_MouseEnter(object sender, EventArgs e)
         {
@@ -8850,6 +8845,7 @@ namespace plt0_gui
                 jpg = true;
                 selected_checkbox(jpg_ck);
             }
+            Check_run();
         }
         private void jpg_MouseEnter(object sender, EventArgs e)
         {
@@ -8879,6 +8875,7 @@ namespace plt0_gui
                 jpeg = true;
                 selected_checkbox(jpeg_ck);
             }
+            Check_run();
         }
         private void jpeg_MouseEnter(object sender, EventArgs e)
         {
@@ -8908,6 +8905,7 @@ namespace plt0_gui
                 gif = true;
                 selected_checkbox(gif_ck);
             }
+            Check_run();
         }
         private void gif_MouseEnter(object sender, EventArgs e)
         {
@@ -8937,6 +8935,7 @@ namespace plt0_gui
                 ico = true;
                 selected_checkbox(ico_ck);
             }
+            Check_run();
         }
         private void ico_MouseEnter(object sender, EventArgs e)
         {
@@ -8966,6 +8965,7 @@ namespace plt0_gui
                 tif = true;
                 selected_checkbox(tif_ck);
             }
+            Check_run();
         }
         private void tif_MouseEnter(object sender, EventArgs e)
         {
@@ -9307,6 +9307,7 @@ namespace plt0_gui
             unchecked_encoding(encoding_ck[encoding]);
             selected_encoding(i4_ck);
             encoding = 0; // I4
+            Check_run();
         }
         private void I4_MouseEnter(object sender, EventArgs e)
         {
@@ -9329,6 +9330,7 @@ namespace plt0_gui
             unchecked_encoding(encoding_ck[encoding]);
             selected_encoding(i8_ck);
             encoding = 1; // I8
+            Check_run();
         }
         private void I8_MouseEnter(object sender, EventArgs e)
         {
@@ -9351,6 +9353,7 @@ namespace plt0_gui
             unchecked_encoding(encoding_ck[encoding]);
             selected_encoding(ai4_ck);
             encoding = 2; // AI4
+            Check_run();
         }
         private void AI4_MouseEnter(object sender, EventArgs e)
         {
@@ -9373,6 +9376,7 @@ namespace plt0_gui
             unchecked_encoding(encoding_ck[encoding]);
             selected_encoding(ai8_ck);
             encoding = 3; // AI8
+            Check_run();
         }
         private void AI8_MouseEnter(object sender, EventArgs e)
         {
@@ -9395,6 +9399,7 @@ namespace plt0_gui
             unchecked_encoding(encoding_ck[encoding]);
             selected_encoding(rgb565_ck);
             encoding = 4; // RGB565
+            Check_run();
         }
         private void RGB565_MouseEnter(object sender, EventArgs e)
         {
@@ -9417,6 +9422,7 @@ namespace plt0_gui
             unchecked_encoding(encoding_ck[encoding]);
             selected_encoding(rgb5a3_ck);
             encoding = 5; // RGB5A3
+            Check_run();
         }
         private void RGB5A3_MouseEnter(object sender, EventArgs e)
         {
@@ -9439,6 +9445,7 @@ namespace plt0_gui
             unchecked_encoding(encoding_ck[encoding]);
             selected_encoding(rgba32_ck);
             encoding = 6; // RGBA32
+            Check_run();
         }
         private void RGBA32_MouseEnter(object sender, EventArgs e)
         {
@@ -9461,6 +9468,7 @@ namespace plt0_gui
             unchecked_encoding(encoding_ck[encoding]);
             selected_encoding(ci4_ck);
             encoding = 8; // CI4
+            Check_run();
         }
         private void CI4_MouseEnter(object sender, EventArgs e)
         {
@@ -9483,6 +9491,7 @@ namespace plt0_gui
             unchecked_encoding(encoding_ck[encoding]);
             selected_encoding(ci8_ck);
             encoding = 9; // CI8
+            Check_run();
         }
         private void CI8_MouseEnter(object sender, EventArgs e)
         {
@@ -9505,6 +9514,7 @@ namespace plt0_gui
             unchecked_encoding(encoding_ck[encoding]);
             selected_encoding(ci14x2_ck);
             encoding = 10; // CI14X2
+            Check_run();
         }
         private void CI14X2_MouseEnter(object sender, EventArgs e)
         {
@@ -11633,6 +11643,7 @@ namespace plt0_gui
             {
                 input_file_txt.Text = dialog.FileName;
                 input_file = dialog.FileName;
+                Check_run();
             }
         }
         private void input_file2_Click(object sender, EventArgs e)
@@ -11647,6 +11658,7 @@ namespace plt0_gui
             {
                 input_file2_txt.Text = dialog.FileName;
                 input_file2 = dialog.FileName;
+                Check_run();
             }
         }
         private void input_file_MouseEnter(object sender, EventArgs e)
@@ -11660,6 +11672,7 @@ namespace plt0_gui
         private void input_file_TextChanged(object sender, EventArgs e)
         {
             input_file = input_file_txt.Text;
+            Check_run();
         }
         private void input_file2_MouseEnter(object sender, EventArgs e)
         {
@@ -11672,6 +11685,7 @@ namespace plt0_gui
         private void input_file2_TextChanged(object sender, EventArgs e)
         {
             input_file2 = input_file2_txt.Text;
+            Check_run();
         }
         private void output_name_MouseEnter(object sender, EventArgs e)
         {
@@ -11684,6 +11698,7 @@ namespace plt0_gui
         private void output_name_TextChanged(object sender, EventArgs e)
         {
             output_name = output_name_txt.Text;
+            Check_run();
         }
         private void mipmaps_MouseEnter(object sender, EventArgs e)
         {
@@ -11996,7 +12011,7 @@ namespace plt0_gui
         private void version_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
-            version_ck.BackgroundImage = version;
+            version_ck.BackgroundImage = version_hover;
         }
         private void cli_textbox_MouseEnter(object sender, EventArgs e)
         {
@@ -12006,17 +12021,15 @@ namespace plt0_gui
         private void cli_textbox_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
-            cli_textbox_ck.BackgroundImage = cli_textbox;
+            cli_textbox_ck.BackgroundImage = cli_textbox_hover;
         }
         private void run_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[169]);
-            run_ck.BackgroundImage = run_hover;
+            Parse_Markdown(lines[169]); Check_run();
         }
         private void run_MouseLeave(object sender, EventArgs e)
         {
-            Hide_description();
-            Check_run();
+            Hide_description(); Check_run();
         }
         private void Output_label_MouseEnter(object sender, EventArgs e)
         {
