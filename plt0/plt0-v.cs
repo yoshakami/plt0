@@ -10,17 +10,23 @@ namespace plt0_gui
 {
     public partial class plt0_gui : Form
     {
-        string execPath = AppDomain.CurrentDomain.BaseDirectory.Replace("\\", "/");
-        string execName = System.AppDomain.CurrentDomain.FriendlyName.Replace("\\", "/");
-        string appdata = Environment.GetEnvironmentVariable("appdata").Replace("\\", "/");
+        static readonly string execPath = AppDomain.CurrentDomain.BaseDirectory.Replace("\\", "/");
+        static readonly string execName = System.AppDomain.CurrentDomain.FriendlyName.Replace("\\", "/");
+        static readonly string appdata = Environment.GetEnvironmentVariable("appdata").Replace("\\", "/");
+        static string args;
         string[] lines = new string[255];
         string[] layout_name = { "All", "Auto", "Preview", "Paint" };
         byte[] block_width_array = { 8, 8, 8, 4, 4, 4, 4, 255, 8, 8, 4, 255, 255, 255, 8 }; // real one to calculate canvas size.
         //byte[] block_width_array = { 4, 8, 8, 8, 8, 8, 16, 255, 4, 8, 8, 255, 255, 255, 4 }; // altered to match bit-per pixel size.
         byte[] block_height_array = { 8, 4, 4, 4, 4, 4, 4, 255, 8, 4, 4, 255, 255, 255, 8 }; // 255 = unused image format
         byte[] block_depth_array = { 4, 8, 4, 8, 16, 16, 32, 255, 4, 8, 16, 255, 255, 255, 4 };  // for \z
+        string[] encoding_array = { "i4", "i8", "ai4", "ai8", "rgb565", "rgb5a3", "rgba32", "", "ci4", "ci8", "ci14x2", "", "", "", "cmpr" };
+        string[] wrap_array = {"Clamp", "Repeat", "Mirror", "Clamp"};
+        string[] algorithm_array = { "", "cie709", "custom_rgba", "no gradient" };
+        protected internal volatile string[] alpha_array = { "no alpha", "alpha", "mix" }; // imagine putting random keywords
+        static readonly private protected string[] rgba_array = { "R", "G", "B", "A" }; // imagine knowing what the keywords do
         string input_file;
-        string output_name;
+        string output_name = "";
         string input_file2;
         static char separator;
         static string font_name = "";
@@ -29,10 +35,10 @@ namespace plt0_gui
         static string font_size = "";
         static string font_unit = "";
         string[] markdown = { font_name, font_colour, font_unit, font_encoding, font_size };
-        string backslash_j;
-        string backslash_n;
+        //string backslash_j;
+        //string backslash_n;
         byte GdiCharSet;
-        byte jump_line;
+        //byte jump_line;
         float size_font;
         System.Drawing.GraphicsUnit unit_font;
         int y;
@@ -95,11 +101,11 @@ namespace plt0_gui
         byte diversity = 10;
         byte diversity2 = 0;
         byte mipmaps = 0;
-        byte round3 = 16;
-        byte round4 = 8;
-        byte round5 = 4;
-        byte round6 = 2;
-        byte num_colours;
+        byte round3 = 15;
+        byte round4 = 7;
+        byte round5 = 3;
+        byte round6 = 1;
+        ushort num_colours = 0;
         byte layout;
         byte arrow;
         int number;
@@ -924,8 +930,9 @@ namespace plt0_gui
             desc8.Text = "";
             desc9.Text = "";
         }
-        private void Parse_byte_text(TextBox txt, byte output, byte max)
+        private void Parse_byte_text(TextBox txt, out byte output, byte max)
         {
+            output = 254;
             if (txt.Text == "")
                 return;
             success = false;
@@ -966,8 +973,9 @@ namespace plt0_gui
             else
                 txt.Text = txt.Text.Substring(0, len - 1);
         }
-        private void Parse_ushort_text(TextBox txt, ushort output, ushort max)
+        private void Parse_ushort_text(TextBox txt, out ushort output, ushort max)
         {
+            output = 0;
             if (txt.Text == "")
                 return;
             success = false;
@@ -1008,8 +1016,9 @@ namespace plt0_gui
             else
                 txt.Text = txt.Text.Substring(0, len - 1);
         }
-        private void Parse_double_text(TextBox txt, double output, double max)
+        private void Parse_double_text(TextBox txt, out double output, double max)
         {
+            output = 69420F;
             if (txt.Text == "")
                 return;
             if (txt.Text[0] == '0')
@@ -1053,6 +1062,182 @@ namespace plt0_gui
             }
             else
                 run_ck.BackgroundImage = run_off;
+        }
+        private void Organize_args()
+        {
+
+            args = "plt0.exe ";
+            if (File.Exists(input_file))
+                args += "\"" + input_file + "\" ";
+            if (File.Exists(input_file2))
+                args += "\"" + input_file2 + "\" ";
+            if (output_name != "")
+                args += "\"" + output_name + "\" ";
+            if (encoding != 7)
+                args += encoding_array[encoding] + " ";
+            if (palette_enc != 3)
+                args += encoding_array[encoding + 3] + " ";
+            if (WrapS != 3 || WrapT != 3)
+                args += "wrap " + wrap_array[WrapS] + " " + wrap_array[WrapT] + " ";
+            if (algorithm != 4 && algorithm != 0)
+            {
+                args += algorithm_array[algorithm] + " ";
+            }
+            if (algorithm == 2)  // custom rgba
+            {
+                args += custom_r.ToString() + " " + custom_g.ToString() + " " + custom_b.ToString() + " " + custom_a.ToString() + " ";
+            }
+            if (alpha != 3)
+            {
+                args += alpha_array[alpha] + " ";
+            }
+            if (r != 0 || g != 1 || b != 2 || a != 3)
+            {
+                args += rgba_array[r] + rgba_array[g] + rgba_array[b] + rgba_array[a] + " ";
+            }
+            if (minification_filter != 6)
+            {
+                args += "min " + minification_filter.ToString() + " ";
+            }
+            if (magnification_filter != 6)
+            {
+                args += "mag " + minification_filter.ToString() + " ";
+            }
+            if (cmpr_max < 16)
+            {
+                args += "max " + cmpr_max.ToString() + " ";
+            }
+            if (cmpr_min_alpha != 100)
+            {
+                args += "cmpr_min " + cmpr_min_alpha.ToString() + " ";
+            }
+            if (num_colours != 0)
+            {
+                args += "c " + num_colours.ToString() + " ";
+            }
+            if (diversity != 10)
+            {
+                args += "d " + diversity.ToString() + " ";
+            }
+            if (diversity2 != 0)
+            {
+                args += "d2 " + diversity2.ToString() + " ";
+            }
+            if (mipmaps != 0)
+            {
+                args += "m " + mipmaps.ToString() + " ";
+            }
+            if (percentage != 0 && percentage < 128)
+            {
+                args += "p " + mipmaps.ToString() + " ";
+            }
+            if (percentage2 != 0 && percentage2 < 128)
+            {
+                args += "p2 " + percentage2.ToString() + " ";
+            }
+            if (round3 != 15 && round3 < 128)
+            {
+                args += "round3 " + round3.ToString() + " ";
+            }
+            if (round4 != 7 && round4 < 128)
+            {
+                args += "round4 " + round4.ToString() + " ";
+            }
+            if (round5 != 3 && round5 < 128)
+            {
+                args += "round5 " + round5.ToString() + " ";
+            }
+            if (round6 != 1 && round6 < 128)
+            {
+                args += "round6 " + round6.ToString() + " ";
+            }
+            if (bmd)
+                args += "bmd ";
+            if (bti)
+                args += "bti ";
+            if (tex0)
+                args += "tex0 ";
+            if (tpl)
+                args += "tpl ";
+            if (bmp)
+                args += "bmp ";
+            if (png)
+                args += "png ";
+            if (jpg)
+                args += "jpg ";
+            if (jpeg)
+                args += "jpeg ";
+            if (gif)
+                args += "gif ";
+            if (ico)
+                args += "ico ";
+            if (tif)
+                args += "tif ";
+            if (tiff)
+                args += "tiff ";
+            if (ask_exit)
+                args += "ask_exit ";
+            if (bmp_32)
+                args += "bmp_32 ";
+            if (FORCE_ALPHA)
+                args += "FORCE_ALPHA ";
+            if (funky)
+                args += "funky ";
+            if (no_warning)
+                args += "no_warning ";
+            if (random)
+                args += "random ";
+            if (reverse)
+                args += "reverse ";
+            if (safe_mode)
+                args += "safe ";
+            if (stfu)
+                args += "stfu ";
+            if (warn)
+                args += "warn ";
+            /*bool bmd = false;
+            bool bti = false;
+            bool tex0 = false;
+            bool tpl = false;
+            bool bmp = false;
+            bool png = false;
+            bool ico = false;
+            bool jpeg = false;
+            bool jpg = false;
+            bool gif = false;
+            bool tif = false;
+            bool tiff = false;
+            // options
+            bool ask_exit = false;
+            bool FORCE_ALPHA = false;
+            bool funky = false;
+            bool bmp_32 = false;
+            bool random = false;
+            bool safe_mode = false;
+            bool reverse = false;
+            bool warn = false;
+            bool stfu = false;
+            bool no_warning = false;
+            byte cmpr_max = 16;  // number of colours that the program should take care in each 4x4 block - should always be set to 16 for better results.  // wimgt's cmpr encoding is better than mine. I gotta admit. 
+            byte cmpr_min_alpha = 100; // byte cmpr_alpha_threshold = 100;
+            byte diversity = 10;
+            byte diversity2 = 0;
+            byte mipmaps = 0;
+            byte round3 = 16;
+            byte round4 = 8;
+            byte round5 = 4;
+            byte round6 = 2;
+            byte num_colours;
+            byte layout;
+            byte arrow;
+            int number;
+            int len;
+            double percentage = 0;
+            double percentage2 = 0;
+            double custom_r = 1.0;
+            double custom_g = 1.0;
+            double custom_b = 1.0;
+            double custom_a = 1.0;*/
         }
         private void plt0_DragEnter(object sender, DragEventArgs e)
         {
@@ -6664,7 +6849,7 @@ namespace plt0_gui
             this.round3_txt.Name = "round3_txt";
             this.round3_txt.Size = new System.Drawing.Size(100, 21);
             this.round3_txt.TabIndex = 11;
-            this.round3_txt.Text = "16";
+            this.round3_txt.Text = "15";
             this.round3_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.round3_txt.TextChanged += new System.EventHandler(this.round3_TextChanged);
             this.round3_txt.MouseEnter += new System.EventHandler(this.round3_MouseEnter);
@@ -6696,7 +6881,7 @@ namespace plt0_gui
             this.round4_txt.Name = "round4_txt";
             this.round4_txt.Size = new System.Drawing.Size(100, 21);
             this.round4_txt.TabIndex = 12;
-            this.round4_txt.Text = "8";
+            this.round4_txt.Text = "7";
             this.round4_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.round4_txt.TextChanged += new System.EventHandler(this.round4_TextChanged);
             this.round4_txt.MouseEnter += new System.EventHandler(this.round4_MouseEnter);
@@ -6728,7 +6913,7 @@ namespace plt0_gui
             this.round5_txt.Name = "round5_txt";
             this.round5_txt.Size = new System.Drawing.Size(100, 21);
             this.round5_txt.TabIndex = 13;
-            this.round5_txt.Text = "4";
+            this.round5_txt.Text = "3";
             this.round5_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.round5_txt.TextChanged += new System.EventHandler(this.round5_TextChanged);
             this.round5_txt.MouseEnter += new System.EventHandler(this.round5_MouseEnter);
@@ -6760,7 +6945,7 @@ namespace plt0_gui
             this.round6_txt.Name = "round6_txt";
             this.round6_txt.Size = new System.Drawing.Size(100, 21);
             this.round6_txt.TabIndex = 14;
-            this.round6_txt.Text = "2";
+            this.round6_txt.Text = "1";
             this.round6_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.round6_txt.TextChanged += new System.EventHandler(this.round6_TextChanged);
             this.round6_txt.MouseEnter += new System.EventHandler(this.round6_MouseEnter);
@@ -12011,7 +12196,7 @@ namespace plt0_gui
         private void version_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
-            version_ck.BackgroundImage = version_hover;
+            version_ck.BackgroundImage = version;
         }
         private void cli_textbox_MouseEnter(object sender, EventArgs e)
         {
@@ -12021,15 +12206,17 @@ namespace plt0_gui
         private void cli_textbox_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
-            cli_textbox_ck.BackgroundImage = cli_textbox_hover;
+            cli_textbox_ck.BackgroundImage = cli_textbox;
         }
         private void run_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[169]); Check_run();
+            Parse_Markdown(lines[169]);
+            Check_run();
         }
         private void run_MouseLeave(object sender, EventArgs e)
         {
-            Hide_description(); Check_run();
+            Hide_description();
+            Check_run();
         }
         private void Output_label_MouseEnter(object sender, EventArgs e)
         {

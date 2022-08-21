@@ -256,7 +256,9 @@ class Parse_args_class
                         break;
                     }
                 case "G2":
+                case "CIE":
                 case "CIE709":
+                case "CIE 709":
                 case "CIE_709":
                     {
                         algorithm = 1;
@@ -600,6 +602,7 @@ class Parse_args_class
                     }
                 case "MAX":
                 case "CMPR_MAX":
+                case "CMPR MAX":
                 case "CMPR-MAX":
                     {
 
@@ -815,6 +818,18 @@ class Parse_args_class
                 case "CMPR_ALPHA_THRESHOLD":
                 case "CMPR_ALPHA_TRESHOLD":
                 case "CMPR_ALPHA_TRESOLD":
+                case "CMPR ALPHA THRESHOLD":
+                case "CMPR ALPHA TRESHOLD":
+                case "CMPR ALPHA TRESOLD":
+                case "CMPR-ALPHA-THRESHOLD":
+                case "CMPR-ALPHA-TRESHOLD":
+                case "CMPR-ALPHA-TRESOLD":
+                case "CMPR_MIN_ALPHA":
+                case "CMPR-MIN-ALPHA":
+                case "CMPR MIN ALPHA":
+                case "CMPR_MIN":
+                case "CMPR-MIN":
+                case "CMPR MIN":
                 case "THRESHOLD":
                 case "TRESHOLD": // common typo I do a lot
                 case "TRESOLD":
