@@ -30,13 +30,13 @@ for y in booleans:
             if (""" + y + """)
             {
                 """ + y + """ = false;
-                cli_textbox_label.Text = cli_textbox_label.Text.Replace(\"""" + y + """", "");
+                cli_textbox_label.Text = cli_textbox_label.Text.Replace(\"""" + y + """ ", "");
                 hover_checkbox(""" + y + """_ck);
             }
             else
             {
                 """ + y + """ = true;
-                cli_textbox_label.Text += """ + y + """;
+                cli_textbox_label.Text += \"""" + y + """ ";
                 selected_checkbox(""" + y + """_ck);
             }""" + check_run[w] + """
         }
@@ -651,6 +651,12 @@ for s in range(4):
             Hide_description();""" + line3[s] + """
         }"""
 output += """
+        private void Run_Click(object sender, EventArgs e)
+        {
+            Parse_args_class cli = new Parse_args_class();
+            cli.Parse_args(arg_array.ToArray());
+            cli.Check_exit();
+        }
     }
 }
 """

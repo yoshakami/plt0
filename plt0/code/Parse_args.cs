@@ -96,9 +96,9 @@ class Parse_args_class
     public ushort canvas_height;
     List<byte> BGRA = new List<byte>();
     List<ushort[]> canvas_dim = new List<ushort[]>();
-    public void Parse_args()
+    public void Parse_args(string[] args)
     {
-        string[] args = Environment.GetCommandLineArgs();
+        
         for (ushort i = 1; i < args.Length; i++)
         {
             if (pass > 0)

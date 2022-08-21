@@ -4,5 +4,8 @@ booleans = ["bmd", "bti", "tex0", "tpl", "bmp", "png", "jpg", "jpeg", "gif", "ic
 for a in booleans:
     output += """
             if (""" + a + """)
-                args += \"""" + a + """ ";"""
+            {
+                args += \"""" + a + """ ";
+                arg_array.Add(\"""" + a + """");
+            }"""
 pyperclip.copy(output)
