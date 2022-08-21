@@ -10,7 +10,9 @@ namespace plt0_gui
 {
     public partial class plt0_gui : Form
     {
-        string execPath = AppDomain.CurrentDomain.BaseDirectory;
+        string execPath = AppDomain.CurrentDomain.BaseDirectory.Replace("\\", "/");
+        string execName = System.AppDomain.CurrentDomain.FriendlyName.Replace("\\", "/");
+        string appdata = Environment.GetEnvironmentVariable("appdata").Replace("\\", "/");
         string[] lines = new string[255];
         string[] layout_name = { "All", "Auto", "Preview", "Paint" };
         byte[] block_width_array = { 8, 8, 8, 4, 4, 4, 4, 255, 8, 8, 4, 255, 255, 255, 8 }; // real one to calculate canvas size.
@@ -20,17 +22,18 @@ namespace plt0_gui
         string input_file;
         string output_name;
         string input_file2;
-        char separator;
-        string font_name;
-        string font_colour;
-        string font_encoding;
-        byte GdiCharSet;
+        static char separator;
+        static string font_name = "";
+        static string font_colour = "";
+        static string font_encoding = "";
+        static string font_size = "";
+        static string font_unit = "";
+        string[] markdown = { font_name, font_colour, font_unit, font_encoding, font_size };
         string backslash_j;
-        byte jump_line;
         string backslash_n;
-        string font_size;
+        byte GdiCharSet;
+        byte jump_line;
         float size_font;
-        string font_unit;
         System.Drawing.GraphicsUnit unit_font;
         int y;
         byte byte_text;
@@ -107,7 +110,6 @@ namespace plt0_gui
         double custom_g = 1.0;
         double custom_b = 1.0;
         double custom_a = 1.0;
-        List<string> markdown;
         List<Label> desc = new List<Label>(); // duplicates of the description label (used to have more than 1 font colour, style, family, and encoding too)
         List<PictureBox> encoding_ck = new List<PictureBox>();
         List<PictureBox> palette_ck = new List<PictureBox>();
@@ -262,11 +264,11 @@ namespace plt0_gui
             InitializeComponent();
             //output_file_type_label.Text = fontname;
             //algorithm_label.Text = algorithm_label.Font.Name;
-            markdown.Add(font_name);
-            markdown.Add(font_colour);
-            markdown.Add(font_unit);
-            markdown.Add(font_encoding);
-            markdown.Add(font_size);
+            //markdown.Add(font_name);
+            //markdown.Add(font_colour);
+            //markdown.Add(font_unit);
+            //markdown.Add(font_encoding);
+            //markdown.Add(font_size);
             encoding_ck.Add(i4_ck);
             encoding_ck.Add(i8_ck);
             encoding_ck.Add(ai4_ck);
@@ -334,26 +336,14 @@ namespace plt0_gui
             palette_ck.Add(palette_rgb5a3_ck);
             palette_ck.Add(palette_ai8_ck);  // nothing
             desc.Add(description);
-            desc.Add(description2);
-            desc.Add(description3);
-            desc.Add(description4);
-            desc.Add(description5);
-            desc.Add(description6);
-            desc.Add(description7);
-            desc.Add(description8);
-            desc.Add(description9);
-            desc.Add(description10);
-            desc.Add(description11);
-            desc.Add(description12);
-            desc.Add(description13);
-            desc.Add(description14);
-            desc.Add(description15);
-            desc.Add(description16);
-            desc.Add(description17);
-            desc.Add(description18);
-            desc.Add(description19);
-            desc.Add(description20);
-            desc.Add(description21);
+            desc.Add(desc2);
+            desc.Add(desc3);
+            desc.Add(desc4);
+            desc.Add(desc5);
+            desc.Add(desc6);
+            desc.Add(desc7);
+            desc.Add(desc8);
+            desc.Add(desc9);
             Load_Images();
             banner_ck.BackgroundImage = banner;
             surrounding_ck.BackgroundImage = surrounding;
@@ -705,13 +695,36 @@ namespace plt0_gui
         /*private void Change_font_normal()
         {
             font_normal = new System.Drawing.Font(fontname, 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-        }*/
+        }
+        private string Parse_Special_Markdown(int j, string[] text_array, byte i, byte arg)
+        {
+            if (j == -1)
+                return text;
+            markdown[arg] = "";
+            separator = ' ';
+            y = j;
+            j += 3;
+            if (text_array[i][j] == '"')
+            {
+                j++;
+                separator = '"';
+            }
+            while (text_array[i][j] != separator)
+            {
+                markdown[arg] += text_array[i][j];
+                j++;
+            }
+            j++;
+            text_array[i] = text_array[i].Substring(0, y) + text_array[i].Substring(j);
+            return text_array[i];
+        }
+        */
         // https://stackoverflow.com/questions/616584/how-do-i-get-the-name-of-the-current-executable-in-c
         private string Parse_Special_Markdown(int i, string text, byte arg)
         {
+            markdown[arg] = "";
             if (i == -1)
                 return text;
-            markdown[arg] = "";
             separator = ' ';
             y = i;
             i += 3;
@@ -729,10 +742,10 @@ namespace plt0_gui
             text = text.Substring(0, y) + text.Substring(i);
             return text;
         }
-        private string Parse_Markdown(string txt)
+        private void Parse_Markdown(string txt)
         {
             // these are variables. easy to replace
-            txt = txt.Replace("\\a", Environment.GetEnvironmentVariable("appdata")).Replace("\\e", System.AppDomain.CurrentDomain.FriendlyName).Replace("\\h", this.Height.ToString()).Replace("\\l", layout_name[layout]).Replace("\\m", mipmaps.ToString()).Replace("\\n", "\n").Replace("\\o", output_name).Replace("\\p", execPath).Replace("\\r", "\r").Replace("\\t", "\t").Replace("\\w", this.Width.ToString()).Replace("\\0", block_width_array[encoding].ToString()).Replace("\\y", block_height_array[encoding].ToString()).Replace("\\z", block_depth_array[encoding].ToString());
+            txt = txt.Replace("\\a", appdata).Replace("\\e", execName).Replace("\\h", this.Height.ToString()).Replace("\\l", layout_name[layout]).Replace("\\m", mipmaps.ToString()).Replace("\\n", "\n").Replace("\\o", output_name).Replace("\\p", execPath).Replace("\\r", "\r").Replace("\\t", "\t").Replace("\\w", this.Width.ToString()).Replace("\\0", block_width_array[encoding].ToString()).Replace("\\y", block_height_array[encoding].ToString()).Replace("\\z", block_depth_array[encoding].ToString());
             if (input_file_image != null)
                 txt = txt.Replace("\\d", input_file_image.PixelFormat.ToString());
             // implement b, c, f, g, i, j, k, q, s, u, v, x
@@ -741,28 +754,23 @@ namespace plt0_gui
             {
                 if (i != 0)
                 {
-                    backslash_j = "";
                     backslash_n = "";
-                    y = 0;
-                    while (txt_label[i][y] != ' ')
-                    {
-                        backslash_j += txt_label[i][y];
-                        y++;
-                    }
-                    byte.TryParse(backslash_j, out jump_line);
+                    byte.TryParse(txt_label[i][2].ToString(), out jump_line);
                     for (byte j = 0; j < jump_line; j++)
                     {
                         backslash_n += "\n";
                     }
-                    txt_label[i] = backslash_n + txt_label[i].Substring(y);
+                    txt_label[i] = backslash_n + txt_label[i].Substring(3);
                 }
                 font_colour = lines[10];  // default colour
                 font_name = lines[12]; // default font name
-                byte.TryParse(lines[14], out GdiCharSet);
-                size_font = 15F;
-                desc[i].Visible = true;
                 font_style = 0;
-                unit_font = GraphicsUnit.Point;
+                font_unit = "point";
+                size_font = 15F;
+                font_encoding = "128";
+                font_size = "15";
+                byte.TryParse(lines[14], out GdiCharSet);
+                desc[i].Visible = true;
                 if (txt_label[i].Contains("\\b"))
                 {
                     font_style += 1;
@@ -788,8 +796,22 @@ namespace plt0_gui
                 txt_label[i] = Parse_Special_Markdown(txt_label[i].LastIndexOf("\\q"), txt_label[i], 2);
                 txt_label[i] = Parse_Special_Markdown(txt_label[i].LastIndexOf("\\g"), txt_label[i], 3);
                 txt_label[i] = Parse_Special_Markdown(txt_label[i].LastIndexOf("\\s"), txt_label[i], 4);
-                byte.TryParse(font_encoding, out GdiCharSet);
-                float.TryParse(font_encoding, out size_font);
+                if (markdown[0] != "")
+                    font_name = markdown[0];
+                if (markdown[1] != "")
+                    font_colour = markdown[1];
+                if (markdown[2] != "")
+                    font_unit = markdown[2];
+                if (markdown[3] != "")
+                    font_encoding = markdown[3];
+                if (markdown[4] != "")
+                    font_size = markdown[4];
+                if (font_encoding != "")
+                    byte.TryParse(font_encoding, out GdiCharSet);
+                if (font_size != "")
+                    float.TryParse(font_size, out size_font);
+                if (size_font == 0F)
+                    size_font = 0.000001F;
                 switch (font_unit.ToLower())
                 {
                     case "world":
@@ -832,15 +854,73 @@ namespace plt0_gui
                 switch (font_style)
                 {
                     case 0:
-                        desc[i].Font = new System.Drawing.Font(font_name, size_font, FontStyle.Regular, System.Drawing.GraphicsUnit.World, ((byte)(0)), true);
+                        desc[i].Font = new System.Drawing.Font(font_name, size_font, FontStyle.Regular, unit_font, GdiCharSet, vertical);
+                        break;
+                    case 1:
+                        desc[i].Font = new System.Drawing.Font(font_name, size_font, FontStyle.Bold, unit_font, GdiCharSet, vertical);
+                        break;
+                    case 2:
+                        desc[i].Font = new System.Drawing.Font(font_name, size_font, FontStyle.Italic, unit_font, GdiCharSet, vertical);
+                        break;
+                    case 3:
+                        desc[i].Font = new System.Drawing.Font(font_name, size_font, FontStyle.Bold | FontStyle.Italic, unit_font, GdiCharSet, vertical);
+                        break;
+                    case 4:
+                        desc[i].Font = new System.Drawing.Font(font_name, size_font, FontStyle.Strikeout, unit_font, GdiCharSet, vertical);
+                        break;
+                    case 5:
+                        desc[i].Font = new System.Drawing.Font(font_name, size_font, FontStyle.Strikeout | FontStyle.Bold, unit_font, GdiCharSet, vertical);
+                        break;
+                    case 6:
+                        desc[i].Font = new System.Drawing.Font(font_name, size_font, FontStyle.Strikeout | FontStyle.Italic, unit_font, GdiCharSet, vertical);
+                        break;
+                    case 7:
+                        desc[i].Font = new System.Drawing.Font(font_name, size_font, FontStyle.Strikeout | FontStyle.Italic | FontStyle.Bold, unit_font, GdiCharSet, vertical);
+                        break;
+                    case 8:
+                        desc[i].Font = new System.Drawing.Font(font_name, size_font, FontStyle.Underline, unit_font, GdiCharSet, vertical);
+                        break;
+                    case 9:
+                        desc[i].Font = new System.Drawing.Font(font_name, size_font, FontStyle.Underline | FontStyle.Bold, unit_font, GdiCharSet, vertical);
+                        break;
+                    case 10:
+                        desc[i].Font = new System.Drawing.Font(font_name, size_font, FontStyle.Underline | FontStyle.Italic, unit_font, GdiCharSet, vertical);
+                        break;
+                    case 11:
+                        desc[i].Font = new System.Drawing.Font(font_name, size_font, FontStyle.Underline | FontStyle.Bold | FontStyle.Italic, unit_font, GdiCharSet, vertical);
+                        break;
+                    case 12:
+                        desc[i].Font = new System.Drawing.Font(font_name, size_font, FontStyle.Underline | FontStyle.Strikeout, unit_font, GdiCharSet, vertical);
+                        break;
+                    case 13:
+                        desc[i].Font = new System.Drawing.Font(font_name, size_font, FontStyle.Underline | FontStyle.Strikeout | FontStyle.Bold, unit_font, GdiCharSet, vertical);
+                        break;
+                    case 14:
+                        desc[i].Font = new System.Drawing.Font(font_name, size_font, FontStyle.Underline | FontStyle.Strikeout | FontStyle.Italic, unit_font, GdiCharSet, vertical);
+                        break;
+                    case 15:
+                        desc[i].Font = new System.Drawing.Font(font_name, size_font, FontStyle.Underline | FontStyle.Strikeout | FontStyle.Italic | FontStyle.Bold, unit_font, GdiCharSet, vertical);
                         break;
                 }
+                desc[i].ForeColor = Color.FromName(font_colour);
+                desc[i].Text = txt_label[i];
             }
-            for (byte i = (byte)txt_label.Length; i < 21; i++)
+            for (byte i = (byte)txt_label.Length; i < 9; i++)
             {
                 desc[i].Visible = false;
             }
-            return txt;
+        }
+        private void Hide_description()
+        {
+            description.Text = "";
+            desc2.Text = "";
+            desc3.Text = "";
+            desc4.Text = "";
+            desc5.Text = "";
+            desc6.Text = "";
+            desc7.Text = "";
+            desc8.Text = "";
+            desc9.Text = "";
         }
         private void Parse_byte_text(TextBox txt, byte output, byte max)
         {
@@ -1908,26 +1988,14 @@ namespace plt0_gui
             this.custom_g_hitbox = new System.Windows.Forms.Label();
             this.custom_b_hitbox = new System.Windows.Forms.Label();
             this.custom_a_hitbox = new System.Windows.Forms.Label();
-            this.description2 = new System.Windows.Forms.Label();
-            this.description13 = new System.Windows.Forms.Label();
-            this.description15 = new System.Windows.Forms.Label();
-            this.description16 = new System.Windows.Forms.Label();
-            this.description17 = new System.Windows.Forms.Label();
-            this.description18 = new System.Windows.Forms.Label();
-            this.description19 = new System.Windows.Forms.Label();
-            this.description20 = new System.Windows.Forms.Label();
-            this.description21 = new System.Windows.Forms.Label();
-            this.description3 = new System.Windows.Forms.Label();
-            this.description4 = new System.Windows.Forms.Label();
-            this.description5 = new System.Windows.Forms.Label();
-            this.description6 = new System.Windows.Forms.Label();
-            this.description7 = new System.Windows.Forms.Label();
-            this.description8 = new System.Windows.Forms.Label();
-            this.description9 = new System.Windows.Forms.Label();
-            this.description10 = new System.Windows.Forms.Label();
-            this.description11 = new System.Windows.Forms.Label();
-            this.description12 = new System.Windows.Forms.Label();
-            this.description14 = new System.Windows.Forms.Label();
+            this.desc2 = new System.Windows.Forms.Label();
+            this.desc3 = new System.Windows.Forms.Label();
+            this.desc4 = new System.Windows.Forms.Label();
+            this.desc5 = new System.Windows.Forms.Label();
+            this.desc6 = new System.Windows.Forms.Label();
+            this.desc7 = new System.Windows.Forms.Label();
+            this.desc8 = new System.Windows.Forms.Label();
+            this.desc9 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.bmd_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
@@ -4587,8 +4655,8 @@ namespace plt0_gui
             // 
             this.min_nearest_neighbour_label.AutoSize = true;
             this.min_nearest_neighbour_label.BackColor = System.Drawing.Color.Transparent;
-            this.min_nearest_neighbour_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, ((System.Drawing.FontStyle)((((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic)
-                | System.Drawing.FontStyle.Underline)
+            this.min_nearest_neighbour_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, ((System.Drawing.FontStyle)((((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic) 
+                | System.Drawing.FontStyle.Underline) 
                 | System.Drawing.FontStyle.Strikeout))), System.Drawing.GraphicsUnit.World, ((byte)(0)), true);
             this.min_nearest_neighbour_label.ForeColor = System.Drawing.SystemColors.Window;
             this.min_nearest_neighbour_label.Location = new System.Drawing.Point(893, 128);
@@ -7406,365 +7474,141 @@ namespace plt0_gui
             this.custom_a_hitbox.MouseEnter += new System.EventHandler(this.custom_a_MouseEnter);
             this.custom_a_hitbox.MouseLeave += new System.EventHandler(this.custom_a_MouseLeave);
             // 
-            // description2
+            // desc2
             // 
-            this.description2.AutoSize = true;
-            this.description2.BackColor = System.Drawing.Color.Transparent;
-            this.description2.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.description2.ForeColor = System.Drawing.Color.Cyan;
-            this.description2.Location = new System.Drawing.Point(700, 576);
-            this.description2.Margin = new System.Windows.Forms.Padding(0);
-            this.description2.MaximumSize = new System.Drawing.Size(480, 280);
-            this.description2.MinimumSize = new System.Drawing.Size(480, 280);
-            this.description2.Name = "description2";
-            this.description2.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
-            this.description2.Size = new System.Drawing.Size(480, 280);
-            this.description2.TabIndex = 514;
-            this.description2.Text = "Point to something with your mouse!";
-            this.description2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.description2.Visible = false;
+            this.desc2.AutoSize = true;
+            this.desc2.BackColor = System.Drawing.Color.Transparent;
+            this.desc2.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.desc2.ForeColor = System.Drawing.Color.Cyan;
+            this.desc2.Location = new System.Drawing.Point(700, 628);
+            this.desc2.Margin = new System.Windows.Forms.Padding(0);
+            this.desc2.MaximumSize = new System.Drawing.Size(480, 230);
+            this.desc2.MinimumSize = new System.Drawing.Size(480, 230);
+            this.desc2.Name = "desc2";
+            this.desc2.Size = new System.Drawing.Size(480, 230);
+            this.desc2.TabIndex = 533;
+            this.desc2.Text = "a";
+            this.desc2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.desc2.Visible = false;
             // 
-            // description13
+            // desc3
             // 
-            this.description13.AutoSize = true;
-            this.description13.BackColor = System.Drawing.Color.Transparent;
-            this.description13.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.description13.ForeColor = System.Drawing.Color.Cyan;
-            this.description13.Location = new System.Drawing.Point(700, 576);
-            this.description13.Margin = new System.Windows.Forms.Padding(0);
-            this.description13.MaximumSize = new System.Drawing.Size(480, 280);
-            this.description13.MinimumSize = new System.Drawing.Size(480, 280);
-            this.description13.Name = "description13";
-            this.description13.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
-            this.description13.Size = new System.Drawing.Size(480, 280);
-            this.description13.TabIndex = 515;
-            this.description13.Text = "Point to something with your mouse!";
-            this.description13.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.description13.Visible = false;
+            this.desc3.AutoSize = true;
+            this.desc3.BackColor = System.Drawing.Color.Transparent;
+            this.desc3.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.desc3.ForeColor = System.Drawing.Color.Cyan;
+            this.desc3.Location = new System.Drawing.Point(700, 657);
+            this.desc3.Margin = new System.Windows.Forms.Padding(0);
+            this.desc3.MaximumSize = new System.Drawing.Size(480, 200);
+            this.desc3.MinimumSize = new System.Drawing.Size(480, 200);
+            this.desc3.Name = "desc3";
+            this.desc3.Size = new System.Drawing.Size(480, 200);
+            this.desc3.TabIndex = 534;
+            this.desc3.Text = "a";
+            this.desc3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.desc3.Visible = false;
             // 
-            // description15
+            // desc4
             // 
-            this.description15.AutoSize = true;
-            this.description15.BackColor = System.Drawing.Color.Transparent;
-            this.description15.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.description15.ForeColor = System.Drawing.Color.Cyan;
-            this.description15.Location = new System.Drawing.Point(700, 576);
-            this.description15.Margin = new System.Windows.Forms.Padding(0);
-            this.description15.MaximumSize = new System.Drawing.Size(480, 280);
-            this.description15.MinimumSize = new System.Drawing.Size(480, 280);
-            this.description15.Name = "description15";
-            this.description15.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
-            this.description15.Size = new System.Drawing.Size(480, 280);
-            this.description15.TabIndex = 516;
-            this.description15.Text = "Point to something with your mouse!";
-            this.description15.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.description15.Visible = false;
+            this.desc4.AutoSize = true;
+            this.desc4.BackColor = System.Drawing.Color.Transparent;
+            this.desc4.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.desc4.ForeColor = System.Drawing.Color.Cyan;
+            this.desc4.Location = new System.Drawing.Point(700, 687);
+            this.desc4.Margin = new System.Windows.Forms.Padding(0);
+            this.desc4.MaximumSize = new System.Drawing.Size(480, 170);
+            this.desc4.MinimumSize = new System.Drawing.Size(480, 170);
+            this.desc4.Name = "desc4";
+            this.desc4.Size = new System.Drawing.Size(480, 170);
+            this.desc4.TabIndex = 535;
+            this.desc4.Text = "a";
+            this.desc4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.desc4.Visible = false;
             // 
-            // description16
+            // desc5
             // 
-            this.description16.AutoSize = true;
-            this.description16.BackColor = System.Drawing.Color.Transparent;
-            this.description16.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.description16.ForeColor = System.Drawing.Color.Cyan;
-            this.description16.Location = new System.Drawing.Point(700, 576);
-            this.description16.Margin = new System.Windows.Forms.Padding(0);
-            this.description16.MaximumSize = new System.Drawing.Size(480, 280);
-            this.description16.MinimumSize = new System.Drawing.Size(480, 280);
-            this.description16.Name = "description16";
-            this.description16.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
-            this.description16.Size = new System.Drawing.Size(480, 280);
-            this.description16.TabIndex = 517;
-            this.description16.Text = "Point to something with your mouse!";
-            this.description16.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.description16.Visible = false;
+            this.desc5.AutoSize = true;
+            this.desc5.BackColor = System.Drawing.Color.Transparent;
+            this.desc5.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.desc5.ForeColor = System.Drawing.Color.Cyan;
+            this.desc5.Location = new System.Drawing.Point(700, 717);
+            this.desc5.Margin = new System.Windows.Forms.Padding(0);
+            this.desc5.MaximumSize = new System.Drawing.Size(480, 140);
+            this.desc5.MinimumSize = new System.Drawing.Size(480, 140);
+            this.desc5.Name = "desc5";
+            this.desc5.Size = new System.Drawing.Size(480, 140);
+            this.desc5.TabIndex = 536;
+            this.desc5.Text = "a";
+            this.desc5.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.desc5.Visible = false;
             // 
-            // description17
+            // desc6
             // 
-            this.description17.AutoSize = true;
-            this.description17.BackColor = System.Drawing.Color.Transparent;
-            this.description17.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.description17.ForeColor = System.Drawing.Color.Cyan;
-            this.description17.Location = new System.Drawing.Point(700, 576);
-            this.description17.Margin = new System.Windows.Forms.Padding(0);
-            this.description17.MaximumSize = new System.Drawing.Size(480, 280);
-            this.description17.MinimumSize = new System.Drawing.Size(480, 280);
-            this.description17.Name = "description17";
-            this.description17.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
-            this.description17.Size = new System.Drawing.Size(480, 280);
-            this.description17.TabIndex = 518;
-            this.description17.Text = "Point to something with your mouse!";
-            this.description17.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.description17.Visible = false;
+            this.desc6.AutoSize = true;
+            this.desc6.BackColor = System.Drawing.Color.Transparent;
+            this.desc6.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.desc6.ForeColor = System.Drawing.Color.Cyan;
+            this.desc6.Location = new System.Drawing.Point(700, 747);
+            this.desc6.Margin = new System.Windows.Forms.Padding(0);
+            this.desc6.MaximumSize = new System.Drawing.Size(480, 110);
+            this.desc6.MinimumSize = new System.Drawing.Size(480, 110);
+            this.desc6.Name = "desc6";
+            this.desc6.Size = new System.Drawing.Size(480, 110);
+            this.desc6.TabIndex = 537;
+            this.desc6.Text = "a";
+            this.desc6.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.desc6.Visible = false;
             // 
-            // description18
+            // desc7
             // 
-            this.description18.AutoSize = true;
-            this.description18.BackColor = System.Drawing.Color.Transparent;
-            this.description18.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.description18.ForeColor = System.Drawing.Color.Cyan;
-            this.description18.Location = new System.Drawing.Point(700, 576);
-            this.description18.Margin = new System.Windows.Forms.Padding(0);
-            this.description18.MaximumSize = new System.Drawing.Size(480, 280);
-            this.description18.MinimumSize = new System.Drawing.Size(480, 280);
-            this.description18.Name = "description18";
-            this.description18.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
-            this.description18.Size = new System.Drawing.Size(480, 280);
-            this.description18.TabIndex = 519;
-            this.description18.Text = "Point to something with your mouse!";
-            this.description18.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.description18.Visible = false;
+            this.desc7.AutoSize = true;
+            this.desc7.BackColor = System.Drawing.Color.Transparent;
+            this.desc7.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.desc7.ForeColor = System.Drawing.Color.Cyan;
+            this.desc7.Location = new System.Drawing.Point(700, 778);
+            this.desc7.Margin = new System.Windows.Forms.Padding(0);
+            this.desc7.MaximumSize = new System.Drawing.Size(480, 80);
+            this.desc7.MinimumSize = new System.Drawing.Size(480, 80);
+            this.desc7.Name = "desc7";
+            this.desc7.Size = new System.Drawing.Size(480, 80);
+            this.desc7.TabIndex = 538;
+            this.desc7.Text = "a";
+            this.desc7.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.desc7.Visible = false;
             // 
-            // description19
+            // desc8
             // 
-            this.description19.AutoSize = true;
-            this.description19.BackColor = System.Drawing.Color.Transparent;
-            this.description19.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.description19.ForeColor = System.Drawing.Color.Cyan;
-            this.description19.Location = new System.Drawing.Point(700, 576);
-            this.description19.Margin = new System.Windows.Forms.Padding(0);
-            this.description19.MaximumSize = new System.Drawing.Size(480, 280);
-            this.description19.MinimumSize = new System.Drawing.Size(480, 280);
-            this.description19.Name = "description19";
-            this.description19.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
-            this.description19.Size = new System.Drawing.Size(480, 280);
-            this.description19.TabIndex = 520;
-            this.description19.Text = "Point to something with your mouse!";
-            this.description19.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.description19.Visible = false;
+            this.desc8.AutoSize = true;
+            this.desc8.BackColor = System.Drawing.Color.Transparent;
+            this.desc8.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.desc8.ForeColor = System.Drawing.Color.Cyan;
+            this.desc8.Location = new System.Drawing.Point(700, 806);
+            this.desc8.Margin = new System.Windows.Forms.Padding(0);
+            this.desc8.MaximumSize = new System.Drawing.Size(480, 50);
+            this.desc8.MinimumSize = new System.Drawing.Size(480, 50);
+            this.desc8.Name = "desc8";
+            this.desc8.Size = new System.Drawing.Size(480, 50);
+            this.desc8.TabIndex = 539;
+            this.desc8.Text = "a";
+            this.desc8.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.desc8.Visible = false;
             // 
-            // description20
+            // desc9
             // 
-            this.description20.AutoSize = true;
-            this.description20.BackColor = System.Drawing.Color.Transparent;
-            this.description20.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.description20.ForeColor = System.Drawing.Color.Cyan;
-            this.description20.Location = new System.Drawing.Point(700, 576);
-            this.description20.Margin = new System.Windows.Forms.Padding(0);
-            this.description20.MaximumSize = new System.Drawing.Size(480, 280);
-            this.description20.MinimumSize = new System.Drawing.Size(480, 280);
-            this.description20.Name = "description20";
-            this.description20.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
-            this.description20.Size = new System.Drawing.Size(480, 280);
-            this.description20.TabIndex = 521;
-            this.description20.Text = "Point to something with your mouse!";
-            this.description20.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.description20.Visible = false;
-            // 
-            // description21
-            // 
-            this.description21.AutoSize = true;
-            this.description21.BackColor = System.Drawing.Color.Transparent;
-            this.description21.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.description21.ForeColor = System.Drawing.Color.Cyan;
-            this.description21.Location = new System.Drawing.Point(700, 576);
-            this.description21.Margin = new System.Windows.Forms.Padding(0);
-            this.description21.MaximumSize = new System.Drawing.Size(480, 280);
-            this.description21.MinimumSize = new System.Drawing.Size(480, 280);
-            this.description21.Name = "description21";
-            this.description21.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
-            this.description21.Size = new System.Drawing.Size(480, 280);
-            this.description21.TabIndex = 522;
-            this.description21.Text = "Point to something with your mouse!";
-            this.description21.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.description21.Visible = false;
-            // 
-            // description3
-            // 
-            this.description3.AutoSize = true;
-            this.description3.BackColor = System.Drawing.Color.Transparent;
-            this.description3.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.description3.ForeColor = System.Drawing.Color.Cyan;
-            this.description3.Location = new System.Drawing.Point(700, 576);
-            this.description3.Margin = new System.Windows.Forms.Padding(0);
-            this.description3.MaximumSize = new System.Drawing.Size(480, 280);
-            this.description3.MinimumSize = new System.Drawing.Size(480, 280);
-            this.description3.Name = "description3";
-            this.description3.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
-            this.description3.Size = new System.Drawing.Size(480, 280);
-            this.description3.TabIndex = 523;
-            this.description3.Text = "Point to something with your mouse!";
-            this.description3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.description3.Visible = false;
-            // 
-            // description4
-            // 
-            this.description4.AutoSize = true;
-            this.description4.BackColor = System.Drawing.Color.Transparent;
-            this.description4.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.description4.ForeColor = System.Drawing.Color.Cyan;
-            this.description4.Location = new System.Drawing.Point(700, 576);
-            this.description4.Margin = new System.Windows.Forms.Padding(0);
-            this.description4.MaximumSize = new System.Drawing.Size(480, 280);
-            this.description4.MinimumSize = new System.Drawing.Size(480, 280);
-            this.description4.Name = "description4";
-            this.description4.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
-            this.description4.Size = new System.Drawing.Size(480, 280);
-            this.description4.TabIndex = 524;
-            this.description4.Text = "Point to something with your mouse!";
-            this.description4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.description4.Visible = false;
-            // 
-            // description5
-            // 
-            this.description5.AutoSize = true;
-            this.description5.BackColor = System.Drawing.Color.Transparent;
-            this.description5.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.description5.ForeColor = System.Drawing.Color.Cyan;
-            this.description5.Location = new System.Drawing.Point(700, 576);
-            this.description5.Margin = new System.Windows.Forms.Padding(0);
-            this.description5.MaximumSize = new System.Drawing.Size(480, 280);
-            this.description5.MinimumSize = new System.Drawing.Size(480, 280);
-            this.description5.Name = "description5";
-            this.description5.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
-            this.description5.Size = new System.Drawing.Size(480, 280);
-            this.description5.TabIndex = 525;
-            this.description5.Text = "Point to something with your mouse!";
-            this.description5.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.description5.Visible = false;
-            // 
-            // description6
-            // 
-            this.description6.AutoSize = true;
-            this.description6.BackColor = System.Drawing.Color.Transparent;
-            this.description6.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.description6.ForeColor = System.Drawing.Color.Cyan;
-            this.description6.Location = new System.Drawing.Point(700, 576);
-            this.description6.Margin = new System.Windows.Forms.Padding(0);
-            this.description6.MaximumSize = new System.Drawing.Size(480, 280);
-            this.description6.MinimumSize = new System.Drawing.Size(480, 280);
-            this.description6.Name = "description6";
-            this.description6.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
-            this.description6.Size = new System.Drawing.Size(480, 280);
-            this.description6.TabIndex = 526;
-            this.description6.Text = "Point to something with your mouse!";
-            this.description6.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.description6.Visible = false;
-            // 
-            // description7
-            // 
-            this.description7.AutoSize = true;
-            this.description7.BackColor = System.Drawing.Color.Transparent;
-            this.description7.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.description7.ForeColor = System.Drawing.Color.Cyan;
-            this.description7.Location = new System.Drawing.Point(700, 576);
-            this.description7.Margin = new System.Windows.Forms.Padding(0);
-            this.description7.MaximumSize = new System.Drawing.Size(480, 280);
-            this.description7.MinimumSize = new System.Drawing.Size(480, 280);
-            this.description7.Name = "description7";
-            this.description7.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
-            this.description7.Size = new System.Drawing.Size(480, 280);
-            this.description7.TabIndex = 527;
-            this.description7.Text = "Point to something with your mouse!";
-            this.description7.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.description7.Visible = false;
-            // 
-            // description8
-            // 
-            this.description8.AutoSize = true;
-            this.description8.BackColor = System.Drawing.Color.Transparent;
-            this.description8.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.description8.ForeColor = System.Drawing.Color.Cyan;
-            this.description8.Location = new System.Drawing.Point(700, 576);
-            this.description8.Margin = new System.Windows.Forms.Padding(0);
-            this.description8.MaximumSize = new System.Drawing.Size(480, 280);
-            this.description8.MinimumSize = new System.Drawing.Size(480, 280);
-            this.description8.Name = "description8";
-            this.description8.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
-            this.description8.Size = new System.Drawing.Size(480, 280);
-            this.description8.TabIndex = 528;
-            this.description8.Text = "Point to something with your mouse!";
-            this.description8.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.description8.Visible = false;
-            // 
-            // description9
-            // 
-            this.description9.AutoSize = true;
-            this.description9.BackColor = System.Drawing.Color.Transparent;
-            this.description9.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.description9.ForeColor = System.Drawing.Color.Cyan;
-            this.description9.Location = new System.Drawing.Point(700, 576);
-            this.description9.Margin = new System.Windows.Forms.Padding(0);
-            this.description9.MaximumSize = new System.Drawing.Size(480, 280);
-            this.description9.MinimumSize = new System.Drawing.Size(480, 280);
-            this.description9.Name = "description9";
-            this.description9.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
-            this.description9.Size = new System.Drawing.Size(480, 280);
-            this.description9.TabIndex = 529;
-            this.description9.Text = "Point to something with your mouse!";
-            this.description9.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.description9.Visible = false;
-            // 
-            // description10
-            // 
-            this.description10.AutoSize = true;
-            this.description10.BackColor = System.Drawing.Color.Transparent;
-            this.description10.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.description10.ForeColor = System.Drawing.Color.Cyan;
-            this.description10.Location = new System.Drawing.Point(700, 576);
-            this.description10.Margin = new System.Windows.Forms.Padding(0);
-            this.description10.MaximumSize = new System.Drawing.Size(480, 280);
-            this.description10.MinimumSize = new System.Drawing.Size(480, 280);
-            this.description10.Name = "description10";
-            this.description10.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
-            this.description10.Size = new System.Drawing.Size(480, 280);
-            this.description10.TabIndex = 530;
-            this.description10.Text = "Point to something with your mouse!";
-            this.description10.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.description10.Visible = false;
-            // 
-            // description11
-            // 
-            this.description11.AutoSize = true;
-            this.description11.BackColor = System.Drawing.Color.Transparent;
-            this.description11.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.description11.ForeColor = System.Drawing.Color.Cyan;
-            this.description11.Location = new System.Drawing.Point(700, 576);
-            this.description11.Margin = new System.Windows.Forms.Padding(0);
-            this.description11.MaximumSize = new System.Drawing.Size(480, 280);
-            this.description11.MinimumSize = new System.Drawing.Size(480, 280);
-            this.description11.Name = "description11";
-            this.description11.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
-            this.description11.Size = new System.Drawing.Size(480, 280);
-            this.description11.TabIndex = 531;
-            this.description11.Text = "Point to something with your mouse!";
-            this.description11.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.description11.Visible = false;
-            // 
-            // description12
-            // 
-            this.description12.AutoSize = true;
-            this.description12.BackColor = System.Drawing.Color.Transparent;
-            this.description12.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.description12.ForeColor = System.Drawing.Color.Cyan;
-            this.description12.Location = new System.Drawing.Point(700, 576);
-            this.description12.Margin = new System.Windows.Forms.Padding(0);
-            this.description12.MaximumSize = new System.Drawing.Size(480, 280);
-            this.description12.MinimumSize = new System.Drawing.Size(480, 280);
-            this.description12.Name = "description12";
-            this.description12.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
-            this.description12.Size = new System.Drawing.Size(480, 280);
-            this.description12.TabIndex = 532;
-            this.description12.Text = "Point to something with your mouse!";
-            this.description12.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.description12.Visible = false;
-            // 
-            // description14
-            // 
-            this.description14.AutoSize = true;
-            this.description14.BackColor = System.Drawing.Color.Transparent;
-            this.description14.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.description14.ForeColor = System.Drawing.Color.Cyan;
-            this.description14.Location = new System.Drawing.Point(700, 576);
-            this.description14.Margin = new System.Windows.Forms.Padding(0);
-            this.description14.MaximumSize = new System.Drawing.Size(480, 280);
-            this.description14.MinimumSize = new System.Drawing.Size(480, 280);
-            this.description14.Name = "description14";
-            this.description14.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
-            this.description14.Size = new System.Drawing.Size(480, 280);
-            this.description14.TabIndex = 533;
-            this.description14.Text = "Point to something with your mouse!";
-            this.description14.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.description14.Visible = false;
+            this.desc9.AutoSize = true;
+            this.desc9.BackColor = System.Drawing.Color.Transparent;
+            this.desc9.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.desc9.ForeColor = System.Drawing.Color.Cyan;
+            this.desc9.Location = new System.Drawing.Point(700, 834);
+            this.desc9.Margin = new System.Windows.Forms.Padding(0);
+            this.desc9.MaximumSize = new System.Drawing.Size(480, 25);
+            this.desc9.MinimumSize = new System.Drawing.Size(480, 25);
+            this.desc9.Name = "desc9";
+            this.desc9.Size = new System.Drawing.Size(480, 25);
+            this.desc9.TabIndex = 540;
+            this.desc9.Text = "a";
+            this.desc9.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.desc9.Visible = false;
             // 
             // plt0_gui
             // 
@@ -7772,26 +7616,14 @@ namespace plt0_gui
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(3610, 1959);
-            this.Controls.Add(this.description14);
-            this.Controls.Add(this.description12);
-            this.Controls.Add(this.description11);
-            this.Controls.Add(this.description10);
-            this.Controls.Add(this.description9);
-            this.Controls.Add(this.description8);
-            this.Controls.Add(this.description7);
-            this.Controls.Add(this.description6);
-            this.Controls.Add(this.description5);
-            this.Controls.Add(this.description4);
-            this.Controls.Add(this.description3);
-            this.Controls.Add(this.description21);
-            this.Controls.Add(this.description20);
-            this.Controls.Add(this.description19);
-            this.Controls.Add(this.description18);
-            this.Controls.Add(this.description17);
-            this.Controls.Add(this.description16);
-            this.Controls.Add(this.description15);
-            this.Controls.Add(this.description13);
-            this.Controls.Add(this.description2);
+            this.Controls.Add(this.desc9);
+            this.Controls.Add(this.desc8);
+            this.Controls.Add(this.desc7);
+            this.Controls.Add(this.desc6);
+            this.Controls.Add(this.desc5);
+            this.Controls.Add(this.desc4);
+            this.Controls.Add(this.desc3);
+            this.Controls.Add(this.desc2);
             this.Controls.Add(this.discord_ck);
             this.Controls.Add(this.discord_hitbox);
             this.Controls.Add(this.youtube_ck);
@@ -8747,7 +8579,7 @@ namespace plt0_gui
         }
         private void bmd_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[59]);
+            Parse_Markdown(lines[59]);
             if (bmd)
                 selected_checkbox(bmd_ck);
             else
@@ -8755,7 +8587,7 @@ namespace plt0_gui
         }
         private void bmd_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (bmd)
                 checked_checkbox(bmd_ck);
             else
@@ -8776,7 +8608,7 @@ namespace plt0_gui
         }
         private void bti_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[60]);
+            Parse_Markdown(lines[60]);
             if (bti)
                 selected_checkbox(bti_ck);
             else
@@ -8784,7 +8616,7 @@ namespace plt0_gui
         }
         private void bti_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (bti)
                 checked_checkbox(bti_ck);
             else
@@ -8805,7 +8637,7 @@ namespace plt0_gui
         }
         private void tex0_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[61]);
+            Parse_Markdown(lines[61]);
             if (tex0)
                 selected_checkbox(tex0_ck);
             else
@@ -8813,7 +8645,7 @@ namespace plt0_gui
         }
         private void tex0_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (tex0)
                 checked_checkbox(tex0_ck);
             else
@@ -8834,7 +8666,7 @@ namespace plt0_gui
         }
         private void tpl_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[62]);
+            Parse_Markdown(lines[62]);
             if (tpl)
                 selected_checkbox(tpl_ck);
             else
@@ -8842,7 +8674,7 @@ namespace plt0_gui
         }
         private void tpl_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (tpl)
                 checked_checkbox(tpl_ck);
             else
@@ -8863,7 +8695,7 @@ namespace plt0_gui
         }
         private void bmp_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[63]);
+            Parse_Markdown(lines[63]);
             if (bmp)
                 selected_checkbox(bmp_ck);
             else
@@ -8871,7 +8703,7 @@ namespace plt0_gui
         }
         private void bmp_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (bmp)
                 checked_checkbox(bmp_ck);
             else
@@ -8892,7 +8724,7 @@ namespace plt0_gui
         }
         private void png_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[64]);
+            Parse_Markdown(lines[64]);
             if (png)
                 selected_checkbox(png_ck);
             else
@@ -8900,7 +8732,7 @@ namespace plt0_gui
         }
         private void png_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (png)
                 checked_checkbox(png_ck);
             else
@@ -8921,7 +8753,7 @@ namespace plt0_gui
         }
         private void jpg_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[65]);
+            Parse_Markdown(lines[65]);
             if (jpg)
                 selected_checkbox(jpg_ck);
             else
@@ -8929,7 +8761,7 @@ namespace plt0_gui
         }
         private void jpg_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (jpg)
                 checked_checkbox(jpg_ck);
             else
@@ -8950,7 +8782,7 @@ namespace plt0_gui
         }
         private void jpeg_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[66]);
+            Parse_Markdown(lines[66]);
             if (jpeg)
                 selected_checkbox(jpeg_ck);
             else
@@ -8958,7 +8790,7 @@ namespace plt0_gui
         }
         private void jpeg_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (jpeg)
                 checked_checkbox(jpeg_ck);
             else
@@ -8979,7 +8811,7 @@ namespace plt0_gui
         }
         private void gif_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[67]);
+            Parse_Markdown(lines[67]);
             if (gif)
                 selected_checkbox(gif_ck);
             else
@@ -8987,7 +8819,7 @@ namespace plt0_gui
         }
         private void gif_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (gif)
                 checked_checkbox(gif_ck);
             else
@@ -9008,7 +8840,7 @@ namespace plt0_gui
         }
         private void ico_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[68]);
+            Parse_Markdown(lines[68]);
             if (ico)
                 selected_checkbox(ico_ck);
             else
@@ -9016,7 +8848,7 @@ namespace plt0_gui
         }
         private void ico_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (ico)
                 checked_checkbox(ico_ck);
             else
@@ -9037,7 +8869,7 @@ namespace plt0_gui
         }
         private void tif_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[69]);
+            Parse_Markdown(lines[69]);
             if (tif)
                 selected_checkbox(tif_ck);
             else
@@ -9045,7 +8877,7 @@ namespace plt0_gui
         }
         private void tif_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (tif)
                 checked_checkbox(tif_ck);
             else
@@ -9066,7 +8898,7 @@ namespace plt0_gui
         }
         private void tiff_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[70]);
+            Parse_Markdown(lines[70]);
             if (tiff)
                 selected_checkbox(tiff_ck);
             else
@@ -9074,7 +8906,7 @@ namespace plt0_gui
         }
         private void tiff_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (tiff)
                 checked_checkbox(tiff_ck);
             else
@@ -9095,7 +8927,7 @@ namespace plt0_gui
         }
         private void ask_exit_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[71]);
+            Parse_Markdown(lines[71]);
             if (ask_exit)
                 selected_checkbox(ask_exit_ck);
             else
@@ -9103,7 +8935,7 @@ namespace plt0_gui
         }
         private void ask_exit_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (ask_exit)
                 checked_checkbox(ask_exit_ck);
             else
@@ -9124,7 +8956,7 @@ namespace plt0_gui
         }
         private void bmp_32_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[72]);
+            Parse_Markdown(lines[72]);
             if (bmp_32)
                 selected_checkbox(bmp_32_ck);
             else
@@ -9132,7 +8964,7 @@ namespace plt0_gui
         }
         private void bmp_32_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (bmp_32)
                 checked_checkbox(bmp_32_ck);
             else
@@ -9153,7 +8985,7 @@ namespace plt0_gui
         }
         private void FORCE_ALPHA_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[73]);
+            Parse_Markdown(lines[73]);
             if (FORCE_ALPHA)
                 selected_checkbox(FORCE_ALPHA_ck);
             else
@@ -9161,7 +8993,7 @@ namespace plt0_gui
         }
         private void FORCE_ALPHA_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (FORCE_ALPHA)
                 checked_checkbox(FORCE_ALPHA_ck);
             else
@@ -9182,7 +9014,7 @@ namespace plt0_gui
         }
         private void funky_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[74]);
+            Parse_Markdown(lines[74]);
             if (funky)
                 selected_checkbox(funky_ck);
             else
@@ -9190,7 +9022,7 @@ namespace plt0_gui
         }
         private void funky_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (funky)
                 checked_checkbox(funky_ck);
             else
@@ -9211,7 +9043,7 @@ namespace plt0_gui
         }
         private void no_warning_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[75]);
+            Parse_Markdown(lines[75]);
             if (no_warning)
                 selected_checkbox(no_warning_ck);
             else
@@ -9219,7 +9051,7 @@ namespace plt0_gui
         }
         private void no_warning_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (no_warning)
                 checked_checkbox(no_warning_ck);
             else
@@ -9240,7 +9072,7 @@ namespace plt0_gui
         }
         private void random_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[76]);
+            Parse_Markdown(lines[76]);
             if (random)
                 selected_checkbox(random_ck);
             else
@@ -9248,7 +9080,7 @@ namespace plt0_gui
         }
         private void random_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (random)
                 checked_checkbox(random_ck);
             else
@@ -9269,7 +9101,7 @@ namespace plt0_gui
         }
         private void reverse_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[77]);
+            Parse_Markdown(lines[77]);
             if (reverse)
                 selected_checkbox(reverse_ck);
             else
@@ -9277,7 +9109,7 @@ namespace plt0_gui
         }
         private void reverse_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (reverse)
                 checked_checkbox(reverse_ck);
             else
@@ -9298,7 +9130,7 @@ namespace plt0_gui
         }
         private void safe_mode_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[78]);
+            Parse_Markdown(lines[78]);
             if (safe_mode)
                 selected_checkbox(safe_mode_ck);
             else
@@ -9306,7 +9138,7 @@ namespace plt0_gui
         }
         private void safe_mode_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (safe_mode)
                 checked_checkbox(safe_mode_ck);
             else
@@ -9327,7 +9159,7 @@ namespace plt0_gui
         }
         private void stfu_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[79]);
+            Parse_Markdown(lines[79]);
             if (stfu)
                 selected_checkbox(stfu_ck);
             else
@@ -9335,7 +9167,7 @@ namespace plt0_gui
         }
         private void stfu_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (stfu)
                 checked_checkbox(stfu_ck);
             else
@@ -9356,7 +9188,7 @@ namespace plt0_gui
         }
         private void warn_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[80]);
+            Parse_Markdown(lines[80]);
             if (warn)
                 selected_checkbox(warn_ck);
             else
@@ -9364,7 +9196,7 @@ namespace plt0_gui
         }
         private void warn_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (warn)
                 checked_checkbox(warn_ck);
             else
@@ -9378,7 +9210,7 @@ namespace plt0_gui
         }
         private void I4_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[81]);
+            Parse_Markdown(lines[81]);
             if (encoding == 0)
                 selected_encoding(i4_ck);
             else
@@ -9386,7 +9218,7 @@ namespace plt0_gui
         }
         private void I4_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (encoding == 0)
                 checked_encoding(i4_ck);
             else
@@ -9400,7 +9232,7 @@ namespace plt0_gui
         }
         private void I8_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[82]);
+            Parse_Markdown(lines[82]);
             if (encoding == 1)
                 selected_encoding(i8_ck);
             else
@@ -9408,7 +9240,7 @@ namespace plt0_gui
         }
         private void I8_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (encoding == 1)
                 checked_encoding(i8_ck);
             else
@@ -9422,7 +9254,7 @@ namespace plt0_gui
         }
         private void AI4_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[83]);
+            Parse_Markdown(lines[83]);
             if (encoding == 2)
                 selected_encoding(ai4_ck);
             else
@@ -9430,7 +9262,7 @@ namespace plt0_gui
         }
         private void AI4_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (encoding == 2)
                 checked_encoding(ai4_ck);
             else
@@ -9444,7 +9276,7 @@ namespace plt0_gui
         }
         private void AI8_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[84]);
+            Parse_Markdown(lines[84]);
             if (encoding == 3)
                 selected_encoding(ai8_ck);
             else
@@ -9452,7 +9284,7 @@ namespace plt0_gui
         }
         private void AI8_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (encoding == 3)
                 checked_encoding(ai8_ck);
             else
@@ -9466,7 +9298,7 @@ namespace plt0_gui
         }
         private void RGB565_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[85]);
+            Parse_Markdown(lines[85]);
             if (encoding == 4)
                 selected_encoding(rgb565_ck);
             else
@@ -9474,7 +9306,7 @@ namespace plt0_gui
         }
         private void RGB565_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (encoding == 4)
                 checked_encoding(rgb565_ck);
             else
@@ -9488,7 +9320,7 @@ namespace plt0_gui
         }
         private void RGB5A3_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[86]);
+            Parse_Markdown(lines[86]);
             if (encoding == 5)
                 selected_encoding(rgb5a3_ck);
             else
@@ -9496,7 +9328,7 @@ namespace plt0_gui
         }
         private void RGB5A3_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (encoding == 5)
                 checked_encoding(rgb5a3_ck);
             else
@@ -9510,7 +9342,7 @@ namespace plt0_gui
         }
         private void RGBA32_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[87]);
+            Parse_Markdown(lines[87]);
             if (encoding == 6)
                 selected_encoding(rgba32_ck);
             else
@@ -9518,7 +9350,7 @@ namespace plt0_gui
         }
         private void RGBA32_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (encoding == 6)
                 checked_encoding(rgba32_ck);
             else
@@ -9532,7 +9364,7 @@ namespace plt0_gui
         }
         private void CI4_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[88]);
+            Parse_Markdown(lines[88]);
             if (encoding == 8)
                 selected_encoding(ci4_ck);
             else
@@ -9540,7 +9372,7 @@ namespace plt0_gui
         }
         private void CI4_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (encoding == 8)
                 checked_encoding(ci4_ck);
             else
@@ -9554,7 +9386,7 @@ namespace plt0_gui
         }
         private void CI8_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[89]);
+            Parse_Markdown(lines[89]);
             if (encoding == 9)
                 selected_encoding(ci8_ck);
             else
@@ -9562,7 +9394,7 @@ namespace plt0_gui
         }
         private void CI8_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (encoding == 9)
                 checked_encoding(ci8_ck);
             else
@@ -9576,7 +9408,7 @@ namespace plt0_gui
         }
         private void CI14X2_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[90]);
+            Parse_Markdown(lines[90]);
             if (encoding == 10)
                 selected_encoding(ci14x2_ck);
             else
@@ -9584,7 +9416,7 @@ namespace plt0_gui
         }
         private void CI14X2_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (encoding == 10)
                 checked_encoding(ci14x2_ck);
             else
@@ -9598,7 +9430,7 @@ namespace plt0_gui
         }
         private void CMPR_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[91]);
+            Parse_Markdown(lines[91]);
             if (encoding == 14)
                 selected_encoding(cmpr_ck);
             else
@@ -9606,7 +9438,7 @@ namespace plt0_gui
         }
         private void CMPR_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (encoding == 14)
                 checked_encoding(cmpr_ck);
             else
@@ -9620,7 +9452,7 @@ namespace plt0_gui
         }
         private void Cie_601_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[92]);
+            Parse_Markdown(lines[92]);
             if (algorithm == 0)
                 selected_algorithm(cie_601_ck);
             else
@@ -9628,7 +9460,7 @@ namespace plt0_gui
         }
         private void Cie_601_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (algorithm == 0)
                 checked_algorithm(cie_601_ck);
             else
@@ -9642,7 +9474,7 @@ namespace plt0_gui
         }
         private void Cie_709_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[93]);
+            Parse_Markdown(lines[93]);
             if (algorithm == 1)
                 selected_algorithm(cie_709_ck);
             else
@@ -9650,7 +9482,7 @@ namespace plt0_gui
         }
         private void Cie_709_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (algorithm == 1)
                 checked_algorithm(cie_709_ck);
             else
@@ -9664,7 +9496,7 @@ namespace plt0_gui
         }
         private void Custom_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[94]);
+            Parse_Markdown(lines[94]);
             if (algorithm == 2)
                 selected_algorithm(custom_ck);
             else
@@ -9672,7 +9504,7 @@ namespace plt0_gui
         }
         private void Custom_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (algorithm == 2)
                 checked_algorithm(custom_ck);
             else
@@ -9686,7 +9518,7 @@ namespace plt0_gui
         }
         private void No_gradient_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[95]);
+            Parse_Markdown(lines[95]);
             if (algorithm == 3)
                 selected_algorithm(no_gradient_ck);
             else
@@ -9694,7 +9526,7 @@ namespace plt0_gui
         }
         private void No_gradient_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (algorithm == 3)
                 checked_algorithm(no_gradient_ck);
             else
@@ -9708,7 +9540,7 @@ namespace plt0_gui
         }
         private void No_alpha_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[96]);
+            Parse_Markdown(lines[96]);
             if (alpha == 0)
                 selected_alpha(no_alpha_ck);
             else
@@ -9716,7 +9548,7 @@ namespace plt0_gui
         }
         private void No_alpha_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (alpha == 0)
                 checked_alpha(no_alpha_ck);
             else
@@ -9730,7 +9562,7 @@ namespace plt0_gui
         }
         private void Alpha_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[97]);
+            Parse_Markdown(lines[97]);
             if (alpha == 1)
                 selected_alpha(alpha_ck);
             else
@@ -9738,7 +9570,7 @@ namespace plt0_gui
         }
         private void Alpha_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (alpha == 1)
                 checked_alpha(alpha_ck);
             else
@@ -9752,7 +9584,7 @@ namespace plt0_gui
         }
         private void Mix_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[98]);
+            Parse_Markdown(lines[98]);
             if (alpha == 2)
                 selected_alpha(mix_ck);
             else
@@ -9760,7 +9592,7 @@ namespace plt0_gui
         }
         private void Mix_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (alpha == 2)
                 checked_alpha(mix_ck);
             else
@@ -9774,7 +9606,7 @@ namespace plt0_gui
         }
         private void WrapS_Clamp_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[99]);
+            Parse_Markdown(lines[99]);
             if (WrapS == 0)
                 selected_WrapS(Sclamp_ck);
             else
@@ -9782,7 +9614,7 @@ namespace plt0_gui
         }
         private void WrapS_Clamp_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (WrapS == 0)
                 checked_WrapS(Sclamp_ck);
             else
@@ -9796,7 +9628,7 @@ namespace plt0_gui
         }
         private void WrapS_Repeat_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[100]);
+            Parse_Markdown(lines[100]);
             if (WrapS == 1)
                 selected_WrapS(Srepeat_ck);
             else
@@ -9804,7 +9636,7 @@ namespace plt0_gui
         }
         private void WrapS_Repeat_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (WrapS == 1)
                 checked_WrapS(Srepeat_ck);
             else
@@ -9818,7 +9650,7 @@ namespace plt0_gui
         }
         private void WrapS_Mirror_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[101]);
+            Parse_Markdown(lines[101]);
             if (WrapS == 2)
                 selected_WrapS(Smirror_ck);
             else
@@ -9826,7 +9658,7 @@ namespace plt0_gui
         }
         private void WrapS_Mirror_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (WrapS == 2)
                 checked_WrapS(Smirror_ck);
             else
@@ -9840,7 +9672,7 @@ namespace plt0_gui
         }
         private void WrapT_Clamp_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[102]);
+            Parse_Markdown(lines[102]);
             if (WrapT == 0)
                 selected_WrapT(Tclamp_ck);
             else
@@ -9848,7 +9680,7 @@ namespace plt0_gui
         }
         private void WrapT_Clamp_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (WrapT == 0)
                 checked_WrapT(Tclamp_ck);
             else
@@ -9862,7 +9694,7 @@ namespace plt0_gui
         }
         private void WrapT_Repeat_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[103]);
+            Parse_Markdown(lines[103]);
             if (WrapT == 1)
                 selected_WrapT(Trepeat_ck);
             else
@@ -9870,7 +9702,7 @@ namespace plt0_gui
         }
         private void WrapT_Repeat_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (WrapT == 1)
                 checked_WrapT(Trepeat_ck);
             else
@@ -9884,7 +9716,7 @@ namespace plt0_gui
         }
         private void WrapT_Mirror_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[104]);
+            Parse_Markdown(lines[104]);
             if (WrapT == 2)
                 selected_WrapT(Tmirror_ck);
             else
@@ -9892,7 +9724,7 @@ namespace plt0_gui
         }
         private void WrapT_Mirror_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (WrapT == 2)
                 checked_WrapT(Tmirror_ck);
             else
@@ -9906,7 +9738,7 @@ namespace plt0_gui
         }
         private void Minification_Nearest_Neighbour_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[105]);
+            Parse_Markdown(lines[105]);
             if (minification_filter == 0)
                 selected_Minification(min_nearest_neighbour_ck);
             else
@@ -9914,7 +9746,7 @@ namespace plt0_gui
         }
         private void Minification_Nearest_Neighbour_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (minification_filter == 0)
                 checked_Minification(min_nearest_neighbour_ck);
             else
@@ -9928,7 +9760,7 @@ namespace plt0_gui
         }
         private void Minification_Linear_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[106]);
+            Parse_Markdown(lines[106]);
             if (minification_filter == 1)
                 selected_Minification(min_linear_ck);
             else
@@ -9936,7 +9768,7 @@ namespace plt0_gui
         }
         private void Minification_Linear_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (minification_filter == 1)
                 checked_Minification(min_linear_ck);
             else
@@ -9950,7 +9782,7 @@ namespace plt0_gui
         }
         private void Minification_NearestMipmapNearest_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[107]);
+            Parse_Markdown(lines[107]);
             if (minification_filter == 2)
                 selected_Minification(min_nearestmipmapnearest_ck);
             else
@@ -9958,7 +9790,7 @@ namespace plt0_gui
         }
         private void Minification_NearestMipmapNearest_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (minification_filter == 2)
                 checked_Minification(min_nearestmipmapnearest_ck);
             else
@@ -9972,7 +9804,7 @@ namespace plt0_gui
         }
         private void Minification_NearestMipmapLinear_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[108]);
+            Parse_Markdown(lines[108]);
             if (minification_filter == 3)
                 selected_Minification(min_nearestmipmaplinear_ck);
             else
@@ -9980,7 +9812,7 @@ namespace plt0_gui
         }
         private void Minification_NearestMipmapLinear_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (minification_filter == 3)
                 checked_Minification(min_nearestmipmaplinear_ck);
             else
@@ -9994,7 +9826,7 @@ namespace plt0_gui
         }
         private void Minification_LinearMipmapNearest_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[109]);
+            Parse_Markdown(lines[109]);
             if (minification_filter == 4)
                 selected_Minification(min_linearmipmapnearest_ck);
             else
@@ -10002,7 +9834,7 @@ namespace plt0_gui
         }
         private void Minification_LinearMipmapNearest_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (minification_filter == 4)
                 checked_Minification(min_linearmipmapnearest_ck);
             else
@@ -10016,7 +9848,7 @@ namespace plt0_gui
         }
         private void Minification_LinearMipmapLinear_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[110]);
+            Parse_Markdown(lines[110]);
             if (minification_filter == 5)
                 selected_Minification(min_linearmipmaplinear_ck);
             else
@@ -10024,7 +9856,7 @@ namespace plt0_gui
         }
         private void Minification_LinearMipmapLinear_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (minification_filter == 5)
                 checked_Minification(min_linearmipmaplinear_ck);
             else
@@ -10038,7 +9870,7 @@ namespace plt0_gui
         }
         private void Magnification_Nearest_Neighbour_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[111]);
+            Parse_Markdown(lines[111]);
             if (magnification_filter == 0)
                 selected_Magnification(mag_nearest_neighbour_ck);
             else
@@ -10046,7 +9878,7 @@ namespace plt0_gui
         }
         private void Magnification_Nearest_Neighbour_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (magnification_filter == 0)
                 checked_Magnification(mag_nearest_neighbour_ck);
             else
@@ -10060,7 +9892,7 @@ namespace plt0_gui
         }
         private void Magnification_Linear_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[112]);
+            Parse_Markdown(lines[112]);
             if (magnification_filter == 1)
                 selected_Magnification(mag_linear_ck);
             else
@@ -10068,7 +9900,7 @@ namespace plt0_gui
         }
         private void Magnification_Linear_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (magnification_filter == 1)
                 checked_Magnification(mag_linear_ck);
             else
@@ -10082,7 +9914,7 @@ namespace plt0_gui
         }
         private void Magnification_NearestMipmapNearest_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[113]);
+            Parse_Markdown(lines[113]);
             if (magnification_filter == 2)
                 selected_Magnification(mag_nearestmipmapnearest_ck);
             else
@@ -10090,7 +9922,7 @@ namespace plt0_gui
         }
         private void Magnification_NearestMipmapNearest_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (magnification_filter == 2)
                 checked_Magnification(mag_nearestmipmapnearest_ck);
             else
@@ -10104,7 +9936,7 @@ namespace plt0_gui
         }
         private void Magnification_NearestMipmapLinear_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[114]);
+            Parse_Markdown(lines[114]);
             if (magnification_filter == 3)
                 selected_Magnification(mag_nearestmipmaplinear_ck);
             else
@@ -10112,7 +9944,7 @@ namespace plt0_gui
         }
         private void Magnification_NearestMipmapLinear_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (magnification_filter == 3)
                 checked_Magnification(mag_nearestmipmaplinear_ck);
             else
@@ -10126,7 +9958,7 @@ namespace plt0_gui
         }
         private void Magnification_LinearMipmapNearest_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[115]);
+            Parse_Markdown(lines[115]);
             if (magnification_filter == 4)
                 selected_Magnification(mag_linearmipmapnearest_ck);
             else
@@ -10134,7 +9966,7 @@ namespace plt0_gui
         }
         private void Magnification_LinearMipmapNearest_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (magnification_filter == 4)
                 checked_Magnification(mag_linearmipmapnearest_ck);
             else
@@ -10148,7 +9980,7 @@ namespace plt0_gui
         }
         private void Magnification_LinearMipmapLinear_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[116]);
+            Parse_Markdown(lines[116]);
             if (magnification_filter == 5)
                 selected_Magnification(mag_linearmipmaplinear_ck);
             else
@@ -10156,7 +9988,7 @@ namespace plt0_gui
         }
         private void Magnification_LinearMipmapLinear_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (magnification_filter == 5)
                 checked_Magnification(mag_linearmipmaplinear_ck);
             else
@@ -10184,7 +10016,7 @@ namespace plt0_gui
         }
         private void R_R_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[117]);
+            Parse_Markdown(lines[117]);
             if (r == 0)
                 selected_R(r_r_ck);
             else
@@ -10192,7 +10024,7 @@ namespace plt0_gui
         }
         private void R_R_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (r == 0)
                 checked_R(r_r_ck);
             else
@@ -10220,7 +10052,7 @@ namespace plt0_gui
         }
         private void R_G_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[117]);
+            Parse_Markdown(lines[117]);
             if (r == 1)
                 selected_G(r_g_ck);
             else
@@ -10228,7 +10060,7 @@ namespace plt0_gui
         }
         private void R_G_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (r == 1)
                 checked_G(r_g_ck);
             else
@@ -10256,7 +10088,7 @@ namespace plt0_gui
         }
         private void R_B_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[117]);
+            Parse_Markdown(lines[117]);
             if (r == 2)
                 selected_B(r_b_ck);
             else
@@ -10264,7 +10096,7 @@ namespace plt0_gui
         }
         private void R_B_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (r == 2)
                 checked_B(r_b_ck);
             else
@@ -10292,7 +10124,7 @@ namespace plt0_gui
         }
         private void R_A_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[117]);
+            Parse_Markdown(lines[117]);
             if (r == 3)
                 selected_A(r_a_ck);
             else
@@ -10300,7 +10132,7 @@ namespace plt0_gui
         }
         private void R_A_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (r == 3)
                 checked_A(r_a_ck);
             else
@@ -10328,7 +10160,7 @@ namespace plt0_gui
         }
         private void G_R_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[118]);
+            Parse_Markdown(lines[118]);
             if (g == 0)
                 selected_R(g_r_ck);
             else
@@ -10336,7 +10168,7 @@ namespace plt0_gui
         }
         private void G_R_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (g == 0)
                 checked_R(g_r_ck);
             else
@@ -10364,7 +10196,7 @@ namespace plt0_gui
         }
         private void G_G_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[118]);
+            Parse_Markdown(lines[118]);
             if (g == 1)
                 selected_G(g_g_ck);
             else
@@ -10372,7 +10204,7 @@ namespace plt0_gui
         }
         private void G_G_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (g == 1)
                 checked_G(g_g_ck);
             else
@@ -10400,7 +10232,7 @@ namespace plt0_gui
         }
         private void G_B_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[118]);
+            Parse_Markdown(lines[118]);
             if (g == 2)
                 selected_B(g_b_ck);
             else
@@ -10408,7 +10240,7 @@ namespace plt0_gui
         }
         private void G_B_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (g == 2)
                 checked_B(g_b_ck);
             else
@@ -10436,7 +10268,7 @@ namespace plt0_gui
         }
         private void G_A_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[118]);
+            Parse_Markdown(lines[118]);
             if (g == 3)
                 selected_A(g_a_ck);
             else
@@ -10444,7 +10276,7 @@ namespace plt0_gui
         }
         private void G_A_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (g == 3)
                 checked_A(g_a_ck);
             else
@@ -10472,7 +10304,7 @@ namespace plt0_gui
         }
         private void B_R_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[119]);
+            Parse_Markdown(lines[119]);
             if (b == 0)
                 selected_R(b_r_ck);
             else
@@ -10480,7 +10312,7 @@ namespace plt0_gui
         }
         private void B_R_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (b == 0)
                 checked_R(b_r_ck);
             else
@@ -10508,7 +10340,7 @@ namespace plt0_gui
         }
         private void B_G_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[119]);
+            Parse_Markdown(lines[119]);
             if (b == 1)
                 selected_G(b_g_ck);
             else
@@ -10516,7 +10348,7 @@ namespace plt0_gui
         }
         private void B_G_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (b == 1)
                 checked_G(b_g_ck);
             else
@@ -10544,7 +10376,7 @@ namespace plt0_gui
         }
         private void B_B_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[119]);
+            Parse_Markdown(lines[119]);
             if (b == 2)
                 selected_B(b_b_ck);
             else
@@ -10552,7 +10384,7 @@ namespace plt0_gui
         }
         private void B_B_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (b == 2)
                 checked_B(b_b_ck);
             else
@@ -10580,7 +10412,7 @@ namespace plt0_gui
         }
         private void B_A_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[119]);
+            Parse_Markdown(lines[119]);
             if (b == 3)
                 selected_A(b_a_ck);
             else
@@ -10588,7 +10420,7 @@ namespace plt0_gui
         }
         private void B_A_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (b == 3)
                 checked_A(b_a_ck);
             else
@@ -10616,7 +10448,7 @@ namespace plt0_gui
         }
         private void A_R_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[120]);
+            Parse_Markdown(lines[120]);
             if (a == 0)
                 selected_R(a_r_ck);
             else
@@ -10624,7 +10456,7 @@ namespace plt0_gui
         }
         private void A_R_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (a == 0)
                 checked_R(a_r_ck);
             else
@@ -10652,7 +10484,7 @@ namespace plt0_gui
         }
         private void A_G_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[120]);
+            Parse_Markdown(lines[120]);
             if (a == 1)
                 selected_G(a_g_ck);
             else
@@ -10660,7 +10492,7 @@ namespace plt0_gui
         }
         private void A_G_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (a == 1)
                 checked_G(a_g_ck);
             else
@@ -10688,7 +10520,7 @@ namespace plt0_gui
         }
         private void A_B_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[120]);
+            Parse_Markdown(lines[120]);
             if (a == 2)
                 selected_B(a_b_ck);
             else
@@ -10696,7 +10528,7 @@ namespace plt0_gui
         }
         private void A_B_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (a == 2)
                 checked_B(a_b_ck);
             else
@@ -10724,7 +10556,7 @@ namespace plt0_gui
         }
         private void A_A_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[120]);
+            Parse_Markdown(lines[120]);
             if (a == 3)
                 selected_A(a_a_ck);
             else
@@ -10732,7 +10564,7 @@ namespace plt0_gui
         }
         private void A_A_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (a == 3)
                 checked_A(a_a_ck);
             else
@@ -10753,7 +10585,7 @@ namespace plt0_gui
         }
         private void view_alpha_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[121]);
+            Parse_Markdown(lines[121]);
             if (view_alpha)
                 Category_selected(view_alpha_ck);
             else
@@ -10761,7 +10593,7 @@ namespace plt0_gui
         }
         private void view_alpha_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (view_alpha)
                 Category_checked(view_alpha_ck);
             else
@@ -10782,7 +10614,7 @@ namespace plt0_gui
         }
         private void view_algorithm_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[122]);
+            Parse_Markdown(lines[122]);
             if (view_algorithm)
                 Category_selected(view_algorithm_ck);
             else
@@ -10790,7 +10622,7 @@ namespace plt0_gui
         }
         private void view_algorithm_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (view_algorithm)
                 Category_checked(view_algorithm_ck);
             else
@@ -10811,7 +10643,7 @@ namespace plt0_gui
         }
         private void view_WrapS_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[123]);
+            Parse_Markdown(lines[123]);
             if (view_WrapS)
                 Category_selected(view_WrapS_ck);
             else
@@ -10819,7 +10651,7 @@ namespace plt0_gui
         }
         private void view_WrapS_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (view_WrapS)
                 Category_checked(view_WrapS_ck);
             else
@@ -10840,7 +10672,7 @@ namespace plt0_gui
         }
         private void view_WrapT_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[124]);
+            Parse_Markdown(lines[124]);
             if (view_WrapT)
                 Category_selected(view_WrapT_ck);
             else
@@ -10848,7 +10680,7 @@ namespace plt0_gui
         }
         private void view_WrapT_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (view_WrapT)
                 Category_checked(view_WrapT_ck);
             else
@@ -10869,7 +10701,7 @@ namespace plt0_gui
         }
         private void view_min_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[125]);
+            Parse_Markdown(lines[125]);
             if (view_min)
                 Category_selected(view_min_ck);
             else
@@ -10877,7 +10709,7 @@ namespace plt0_gui
         }
         private void view_min_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (view_min)
                 Category_checked(view_min_ck);
             else
@@ -10898,7 +10730,7 @@ namespace plt0_gui
         }
         private void view_mag_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[126]);
+            Parse_Markdown(lines[126]);
             if (view_mag)
                 Category_selected(view_mag_ck);
             else
@@ -10906,7 +10738,7 @@ namespace plt0_gui
         }
         private void view_mag_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (view_mag)
                 Category_checked(view_mag_ck);
             else
@@ -10934,7 +10766,7 @@ namespace plt0_gui
         }
         private void All_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[127]);
+            Parse_Markdown(lines[127]);
             if (layout == 0)
                 selected_All();
             else
@@ -10942,7 +10774,7 @@ namespace plt0_gui
         }
         private void All_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (layout == 0)
                 checked_All();
             else
@@ -10986,7 +10818,7 @@ namespace plt0_gui
         }
         private void Auto_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[128]);
+            Parse_Markdown(lines[128]);
             if (layout == 1)
                 selected_Auto();
             else
@@ -10994,7 +10826,7 @@ namespace plt0_gui
         }
         private void Auto_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (layout == 1)
                 checked_Auto();
             else
@@ -11038,7 +10870,7 @@ namespace plt0_gui
         }
         private void Preview_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[129]);
+            Parse_Markdown(lines[129]);
             if (layout == 2)
                 selected_Preview();
             else
@@ -11046,7 +10878,7 @@ namespace plt0_gui
         }
         private void Preview_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (layout == 2)
                 checked_Preview();
             else
@@ -11090,7 +10922,7 @@ namespace plt0_gui
         }
         private void Paint_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[130]);
+            Parse_Markdown(lines[130]);
             if (layout == 3)
                 selected_Paint();
             else
@@ -11098,7 +10930,7 @@ namespace plt0_gui
         }
         private void Paint_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (layout == 3)
                 checked_Paint();
             else
@@ -11126,12 +10958,12 @@ namespace plt0_gui
         }
         private void Minimized_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[131]);
+            Parse_Markdown(lines[131]);
             banner_minus_ck.BackgroundImage = minimized_hover;
         }
         private void Minimized_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             banner_minus_ck.BackgroundImage = minimized;
         }
         private void Maximized_Click(object sender, EventArgs e)
@@ -11149,7 +10981,7 @@ namespace plt0_gui
         }
         private void Maximized_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[132]);
+            Parse_Markdown(lines[132]);
             if (this.WindowState == FormWindowState.Maximized)
                 banner_5_ck.BackgroundImage = maximized_selected;
             else
@@ -11157,7 +10989,7 @@ namespace plt0_gui
         }
         private void Maximized_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (this.WindowState == FormWindowState.Maximized)
                 banner_5_ck.BackgroundImage = maximized_on;
             else
@@ -11169,12 +11001,12 @@ namespace plt0_gui
         }
         private void Close_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[133]);
+            Parse_Markdown(lines[133]);
             banner_x_ck.BackgroundImage = close_hover;
         }
         private void Close_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             banner_x_ck.BackgroundImage = close;
         }
         private void Left_Click(object sender, EventArgs e)
@@ -11211,7 +11043,7 @@ namespace plt0_gui
         }
         private void Left_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[134]);
+            Parse_Markdown(lines[134]);
             if (arrow == 4)
                 selected_Left();
             else
@@ -11219,7 +11051,7 @@ namespace plt0_gui
         }
         private void Left_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (arrow == 4)
                 checked_Left();
             else
@@ -11275,7 +11107,7 @@ namespace plt0_gui
         }
         private void Top_left_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[135]);
+            Parse_Markdown(lines[135]);
             if (arrow == 7)
                 selected_Top_left();
             else
@@ -11283,7 +11115,7 @@ namespace plt0_gui
         }
         private void Top_left_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (arrow == 7)
                 checked_Top_left();
             else
@@ -11339,7 +11171,7 @@ namespace plt0_gui
         }
         private void Top_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[136]);
+            Parse_Markdown(lines[136]);
             if (arrow == 8)
                 selected_Top();
             else
@@ -11347,7 +11179,7 @@ namespace plt0_gui
         }
         private void Top_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (arrow == 8)
                 checked_Top();
             else
@@ -11403,7 +11235,7 @@ namespace plt0_gui
         }
         private void Top_right_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[137]);
+            Parse_Markdown(lines[137]);
             if (arrow == 9)
                 selected_Top_right();
             else
@@ -11411,7 +11243,7 @@ namespace plt0_gui
         }
         private void Top_right_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (arrow == 9)
                 checked_Top_right();
             else
@@ -11467,7 +11299,7 @@ namespace plt0_gui
         }
         private void Right_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[138]);
+            Parse_Markdown(lines[138]);
             if (arrow == 6)
                 selected_Right();
             else
@@ -11475,7 +11307,7 @@ namespace plt0_gui
         }
         private void Right_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (arrow == 6)
                 checked_Right();
             else
@@ -11531,7 +11363,7 @@ namespace plt0_gui
         }
         private void Bottom_right_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[139]);
+            Parse_Markdown(lines[139]);
             if (arrow == 3)
                 selected_Bottom_right();
             else
@@ -11539,7 +11371,7 @@ namespace plt0_gui
         }
         private void Bottom_right_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (arrow == 3)
                 checked_Bottom_right();
             else
@@ -11595,7 +11427,7 @@ namespace plt0_gui
         }
         private void Bottom_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[140]);
+            Parse_Markdown(lines[140]);
             if (arrow == 2)
                 selected_Bottom();
             else
@@ -11603,7 +11435,7 @@ namespace plt0_gui
         }
         private void Bottom_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (arrow == 2)
                 checked_Bottom();
             else
@@ -11659,7 +11491,7 @@ namespace plt0_gui
         }
         private void Bottom_left_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[141]);
+            Parse_Markdown(lines[141]);
             if (arrow == 1)
                 selected_Bottom_left();
             else
@@ -11667,7 +11499,7 @@ namespace plt0_gui
         }
         private void Bottom_left_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (arrow == 1)
                 checked_Bottom_left();
             else
@@ -11719,11 +11551,11 @@ namespace plt0_gui
         }
         private void input_file_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[142]);
+            Parse_Markdown(lines[142]);
         }
         private void input_file_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
         }
         private void input_file_TextChanged(object sender, EventArgs e)
         {
@@ -11731,11 +11563,11 @@ namespace plt0_gui
         }
         private void input_file2_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[143]);
+            Parse_Markdown(lines[143]);
         }
         private void input_file2_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
         }
         private void input_file2_TextChanged(object sender, EventArgs e)
         {
@@ -11743,11 +11575,11 @@ namespace plt0_gui
         }
         private void output_name_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[144]);
+            Parse_Markdown(lines[144]);
         }
         private void output_name_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
         }
         private void output_name_TextChanged(object sender, EventArgs e)
         {
@@ -11755,11 +11587,11 @@ namespace plt0_gui
         }
         private void mipmaps_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[145]);
+            Parse_Markdown(lines[145]);
         }
         private void mipmaps_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
         }
         private void mipmaps_TextChanged(object sender, EventArgs e)
         {
@@ -11767,11 +11599,11 @@ namespace plt0_gui
         }
         private void cmpr_max_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[146]);
+            Parse_Markdown(lines[146]);
         }
         private void cmpr_max_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
         }
         private void cmpr_max_TextChanged(object sender, EventArgs e)
         {
@@ -11779,11 +11611,11 @@ namespace plt0_gui
         }
         private void cmpr_min_alpha_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[147]);
+            Parse_Markdown(lines[147]);
         }
         private void cmpr_min_alpha_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
         }
         private void cmpr_min_alpha_TextChanged(object sender, EventArgs e)
         {
@@ -11791,11 +11623,11 @@ namespace plt0_gui
         }
         private void num_colours_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[148]);
+            Parse_Markdown(lines[148]);
         }
         private void num_colours_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
         }
         private void num_colours_TextChanged(object sender, EventArgs e)
         {
@@ -11803,11 +11635,11 @@ namespace plt0_gui
         }
         private void round3_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[149]);
+            Parse_Markdown(lines[149]);
         }
         private void round3_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
         }
         private void round3_TextChanged(object sender, EventArgs e)
         {
@@ -11815,11 +11647,11 @@ namespace plt0_gui
         }
         private void round4_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[150]);
+            Parse_Markdown(lines[150]);
         }
         private void round4_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
         }
         private void round4_TextChanged(object sender, EventArgs e)
         {
@@ -11827,11 +11659,11 @@ namespace plt0_gui
         }
         private void round5_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[151]);
+            Parse_Markdown(lines[151]);
         }
         private void round5_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
         }
         private void round5_TextChanged(object sender, EventArgs e)
         {
@@ -11839,11 +11671,11 @@ namespace plt0_gui
         }
         private void round6_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[152]);
+            Parse_Markdown(lines[152]);
         }
         private void round6_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
         }
         private void round6_TextChanged(object sender, EventArgs e)
         {
@@ -11851,11 +11683,11 @@ namespace plt0_gui
         }
         private void diversity_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[153]);
+            Parse_Markdown(lines[153]);
         }
         private void diversity_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
         }
         private void diversity_TextChanged(object sender, EventArgs e)
         {
@@ -11863,11 +11695,11 @@ namespace plt0_gui
         }
         private void diversity2_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[154]);
+            Parse_Markdown(lines[154]);
         }
         private void diversity2_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
         }
         private void diversity2_TextChanged(object sender, EventArgs e)
         {
@@ -11875,11 +11707,11 @@ namespace plt0_gui
         }
         private void percentage_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[155]);
+            Parse_Markdown(lines[155]);
         }
         private void percentage_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
         }
         private void percentage_TextChanged(object sender, EventArgs e)
         {
@@ -11887,11 +11719,11 @@ namespace plt0_gui
         }
         private void percentage2_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[156]);
+            Parse_Markdown(lines[156]);
         }
         private void percentage2_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
         }
         private void percentage2_TextChanged(object sender, EventArgs e)
         {
@@ -11899,11 +11731,11 @@ namespace plt0_gui
         }
         private void custom_r_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[157]);
+            Parse_Markdown(lines[157]);
         }
         private void custom_r_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
         }
         private void custom_r_TextChanged(object sender, EventArgs e)
         {
@@ -11911,11 +11743,11 @@ namespace plt0_gui
         }
         private void custom_g_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[158]);
+            Parse_Markdown(lines[158]);
         }
         private void custom_g_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
         }
         private void custom_g_TextChanged(object sender, EventArgs e)
         {
@@ -11923,11 +11755,11 @@ namespace plt0_gui
         }
         private void custom_b_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[159]);
+            Parse_Markdown(lines[159]);
         }
         private void custom_b_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
         }
         private void custom_b_TextChanged(object sender, EventArgs e)
         {
@@ -11935,11 +11767,11 @@ namespace plt0_gui
         }
         private void custom_a_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[160]);
+            Parse_Markdown(lines[160]);
         }
         private void custom_a_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
         }
         private void custom_a_TextChanged(object sender, EventArgs e)
         {
@@ -11953,7 +11785,7 @@ namespace plt0_gui
         }
         private void palette_AI8_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[161]);
+            Parse_Markdown(lines[161]);
             if (palette_enc == 0)
                 selected_palette(palette_ai8_ck);
             else
@@ -11961,7 +11793,7 @@ namespace plt0_gui
         }
         private void palette_AI8_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (palette_enc == 0)
                 checked_palette(palette_ai8_ck);
             else
@@ -11975,7 +11807,7 @@ namespace plt0_gui
         }
         private void palette_RGB565_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[162]);
+            Parse_Markdown(lines[162]);
             if (palette_enc == 1)
                 selected_palette(palette_rgb565_ck);
             else
@@ -11983,7 +11815,7 @@ namespace plt0_gui
         }
         private void palette_RGB565_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (palette_enc == 1)
                 checked_palette(palette_rgb565_ck);
             else
@@ -11997,7 +11829,7 @@ namespace plt0_gui
         }
         private void palette_RGB5A3_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[163]);
+            Parse_Markdown(lines[163]);
             if (palette_enc == 2)
                 selected_palette(palette_rgb5a3_ck);
             else
@@ -12005,7 +11837,7 @@ namespace plt0_gui
         }
         private void palette_RGB5A3_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             if (palette_enc == 2)
                 checked_palette(palette_rgb5a3_ck);
             else
@@ -12018,12 +11850,12 @@ namespace plt0_gui
         }
         private void discord_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[164]);
+            Parse_Markdown(lines[164]);
             discord_ck.BackgroundImage = discord_hover;
         }
         private void discord_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             discord_ck.BackgroundImage = discord;
         }
         private void github_Click(object sender, EventArgs e)
@@ -12033,12 +11865,12 @@ namespace plt0_gui
         }
         private void github_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[165]);
+            Parse_Markdown(lines[165]);
             github_ck.BackgroundImage = github_hover;
         }
         private void github_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             github_ck.BackgroundImage = github;
         }
         private void youtube_Click(object sender, EventArgs e)
@@ -12048,12 +11880,12 @@ namespace plt0_gui
         }
         private void youtube_MouseEnter(object sender, EventArgs e)
         {
-            description.Text = Parse_Markdown(lines[166]);
+            Parse_Markdown(lines[166]);
             youtube_ck.BackgroundImage = youtube_hover;
         }
         private void youtube_MouseLeave(object sender, EventArgs e)
         {
-            description.Text = "";
+            Hide_description();
             youtube_ck.BackgroundImage = youtube;
         }
     }

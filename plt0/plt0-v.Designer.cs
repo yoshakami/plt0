@@ -350,26 +350,14 @@
         private System.Windows.Forms.Label custom_g_hitbox;
         private System.Windows.Forms.Label custom_b_hitbox;
         private System.Windows.Forms.Label custom_a_hitbox;
-        private System.Windows.Forms.Label description2;
-        private System.Windows.Forms.Label description13;
-        private System.Windows.Forms.Label description15;
-        private System.Windows.Forms.Label description16;
-        private System.Windows.Forms.Label description17;
-        private System.Windows.Forms.Label description18;
-        private System.Windows.Forms.Label description19;
-        private System.Windows.Forms.Label description20;
-        private System.Windows.Forms.Label description21;
-        private System.Windows.Forms.Label description3;
-        private System.Windows.Forms.Label description4;
-        private System.Windows.Forms.Label description5;
-        private System.Windows.Forms.Label description6;
-        private System.Windows.Forms.Label description7;
-        private System.Windows.Forms.Label description8;
-        private System.Windows.Forms.Label description9;
-        private System.Windows.Forms.Label description10;
-        private System.Windows.Forms.Label description11;
-        private System.Windows.Forms.Label description12;
-        private System.Windows.Forms.Label description14;
+        private System.Windows.Forms.Label desc2;
+        private System.Windows.Forms.Label desc3;
+        private System.Windows.Forms.Label desc4;
+        private System.Windows.Forms.Label desc5;
+        private System.Windows.Forms.Label desc6;
+        private System.Windows.Forms.Label desc7;
+        private System.Windows.Forms.Label desc8;
+        private System.Windows.Forms.Label desc9;
         /*
 /// <summary>
 /// Required designer variable.
