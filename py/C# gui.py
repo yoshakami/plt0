@@ -68,6 +68,7 @@ for z in range(len(encoding)):
             unchecked_encoding(encoding_ck[encoding]);
             selected_encoding(""" + encoding[z] + """_ck);
             encoding = """ + str(z) + """; // """ + encoding[z].upper() + check_run[z] + """
+            Organize_args();
         }
         private void """ + encoding[z].upper() + """_MouseEnter(object sender, EventArgs e)
         {
@@ -94,6 +95,7 @@ for a in range(len(algorithm)):
             unchecked_algorithm(algorithm_ck[algorithm]);
             selected_algorithm(""" + algorithm[a].lower() + """_ck);
             algorithm = """ + str(a) + """; // """ + algorithm[a] + """
+            Organize_args();
         }
         private void """ + algorithm[a] + """_MouseEnter(object sender, EventArgs e)
         {
@@ -120,6 +122,7 @@ for b in range(len(alpha)):
             unchecked_alpha(alpha_ck_array[alpha]);
             selected_alpha(""" + alpha[b].lower() + """_ck);
             alpha = """ + str(b) + """; // """ + alpha[b] + """
+            Organize_args();
         }
         private void """ + alpha[b] + """_MouseEnter(object sender, EventArgs e)
         {
@@ -146,6 +149,7 @@ for c in range(3):
             unchecked_WrapS(WrapS_ck[WrapS]);
             selected_WrapS(S""" + wrap[c].lower() + """_ck);
             WrapS = """ + str(c) + """; // """ + wrap[c] + """
+            Organize_args();
         }
         private void WrapS_""" + wrap[c] + """_MouseEnter(object sender, EventArgs e)
         {
@@ -171,6 +175,7 @@ for d in range(3):
             unchecked_WrapT(WrapT_ck[WrapT]);
             selected_WrapT(T""" + wrap[d].lower() + """_ck);
             WrapT = """ + str(d) + """; // """ + wrap[d] + """
+            Organize_args();
         }
         private void WrapT_""" + wrap[d] + """_MouseEnter(object sender, EventArgs e)
         {
@@ -197,6 +202,7 @@ for e in range(6):
             unchecked_Minification(minification_ck[minification_filter]);
             selected_Minification(min_""" + filter[e].lower() + """_ck);
             minification_filter = """ + str(e) + """; // """ + filter[e] + """
+            Organize_args();
         }
         private void Minification_""" + filter[e] + """_MouseEnter(object sender, EventArgs e)
         {
@@ -222,6 +228,7 @@ for f in range(6):
             unchecked_Magnification(magnification_ck[magnification_filter]);
             selected_Magnification(mag_""" + filter[f].lower() + """_ck);
             magnification_filter = """ + str(f) + """; // Mag_""" + filter[f] + """
+            Organize_args();
         }
         private void Magnification_""" + filter[f] + """_MouseEnter(object sender, EventArgs e)
         {
@@ -266,6 +273,7 @@ for g in channel:  # this looks unreadable because it's packed up instead of pas
             }
             selected_""" + channel[h] + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
             """ + g.lower() + " = " + str(h) + "; // " + channel2[i] + " channel set to " + channel[h] + """
+            Organize_args();
         }
         private void """ + g + '_' + channel[h] + """_MouseEnter(object sender, EventArgs e)
         {
@@ -545,6 +553,7 @@ for n in range(2):
                 """ + textbox[n] + """.Text = dialog.FileName;
                 """ + textbox[n][:-4] + """ = dialog.FileName;
                 Check_run();
+                Organize_args();
             }
         }"""
 for p in range(3):
@@ -562,6 +571,7 @@ for p in range(3):
         private void """ + textbox[p][:-4] + """_TextChanged(object sender, EventArgs e)
         {
             """ + textbox[p][:-4] + """ = """ + textbox[p] + """.Text;""" + check_run[w] + """
+            Organize_args();
         }"""
 for o in range(3, len(textbox)):
     x += 1
@@ -576,7 +586,8 @@ for o in range(3, len(textbox)):
         }
         private void """ + textbox[o][:-4] + """_TextChanged(object sender, EventArgs e)
         {
-            Parse_""" + var_type[o] + "_text(" + textbox[o] + ", " + textbox[o][:-4] + ", " + str(max_value[o]) + """);
+            Parse_""" + var_type[o] + "_text(" + textbox[o] + ", out " + textbox[o][:-4] + ", " + str(max_value[o]) + """);
+            Organize_args();
         }"""
 palette_enc = ["AI8", "RGB565", "RGB5A3"]
 for q in range(len(palette_enc)):
@@ -587,6 +598,7 @@ for q in range(len(palette_enc)):
             unchecked_palette(palette_ck[palette_enc]);
             selected_palette(palette_""" + palette_enc[q].lower() + """_ck);
             palette_enc = """ + str(q) + """;
+            Organize_args();
         }
         private void palette_""" + palette_enc[q] + """_MouseEnter(object sender, EventArgs e)
         {

@@ -52,10 +52,10 @@ class Parse_args_class
     byte magnification_filter = 1;  // 0 = Nearest Neighbour   1 = Linear
     byte minification_filter = 1;  // 0 = Nearest Neighbour   1 = Linear
     byte mipmaps_number = 0;
-    public byte round3 = 16;
-    public byte round4 = 8;
-    public byte round5 = 4;
-    public byte round6 = 2;
+    public byte round3 = 15;
+    public byte round4 = 7;
+    public byte round5 = 3;
+    public byte round6 = 1;
     //byte r = 2;
     //byte g = 1;
     //byte b = 0;
@@ -863,6 +863,7 @@ class Parse_args_class
                     }
                 case "EXIT":
                 case "ASK":
+                case "ASK_EXIT":
                     {
                         ask_exit = true;
                         break;
@@ -872,6 +873,9 @@ class Parse_args_class
                 case "NOERR":
                 case "NO-ERR":
                 case "SAFE":
+                case "SAFE_MODE":
+                case "SAFE-MODE":
+                case "SAFE MODE":
                     {
                         safe_mode = true;
                         break;

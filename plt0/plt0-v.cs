@@ -1195,49 +1195,6 @@ namespace plt0_gui
                 args += "stfu ";
             if (warn)
                 args += "warn ";
-            /*bool bmd = false;
-            bool bti = false;
-            bool tex0 = false;
-            bool tpl = false;
-            bool bmp = false;
-            bool png = false;
-            bool ico = false;
-            bool jpeg = false;
-            bool jpg = false;
-            bool gif = false;
-            bool tif = false;
-            bool tiff = false;
-            // options
-            bool ask_exit = false;
-            bool FORCE_ALPHA = false;
-            bool funky = false;
-            bool bmp_32 = false;
-            bool random = false;
-            bool safe_mode = false;
-            bool reverse = false;
-            bool warn = false;
-            bool stfu = false;
-            bool no_warning = false;
-            byte cmpr_max = 16;  // number of colours that the program should take care in each 4x4 block - should always be set to 16 for better results.  // wimgt's cmpr encoding is better than mine. I gotta admit. 
-            byte cmpr_min_alpha = 100; // byte cmpr_alpha_threshold = 100;
-            byte diversity = 10;
-            byte diversity2 = 0;
-            byte mipmaps = 0;
-            byte round3 = 16;
-            byte round4 = 8;
-            byte round5 = 4;
-            byte round6 = 2;
-            byte num_colours;
-            byte layout;
-            byte arrow;
-            int number;
-            int len;
-            double percentage = 0;
-            double percentage2 = 0;
-            double custom_r = 1.0;
-            double custom_g = 1.0;
-            double custom_b = 1.0;
-            double custom_a = 1.0;*/
         }
         private void plt0_DragEnter(object sender, DragEventArgs e)
         {
@@ -8843,11 +8800,13 @@ namespace plt0_gui
             if (bmd)
             {
                 bmd = false;
+                cli_textbox_label.Text = cli_textbox_label.Text.Replace("bmd", "");
                 hover_checkbox(bmd_ck);
             }
             else
             {
                 bmd = true;
+                cli_textbox_label.Text += bmd;
                 selected_checkbox(bmd_ck);
             }
             Check_run();
@@ -8873,11 +8832,13 @@ namespace plt0_gui
             if (bti)
             {
                 bti = false;
+                cli_textbox_label.Text = cli_textbox_label.Text.Replace("bti", "");
                 hover_checkbox(bti_ck);
             }
             else
             {
                 bti = true;
+                cli_textbox_label.Text += bti;
                 selected_checkbox(bti_ck);
             }
             Check_run();
@@ -8903,11 +8864,13 @@ namespace plt0_gui
             if (tex0)
             {
                 tex0 = false;
+                cli_textbox_label.Text = cli_textbox_label.Text.Replace("tex0", "");
                 hover_checkbox(tex0_ck);
             }
             else
             {
                 tex0 = true;
+                cli_textbox_label.Text += tex0;
                 selected_checkbox(tex0_ck);
             }
             Check_run();
@@ -8933,11 +8896,13 @@ namespace plt0_gui
             if (tpl)
             {
                 tpl = false;
+                cli_textbox_label.Text = cli_textbox_label.Text.Replace("tpl", "");
                 hover_checkbox(tpl_ck);
             }
             else
             {
                 tpl = true;
+                cli_textbox_label.Text += tpl;
                 selected_checkbox(tpl_ck);
             }
             Check_run();
@@ -8963,11 +8928,13 @@ namespace plt0_gui
             if (bmp)
             {
                 bmp = false;
+                cli_textbox_label.Text = cli_textbox_label.Text.Replace("bmp", "");
                 hover_checkbox(bmp_ck);
             }
             else
             {
                 bmp = true;
+                cli_textbox_label.Text += bmp;
                 selected_checkbox(bmp_ck);
             }
             Check_run();
@@ -8993,11 +8960,13 @@ namespace plt0_gui
             if (png)
             {
                 png = false;
+                cli_textbox_label.Text = cli_textbox_label.Text.Replace("png", "");
                 hover_checkbox(png_ck);
             }
             else
             {
                 png = true;
+                cli_textbox_label.Text += png;
                 selected_checkbox(png_ck);
             }
             Check_run();
@@ -9023,11 +8992,13 @@ namespace plt0_gui
             if (jpg)
             {
                 jpg = false;
+                cli_textbox_label.Text = cli_textbox_label.Text.Replace("jpg", "");
                 hover_checkbox(jpg_ck);
             }
             else
             {
                 jpg = true;
+                cli_textbox_label.Text += jpg;
                 selected_checkbox(jpg_ck);
             }
             Check_run();
@@ -9053,11 +9024,13 @@ namespace plt0_gui
             if (jpeg)
             {
                 jpeg = false;
+                cli_textbox_label.Text = cli_textbox_label.Text.Replace("jpeg", "");
                 hover_checkbox(jpeg_ck);
             }
             else
             {
                 jpeg = true;
+                cli_textbox_label.Text += jpeg;
                 selected_checkbox(jpeg_ck);
             }
             Check_run();
@@ -9083,11 +9056,13 @@ namespace plt0_gui
             if (gif)
             {
                 gif = false;
+                cli_textbox_label.Text = cli_textbox_label.Text.Replace("gif", "");
                 hover_checkbox(gif_ck);
             }
             else
             {
                 gif = true;
+                cli_textbox_label.Text += gif;
                 selected_checkbox(gif_ck);
             }
             Check_run();
@@ -9113,11 +9088,13 @@ namespace plt0_gui
             if (ico)
             {
                 ico = false;
+                cli_textbox_label.Text = cli_textbox_label.Text.Replace("ico", "");
                 hover_checkbox(ico_ck);
             }
             else
             {
                 ico = true;
+                cli_textbox_label.Text += ico;
                 selected_checkbox(ico_ck);
             }
             Check_run();
@@ -9143,11 +9120,13 @@ namespace plt0_gui
             if (tif)
             {
                 tif = false;
+                cli_textbox_label.Text = cli_textbox_label.Text.Replace("tif", "");
                 hover_checkbox(tif_ck);
             }
             else
             {
                 tif = true;
+                cli_textbox_label.Text += tif;
                 selected_checkbox(tif_ck);
             }
             Check_run();
@@ -9173,11 +9152,13 @@ namespace plt0_gui
             if (tiff)
             {
                 tiff = false;
+                cli_textbox_label.Text = cli_textbox_label.Text.Replace("tiff", "");
                 hover_checkbox(tiff_ck);
             }
             else
             {
                 tiff = true;
+                cli_textbox_label.Text += tiff;
                 selected_checkbox(tiff_ck);
             }
         }
@@ -9202,11 +9183,13 @@ namespace plt0_gui
             if (ask_exit)
             {
                 ask_exit = false;
+                cli_textbox_label.Text = cli_textbox_label.Text.Replace("ask_exit", "");
                 hover_checkbox(ask_exit_ck);
             }
             else
             {
                 ask_exit = true;
+                cli_textbox_label.Text += ask_exit;
                 selected_checkbox(ask_exit_ck);
             }
         }
@@ -9231,11 +9214,13 @@ namespace plt0_gui
             if (bmp_32)
             {
                 bmp_32 = false;
+                cli_textbox_label.Text = cli_textbox_label.Text.Replace("bmp_32", "");
                 hover_checkbox(bmp_32_ck);
             }
             else
             {
                 bmp_32 = true;
+                cli_textbox_label.Text += bmp_32;
                 selected_checkbox(bmp_32_ck);
             }
         }
@@ -9260,11 +9245,13 @@ namespace plt0_gui
             if (FORCE_ALPHA)
             {
                 FORCE_ALPHA = false;
+                cli_textbox_label.Text = cli_textbox_label.Text.Replace("FORCE_ALPHA", "");
                 hover_checkbox(FORCE_ALPHA_ck);
             }
             else
             {
                 FORCE_ALPHA = true;
+                cli_textbox_label.Text += FORCE_ALPHA;
                 selected_checkbox(FORCE_ALPHA_ck);
             }
         }
@@ -9289,11 +9276,13 @@ namespace plt0_gui
             if (funky)
             {
                 funky = false;
+                cli_textbox_label.Text = cli_textbox_label.Text.Replace("funky", "");
                 hover_checkbox(funky_ck);
             }
             else
             {
                 funky = true;
+                cli_textbox_label.Text += funky;
                 selected_checkbox(funky_ck);
             }
         }
@@ -9318,11 +9307,13 @@ namespace plt0_gui
             if (no_warning)
             {
                 no_warning = false;
+                cli_textbox_label.Text = cli_textbox_label.Text.Replace("no_warning", "");
                 hover_checkbox(no_warning_ck);
             }
             else
             {
                 no_warning = true;
+                cli_textbox_label.Text += no_warning;
                 selected_checkbox(no_warning_ck);
             }
         }
@@ -9347,11 +9338,13 @@ namespace plt0_gui
             if (random)
             {
                 random = false;
+                cli_textbox_label.Text = cli_textbox_label.Text.Replace("random", "");
                 hover_checkbox(random_ck);
             }
             else
             {
                 random = true;
+                cli_textbox_label.Text += random;
                 selected_checkbox(random_ck);
             }
         }
@@ -9376,11 +9369,13 @@ namespace plt0_gui
             if (reverse)
             {
                 reverse = false;
+                cli_textbox_label.Text = cli_textbox_label.Text.Replace("reverse", "");
                 hover_checkbox(reverse_ck);
             }
             else
             {
                 reverse = true;
+                cli_textbox_label.Text += reverse;
                 selected_checkbox(reverse_ck);
             }
         }
@@ -9405,11 +9400,13 @@ namespace plt0_gui
             if (safe_mode)
             {
                 safe_mode = false;
+                cli_textbox_label.Text = cli_textbox_label.Text.Replace("safe_mode", "");
                 hover_checkbox(safe_mode_ck);
             }
             else
             {
                 safe_mode = true;
+                cli_textbox_label.Text += safe_mode;
                 selected_checkbox(safe_mode_ck);
             }
         }
@@ -9434,11 +9431,13 @@ namespace plt0_gui
             if (stfu)
             {
                 stfu = false;
+                cli_textbox_label.Text = cli_textbox_label.Text.Replace("stfu", "");
                 hover_checkbox(stfu_ck);
             }
             else
             {
                 stfu = true;
+                cli_textbox_label.Text += stfu;
                 selected_checkbox(stfu_ck);
             }
         }
@@ -9463,11 +9462,13 @@ namespace plt0_gui
             if (warn)
             {
                 warn = false;
+                cli_textbox_label.Text = cli_textbox_label.Text.Replace("warn", "");
                 hover_checkbox(warn_ck);
             }
             else
             {
                 warn = true;
+                cli_textbox_label.Text += warn;
                 selected_checkbox(warn_ck);
             }
         }
@@ -11895,7 +11896,7 @@ namespace plt0_gui
         }
         private void mipmaps_TextChanged(object sender, EventArgs e)
         {
-            Parse_byte_text(mipmaps_txt, mipmaps, 255);
+            Parse_byte_text(mipmaps_txt, out mipmaps, 255);
         }
         private void cmpr_max_MouseEnter(object sender, EventArgs e)
         {
@@ -11907,7 +11908,7 @@ namespace plt0_gui
         }
         private void cmpr_max_TextChanged(object sender, EventArgs e)
         {
-            Parse_byte_text(cmpr_max_txt, cmpr_max, 16);
+            Parse_byte_text(cmpr_max_txt, out cmpr_max, 16);
         }
         private void cmpr_min_alpha_MouseEnter(object sender, EventArgs e)
         {
@@ -11919,7 +11920,7 @@ namespace plt0_gui
         }
         private void cmpr_min_alpha_TextChanged(object sender, EventArgs e)
         {
-            Parse_byte_text(cmpr_min_alpha_txt, cmpr_min_alpha, 255);
+            Parse_byte_text(cmpr_min_alpha_txt, out cmpr_min_alpha, 255);
         }
         private void num_colours_MouseEnter(object sender, EventArgs e)
         {
@@ -11931,7 +11932,7 @@ namespace plt0_gui
         }
         private void num_colours_TextChanged(object sender, EventArgs e)
         {
-            Parse_ushort_text(num_colours_txt, num_colours, 65535);
+            Parse_ushort_text(num_colours_txt, out num_colours, 65535);
         }
         private void round3_MouseEnter(object sender, EventArgs e)
         {
@@ -11943,7 +11944,7 @@ namespace plt0_gui
         }
         private void round3_TextChanged(object sender, EventArgs e)
         {
-            Parse_byte_text(round3_txt, round3, 32);
+            Parse_byte_text(round3_txt, out round3, 32);
         }
         private void round4_MouseEnter(object sender, EventArgs e)
         {
@@ -11955,7 +11956,7 @@ namespace plt0_gui
         }
         private void round4_TextChanged(object sender, EventArgs e)
         {
-            Parse_byte_text(round4_txt, round4, 16);
+            Parse_byte_text(round4_txt, out round4, 16);
         }
         private void round5_MouseEnter(object sender, EventArgs e)
         {
@@ -11967,7 +11968,7 @@ namespace plt0_gui
         }
         private void round5_TextChanged(object sender, EventArgs e)
         {
-            Parse_byte_text(round5_txt, round5, 8);
+            Parse_byte_text(round5_txt, out round5, 8);
         }
         private void round6_MouseEnter(object sender, EventArgs e)
         {
@@ -11979,7 +11980,7 @@ namespace plt0_gui
         }
         private void round6_TextChanged(object sender, EventArgs e)
         {
-            Parse_byte_text(round6_txt, round6, 4);
+            Parse_byte_text(round6_txt, out round6, 4);
         }
         private void diversity_MouseEnter(object sender, EventArgs e)
         {
@@ -11991,7 +11992,7 @@ namespace plt0_gui
         }
         private void diversity_TextChanged(object sender, EventArgs e)
         {
-            Parse_byte_text(diversity_txt, diversity, 255);
+            Parse_byte_text(diversity_txt, out diversity, 255);
         }
         private void diversity2_MouseEnter(object sender, EventArgs e)
         {
@@ -12003,7 +12004,7 @@ namespace plt0_gui
         }
         private void diversity2_TextChanged(object sender, EventArgs e)
         {
-            Parse_byte_text(diversity2_txt, diversity2, 255);
+            Parse_byte_text(diversity2_txt, out diversity2, 255);
         }
         private void percentage_MouseEnter(object sender, EventArgs e)
         {
@@ -12015,7 +12016,7 @@ namespace plt0_gui
         }
         private void percentage_TextChanged(object sender, EventArgs e)
         {
-            Parse_double_text(percentage_txt, percentage, 100.0);
+            Parse_double_text(percentage_txt, out percentage, 100.0);
         }
         private void percentage2_MouseEnter(object sender, EventArgs e)
         {
@@ -12027,7 +12028,7 @@ namespace plt0_gui
         }
         private void percentage2_TextChanged(object sender, EventArgs e)
         {
-            Parse_double_text(percentage2_txt, percentage2, 100.0);
+            Parse_double_text(percentage2_txt, out percentage2, 100.0);
         }
         private void custom_r_MouseEnter(object sender, EventArgs e)
         {
@@ -12039,7 +12040,7 @@ namespace plt0_gui
         }
         private void custom_r_TextChanged(object sender, EventArgs e)
         {
-            Parse_double_text(custom_r_txt, custom_r, 255.0);
+            Parse_double_text(custom_r_txt, out custom_r, 255.0);
         }
         private void custom_g_MouseEnter(object sender, EventArgs e)
         {
@@ -12051,7 +12052,7 @@ namespace plt0_gui
         }
         private void custom_g_TextChanged(object sender, EventArgs e)
         {
-            Parse_double_text(custom_g_txt, custom_g, 255.0);
+            Parse_double_text(custom_g_txt, out custom_g, 255.0);
         }
         private void custom_b_MouseEnter(object sender, EventArgs e)
         {
@@ -12063,7 +12064,7 @@ namespace plt0_gui
         }
         private void custom_b_TextChanged(object sender, EventArgs e)
         {
-            Parse_double_text(custom_b_txt, custom_b, 255.0);
+            Parse_double_text(custom_b_txt, out custom_b, 255.0);
         }
         private void custom_a_MouseEnter(object sender, EventArgs e)
         {
@@ -12075,7 +12076,7 @@ namespace plt0_gui
         }
         private void custom_a_TextChanged(object sender, EventArgs e)
         {
-            Parse_double_text(custom_a_txt, custom_a, 255.0);
+            Parse_double_text(custom_a_txt, out custom_a, 255.0);
         }
         private void palette_AI8_Click(object sender, EventArgs e)
         {
