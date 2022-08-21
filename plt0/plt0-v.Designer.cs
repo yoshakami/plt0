@@ -358,6 +358,10 @@
         private System.Windows.Forms.Label desc7;
         private System.Windows.Forms.Label desc8;
         private System.Windows.Forms.Label desc9;
+        private System.Windows.Forms.Label version_hitbox;
+        private System.Windows.Forms.Label output_label;
+        private System.Windows.Forms.PictureBox version_ck;
+        private System.Windows.Forms.Label cli_textbox_label;
         /*
 /// <summary>
 /// Required designer variable.

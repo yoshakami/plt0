@@ -614,7 +614,21 @@ for r in range(3):
             Hide_description();
             """ + banner_icon[r] + "_ck.BackgroundImage = " + banner_icon[r] + """;
         }"""
-
+text_icon = ["version", "cli_textbox", "run", "Output_label"]
+line2 = [text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover"] * 2 + ["            Check_run();", ""]
+for s in range(4):
+    x += 1
+    output += """
+        private void """ + text_icon[s] + """_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[""" + str(x) + """]);
+            """ + line2 + """;
+        }
+        private void """ + text_icon[s] + """_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            """ + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + """;
+        }"""
 output += """
     }
 }

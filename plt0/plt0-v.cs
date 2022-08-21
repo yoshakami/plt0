@@ -238,6 +238,13 @@ namespace plt0_gui
         Image youtube_hover;
         Image discord_hover;
         Image github_hover;
+        Image run_on;
+        Image run_off;
+        Image run_hover;
+        Image cli_textbox;
+        Image cli_textbox_hover;
+        Image version;
+        Image version_hover;
         // I couldn't manage to get external fonts working. this needs to be specified within the app itself :/
         // static string fontname = "Segoe UI";
         Image input_file_image;
@@ -754,16 +761,6 @@ namespace plt0_gui
             string[] txt_label = txt.Split(new string[] { "\\j" }, StringSplitOptions.RemoveEmptyEntries);
             for (byte i = 0; i < (byte)txt_label.Length; i++)
             {
-                if (i != 0)
-                {
-                    backslash_n = "";
-                    byte.TryParse(txt_label[i][2].ToString(), out jump_line);
-                    for (byte j = 0; j < jump_line; j++)
-                    {
-                        backslash_n += "\n";
-                    }
-                    txt_label[i] = backslash_n + txt_label[i].Substring(3);
-                }
                 font_colour = lines[10];  // default colour
                 font_name = lines[12]; // default font name
                 font_style = 0;
@@ -1051,6 +1048,26 @@ namespace plt0_gui
             }
             else
                 txt.Text = txt.Text.Substring(0, len - 1);
+        }
+        private void Check_run()
+        {
+            if (bmd)
+            {
+                if (!File.Exists(input_file2))
+                {
+                    run_ck.BackgroundImage = run_off;
+                    return;
+                }
+            }
+            if (File.Exists(input_file) && encoding != 7)
+            {
+                if (bmd || bti || tex0 || tpl || bmp || png || jpeg || gif || ico || tif || tiff)
+                    run_ck.BackgroundImage = run_on;
+                else
+                    run_ck.BackgroundImage = run_off;
+            }
+            else
+                run_ck.BackgroundImage = run_off;
         }
         private void plt0_DragEnter(object sender, DragEventArgs e)
         {
@@ -1998,6 +2015,10 @@ namespace plt0_gui
             this.desc7 = new System.Windows.Forms.Label();
             this.desc8 = new System.Windows.Forms.Label();
             this.desc9 = new System.Windows.Forms.Label();
+            this.version_hitbox = new System.Windows.Forms.Label();
+            this.output_label = new System.Windows.Forms.Label();
+            this.version_ck = new System.Windows.Forms.PictureBox();
+            this.cli_textbox_label = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.bmd_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
@@ -2104,6 +2125,7 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.github_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.youtube_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.discord_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.version_ck)).BeginInit();
             this.SuspendLayout();
             // 
             // output_file_type_label
@@ -4657,9 +4679,7 @@ namespace plt0_gui
             // 
             this.min_nearest_neighbour_label.AutoSize = true;
             this.min_nearest_neighbour_label.BackColor = System.Drawing.Color.Transparent;
-            this.min_nearest_neighbour_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, ((System.Drawing.FontStyle)((((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic) 
-                | System.Drawing.FontStyle.Underline) 
-                | System.Drawing.FontStyle.Strikeout))), System.Drawing.GraphicsUnit.World, ((byte)(0)), true);
+            this.min_nearest_neighbour_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(128)), true);
             this.min_nearest_neighbour_label.ForeColor = System.Drawing.SystemColors.Window;
             this.min_nearest_neighbour_label.Location = new System.Drawing.Point(893, 128);
             this.min_nearest_neighbour_label.Margin = new System.Windows.Forms.Padding(0);
@@ -6266,7 +6286,8 @@ namespace plt0_gui
             this.run_hitbox.Padding = new System.Windows.Forms.Padding(128, 44, 0, 0);
             this.run_hitbox.Size = new System.Drawing.Size(128, 64);
             this.run_hitbox.TabIndex = 429;
-            this.run_hitbox.Visible = false;
+            this.run_hitbox.MouseEnter += new System.EventHandler(this.run_MouseEnter);
+            this.run_hitbox.MouseLeave += new System.EventHandler(this.run_MouseLeave);
             // 
             // cli_textbox_hitbox
             // 
@@ -6280,7 +6301,8 @@ namespace plt0_gui
             this.cli_textbox_hitbox.Padding = new System.Windows.Forms.Padding(1472, 44, 0, 0);
             this.cli_textbox_hitbox.Size = new System.Drawing.Size(1472, 64);
             this.cli_textbox_hitbox.TabIndex = 430;
-            this.cli_textbox_hitbox.Visible = false;
+            this.cli_textbox_hitbox.MouseEnter += new System.EventHandler(this.cli_textbox_MouseEnter);
+            this.cli_textbox_hitbox.MouseLeave += new System.EventHandler(this.cli_textbox_MouseLeave);
             // 
             // input_file_txt
             // 
@@ -7489,7 +7511,6 @@ namespace plt0_gui
             this.desc2.Name = "desc2";
             this.desc2.Size = new System.Drawing.Size(480, 230);
             this.desc2.TabIndex = 533;
-            this.desc2.Text = "a";
             this.desc2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.desc2.Visible = false;
             // 
@@ -7506,7 +7527,6 @@ namespace plt0_gui
             this.desc3.Name = "desc3";
             this.desc3.Size = new System.Drawing.Size(480, 200);
             this.desc3.TabIndex = 534;
-            this.desc3.Text = "a";
             this.desc3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.desc3.Visible = false;
             // 
@@ -7523,9 +7543,7 @@ namespace plt0_gui
             this.desc4.Name = "desc4";
             this.desc4.Size = new System.Drawing.Size(480, 170);
             this.desc4.TabIndex = 535;
-            this.desc4.Text = "a";
             this.desc4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.desc4.Visible = false;
             // 
             // desc5
             // 
@@ -7540,9 +7558,7 @@ namespace plt0_gui
             this.desc5.Name = "desc5";
             this.desc5.Size = new System.Drawing.Size(480, 140);
             this.desc5.TabIndex = 536;
-            this.desc5.Text = "a";
             this.desc5.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.desc5.Visible = false;
             // 
             // desc6
             // 
@@ -7557,9 +7573,7 @@ namespace plt0_gui
             this.desc6.Name = "desc6";
             this.desc6.Size = new System.Drawing.Size(480, 110);
             this.desc6.TabIndex = 537;
-            this.desc6.Text = "a";
             this.desc6.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.desc6.Visible = false;
             // 
             // desc7
             // 
@@ -7574,9 +7588,7 @@ namespace plt0_gui
             this.desc7.Name = "desc7";
             this.desc7.Size = new System.Drawing.Size(480, 80);
             this.desc7.TabIndex = 538;
-            this.desc7.Text = "a";
             this.desc7.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.desc7.Visible = false;
             // 
             // desc8
             // 
@@ -7591,9 +7603,7 @@ namespace plt0_gui
             this.desc8.Name = "desc8";
             this.desc8.Size = new System.Drawing.Size(480, 50);
             this.desc8.TabIndex = 539;
-            this.desc8.Text = "a";
             this.desc8.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.desc8.Visible = false;
             // 
             // desc9
             // 
@@ -7608,9 +7618,68 @@ namespace plt0_gui
             this.desc9.Name = "desc9";
             this.desc9.Size = new System.Drawing.Size(480, 25);
             this.desc9.TabIndex = 540;
-            this.desc9.Text = "a";
             this.desc9.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.desc9.Visible = false;
+            // 
+            // version_hitbox
+            // 
+            this.version_hitbox.AutoSize = true;
+            this.version_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.version_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.version_hitbox.ForeColor = System.Drawing.Color.Gray;
+            this.version_hitbox.Location = new System.Drawing.Point(722, 0);
+            this.version_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.version_hitbox.Name = "version_hitbox";
+            this.version_hitbox.Padding = new System.Windows.Forms.Padding(64, 6, 0, 6);
+            this.version_hitbox.Size = new System.Drawing.Size(64, 32);
+            this.version_hitbox.TabIndex = 541;
+            this.version_hitbox.MouseEnter += new System.EventHandler(this.version_MouseEnter);
+            this.version_hitbox.MouseLeave += new System.EventHandler(this.version_MouseLeave);
+            // 
+            // output_label
+            // 
+            this.output_label.AutoSize = true;
+            this.output_label.BackColor = System.Drawing.Color.Transparent;
+            this.output_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.output_label.ForeColor = System.Drawing.Color.Cyan;
+            this.output_label.Location = new System.Drawing.Point(1207, 770);
+            this.output_label.Margin = new System.Windows.Forms.Padding(0);
+            this.output_label.MaximumSize = new System.Drawing.Size(420, 100);
+            this.output_label.MinimumSize = new System.Drawing.Size(420, 100);
+            this.output_label.Name = "output_label";
+            this.output_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
+            this.output_label.Size = new System.Drawing.Size(420, 100);
+            this.output_label.TabIndex = 542;
+            this.output_label.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.output_label.MouseEnter += new System.EventHandler(this.Output_label_MouseEnter);
+            this.output_label.MouseLeave += new System.EventHandler(this.Output_label_MouseLeave);
+            // 
+            // version_ck
+            // 
+            this.version_ck.BackColor = System.Drawing.Color.Transparent;
+            this.version_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.version_ck.Enabled = false;
+            this.version_ck.ErrorImage = null;
+            this.version_ck.InitialImage = null;
+            this.version_ck.Location = new System.Drawing.Point(726, 0);
+            this.version_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.version_ck.Name = "version_ck";
+            this.version_ck.Size = new System.Drawing.Size(64, 32);
+            this.version_ck.TabIndex = 543;
+            this.version_ck.TabStop = false;
+            // 
+            // cli_textbox_label
+            // 
+            this.cli_textbox_label.AutoSize = true;
+            this.cli_textbox_label.BackColor = System.Drawing.Color.Transparent;
+            this.cli_textbox_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.cli_textbox_label.ForeColor = System.Drawing.SystemColors.Window;
+            this.cli_textbox_label.Location = new System.Drawing.Point(96, 1005);
+            this.cli_textbox_label.Margin = new System.Windows.Forms.Padding(0);
+            this.cli_textbox_label.Name = "cli_textbox_label";
+            this.cli_textbox_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.cli_textbox_label.Size = new System.Drawing.Size(80, 64);
+            this.cli_textbox_label.TabIndex = 544;
+            this.cli_textbox_label.Text = "Clamp";
             // 
             // plt0_gui
             // 
@@ -7618,6 +7687,10 @@ namespace plt0_gui
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(3610, 1959);
+            this.Controls.Add(this.cli_textbox_label);
+            this.Controls.Add(this.version_ck);
+            this.Controls.Add(this.output_label);
+            this.Controls.Add(this.version_hitbox);
             this.Controls.Add(this.desc9);
             this.Controls.Add(this.desc8);
             this.Controls.Add(this.desc7);
@@ -7625,7 +7698,6 @@ namespace plt0_gui
             this.Controls.Add(this.desc5);
             this.Controls.Add(this.desc4);
             this.Controls.Add(this.desc3);
-            this.Controls.Add(this.desc2);
             this.Controls.Add(this.discord_ck);
             this.Controls.Add(this.discord_hitbox);
             this.Controls.Add(this.youtube_ck);
@@ -7642,7 +7714,6 @@ namespace plt0_gui
             this.Controls.Add(this.palette_ai8_label);
             this.Controls.Add(this.palette_ai8_hitbox);
             this.Controls.Add(this.palette_label);
-            this.Controls.Add(this.description);
             this.Controls.Add(this.description_title);
             this.Controls.Add(this.custom_rgba_label);
             this.Controls.Add(this.custom_a_label);
@@ -7952,7 +8023,6 @@ namespace plt0_gui
             this.Controls.Add(this.a_a_ck_hitbox);
             this.Controls.Add(this.run_hitbox);
             this.Controls.Add(this.cli_textbox_hitbox);
-            this.Controls.Add(this.description_surrounding);
             this.Controls.Add(this.input_file_hitbox);
             this.Controls.Add(this.input_file2_hitbox);
             this.Controls.Add(this.output_name_hitbox);
@@ -7974,6 +8044,9 @@ namespace plt0_gui
             this.Controls.Add(this.custom_b_hitbox);
             this.Controls.Add(this.custom_a_hitbox);
             this.Controls.Add(this.custom_r_hitbox);
+            this.Controls.Add(this.desc2);
+            this.Controls.Add(this.description);
+            this.Controls.Add(this.description_surrounding);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
@@ -8094,6 +8167,7 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.github_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.youtube_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.discord_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.version_ck)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -8564,6 +8638,30 @@ namespace plt0_gui
             if (File.Exists(execPath + "images/github_hover.png"))
             {
                 github_hover = Image.FromFile(execPath + "images/github_hover.png");
+            }
+            if (File.Exists(execPath + "images/run.png"))
+            {
+                run = Image.FromFile(execPath + "images/run.png");
+            }
+            if (File.Exists(execPath + "images/run_hover.png"))
+            {
+                run_hover = Image.FromFile(execPath + "images/run_hover.png");
+            }
+            if (File.Exists(execPath + "images/cli_textbox.png"))
+            {
+                cli_textbox = Image.FromFile(execPath + "images/cli_textbox.png");
+            }
+            if (File.Exists(execPath + "images/cli_textbox_hover.png"))
+            {
+                cli_textbox_hover = Image.FromFile(execPath + "images/cli_textbox_hover.png");
+            }
+            if (File.Exists(execPath + "images/version.png"))
+            {
+                version = Image.FromFile(execPath + "images/version.png");
+            }
+            if (File.Exists(execPath + "images/version_hover.png"))
+            {
+                version_hover = Image.FromFile(execPath + "images/version_hover.png");
             }
         }
         private void bmd_Click(object sender, EventArgs e)
@@ -11889,6 +11987,44 @@ namespace plt0_gui
         {
             Hide_description();
             youtube_ck.BackgroundImage = youtube;
+        }
+        private void version_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[167]);
+            version_ck.BackgroundImage = version_hover;
+        }
+        private void version_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            version_ck.BackgroundImage = version;
+        }
+        private void cli_textbox_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[168]);
+            cli_textbox_ck.BackgroundImage = cli_textbox_hover;
+        }
+        private void cli_textbox_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            cli_textbox_ck.BackgroundImage = cli_textbox;
+        }
+        private void run_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[169]);
+            run_ck.BackgroundImage = run_hover;
+        }
+        private void run_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            Check_run();
+        }
+        private void Output_label_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[170]);
+        }
+        private void Output_label_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
         }
     }
 }
