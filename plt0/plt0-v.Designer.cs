@@ -404,6 +404,8 @@
         private System.Windows.Forms.PictureBox view_options_ck;
         private System.Windows.Forms.Label view_options_label;
         private System.Windows.Forms.Label view_options_hitbox;
+        private System.Windows.Forms.Label banner_move;
+        private System.Windows.Forms.Label banner_resize;
         /*
 /// <summary>
 /// Required designer variable.

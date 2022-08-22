@@ -53,7 +53,10 @@ namespace plt0_gui
         bool strikeout;*/
         byte font_style;
         bool vertical;
-
+        // banner_move
+        int mouse_x;
+        int mouse_y;
+        bool mouse_down;
         // checkboxes
         bool bmd = false;
         bool bti = false;
@@ -2649,6 +2652,8 @@ namespace plt0_gui
             this.view_options_ck = new System.Windows.Forms.PictureBox();
             this.view_options_label = new System.Windows.Forms.Label();
             this.view_options_hitbox = new System.Windows.Forms.Label();
+            this.banner_move = new System.Windows.Forms.Label();
+            this.banner_resize = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.bmd_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
@@ -8358,6 +8363,8 @@ namespace plt0_gui
             this.view_rgba_label.Text = "Custom RGBA";
             this.view_rgba_label.Visible = false;
             this.view_rgba_label.Click += new System.EventHandler(this.view_rgba_Click);
+            this.view_rgba_label.MouseEnter += new System.EventHandler(this.view_rgba_MouseEnter);
+            this.view_rgba_label.MouseLeave += new System.EventHandler(this.view_rgba_MouseLeave);
             // 
             // view_rgba_hitbox
             // 
@@ -8372,6 +8379,9 @@ namespace plt0_gui
             this.view_rgba_hitbox.Size = new System.Drawing.Size(190, 64);
             this.view_rgba_hitbox.TabIndex = 546;
             this.view_rgba_hitbox.Visible = false;
+            this.view_rgba_hitbox.Click += new System.EventHandler(this.view_rgba_Click);
+            this.view_rgba_hitbox.MouseEnter += new System.EventHandler(this.view_rgba_MouseEnter);
+            this.view_rgba_hitbox.MouseLeave += new System.EventHandler(this.view_rgba_MouseLeave);
             // 
             // view_palette_ck
             // 
@@ -8402,6 +8412,9 @@ namespace plt0_gui
             this.view_palette_label.TabIndex = 548;
             this.view_palette_label.Text = "Palette";
             this.view_palette_label.Visible = false;
+            this.view_palette_label.Click += new System.EventHandler(this.view_palette_Click);
+            this.view_palette_label.MouseEnter += new System.EventHandler(this.view_palette_MouseEnter);
+            this.view_palette_label.MouseLeave += new System.EventHandler(this.view_palette_MouseLeave);
             // 
             // view_palette_hitbox
             // 
@@ -8416,6 +8429,9 @@ namespace plt0_gui
             this.view_palette_hitbox.Size = new System.Drawing.Size(190, 64);
             this.view_palette_hitbox.TabIndex = 549;
             this.view_palette_hitbox.Visible = false;
+            this.view_palette_hitbox.Click += new System.EventHandler(this.view_palette_Click);
+            this.view_palette_hitbox.MouseEnter += new System.EventHandler(this.view_palette_MouseEnter);
+            this.view_palette_hitbox.MouseLeave += new System.EventHandler(this.view_palette_MouseLeave);
             // 
             // view_cmpr_ck
             // 
@@ -8444,6 +8460,9 @@ namespace plt0_gui
             this.view_cmpr_label.Size = new System.Drawing.Size(79, 64);
             this.view_cmpr_label.TabIndex = 581;
             this.view_cmpr_label.Text = "CMPR";
+            this.view_cmpr_label.Click += new System.EventHandler(this.view_cmpr_Click);
+            this.view_cmpr_label.MouseEnter += new System.EventHandler(this.view_cmpr_MouseEnter);
+            this.view_cmpr_label.MouseLeave += new System.EventHandler(this.view_cmpr_MouseLeave);
             // 
             // view_cmpr_hitbox
             // 
@@ -8457,6 +8476,9 @@ namespace plt0_gui
             this.view_cmpr_hitbox.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
             this.view_cmpr_hitbox.Size = new System.Drawing.Size(190, 64);
             this.view_cmpr_hitbox.TabIndex = 582;
+            this.view_cmpr_hitbox.Click += new System.EventHandler(this.view_cmpr_Click);
+            this.view_cmpr_hitbox.MouseEnter += new System.EventHandler(this.view_cmpr_MouseEnter);
+            this.view_cmpr_hitbox.MouseLeave += new System.EventHandler(this.view_cmpr_MouseLeave);
             // 
             // pictureBox2
             // 
@@ -8895,6 +8917,9 @@ namespace plt0_gui
             this.view_options_label.Size = new System.Drawing.Size(97, 64);
             this.view_options_label.TabIndex = 584;
             this.view_options_label.Text = "Options";
+            this.view_options_label.Click += new System.EventHandler(this.view_options_Click);
+            this.view_options_label.MouseEnter += new System.EventHandler(this.view_options_MouseEnter);
+            this.view_options_label.MouseLeave += new System.EventHandler(this.view_options_MouseLeave);
             // 
             // view_options_hitbox
             // 
@@ -8908,6 +8933,43 @@ namespace plt0_gui
             this.view_options_hitbox.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
             this.view_options_hitbox.Size = new System.Drawing.Size(190, 64);
             this.view_options_hitbox.TabIndex = 585;
+            this.view_options_hitbox.Click += new System.EventHandler(this.view_options_Click);
+            this.view_options_hitbox.MouseEnter += new System.EventHandler(this.view_options_MouseEnter);
+            this.view_options_hitbox.MouseLeave += new System.EventHandler(this.view_options_MouseLeave);
+            // 
+            // banner_move
+            // 
+            this.banner_move.AutoSize = true;
+            this.banner_move.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(20)))), ((int)(((byte)(0)))), ((int)(((byte)(49)))));
+            this.banner_move.Cursor = System.Windows.Forms.Cursors.SizeAll;
+            this.banner_move.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.banner_move.ForeColor = System.Drawing.Color.Gray;
+            this.banner_move.Location = new System.Drawing.Point(840, 0);
+            this.banner_move.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_move.Name = "banner_move";
+            this.banner_move.Padding = new System.Windows.Forms.Padding(800, 6, 0, 6);
+            this.banner_move.Size = new System.Drawing.Size(800, 32);
+            this.banner_move.TabIndex = 587;
+            this.banner_move.MouseDown += new System.Windows.Forms.MouseEventHandler(this.banner_move_MouseDown);
+            this.banner_move.MouseMove += new System.Windows.Forms.MouseEventHandler(this.banner_move_MouseMove);
+            this.banner_move.MouseUp += new System.Windows.Forms.MouseEventHandler(this.banner_move_MouseUp);
+            // 
+            // banner_resize
+            // 
+            this.banner_resize.AutoSize = true;
+            this.banner_resize.BackColor = System.Drawing.Color.Transparent;
+            this.banner_resize.Cursor = System.Windows.Forms.Cursors.SizeNWSE;
+            this.banner_resize.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.banner_resize.ForeColor = System.Drawing.SystemColors.Control;
+            this.banner_resize.Location = new System.Drawing.Point(-5, -5);
+            this.banner_resize.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_resize.Name = "banner_resize";
+            this.banner_resize.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
+            this.banner_resize.Size = new System.Drawing.Size(32, 32);
+            this.banner_resize.TabIndex = 588;
+            this.banner_resize.MouseDown += new System.Windows.Forms.MouseEventHandler(this.banner_resize_MouseDown);
+            this.banner_resize.MouseMove += new System.Windows.Forms.MouseEventHandler(this.banner_resize_MouseMove);
+            this.banner_resize.MouseUp += new System.Windows.Forms.MouseEventHandler(this.banner_resize_MouseUp);
             // 
             // plt0_gui
             // 
@@ -8917,6 +8979,8 @@ namespace plt0_gui
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(2845, 1902);
+            this.Controls.Add(this.banner_resize);
+            this.Controls.Add(this.banner_move);
             this.Controls.Add(this.view_options_ck);
             this.Controls.Add(this.view_options_label);
             this.Controls.Add(this.view_options_hitbox);
@@ -13512,16 +13576,7 @@ namespace plt0_gui
         }
         private void view_rgba_Click(object sender, EventArgs e)
         {
-            if (view_rgba)
-            {
-                Hide_rgba();
-                Category_hover(view_rgba_ck);
-            }
-            else
-            {
-                View_rgba();
-                Category_selected(view_rgba_ck);
-            }
+
         }
         private void view_rgba_MouseEnter(object sender, EventArgs e)
         {
@@ -13635,6 +13690,61 @@ namespace plt0_gui
                 output_label.Text = "Run " + run_count.ToString() + " time\n" + cli.Check_exit();
             else
                 output_label.Text = "Run " + run_count.ToString() + " times\n" + cli.Check_exit();
+        }
+
+        private void banner_move_MouseEnter(object sender, EventArgs e)
+        {
+            Cursor.Current = Cursors.SizeAll;
+        }
+
+        private void banner_move_MouseLeave(object sender, EventArgs e)
+        {
+            Cursor.Current = Cursors.Default;
+        }
+
+        private void banner_move_MouseDown(object sender, MouseEventArgs e)
+        {
+            // e.Button;
+            mouse_x = e.X;
+            mouse_y = e.Y;
+            mouse_down = true;
+        }
+
+        private void banner_move_MouseUp(object sender, MouseEventArgs e)
+        {
+            mouse_down = false;
+        }
+
+        private void banner_move_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (mouse_down)
+            {
+                this.Location = new Point(this.Location.X + e.X - mouse_x, this.Location.Y + e.Y - mouse_y);
+            }
+        }
+
+        private void banner_resize_MouseDown(object sender, MouseEventArgs e)
+        {
+
+            mouse_x = e.X;
+            mouse_y = e.Y;
+            mouse_down = true;
+        }
+
+        private void banner_resize_MouseUp(object sender, MouseEventArgs e)
+        {
+
+            mouse_down = false;
+        }
+
+        private void banner_resize_MouseMove(object sender, MouseEventArgs e)
+        {
+
+            if (mouse_down)
+            {
+                this.Location = new Point(this.Location.X + e.X - mouse_x, this.Location.Y + e.Y - mouse_y);
+                this.Size = new Size(this.Size.Width + mouse_x - e.X, this.Size.Height + mouse_y - e.Y);
+            }
         }
     }
 }
