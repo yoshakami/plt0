@@ -85,6 +85,10 @@ namespace plt0_gui
         bool view_algorithm = true;
         bool view_min = true;
         bool view_mag = true;
+        bool view_rgba = true;
+        bool view_palette = true;
+        bool view_cmpr = true;
+        bool view_options = true;
         // radiobuttons
         byte encoding = 7;
         byte palette_enc = 3;
@@ -1684,6 +1688,8 @@ namespace plt0_gui
         }
         private void View_alpha()
         {
+            if (layout == 0)
+                return;
             for (byte i = 0; i < alpha_ck_array.Count; i++)
             {
                 alpha_ck_array[i].Visible = true;
@@ -1699,6 +1705,8 @@ namespace plt0_gui
         }
         private void Hide_alpha()
         {
+            if (layout == 0)
+                return;
             //System.Windows.Forms.FormWindowState previous = this.WindowState;
             //this.WindowState = FormWindowState.Minimized;
             for (byte i = 0; i < alpha_ck_array.Count; i++)
@@ -1715,8 +1723,10 @@ namespace plt0_gui
             view_alpha = false;
             //this.WindowState = FormWindowState.Normal;
         }
-        private void View_algorithm()
+        private void View_algorithm(byte algorithm)
         {
+            if (layout == 0)
+                return;
             for (byte i = 0; i < algorithm_ck.Count; i++)
             {
                 algorithm_ck[i].Visible = true;
@@ -1732,8 +1742,10 @@ namespace plt0_gui
             algorithm_label.Visible = true;
             view_algorithm = true;
         }
-        private void Hide_algorithm()
+        private void Hide_algorithm(byte algorithm)
         {
+            if (layout == 0)
+                return;
             for (byte i = 0; i < algorithm_ck.Count; i++)
             {
                 algorithm_ck[i].Visible = false;
@@ -1749,8 +1761,52 @@ namespace plt0_gui
             custom_label.Visible = false;
             view_algorithm = false;
         }
+        private void View_options()
+        {
+            if (layout == 0)
+                return;
+            ask_exit_hitbox.Visible = true;
+            warn_hitbox.Visible = true;
+            no_warning_hitbox.Visible = true;
+            stfu_hitbox.Visible = true;
+            safe_mode_hitbox.Visible = true;
+            ask_exit_label.Visible = true;
+            warn_label.Visible = true;
+            no_warning_label.Visible = true;
+            stfu_label.Visible = true;
+            safe_mode_label.Visible = true;
+            ask_exit_ck.Visible = true;
+            warn_ck.Visible = true;
+            no_warning_ck.Visible = true;
+            stfu_ck.Visible = true;
+            safe_mode_ck.Visible = true;
+            view_options = true;
+        }
+        private void Hide_options()
+        {
+            if (layout == 0)
+                return;
+            ask_exit_hitbox.Visible = false;
+            warn_hitbox.Visible = false;
+            no_warning_hitbox.Visible = false;
+            stfu_hitbox.Visible = false;
+            safe_mode_hitbox.Visible = false;
+            ask_exit_label.Visible = false;
+            warn_label.Visible = false;
+            no_warning_label.Visible = false;
+            stfu_label.Visible = false;
+            safe_mode_label.Visible = false;
+            ask_exit_ck.Visible = false;
+            warn_ck.Visible = false;
+            no_warning_ck.Visible = false;
+            stfu_ck.Visible = false;
+            safe_mode_ck.Visible = false;
+            view_options = false;
+        }
         private void View_WrapS()
         {
+            if (layout == 0)
+                return;
             for (byte i = 0; i < WrapS_ck.Count; i++)
             {
                 WrapS_ck[i].Visible = true;
@@ -1766,6 +1822,8 @@ namespace plt0_gui
         }
         private void Hide_WrapS()
         {
+            if (layout == 0)
+                return;
             for (byte i = 0; i < WrapS_ck.Count; i++)
             {
                 WrapS_ck[i].Visible = false;
@@ -1781,6 +1839,8 @@ namespace plt0_gui
         }
         private void View_WrapT()
         {
+            if (layout == 0)
+                return;
             for (byte i = 0; i < WrapT_ck.Count; i++)
             {
                 WrapT_ck[i].Visible = true;
@@ -1796,6 +1856,8 @@ namespace plt0_gui
         }
         private void Hide_WrapT()
         {
+            if (layout == 0)
+                return;
             for (byte i = 0; i < WrapT_ck.Count; i++)
             {
                 WrapT_ck[i].Visible = false;
@@ -1811,6 +1873,8 @@ namespace plt0_gui
         }
         private void View_min()
         {
+            if (layout == 0)
+                return;
             for (byte i = 0; i < minification_ck.Count; i++)
             {
                 minification_ck[i].Visible = true;
@@ -1832,6 +1896,8 @@ namespace plt0_gui
         }
         private void Hide_min()
         {
+            if (layout == 0)
+                return;
             for (byte i = 0; i < minification_ck.Count; i++)
             {
                 minification_ck[i].Visible = false;
@@ -1853,6 +1919,8 @@ namespace plt0_gui
         }
         private void View_mag()
         {
+            if (layout == 0)
+                return;
             for (byte i = 0; i < magnification_ck.Count; i++)
             {
                 magnification_ck[i].Visible = true;
@@ -1874,6 +1942,9 @@ namespace plt0_gui
         }
         private void Hide_mag()
         {
+            // this.FormBorderStyle = FormBorderStyle.SizableToolWindow;
+            if (layout == 0)
+                return;
             for (byte i = 0; i < magnification_ck.Count; i++)
             {
                 magnification_ck[i].Visible = false;
@@ -1893,6 +1964,263 @@ namespace plt0_gui
             magnification_label.Visible = false;
             view_mag = false;
         }
+        private void View_cmpr()
+        {
+            if (layout == 0)
+                return;
+            no_gradient_ck.Visible = true;
+            no_gradient_hitbox.Visible = true;
+            no_gradient_label.Visible = true;
+            cmpr_max_hitbox.Visible = true;
+            cmpr_max_label.Visible = true;
+            cmpr_max_txt.Visible = true;
+            cmpr_min_alpha_hitbox.Visible = true;
+            cmpr_min_alpha_label.Visible = true;
+            cmpr_min_alpha_txt.Visible = true;
+            diversity_hitbox.Visible = true;
+            diversity_label.Visible = true;
+            diversity_txt.Visible = true;
+            diversity2_hitbox.Visible = true;
+            diversity2_label.Visible = true;
+            diversity2_txt.Visible = true;
+            percentage2_hitbox.Visible = true;
+            percentage2_label.Visible = true;
+            percentage2_txt.Visible = true;
+            percentage_hitbox.Visible = true;
+            percentage_label.Visible = true;
+            percentage_txt.Visible = true;
+            round5_hitbox.Visible = true;
+            round5_label.Visible = true;
+            round5_txt.Visible = true;
+            round6_hitbox.Visible = true;
+            round6_label.Visible = true;
+            round6_txt.Visible = true;
+            view_cmpr = true;
+        }
+        private void Hide_cmpr()
+        {
+            if (layout == 0)
+                return;
+            no_gradient_ck.Visible = false;
+            no_gradient_hitbox.Visible = false;
+            no_gradient_label.Visible = false;
+            cmpr_max_hitbox.Visible = false;
+            cmpr_max_label.Visible = false;
+            cmpr_max_txt.Visible = false;
+            cmpr_min_alpha_hitbox.Visible = false;
+            cmpr_min_alpha_label.Visible = false;
+            cmpr_min_alpha_txt.Visible = false;
+            diversity_hitbox.Visible = false;
+            diversity_label.Visible = false;
+            diversity_txt.Visible = false;
+            diversity2_hitbox.Visible = false;
+            diversity2_label.Visible = false;
+            diversity2_txt.Visible = false;
+            percentage2_hitbox.Visible = false;
+            percentage2_label.Visible = false;
+            percentage2_txt.Visible = false;
+            percentage_hitbox.Visible = false;
+            percentage_label.Visible = false;
+            percentage_txt.Visible = false;
+            round5_hitbox.Visible = false;
+            round5_label.Visible = false;
+            round5_txt.Visible = false;
+            round6_hitbox.Visible = false;
+            round6_label.Visible = false;
+            round6_txt.Visible = false;
+            view_cmpr = false;
+        }
+        private void View_palette()
+        {
+            if (layout == 0)
+                return;
+            palette_label.Visible = true;
+            palette_ai8_hitbox.Visible = true;
+            palette_ai8_label.Visible = true;
+            palette_ai8_ck.Visible = true;
+            palette_rgb565_ck.Visible = true;
+            palette_rgb565_hitbox.Visible = true;
+            palette_rgb565_label.Visible = true;
+            palette_rgb5a3_ck.Visible = true;
+            palette_rgb5a3_label.Visible = true;
+            palette_rgb5a3_hitbox.Visible = true;
+            num_colours_hitbox.Visible = true;
+            num_colours_label.Visible = true;
+            num_colours_txt.Visible = true;
+            view_palette = true;
+        }
+        private void Hide_palette()
+        {
+            if (layout == 0)
+                return;
+            palette_label.Visible = false;
+            palette_ai8_hitbox.Visible = false;
+            palette_ai8_label.Visible = false;
+            palette_ai8_ck.Visible = false;
+            palette_rgb565_ck.Visible = false;
+            palette_rgb565_hitbox.Visible = false;
+            palette_rgb565_label.Visible = false;
+            palette_rgb5a3_ck.Visible = false;
+            palette_rgb5a3_label.Visible = false;
+            palette_rgb5a3_hitbox.Visible = false;
+            num_colours_hitbox.Visible = false;
+            num_colours_label.Visible = false;
+            num_colours_txt.Visible = false;
+            view_palette = false;
+        }
+        private void View_rgba()
+        {
+            if (layout == 0)
+                return;
+            custom_rgba_label.Visible = true;
+            custom_r_hitbox.Visible = true;
+            custom_r_label.Visible = true;
+            custom_r_txt.Visible = true;
+            custom_g_label.Visible = true;
+            custom_g_hitbox.Visible = true;
+            custom_g_txt.Visible = true;
+            custom_b_txt.Visible = true;
+            custom_b_hitbox.Visible = true;
+            custom_b_label.Visible = true;
+            view_rgba = true;
+        }
+        private void Hide_rgba()
+        {
+            if (layout == 0)
+                return;
+            custom_rgba_label.Visible = false;
+            custom_r_hitbox.Visible = false;
+            custom_r_label.Visible = false;
+            custom_r_txt.Visible = false;
+            custom_g_label.Visible = false;
+            custom_g_hitbox.Visible = false;
+            custom_g_txt.Visible = false;
+            custom_b_txt.Visible = false;
+            custom_b_hitbox.Visible = false;
+            custom_b_label.Visible = false;
+            view_rgba = false;
+        }
+        private void View_i4()
+        {
+            if (layout == 0)
+                return;
+            cie_601_ck.Visible = true;
+            cie_601_hitbox.Visible = true;
+            cie_601_label.Visible = true;
+            cie_709_ck.Visible = true;
+            cie_709_hitbox.Visible = true;
+            cie_709_label.Visible = true;
+            round4_hitbox.Visible = false;
+            round4_label.Visible = false;
+            round4_txt.Visible = false;
+            //view_rgba = true;
+        }
+        private void View_i8()
+        {
+            if (layout == 0)
+                return;
+            cie_601_ck.Visible = true;
+            cie_601_hitbox.Visible = true;
+            cie_601_label.Visible = true;
+            cie_709_ck.Visible = true;
+            cie_709_hitbox.Visible = true;
+            cie_709_label.Visible = true;
+            //view_rgba = true;
+        }
+        private void View_ai4()
+        {
+            if (layout == 0)
+                return;
+            cie_601_ck.Visible = true;
+            cie_601_hitbox.Visible = true;
+            cie_601_label.Visible = true;
+            cie_709_ck.Visible = true;
+            cie_709_hitbox.Visible = true;
+            cie_709_label.Visible = true;
+            round4_hitbox.Visible = false;
+            round4_label.Visible = false;
+            round4_txt.Visible = false;
+            //view_rgba = true;
+        }
+        private void View_ai8()
+        {
+            if (layout == 0)
+                return;
+            cie_601_ck.Visible = true;
+            cie_601_hitbox.Visible = true;
+            cie_601_label.Visible = true;
+            cie_709_ck.Visible = true;
+            cie_709_hitbox.Visible = true;
+            cie_709_label.Visible = true;
+            //view_rgba = true;
+        }
+        private void View_rgb565()
+        {
+            if (layout == 0)
+                return;
+            round5_hitbox.Visible = false;
+            round5_label.Visible = false;
+            round5_txt.Visible = false;
+            round6_hitbox.Visible = false;
+            round6_label.Visible = false;
+            round6_txt.Visible = false;
+            //view_rgba = true;
+        }
+        private void View_rgb5a3()
+        {
+            if (layout == 0)
+                return;
+            View_alpha();
+            round3_hitbox.Visible = false;
+            round3_label.Visible = false;
+            round3_txt.Visible = false;
+            round4_hitbox.Visible = false;
+            round4_label.Visible = false;
+            round4_txt.Visible = false;
+            round5_hitbox.Visible = false;
+            round5_label.Visible = false;
+            round5_txt.Visible = false;
+            round6_hitbox.Visible = false;
+            round6_label.Visible = false;
+            round6_txt.Visible = false;
+            //view_rgba = true;
+        }
+        private void View_rgba32()
+        {
+            //view_rgba = true;
+        }
+        private void View_ci4()
+        {
+            View_palette();
+            //view_rgba = true;
+        }
+        private void View_ci8()
+        {
+            View_palette();
+            //view_rgba = true;
+        }
+        private void View_ci14x2()
+        {
+            View_palette();
+            //view_rgba = true;
+        }
+        private void Hide_encoding(byte encoding)
+        {
+            if (layout == 0)
+                return;
+            custom_rgba_label.Visible = false;
+            custom_r_hitbox.Visible = false;
+            custom_r_label.Visible = false;
+            custom_r_txt.Visible = false;
+            custom_g_label.Visible = false;
+            custom_g_hitbox.Visible = false;
+            custom_g_txt.Visible = false;
+            custom_b_txt.Visible = false;
+            custom_b_hitbox.Visible = false;
+            custom_b_label.Visible = false;
+            view_rgba = false;
+        }
+
         /* public FontFamily GetFontFamilyByName(string name)
         {
             return _privateFontCollection.Families.FirstOrDefault(x => x.Name == name);
@@ -2279,9 +2607,48 @@ namespace plt0_gui
             this.output_label = new System.Windows.Forms.Label();
             this.version_ck = new System.Windows.Forms.PictureBox();
             this.cli_textbox_label = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.view_rgba = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.view_rgba_ck = new System.Windows.Forms.PictureBox();
+            this.view_rgba_label = new System.Windows.Forms.Label();
+            this.view_rgba_hitbox = new System.Windows.Forms.Label();
+            this.view_palette_ck = new System.Windows.Forms.PictureBox();
+            this.view_palette_label = new System.Windows.Forms.Label();
+            this.view_palette_hitbox = new System.Windows.Forms.Label();
+            this.view_cmpr_ck = new System.Windows.Forms.PictureBox();
+            this.view_cmpr_label = new System.Windows.Forms.Label();
+            this.view_cmpr_hitbox = new System.Windows.Forms.Label();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.pictureBox6 = new System.Windows.Forms.PictureBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.pictureBox7 = new System.Windows.Forms.PictureBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.pictureBox8 = new System.Windows.Forms.PictureBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.pictureBox9 = new System.Windows.Forms.PictureBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.pictureBox10 = new System.Windows.Forms.PictureBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.pictureBox11 = new System.Windows.Forms.PictureBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.view_options_ck = new System.Windows.Forms.PictureBox();
+            this.view_options_label = new System.Windows.Forms.Label();
+            this.view_options_hitbox = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.bmd_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
@@ -2389,7 +2756,20 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.youtube_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.discord_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.version_ck)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.view_rgba_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.view_palette_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.view_cmpr_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.view_options_ck)).BeginInit();
             this.SuspendLayout();
             // 
             // output_file_type_label
@@ -3470,7 +3850,7 @@ namespace plt0_gui
             this.cmpr_ck.Enabled = false;
             this.cmpr_ck.ErrorImage = null;
             this.cmpr_ck.InitialImage = null;
-            this.cmpr_ck.Location = new System.Drawing.Point(240, 769);
+            this.cmpr_ck.Location = new System.Drawing.Point(255, 769);
             this.cmpr_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_ck.Name = "cmpr_ck";
             this.cmpr_ck.Size = new System.Drawing.Size(64, 64);
@@ -3483,7 +3863,7 @@ namespace plt0_gui
             this.cmpr_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.cmpr_label.Location = new System.Drawing.Point(308, 770);
+            this.cmpr_label.Location = new System.Drawing.Point(323, 770);
             this.cmpr_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_label.Name = "cmpr_label";
             this.cmpr_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -3500,7 +3880,7 @@ namespace plt0_gui
             this.cmpr_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_hitbox.Location = new System.Drawing.Point(237, 769);
+            this.cmpr_hitbox.Location = new System.Drawing.Point(252, 769);
             this.cmpr_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_hitbox.Name = "cmpr_hitbox";
             this.cmpr_hitbox.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
@@ -3517,7 +3897,7 @@ namespace plt0_gui
             this.ci14x2_ck.Enabled = false;
             this.ci14x2_ck.ErrorImage = null;
             this.ci14x2_ck.InitialImage = null;
-            this.ci14x2_ck.Location = new System.Drawing.Point(240, 705);
+            this.ci14x2_ck.Location = new System.Drawing.Point(255, 705);
             this.ci14x2_ck.Margin = new System.Windows.Forms.Padding(0);
             this.ci14x2_ck.Name = "ci14x2_ck";
             this.ci14x2_ck.Size = new System.Drawing.Size(64, 64);
@@ -3530,7 +3910,7 @@ namespace plt0_gui
             this.ci14x2_label.BackColor = System.Drawing.Color.Transparent;
             this.ci14x2_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.ci14x2_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.ci14x2_label.Location = new System.Drawing.Point(308, 705);
+            this.ci14x2_label.Location = new System.Drawing.Point(323, 705);
             this.ci14x2_label.Margin = new System.Windows.Forms.Padding(0);
             this.ci14x2_label.Name = "ci14x2_label";
             this.ci14x2_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -3547,7 +3927,7 @@ namespace plt0_gui
             this.ci14x2_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.ci14x2_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.ci14x2_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.ci14x2_hitbox.Location = new System.Drawing.Point(237, 705);
+            this.ci14x2_hitbox.Location = new System.Drawing.Point(252, 705);
             this.ci14x2_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.ci14x2_hitbox.Name = "ci14x2_hitbox";
             this.ci14x2_hitbox.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
@@ -3564,7 +3944,7 @@ namespace plt0_gui
             this.ci8_ck.Enabled = false;
             this.ci8_ck.ErrorImage = null;
             this.ci8_ck.InitialImage = null;
-            this.ci8_ck.Location = new System.Drawing.Point(240, 641);
+            this.ci8_ck.Location = new System.Drawing.Point(255, 641);
             this.ci8_ck.Margin = new System.Windows.Forms.Padding(0);
             this.ci8_ck.Name = "ci8_ck";
             this.ci8_ck.Size = new System.Drawing.Size(64, 64);
@@ -3577,7 +3957,7 @@ namespace plt0_gui
             this.ci8_label.BackColor = System.Drawing.Color.Transparent;
             this.ci8_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.ci8_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.ci8_label.Location = new System.Drawing.Point(308, 642);
+            this.ci8_label.Location = new System.Drawing.Point(323, 642);
             this.ci8_label.Margin = new System.Windows.Forms.Padding(0);
             this.ci8_label.Name = "ci8_label";
             this.ci8_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -3594,7 +3974,7 @@ namespace plt0_gui
             this.ci8_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.ci8_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.ci8_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.ci8_hitbox.Location = new System.Drawing.Point(237, 641);
+            this.ci8_hitbox.Location = new System.Drawing.Point(252, 641);
             this.ci8_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.ci8_hitbox.Name = "ci8_hitbox";
             this.ci8_hitbox.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
@@ -3611,7 +3991,7 @@ namespace plt0_gui
             this.ci4_ck.Enabled = false;
             this.ci4_ck.ErrorImage = null;
             this.ci4_ck.InitialImage = null;
-            this.ci4_ck.Location = new System.Drawing.Point(240, 577);
+            this.ci4_ck.Location = new System.Drawing.Point(255, 577);
             this.ci4_ck.Margin = new System.Windows.Forms.Padding(0);
             this.ci4_ck.Name = "ci4_ck";
             this.ci4_ck.Size = new System.Drawing.Size(64, 64);
@@ -3624,7 +4004,7 @@ namespace plt0_gui
             this.ci4_label.BackColor = System.Drawing.Color.Transparent;
             this.ci4_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.ci4_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.ci4_label.Location = new System.Drawing.Point(308, 578);
+            this.ci4_label.Location = new System.Drawing.Point(323, 578);
             this.ci4_label.Margin = new System.Windows.Forms.Padding(0);
             this.ci4_label.Name = "ci4_label";
             this.ci4_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -3641,7 +4021,7 @@ namespace plt0_gui
             this.ci4_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.ci4_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.ci4_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.ci4_hitbox.Location = new System.Drawing.Point(237, 577);
+            this.ci4_hitbox.Location = new System.Drawing.Point(252, 577);
             this.ci4_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.ci4_hitbox.Name = "ci4_hitbox";
             this.ci4_hitbox.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
@@ -3658,7 +4038,7 @@ namespace plt0_gui
             this.rgba32_ck.Enabled = false;
             this.rgba32_ck.ErrorImage = null;
             this.rgba32_ck.InitialImage = null;
-            this.rgba32_ck.Location = new System.Drawing.Point(240, 512);
+            this.rgba32_ck.Location = new System.Drawing.Point(255, 512);
             this.rgba32_ck.Margin = new System.Windows.Forms.Padding(0);
             this.rgba32_ck.Name = "rgba32_ck";
             this.rgba32_ck.Size = new System.Drawing.Size(64, 64);
@@ -3671,7 +4051,7 @@ namespace plt0_gui
             this.rgba32_label.BackColor = System.Drawing.Color.Transparent;
             this.rgba32_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.rgba32_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.rgba32_label.Location = new System.Drawing.Point(308, 513);
+            this.rgba32_label.Location = new System.Drawing.Point(323, 513);
             this.rgba32_label.Margin = new System.Windows.Forms.Padding(0);
             this.rgba32_label.Name = "rgba32_label";
             this.rgba32_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -3688,7 +4068,7 @@ namespace plt0_gui
             this.rgba32_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.rgba32_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.rgba32_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.rgba32_hitbox.Location = new System.Drawing.Point(237, 512);
+            this.rgba32_hitbox.Location = new System.Drawing.Point(252, 512);
             this.rgba32_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.rgba32_hitbox.Name = "rgba32_hitbox";
             this.rgba32_hitbox.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
@@ -3705,7 +4085,7 @@ namespace plt0_gui
             this.rgb5a3_ck.Enabled = false;
             this.rgb5a3_ck.ErrorImage = null;
             this.rgb5a3_ck.InitialImage = null;
-            this.rgb5a3_ck.Location = new System.Drawing.Point(240, 448);
+            this.rgb5a3_ck.Location = new System.Drawing.Point(255, 448);
             this.rgb5a3_ck.Margin = new System.Windows.Forms.Padding(0);
             this.rgb5a3_ck.Name = "rgb5a3_ck";
             this.rgb5a3_ck.Size = new System.Drawing.Size(64, 64);
@@ -3718,7 +4098,7 @@ namespace plt0_gui
             this.rgb5a3_label.BackColor = System.Drawing.Color.Transparent;
             this.rgb5a3_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.rgb5a3_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.rgb5a3_label.Location = new System.Drawing.Point(308, 449);
+            this.rgb5a3_label.Location = new System.Drawing.Point(323, 449);
             this.rgb5a3_label.Margin = new System.Windows.Forms.Padding(0);
             this.rgb5a3_label.Name = "rgb5a3_label";
             this.rgb5a3_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -3735,7 +4115,7 @@ namespace plt0_gui
             this.rgb5a3_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.rgb5a3_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.rgb5a3_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.rgb5a3_hitbox.Location = new System.Drawing.Point(237, 448);
+            this.rgb5a3_hitbox.Location = new System.Drawing.Point(252, 448);
             this.rgb5a3_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.rgb5a3_hitbox.Name = "rgb5a3_hitbox";
             this.rgb5a3_hitbox.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
@@ -3752,7 +4132,7 @@ namespace plt0_gui
             this.rgb565_ck.Enabled = false;
             this.rgb565_ck.ErrorImage = null;
             this.rgb565_ck.InitialImage = null;
-            this.rgb565_ck.Location = new System.Drawing.Point(240, 384);
+            this.rgb565_ck.Location = new System.Drawing.Point(255, 384);
             this.rgb565_ck.Margin = new System.Windows.Forms.Padding(0);
             this.rgb565_ck.Name = "rgb565_ck";
             this.rgb565_ck.Size = new System.Drawing.Size(64, 64);
@@ -3765,7 +4145,7 @@ namespace plt0_gui
             this.rgb565_label.BackColor = System.Drawing.Color.Transparent;
             this.rgb565_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.rgb565_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.rgb565_label.Location = new System.Drawing.Point(308, 384);
+            this.rgb565_label.Location = new System.Drawing.Point(323, 384);
             this.rgb565_label.Margin = new System.Windows.Forms.Padding(0);
             this.rgb565_label.Name = "rgb565_label";
             this.rgb565_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -3782,7 +4162,7 @@ namespace plt0_gui
             this.rgb565_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.rgb565_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.rgb565_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.rgb565_hitbox.Location = new System.Drawing.Point(237, 384);
+            this.rgb565_hitbox.Location = new System.Drawing.Point(252, 384);
             this.rgb565_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.rgb565_hitbox.Name = "rgb565_hitbox";
             this.rgb565_hitbox.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
@@ -3799,7 +4179,7 @@ namespace plt0_gui
             this.ai8_ck.Enabled = false;
             this.ai8_ck.ErrorImage = null;
             this.ai8_ck.InitialImage = null;
-            this.ai8_ck.Location = new System.Drawing.Point(240, 320);
+            this.ai8_ck.Location = new System.Drawing.Point(255, 320);
             this.ai8_ck.Margin = new System.Windows.Forms.Padding(0);
             this.ai8_ck.Name = "ai8_ck";
             this.ai8_ck.Size = new System.Drawing.Size(64, 64);
@@ -3812,7 +4192,7 @@ namespace plt0_gui
             this.ai8_label.BackColor = System.Drawing.Color.Transparent;
             this.ai8_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.ai8_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.ai8_label.Location = new System.Drawing.Point(308, 321);
+            this.ai8_label.Location = new System.Drawing.Point(323, 321);
             this.ai8_label.Margin = new System.Windows.Forms.Padding(0);
             this.ai8_label.Name = "ai8_label";
             this.ai8_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -3829,7 +4209,7 @@ namespace plt0_gui
             this.ai8_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.ai8_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.ai8_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.ai8_hitbox.Location = new System.Drawing.Point(237, 320);
+            this.ai8_hitbox.Location = new System.Drawing.Point(252, 320);
             this.ai8_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.ai8_hitbox.Name = "ai8_hitbox";
             this.ai8_hitbox.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
@@ -3846,7 +4226,7 @@ namespace plt0_gui
             this.ai4_ck.Enabled = false;
             this.ai4_ck.ErrorImage = null;
             this.ai4_ck.InitialImage = null;
-            this.ai4_ck.Location = new System.Drawing.Point(240, 256);
+            this.ai4_ck.Location = new System.Drawing.Point(255, 256);
             this.ai4_ck.Margin = new System.Windows.Forms.Padding(0);
             this.ai4_ck.Name = "ai4_ck";
             this.ai4_ck.Size = new System.Drawing.Size(64, 64);
@@ -3859,7 +4239,7 @@ namespace plt0_gui
             this.ai4_label.BackColor = System.Drawing.Color.Transparent;
             this.ai4_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.ai4_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.ai4_label.Location = new System.Drawing.Point(308, 257);
+            this.ai4_label.Location = new System.Drawing.Point(323, 257);
             this.ai4_label.Margin = new System.Windows.Forms.Padding(0);
             this.ai4_label.Name = "ai4_label";
             this.ai4_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -3876,7 +4256,7 @@ namespace plt0_gui
             this.ai4_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.ai4_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.ai4_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.ai4_hitbox.Location = new System.Drawing.Point(237, 256);
+            this.ai4_hitbox.Location = new System.Drawing.Point(252, 256);
             this.ai4_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.ai4_hitbox.Name = "ai4_hitbox";
             this.ai4_hitbox.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
@@ -3893,7 +4273,7 @@ namespace plt0_gui
             this.i8_ck.Enabled = false;
             this.i8_ck.ErrorImage = null;
             this.i8_ck.InitialImage = null;
-            this.i8_ck.Location = new System.Drawing.Point(240, 192);
+            this.i8_ck.Location = new System.Drawing.Point(255, 192);
             this.i8_ck.Margin = new System.Windows.Forms.Padding(0);
             this.i8_ck.Name = "i8_ck";
             this.i8_ck.Size = new System.Drawing.Size(64, 64);
@@ -3906,7 +4286,7 @@ namespace plt0_gui
             this.i8_label.BackColor = System.Drawing.Color.Transparent;
             this.i8_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.i8_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.i8_label.Location = new System.Drawing.Point(308, 192);
+            this.i8_label.Location = new System.Drawing.Point(323, 192);
             this.i8_label.Margin = new System.Windows.Forms.Padding(0);
             this.i8_label.Name = "i8_label";
             this.i8_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -3923,7 +4303,7 @@ namespace plt0_gui
             this.i8_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.i8_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.i8_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.i8_hitbox.Location = new System.Drawing.Point(237, 192);
+            this.i8_hitbox.Location = new System.Drawing.Point(252, 192);
             this.i8_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.i8_hitbox.Name = "i8_hitbox";
             this.i8_hitbox.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
@@ -3940,7 +4320,7 @@ namespace plt0_gui
             this.i4_ck.Enabled = false;
             this.i4_ck.ErrorImage = null;
             this.i4_ck.InitialImage = null;
-            this.i4_ck.Location = new System.Drawing.Point(240, 128);
+            this.i4_ck.Location = new System.Drawing.Point(255, 128);
             this.i4_ck.Margin = new System.Windows.Forms.Padding(0);
             this.i4_ck.Name = "i4_ck";
             this.i4_ck.Size = new System.Drawing.Size(64, 64);
@@ -3953,7 +4333,7 @@ namespace plt0_gui
             this.i4_label.BackColor = System.Drawing.Color.Transparent;
             this.i4_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.i4_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.i4_label.Location = new System.Drawing.Point(308, 128);
+            this.i4_label.Location = new System.Drawing.Point(323, 128);
             this.i4_label.Margin = new System.Windows.Forms.Padding(0);
             this.i4_label.Name = "i4_label";
             this.i4_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -3970,7 +4350,7 @@ namespace plt0_gui
             this.i4_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.i4_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.i4_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.i4_hitbox.Location = new System.Drawing.Point(237, 128);
+            this.i4_hitbox.Location = new System.Drawing.Point(252, 128);
             this.i4_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.i4_hitbox.Name = "i4_hitbox";
             this.i4_hitbox.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
@@ -7948,60 +8328,637 @@ namespace plt0_gui
             this.cli_textbox_label.Size = new System.Drawing.Size(0, 64);
             this.cli_textbox_label.TabIndex = 544;
             // 
-            // pictureBox1
+            // view_rgba_ck
             // 
-            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.pictureBox1.Enabled = false;
-            this.pictureBox1.ErrorImage = null;
-            this.pictureBox1.InitialImage = null;
-            this.pictureBox1.Location = new System.Drawing.Point(240, 1293);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(64, 64);
-            this.pictureBox1.TabIndex = 547;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Visible = false;
+            this.view_rgba_ck.BackColor = System.Drawing.Color.Transparent;
+            this.view_rgba_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.view_rgba_ck.Enabled = false;
+            this.view_rgba_ck.ErrorImage = null;
+            this.view_rgba_ck.InitialImage = null;
+            this.view_rgba_ck.Location = new System.Drawing.Point(240, 1293);
+            this.view_rgba_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.view_rgba_ck.Name = "view_rgba_ck";
+            this.view_rgba_ck.Size = new System.Drawing.Size(64, 64);
+            this.view_rgba_ck.TabIndex = 547;
+            this.view_rgba_ck.TabStop = false;
+            this.view_rgba_ck.Visible = false;
             // 
-            // view_rgba
+            // view_rgba_label
             // 
-            this.view_rgba.AutoSize = true;
-            this.view_rgba.BackColor = System.Drawing.Color.Transparent;
-            this.view_rgba.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.view_rgba.ForeColor = System.Drawing.SystemColors.Window;
-            this.view_rgba.Location = new System.Drawing.Point(308, 1293);
-            this.view_rgba.Margin = new System.Windows.Forms.Padding(0);
-            this.view_rgba.Name = "view_rgba";
-            this.view_rgba.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.view_rgba.Size = new System.Drawing.Size(174, 64);
-            this.view_rgba.TabIndex = 545;
-            this.view_rgba.Text = "Custom RGBA";
-            this.view_rgba.Visible = false;
-            this.view_rgba.Click += new System.EventHandler(this.view_rgba_Click);
+            this.view_rgba_label.AutoSize = true;
+            this.view_rgba_label.BackColor = System.Drawing.Color.Transparent;
+            this.view_rgba_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.view_rgba_label.ForeColor = System.Drawing.SystemColors.Window;
+            this.view_rgba_label.Location = new System.Drawing.Point(308, 1293);
+            this.view_rgba_label.Margin = new System.Windows.Forms.Padding(0);
+            this.view_rgba_label.Name = "view_rgba_label";
+            this.view_rgba_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.view_rgba_label.Size = new System.Drawing.Size(174, 64);
+            this.view_rgba_label.TabIndex = 545;
+            this.view_rgba_label.Text = "Custom RGBA";
+            this.view_rgba_label.Visible = false;
+            this.view_rgba_label.Click += new System.EventHandler(this.view_rgba_Click);
             // 
-            // label2
+            // view_rgba_hitbox
             // 
-            this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.Transparent;
-            this.label2.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.label2.ForeColor = System.Drawing.SystemColors.Control;
-            this.label2.Location = new System.Drawing.Point(237, 1293);
-            this.label2.Margin = new System.Windows.Forms.Padding(0);
-            this.label2.Name = "label2";
-            this.label2.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
-            this.label2.Size = new System.Drawing.Size(190, 64);
-            this.label2.TabIndex = 546;
-            this.label2.Visible = false;
+            this.view_rgba_hitbox.AutoSize = true;
+            this.view_rgba_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.view_rgba_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.view_rgba_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.view_rgba_hitbox.Location = new System.Drawing.Point(237, 1293);
+            this.view_rgba_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.view_rgba_hitbox.Name = "view_rgba_hitbox";
+            this.view_rgba_hitbox.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
+            this.view_rgba_hitbox.Size = new System.Drawing.Size(190, 64);
+            this.view_rgba_hitbox.TabIndex = 546;
+            this.view_rgba_hitbox.Visible = false;
+            // 
+            // view_palette_ck
+            // 
+            this.view_palette_ck.BackColor = System.Drawing.Color.Transparent;
+            this.view_palette_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.view_palette_ck.Enabled = false;
+            this.view_palette_ck.ErrorImage = null;
+            this.view_palette_ck.InitialImage = null;
+            this.view_palette_ck.Location = new System.Drawing.Point(239, 1357);
+            this.view_palette_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.view_palette_ck.Name = "view_palette_ck";
+            this.view_palette_ck.Size = new System.Drawing.Size(64, 64);
+            this.view_palette_ck.TabIndex = 550;
+            this.view_palette_ck.TabStop = false;
+            this.view_palette_ck.Visible = false;
+            // 
+            // view_palette_label
+            // 
+            this.view_palette_label.AutoSize = true;
+            this.view_palette_label.BackColor = System.Drawing.Color.Transparent;
+            this.view_palette_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.view_palette_label.ForeColor = System.Drawing.SystemColors.Window;
+            this.view_palette_label.Location = new System.Drawing.Point(307, 1357);
+            this.view_palette_label.Margin = new System.Windows.Forms.Padding(0);
+            this.view_palette_label.Name = "view_palette_label";
+            this.view_palette_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.view_palette_label.Size = new System.Drawing.Size(93, 64);
+            this.view_palette_label.TabIndex = 548;
+            this.view_palette_label.Text = "Palette";
+            this.view_palette_label.Visible = false;
+            // 
+            // view_palette_hitbox
+            // 
+            this.view_palette_hitbox.AutoSize = true;
+            this.view_palette_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.view_palette_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.view_palette_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.view_palette_hitbox.Location = new System.Drawing.Point(236, 1357);
+            this.view_palette_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.view_palette_hitbox.Name = "view_palette_hitbox";
+            this.view_palette_hitbox.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
+            this.view_palette_hitbox.Size = new System.Drawing.Size(190, 64);
+            this.view_palette_hitbox.TabIndex = 549;
+            this.view_palette_hitbox.Visible = false;
+            // 
+            // view_cmpr_ck
+            // 
+            this.view_cmpr_ck.BackColor = System.Drawing.Color.Transparent;
+            this.view_cmpr_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.view_cmpr_ck.Enabled = false;
+            this.view_cmpr_ck.ErrorImage = null;
+            this.view_cmpr_ck.InitialImage = null;
+            this.view_cmpr_ck.Location = new System.Drawing.Point(41, 1293);
+            this.view_cmpr_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.view_cmpr_ck.Name = "view_cmpr_ck";
+            this.view_cmpr_ck.Size = new System.Drawing.Size(64, 64);
+            this.view_cmpr_ck.TabIndex = 583;
+            this.view_cmpr_ck.TabStop = false;
+            // 
+            // view_cmpr_label
+            // 
+            this.view_cmpr_label.AutoSize = true;
+            this.view_cmpr_label.BackColor = System.Drawing.Color.Transparent;
+            this.view_cmpr_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.view_cmpr_label.ForeColor = System.Drawing.SystemColors.Window;
+            this.view_cmpr_label.Location = new System.Drawing.Point(109, 1294);
+            this.view_cmpr_label.Margin = new System.Windows.Forms.Padding(0);
+            this.view_cmpr_label.Name = "view_cmpr_label";
+            this.view_cmpr_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.view_cmpr_label.Size = new System.Drawing.Size(79, 64);
+            this.view_cmpr_label.TabIndex = 581;
+            this.view_cmpr_label.Text = "CMPR";
+            // 
+            // view_cmpr_hitbox
+            // 
+            this.view_cmpr_hitbox.AutoSize = true;
+            this.view_cmpr_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.view_cmpr_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.view_cmpr_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.view_cmpr_hitbox.Location = new System.Drawing.Point(38, 1293);
+            this.view_cmpr_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.view_cmpr_hitbox.Name = "view_cmpr_hitbox";
+            this.view_cmpr_hitbox.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
+            this.view_cmpr_hitbox.Size = new System.Drawing.Size(190, 64);
+            this.view_cmpr_hitbox.TabIndex = 582;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pictureBox2.Enabled = false;
+            this.pictureBox2.ErrorImage = null;
+            this.pictureBox2.InitialImage = null;
+            this.pictureBox2.Location = new System.Drawing.Point(1170, 1259);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(64, 64);
+            this.pictureBox2.TabIndex = 580;
+            this.pictureBox2.TabStop = false;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.label3.ForeColor = System.Drawing.SystemColors.Window;
+            this.label3.Location = new System.Drawing.Point(1238, 1259);
+            this.label3.Margin = new System.Windows.Forms.Padding(0);
+            this.label3.Name = "label3";
+            this.label3.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.label3.Size = new System.Drawing.Size(93, 64);
+            this.label3.TabIndex = 578;
+            this.label3.Text = "CI14x2";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.BackColor = System.Drawing.Color.Transparent;
+            this.label4.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.label4.ForeColor = System.Drawing.SystemColors.Control;
+            this.label4.Location = new System.Drawing.Point(1167, 1259);
+            this.label4.Margin = new System.Windows.Forms.Padding(0);
+            this.label4.Name = "label4";
+            this.label4.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
+            this.label4.Size = new System.Drawing.Size(190, 64);
+            this.label4.TabIndex = 579;
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pictureBox3.Enabled = false;
+            this.pictureBox3.ErrorImage = null;
+            this.pictureBox3.InitialImage = null;
+            this.pictureBox3.Location = new System.Drawing.Point(1170, 1195);
+            this.pictureBox3.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(64, 64);
+            this.pictureBox3.TabIndex = 577;
+            this.pictureBox3.TabStop = false;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.BackColor = System.Drawing.Color.Transparent;
+            this.label5.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.label5.ForeColor = System.Drawing.SystemColors.Window;
+            this.label5.Location = new System.Drawing.Point(1238, 1196);
+            this.label5.Margin = new System.Windows.Forms.Padding(0);
+            this.label5.Name = "label5";
+            this.label5.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.label5.Size = new System.Drawing.Size(48, 64);
+            this.label5.TabIndex = 575;
+            this.label5.Text = "CI8";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.Color.Transparent;
+            this.label6.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.label6.ForeColor = System.Drawing.SystemColors.Control;
+            this.label6.Location = new System.Drawing.Point(1167, 1195);
+            this.label6.Margin = new System.Windows.Forms.Padding(0);
+            this.label6.Name = "label6";
+            this.label6.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
+            this.label6.Size = new System.Drawing.Size(190, 64);
+            this.label6.TabIndex = 576;
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pictureBox4.Enabled = false;
+            this.pictureBox4.ErrorImage = null;
+            this.pictureBox4.InitialImage = null;
+            this.pictureBox4.Location = new System.Drawing.Point(1170, 1131);
+            this.pictureBox4.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(64, 64);
+            this.pictureBox4.TabIndex = 574;
+            this.pictureBox4.TabStop = false;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.BackColor = System.Drawing.Color.Transparent;
+            this.label7.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.label7.ForeColor = System.Drawing.SystemColors.Window;
+            this.label7.Location = new System.Drawing.Point(1238, 1132);
+            this.label7.Margin = new System.Windows.Forms.Padding(0);
+            this.label7.Name = "label7";
+            this.label7.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.label7.Size = new System.Drawing.Size(48, 64);
+            this.label7.TabIndex = 572;
+            this.label7.Text = "CI4";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.BackColor = System.Drawing.Color.Transparent;
+            this.label8.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.label8.ForeColor = System.Drawing.SystemColors.Control;
+            this.label8.Location = new System.Drawing.Point(1167, 1131);
+            this.label8.Margin = new System.Windows.Forms.Padding(0);
+            this.label8.Name = "label8";
+            this.label8.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
+            this.label8.Size = new System.Drawing.Size(190, 64);
+            this.label8.TabIndex = 573;
+            // 
+            // pictureBox5
+            // 
+            this.pictureBox5.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pictureBox5.Enabled = false;
+            this.pictureBox5.ErrorImage = null;
+            this.pictureBox5.InitialImage = null;
+            this.pictureBox5.Location = new System.Drawing.Point(875, 1259);
+            this.pictureBox5.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Size = new System.Drawing.Size(64, 64);
+            this.pictureBox5.TabIndex = 571;
+            this.pictureBox5.TabStop = false;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.BackColor = System.Drawing.Color.Transparent;
+            this.label9.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.label9.ForeColor = System.Drawing.SystemColors.Window;
+            this.label9.Location = new System.Drawing.Point(943, 1260);
+            this.label9.Margin = new System.Windows.Forms.Padding(0);
+            this.label9.Name = "label9";
+            this.label9.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.label9.Size = new System.Drawing.Size(108, 64);
+            this.label9.TabIndex = 569;
+            this.label9.Text = "RGBA32";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.BackColor = System.Drawing.Color.Transparent;
+            this.label10.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.label10.ForeColor = System.Drawing.SystemColors.Control;
+            this.label10.Location = new System.Drawing.Point(872, 1259);
+            this.label10.Margin = new System.Windows.Forms.Padding(0);
+            this.label10.Name = "label10";
+            this.label10.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
+            this.label10.Size = new System.Drawing.Size(190, 64);
+            this.label10.TabIndex = 570;
+            // 
+            // pictureBox6
+            // 
+            this.pictureBox6.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pictureBox6.Enabled = false;
+            this.pictureBox6.ErrorImage = null;
+            this.pictureBox6.InitialImage = null;
+            this.pictureBox6.Location = new System.Drawing.Point(875, 1195);
+            this.pictureBox6.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBox6.Name = "pictureBox6";
+            this.pictureBox6.Size = new System.Drawing.Size(64, 64);
+            this.pictureBox6.TabIndex = 568;
+            this.pictureBox6.TabStop = false;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.BackColor = System.Drawing.Color.Transparent;
+            this.label11.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.label11.ForeColor = System.Drawing.SystemColors.Window;
+            this.label11.Location = new System.Drawing.Point(943, 1196);
+            this.label11.Margin = new System.Windows.Forms.Padding(0);
+            this.label11.Name = "label11";
+            this.label11.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.label11.Size = new System.Drawing.Size(108, 64);
+            this.label11.TabIndex = 566;
+            this.label11.Text = "RGB5A3";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.BackColor = System.Drawing.Color.Transparent;
+            this.label12.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.label12.ForeColor = System.Drawing.SystemColors.Control;
+            this.label12.Location = new System.Drawing.Point(872, 1195);
+            this.label12.Margin = new System.Windows.Forms.Padding(0);
+            this.label12.Name = "label12";
+            this.label12.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
+            this.label12.Size = new System.Drawing.Size(190, 64);
+            this.label12.TabIndex = 567;
+            // 
+            // pictureBox7
+            // 
+            this.pictureBox7.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pictureBox7.Enabled = false;
+            this.pictureBox7.ErrorImage = null;
+            this.pictureBox7.InitialImage = null;
+            this.pictureBox7.Location = new System.Drawing.Point(875, 1131);
+            this.pictureBox7.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBox7.Name = "pictureBox7";
+            this.pictureBox7.Size = new System.Drawing.Size(64, 64);
+            this.pictureBox7.TabIndex = 565;
+            this.pictureBox7.TabStop = false;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.BackColor = System.Drawing.Color.Transparent;
+            this.label13.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.label13.ForeColor = System.Drawing.SystemColors.Window;
+            this.label13.Location = new System.Drawing.Point(943, 1131);
+            this.label13.Margin = new System.Windows.Forms.Padding(0);
+            this.label13.Name = "label13";
+            this.label13.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.label13.Size = new System.Drawing.Size(107, 64);
+            this.label13.TabIndex = 563;
+            this.label13.Text = "RGB565";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.BackColor = System.Drawing.Color.Transparent;
+            this.label14.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.label14.ForeColor = System.Drawing.SystemColors.Control;
+            this.label14.Location = new System.Drawing.Point(872, 1131);
+            this.label14.Margin = new System.Windows.Forms.Padding(0);
+            this.label14.Name = "label14";
+            this.label14.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
+            this.label14.Size = new System.Drawing.Size(190, 64);
+            this.label14.TabIndex = 564;
+            // 
+            // pictureBox8
+            // 
+            this.pictureBox8.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pictureBox8.Enabled = false;
+            this.pictureBox8.ErrorImage = null;
+            this.pictureBox8.InitialImage = null;
+            this.pictureBox8.Location = new System.Drawing.Point(599, 1323);
+            this.pictureBox8.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBox8.Name = "pictureBox8";
+            this.pictureBox8.Size = new System.Drawing.Size(64, 64);
+            this.pictureBox8.TabIndex = 562;
+            this.pictureBox8.TabStop = false;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.BackColor = System.Drawing.Color.Transparent;
+            this.label15.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.label15.ForeColor = System.Drawing.SystemColors.Window;
+            this.label15.Location = new System.Drawing.Point(667, 1324);
+            this.label15.Margin = new System.Windows.Forms.Padding(0);
+            this.label15.Name = "label15";
+            this.label15.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.label15.Size = new System.Drawing.Size(48, 64);
+            this.label15.TabIndex = 560;
+            this.label15.Text = "AI8";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.BackColor = System.Drawing.Color.Transparent;
+            this.label16.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.label16.ForeColor = System.Drawing.SystemColors.Control;
+            this.label16.Location = new System.Drawing.Point(596, 1323);
+            this.label16.Margin = new System.Windows.Forms.Padding(0);
+            this.label16.Name = "label16";
+            this.label16.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
+            this.label16.Size = new System.Drawing.Size(190, 64);
+            this.label16.TabIndex = 561;
+            // 
+            // pictureBox9
+            // 
+            this.pictureBox9.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox9.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pictureBox9.Enabled = false;
+            this.pictureBox9.ErrorImage = null;
+            this.pictureBox9.InitialImage = null;
+            this.pictureBox9.Location = new System.Drawing.Point(599, 1259);
+            this.pictureBox9.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBox9.Name = "pictureBox9";
+            this.pictureBox9.Size = new System.Drawing.Size(64, 64);
+            this.pictureBox9.TabIndex = 559;
+            this.pictureBox9.TabStop = false;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.BackColor = System.Drawing.Color.Transparent;
+            this.label17.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.label17.ForeColor = System.Drawing.SystemColors.Window;
+            this.label17.Location = new System.Drawing.Point(667, 1260);
+            this.label17.Margin = new System.Windows.Forms.Padding(0);
+            this.label17.Name = "label17";
+            this.label17.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.label17.Size = new System.Drawing.Size(48, 64);
+            this.label17.TabIndex = 557;
+            this.label17.Text = "AI4";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.BackColor = System.Drawing.Color.Transparent;
+            this.label18.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.label18.ForeColor = System.Drawing.SystemColors.Control;
+            this.label18.Location = new System.Drawing.Point(596, 1259);
+            this.label18.Margin = new System.Windows.Forms.Padding(0);
+            this.label18.Name = "label18";
+            this.label18.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
+            this.label18.Size = new System.Drawing.Size(190, 64);
+            this.label18.TabIndex = 558;
+            // 
+            // pictureBox10
+            // 
+            this.pictureBox10.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox10.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pictureBox10.Enabled = false;
+            this.pictureBox10.ErrorImage = null;
+            this.pictureBox10.InitialImage = null;
+            this.pictureBox10.Location = new System.Drawing.Point(599, 1195);
+            this.pictureBox10.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBox10.Name = "pictureBox10";
+            this.pictureBox10.Size = new System.Drawing.Size(64, 64);
+            this.pictureBox10.TabIndex = 556;
+            this.pictureBox10.TabStop = false;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.BackColor = System.Drawing.Color.Transparent;
+            this.label19.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.label19.ForeColor = System.Drawing.SystemColors.Window;
+            this.label19.Location = new System.Drawing.Point(667, 1195);
+            this.label19.Margin = new System.Windows.Forms.Padding(0);
+            this.label19.Name = "label19";
+            this.label19.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.label19.Size = new System.Drawing.Size(31, 64);
+            this.label19.TabIndex = 554;
+            this.label19.Text = "I8";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.BackColor = System.Drawing.Color.Transparent;
+            this.label20.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.label20.ForeColor = System.Drawing.SystemColors.Control;
+            this.label20.Location = new System.Drawing.Point(596, 1195);
+            this.label20.Margin = new System.Windows.Forms.Padding(0);
+            this.label20.Name = "label20";
+            this.label20.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
+            this.label20.Size = new System.Drawing.Size(190, 64);
+            this.label20.TabIndex = 555;
+            // 
+            // pictureBox11
+            // 
+            this.pictureBox11.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox11.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pictureBox11.Enabled = false;
+            this.pictureBox11.ErrorImage = null;
+            this.pictureBox11.InitialImage = null;
+            this.pictureBox11.Location = new System.Drawing.Point(599, 1131);
+            this.pictureBox11.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBox11.Name = "pictureBox11";
+            this.pictureBox11.Size = new System.Drawing.Size(64, 64);
+            this.pictureBox11.TabIndex = 553;
+            this.pictureBox11.TabStop = false;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.BackColor = System.Drawing.Color.Transparent;
+            this.label21.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.label21.ForeColor = System.Drawing.SystemColors.Window;
+            this.label21.Location = new System.Drawing.Point(667, 1131);
+            this.label21.Margin = new System.Windows.Forms.Padding(0);
+            this.label21.Name = "label21";
+            this.label21.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.label21.Size = new System.Drawing.Size(31, 64);
+            this.label21.TabIndex = 551;
+            this.label21.Text = "I4";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.BackColor = System.Drawing.Color.Transparent;
+            this.label22.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.label22.ForeColor = System.Drawing.SystemColors.Control;
+            this.label22.Location = new System.Drawing.Point(596, 1131);
+            this.label22.Margin = new System.Windows.Forms.Padding(0);
+            this.label22.Name = "label22";
+            this.label22.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
+            this.label22.Size = new System.Drawing.Size(190, 64);
+            this.label22.TabIndex = 552;
+            // 
+            // view_options_ck
+            // 
+            this.view_options_ck.BackColor = System.Drawing.Color.Transparent;
+            this.view_options_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.view_options_ck.Enabled = false;
+            this.view_options_ck.ErrorImage = null;
+            this.view_options_ck.InitialImage = null;
+            this.view_options_ck.Location = new System.Drawing.Point(40, 1357);
+            this.view_options_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.view_options_ck.Name = "view_options_ck";
+            this.view_options_ck.Size = new System.Drawing.Size(64, 64);
+            this.view_options_ck.TabIndex = 586;
+            this.view_options_ck.TabStop = false;
+            // 
+            // view_options_label
+            // 
+            this.view_options_label.AutoSize = true;
+            this.view_options_label.BackColor = System.Drawing.Color.Transparent;
+            this.view_options_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.view_options_label.ForeColor = System.Drawing.SystemColors.Window;
+            this.view_options_label.Location = new System.Drawing.Point(108, 1358);
+            this.view_options_label.Margin = new System.Windows.Forms.Padding(0);
+            this.view_options_label.Name = "view_options_label";
+            this.view_options_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.view_options_label.Size = new System.Drawing.Size(97, 64);
+            this.view_options_label.TabIndex = 584;
+            this.view_options_label.Text = "Options";
+            // 
+            // view_options_hitbox
+            // 
+            this.view_options_hitbox.AutoSize = true;
+            this.view_options_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.view_options_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.view_options_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.view_options_hitbox.Location = new System.Drawing.Point(37, 1357);
+            this.view_options_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.view_options_hitbox.Name = "view_options_hitbox";
+            this.view_options_hitbox.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
+            this.view_options_hitbox.Size = new System.Drawing.Size(190, 64);
+            this.view_options_hitbox.TabIndex = 585;
             // 
             // plt0_gui
             // 
             this.AllowDrop = true;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(2640, 1495);
-            this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.view_rgba);
-            this.Controls.Add(this.label2);
+            this.ClientSize = new System.Drawing.Size(2845, 1902);
+            this.Controls.Add(this.view_options_ck);
+            this.Controls.Add(this.view_options_label);
+            this.Controls.Add(this.view_options_hitbox);
+            this.Controls.Add(this.view_cmpr_ck);
+            this.Controls.Add(this.view_cmpr_label);
+            this.Controls.Add(this.view_cmpr_hitbox);
+            this.Controls.Add(this.pictureBox2);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.pictureBox3);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.pictureBox4);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.pictureBox5);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.pictureBox6);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.pictureBox7);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.pictureBox8);
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.label16);
+            this.Controls.Add(this.pictureBox9);
+            this.Controls.Add(this.label17);
+            this.Controls.Add(this.label18);
+            this.Controls.Add(this.pictureBox10);
+            this.Controls.Add(this.label19);
+            this.Controls.Add(this.label20);
+            this.Controls.Add(this.pictureBox11);
+            this.Controls.Add(this.label21);
+            this.Controls.Add(this.label22);
+            this.Controls.Add(this.view_palette_ck);
+            this.Controls.Add(this.view_palette_label);
+            this.Controls.Add(this.view_palette_hitbox);
+            this.Controls.Add(this.view_rgba_ck);
+            this.Controls.Add(this.view_rgba_label);
+            this.Controls.Add(this.view_rgba_hitbox);
             this.Controls.Add(this.cli_textbox_label);
             this.Controls.Add(this.version_ck);
             this.Controls.Add(this.output_label);
@@ -8363,7 +9320,7 @@ namespace plt0_gui
             this.Controls.Add(this.description);
             this.Controls.Add(this.description_surrounding);
             this.DoubleBuffered = true;
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
+            this.Font = new System.Drawing.Font("Segoe UI", 15F);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -8483,7 +9440,20 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.youtube_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.discord_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.version_ck)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.view_rgba_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.view_palette_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.view_cmpr_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.view_options_ck)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -11149,296 +12119,6 @@ namespace plt0_gui
             else
                 unchecked_A(a_a_ck);
         }
-        private void view_alpha_Click(object sender, EventArgs e)
-        {
-            if (view_alpha)
-            {
-                Hide_alpha();
-                Category_hover(view_alpha_ck);
-            }
-            else
-            {
-                View_alpha();
-                Category_selected(view_alpha_ck);
-            }
-        }
-        private void view_alpha_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[121]);
-            if (view_alpha)
-                Category_selected(view_alpha_ck);
-            else
-                Category_hover(view_alpha_ck);
-        }
-        private void view_alpha_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-            if (view_alpha)
-                Category_checked(view_alpha_ck);
-            else
-                Category_unchecked(view_alpha_ck);
-        }
-        private void view_algorithm_Click(object sender, EventArgs e)
-        {
-            if (view_algorithm)
-            {
-                Hide_algorithm();
-                Category_hover(view_algorithm_ck);
-            }
-            else
-            {
-                View_algorithm();
-                Category_selected(view_algorithm_ck);
-            }
-        }
-        private void view_algorithm_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[122]);
-            if (view_algorithm)
-                Category_selected(view_algorithm_ck);
-            else
-                Category_hover(view_algorithm_ck);
-        }
-        private void view_algorithm_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-            if (view_algorithm)
-                Category_checked(view_algorithm_ck);
-            else
-                Category_unchecked(view_algorithm_ck);
-        }
-        private void view_WrapS_Click(object sender, EventArgs e)
-        {
-            if (view_WrapS)
-            {
-                Hide_WrapS();
-                Category_hover(view_WrapS_ck);
-            }
-            else
-            {
-                View_WrapS();
-                Category_selected(view_WrapS_ck);
-            }
-        }
-        private void view_WrapS_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[123]);
-            if (view_WrapS)
-                Category_selected(view_WrapS_ck);
-            else
-                Category_hover(view_WrapS_ck);
-        }
-        private void view_WrapS_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-            if (view_WrapS)
-                Category_checked(view_WrapS_ck);
-            else
-                Category_unchecked(view_WrapS_ck);
-        }
-        private void view_WrapT_Click(object sender, EventArgs e)
-        {
-            if (view_WrapT)
-            {
-                Hide_WrapT();
-                Category_hover(view_WrapT_ck);
-            }
-            else
-            {
-                View_WrapT();
-                Category_selected(view_WrapT_ck);
-            }
-        }
-        private void view_WrapT_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[124]);
-            if (view_WrapT)
-                Category_selected(view_WrapT_ck);
-            else
-                Category_hover(view_WrapT_ck);
-        }
-        private void view_WrapT_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-            if (view_WrapT)
-                Category_checked(view_WrapT_ck);
-            else
-                Category_unchecked(view_WrapT_ck);
-        }
-        private void view_min_Click(object sender, EventArgs e)
-        {
-            if (view_min)
-            {
-                Hide_min();
-                Category_hover(view_min_ck);
-            }
-            else
-            {
-                View_min();
-                Category_selected(view_min_ck);
-            }
-        }
-        private void view_min_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[125]);
-            if (view_min)
-                Category_selected(view_min_ck);
-            else
-                Category_hover(view_min_ck);
-        }
-        private void view_min_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-            if (view_min)
-                Category_checked(view_min_ck);
-            else
-                Category_unchecked(view_min_ck);
-        }
-        private void view_mag_Click(object sender, EventArgs e)
-        {
-            if (view_mag)
-            {
-                Hide_mag();
-                Category_hover(view_mag_ck);
-            }
-            else
-            {
-                View_mag();
-                Category_selected(view_mag_ck);
-            }
-        }
-        private void view_mag_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[126]);
-            if (view_mag)
-                Category_selected(view_mag_ck);
-            else
-                Category_hover(view_mag_ck);
-        }
-        private void view_mag_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-            if (view_mag)
-                Category_checked(view_mag_ck);
-            else
-                Category_unchecked(view_mag_ck);
-        }
-        private void view_rgba_Click(object sender, EventArgs e)
-        {
-            if (view_rgba)
-            {
-                Hide_rgba();
-                Category_hover(view_rgba_ck);
-            }
-            else
-            {
-                View_rgba();
-                Category_selected(view_rgba_ck);
-            }
-        }
-        private void view_rgba_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[127]);
-            if (view_rgba)
-                Category_selected(view_rgba_ck);
-            else
-                Category_hover(view_rgba_ck);
-        }
-        private void view_rgba_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-            if (view_rgba)
-                Category_checked(view_rgba_ck);
-            else
-                Category_unchecked(view_rgba_ck);
-        }
-        private void view_palette_Click(object sender, EventArgs e)
-        {
-            if (view_palette)
-            {
-                Hide_palette();
-                Category_hover(view_palette_ck);
-            }
-            else
-            {
-                View_palette();
-                Category_selected(view_palette_ck);
-            }
-        }
-        private void view_palette_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[128]);
-            if (view_palette)
-                Category_selected(view_palette_ck);
-            else
-                Category_hover(view_palette_ck);
-        }
-        private void view_palette_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-            if (view_palette)
-                Category_checked(view_palette_ck);
-            else
-                Category_unchecked(view_palette_ck);
-        }
-        private void view_cmpr_Click(object sender, EventArgs e)
-        {
-            if (view_cmpr)
-            {
-                Hide_cmpr();
-                Category_hover(view_cmpr_ck);
-            }
-            else
-            {
-                View_cmpr();
-                Category_selected(view_cmpr_ck);
-            }
-        }
-        private void view_cmpr_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[129]);
-            if (view_cmpr)
-                Category_selected(view_cmpr_ck);
-            else
-                Category_hover(view_cmpr_ck);
-        }
-        private void view_cmpr_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-            if (view_cmpr)
-                Category_checked(view_cmpr_ck);
-            else
-                Category_unchecked(view_cmpr_ck);
-        }
-        private void view_options_Click(object sender, EventArgs e)
-        {
-            if (view_options)
-            {
-                Hide_options();
-                Category_hover(view_options_ck);
-            }
-            else
-            {
-                View_options();
-                Category_selected(view_options_ck);
-            }
-        }
-        private void view_options_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[130]);
-            if (view_options)
-                Category_selected(view_options_ck);
-            else
-                Category_hover(view_options_ck);
-        }
-        private void view_options_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-            if (view_options)
-                Category_checked(view_options_ck);
-            else
-                Category_unchecked(view_options_ck);
-        }
         private void All_Click(object sender, EventArgs e)
         {
             switch (layout)
@@ -11461,7 +12141,7 @@ namespace plt0_gui
         }
         private void All_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[131]);
+            Parse_Markdown(lines[121]);
             if (layout == 0)
                 selected_All();
             else
@@ -11513,7 +12193,7 @@ namespace plt0_gui
         }
         private void Auto_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[132]);
+            Parse_Markdown(lines[122]);
             if (layout == 1)
                 selected_Auto();
             else
@@ -11565,7 +12245,7 @@ namespace plt0_gui
         }
         private void Preview_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[133]);
+            Parse_Markdown(lines[123]);
             if (layout == 2)
                 selected_Preview();
             else
@@ -11617,7 +12297,7 @@ namespace plt0_gui
         }
         private void Paint_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[134]);
+            Parse_Markdown(lines[124]);
             if (layout == 3)
                 selected_Paint();
             else
@@ -11653,7 +12333,7 @@ namespace plt0_gui
         }
         private void Minimized_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[135]);
+            Parse_Markdown(lines[125]);
             banner_minus_ck.BackgroundImage = minimized_hover;
         }
         private void Minimized_MouseLeave(object sender, EventArgs e)
@@ -11676,7 +12356,7 @@ namespace plt0_gui
         }
         private void Maximized_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[136]);
+            Parse_Markdown(lines[126]);
             if (this.WindowState == FormWindowState.Maximized)
                 banner_5_ck.BackgroundImage = maximized_selected;
             else
@@ -11696,7 +12376,7 @@ namespace plt0_gui
         }
         private void Close_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[137]);
+            Parse_Markdown(lines[127]);
             banner_x_ck.BackgroundImage = close_hover;
         }
         private void Close_MouseLeave(object sender, EventArgs e)
@@ -11738,7 +12418,7 @@ namespace plt0_gui
         }
         private void Left_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[138]);
+            Parse_Markdown(lines[128]);
             if (arrow == 4)
                 selected_Left();
             else
@@ -11802,7 +12482,7 @@ namespace plt0_gui
         }
         private void Top_left_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[139]);
+            Parse_Markdown(lines[129]);
             if (arrow == 7)
                 selected_Top_left();
             else
@@ -11866,7 +12546,7 @@ namespace plt0_gui
         }
         private void Top_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[140]);
+            Parse_Markdown(lines[130]);
             if (arrow == 8)
                 selected_Top();
             else
@@ -11930,7 +12610,7 @@ namespace plt0_gui
         }
         private void Top_right_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[141]);
+            Parse_Markdown(lines[131]);
             if (arrow == 9)
                 selected_Top_right();
             else
@@ -11994,7 +12674,7 @@ namespace plt0_gui
         }
         private void Right_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[142]);
+            Parse_Markdown(lines[132]);
             if (arrow == 6)
                 selected_Right();
             else
@@ -12058,7 +12738,7 @@ namespace plt0_gui
         }
         private void Bottom_right_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[143]);
+            Parse_Markdown(lines[133]);
             if (arrow == 3)
                 selected_Bottom_right();
             else
@@ -12122,7 +12802,7 @@ namespace plt0_gui
         }
         private void Bottom_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[144]);
+            Parse_Markdown(lines[134]);
             if (arrow == 2)
                 selected_Bottom();
             else
@@ -12186,7 +12866,7 @@ namespace plt0_gui
         }
         private void Bottom_left_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[145]);
+            Parse_Markdown(lines[135]);
             if (arrow == 1)
                 selected_Bottom_left();
             else
@@ -12250,7 +12930,7 @@ namespace plt0_gui
         }
         private void input_file_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[146]);
+            Parse_Markdown(lines[136]);
         }
         private void input_file_MouseLeave(object sender, EventArgs e)
         {
@@ -12264,7 +12944,7 @@ namespace plt0_gui
         }
         private void input_file2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[147]);
+            Parse_Markdown(lines[137]);
         }
         private void input_file2_MouseLeave(object sender, EventArgs e)
         {
@@ -12278,7 +12958,7 @@ namespace plt0_gui
         }
         private void output_name_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[148]);
+            Parse_Markdown(lines[138]);
         }
         private void output_name_MouseLeave(object sender, EventArgs e)
         {
@@ -12292,7 +12972,7 @@ namespace plt0_gui
         }
         private void mipmaps_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[149]);
+            Parse_Markdown(lines[139]);
         }
         private void mipmaps_MouseLeave(object sender, EventArgs e)
         {
@@ -12305,7 +12985,7 @@ namespace plt0_gui
         }
         private void cmpr_max_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[150]);
+            Parse_Markdown(lines[140]);
         }
         private void cmpr_max_MouseLeave(object sender, EventArgs e)
         {
@@ -12318,7 +12998,7 @@ namespace plt0_gui
         }
         private void cmpr_min_alpha_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[151]);
+            Parse_Markdown(lines[141]);
         }
         private void cmpr_min_alpha_MouseLeave(object sender, EventArgs e)
         {
@@ -12331,7 +13011,7 @@ namespace plt0_gui
         }
         private void num_colours_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[152]);
+            Parse_Markdown(lines[142]);
         }
         private void num_colours_MouseLeave(object sender, EventArgs e)
         {
@@ -12344,7 +13024,7 @@ namespace plt0_gui
         }
         private void round3_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[153]);
+            Parse_Markdown(lines[143]);
         }
         private void round3_MouseLeave(object sender, EventArgs e)
         {
@@ -12357,7 +13037,7 @@ namespace plt0_gui
         }
         private void round4_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[154]);
+            Parse_Markdown(lines[144]);
         }
         private void round4_MouseLeave(object sender, EventArgs e)
         {
@@ -12370,7 +13050,7 @@ namespace plt0_gui
         }
         private void round5_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[155]);
+            Parse_Markdown(lines[145]);
         }
         private void round5_MouseLeave(object sender, EventArgs e)
         {
@@ -12383,7 +13063,7 @@ namespace plt0_gui
         }
         private void round6_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[156]);
+            Parse_Markdown(lines[146]);
         }
         private void round6_MouseLeave(object sender, EventArgs e)
         {
@@ -12396,7 +13076,7 @@ namespace plt0_gui
         }
         private void diversity_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[157]);
+            Parse_Markdown(lines[147]);
         }
         private void diversity_MouseLeave(object sender, EventArgs e)
         {
@@ -12409,7 +13089,7 @@ namespace plt0_gui
         }
         private void diversity2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[158]);
+            Parse_Markdown(lines[148]);
         }
         private void diversity2_MouseLeave(object sender, EventArgs e)
         {
@@ -12422,7 +13102,7 @@ namespace plt0_gui
         }
         private void percentage_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[159]);
+            Parse_Markdown(lines[149]);
         }
         private void percentage_MouseLeave(object sender, EventArgs e)
         {
@@ -12435,7 +13115,7 @@ namespace plt0_gui
         }
         private void percentage2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[160]);
+            Parse_Markdown(lines[150]);
         }
         private void percentage2_MouseLeave(object sender, EventArgs e)
         {
@@ -12448,7 +13128,7 @@ namespace plt0_gui
         }
         private void custom_r_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[161]);
+            Parse_Markdown(lines[151]);
         }
         private void custom_r_MouseLeave(object sender, EventArgs e)
         {
@@ -12461,7 +13141,7 @@ namespace plt0_gui
         }
         private void custom_g_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[162]);
+            Parse_Markdown(lines[152]);
         }
         private void custom_g_MouseLeave(object sender, EventArgs e)
         {
@@ -12474,7 +13154,7 @@ namespace plt0_gui
         }
         private void custom_b_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[163]);
+            Parse_Markdown(lines[153]);
         }
         private void custom_b_MouseLeave(object sender, EventArgs e)
         {
@@ -12487,7 +13167,7 @@ namespace plt0_gui
         }
         private void custom_a_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[164]);
+            Parse_Markdown(lines[154]);
         }
         private void custom_a_MouseLeave(object sender, EventArgs e)
         {
@@ -12501,13 +13181,15 @@ namespace plt0_gui
         private void palette_AI8_Click(object sender, EventArgs e)
         {
             unchecked_palette(palette_ck[palette_enc]);
+            Hide_encoding(palette_enc);
             selected_palette(palette_ai8_ck);
             palette_enc = 0;
+            View_ai8();
             Organize_args();
         }
         private void palette_AI8_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[165]);
+            Parse_Markdown(lines[155]);
             if (palette_enc == 0)
                 selected_palette(palette_ai8_ck);
             else
@@ -12524,13 +13206,15 @@ namespace plt0_gui
         private void palette_RGB565_Click(object sender, EventArgs e)
         {
             unchecked_palette(palette_ck[palette_enc]);
+            Hide_encoding(palette_enc);
             selected_palette(palette_rgb565_ck);
             palette_enc = 1;
+            View_rgb565();
             Organize_args();
         }
         private void palette_RGB565_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[166]);
+            Parse_Markdown(lines[156]);
             if (palette_enc == 1)
                 selected_palette(palette_rgb565_ck);
             else
@@ -12547,13 +13231,15 @@ namespace plt0_gui
         private void palette_RGB5A3_Click(object sender, EventArgs e)
         {
             unchecked_palette(palette_ck[palette_enc]);
+            Hide_encoding(palette_enc);
             selected_palette(palette_rgb5a3_ck);
             palette_enc = 2;
+            View_rgb5a3();
             Organize_args();
         }
         private void palette_RGB5A3_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[167]);
+            Parse_Markdown(lines[157]);
             if (palette_enc == 2)
                 selected_palette(palette_rgb5a3_ck);
             else
@@ -12574,7 +13260,7 @@ namespace plt0_gui
         }
         private void discord_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[168]);
+            Parse_Markdown(lines[158]);
             discord_ck.BackgroundImage = discord_hover;
         }
         private void discord_MouseLeave(object sender, EventArgs e)
@@ -12589,7 +13275,7 @@ namespace plt0_gui
         }
         private void github_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[169]);
+            Parse_Markdown(lines[159]);
             github_ck.BackgroundImage = github_hover;
         }
         private void github_MouseLeave(object sender, EventArgs e)
@@ -12604,7 +13290,7 @@ namespace plt0_gui
         }
         private void youtube_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[170]);
+            Parse_Markdown(lines[160]);
             youtube_ck.BackgroundImage = youtube_hover;
         }
         private void youtube_MouseLeave(object sender, EventArgs e)
@@ -12614,7 +13300,7 @@ namespace plt0_gui
         }
         private void version_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[171]);
+            Parse_Markdown(lines[161]);
             version_ck.BackgroundImage = version_hover;
         }
         private void version_MouseLeave(object sender, EventArgs e)
@@ -12624,7 +13310,7 @@ namespace plt0_gui
         }
         private void cli_textbox_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[172]);
+            Parse_Markdown(lines[162]);
             cli_textbox_ck.BackgroundImage = cli_textbox_hover;
         }
         private void cli_textbox_MouseLeave(object sender, EventArgs e)
@@ -12634,7 +13320,7 @@ namespace plt0_gui
         }
         private void run_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[173]);
+            Parse_Markdown(lines[163]);
             Check_run();
         }
         private void run_MouseLeave(object sender, EventArgs e)
@@ -12644,11 +13330,301 @@ namespace plt0_gui
         }
         private void Output_label_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[174]);
+            Parse_Markdown(lines[164]);
         }
         private void Output_label_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
+        }
+        private void view_alpha_Click(object sender, EventArgs e)
+        {
+            if (view_alpha)
+            {
+                Hide_alpha();
+                Category_hover(view_alpha_ck);
+            }
+            else
+            {
+                View_alpha();
+                Category_selected(view_alpha_ck);
+            }
+        }
+        private void view_alpha_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[165]);
+            if (view_alpha)
+                Category_selected(view_alpha_ck);
+            else
+                Category_hover(view_alpha_ck);
+        }
+        private void view_alpha_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (view_alpha)
+                Category_checked(view_alpha_ck);
+            else
+                Category_unchecked(view_alpha_ck);
+        }
+        private void view_algorithm_Click(object sender, EventArgs e)
+        {
+            if (view_algorithm)
+            {
+                Hide_algorithm(algorithm);
+                Category_hover(view_algorithm_ck);
+            }
+            else
+            {
+                View_algorithm(algorithm);
+                Category_selected(view_algorithm_ck);
+            }
+        }
+        private void view_algorithm_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[166]);
+            if (view_algorithm)
+                Category_selected(view_algorithm_ck);
+            else
+                Category_hover(view_algorithm_ck);
+        }
+        private void view_algorithm_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (view_algorithm)
+                Category_checked(view_algorithm_ck);
+            else
+                Category_unchecked(view_algorithm_ck);
+        }
+        private void view_WrapS_Click(object sender, EventArgs e)
+        {
+            if (view_WrapS)
+            {
+                Hide_WrapS();
+                Category_hover(view_WrapS_ck);
+            }
+            else
+            {
+                View_WrapS();
+                Category_selected(view_WrapS_ck);
+            }
+        }
+        private void view_WrapS_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[167]);
+            if (view_WrapS)
+                Category_selected(view_WrapS_ck);
+            else
+                Category_hover(view_WrapS_ck);
+        }
+        private void view_WrapS_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (view_WrapS)
+                Category_checked(view_WrapS_ck);
+            else
+                Category_unchecked(view_WrapS_ck);
+        }
+        private void view_WrapT_Click(object sender, EventArgs e)
+        {
+            if (view_WrapT)
+            {
+                Hide_WrapT();
+                Category_hover(view_WrapT_ck);
+            }
+            else
+            {
+                View_WrapT();
+                Category_selected(view_WrapT_ck);
+            }
+        }
+        private void view_WrapT_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[168]);
+            if (view_WrapT)
+                Category_selected(view_WrapT_ck);
+            else
+                Category_hover(view_WrapT_ck);
+        }
+        private void view_WrapT_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (view_WrapT)
+                Category_checked(view_WrapT_ck);
+            else
+                Category_unchecked(view_WrapT_ck);
+        }
+        private void view_min_Click(object sender, EventArgs e)
+        {
+            if (view_min)
+            {
+                Hide_min();
+                Category_hover(view_min_ck);
+            }
+            else
+            {
+                View_min();
+                Category_selected(view_min_ck);
+            }
+        }
+        private void view_min_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[169]);
+            if (view_min)
+                Category_selected(view_min_ck);
+            else
+                Category_hover(view_min_ck);
+        }
+        private void view_min_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (view_min)
+                Category_checked(view_min_ck);
+            else
+                Category_unchecked(view_min_ck);
+        }
+        private void view_mag_Click(object sender, EventArgs e)
+        {
+            if (view_mag)
+            {
+                Hide_mag();
+                Category_hover(view_mag_ck);
+            }
+            else
+            {
+                View_mag();
+                Category_selected(view_mag_ck);
+            }
+        }
+        private void view_mag_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[170]);
+            if (view_mag)
+                Category_selected(view_mag_ck);
+            else
+                Category_hover(view_mag_ck);
+        }
+        private void view_mag_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (view_mag)
+                Category_checked(view_mag_ck);
+            else
+                Category_unchecked(view_mag_ck);
+        }
+        private void view_rgba_Click(object sender, EventArgs e)
+        {
+            if (view_rgba)
+            {
+                Hide_rgba();
+                Category_hover(view_rgba_ck);
+            }
+            else
+            {
+                View_rgba();
+                Category_selected(view_rgba_ck);
+            }
+        }
+        private void view_rgba_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[171]);
+            if (view_rgba)
+                Category_selected(view_rgba_ck);
+            else
+                Category_hover(view_rgba_ck);
+        }
+        private void view_rgba_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (view_rgba)
+                Category_checked(view_rgba_ck);
+            else
+                Category_unchecked(view_rgba_ck);
+        }
+        private void view_palette_Click(object sender, EventArgs e)
+        {
+            if (view_palette)
+            {
+                Hide_palette();
+                Category_hover(view_palette_ck);
+            }
+            else
+            {
+                View_palette();
+                Category_selected(view_palette_ck);
+            }
+        }
+        private void view_palette_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[172]);
+            if (view_palette)
+                Category_selected(view_palette_ck);
+            else
+                Category_hover(view_palette_ck);
+        }
+        private void view_palette_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (view_palette)
+                Category_checked(view_palette_ck);
+            else
+                Category_unchecked(view_palette_ck);
+        }
+        private void view_cmpr_Click(object sender, EventArgs e)
+        {
+            if (view_cmpr)
+            {
+                Hide_cmpr();
+                Category_hover(view_cmpr_ck);
+            }
+            else
+            {
+                View_cmpr();
+                Category_selected(view_cmpr_ck);
+            }
+        }
+        private void view_cmpr_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[173]);
+            if (view_cmpr)
+                Category_selected(view_cmpr_ck);
+            else
+                Category_hover(view_cmpr_ck);
+        }
+        private void view_cmpr_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (view_cmpr)
+                Category_checked(view_cmpr_ck);
+            else
+                Category_unchecked(view_cmpr_ck);
+        }
+        private void view_options_Click(object sender, EventArgs e)
+        {
+            if (view_options)
+            {
+                Hide_options();
+                Category_hover(view_options_ck);
+            }
+            else
+            {
+                View_options();
+                Category_selected(view_options_ck);
+            }
+        }
+        private void view_options_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[174]);
+            if (view_options)
+                Category_selected(view_options_ck);
+            else
+                Category_hover(view_options_ck);
+        }
+        private void view_options_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (view_options)
+                Category_checked(view_options_ck);
+            else
+                Category_unchecked(view_options_ck);
         }
         private void Run_Click(object sender, EventArgs e)
         {

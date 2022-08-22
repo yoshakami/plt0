@@ -297,40 +297,6 @@ for g in channel:  # this looks unreadable because it's packed up instead of pas
             else
                 unchecked_""" + channel[h] + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
         }"""
-view = ["view_alpha", "view_algorithm", "view_WrapS", "view_WrapT", "view_min", "view_mag", "view_rgba", "view_palette", "view_cmpr", "view_options"]
-# ck_name = ["alpha_ck_array", "algorithm_ck", "WrapS_ck", "WrapT_ck", "minification_ck", "magnification_ck"]
-for j in range(len(view)):
-    x += 1
-    output += """
-        private void """ + view[j] + """_Click(object sender, EventArgs e)
-        {
-            if (""" + view[j] + """)
-            {
-                Hide_""" + view[j].split('_')[1] + """();
-                Category_hover(""" + view[j] + """_ck);
-            }
-            else
-            {
-                View_""" + view[j].split('_')[1] + """();
-                Category_selected(""" + view[j] + """_ck);
-            }
-        }
-        private void """ + view[j] + """_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[""" + str(x) + """]);
-            if (""" + view[j] + """)
-                Category_selected(""" + view[j] + """_ck);
-            else
-                Category_hover(""" + view[j] + """_ck);
-        }
-        private void """ + view[j] + """_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-            if (""" + view[j] + """)
-                Category_checked(""" + view[j] + """_ck);
-            else
-                Category_unchecked(""" + view[j] + """_ck);
-        }"""
 lyt = ["all", "auto", "preview", "paint"]
 Lyt = ["All", "Auto", "Preview", "Paint"]
 for k in range(len(lyt)):
@@ -602,8 +568,10 @@ for q in range(len(palette_enc)):
         private void palette_""" + palette_enc[q] + """_Click(object sender, EventArgs e)
         {
             unchecked_palette(palette_ck[palette_enc]);
+            Hide_encoding(palette_enc);
             selected_palette(palette_""" + palette_enc[q].lower() + """_ck);
             palette_enc = """ + str(q) + """;
+            View_""" + palette_enc[q].lower() + """();
             Organize_args();
         }
         private void palette_""" + palette_enc[q] + """_MouseEnter(object sender, EventArgs e)
@@ -655,6 +623,41 @@ for s in range(4):
         private void """ + text_icon[s] + """_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();""" + line3[s] + """
+        }"""
+view = ["view_alpha", "view_algorithm", "view_WrapS", "view_WrapT", "view_min", "view_mag", "view_rgba", "view_palette", "view_cmpr", "view_options"]
+# ck_name = ["alpha_ck_array", "algorithm_ck", "WrapS_ck", "WrapT_ck", "minification_ck", "magnification_ck"]
+for j in range(len(view)):
+    hide = [view[j].split('_')[1] + "();", view[j].split('_')[1] + "(algorithm);"] + [view[j].split('_')[1] + "();"] * 9
+    x += 1
+    output += """
+        private void """ + view[j] + """_Click(object sender, EventArgs e)
+        {
+            if (""" + view[j] + """)
+            {
+                Hide_""" + hide[j]  + """
+                Category_hover(""" + view[j] + """_ck);
+            }
+            else
+            {
+                View_""" + hide[j] + """
+                Category_selected(""" + view[j] + """_ck);
+            }
+        }
+        private void """ + view[j] + """_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[""" + str(x) + """]);
+            if (""" + view[j] + """)
+                Category_selected(""" + view[j] + """_ck);
+            else
+                Category_hover(""" + view[j] + """_ck);
+        }
+        private void """ + view[j] + """_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (""" + view[j] + """)
+                Category_checked(""" + view[j] + """_ck);
+            else
+                Category_unchecked(""" + view[j] + """_ck);
         }"""
 output += """
         private void Run_Click(object sender, EventArgs e)
