@@ -53,6 +53,7 @@ namespace plt0_gui
         bool strikeout;*/
         byte font_style;
         bool vertical;
+        bool options_are_on_the_left = false;
         // banner_move
         int mouse_x;
         int mouse_y;
@@ -1711,10 +1712,12 @@ namespace plt0_gui
             round4_hitbox.Visible = true;
             round4_label.Visible = true;
             round4_txt.Visible = true;
+            if (options_are_on_the_left)
+                Move_options_right();
+            options_are_on_the_left = false;
         }
         private void Layout_Auto()
         {
-
             cie_601_label.Text = "Default";
             Hide_options();
             Hide_cmpr();
@@ -1776,10 +1779,111 @@ namespace plt0_gui
             else
                 Hide_algorithm(2);
             View_algorithm(algorithm);
+            if (options_are_on_the_left)
+                Move_options_right();
+            options_are_on_the_left = false;
         }
         private void Layout_Preview()
         {
-
+            View_alpha();
+            View_algorithm(255);
+            View_cmpr();
+            View_palette();
+            Hide_mag();
+            Hide_min();
+            Hide_WrapS();
+            Hide_WrapT();
+            View_options();
+            View_rgba();
+            round3_hitbox.Visible = true;
+            round3_label.Visible = true;
+            round3_txt.Visible = true;
+            round4_hitbox.Visible = true;
+            round4_label.Visible = true;
+            round4_txt.Visible = true;
+            Move_options_left();
+            options_are_on_the_left = true;
+        }
+        private void Move_options_left()
+        {
+            /* options_label.Location = new Point(options_label.Location.X - 888, options_label.Location.Y);
+            ask_exit_ck.Location = new Point(ask_exit_ck.Location.X - 888, ask_exit_ck.Location.Y);
+            ask_exit_label.Location = new Point(ask_exit_label.Location.X - 888, ask_exit_label.Location.Y);
+            ask_exit_hitbox.Location = new Point(ask_exit_hitbox.Location.X - 888, ask_exit_hitbox.Location.Y);
+            bmp_32_ck.Location = new Point(bmp_32_ck.Location.X - 888, bmp_32_ck.Location.Y);
+            bmp_32_label.Location = new Point(bmp_32_label.Location.X - 888, bmp_32_label.Location.Y);
+            bmp_32_hitbox.Location = new Point(bmp_32_hitbox.Location.X - 888, bmp_32_hitbox.Location.Y);
+            FORCE_ALPHA_ck.Location = new Point(FORCE_ALPHA_ck.Location.X - 888, FORCE_ALPHA_ck.Location.Y);
+            FORCE_ALPHA_label.Location = new Point(FORCE_ALPHA_label.Location.X - 888, FORCE_ALPHA_label.Location.Y);
+            FORCE_ALPHA_hitbox.Location = new Point(FORCE_ALPHA_hitbox.Location.X - 888, FORCE_ALPHA_hitbox.Location.Y);
+            funky_ck.Location = new Point(funky_ck.Location.X - 888, funky_ck.Location.Y);
+            funky_label.Location = new Point(funky_label.Location.X - 888, funky_label.Location.Y);
+            funky_hitbox.Location = new Point(funky_hitbox.Location.X - 888, funky_hitbox.Location.Y);
+            no_warning_ck.Location = new Point(no_warning_ck.Location.X - 888, no_warning_ck.Location.Y);
+            no_warning_label.Location = new Point(no_warning_label.Location.X - 888, no_warning_label.Location.Y);
+            no_warning_hitbox.Location = new Point(no_warning_hitbox.Location.X - 888, no_warning_hitbox.Location.Y);
+            random_ck.Location = new Point(random_ck.Location.X - 888, random_ck.Location.Y);
+            random_label.Location = new Point(random_label.Location.X - 888, random_label.Location.Y);
+            random_hitbox.Location = new Point(random_hitbox.Location.X - 888, random_hitbox.Location.Y);
+            reverse_ck.Location = new Point(reverse_ck.Location.X - 888, reverse_ck.Location.Y);
+            reverse_label.Location = new Point(reverse_label.Location.X - 888, reverse_label.Location.Y);
+            reverse_hitbox.Location = new Point(reverse_hitbox.Location.X - 888, reverse_hitbox.Location.Y);
+            safe_mode_ck.Location = new Point(safe_mode_ck.Location.X - 888, safe_mode_ck.Location.Y);
+            safe_mode_label.Location = new Point(safe_mode_label.Location.X - 888, safe_mode_label.Location.Y);
+            safe_mode_hitbox.Location = new Point(safe_mode_hitbox.Location.X - 888, safe_mode_hitbox.Location.Y);
+            stfu_ck.Location = new Point(stfu_ck.Location.X - 888, stfu_ck.Location.Y);
+            stfu_label.Location = new Point(stfu_label.Location.X - 888, stfu_label.Location.Y);
+            stfu_hitbox.Location = new Point(stfu_hitbox.Location.X - 888, stfu_hitbox.Location.Y);
+            warn_ck.Location = new Point(warn_ck.Location.X - 888, warn_ck.Location.Y);
+            warn_label.Location = new Point(warn_label.Location.X - 888, warn_label.Location.Y);
+            warn_hitbox.Location = new Point(warn_hitbox.Location.X - 888, warn_hitbox.Location.Y);*/
+            output_label.Visible = false;
+            description_title.Visible = false;
+            description_surrounding.Visible = false;
+            for (byte i = 0; i < 8; i++)
+            {
+                desc[i].Location = new Point(desc[i].Location.X, desc[i].Location.Y + 1000);
+            }
+        }
+        private void Move_options_right()
+        {
+            /* ask_exit_ck.Location = new Point(ask_exit_ck.Location.X + 888, ask_exit_ck.Location.Y);
+            ask_exit_label.Location = new Point(ask_exit_label.Location.X + 888, ask_exit_label.Location.Y);
+            ask_exit_hitbox.Location = new Point(ask_exit_hitbox.Location.X + 888, ask_exit_hitbox.Location.Y);
+            bmp_32_ck.Location = new Point(bmp_32_ck.Location.X + 888, bmp_32_ck.Location.Y);
+            bmp_32_label.Location = new Point(bmp_32_label.Location.X + 888, bmp_32_label.Location.Y);
+            bmp_32_hitbox.Location = new Point(bmp_32_hitbox.Location.X + 888, bmp_32_hitbox.Location.Y);
+            FORCE_ALPHA_ck.Location = new Point(FORCE_ALPHA_ck.Location.X + 888, FORCE_ALPHA_ck.Location.Y);
+            FORCE_ALPHA_label.Location = new Point(FORCE_ALPHA_label.Location.X + 888, FORCE_ALPHA_label.Location.Y);
+            FORCE_ALPHA_hitbox.Location = new Point(FORCE_ALPHA_hitbox.Location.X + 888, FORCE_ALPHA_hitbox.Location.Y);
+            funky_ck.Location = new Point(funky_ck.Location.X + 888, funky_ck.Location.Y);
+            funky_label.Location = new Point(funky_label.Location.X + 888, funky_label.Location.Y);
+            funky_hitbox.Location = new Point(funky_hitbox.Location.X + 888, funky_hitbox.Location.Y);
+            no_warning_ck.Location = new Point(no_warning_ck.Location.X + 888, no_warning_ck.Location.Y);
+            no_warning_label.Location = new Point(no_warning_label.Location.X + 888, no_warning_label.Location.Y);
+            no_warning_hitbox.Location = new Point(no_warning_hitbox.Location.X + 888, no_warning_hitbox.Location.Y);
+            random_ck.Location = new Point(random_ck.Location.X + 888, random_ck.Location.Y);
+            random_label.Location = new Point(random_label.Location.X + 888, random_label.Location.Y);
+            random_hitbox.Location = new Point(random_hitbox.Location.X + 888, random_hitbox.Location.Y);
+            reverse_ck.Location = new Point(reverse_ck.Location.X + 888, reverse_ck.Location.Y);
+            reverse_label.Location = new Point(reverse_label.Location.X + 888, reverse_label.Location.Y);
+            reverse_hitbox.Location = new Point(reverse_hitbox.Location.X + 888, reverse_hitbox.Location.Y);
+            safe_mode_ck.Location = new Point(safe_mode_ck.Location.X + 888, safe_mode_ck.Location.Y);
+            safe_mode_label.Location = new Point(safe_mode_label.Location.X + 888, safe_mode_label.Location.Y);
+            safe_mode_hitbox.Location = new Point(safe_mode_hitbox.Location.X + 888, safe_mode_hitbox.Location.Y);
+            stfu_ck.Location = new Point(stfu_ck.Location.X + 888, stfu_ck.Location.Y);
+            stfu_label.Location = new Point(stfu_label.Location.X + 888, stfu_label.Location.Y);
+            stfu_hitbox.Location = new Point(stfu_hitbox.Location.X + 888, stfu_hitbox.Location.Y);
+            warn_ck.Location = new Point(warn_ck.Location.X + 888, warn_ck.Location.Y);
+            warn_label.Location = new Point(warn_label.Location.X + 888, warn_label.Location.Y);
+            warn_hitbox.Location = new Point(warn_hitbox.Location.X + 888, warn_hitbox.Location.Y); */
+            output_label.Visible = true;
+            description_title.Visible = true;
+            description_surrounding.Visible = true;
+            for (byte i = 0; i < 8; i++)
+            {
+                desc[i].Location = new Point(desc[i].Location.X, desc[i].Location.Y - 1000);
+            }
         }
         private void Layout_Paint()
         {
