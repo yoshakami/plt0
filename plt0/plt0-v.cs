@@ -1695,8 +1695,6 @@ namespace plt0_gui
         }
         private void Layout_All()
         {
-
-            View_alpha();
             View_algorithm(255);
             View_cmpr();
             View_palette();
@@ -1705,7 +1703,7 @@ namespace plt0_gui
             View_WrapS();
             View_WrapT();
             View_options();
-            View_i4();
+            View_rgb5a3();
         }
         private void Layout_Auto()
         {
@@ -1891,16 +1889,19 @@ namespace plt0_gui
         {
             ask_exit_hitbox.Visible = true;
             warn_hitbox.Visible = true;
+            FORCE_ALPHA_hitbox.Visible = true;
             no_warning_hitbox.Visible = true;
             stfu_hitbox.Visible = true;
             safe_mode_hitbox.Visible = true;
             ask_exit_label.Visible = true;
             warn_label.Visible = true;
+            FORCE_ALPHA_label.Visible = true;
             no_warning_label.Visible = true;
             stfu_label.Visible = true;
             safe_mode_label.Visible = true;
             ask_exit_ck.Visible = true;
             warn_ck.Visible = true;
+            FORCE_ALPHA_ck.Visible = true;
             no_warning_ck.Visible = true;
             stfu_ck.Visible = true;
             safe_mode_ck.Visible = true;
@@ -1912,16 +1913,19 @@ namespace plt0_gui
                 return;
             ask_exit_hitbox.Visible = false;
             warn_hitbox.Visible = false;
+            FORCE_ALPHA_hitbox.Visible = false;
             no_warning_hitbox.Visible = false;
             stfu_hitbox.Visible = false;
             safe_mode_hitbox.Visible = false;
             ask_exit_label.Visible = false;
             warn_label.Visible = false;
+            FORCE_ALPHA_label.Visible = false;
             no_warning_label.Visible = false;
             stfu_label.Visible = false;
             safe_mode_label.Visible = false;
             ask_exit_ck.Visible = false;
             warn_ck.Visible = false;
+            FORCE_ALPHA_ck.Visible = false;
             no_warning_ck.Visible = false;
             stfu_ck.Visible = false;
             safe_mode_ck.Visible = false;
@@ -2229,21 +2233,23 @@ namespace plt0_gui
         {
             if (layout == 0)
                 return;
+            cie_601_label.Text = "CIE 601";
             cie_601_ck.Visible = true;
             cie_601_hitbox.Visible = true;
             cie_601_label.Visible = true;
             cie_709_ck.Visible = true;
             cie_709_hitbox.Visible = true;
             cie_709_label.Visible = true;
-            round4_hitbox.Visible = false;
-            round4_label.Visible = false;
-            round4_txt.Visible = false;
+            round4_hitbox.Visible = true;
+            round4_label.Visible = true;
+            round4_txt.Visible = true;
             //view_rgba = true;
         }
         private void View_i8()
         {
             if (layout == 0)
                 return;
+            cie_601_label.Text = "CIE 601";
             cie_601_ck.Visible = true;
             cie_601_hitbox.Visible = true;
             cie_601_label.Visible = true;
@@ -2256,6 +2262,7 @@ namespace plt0_gui
         {
             if (layout == 0)
                 return;
+            cie_601_label.Text = "CIE 601";
             cie_601_ck.Visible = true;
             cie_601_hitbox.Visible = true;
             cie_601_label.Visible = true;
@@ -2271,6 +2278,7 @@ namespace plt0_gui
         {
             if (layout == 0)
                 return;
+            cie_601_label.Text = "CIE 601";
             cie_601_ck.Visible = true;
             cie_601_hitbox.Visible = true;
             cie_601_label.Visible = true;
@@ -2283,6 +2291,10 @@ namespace plt0_gui
         {
             if (layout == 0)
                 return;
+            cie_601_label.Text = "Default";
+            cie_601_ck.Visible = true;
+            cie_601_hitbox.Visible = true;
+            cie_601_label.Visible = true;
             round5_hitbox.Visible = true;
             round5_label.Visible = true;
             round5_txt.Visible = true;
@@ -2296,6 +2308,10 @@ namespace plt0_gui
             if (layout == 0)
                 return;
             View_alpha();
+            cie_601_label.Text = "Default";
+            cie_601_ck.Visible = true;
+            cie_601_hitbox.Visible = true;
+            cie_601_label.Visible = true;
             round3_hitbox.Visible = true;
             round3_label.Visible = true;
             round3_txt.Visible = true;
@@ -2313,20 +2329,36 @@ namespace plt0_gui
         private void View_rgba32()
         {
             //view_rgba = true;
+            cie_601_label.Text = "Default";
+            cie_601_ck.Visible = true;
+            cie_601_hitbox.Visible = true;
+            cie_601_label.Visible = true;
         }
         private void View_ci4()
         {
             View_palette();
+            cie_601_label.Text = "Default";
+            cie_601_ck.Visible = true;
+            cie_601_hitbox.Visible = true;
+            cie_601_label.Visible = true;
             //view_rgba = true;
         }
         private void View_ci8()
         {
             View_palette();
+            cie_601_label.Text = "Default";
+            cie_601_ck.Visible = true;
+            cie_601_hitbox.Visible = true;
+            cie_601_label.Visible = true;
             //view_rgba = true;
         }
         private void View_ci14x2()
         {
             View_palette();
+            cie_601_label.Text = "Default";
+            cie_601_ck.Visible = true;
+            cie_601_hitbox.Visible = true;
+            cie_601_label.Visible = true;
             //view_rgba = true;
         }
         private void Hide_encoding(byte encoding)
@@ -5494,13 +5526,13 @@ namespace plt0_gui
             // 
             this.min_nearest_neighbour_label.AutoSize = true;
             this.min_nearest_neighbour_label.BackColor = System.Drawing.Color.Transparent;
-            this.min_nearest_neighbour_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(128)), true);
+            this.min_nearest_neighbour_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.min_nearest_neighbour_label.ForeColor = System.Drawing.SystemColors.Window;
             this.min_nearest_neighbour_label.Location = new System.Drawing.Point(893, 128);
             this.min_nearest_neighbour_label.Margin = new System.Windows.Forms.Padding(0);
             this.min_nearest_neighbour_label.Name = "min_nearest_neighbour_label";
             this.min_nearest_neighbour_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.min_nearest_neighbour_label.Size = new System.Drawing.Size(172, 59);
+            this.min_nearest_neighbour_label.Size = new System.Drawing.Size(227, 64);
             this.min_nearest_neighbour_label.TabIndex = 307;
             this.min_nearest_neighbour_label.Text = "Nearest Neighbour";
             this.min_nearest_neighbour_label.Click += new System.EventHandler(this.Minification_Nearest_Neighbour_Click);
@@ -9148,7 +9180,35 @@ namespace plt0_gui
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(2845, 1902);
+            this.ClientSize = new System.Drawing.Size(1924, 1061);
+            this.Controls.Add(this.ask_exit_label);
+            this.Controls.Add(this.Tclamp_label);
+            this.Controls.Add(this.Trepeat_label);
+            this.Controls.Add(this.Tmirror_label);
+            this.Controls.Add(this.Smirror_label);
+            this.Controls.Add(this.Srepeat_label);
+            this.Controls.Add(this.Sclamp_label);
+            this.Controls.Add(this.mag_linearmipmaplinear_label);
+            this.Controls.Add(this.mag_linearmipmapnearest_label);
+            this.Controls.Add(this.mag_nearestmipmaplinear_label);
+            this.Controls.Add(this.mag_nearestmipmapnearest_label);
+            this.Controls.Add(this.mag_linear_label);
+            this.Controls.Add(this.mag_nearest_neighbour_label);
+            this.Controls.Add(this.min_nearest_neighbour_label);
+            this.Controls.Add(this.min_linear_label);
+            this.Controls.Add(this.min_nearestmipmapnearest_label);
+            this.Controls.Add(this.min_nearestmipmaplinear_label);
+            this.Controls.Add(this.min_linearmipmapnearest_label);
+            this.Controls.Add(this.min_linearmipmaplinear_label);
+            this.Controls.Add(this.cie_709_label);
+            this.Controls.Add(this.custom_label);
+            this.Controls.Add(this.no_gradient_label);
+            this.Controls.Add(this.no_alpha_label);
+            this.Controls.Add(this.mix_label);
+            this.Controls.Add(this.alpha_label);
+            this.Controls.Add(this.palette_ai8_ck);
+            this.Controls.Add(this.palette_ai8_label);
+            this.Controls.Add(this.cie_601_label);
             this.Controls.Add(this.view_options_ck);
             this.Controls.Add(this.view_options_label);
             this.Controls.Add(this.view_options_hitbox);
@@ -9214,8 +9274,6 @@ namespace plt0_gui
             this.Controls.Add(this.palette_rgb565_ck);
             this.Controls.Add(this.palette_rgb565_label);
             this.Controls.Add(this.palette_rgb565_hitbox);
-            this.Controls.Add(this.palette_ai8_ck);
-            this.Controls.Add(this.palette_ai8_label);
             this.Controls.Add(this.palette_ai8_hitbox);
             this.Controls.Add(this.palette_label);
             this.Controls.Add(this.description_title);
@@ -9325,84 +9383,59 @@ namespace plt0_gui
             this.Controls.Add(this.r_g_ck);
             this.Controls.Add(this.r_r_ck);
             this.Controls.Add(this.mag_linearmipmaplinear_ck);
-            this.Controls.Add(this.mag_linearmipmaplinear_label);
             this.Controls.Add(this.mag_linearmipmaplinear_hitbox);
             this.Controls.Add(this.mag_linearmipmapnearest_ck);
-            this.Controls.Add(this.mag_linearmipmapnearest_label);
             this.Controls.Add(this.mag_linearmipmapnearest_hitbox);
             this.Controls.Add(this.mag_nearestmipmaplinear_ck);
-            this.Controls.Add(this.mag_nearestmipmaplinear_label);
             this.Controls.Add(this.mag_nearestmipmaplinear_hitbox);
             this.Controls.Add(this.mag_nearestmipmapnearest_ck);
-            this.Controls.Add(this.mag_nearestmipmapnearest_label);
             this.Controls.Add(this.mag_nearestmipmapnearest_hitbox);
             this.Controls.Add(this.mag_linear_ck);
-            this.Controls.Add(this.mag_linear_label);
             this.Controls.Add(this.mag_linear_hitbox);
             this.Controls.Add(this.mag_nearest_neighbour_ck);
-            this.Controls.Add(this.mag_nearest_neighbour_label);
             this.Controls.Add(this.mag_nearest_neighbour_hitbox);
             this.Controls.Add(this.min_linearmipmaplinear_ck);
-            this.Controls.Add(this.min_linearmipmaplinear_label);
             this.Controls.Add(this.min_linearmipmaplinear_hitbox);
             this.Controls.Add(this.min_linearmipmapnearest_ck);
-            this.Controls.Add(this.min_linearmipmapnearest_label);
             this.Controls.Add(this.min_linearmipmapnearest_hitbox);
             this.Controls.Add(this.min_nearestmipmaplinear_ck);
-            this.Controls.Add(this.min_nearestmipmaplinear_label);
             this.Controls.Add(this.min_nearestmipmaplinear_hitbox);
             this.Controls.Add(this.min_nearestmipmapnearest_ck);
-            this.Controls.Add(this.min_nearestmipmapnearest_label);
             this.Controls.Add(this.min_nearestmipmapnearest_hitbox);
             this.Controls.Add(this.min_linear_ck);
-            this.Controls.Add(this.min_linear_label);
             this.Controls.Add(this.min_linear_hitbox);
             this.Controls.Add(this.min_nearest_neighbour_ck);
-            this.Controls.Add(this.min_nearest_neighbour_label);
             this.Controls.Add(this.min_nearest_neighbour_hitbox);
             this.Controls.Add(this.magnification_label);
             this.Controls.Add(this.minification_label);
             this.Controls.Add(this.Smirror_ck);
-            this.Controls.Add(this.Smirror_label);
             this.Controls.Add(this.Smirror_hitbox);
             this.Controls.Add(this.Srepeat_ck);
-            this.Controls.Add(this.Srepeat_label);
             this.Controls.Add(this.Srepeat_hitbox);
             this.Controls.Add(this.Sclamp_ck);
-            this.Controls.Add(this.Sclamp_label);
             this.Controls.Add(this.Sclamp_hitbox);
             this.Controls.Add(this.WrapS_label);
             this.Controls.Add(this.Tmirror_ck);
-            this.Controls.Add(this.Tmirror_label);
             this.Controls.Add(this.Tmirror_hitbox);
             this.Controls.Add(this.Trepeat_ck);
-            this.Controls.Add(this.Trepeat_label);
             this.Controls.Add(this.Trepeat_hitbox);
             this.Controls.Add(this.Tclamp_ck);
-            this.Controls.Add(this.Tclamp_label);
             this.Controls.Add(this.Tclamp_hitbox);
             this.Controls.Add(this.WrapT_label);
             this.Controls.Add(this.mix_ck);
-            this.Controls.Add(this.mix_label);
             this.Controls.Add(this.mix_hitbox);
             this.Controls.Add(this.alpha_ck);
-            this.Controls.Add(this.alpha_label);
             this.Controls.Add(this.alpha_hitbox);
             this.Controls.Add(this.no_alpha_ck);
-            this.Controls.Add(this.no_alpha_label);
             this.Controls.Add(this.no_alpha_hitbox);
             this.Controls.Add(this.alpha_title);
             this.Controls.Add(this.no_gradient_ck);
-            this.Controls.Add(this.no_gradient_label);
             this.Controls.Add(this.no_gradient_hitbox);
             this.Controls.Add(this.custom_ck);
-            this.Controls.Add(this.custom_label);
             this.Controls.Add(this.custom_hitbox);
             this.Controls.Add(this.cie_709_ck);
-            this.Controls.Add(this.cie_709_label);
             this.Controls.Add(this.cie_709_hitbox);
             this.Controls.Add(this.cie_601_ck);
-            this.Controls.Add(this.cie_601_label);
             this.Controls.Add(this.cie_601_hitbox);
             this.Controls.Add(this.algorithm_label);
             this.Controls.Add(this.cmpr_ck);
@@ -9458,7 +9491,6 @@ namespace plt0_gui
             this.Controls.Add(this.bmp_32_ck);
             this.Controls.Add(this.bmp_32_label);
             this.Controls.Add(this.ask_exit_ck);
-            this.Controls.Add(this.ask_exit_label);
             this.Controls.Add(this.ask_exit_hitbox);
             this.Controls.Add(this.options_label);
             this.Controls.Add(this.tiff_ck);
