@@ -509,31 +509,31 @@ namespace plt0_gui
                         View_min();*/
                         break;
                     case "AUTO":
+                        layout = 1;
                         unchecked_All();
                         checked_Auto();
                         unchecked_Preview();
                         unchecked_Paint();
                         Layout_Auto();
-                        layout = 1;
                         break;
                     case "PREVIEW":
+                        layout = 2;
                         unchecked_All();
                         unchecked_Auto();
                         checked_Preview();
                         unchecked_Paint();
                         Layout_Preview();
-                        layout = 2;
                         //View_algorithm();
                         //View_alpha();
                         // view encoding and channel swap and some options
                         break;
                     case "PAINT":
+                        layout = 3;
                         unchecked_All();
                         unchecked_Auto();
                         unchecked_Preview();
                         checked_Paint();
                         Layout_Paint();
-                        layout = 3;
                         break;
                 }
                 switch (lines[4].ToUpper())
@@ -1697,7 +1697,7 @@ namespace plt0_gui
         {
 
             View_alpha();
-            View_algorithm();
+            View_algorithm(255);
             View_cmpr();
             View_palette();
             View_mag();
@@ -1710,6 +1710,10 @@ namespace plt0_gui
         private void Layout_Auto()
         {
             Hide_options();
+            Hide_cmpr();
+            Hide_encoding(1);
+            Hide_encoding(5);
+            Hide_encoding(8);
             if (bti || tpl)
             {
                 View_mag();
@@ -1724,14 +1728,6 @@ namespace plt0_gui
                 Hide_WrapS();
                 Hide_WrapT();
             }
-            Hide_algorithm();
-            algorithm_label.Visible = true;
-            custom_label.Visible = true;
-            custom_hitbox.Visible = true;
-            if (algorithm == 2)
-                View_rgba();
-            for (byte i = 0; i < 15; i++)
-                Hide_encoding(encoding);
             switch (encoding)
             {
                 case 0:
@@ -1768,6 +1764,11 @@ namespace plt0_gui
                     View_cmpr();
                     break;
             }
+            if (algorithm == 2)
+                Hide_algorithm(3);
+            else
+                Hide_algorithm(2);
+            View_algorithm(algorithm);
         }
         private void Layout_Preview()
         {
@@ -1812,41 +1813,79 @@ namespace plt0_gui
             view_alpha = false;
             //this.WindowState = FormWindowState.Normal;
         }
-        private void View_algorithm()
+        private void View_algorithm(byte algorithm)
         {
-            for (byte i = 0; i < algorithm_ck.Count; i++)
+            /*if (algorithm < 2)
             {
-                algorithm_ck[i].Visible = true;
+                for (byte i = 0; i < 2; i++)
+                {
+                    algorithm_ck[i].Visible = true;
+                }
+                cie_601_hitbox.Visible = true;
+                cie_709_hitbox.Visible = true;
+                cie_601_label.Visible = true;
+                cie_709_label.Visible = true;
+            }*/
+            if (algorithm == 2)
+            {
+                View_rgba();
             }
-            cie_601_hitbox.Visible = true;
-            cie_601_label.Visible = true;
-            cie_709_hitbox.Visible = true;
-            cie_709_label.Visible = true;
-            custom_hitbox.Visible = true;
-            custom_label.Visible = true;
-            no_gradient_hitbox.Visible = true;
-            no_gradient_label.Visible = true;
-            algorithm_label.Visible = true;
-            view_algorithm = true;
+            else if (algorithm == 3)
+            {
+                View_No_Gradient();
+            }
+            else if (algorithm == 255)
+            {
+                for (byte i = 0; i < algorithm_ck.Count; i++)
+                {
+                    algorithm_ck[i].Visible = true;
+                }
+                cie_601_hitbox.Visible = true;
+                cie_709_hitbox.Visible = true;
+                custom_hitbox.Visible = true;
+                no_gradient_hitbox.Visible = true;
+                no_gradient_label.Visible = true;
+                algorithm_label.Visible = true;
+                cie_601_label.Visible = true;
+                cie_709_label.Visible = true;
+                custom_label.Visible = true;
+                view_algorithm = true;
+            }
         }
-        private void Hide_algorithm()
+        private void Hide_algorithm(byte algorithm)
         {
             if (layout == 0)
                 return;
-            for (byte i = 0; i < algorithm_ck.Count; i++)
+            if (algorithm == 2)
             {
-                algorithm_ck[i].Visible = false;
+                Hide_rgba();
             }
-            cie_601_hitbox.Visible = false;
-            cie_709_hitbox.Visible = false;
-            custom_hitbox.Visible = false;
-            no_gradient_hitbox.Visible = false;
-            no_gradient_label.Visible = false;
-            algorithm_label.Visible = false;
-            cie_601_label.Visible = false;
-            cie_709_label.Visible = false;
-            custom_label.Visible = false;
-            view_algorithm = false;
+            else if (algorithm == 3)
+            {
+                cmpr_max_hitbox.Visible = true;
+                cmpr_max_label.Visible = true;
+                cmpr_max_txt.Visible = true;
+                cmpr_min_alpha_hitbox.Visible = true;
+                cmpr_min_alpha_label.Visible = true;
+                cmpr_min_alpha_txt.Visible = true;
+            }
+            else if (algorithm == 255)
+            {
+                for (byte i = 0; i < algorithm_ck.Count; i++)
+                {
+                    algorithm_ck[i].Visible = true;
+                }
+                cie_601_hitbox.Visible = false;
+                cie_709_hitbox.Visible = false;
+                custom_hitbox.Visible = false;
+                no_gradient_hitbox.Visible = false;
+                no_gradient_label.Visible = false;
+                algorithm_label.Visible = false;
+                cie_601_label.Visible = false;
+                cie_709_label.Visible = false;
+                custom_label.Visible = false;
+                view_algorithm = false;
+            }
         }
         private void View_options()
         {
@@ -2141,6 +2180,15 @@ namespace plt0_gui
             num_colours_txt.Visible = false;
             view_palette = false;
         }
+        private void View_No_Gradient()
+        {
+            cmpr_max_hitbox.Visible = false;
+            cmpr_max_label.Visible = false;
+            cmpr_max_txt.Visible = false;
+            cmpr_min_alpha_hitbox.Visible = false;
+            cmpr_min_alpha_label.Visible = false;
+            cmpr_min_alpha_txt.Visible = false;
+        }
         private void View_rgba()
         {
             custom_rgba_label.Visible = true;
@@ -2153,6 +2201,9 @@ namespace plt0_gui
             custom_b_txt.Visible = true;
             custom_b_hitbox.Visible = true;
             custom_b_label.Visible = true;
+            custom_a_txt.Visible = true;
+            custom_a_hitbox.Visible = true;
+            custom_a_label.Visible = true;
             view_rgba = true;
         }
         private void Hide_rgba()
@@ -2169,6 +2220,9 @@ namespace plt0_gui
             custom_b_txt.Visible = false;
             custom_b_hitbox.Visible = false;
             custom_b_label.Visible = false;
+            custom_a_txt.Visible = false;
+            custom_a_hitbox.Visible = false;
+            custom_a_label.Visible = false;
             view_rgba = false;
         }
         private void View_i4()
@@ -2208,9 +2262,9 @@ namespace plt0_gui
             cie_709_ck.Visible = true;
             cie_709_hitbox.Visible = true;
             cie_709_label.Visible = true;
-            round4_hitbox.Visible = false;
-            round4_label.Visible = false;
-            round4_txt.Visible = false;
+            round4_hitbox.Visible = true;
+            round4_label.Visible = true;
+            round4_txt.Visible = true;
             //view_rgba = true;
         }
         private void View_ai8()
@@ -2229,12 +2283,12 @@ namespace plt0_gui
         {
             if (layout == 0)
                 return;
-            round5_hitbox.Visible = false;
-            round5_label.Visible = false;
-            round5_txt.Visible = false;
-            round6_hitbox.Visible = false;
-            round6_label.Visible = false;
-            round6_txt.Visible = false;
+            round5_hitbox.Visible = true;
+            round5_label.Visible = true;
+            round5_txt.Visible = true;
+            round6_hitbox.Visible = true;
+            round6_label.Visible = true;
+            round6_txt.Visible = true;
             //view_rgba = true;
         }
         private void View_rgb5a3()
@@ -2242,18 +2296,18 @@ namespace plt0_gui
             if (layout == 0)
                 return;
             View_alpha();
-            round3_hitbox.Visible = false;
-            round3_label.Visible = false;
-            round3_txt.Visible = false;
-            round4_hitbox.Visible = false;
-            round4_label.Visible = false;
-            round4_txt.Visible = false;
-            round5_hitbox.Visible = false;
-            round5_label.Visible = false;
-            round5_txt.Visible = false;
-            round6_hitbox.Visible = false;
-            round6_label.Visible = false;
-            round6_txt.Visible = false;
+            round3_hitbox.Visible = true;
+            round3_label.Visible = true;
+            round3_txt.Visible = true;
+            round4_hitbox.Visible = true;
+            round4_label.Visible = true;
+            round4_txt.Visible = true;
+            round5_hitbox.Visible = true;
+            round5_label.Visible = true;
+            round5_txt.Visible = true;
+            round6_hitbox.Visible = true;
+            round6_label.Visible = true;
+            round6_txt.Visible = true;
             //view_rgba = true;
         }
         private void View_rgba32()
@@ -2279,17 +2333,61 @@ namespace plt0_gui
         {
             if (layout == 0)
                 return;
-            custom_rgba_label.Visible = false;
-            custom_r_hitbox.Visible = false;
-            custom_r_label.Visible = false;
-            custom_r_txt.Visible = false;
-            custom_g_label.Visible = false;
-            custom_g_hitbox.Visible = false;
-            custom_g_txt.Visible = false;
-            custom_b_txt.Visible = false;
-            custom_b_hitbox.Visible = false;
-            custom_b_label.Visible = false;
-            view_rgba = false;
+            switch (encoding)
+            {
+                case 0:
+                case 2:
+                    cie_601_ck.Visible = false;
+                    cie_601_hitbox.Visible = false;
+                    cie_601_label.Visible = false;
+                    cie_709_ck.Visible = false;
+                    cie_709_hitbox.Visible = false;
+                    cie_709_label.Visible = false;
+                    round4_hitbox.Visible = false;
+                    round4_label.Visible = false;
+                    round4_txt.Visible = false;
+                    break;
+                case 1:
+                case 3:
+                    cie_601_ck.Visible = false;
+                    cie_601_hitbox.Visible = false;
+                    cie_601_label.Visible = false;
+                    cie_709_ck.Visible = false;
+                    cie_709_hitbox.Visible = false;
+                    cie_709_label.Visible = false;
+                    break;
+                case 4:
+                    round5_hitbox.Visible = false;
+                    round5_label.Visible = false;
+                    round5_txt.Visible = false;
+                    round6_hitbox.Visible = false;
+                    round6_label.Visible = false;
+                    round6_txt.Visible = false;
+                    break;
+                case 5:
+                    Hide_alpha();
+                    round3_hitbox.Visible = false;
+                    round3_label.Visible = false;
+                    round3_txt.Visible = false;
+                    round4_hitbox.Visible = false;
+                    round4_label.Visible = false;
+                    round4_txt.Visible = false;
+                    round5_hitbox.Visible = false;
+                    round5_label.Visible = false;
+                    round5_txt.Visible = false;
+                    round6_hitbox.Visible = false;
+                    round6_label.Visible = false;
+                    round6_txt.Visible = false;
+                    break;
+                case 8:
+                case 9:
+                case 10:
+                    Hide_palette();
+                    break;
+                case 14:
+                    Hide_cmpr();
+                    break;
+            }
         }
 
         /* public FontFamily GetFontFamilyByName(string name)
@@ -11139,6 +11237,7 @@ namespace plt0_gui
             selected_algorithm(custom_ck);
             algorithm = 2; // Custom
             Organize_args();
+            View_rgba();
         }
         private void Custom_MouseEnter(object sender, EventArgs e)
         {
@@ -11163,6 +11262,7 @@ namespace plt0_gui
             selected_algorithm(no_gradient_ck);
             algorithm = 3; // No_gradient
             Organize_args();
+            View_No_Gradient();
         }
         private void No_gradient_MouseEnter(object sender, EventArgs e)
         {
@@ -13563,12 +13663,12 @@ namespace plt0_gui
         {
             if (view_algorithm)
             {
-                Hide_algorithm();
+                Hide_algorithm(algorithm);
                 Category_hover(view_algorithm_ck);
             }
             else
             {
-                View_algorithm();
+                View_algorithm(algorithm);
                 Category_selected(view_algorithm_ck);
             }
         }
