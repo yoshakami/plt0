@@ -374,7 +374,6 @@
         private System.Windows.Forms.PictureBox view_options_ck;
         private System.Windows.Forms.Label view_options_label;
         private System.Windows.Forms.Label view_options_hitbox;
-        private System.Windows.Forms.Label banner_move;
         private System.Windows.Forms.Label banner_resize;
         private System.Windows.Forms.PictureBox textchange_ck;
         private System.Windows.Forms.Label textchange_label;
@@ -383,7 +382,6 @@
         private System.Windows.Forms.Label auto_update_label;
         private System.Windows.Forms.Label auto_update_hitbox;
         private System.Windows.Forms.PictureBox sync_preview_ck;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.PictureBox upscale_ck;
         private System.Windows.Forms.Label upscale_label;
         private System.Windows.Forms.Label upscale_hitbox;

@@ -19,7 +19,7 @@ while (text[w][:14] == "        Image "):
 output += """
         }"""
 w = -1
-booleans = ["bmd", "bti", "tex0", "tpl", "bmp", "png", "jpg", "jpeg", "gif", "ico", "tif", "tiff", "ask_exit", "bmp_32", "FORCE_ALPHA", "funky", "no_warning", "random", "reverse", "safe_mode", "stfu", "warn", "textchange", "auto_update", "upscale"]
+booleans = ["bmd", "bti", "tex0", "tpl", "bmp", "png", "jpg", "jpeg", "gif", "ico", "tif", "tiff", "ask_exit", "bmp_32", "FORCE_ALPHA", "funky", "no_warning", "random", "reverse", "safe_mode", "stfu", "warn"]
 check_run = ["\n            Check_run();"] * 12 + [""] * 30
 layout_auto = ["", "\n            View_WrapS();\n            View_WrapT();\n            View_min();\n            View_mag();"] * 2 + [""] * 11 + ["\n            Preview();", ""] + ["\n            Preview();"] * 2 + [""] * 30
 layout_auto2 = ["", "\n            Hide_WrapS();\n            Hide_WrapT();\n            Hide_min();\n            Hide_mag();"] * 2 + [""] * 11 + ["\n            Preview();", ""] + ["\n            Preview();"] * 2 + [""] * 30
@@ -687,6 +687,37 @@ for j in range(len(view)):
                 Category_checked(""" + view[j] + """_ck);
             else
                 Category_unchecked(""" + view[j] + """_ck);
+        }"""
+checkbox = ["textchange", "auto_update", "upscale"]
+for u in checkbox:
+    output += """
+        private void """ + u + """_Click(object sender, EventArgs e)
+        {
+            if (""" + u + """)
+            {
+                """ + u + """ = false;
+                hover_checkbox(""" + u + """_ck);
+            }
+            else
+            {
+                """ + u + """ = true;
+                selected_checkbox(""" + u + """_ck);
+            }
+        }
+        private void """ + u + """_MouseEnter(object sender, EventArgs e)
+        {
+            if (""" + u + """)
+                selected_checkbox(""" + u + """_ck);
+            else
+                hover_checkbox(""" + u + """_ck);
+        }
+        private void """ + u + """_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (""" + u + """)
+                checked_checkbox(""" + u + """_ck);
+            else
+                unchecked_checkbox(""" + u + """_ck);
         }"""
 output += """
         private void Run_Click(object sender, EventArgs e)
