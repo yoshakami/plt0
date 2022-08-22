@@ -382,7 +382,7 @@
         private System.Windows.Forms.PictureBox auto_update_ck;
         private System.Windows.Forms.Label auto_update_label;
         private System.Windows.Forms.Label auto_update_hitbox;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox sync_preview_ck;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.PictureBox upscale_ck;
         private System.Windows.Forms.Label upscale_label;

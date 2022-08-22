@@ -19,10 +19,10 @@ while (text[w][:14] == "        Image "):
 output += """
         }"""
 w = -1
-booleans = ["bmd", "bti", "tex0", "tpl", "bmp", "png", "jpg", "jpeg", "gif", "ico", "tif", "tiff", "ask_exit", "bmp_32", "FORCE_ALPHA", "funky", "no_warning", "random", "reverse", "safe_mode", "stfu", "warn"]
+booleans = ["bmd", "bti", "tex0", "tpl", "bmp", "png", "jpg", "jpeg", "gif", "ico", "tif", "tiff", "ask_exit", "bmp_32", "FORCE_ALPHA", "funky", "no_warning", "random", "reverse", "safe_mode", "stfu", "warn", "textchange", "auto_update", "upscale"]
 check_run = ["\n            Check_run();"] * 12 + [""] * 30
-layout_auto = ["", "\n            View_WrapS();\n            View_WrapT();\n            View_min();\n            View_mag();"] * 2 + [""] * 11 + ["\n            Preview();", ""] + ["\n            Preview();"] * 2 + [""] * 3
-layout_auto2 = ["", "\n            Hide_WrapS();\n            Hide_WrapT();\n            Hide_min();\n            Hide_mag();"] * 2 + [""] * 11 + ["\n            Preview();", ""] + ["\n            Preview();"] * 2 + [""] * 3
+layout_auto = ["", "\n            View_WrapS();\n            View_WrapT();\n            View_min();\n            View_mag();"] * 2 + [""] * 11 + ["\n            Preview();", ""] + ["\n            Preview();"] * 2 + [""] * 30
+layout_auto2 = ["", "\n            Hide_WrapS();\n            Hide_WrapT();\n            Hide_min();\n            Hide_mag();"] * 2 + [""] * 11 + ["\n            Preview();", ""] + ["\n            Preview();"] * 2 + [""] * 30
 for y in booleans:
     x += 1
     w += 1
@@ -618,10 +618,10 @@ for r in range(3):
             Hide_description();
             """ + banner_icon[r] + "_ck.BackgroundImage = " + banner_icon[r] + """;
         }"""
-text_icon = ["version", "cli_textbox", "run", "Output_label", "banner_move", "banner_resize"]
-for s in range(6):
-    line2 = ["\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;"] * 2 + ["\n            Check_run();", "", "", ""]
-    line3 = ["\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + ";"] * 2 + ["\n            Check_run();", "", "", ""]
+text_icon = ["version", "cli_textbox", "run", "Output_label", "banner_move", "banner_resize", "sync_preview"]
+for s in range(len(text_icon)):
+    line2 = ["\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;"] * 3  + ["", "", "", "\n            if (preview_changed)\n                " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;\n            else\n                " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_selected;"]
+    line3 = ["\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + ";"] * 2 + ["\n            Check_run();", "", "", "", "\n            if (preview_changed)\n                " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_off;\n            else\n                " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_on;"]
     x += 1
     output += """
         private void """ + text_icon[s] + """_MouseEnter(object sender, EventArgs e)
@@ -698,6 +698,10 @@ output += """
                 output_label.Text = "Run " + run_count.ToString() + " time\\n" + cli.Check_exit();
             else
                 output_label.Text = "Run " + run_count.ToString() + " times\\n" + cli.Check_exit();
+        }
+        private void sync_preview_Click(object sender, EventArgs e)
+        {
+            Preview();
         }
     }
 }
