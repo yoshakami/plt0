@@ -27,7 +27,7 @@ yeah, I decided to implement my own markdown again.
 "\g 128 " = GdiCharSet of the current label 
 "\h" = height of the window
 "\i" = set current label's text to italic
-"\j 3 " = jump to the next label and tells at which line the text starts - can't be the same line as the one you're on (else an override occurs and previous text can't be seen)
+"\j" = jump to the next label - can't be the same line as the one you're on (else an override occurs and previous text can't be seen)
 "\k" = knit a strikeout text style
 "\l" = Layout name that you're browsing
 "\m" = mipmaps number
@@ -53,20 +53,20 @@ colour names are all the ones allowed in System.Drawing.Color
 if it doesn't have quotes, make markdown with arguments always end with a space (\c \f \g \j \q \s)
 the byte \x00 must always have 2 digits (that way, the program know where it ends, and you don't need to add a ending character after it)
 
-you can use \j 9 times at most in one line of this .txt
+you can use \j 8 times at most in one line of this .txt
+this is because labels override each other :/ even though its back is transparent, it won't allow the text of the other label back him to show
 
 
-
-edit textures of a bmd file \j 0 \c red (a bmd file must be provided in input_file2)
+edit textures of a bmd file \j \c red (a bmd file must be provided in input_file2)
 writes the texture in a bti file
 writes the texture in a tex0 file and the palette in a plt0 file
 writes the texture in a tpl file
 writes the texture in a bmp image
 writes the texture in a png image
-writes the texture in a jpg image \j 0 \c red (this format doesn't support alpha)
-writes the texture in a jpeg image \j 0 \c red (this format doesn't support alpha)
+writes the texture in a jpg image \j \c red (this format doesn't support alpha)
+writes the texture in a jpeg image \j \c red (this format doesn't support alpha)
 writes the texture in a gif image
-writes the texture in a ico image \j 0 \c red (max dimensions of the image are 256x256)
+writes the texture in a ico image \j \c red (max dimensions of the image are 256x256)
 writes the texture in a tif image
 writes the texture in a tiff image
 option asking you to press enter before the console window disappears in cli mode
@@ -83,7 +83,7 @@ black and white, 4 bit per pixel - no alpha \n(will look bad if your image is co
 black and white, 8 bit per pixel - no alpha
 black and white, 4 bit per pixel - alpha \n(looks bad, and an alpha value is stored for each pixel)
 black and white, 8 bit per pixel - alpha
-color, 16 bits per pixel - no alpha \n\j 0 \c red 5 bits red\j 0 \c green 6 bits green\j 0 \c blue 5 bits blue)
+color, 16 bits per pixel - no alpha \j\c red 5 bits red\j\c green 6 bits green\j\c blue 5 bits blue\j\c Violet  test\j\c pink test2\j\c orange text\j\c purple purple\j\c chartreuse chartreuse\c yellow yellow
 color, 16 bits per pixel - smart alpha (1RRR RRGG GGGB BBBB - or - 0AAA RRRR GGGG BBBB)
 color, 32 bits per pixel - alpha (this encoding is the only one that isn't lossy)
 palette, 4 bits per pixel (CI4 palette has a capacity of 16 colours)
@@ -119,12 +119,6 @@ Swap the Red channel with one of your choice
 Swap the Green channel with one of your choice
 Swap the Blue channel with one of your choice
 Swap the Alpha channel with one of your choice
-Toogle the Alpha Category
-Toogle the Algorithm Category
-Toogle the WrapS Category
-Toogle the WrapT Category
-Toogle the Minification Filter Category
-Toogle the Magnification Filter Category
 Layout - show everything even if it has no inpact when running
 Layout - will only display options matching what's selected
 Layout - Preview the encoded/decoded texture
@@ -168,6 +162,13 @@ Yosh's Youtube Channel
 The version of this tool
 full command if you wanted to run the app with the current parameters from a command line
 Launch the application
+The output text after you click on >Run
+Toogle the Alpha Category
+Toogle the Algorithm Category
+Toogle the WrapS Category
+Toogle the WrapT Category
+Toogle the Minification Filter Category
+Toogle the Magnification Filter Category
 this is padding data to alignment.
 this is padding data to alignment.
 this is padding data to alignment.
@@ -194,7 +195,6 @@ this is padding data to alignment.
 this is padding data to alignment.
 this is padding data to alignment.
 this is padding data to alignment.
-this is padding data to alignment.
-this is padding data to alignment.
-Hello \u ! you found an easter egg lol \n\ndid you know most apps have a folder in \a ?\n\n\c Red this one doesn't though. I prefer using local files.
+color, 16 bits per pixel - no alpha \j\c red 5 bits red\j\c green 6 bits green\j\c blue 5 bits blue\j\c Violet  test\j\c pink test2\j\c orange text\j\c purple purple\j\c chartreuse chartreuse\c yellow yellow
+Hello \u ! you found an easter egg lol \n\ndid you know most apps have a folder in \a ?\j\j\j\n\n\c Red this one doesn't though. I prefer using local files.
 this is padding data to alignment. (meme)

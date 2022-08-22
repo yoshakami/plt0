@@ -13404,6 +13404,60 @@ namespace plt0_gui
         {
             Hide_description();
         }
+        private void banner_move_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[165]);
+        }
+        private void banner_move_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+        }
+        private void banner_resize_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[166]);
+        }
+        private void banner_resize_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+        }
+        private void banner_resize_MouseDown(object sender, MouseEventArgs e)
+        {
+            // e.Button;
+            mouse_x = e.X;
+            mouse_y = e.Y;
+            mouse_down = true;
+        }
+        private void banner_resize_MouseUp(object sender, MouseEventArgs e)
+        {
+            mouse_down = false;
+        }
+        private void banner_move_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (mouse_down)
+            {
+                this.Location = new Point(this.Location.X + e.X - mouse_x, this.Location.Y + e.Y - mouse_y);
+                this.Size = new Size(this.Size.Width + mouse_x - e.X, this.Size.Height + mouse_y - e.Y);
+            }
+        }
+        private void banner_resize_MouseDown(object sender, MouseEventArgs e)
+        {
+            // e.Button;
+            mouse_x = e.X;
+            mouse_y = e.Y;
+            mouse_down = true;
+        }
+        private void banner_resize_MouseUp(object sender, MouseEventArgs e)
+        {
+            mouse_down = false;
+        }
+        private void banner_move_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (mouse_down)
+            {
+                this.Location = new Point(this.Location.X + e.X - mouse_x, this.Location.Y + e.Y - mouse_y);
+                this.Size = new Size(this.Size.Width + mouse_x - e.X, this.Size.Height + mouse_y - e.Y);
+            }
+        }
         private void view_alpha_Click(object sender, EventArgs e)
         {
             if (view_alpha)
@@ -13419,7 +13473,7 @@ namespace plt0_gui
         }
         private void view_alpha_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[165]);
+            Parse_Markdown(lines[167]);
             if (view_alpha)
                 Category_selected(view_alpha_ck);
             else
@@ -13448,7 +13502,7 @@ namespace plt0_gui
         }
         private void view_algorithm_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[166]);
+            Parse_Markdown(lines[168]);
             if (view_algorithm)
                 Category_selected(view_algorithm_ck);
             else
@@ -13477,7 +13531,7 @@ namespace plt0_gui
         }
         private void view_WrapS_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[167]);
+            Parse_Markdown(lines[169]);
             if (view_WrapS)
                 Category_selected(view_WrapS_ck);
             else
@@ -13506,7 +13560,7 @@ namespace plt0_gui
         }
         private void view_WrapT_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[168]);
+            Parse_Markdown(lines[170]);
             if (view_WrapT)
                 Category_selected(view_WrapT_ck);
             else
@@ -13535,7 +13589,7 @@ namespace plt0_gui
         }
         private void view_min_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[169]);
+            Parse_Markdown(lines[171]);
             if (view_min)
                 Category_selected(view_min_ck);
             else
@@ -13564,7 +13618,7 @@ namespace plt0_gui
         }
         private void view_mag_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[170]);
+            Parse_Markdown(lines[172]);
             if (view_mag)
                 Category_selected(view_mag_ck);
             else
@@ -13580,11 +13634,20 @@ namespace plt0_gui
         }
         private void view_rgba_Click(object sender, EventArgs e)
         {
-
+            if (view_rgba)
+            {
+                Hide_rgba();
+                Category_hover(view_rgba_ck);
+            }
+            else
+            {
+                View_rgba();
+                Category_selected(view_rgba_ck);
+            }
         }
         private void view_rgba_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[171]);
+            Parse_Markdown(lines[173]);
             if (view_rgba)
                 Category_selected(view_rgba_ck);
             else
@@ -13613,7 +13676,7 @@ namespace plt0_gui
         }
         private void view_palette_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[172]);
+            Parse_Markdown(lines[174]);
             if (view_palette)
                 Category_selected(view_palette_ck);
             else
@@ -13642,7 +13705,7 @@ namespace plt0_gui
         }
         private void view_cmpr_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[173]);
+            Parse_Markdown(lines[175]);
             if (view_cmpr)
                 Category_selected(view_cmpr_ck);
             else
@@ -13671,7 +13734,7 @@ namespace plt0_gui
         }
         private void view_options_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[174]);
+            Parse_Markdown(lines[176]);
             if (view_options)
                 Category_selected(view_options_ck);
             else
@@ -13694,63 +13757,6 @@ namespace plt0_gui
                 output_label.Text = "Run " + run_count.ToString() + " time\n" + cli.Check_exit();
             else
                 output_label.Text = "Run " + run_count.ToString() + " times\n" + cli.Check_exit();
-        }
-        private void banner_move_MouseEnter(object sender, EventArgs e)
-        {
-            Cursor.Current = Cursors.SizeAll;
-        }
-        private void banner_move_MouseLeave(object sender, EventArgs e)
-        {
-            Cursor.Current = Cursors.Default;
-        }
-        private void banner_move_MouseDown(object sender, MouseEventArgs e)
-        {
-            // e.Button;
-            mouse_x = e.X;
-            mouse_y = e.Y;
-            mouse_down = true;
-        }
-        private void banner_move_MouseUp(object sender, MouseEventArgs e)
-        {
-            mouse_down = false;
-        }
-        private void banner_move_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (mouse_down)
-            {
-                this.Location = new Point(this.Location.X + e.X - mouse_x, this.Location.Y + e.Y - mouse_y);
-            }
-        }
-
-        private void banner_resize_MouseDown(object sender, MouseEventArgs e)
-        {
-            mouse_x = e.X;
-            mouse_y = e.Y;
-            mouse_down = true;
-        }
-
-        private void banner_resize_MouseUp(object sender, MouseEventArgs e)
-        {
-            mouse_down = false;
-        }
-
-        private void banner_resize_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (mouse_down)
-            {
-                this.Location = new Point(this.Location.X + e.X - mouse_x, this.Location.Y + e.Y - mouse_y);
-                this.Size = new Size(this.Size.Width + mouse_x - e.X, this.Size.Height + mouse_y - e.Y);
-            }
-        }
-
-        private void banner_resize_MouseEnter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void banner_resize_MouseLeave(object sender, EventArgs e)
-        {
-
         }
     }
 }
