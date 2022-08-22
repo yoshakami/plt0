@@ -163,6 +163,8 @@ The version of this tool
 full command if you wanted to run the app with the current parameters from a command line
 Launch the application
 The output text after you click on >Run
+Move this window
+Resize this window
 Toogle the Alpha Category
 Toogle the Algorithm Category
 Toogle the WrapS Category

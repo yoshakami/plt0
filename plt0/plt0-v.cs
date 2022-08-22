@@ -499,6 +499,7 @@ namespace plt0_gui
                         unchecked_Auto();
                         unchecked_Preview();
                         unchecked_Paint();
+                        Layout_All();
                         /*
                         View_alpha();
                         View_algorithm();
@@ -512,6 +513,7 @@ namespace plt0_gui
                         checked_Auto();
                         unchecked_Preview();
                         unchecked_Paint();
+                        Layout_Auto();
                         layout = 1;
                         break;
                     case "PREVIEW":
@@ -519,6 +521,7 @@ namespace plt0_gui
                         unchecked_Auto();
                         checked_Preview();
                         unchecked_Paint();
+                        Layout_Preview();
                         layout = 2;
                         //View_algorithm();
                         //View_alpha();
@@ -529,6 +532,7 @@ namespace plt0_gui
                         unchecked_Auto();
                         unchecked_Preview();
                         checked_Paint();
+                        Layout_Paint();
                         layout = 3;
                         break;
                 }
@@ -1689,10 +1693,92 @@ namespace plt0_gui
         {
             radiobutton.BackgroundImage = cherry_circle_on;
         }
+        private void Layout_All()
+        {
+
+            View_alpha();
+            View_algorithm();
+            View_cmpr();
+            View_palette();
+            View_mag();
+            View_min();
+            View_WrapS();
+            View_WrapT();
+            View_options();
+            View_i4();
+        }
+        private void Layout_Auto()
+        {
+            Hide_options();
+            if (bti || tpl)
+            {
+                View_mag();
+                View_min();
+                View_WrapS();
+                View_WrapT();
+            }
+            else
+            {
+                Hide_mag();
+                Hide_min();
+                Hide_WrapS();
+                Hide_WrapT();
+            }
+            Hide_algorithm();
+            algorithm_label.Visible = true;
+            custom_label.Visible = true;
+            custom_hitbox.Visible = true;
+            if (algorithm == 2)
+                View_rgba();
+            for (byte i = 0; i < 15; i++)
+                Hide_encoding(encoding);
+            switch (encoding)
+            {
+                case 0:
+                    View_i4();
+                    break;
+                case 1:
+                    View_i8();
+                    break;
+                case 2:
+                    View_ai4();
+                    break;
+                case 3:
+                    View_ai8();
+                    break;
+                case 4:
+                    View_rgb565();
+                    break;
+                case 5:
+                    View_rgb5a3();
+                    break;
+                case 6:
+                    View_rgba32();
+                    break;
+                case 8:
+                    View_ci4();
+                    break;
+                case 9:
+                    View_ci8();
+                    break;
+                case 10:
+                    View_ci14x2();
+                    break;
+                case 14:
+                    View_cmpr();
+                    break;
+            }
+        }
+        private void Layout_Preview()
+        {
+
+        }
+        private void Layout_Paint()
+        {
+
+        }
         private void View_alpha()
         {
-            if (layout == 0)
-                return;
             for (byte i = 0; i < alpha_ck_array.Count; i++)
             {
                 alpha_ck_array[i].Visible = true;
@@ -1726,10 +1812,8 @@ namespace plt0_gui
             view_alpha = false;
             //this.WindowState = FormWindowState.Normal;
         }
-        private void View_algorithm(byte algorithm)
+        private void View_algorithm()
         {
-            if (layout == 0)
-                return;
             for (byte i = 0; i < algorithm_ck.Count; i++)
             {
                 algorithm_ck[i].Visible = true;
@@ -1745,7 +1829,7 @@ namespace plt0_gui
             algorithm_label.Visible = true;
             view_algorithm = true;
         }
-        private void Hide_algorithm(byte algorithm)
+        private void Hide_algorithm()
         {
             if (layout == 0)
                 return;
@@ -1766,8 +1850,6 @@ namespace plt0_gui
         }
         private void View_options()
         {
-            if (layout == 0)
-                return;
             ask_exit_hitbox.Visible = true;
             warn_hitbox.Visible = true;
             no_warning_hitbox.Visible = true;
@@ -1808,8 +1890,6 @@ namespace plt0_gui
         }
         private void View_WrapS()
         {
-            if (layout == 0)
-                return;
             for (byte i = 0; i < WrapS_ck.Count; i++)
             {
                 WrapS_ck[i].Visible = true;
@@ -1842,8 +1922,6 @@ namespace plt0_gui
         }
         private void View_WrapT()
         {
-            if (layout == 0)
-                return;
             for (byte i = 0; i < WrapT_ck.Count; i++)
             {
                 WrapT_ck[i].Visible = true;
@@ -1876,8 +1954,6 @@ namespace plt0_gui
         }
         private void View_min()
         {
-            if (layout == 0)
-                return;
             for (byte i = 0; i < minification_ck.Count; i++)
             {
                 minification_ck[i].Visible = true;
@@ -1922,8 +1998,6 @@ namespace plt0_gui
         }
         private void View_mag()
         {
-            if (layout == 0)
-                return;
             for (byte i = 0; i < magnification_ck.Count; i++)
             {
                 magnification_ck[i].Visible = true;
@@ -1969,8 +2043,6 @@ namespace plt0_gui
         }
         private void View_cmpr()
         {
-            if (layout == 0)
-                return;
             no_gradient_ck.Visible = true;
             no_gradient_hitbox.Visible = true;
             no_gradient_label.Visible = true;
@@ -2035,8 +2107,6 @@ namespace plt0_gui
         }
         private void View_palette()
         {
-            if (layout == 0)
-                return;
             palette_label.Visible = true;
             palette_ai8_hitbox.Visible = true;
             palette_ai8_label.Visible = true;
@@ -2073,8 +2143,6 @@ namespace plt0_gui
         }
         private void View_rgba()
         {
-            if (layout == 0)
-                return;
             custom_rgba_label.Visible = true;
             custom_r_hitbox.Visible = true;
             custom_r_label.Visible = true;
@@ -8983,8 +9051,6 @@ namespace plt0_gui
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(2845, 1902);
-            this.Controls.Add(this.banner_resize);
-            this.Controls.Add(this.banner_move);
             this.Controls.Add(this.view_options_ck);
             this.Controls.Add(this.view_options_label);
             this.Controls.Add(this.view_options_hitbox);
@@ -9387,6 +9453,8 @@ namespace plt0_gui
             this.Controls.Add(this.desc2);
             this.Controls.Add(this.description);
             this.Controls.Add(this.description_surrounding);
+            this.Controls.Add(this.banner_resize);
+            this.Controls.Add(this.banner_move);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Segoe UI", 15F);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
@@ -12206,6 +12274,7 @@ namespace plt0_gui
             }
             selected_All();
             layout = 0;
+            Layout_All();
         }
         private void All_MouseEnter(object sender, EventArgs e)
         {
@@ -12258,6 +12327,7 @@ namespace plt0_gui
             }
             selected_Auto();
             layout = 1;
+            Layout_Auto();
         }
         private void Auto_MouseEnter(object sender, EventArgs e)
         {
@@ -12310,6 +12380,7 @@ namespace plt0_gui
             }
             selected_Preview();
             layout = 2;
+            Layout_Preview();
         }
         private void Preview_MouseEnter(object sender, EventArgs e)
         {
@@ -12362,6 +12433,7 @@ namespace plt0_gui
             }
             selected_Paint();
             layout = 3;
+            Layout_Paint();
         }
         private void Paint_MouseEnter(object sender, EventArgs e)
         {
@@ -13420,14 +13492,14 @@ namespace plt0_gui
         {
             Hide_description();
         }
-        private void banner_resize_MouseDown(object sender, MouseEventArgs e)
+        private void banner_move_MouseDown(object sender, MouseEventArgs e)
         {
             // e.Button;
             mouse_x = e.X;
             mouse_y = e.Y;
             mouse_down = true;
         }
-        private void banner_resize_MouseUp(object sender, MouseEventArgs e)
+        private void banner_move_MouseUp(object sender, MouseEventArgs e)
         {
             mouse_down = false;
         }
@@ -13450,7 +13522,7 @@ namespace plt0_gui
         {
             mouse_down = false;
         }
-        private void banner_move_MouseMove(object sender, MouseEventArgs e)
+        private void banner_resize_MouseMove(object sender, MouseEventArgs e)
         {
             if (mouse_down)
             {
@@ -13491,12 +13563,12 @@ namespace plt0_gui
         {
             if (view_algorithm)
             {
-                Hide_algorithm(algorithm);
+                Hide_algorithm();
                 Category_hover(view_algorithm_ck);
             }
             else
             {
-                View_algorithm(algorithm);
+                View_algorithm();
                 Category_selected(view_algorithm_ck);
             }
         }

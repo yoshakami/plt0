@@ -321,6 +321,7 @@ for k in range(len(lyt)):
             }
             selected_""" + Lyt[k] + """();
             layout = """ + str(k) + """;
+            Layout_""" + Lyt[k] + """();
         }
         private void """ + Lyt[k] + """_MouseEnter(object sender, EventArgs e)
         {
@@ -627,18 +628,18 @@ for s in range(6):
 line4 = [''] * 5 + ["\n                this.Size = new Size(this.Size.Width + mouse_x - e.X, this.Size.Height + mouse_y - e.Y);"]
 for t in range(4, 6):
     output += """
-        private void """ + text_icon[s] + """_MouseDown(object sender, MouseEventArgs e)
+        private void """ + text_icon[t] + """_MouseDown(object sender, MouseEventArgs e)
         {
             // e.Button;
             mouse_x = e.X;
             mouse_y = e.Y;
             mouse_down = true;
         }
-        private void """ + text_icon[s] + """_MouseUp(object sender, MouseEventArgs e)
+        private void """ + text_icon[t] + """_MouseUp(object sender, MouseEventArgs e)
         {
             mouse_down = false;
         }
-        private void banner_move_MouseMove(object sender, MouseEventArgs e)
+        private void """ + text_icon[t] + """_MouseMove(object sender, MouseEventArgs e)
         {
             if (mouse_down)
             {
@@ -648,19 +649,19 @@ for t in range(4, 6):
 view = ["view_alpha", "view_algorithm", "view_WrapS", "view_WrapT", "view_min", "view_mag", "view_rgba", "view_palette", "view_cmpr", "view_options"]
 # ck_name = ["alpha_ck_array", "algorithm_ck", "WrapS_ck", "WrapT_ck", "minification_ck", "magnification_ck"]
 for j in range(len(view)):
-    hide = [view[j].split('_')[1] + "();", view[j].split('_')[1] + "(algorithm);"] + [view[j].split('_')[1] + "();"] * 9
+    # hide = [view[j].split('_')[1] + "();", view[j].split('_')[1] + "(algorithm);"] + [view[j].split('_')[1] + "();"] * 9
     x += 1
     output += """
         private void """ + view[j] + """_Click(object sender, EventArgs e)
         {
             if (""" + view[j] + """)
             {
-                Hide_""" + hide[j]  + """
+                Hide_""" + view[j].split('_')[1] + "();"  + """
                 Category_hover(""" + view[j] + """_ck);
             }
             else
             {
-                View_""" + hide[j] + """
+                View_""" + view[j].split('_')[1] + "();" + """
                 Category_selected(""" + view[j] + """_ck);
             }
         }
