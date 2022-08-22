@@ -36,6 +36,8 @@ class Parse_args_class
     bool overwrite = false;
     bool file2_conflict = false;
     bool help = false;
+    bool correct = false;
+    bool gui = false;
     public bool user_palette = false;
     public bool warn = false;
     public bool stfu = false;
@@ -87,6 +89,7 @@ class Parse_args_class
     string input_file2 = "";
     string output_file = "";
     string swap = "";
+    string gui_message = "";
     public ushort bitmap_height;
     public ushort bitmap_width;
     ushort colour_number = 0;
@@ -98,7 +101,9 @@ class Parse_args_class
     List<ushort[]> canvas_dim = new List<ushort[]>();
     public void Parse_args(string[] args)
     {
-        
+        if (args.Length > 0)
+            if (args[0] == "gui")
+                gui = true;
         for (ushort i = 1; i < args.Length; i++)
         {
             if (pass > 0)
@@ -1067,9 +1072,13 @@ class Parse_args_class
         }
         if (input_file == "")
         {
-            System.Windows.Forms.Application.EnableVisualStyles();
-            System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
-            System.Windows.Forms.Application.Run(new plt0_gui.plt0_gui());
+            if (!gui)
+            {
+                System.Windows.Forms.Application.EnableVisualStyles();
+                System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
+                System.Windows.Forms.Application.Run(new plt0_gui.plt0_gui());
+            }
+            gui_message = "no input file provided";
             return; // once you close the gui It'll execute this command. I'm serious.
         }
         if (System.IO.File.Exists(swap) && input_file2 == "")
@@ -1086,18 +1095,21 @@ class Parse_args_class
         {
             if (!no_warning)
                 Console.WriteLine("CI4 can only supports up to 16 colours as each pixel index is stored on 4 bits");
+            gui_message = "CI4 can only supports up to 16 colours as each pixel index is stored on 4 bits";
             return;
         }
         if (colour_number > max_colours && max_colours == 256)
         {
             if (!no_warning)
                 Console.WriteLine("CI8 can only supports up to 256 colours as each pixel index is stored on 8 bits");
+            gui_message = "CI8 can only supports up to 256 colours as each pixel index is stored on 8 bits";
             return;
         }
         if (colour_number > 65535 && max_colours == 16385)
         {
             if (!no_warning)
                 Console.WriteLine("Colour number is stored on 2 bytes for CI14x2");
+            gui_message = "Colour number is stored on 2 bytes for CI14x2";
             return;
         }
         if (minification_filter == 0 && mipmaps_number > 0)
@@ -1138,418 +1150,471 @@ class Parse_args_class
             colour_number_x2 = colour_number << 1;
             colour_number_x4 = colour_number << 2;
         }
-        //try
-        //{
-        byte[] id = new byte[9];
-        using (System.IO.FileStream file = System.IO.File.Open(input_file, System.IO.FileMode.Open, System.IO.FileAccess.Read))
+        try
         {
-            file.Read(id, 0, 8);
-            file.Position = 0x23;
-            file.Read(id, 8, 1);
-        }
-        Decode_texture_class dec = new Decode_texture_class();
-        // msm tools handles these. the user can also make scripts to launch the program for every file he wants.
-        //case "bres":
-        //case .arc file from wii games
-        //case bmd
-        //case bti ??? how do I write that lol
-
-        if (id[0] == 84 && id[1] == 69 && id[2] == 88 && id[3] == 48) // TEX0
-        {
-            if (id[8] == 8 || id[8] == 9 || id[8] == 10)  // CI4, CI8, CI14x2
+            byte[] id = new byte[9];
+            using (System.IO.FileStream file = System.IO.File.Open(input_file, System.IO.FileMode.Open, System.IO.FileAccess.Read))
             {
-                if (input_file2 == "")
+                file.Read(id, 0, 8);
+                file.Position = 0x23;
+                file.Read(id, 8, 1);
+            }
+            Decode_texture_class dec = new Decode_texture_class();
+            // msm tools handles these. the user can also make scripts to launch the program for every file he wants.
+            //case "bres":
+            //case .arc file from wii games
+            //case bmd
+            //case bti ??? how do I write that lol
+
+            if (id[0] == 84 && id[1] == 69 && id[2] == 88 && id[3] == 48) // TEX0
+            {
+                if (id[8] == 8 || id[8] == 9 || id[8] == 10)  // CI4, CI8, CI14x2
                 {
-                    // get the palette file from the same directory or exit
-                    if (System.IO.File.Exists(input_fil + ".plt0"))
+                    if (input_file2 == "")
                     {
-                        dec.Decode_texture(input_file, input_fil + ".plt0", output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, 0, bmp_32, funky, reverse, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
+                        // get the palette file from the same directory or exit
+                        if (System.IO.File.Exists(input_fil + ".plt0"))
+                        {
+                            dec.Decode_texture(input_file, input_fil + ".plt0", output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, 0, bmp_32, funky, reverse, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
+                        }
+                        else
+                        {
+                            if (!no_warning)
+                                Console.WriteLine("your input texture missing plt0 file. it should be named " + input_fil + ".plt0");
+                            gui_message = "your input texture is missing a plt0 file. it should be named " + input_fil + ".plt0";
+                            return;
+                        }
                     }
                     else
                     {
-                        if (!no_warning)
-                            Console.WriteLine("your input texture missing plt0 file. it should be named " + input_fil + ".plt0");
+                        // check if second file is the palette or exit
+                        byte[] data = new byte[0x20];
+                        using (System.IO.FileStream file_2 = System.IO.File.Open(input_file2, System.IO.FileMode.Open, System.IO.FileAccess.Read))
+                        {
+                            file_2.Read(id, 0, 4);
+                            file_2.Read(data, 0, 0x20);
+                            colour_number = (ushort)((data[0x1C] << 8) + data[0x1D]);
+                            colour_number_x2 = colour_number << 1;
+                            Array.Resize(ref colour_palette, colour_number_x2);
+                            file_2.Position = 0x40;
+                            file_2.Read(colour_palette, 0, colour_number_x2);
+                        }
+                        if (id[0] == 80 && id[1] == 76 && id[2] == 84 && id[3] == 48)  // PLT0
+                        {
+                            //byte[0x20] data;  // what is "on the stack" synthax in C#
+                            // colour_number_x4 = colour_number << 2;
+                            // palette_format_int32[3] = data[0x1B];
+                            //file_2.Read(colour_palette, 0x40, colour_number_x2);  // check if this is right. second parameter should always be ZERO
+                            // user_palette = true;
+                            dec.Decode_texture(input_file, input_file2, output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, data[0x1B], bmp_32, funky, reverse, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
+                        }
+                        // get the palette file from the same directory or exit
+                        else if (System.IO.File.Exists(input_fil + ".plt0"))
+                        {
+                            dec.Decode_texture(input_file, input_fil + ".plt0", output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, 0, bmp_32, funky, reverse, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
+                        }
+                        else
+                        {
+                            if (!no_warning)
+                                Console.WriteLine("your input texture is missing a plt0 file. it should be named " + input_fil + ".plt0");
+                            gui_message = "your input texture is missing a plt0 file. it should be named " + input_fil + ".plt0";
+                            return;
+                        }
+
                     }
                 }
                 else
                 {
-                    // check if second file is the palette or exit
-                    byte[] data = new byte[0x20];
-                    using (System.IO.FileStream file_2 = System.IO.File.Open(input_file2, System.IO.FileMode.Open, System.IO.FileAccess.Read))
-                    {
-                        file_2.Read(id, 0, 4);
-                        file_2.Read(data, 0, 0x20);
-                        colour_number = (ushort)((data[0x1C] << 8) + data[0x1D]);
-                        colour_number_x2 = colour_number << 1;
-                        Array.Resize(ref colour_palette, colour_number_x2);
-                        file_2.Position = 0x40;
-                        file_2.Read(colour_palette, 0, colour_number_x2);
-                    }
-                    if (id[0] == 80 && id[1] == 76 && id[2] == 84 && id[3] == 48)  // PLT0
-                    {
-                        //byte[0x20] data;  // what is "on the stack" synthax in C#
-                        // colour_number_x4 = colour_number << 2;
-                        // palette_format_int32[3] = data[0x1B];
-                        //file_2.Read(colour_palette, 0x40, colour_number_x2);  // check if this is right. second parameter should always be ZERO
-                        // user_palette = true;
-                        dec.Decode_texture(input_file, input_file2, output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, data[0x1B], bmp_32, funky, reverse, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
-                    }
-                    // get the palette file from the same directory or exit
-                    else if (System.IO.File.Exists(input_fil + ".plt0"))
-                    {
-                        dec.Decode_texture(input_file, input_fil + ".plt0", output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, 0, bmp_32, funky, reverse, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
-                    }
-                    else
-                    {
-                        if (!no_warning)
-                            Console.WriteLine("your input texture missing plt0 file. it should be named " + input_fil + ".plt0");
-                    }
-
+                    // decode the image
+                    dec.Decode_texture(input_file, "", output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, 0, bmp_32, funky, reverse, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
                 }
+                correct = true;
+                return;
             }
-            else
+            else if (id[0] == 0 && id[1] == 32 && id[2] == 0xaf && id[3] == 48)  // tpl file header
             {
-                // decode the image
-                dec.Decode_texture(input_file, "", output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, 0, bmp_32, funky, reverse, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
+                dec.Decode_texture(input_file, "", output_file, real_block_width_array, block_width_array, block_height_array, false, true, colour_palette, 0, bmp_32, funky, reverse, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
+                correct = true;
+                return;
             }
-            return;
-        }
-        else if (id[0] == 0 && id[1] == 32 && id[2] == 0xaf && id[3] == 48)  // tpl file header
-        {
-            dec.Decode_texture(input_file, "", output_file, real_block_width_array, block_width_array, block_height_array, false, true, colour_palette, 0, bmp_32, funky, reverse, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
-            return;
-        }
-        else if (id[0] < 15 && id[6] < 3 && id[7] < 3)  // rough bti check
-        {
-            dec.Decode_texture(input_file, "", output_file, real_block_width_array, block_width_array, block_height_array, false, false, colour_palette, 0, bmp_32, funky, reverse, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
-            return;
-        }
+            else if (id[0] < 15 && id[6] < 3 && id[7] < 3)  // rough bti check
+            {
+                dec.Decode_texture(input_file, "", output_file, real_block_width_array, block_width_array, block_height_array, false, false, colour_palette, 0, bmp_32, funky, reverse, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
+                correct = true;
+                return;
+            }
 
 
-        if (texture_format_int32[3] == 7 && palette_format_int32[3] == 9)
-        {
-            if (!no_warning)
-                Console.WriteLine("add a texture encoding format as argument.\n\nList of available formats: \nI4      (black and white 4 bit shade of gray)\nI8      (1 black and white byte per pixel)\nAI4     (4-bit alpha then 4-bit I4)\nAI8     (1 byte alpha and 1 byte I8)\nRGB565  (best colour encoding, 5-bit red, 6-bit green, and 5-bit blue)\nRGB5A3  (rgb555 if pixel doesn't have alpha, and 3-bit alpha + rgb444 if pixel have alpha)\nRGBA8   (lossless encoding, biggest one though, 4 bytes per pixel)\nCI4   * (uses a colour palette of max 16 colours)\nCI8   * (uses a colour palette of max 256 colours)\nCI14x2 *(uses a colour palette of max 65536 colours) - untested in-game\nCMPR  (4-bit depth, max 2 colours per 4x4 image chunk + 2 software interpolated ones) - wimgt encoding for this format is pretty decent, you should check it out\n\n* you can force a palette format to be set for these textures format\nPalette formats: AI8, RGB565, RGB5A3");
-            System.Windows.Forms.Application.EnableVisualStyles();
-            System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
-            System.Windows.Forms.Application.Run(new plt0_gui.plt0_gui());
-            return;
-        }
-        Convert_to_bmp_class _bmp = new Convert_to_bmp_class(this);
-        byte[] bmp_image = _bmp.Convert_to_bmp((Bitmap)Bitmap.FromFile(input_file));
-
-        /* if (colour_number > max_colours && max_colours == 16385)
-    {
-        Console.WriteLine("CI14x2 can only supports up to 16385 colours as each pixel index is stored on 14 bits");
-        stay = false;
-    }*/
-
-        if (bmp_image[0x15] != 0 || bmp_image[0x14] != 0 || bmp_image[0x19] != 0 || bmp_image[0x18] != 0)
-        {
-            if (!no_warning)
-                Console.WriteLine("Textures Dimensions are too high for a TEX0. Maximum dimensions are the values of a 2 bytes integer (65535 x 65535)");
-            return;
-        }
-        /***** BMP File Process *****/
-        // process the bmp file
-        int bmp_filesize = bmp_image[2] | bmp_image[3] << 8 | bmp_image[4] << 16 | bmp_image[5] << 24;
-        int pixel_data_start_offset = bmp_image[10] | bmp_image[11] << 8 | bmp_image[12] << 16 | bmp_image[13] << 24;
-        // bitmap_width = (ushort)(bmp_image[0x13] << 8 | bmp_image[0x12]);
-        // bitmap_height = (ushort)(bmp_image[0x17] << 8 | bmp_image[0x16]);
-        if ((palette_format_int32[3] == 9 && texture_format_int32[3] > 7 && texture_format_int32[3] < 11) || (texture_format_int32[3] == 5 && alpha == 9)) // if a colour palette hasn't been selected by the user, this program will set it automatically to the most fitting one
-        {                                                                                                                                                   // or if alpha hasn't been selected by the user
-                                                                                                                                                            //y = 0;
-            for (int i = 0; i < bitmap_width; i += 4)  // first row - or last one because it's a bmp lol
-            {
-                //y += bmp_image[pixel_data_start_offset + i + 3];
-                if (bmp_image[pixel_data_start_offset + i + 3] != 0xff && alpha == 9)
-                {
-                    alpha = 2;
-                }
-                if (bmp_image[pixel_data_start_offset + i] != bmp_image[pixel_data_start_offset + i + 1] || bmp_image[pixel_data_start_offset + i] == bmp_image[pixel_data_start_offset + i + 2])
-                {
-                    grey = false;
-                }
-                if (alpha < 3 && !grey && y != 0)
-                {
-                    break;
-                }
-            }
-            for (int i = bitmap_width * (bitmap_height >> 1); i % bitmap_width != 0; i += 4)  // middle row
-            {
-                //y += bmp_image[pixel_data_start_offset + i + 3];
-                if (bmp_image[pixel_data_start_offset + i + 3] != 0xff && alpha == 9)
-                {
-                    alpha = 2;
-                }
-                if (bmp_image[pixel_data_start_offset + i] != bmp_image[pixel_data_start_offset + i + 1] || bmp_image[pixel_data_start_offset + i] == bmp_image[pixel_data_start_offset + i + 2])
-                {
-                    grey = false;
-                }
-                if (alpha < 3 && !grey && y != 0)
-                {
-                    break;
-                }
-            }
-            //if (y == 0)
-            //{
-            //not_32bits;
-            //}
-            if (grey)
-            {
-                palette_format_int32[3] = 0;  // AI8
-            }
-            else if (alpha != 9)
-            {
-                palette_format_int32[3] = 2;  // RGB5A3
-            }
-            else
-            {
-                palette_format_int32[3] = 1;  // RGB565
-            }
-        }
-        // I hope there could be a keyboard shortcut to format every tabs :')
-        // I'm too lazy to do that manually, + that's just visual lol
-        //edit: It's Ctrl + E
-        ushort[] mipmap_dimensions = { bitmap_width, bitmap_height, canvas_width, canvas_height };
-
-        canvas_dim.Add(mipmap_dimensions.ToArray());
-        Array.Resize(ref colour_palette, colour_number_x2);
-        if (BGRA.Count != 0)
-        {
-            byte[] colors = BGRA.ToArray();
-            if (colors.Length > colour_number_x4)
+            if (texture_format_int32[3] == 7 && palette_format_int32[3] == 9)
             {
                 if (!no_warning)
-                    Console.WriteLine((int)(colors.Length / 4) + " colours sent in the palette but colour number is set to " + colour_number + " trimming the palette to " + colour_number);
-                Array.Resize(ref colors, colour_number_x4);
-            }
-            colour_palette = Fill_palette_class.Fill_palette(colors, 0, colors.Length, colour_palette, rgba_channel, custom_rgba, palette_format_int32, algorithm, alpha, round3, round4, round5, round6);
-            fill_palette_start_offset = colors.Length >> 1; // divides by two because PLT0 is two bytes per colour
-            user_palette = true;
-        }
-        if (random_palette) // fill the palette randomly :')
-        {
-            Random rnd = new Random();
-            rnd.NextBytes(colour_palette);
-        }
-        try  // try to see what the second file is
-        {
-            if (input_file2 != "")
-            {
-                using (System.IO.FileStream file2 = System.IO.File.Open(input_file2, System.IO.FileMode.Open, System.IO.FileAccess.Read))
+                    Console.WriteLine("add a texture encoding format as argument.\n\nList of available formats: \nI4      (black and white 4 bit shade of gray)\nI8      (1 black and white byte per pixel)\nAI4     (4-bit alpha then 4-bit I4)\nAI8     (1 byte alpha and 1 byte I8)\nRGB565  (best colour encoding, 5-bit red, 6-bit green, and 5-bit blue)\nRGB5A3  (rgb555 if pixel doesn't have alpha, and 3-bit alpha + rgb444 if pixel have alpha)\nRGBA8   (lossless encoding, biggest one though, 4 bytes per pixel)\nCI4   * (uses a colour palette of max 16 colours)\nCI8   * (uses a colour palette of max 256 colours)\nCI14x2 *(uses a colour palette of max 65536 colours) - untested in-game\nCMPR  (4-bit depth, max 2 colours per 4x4 image chunk + 2 software interpolated ones) - wimgt encoding for this format is pretty decent, you should check it out\n\n* you can force a palette format to be set for these textures format\nPalette formats: AI8, RGB565, RGB5A3");
+                if (!gui)
                 {
-                    success = false;
-                    byte[] id2 = new byte[8];
-                    file2.Read(id2, 0, 8);
-                    //if (id2.ToString() == "J3D2bmd3") // id2.ToString == "System.Byte[]"
-                    if (id2[0] == 74 && id2[1] == 51 && id2[2] == 68 && id2[3] == 50 && id2[4] == 98 && id2[5] == 109 && id2[6] == 100 && id2[7] == 51)
+                    System.Windows.Forms.Application.EnableVisualStyles();
+                    System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
+                    System.Windows.Forms.Application.Run(new plt0_gui.plt0_gui());
+                }
+                gui_message = "add a texture encoding format as argument.";
+                return;
+            }
+            Convert_to_bmp_class _bmp = new Convert_to_bmp_class(this);
+            byte[] bmp_image = _bmp.Convert_to_bmp((Bitmap)Bitmap.FromFile(input_file));
+
+            /* if (colour_number > max_colours && max_colours == 16385)
+        {
+            Console.WriteLine("CI14x2 can only supports up to 16385 colours as each pixel index is stored on 14 bits");
+            stay = false;
+        }*/
+
+            if (bmp_image[0x15] != 0 || bmp_image[0x14] != 0 || bmp_image[0x19] != 0 || bmp_image[0x18] != 0)
+            {
+                if (!no_warning)
+                    Console.WriteLine("Textures Dimensions are too high for a TEX0. Maximum dimensions are the values of a 2 bytes integer (65535 x 65535)");
+                gui_message = "Textures Dimensions are too high for a TEX0. Maximum dimensions are the values of a 2 bytes integer (65535 x 65535)";
+                return;
+            }
+            /***** BMP File Process *****/
+            // process the bmp file
+            int bmp_filesize = bmp_image[2] | bmp_image[3] << 8 | bmp_image[4] << 16 | bmp_image[5] << 24;
+            int pixel_data_start_offset = bmp_image[10] | bmp_image[11] << 8 | bmp_image[12] << 16 | bmp_image[13] << 24;
+            // bitmap_width = (ushort)(bmp_image[0x13] << 8 | bmp_image[0x12]);
+            // bitmap_height = (ushort)(bmp_image[0x17] << 8 | bmp_image[0x16]);
+            if ((palette_format_int32[3] == 9 && texture_format_int32[3] > 7 && texture_format_int32[3] < 11) || (texture_format_int32[3] == 5 && alpha == 9)) // if a colour palette hasn't been selected by the user, this program will set it automatically to the most fitting one
+            {                                                                                                                                                   // or if alpha hasn't been selected by the user
+                                                                                                                                                                //y = 0;
+                for (int i = 0; i < bitmap_width; i += 4)  // first row - or last one because it's a bmp lol
+                {
+                    //y += bmp_image[pixel_data_start_offset + i + 3];
+                    if (bmp_image[pixel_data_start_offset + i + 3] != 0xff && alpha == 9)
                     {
-                        bmd_file = true;
-                        success = true;
+                        alpha = 2;
                     }
-                    //else if (id2.ToString().Substring(0, 4) == "PLT0")
-                    else if (id2[0] == 80 && id2[1] == 76 && id2[2] == 84 && id2[3] == 48)
+                    if (bmp_image[pixel_data_start_offset + i] != bmp_image[pixel_data_start_offset + i + 1] || bmp_image[pixel_data_start_offset + i] == bmp_image[pixel_data_start_offset + i + 2])
                     {
-                        success = true;
-                        byte[] data = new byte[0x20];
-                        file2.Read(data, 0, 0x20);
-                        colour_number = (ushort)((data[0x1C] << 8) + data[0x1D]);
-                        colour_number_x2 = colour_number << 1;
-                        colour_number_x4 = colour_number << 2;
-                        palette_format_int32[3] = data[0x1B];
-                        // file2.Read(colour_palette, 0x40, colour_number_x2); // check if this is right
-                        file2.Position = 0x40;
-                        file2.Read(colour_palette, 0, colour_number_x2);
+                        grey = false;
+                    }
+                    if (alpha < 3 && !grey && y != 0)
+                    {
+                        break;
+                    }
+                }
+                for (int i = bitmap_width * (bitmap_height >> 1); i % bitmap_width != 0; i += 4)  // middle row
+                {
+                    //y += bmp_image[pixel_data_start_offset + i + 3];
+                    if (bmp_image[pixel_data_start_offset + i + 3] != 0xff && alpha == 9)
+                    {
+                        alpha = 2;
+                    }
+                    if (bmp_image[pixel_data_start_offset + i] != bmp_image[pixel_data_start_offset + i + 1] || bmp_image[pixel_data_start_offset + i] == bmp_image[pixel_data_start_offset + i + 2])
+                    {
+                        grey = false;
+                    }
+                    if (alpha < 3 && !grey && y != 0)
+                    {
+                        break;
+                    }
+                }
+                //if (y == 0)
+                //{
+                //not_32bits;
+                //}
+                if (grey)
+                {
+                    palette_format_int32[3] = 0;  // AI8
+                }
+                else if (alpha != 9)
+                {
+                    palette_format_int32[3] = 2;  // RGB5A3
+                }
+                else
+                {
+                    palette_format_int32[3] = 1;  // RGB565
+                }
+            }
+            // I hope there could be a keyboard shortcut to format every tabs :')
+            // I'm too lazy to do that manually, + that's just visual lol
+            //edit: It's Ctrl + E
+            ushort[] mipmap_dimensions = { bitmap_width, bitmap_height, canvas_width, canvas_height };
+
+            canvas_dim.Add(mipmap_dimensions.ToArray());
+            Array.Resize(ref colour_palette, colour_number_x2);
+            if (BGRA.Count != 0)
+            {
+                byte[] colors = BGRA.ToArray();
+                if (colors.Length > colour_number_x4)
+                {
+                    if (!no_warning)
+                        Console.WriteLine((int)(colors.Length / 4) + " colours sent in the palette but colour number is set to " + colour_number + " trimming the palette to " + colour_number);
+                    gui_message = (int)(colors.Length / 4) + " colours sent in the palette but colour number is set to " + colour_number + " trimming the palette to " + colour_number;
+                    Array.Resize(ref colors, colour_number_x4);
+                }
+                colour_palette = Fill_palette_class.Fill_palette(colors, 0, colors.Length, colour_palette, rgba_channel, custom_rgba, palette_format_int32, algorithm, alpha, round3, round4, round5, round6);
+                fill_palette_start_offset = colors.Length >> 1; // divides by two because PLT0 is two bytes per colour
+                user_palette = true;
+            }
+            if (random_palette) // fill the palette randomly :')
+            {
+                Random rnd = new Random();
+                rnd.NextBytes(colour_palette);
+            }
+            try  // try to see what the second file is
+            {
+                if (input_file2 != "")
+                {
+                    using (System.IO.FileStream file2 = System.IO.File.Open(input_file2, System.IO.FileMode.Open, System.IO.FileAccess.Read))
+                    {
+                        success = false;
+                        byte[] id2 = new byte[8];
+                        file2.Read(id2, 0, 8);
+                        //if (id2.ToString() == "J3D2bmd3") // id2.ToString == "System.Byte[]"
+                        if (id2[0] == 74 && id2[1] == 51 && id2[2] == 68 && id2[3] == 50 && id2[4] == 98 && id2[5] == 109 && id2[6] == 100 && id2[7] == 51)
+                        {
+                            bmd_file = true;
+                            success = true;
+                        }
+                        //else if (id2.ToString().Substring(0, 4) == "PLT0")
+                        else if (id2[0] == 80 && id2[1] == 76 && id2[2] == 84 && id2[3] == 48)
+                        {
+                            success = true;
+                            byte[] data = new byte[0x20];
+                            file2.Read(data, 0, 0x20);
+                            colour_number = (ushort)((data[0x1C] << 8) + data[0x1D]);
+                            colour_number_x2 = colour_number << 1;
+                            colour_number_x4 = colour_number << 2;
+                            palette_format_int32[3] = data[0x1B];
+                            // file2.Read(colour_palette, 0x40, colour_number_x2); // check if this is right
+                            file2.Position = 0x40;
+                            file2.Read(colour_palette, 0, colour_number_x2);
+                            user_palette = true;
+                        }
+                        else if (id2[0] == 0 && id2[1] == 32 && id2[2] == 0xaf && id2[3] == 48)  // TPL
+                        {
+                            // add the encoded image into this file
+                            add = true;
+                            success = true;
+                        }
+                    }
+                    if (!success)
+                    {
+                        byte[] bmp_palette = _bmp.Convert_to_bmp((Bitmap)Bitmap.FromFile(input_file2));  // will fail if this isn't a supported image
                         user_palette = true;
+                        int array_size = bmp_palette[2] | bmp_palette[3] << 8 | bmp_palette[4] << 16 | bmp_palette[5] << 24;
+                        int pixel_start_offset = bmp_palette[10] | bmp_palette[11] << 8 | bmp_palette[12] << 16 | bmp_palette[13] << 24;
+                        ushort bitmap_w = (ushort)(bmp_palette[0x13] << 8 | bmp_palette[0x12]);
+                        ushort bitmap_h = (ushort)(bmp_palette[0x17] << 8 | bmp_palette[0x16]);
+                        ushort pixel = (ushort)(bitmap_w * bitmap_h);
+                        if (pixel != colour_number)
+                        {
+                            if (!no_warning)
+                                Console.WriteLine("Second image input has " + pixel + " pixels while there are " + colour_number + " max colours in the palette.");
+                            gui_message = "Second image input has " + pixel + " pixels while there are " + colour_number + " max colours in the palette.";
+                            return;
+                        }
+                        Fill_palette_class.Fill_palette(bmp_palette, pixel_start_offset, array_size, colour_palette, rgba_channel, custom_rgba, palette_format_int32, algorithm, alpha, round3, round4, round5, round6);
                     }
-                    else if (id2[0] == 0 && id2[1] == 32 && id2[2] == 0xaf && id2[3] == 48)  // TPL
-                    {
-                        // add the encoded image into this file
-                        add = true;
-                        success = true;
-                    }
-                }
-                if (!success)
-                {
-                    byte[] bmp_palette = _bmp.Convert_to_bmp((Bitmap)Bitmap.FromFile(input_file2));  // will fail if this isn't a supported image
-                    user_palette = true;
-                    int array_size = bmp_palette[2] | bmp_palette[3] << 8 | bmp_palette[4] << 16 | bmp_palette[5] << 24;
-                    int pixel_start_offset = bmp_palette[10] | bmp_palette[11] << 8 | bmp_palette[12] << 16 | bmp_palette[13] << 24;
-                    ushort bitmap_w = (ushort)(bmp_palette[0x13] << 8 | bmp_palette[0x12]);
-                    ushort bitmap_h = (ushort)(bmp_palette[0x17] << 8 | bmp_palette[0x16]);
-                    ushort pixel = (ushort)(bitmap_w * bitmap_h);
-                    if (pixel != colour_number)
-                    {
-                        if (!no_warning)
-                            Console.WriteLine("Second image input has " + pixel + " pixels while there are " + colour_number + " max colours in the palette.");
-                        return;
-                    }
-                    Fill_palette_class.Fill_palette(bmp_palette, pixel_start_offset, array_size, colour_palette, rgba_channel, custom_rgba, palette_format_int32, algorithm, alpha, round3, round4, round5, round6);
-                }
 
+                }
             }
-        }
-        catch (Exception ex)
-        {
-            if (file2_conflict)
+            catch (Exception ex)
             {
-                // the arg parser purposefully made a mistake lol, this happens if the output file already exists and input_file2 is empty
-                // let's just pretend the program ran fine and forget about this 
+                if (file2_conflict)
+                {
+                    // the arg parser purposefully made a mistake lol, this happens if the output file already exists and input_file2 is empty
+                    // let's just pretend the program ran fine and forget about this 
+                }
+                else if (ex.Message == "Out of memory." && ex.Source == "System.Drawing")
+                {
+                    if (!no_warning)
+                        Console.WriteLine("Second image input format not supported (convert it to jpeg or png)");
+                    gui_message = "Second image input format not supported (convert it to jpeg or png)";
+                }
+                else if (ex.Message.Substring(0, 34) == "The process cannot access the file")  // because it is being used by another process
+                {
+                    Console.WriteLine("input file2 is used by another process. therefore this program can't read that file.");
+                    gui_message = "input file2 is used by another process.";
+                }
+                else if (safe_mode)
+                {
+                    if (!no_warning)
+                        Console.WriteLine("error on " + input_file2 + "\nsafe mode is enabled, this program will exit silently");
+                }
+                else if (!gui)
+                {
+                    throw ex;
+                }
+                else
+                {
+                    gui_message = ex.Message;
+                }
+                return;
             }
-            else if (ex.Message == "Out of memory." && ex.Source == "System.Drawing")
-            {
-                if (!no_warning)
-                    Console.WriteLine("Second image input format not supported (convert it to jpeg or png)");
-            }
-            else if (safe_mode)
-            {
-                if (!no_warning)
-                    Console.WriteLine("error on " + input_file2 + "\nsafe mode is enabled, this program will exit silently");
-            }
-            else
-            {
-                throw ex;
-            }
-            return;
-        }
-        Create_plt0_class _plt0 = new Create_plt0_class(this);
-        List<List<byte[]>> index_list = new List<List<byte[]>>();
-        object v = _plt0.Create_plt0(bmp_image, bmp_filesize, pixel_data_start_offset);
-        index_list.Add((List<byte[]>)v);
-        if (warn)
-        {
-            if (!no_warning)
-                Console.WriteLine("v-- bool --v\nbmd=" + bmd + " bmd_file=" + bmd_file + " bmp=" + bmp + " bti=" + bti + " fill_height=" + fill_height + " fill_width=" + fill_width + " gif=" + gif + " grey=" + grey + " ico=" + ico + " jpeg=" + jpeg + " jpg=" + jpg + " png=" + png + " success=" + success + " tif=" + tif + " tiff=" + tiff + " tpl=" + tpl + " user_palette=" + user_palette + " warn=" + warn + "\n\nv-- byte --v\nWrapS=" + WrapS + " WrapT=" + WrapT + " algorithm=" + algorithm + " alpha=" + alpha + " color=" + color + " diversity=" + diversity + " diversity2=" + diversity2 + " magnification_filter=" + magnification_filter + " minificaction_filter=" + minification_filter + " mipmaps_number=" + mipmaps_number + "\n\nv-- byte[] --v\ncolour_palette=" + colour_palette + " palette_format_int32=" + palette_format_int32 + " texture_format_int32=" + texture_format_int32 + "\n\nv-- double --v\nformat_ratio=" + format_ratio + " percentage=" + percentage + " percentage2=" + percentage2 + "\n\nv-- float[] --v\ncustom_rgba=" + custom_rgba + "\n\nv-- int --v\ncolour_number_x2=" + colour_number_x2 + " colour_number_x4=" + colour_number_x4 + " pass=" + pass + " pixel_count=" + pixel_count + "\n\nv-- signed byte --v\nblock_height=" + block_height + " block_width=" + block_width + "\n\nv-- string --v\ninput_file=" + input_file + " input_file2=" + input_file2 + " output_file=" + output_file + " swap=" + swap + "\n\nv-- unsigned short --v\nbitmap_height=" + bitmap_height + " bitmap_width=" + bitmap_width + " colour_number=" + colour_number + " max_colours=" + max_colours + " z=" + z + "\n\nv-- List<byte> --v\nBGRA=" + BGRA);
-        }
-        for (z = 1; z <= mipmaps_number; z++)
-        {
+            Create_plt0_class _plt0 = new Create_plt0_class(this);
+            List<List<byte[]>> index_list = new List<List<byte[]>>();
+            object v = _plt0.Create_plt0(bmp_image, bmp_filesize, pixel_data_start_offset);
+            index_list.Add((List<byte[]>)v);
             if (warn)
             {
                 if (!no_warning)
-                    Console.WriteLine("processing mipmap " + z);
+                    Console.WriteLine("v-- bool --v\nbmd=" + bmd + " bmd_file=" + bmd_file + " bmp=" + bmp + " bti=" + bti + " fill_height=" + fill_height + " fill_width=" + fill_width + " gif=" + gif + " grey=" + grey + " ico=" + ico + " jpeg=" + jpeg + " jpg=" + jpg + " png=" + png + " success=" + success + " tif=" + tif + " tiff=" + tiff + " tpl=" + tpl + " user_palette=" + user_palette + " warn=" + warn + "\n\nv-- byte --v\nWrapS=" + WrapS + " WrapT=" + WrapT + " algorithm=" + algorithm + " alpha=" + alpha + " color=" + color + " diversity=" + diversity + " diversity2=" + diversity2 + " magnification_filter=" + magnification_filter + " minificaction_filter=" + minification_filter + " mipmaps_number=" + mipmaps_number + "\n\nv-- byte[] --v\ncolour_palette=" + colour_palette + " palette_format_int32=" + palette_format_int32 + " texture_format_int32=" + texture_format_int32 + "\n\nv-- double --v\nformat_ratio=" + format_ratio + " percentage=" + percentage + " percentage2=" + percentage2 + "\n\nv-- float[] --v\ncustom_rgba=" + custom_rgba + "\n\nv-- int --v\ncolour_number_x2=" + colour_number_x2 + " colour_number_x4=" + colour_number_x4 + " pass=" + pass + " pixel_count=" + pixel_count + "\n\nv-- signed byte --v\nblock_height=" + block_height + " block_width=" + block_width + "\n\nv-- string --v\ninput_file=" + input_file + " input_file2=" + input_file2 + " output_file=" + output_file + " swap=" + swap + "\n\nv-- unsigned short --v\nbitmap_height=" + bitmap_height + " bitmap_width=" + bitmap_width + " colour_number=" + colour_number + " max_colours=" + max_colours + " z=" + z + "\n\nv-- List<byte> --v\nBGRA=" + BGRA);
             }
-            if (System.IO.File.Exists(input_fil + ".mm" + z + input_ext))  // image with mipmap: input.png -> input.mm1.png -> input.mm2.png
+            for (z = 1; z <= mipmaps_number; z++)
             {
-                byte[] bmp_mipmap = _bmp.Convert_to_bmp((Bitmap)Bitmap.FromFile(input_fil + ".mm" + z + input_ext));
-                if (bmp_mipmap[0x15] != 0 || bmp_mipmap[0x14] != 0 || bmp_mipmap[0x19] != 0 || bmp_mipmap[0x18] != 0)
+                if (warn)
                 {
                     if (!no_warning)
-                        Console.WriteLine("Textures Dimensions are too high for a TEX0. Maximum dimensions are the values of a 2 bytes integer (65535 x 65535)");
-                    return;
+                        Console.WriteLine("processing mipmap " + z);
                 }
-                /***** BMP File Process *****/
-                // process the bmp file
-                int bmp_size = bmp_mipmap[2] | bmp_mipmap[3] << 8 | bmp_mipmap[4] << 16 | bmp_mipmap[5] << 24;
-                int pixel_start_offset = bmp_mipmap[10] | bmp_mipmap[11] << 8 | bmp_mipmap[12] << 16 | bmp_mipmap[13] << 24;
-                //bitmap_width = (ushort)(bmp_mipmap[0x13] << 8 | bmp_mipmap[0x12]);
-                //bitmap_height = (ushort)(bmp_mipmap[0x17] << 8 | bmp_mipmap[0x16]);
-                //pixel_count = bitmap_width * bitmap_height;
-                user_palette = true; // won't edit palette with mipmaps
-                object w = _plt0.Create_plt0(bmp_mipmap, bmp_size, pixel_start_offset);
-                index_list.Add((List<byte[]>)w);
-            }
-            else
-            {
-                bitmap_width >>= 1; // divides by 2
-                bitmap_height >>= 1; // divides by 2   - also YES 1 DIVIDED BY TWO IS ZERO
-                                     // note: depending on the number of mipmaps, this will make unused block space with images that are not power of two because sooner or later width or height won't be a multiple or 4 or 8
-                if (bitmap_width == 0 || bitmap_height == 0)
+                if (System.IO.File.Exists(input_fil + ".mm" + z + input_ext))  // image with mipmap: input.png -> input.mm1.png -> input.mm2.png
                 {
-                    if (!no_warning)
-                        Console.WriteLine("Too many mipmaps. " + (z - 1) + " is the maximum for this file");
-                    exit = true;
-                    return;
+                    byte[] bmp_mipmap = _bmp.Convert_to_bmp((Bitmap)Bitmap.FromFile(input_fil + ".mm" + z + input_ext));
+                    if (bmp_mipmap[0x15] != 0 || bmp_mipmap[0x14] != 0 || bmp_mipmap[0x19] != 0 || bmp_mipmap[0x18] != 0)
+                    {
+                        if (!no_warning)
+                            Console.WriteLine("Textures Dimensions are too high for a TEX0. Maximum dimensions are the values of a 2 bytes integer (65535 x 65535)");
+                        gui_message = "Textures Dimensions are too high for a TEX0. Maximum dimensions are the values of a 2 bytes integer (65535 x 65535)";
+                        return;
+                    }
+                    /***** BMP File Process *****/
+                    // process the bmp file
+                    int bmp_size = bmp_mipmap[2] | bmp_mipmap[3] << 8 | bmp_mipmap[4] << 16 | bmp_mipmap[5] << 24;
+                    int pixel_start_offset = bmp_mipmap[10] | bmp_mipmap[11] << 8 | bmp_mipmap[12] << 16 | bmp_mipmap[13] << 24;
+                    //bitmap_width = (ushort)(bmp_mipmap[0x13] << 8 | bmp_mipmap[0x12]);
+                    //bitmap_height = (ushort)(bmp_mipmap[0x17] << 8 | bmp_mipmap[0x16]);
+                    //pixel_count = bitmap_width * bitmap_height;
+                    user_palette = true; // won't edit palette with mipmaps
+                    object w = _plt0.Create_plt0(bmp_mipmap, bmp_size, pixel_start_offset);
+                    index_list.Add((List<byte[]>)w);
                 }
-                byte[] bmp_mipmap = _bmp.Convert_to_bmp(ResizeImage_class.ResizeImage((Bitmap)Bitmap.FromFile(input_file), bitmap_width, bitmap_height));
+                else
+                {
+                    bitmap_width >>= 1; // divides by 2
+                    bitmap_height >>= 1; // divides by 2   - also YES 1 DIVIDED BY TWO IS ZERO
+                                         // note: depending on the number of mipmaps, this will make unused block space with images that are not power of two because sooner or later width or height won't be a multiple or 4 or 8
+                    if (bitmap_width == 0 || bitmap_height == 0)
+                    {
+                        if (!no_warning)
+                            Console.WriteLine("Too many mipmaps. " + (z - 1) + " is the maximum for this file");
+                        gui_message = "Too many mipmaps. " + (z - 1) + " is the maximum for this file";
+                        exit = true;
+                        return;
+                    }
+                    byte[] bmp_mipmap = _bmp.Convert_to_bmp(ResizeImage_class.ResizeImage((Bitmap)Bitmap.FromFile(input_file), bitmap_width, bitmap_height));
 
 
-                if (bmp_mipmap[0x15] != 0 || bmp_mipmap[0x14] != 0 || bmp_mipmap[0x19] != 0 || bmp_mipmap[0x18] != 0)
-                {
-                    if (!no_warning)
-                        Console.WriteLine("Textures Dimensions are too high for a TEX0. Maximum dimensions are the values of a 2 bytes integer (65535 x 65535)");
-                    return;
+                    if (bmp_mipmap[0x15] != 0 || bmp_mipmap[0x14] != 0 || bmp_mipmap[0x19] != 0 || bmp_mipmap[0x18] != 0)
+                    {
+                        if (!no_warning)
+                            Console.WriteLine("Textures Dimensions are too high for a TEX0. Maximum dimensions are the values of a 2 bytes integer (65535 x 65535)");
+                        gui_message = "Textures Dimensions are too high for a TEX0. Maximum dimensions are the values of a 2 bytes integer (65535 x 65535)";
+                        return;
+                    }
+                    /***** BMP File Process *****/
+                    // process the bmp file
+                    int bmp_size = bmp_mipmap[2] | bmp_mipmap[3] << 8 | bmp_mipmap[4] << 16 | bmp_mipmap[5] << 24;
+                    int pixel_start_offset = bmp_mipmap[10] | bmp_mipmap[11] << 8 | bmp_mipmap[12] << 16 | bmp_mipmap[13] << 24;
+                    //bitmap_width = (ushort)(bmp_mipmap[0x13] << 8 | bmp_mipmap[0x12]);
+                    //bitmap_height = (ushort)(bmp_mipmap[0x17] << 8 | bmp_mipmap[0x16]);
+                    //pixel_count = bitmap_width * bitmap_height;
+                    user_palette = true; // won't edit palette with mipmaps
+                    object w = _plt0.Create_plt0(bmp_mipmap, bmp_size, pixel_start_offset);
+                    index_list.Add((List<byte[]>)w);
                 }
-                /***** BMP File Process *****/
-                // process the bmp file
-                int bmp_size = bmp_mipmap[2] | bmp_mipmap[3] << 8 | bmp_mipmap[4] << 16 | bmp_mipmap[5] << 24;
-                int pixel_start_offset = bmp_mipmap[10] | bmp_mipmap[11] << 8 | bmp_mipmap[12] << 16 | bmp_mipmap[13] << 24;
-                //bitmap_width = (ushort)(bmp_mipmap[0x13] << 8 | bmp_mipmap[0x12]);
-                //bitmap_height = (ushort)(bmp_mipmap[0x17] << 8 | bmp_mipmap[0x16]);
-                //pixel_count = bitmap_width * bitmap_height;
-                user_palette = true; // won't edit palette with mipmaps
-                object w = _plt0.Create_plt0(bmp_mipmap, bmp_size, pixel_start_offset);
-                index_list.Add((List<byte[]>)w);
+                mipmap_dimensions[2] = canvas_width;
+                mipmap_dimensions[3] = canvas_height;
+                canvas_dim.Add(mipmap_dimensions.ToArray());
             }
-            mipmap_dimensions[2] = canvas_width;
-            mipmap_dimensions[3] = canvas_height;
-            canvas_dim.Add(mipmap_dimensions.ToArray());
-        }
-        if (exit)
-        {
-            return;
-        }
-        bitmap_width = canvas_dim[0][0];
-        bitmap_height = canvas_dim[0][1];
-        canvas_width = canvas_dim[0][2];
-        canvas_height = canvas_dim[0][3];
-        if (bti || bmd)
-        {
-            if (bmd && !bmd_file)
+            if (exit)
             {
-                if (!no_warning)
-                    Console.WriteLine("specified bmd output but no bmd file given");
                 return;
             }
-            Write_bti_class.Write_bti(index_list, colour_palette, texture_format_int32, palette_format_int32, block_width_array, block_height_array, bitmap_width, bitmap_height, colour_number, format_ratio, input_fil, input_file2, output_file, bmd_file, has_palette, safe_mode, no_warning, warn, stfu, block_width, block_height, mipmaps_number, minification_filter, magnification_filter, WrapS, WrapT, alpha);
-        }
-        if (tpl)
-        {
-            if (add)
+            bitmap_width = canvas_dim[0][0];
+            bitmap_height = canvas_dim[0][1];
+            canvas_width = canvas_dim[0][2];
+            canvas_height = canvas_dim[0][3];
+            if (bti || bmd)
             {
-                Write_into_tpl_class.Write_into_tpl(index_list, colour_palette, texture_format_int32, palette_format_int32, real_block_width_array, block_height_array, add_depth, sub_depth, bitmap_width, bitmap_height, colour_number, format_ratio, input_file2, output_file, has_palette, overwrite, safe_mode, no_warning, warn, stfu, block_width, block_height, mipmaps_number, minification_filter, magnification_filter, WrapS, WrapT);
+                if (bmd && !bmd_file)
+                {
+                    if (!no_warning)
+                        Console.WriteLine("specified bmd output but no bmd file given");
+                    gui_message = "specified bmd output but no bmd file given";
+                    return;
+                }
+                Write_bti_class.Write_bti(index_list, colour_palette, texture_format_int32, palette_format_int32, block_width_array, block_height_array, bitmap_width, bitmap_height, colour_number, format_ratio, input_fil, input_file2, output_file, bmd_file, has_palette, safe_mode, no_warning, warn, stfu, block_width, block_height, mipmaps_number, minification_filter, magnification_filter, WrapS, WrapT, alpha);
             }
-            else
+            if (tpl)
             {
-                Write_tpl_class.Write_tpl(index_list, colour_palette, texture_format_int32, palette_format_int32, bitmap_width, bitmap_height, colour_number, format_ratio, output_file, has_palette, safe_mode, no_warning, warn, stfu, block_width, block_height, mipmaps_number, minification_filter, magnification_filter, WrapS, WrapT);
+                if (add)
+                {
+                    Write_into_tpl_class.Write_into_tpl(index_list, colour_palette, texture_format_int32, palette_format_int32, real_block_width_array, block_height_array, add_depth, sub_depth, bitmap_width, bitmap_height, colour_number, format_ratio, input_file2, output_file, has_palette, overwrite, safe_mode, no_warning, warn, stfu, block_width, block_height, mipmaps_number, minification_filter, magnification_filter, WrapS, WrapT);
+                }
+                else
+                {
+                    Write_tpl_class.Write_tpl(index_list, colour_palette, texture_format_int32, palette_format_int32, bitmap_width, bitmap_height, colour_number, format_ratio, output_file, has_palette, safe_mode, no_warning, warn, stfu, block_width, block_height, mipmaps_number, minification_filter, magnification_filter, WrapS, WrapT);
+                }
             }
-        }
-        if (bmp || png || tif || tiff || ico || jpg || jpeg || gif)  // tell me if there's another format available through some extensions I'll add it
-        {
-            Write_bmp_class.Write_bmp(index_list, canvas_dim, colour_palette, texture_format_int32, palette_format_int32, colour_number, output_file, bmp_32, funky, has_palette, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number, alpha, colour_number_x2, colour_number_x4);
-        }
-        if (tex0)
-        {
-            if (has_palette)
+            if (bmp || png || tif || tiff || ico || jpg || jpeg || gif)  // tell me if there's another format available through some extensions I'll add it
             {
-                Write_plt0_class.Write_plt0(colour_palette, palette_format_int32, colour_number, output_file, safe_mode, no_warning, warn, stfu);
+                Write_bmp_class.Write_bmp(index_list, canvas_dim, colour_palette, texture_format_int32, palette_format_int32, colour_number, output_file, bmp_32, funky, has_palette, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number, alpha, colour_number_x2, colour_number_x4);
             }
-            Write_tex0_class.Write_tex0(index_list, texture_format_int32, bitmap_width, bitmap_height, format_ratio, output_file, has_palette, safe_mode, no_warning, warn, stfu, block_width, block_height, mipmaps_number);
+            if (tex0)
+            {
+                if (has_palette)
+                {
+                    Write_plt0_class.Write_plt0(colour_palette, palette_format_int32, colour_number, output_file, safe_mode, no_warning, warn, stfu);
+                }
+                Write_tex0_class.Write_tex0(index_list, texture_format_int32, bitmap_width, bitmap_height, format_ratio, output_file, has_palette, safe_mode, no_warning, warn, stfu, block_width, block_height, mipmaps_number);
+            }
+            correct = true;
         }
-
-        /* catch (Exception ex)  // remove this when debugging else it'll tell you every error were at this line lol
+        catch (Exception ex)  // remove this when debugging else it'll tell you every error were at this line lol
         {
             if (ex.Message == "Out of memory." && ex.Source == "System.Drawing")
+            {
                 Console.WriteLine("Image input format not supported (convert it to jpeg or png)");
+                gui_message = "Image input format not supported (convert it to jpeg or png)";
+            }
+            else if (ex.Message.Substring(0, 34) == "The process cannot access the file")  // because it is being used by another process
+            {
+                Console.WriteLine("input file is used by another process. therefore this program can't read that file.");
+                gui_message = "input file is used by another process.";
+            }
             else if (safe_mode)
             {
                 Console.WriteLine("error on " + input_file + "\nsafe mode is enabled, this program will exit silently");
             }
-            else
+            else if (!gui)
             {
                 Console.WriteLine("\n\nPlease report this error on github https://github.com/yoshi2999/plt0/issues or to yosh#0304 on discord. Preferably with the file you used and the full command causing this.\n\nThe command you used is : \n" + args.ToString());
                 throw ex;
             }
+            else
+            {
+                gui_message = ex.Message;
+            }
             return;
-        }*/
+        } // */
 
     }
-    public void Check_exit()
+    public string Check_exit()
     {
-        if (ask_exit)
+        if (ask_exit && !gui)
         {
             Console.WriteLine("\nPress enter to exit...");
             Console.ReadLine();
+        }
+        if (correct)
+        {
+            return "the process executed successfully\n" + gui_message;
+        }
+        else if (gui_message != "")
+        {
+            return gui_message;
+        }
+        else
+        {
+            return "an error occured. I don't know which though";
         }
     }
 }

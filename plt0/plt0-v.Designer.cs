@@ -362,6 +362,9 @@
         private System.Windows.Forms.Label output_label;
         private System.Windows.Forms.PictureBox version_ck;
         private System.Windows.Forms.Label cli_textbox_label;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label view_rgba;
+        private System.Windows.Forms.Label label2;
         /*
 /// <summary>
 /// Required designer variable.

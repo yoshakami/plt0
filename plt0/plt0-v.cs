@@ -38,6 +38,7 @@ namespace plt0_gui
         //string backslash_j;
         //string backslash_n;
         byte GdiCharSet;
+        byte run_count;
         //byte jump_line;
         float size_font;
         System.Drawing.GraphicsUnit unit_font;
@@ -1069,8 +1070,9 @@ namespace plt0_gui
         private void Organize_args()
         {
             arg_array.Clear();
-            args = "plt0.exe ";
-            arg_array.Add("plt0.exe");
+            // args = "gui ";
+            arg_array.Add("gui");
+            args = "";
             if (File.Exists(input_file))
             {
                 args += "\"" + input_file + "\" ";
@@ -2277,6 +2279,9 @@ namespace plt0_gui
             this.output_label = new System.Windows.Forms.Label();
             this.version_ck = new System.Windows.Forms.PictureBox();
             this.cli_textbox_label = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.view_rgba = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.bmd_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
@@ -2384,6 +2389,7 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.youtube_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.discord_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.version_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // output_file_type_label
@@ -7931,24 +7937,71 @@ namespace plt0_gui
             // cli_textbox_label
             // 
             this.cli_textbox_label.AutoSize = true;
-            this.cli_textbox_label.BackColor = System.Drawing.Color.Transparent;
+            this.cli_textbox_label.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(20)))), ((int)(((byte)(0)))), ((int)(((byte)(49)))));
             this.cli_textbox_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cli_textbox_label.ForeColor = System.Drawing.SystemColors.Window;
             this.cli_textbox_label.Location = new System.Drawing.Point(71, 1005);
             this.cli_textbox_label.Margin = new System.Windows.Forms.Padding(0);
-            this.cli_textbox_label.MaximumSize = new System.Drawing.Size(1500, 128);
+            this.cli_textbox_label.MaximumSize = new System.Drawing.Size(1400, 128);
             this.cli_textbox_label.Name = "cli_textbox_label";
             this.cli_textbox_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.cli_textbox_label.Size = new System.Drawing.Size(238, 64);
+            this.cli_textbox_label.Size = new System.Drawing.Size(0, 64);
             this.cli_textbox_label.TabIndex = 544;
-            this.cli_textbox_label.Text = "abcdebrgf ntyrethj ";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pictureBox1.Enabled = false;
+            this.pictureBox1.ErrorImage = null;
+            this.pictureBox1.InitialImage = null;
+            this.pictureBox1.Location = new System.Drawing.Point(240, 1293);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(64, 64);
+            this.pictureBox1.TabIndex = 547;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Visible = false;
+            // 
+            // view_rgba
+            // 
+            this.view_rgba.AutoSize = true;
+            this.view_rgba.BackColor = System.Drawing.Color.Transparent;
+            this.view_rgba.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.view_rgba.ForeColor = System.Drawing.SystemColors.Window;
+            this.view_rgba.Location = new System.Drawing.Point(308, 1293);
+            this.view_rgba.Margin = new System.Windows.Forms.Padding(0);
+            this.view_rgba.Name = "view_rgba";
+            this.view_rgba.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.view_rgba.Size = new System.Drawing.Size(174, 64);
+            this.view_rgba.TabIndex = 545;
+            this.view_rgba.Text = "Custom RGBA";
+            this.view_rgba.Visible = false;
+            this.view_rgba.Click += new System.EventHandler(this.view_rgba_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.label2.ForeColor = System.Drawing.SystemColors.Control;
+            this.label2.Location = new System.Drawing.Point(237, 1293);
+            this.label2.Margin = new System.Windows.Forms.Padding(0);
+            this.label2.Name = "label2";
+            this.label2.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
+            this.label2.Size = new System.Drawing.Size(190, 64);
+            this.label2.TabIndex = 546;
+            this.label2.Visible = false;
             // 
             // plt0_gui
             // 
             this.AllowDrop = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(3610, 1959);
+            this.ClientSize = new System.Drawing.Size(2640, 1495);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.view_rgba);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.cli_textbox_label);
             this.Controls.Add(this.version_ck);
             this.Controls.Add(this.output_label);
@@ -8430,6 +8483,7 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.youtube_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.discord_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.version_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -8937,12 +8991,20 @@ namespace plt0_gui
                 bmd = false;
                 cli_textbox_label.Text = cli_textbox_label.Text.Replace("bmd ", "");
                 hover_checkbox(bmd_ck);
+                View_WrapS();
+                View_WrapT();
+                View_min();
+                View_mag();
             }
             else
             {
                 bmd = true;
                 cli_textbox_label.Text += "bmd ";
                 selected_checkbox(bmd_ck);
+                Hide_WrapS();
+                Hide_WrapT();
+                Hide_min();
+                Hide_mag();
             }
             Check_run();
         }
@@ -9001,12 +9063,20 @@ namespace plt0_gui
                 tex0 = false;
                 cli_textbox_label.Text = cli_textbox_label.Text.Replace("tex0 ", "");
                 hover_checkbox(tex0_ck);
+                View_WrapS();
+                View_WrapT();
+                View_min();
+                View_mag();
             }
             else
             {
                 tex0 = true;
                 cli_textbox_label.Text += "tex0 ";
                 selected_checkbox(tex0_ck);
+                Hide_WrapS();
+                Hide_WrapT();
+                Hide_min();
+                Hide_mag();
             }
             Check_run();
         }
@@ -9626,9 +9696,11 @@ namespace plt0_gui
         private void I4_Click(object sender, EventArgs e)
         {
             unchecked_encoding(encoding_ck[encoding]);
+            Hide_encoding(encoding);
             selected_encoding(i4_ck);
             encoding = 0; // I4
             Check_run();
+            View_i4();
             Organize_args();
         }
         private void I4_MouseEnter(object sender, EventArgs e)
@@ -9650,9 +9722,11 @@ namespace plt0_gui
         private void I8_Click(object sender, EventArgs e)
         {
             unchecked_encoding(encoding_ck[encoding]);
+            Hide_encoding(encoding);
             selected_encoding(i8_ck);
             encoding = 1; // I8
             Check_run();
+            View_i8();
             Organize_args();
         }
         private void I8_MouseEnter(object sender, EventArgs e)
@@ -9674,9 +9748,11 @@ namespace plt0_gui
         private void AI4_Click(object sender, EventArgs e)
         {
             unchecked_encoding(encoding_ck[encoding]);
+            Hide_encoding(encoding);
             selected_encoding(ai4_ck);
             encoding = 2; // AI4
             Check_run();
+            View_ai4();
             Organize_args();
         }
         private void AI4_MouseEnter(object sender, EventArgs e)
@@ -9698,9 +9774,11 @@ namespace plt0_gui
         private void AI8_Click(object sender, EventArgs e)
         {
             unchecked_encoding(encoding_ck[encoding]);
+            Hide_encoding(encoding);
             selected_encoding(ai8_ck);
             encoding = 3; // AI8
             Check_run();
+            View_ai8();
             Organize_args();
         }
         private void AI8_MouseEnter(object sender, EventArgs e)
@@ -9722,9 +9800,11 @@ namespace plt0_gui
         private void RGB565_Click(object sender, EventArgs e)
         {
             unchecked_encoding(encoding_ck[encoding]);
+            Hide_encoding(encoding);
             selected_encoding(rgb565_ck);
             encoding = 4; // RGB565
             Check_run();
+            View_rgb565();
             Organize_args();
         }
         private void RGB565_MouseEnter(object sender, EventArgs e)
@@ -9746,9 +9826,11 @@ namespace plt0_gui
         private void RGB5A3_Click(object sender, EventArgs e)
         {
             unchecked_encoding(encoding_ck[encoding]);
+            Hide_encoding(encoding);
             selected_encoding(rgb5a3_ck);
             encoding = 5; // RGB5A3
             Check_run();
+            View_rgb5a3();
             Organize_args();
         }
         private void RGB5A3_MouseEnter(object sender, EventArgs e)
@@ -9770,9 +9852,11 @@ namespace plt0_gui
         private void RGBA32_Click(object sender, EventArgs e)
         {
             unchecked_encoding(encoding_ck[encoding]);
+            Hide_encoding(encoding);
             selected_encoding(rgba32_ck);
             encoding = 6; // RGBA32
             Check_run();
+            View_rgba32();
             Organize_args();
         }
         private void RGBA32_MouseEnter(object sender, EventArgs e)
@@ -9794,9 +9878,11 @@ namespace plt0_gui
         private void CI4_Click(object sender, EventArgs e)
         {
             unchecked_encoding(encoding_ck[encoding]);
+            Hide_encoding(encoding);
             selected_encoding(ci4_ck);
             encoding = 8; // CI4
             Check_run();
+            View_ci4();
             Organize_args();
         }
         private void CI4_MouseEnter(object sender, EventArgs e)
@@ -9818,9 +9904,11 @@ namespace plt0_gui
         private void CI8_Click(object sender, EventArgs e)
         {
             unchecked_encoding(encoding_ck[encoding]);
+            Hide_encoding(encoding);
             selected_encoding(ci8_ck);
             encoding = 9; // CI8
             Check_run();
+            View_ci8();
             Organize_args();
         }
         private void CI8_MouseEnter(object sender, EventArgs e)
@@ -9842,9 +9930,11 @@ namespace plt0_gui
         private void CI14X2_Click(object sender, EventArgs e)
         {
             unchecked_encoding(encoding_ck[encoding]);
+            Hide_encoding(encoding);
             selected_encoding(ci14x2_ck);
             encoding = 10; // CI14X2
             Check_run();
+            View_ci14x2();
             Organize_args();
         }
         private void CI14X2_MouseEnter(object sender, EventArgs e)
@@ -9866,8 +9956,10 @@ namespace plt0_gui
         private void CMPR_Click(object sender, EventArgs e)
         {
             unchecked_encoding(encoding_ck[encoding]);
+            Hide_encoding(encoding);
             selected_encoding(cmpr_ck);
             encoding = 14; // CMPR
+            View_cmpr();
             Organize_args();
         }
         private void CMPR_MouseEnter(object sender, EventArgs e)
@@ -9889,6 +9981,7 @@ namespace plt0_gui
         private void Cie_601_Click(object sender, EventArgs e)
         {
             unchecked_algorithm(algorithm_ck[algorithm]);
+            Hide_algorithm(algorithm);
             selected_algorithm(cie_601_ck);
             algorithm = 0; // Cie_601
             Organize_args();
@@ -9912,6 +10005,7 @@ namespace plt0_gui
         private void Cie_709_Click(object sender, EventArgs e)
         {
             unchecked_algorithm(algorithm_ck[algorithm]);
+            Hide_algorithm(algorithm);
             selected_algorithm(cie_709_ck);
             algorithm = 1; // Cie_709
             Organize_args();
@@ -9935,6 +10029,7 @@ namespace plt0_gui
         private void Custom_Click(object sender, EventArgs e)
         {
             unchecked_algorithm(algorithm_ck[algorithm]);
+            Hide_algorithm(algorithm);
             selected_algorithm(custom_ck);
             algorithm = 2; // Custom
             Organize_args();
@@ -9958,6 +10053,7 @@ namespace plt0_gui
         private void No_gradient_Click(object sender, EventArgs e)
         {
             unchecked_algorithm(algorithm_ck[algorithm]);
+            Hide_algorithm(algorithm);
             selected_algorithm(no_gradient_ck);
             algorithm = 3; // No_gradient
             Organize_args();
@@ -11227,6 +11323,122 @@ namespace plt0_gui
             else
                 Category_unchecked(view_mag_ck);
         }
+        private void view_rgba_Click(object sender, EventArgs e)
+        {
+            if (view_rgba)
+            {
+                Hide_rgba();
+                Category_hover(view_rgba_ck);
+            }
+            else
+            {
+                View_rgba();
+                Category_selected(view_rgba_ck);
+            }
+        }
+        private void view_rgba_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[127]);
+            if (view_rgba)
+                Category_selected(view_rgba_ck);
+            else
+                Category_hover(view_rgba_ck);
+        }
+        private void view_rgba_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (view_rgba)
+                Category_checked(view_rgba_ck);
+            else
+                Category_unchecked(view_rgba_ck);
+        }
+        private void view_palette_Click(object sender, EventArgs e)
+        {
+            if (view_palette)
+            {
+                Hide_palette();
+                Category_hover(view_palette_ck);
+            }
+            else
+            {
+                View_palette();
+                Category_selected(view_palette_ck);
+            }
+        }
+        private void view_palette_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[128]);
+            if (view_palette)
+                Category_selected(view_palette_ck);
+            else
+                Category_hover(view_palette_ck);
+        }
+        private void view_palette_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (view_palette)
+                Category_checked(view_palette_ck);
+            else
+                Category_unchecked(view_palette_ck);
+        }
+        private void view_cmpr_Click(object sender, EventArgs e)
+        {
+            if (view_cmpr)
+            {
+                Hide_cmpr();
+                Category_hover(view_cmpr_ck);
+            }
+            else
+            {
+                View_cmpr();
+                Category_selected(view_cmpr_ck);
+            }
+        }
+        private void view_cmpr_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[129]);
+            if (view_cmpr)
+                Category_selected(view_cmpr_ck);
+            else
+                Category_hover(view_cmpr_ck);
+        }
+        private void view_cmpr_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (view_cmpr)
+                Category_checked(view_cmpr_ck);
+            else
+                Category_unchecked(view_cmpr_ck);
+        }
+        private void view_options_Click(object sender, EventArgs e)
+        {
+            if (view_options)
+            {
+                Hide_options();
+                Category_hover(view_options_ck);
+            }
+            else
+            {
+                View_options();
+                Category_selected(view_options_ck);
+            }
+        }
+        private void view_options_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[130]);
+            if (view_options)
+                Category_selected(view_options_ck);
+            else
+                Category_hover(view_options_ck);
+        }
+        private void view_options_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (view_options)
+                Category_checked(view_options_ck);
+            else
+                Category_unchecked(view_options_ck);
+        }
         private void All_Click(object sender, EventArgs e)
         {
             switch (layout)
@@ -11249,7 +11461,7 @@ namespace plt0_gui
         }
         private void All_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[127]);
+            Parse_Markdown(lines[131]);
             if (layout == 0)
                 selected_All();
             else
@@ -11301,7 +11513,7 @@ namespace plt0_gui
         }
         private void Auto_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[128]);
+            Parse_Markdown(lines[132]);
             if (layout == 1)
                 selected_Auto();
             else
@@ -11353,7 +11565,7 @@ namespace plt0_gui
         }
         private void Preview_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[129]);
+            Parse_Markdown(lines[133]);
             if (layout == 2)
                 selected_Preview();
             else
@@ -11405,7 +11617,7 @@ namespace plt0_gui
         }
         private void Paint_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[130]);
+            Parse_Markdown(lines[134]);
             if (layout == 3)
                 selected_Paint();
             else
@@ -11441,7 +11653,7 @@ namespace plt0_gui
         }
         private void Minimized_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[131]);
+            Parse_Markdown(lines[135]);
             banner_minus_ck.BackgroundImage = minimized_hover;
         }
         private void Minimized_MouseLeave(object sender, EventArgs e)
@@ -11464,7 +11676,7 @@ namespace plt0_gui
         }
         private void Maximized_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[132]);
+            Parse_Markdown(lines[136]);
             if (this.WindowState == FormWindowState.Maximized)
                 banner_5_ck.BackgroundImage = maximized_selected;
             else
@@ -11484,7 +11696,7 @@ namespace plt0_gui
         }
         private void Close_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[133]);
+            Parse_Markdown(lines[137]);
             banner_x_ck.BackgroundImage = close_hover;
         }
         private void Close_MouseLeave(object sender, EventArgs e)
@@ -11526,7 +11738,7 @@ namespace plt0_gui
         }
         private void Left_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[134]);
+            Parse_Markdown(lines[138]);
             if (arrow == 4)
                 selected_Left();
             else
@@ -11590,7 +11802,7 @@ namespace plt0_gui
         }
         private void Top_left_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[135]);
+            Parse_Markdown(lines[139]);
             if (arrow == 7)
                 selected_Top_left();
             else
@@ -11654,7 +11866,7 @@ namespace plt0_gui
         }
         private void Top_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[136]);
+            Parse_Markdown(lines[140]);
             if (arrow == 8)
                 selected_Top();
             else
@@ -11718,7 +11930,7 @@ namespace plt0_gui
         }
         private void Top_right_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[137]);
+            Parse_Markdown(lines[141]);
             if (arrow == 9)
                 selected_Top_right();
             else
@@ -11782,7 +11994,7 @@ namespace plt0_gui
         }
         private void Right_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[138]);
+            Parse_Markdown(lines[142]);
             if (arrow == 6)
                 selected_Right();
             else
@@ -11846,7 +12058,7 @@ namespace plt0_gui
         }
         private void Bottom_right_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[139]);
+            Parse_Markdown(lines[143]);
             if (arrow == 3)
                 selected_Bottom_right();
             else
@@ -11910,7 +12122,7 @@ namespace plt0_gui
         }
         private void Bottom_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[140]);
+            Parse_Markdown(lines[144]);
             if (arrow == 2)
                 selected_Bottom();
             else
@@ -11974,7 +12186,7 @@ namespace plt0_gui
         }
         private void Bottom_left_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[141]);
+            Parse_Markdown(lines[145]);
             if (arrow == 1)
                 selected_Bottom_left();
             else
@@ -12038,7 +12250,7 @@ namespace plt0_gui
         }
         private void input_file_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[142]);
+            Parse_Markdown(lines[146]);
         }
         private void input_file_MouseLeave(object sender, EventArgs e)
         {
@@ -12052,7 +12264,7 @@ namespace plt0_gui
         }
         private void input_file2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[143]);
+            Parse_Markdown(lines[147]);
         }
         private void input_file2_MouseLeave(object sender, EventArgs e)
         {
@@ -12066,7 +12278,7 @@ namespace plt0_gui
         }
         private void output_name_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[144]);
+            Parse_Markdown(lines[148]);
         }
         private void output_name_MouseLeave(object sender, EventArgs e)
         {
@@ -12080,7 +12292,7 @@ namespace plt0_gui
         }
         private void mipmaps_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[145]);
+            Parse_Markdown(lines[149]);
         }
         private void mipmaps_MouseLeave(object sender, EventArgs e)
         {
@@ -12093,7 +12305,7 @@ namespace plt0_gui
         }
         private void cmpr_max_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[146]);
+            Parse_Markdown(lines[150]);
         }
         private void cmpr_max_MouseLeave(object sender, EventArgs e)
         {
@@ -12106,7 +12318,7 @@ namespace plt0_gui
         }
         private void cmpr_min_alpha_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[147]);
+            Parse_Markdown(lines[151]);
         }
         private void cmpr_min_alpha_MouseLeave(object sender, EventArgs e)
         {
@@ -12119,7 +12331,7 @@ namespace plt0_gui
         }
         private void num_colours_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[148]);
+            Parse_Markdown(lines[152]);
         }
         private void num_colours_MouseLeave(object sender, EventArgs e)
         {
@@ -12132,7 +12344,7 @@ namespace plt0_gui
         }
         private void round3_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[149]);
+            Parse_Markdown(lines[153]);
         }
         private void round3_MouseLeave(object sender, EventArgs e)
         {
@@ -12145,7 +12357,7 @@ namespace plt0_gui
         }
         private void round4_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[150]);
+            Parse_Markdown(lines[154]);
         }
         private void round4_MouseLeave(object sender, EventArgs e)
         {
@@ -12158,7 +12370,7 @@ namespace plt0_gui
         }
         private void round5_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[151]);
+            Parse_Markdown(lines[155]);
         }
         private void round5_MouseLeave(object sender, EventArgs e)
         {
@@ -12171,7 +12383,7 @@ namespace plt0_gui
         }
         private void round6_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[152]);
+            Parse_Markdown(lines[156]);
         }
         private void round6_MouseLeave(object sender, EventArgs e)
         {
@@ -12184,7 +12396,7 @@ namespace plt0_gui
         }
         private void diversity_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[153]);
+            Parse_Markdown(lines[157]);
         }
         private void diversity_MouseLeave(object sender, EventArgs e)
         {
@@ -12197,7 +12409,7 @@ namespace plt0_gui
         }
         private void diversity2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[154]);
+            Parse_Markdown(lines[158]);
         }
         private void diversity2_MouseLeave(object sender, EventArgs e)
         {
@@ -12210,7 +12422,7 @@ namespace plt0_gui
         }
         private void percentage_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[155]);
+            Parse_Markdown(lines[159]);
         }
         private void percentage_MouseLeave(object sender, EventArgs e)
         {
@@ -12223,7 +12435,7 @@ namespace plt0_gui
         }
         private void percentage2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[156]);
+            Parse_Markdown(lines[160]);
         }
         private void percentage2_MouseLeave(object sender, EventArgs e)
         {
@@ -12236,7 +12448,7 @@ namespace plt0_gui
         }
         private void custom_r_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[157]);
+            Parse_Markdown(lines[161]);
         }
         private void custom_r_MouseLeave(object sender, EventArgs e)
         {
@@ -12249,7 +12461,7 @@ namespace plt0_gui
         }
         private void custom_g_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[158]);
+            Parse_Markdown(lines[162]);
         }
         private void custom_g_MouseLeave(object sender, EventArgs e)
         {
@@ -12262,7 +12474,7 @@ namespace plt0_gui
         }
         private void custom_b_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[159]);
+            Parse_Markdown(lines[163]);
         }
         private void custom_b_MouseLeave(object sender, EventArgs e)
         {
@@ -12275,7 +12487,7 @@ namespace plt0_gui
         }
         private void custom_a_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[160]);
+            Parse_Markdown(lines[164]);
         }
         private void custom_a_MouseLeave(object sender, EventArgs e)
         {
@@ -12295,7 +12507,7 @@ namespace plt0_gui
         }
         private void palette_AI8_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[161]);
+            Parse_Markdown(lines[165]);
             if (palette_enc == 0)
                 selected_palette(palette_ai8_ck);
             else
@@ -12318,7 +12530,7 @@ namespace plt0_gui
         }
         private void palette_RGB565_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[162]);
+            Parse_Markdown(lines[166]);
             if (palette_enc == 1)
                 selected_palette(palette_rgb565_ck);
             else
@@ -12341,7 +12553,7 @@ namespace plt0_gui
         }
         private void palette_RGB5A3_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[163]);
+            Parse_Markdown(lines[167]);
             if (palette_enc == 2)
                 selected_palette(palette_rgb5a3_ck);
             else
@@ -12362,7 +12574,7 @@ namespace plt0_gui
         }
         private void discord_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[164]);
+            Parse_Markdown(lines[168]);
             discord_ck.BackgroundImage = discord_hover;
         }
         private void discord_MouseLeave(object sender, EventArgs e)
@@ -12377,7 +12589,7 @@ namespace plt0_gui
         }
         private void github_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[165]);
+            Parse_Markdown(lines[169]);
             github_ck.BackgroundImage = github_hover;
         }
         private void github_MouseLeave(object sender, EventArgs e)
@@ -12392,7 +12604,7 @@ namespace plt0_gui
         }
         private void youtube_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[166]);
+            Parse_Markdown(lines[170]);
             youtube_ck.BackgroundImage = youtube_hover;
         }
         private void youtube_MouseLeave(object sender, EventArgs e)
@@ -12402,7 +12614,7 @@ namespace plt0_gui
         }
         private void version_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[167]);
+            Parse_Markdown(lines[171]);
             version_ck.BackgroundImage = version_hover;
         }
         private void version_MouseLeave(object sender, EventArgs e)
@@ -12412,7 +12624,7 @@ namespace plt0_gui
         }
         private void cli_textbox_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[168]);
+            Parse_Markdown(lines[172]);
             cli_textbox_ck.BackgroundImage = cli_textbox_hover;
         }
         private void cli_textbox_MouseLeave(object sender, EventArgs e)
@@ -12422,7 +12634,7 @@ namespace plt0_gui
         }
         private void run_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[169]);
+            Parse_Markdown(lines[173]);
             Check_run();
         }
         private void run_MouseLeave(object sender, EventArgs e)
@@ -12432,7 +12644,7 @@ namespace plt0_gui
         }
         private void Output_label_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[170]);
+            Parse_Markdown(lines[174]);
         }
         private void Output_label_MouseLeave(object sender, EventArgs e)
         {
@@ -12440,9 +12652,13 @@ namespace plt0_gui
         }
         private void Run_Click(object sender, EventArgs e)
         {
+            run_count++;
             Parse_args_class cli = new Parse_args_class();
             cli.Parse_args(arg_array.ToArray());
-            cli.Check_exit();
+            if (run_count < 2)
+                output_label.Text = "Run " + run_count.ToString() + " time\n" + cli.Check_exit();
+            else
+                output_label.Text = "Run " + run_count.ToString() + " times\n" + cli.Check_exit();
         }
     }
 }

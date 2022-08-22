@@ -21,6 +21,8 @@ output += """
 w = 0
 booleans = ["bmd", "bti", "tex0", "tpl", "bmp", "png", "jpg", "jpeg", "gif", "ico", "tif", "tiff", "ask_exit", "bmp_32", "FORCE_ALPHA", "funky", "no_warning", "random", "reverse", "safe_mode", "stfu", "warn"]
 check_run = ["\n            Check_run();"] * 12 + [""] * 30
+layout_auto = ["", "\n            View_WrapS();\n            View_WrapT();\n            View_min();\n            View_mag();"] * 2 + [""] * 30
+layout_auto2 = ["", "\n            Hide_WrapS();\n            Hide_WrapT();\n            Hide_min();\n            Hide_mag();"] * 2 + [""] * 30
 for y in booleans:
     x += 1
     w += 1
@@ -31,13 +33,13 @@ for y in booleans:
             {
                 """ + y + """ = false;
                 cli_textbox_label.Text = cli_textbox_label.Text.Replace(\"""" + y + """ ", "");
-                hover_checkbox(""" + y + """_ck);
+                hover_checkbox(""" + y + "_ck);" + layout_auto[w] + """
             }
             else
             {
                 """ + y + """ = true;
                 cli_textbox_label.Text += \"""" + y + """ ";
-                selected_checkbox(""" + y + """_ck);
+                selected_checkbox(""" + y + "_ck);" + layout_auto2[w] + """
             }""" + check_run[w] + """
         }
         private void """ + y + """_MouseEnter(object sender, EventArgs e)
@@ -66,8 +68,10 @@ for z in range(len(encoding)):
         private void """ + encoding[z].upper() + """_Click(object sender, EventArgs e)
         {
             unchecked_encoding(encoding_ck[encoding]);
+            Hide_encoding(encoding);
             selected_encoding(""" + encoding[z] + """_ck);
             encoding = """ + str(z) + """; // """ + encoding[z].upper() + check_run[z] + """
+            View_""" + encoding[z] + """();
             Organize_args();
         }
         private void """ + encoding[z].upper() + """_MouseEnter(object sender, EventArgs e)
@@ -87,12 +91,14 @@ for z in range(len(encoding)):
                 unchecked_encoding(""" + encoding[z] + """_ck);
         }"""
 algorithm = ["Cie_601", "Cie_709", "Custom", "No_gradient"]
+layout2 = ["","", "\n            View_rgba();", "\n            View_No_Gradient();"]
 for a in range(len(algorithm)):
     x += 1
     output += """
         private void """ + algorithm[a] + """_Click(object sender, EventArgs e)
         {
             unchecked_algorithm(algorithm_ck[algorithm]);
+            Hide_algorithm(algorithm);
             selected_algorithm(""" + algorithm[a].lower() + """_ck);
             algorithm = """ + str(a) + """; // """ + algorithm[a] + """
             Organize_args();
@@ -291,7 +297,7 @@ for g in channel:  # this looks unreadable because it's packed up instead of pas
             else
                 unchecked_""" + channel[h] + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
         }"""
-view = ["view_alpha", "view_algorithm", "view_WrapS", "view_WrapT", "view_min", "view_mag"]
+view = ["view_alpha", "view_algorithm", "view_WrapS", "view_WrapT", "view_min", "view_mag", "view_rgba", "view_palette", "view_cmpr", "view_options"]
 # ck_name = ["alpha_ck_array", "algorithm_ck", "WrapS_ck", "WrapT_ck", "minification_ck", "magnification_ck"]
 for j in range(len(view)):
     x += 1
@@ -653,9 +659,13 @@ for s in range(4):
 output += """
         private void Run_Click(object sender, EventArgs e)
         {
+            run_count ++;
             Parse_args_class cli = new Parse_args_class();
             cli.Parse_args(arg_array.ToArray());
-            cli.Check_exit();
+            if (run_count < 2)
+                output_label.Text = "Run " + run_count.ToString() + " time\\n" + cli.Check_exit();
+            else
+                output_label.Text = "Run " + run_count.ToString() + " times\\n" + cli.Check_exit();
         }
     }
 }
