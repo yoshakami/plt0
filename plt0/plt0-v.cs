@@ -2093,18 +2093,8 @@ namespace plt0_gui
             magnification_label.Visible = false;
             view_mag = false;
         }
-        private void View_cmpr()
+        private void View_diversity()
         {
-            cie_601_label.Text = "Default";
-            no_gradient_ck.Visible = true;
-            no_gradient_hitbox.Visible = true;
-            no_gradient_label.Visible = true;
-            cmpr_max_hitbox.Visible = true;
-            cmpr_max_label.Visible = true;
-            cmpr_max_txt.Visible = true;
-            cmpr_min_alpha_hitbox.Visible = true;
-            cmpr_min_alpha_label.Visible = true;
-            cmpr_min_alpha_txt.Visible = true;
             diversity_hitbox.Visible = true;
             diversity_label.Visible = true;
             diversity_txt.Visible = true;
@@ -2117,27 +2107,9 @@ namespace plt0_gui
             percentage_hitbox.Visible = true;
             percentage_label.Visible = true;
             percentage_txt.Visible = true;
-            round5_hitbox.Visible = true;
-            round5_label.Visible = true;
-            round5_txt.Visible = true;
-            round6_hitbox.Visible = true;
-            round6_label.Visible = true;
-            round6_txt.Visible = true;
-            view_cmpr = true;
         }
-        private void Hide_cmpr()
+        private void Hide_diversity()
         {
-            if (layout == 0)
-                return;
-            no_gradient_ck.Visible = false;
-            no_gradient_hitbox.Visible = false;
-            no_gradient_label.Visible = false;
-            cmpr_max_hitbox.Visible = false;
-            cmpr_max_label.Visible = false;
-            cmpr_max_txt.Visible = false;
-            cmpr_min_alpha_hitbox.Visible = false;
-            cmpr_min_alpha_label.Visible = false;
-            cmpr_min_alpha_txt.Visible = false;
             diversity_hitbox.Visible = false;
             diversity_label.Visible = false;
             diversity_txt.Visible = false;
@@ -2150,6 +2122,42 @@ namespace plt0_gui
             percentage_hitbox.Visible = false;
             percentage_label.Visible = false;
             percentage_txt.Visible = false;
+        }
+        private void View_cmpr()
+        {
+            View_diversity();
+            cie_601_label.Text = "Default";
+            no_gradient_ck.Visible = true;
+            no_gradient_hitbox.Visible = true;
+            no_gradient_label.Visible = true;
+            cmpr_max_hitbox.Visible = true;
+            cmpr_max_label.Visible = true;
+            cmpr_max_txt.Visible = true;
+            cmpr_min_alpha_hitbox.Visible = true;
+            cmpr_min_alpha_label.Visible = true;
+            cmpr_min_alpha_txt.Visible = true;
+            round5_hitbox.Visible = true;
+            round5_label.Visible = true;
+            round5_txt.Visible = true;
+            round6_hitbox.Visible = true;
+            round6_label.Visible = true;
+            round6_txt.Visible = true;
+            view_cmpr = true;
+        }
+        private void Hide_cmpr()
+        {
+            if (layout == 0)
+                return;
+            Hide_diversity();
+            no_gradient_ck.Visible = false;
+            no_gradient_hitbox.Visible = false;
+            no_gradient_label.Visible = false;
+            cmpr_max_hitbox.Visible = false;
+            cmpr_max_label.Visible = false;
+            cmpr_max_txt.Visible = false;
+            cmpr_min_alpha_hitbox.Visible = false;
+            cmpr_min_alpha_label.Visible = false;
+            cmpr_min_alpha_txt.Visible = false;
             round5_hitbox.Visible = false;
             round5_label.Visible = false;
             round5_txt.Visible = false;
@@ -2160,6 +2168,7 @@ namespace plt0_gui
         }
         private void View_palette()
         {
+            View_diversity();
             palette_label.Visible = true;
             palette_ai8_hitbox.Visible = true;
             palette_ai8_label.Visible = true;
@@ -2179,6 +2188,7 @@ namespace plt0_gui
         {
             if (layout == 0)
                 return;
+            Hide_diversity();
             palette_label.Visible = false;
             palette_ai8_hitbox.Visible = false;
             palette_ai8_label.Visible = false;
@@ -13428,7 +13438,7 @@ namespace plt0_gui
         private void palette_AI8_Click(object sender, EventArgs e)
         {
             unchecked_palette(palette_ck[palette_enc]);
-            Hide_encoding(palette_enc);
+            Hide_encoding((byte)(palette_enc + 3));
             selected_palette(palette_ai8_ck);
             palette_enc = 0;
             View_ai8();
@@ -13478,7 +13488,7 @@ namespace plt0_gui
         private void palette_RGB5A3_Click(object sender, EventArgs e)
         {
             unchecked_palette(palette_ck[palette_enc]);
-            Hide_encoding(palette_enc);
+            Hide_encoding((byte)(palette_enc + 3));
             selected_palette(palette_rgb5a3_ck);
             palette_enc = 2;
             View_rgb5a3();
