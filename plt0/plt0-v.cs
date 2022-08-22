@@ -8951,6 +8951,8 @@ namespace plt0_gui
             this.banner_move.Size = new System.Drawing.Size(800, 32);
             this.banner_move.TabIndex = 587;
             this.banner_move.MouseDown += new System.Windows.Forms.MouseEventHandler(this.banner_move_MouseDown);
+            this.banner_move.MouseEnter += new System.EventHandler(this.banner_move_MouseEnter);
+            this.banner_move.MouseLeave += new System.EventHandler(this.banner_move_MouseLeave);
             this.banner_move.MouseMove += new System.Windows.Forms.MouseEventHandler(this.banner_move_MouseMove);
             this.banner_move.MouseUp += new System.Windows.Forms.MouseEventHandler(this.banner_move_MouseUp);
             // 
@@ -8968,6 +8970,8 @@ namespace plt0_gui
             this.banner_resize.Size = new System.Drawing.Size(32, 32);
             this.banner_resize.TabIndex = 588;
             this.banner_resize.MouseDown += new System.Windows.Forms.MouseEventHandler(this.banner_resize_MouseDown);
+            this.banner_resize.MouseEnter += new System.EventHandler(this.banner_resize_MouseEnter);
+            this.banner_resize.MouseLeave += new System.EventHandler(this.banner_resize_MouseLeave);
             this.banner_resize.MouseMove += new System.Windows.Forms.MouseEventHandler(this.banner_resize_MouseMove);
             this.banner_resize.MouseUp += new System.Windows.Forms.MouseEventHandler(this.banner_resize_MouseUp);
             // 
@@ -13691,17 +13695,14 @@ namespace plt0_gui
             else
                 output_label.Text = "Run " + run_count.ToString() + " times\n" + cli.Check_exit();
         }
-
         private void banner_move_MouseEnter(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.SizeAll;
         }
-
         private void banner_move_MouseLeave(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.Default;
         }
-
         private void banner_move_MouseDown(object sender, MouseEventArgs e)
         {
             // e.Button;
@@ -13709,12 +13710,10 @@ namespace plt0_gui
             mouse_y = e.Y;
             mouse_down = true;
         }
-
         private void banner_move_MouseUp(object sender, MouseEventArgs e)
         {
             mouse_down = false;
         }
-
         private void banner_move_MouseMove(object sender, MouseEventArgs e)
         {
             if (mouse_down)
@@ -13725,7 +13724,6 @@ namespace plt0_gui
 
         private void banner_resize_MouseDown(object sender, MouseEventArgs e)
         {
-
             mouse_x = e.X;
             mouse_y = e.Y;
             mouse_down = true;
@@ -13733,18 +13731,26 @@ namespace plt0_gui
 
         private void banner_resize_MouseUp(object sender, MouseEventArgs e)
         {
-
             mouse_down = false;
         }
 
         private void banner_resize_MouseMove(object sender, MouseEventArgs e)
         {
-
             if (mouse_down)
             {
                 this.Location = new Point(this.Location.X + e.X - mouse_x, this.Location.Y + e.Y - mouse_y);
                 this.Size = new Size(this.Size.Width + mouse_x - e.X, this.Size.Height + mouse_y - e.Y);
             }
+        }
+
+        private void banner_resize_MouseEnter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void banner_resize_MouseLeave(object sender, EventArgs e)
+        {
+
         }
     }
 }

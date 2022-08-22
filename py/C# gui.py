@@ -610,10 +610,10 @@ for r in range(3):
             Hide_description();
             """ + banner_icon[r] + "_ck.BackgroundImage = " + banner_icon[r] + """;
         }"""
-text_icon = ["version", "cli_textbox", "run", "Output_label"]
-for s in range(4):
-    line2 = ["\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;"] * 2 + ["\n            Check_run();", ""]
-    line3 = ["\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + ";"] * 2 + ["\n            Check_run();", ""]
+text_icon = ["version", "cli_textbox", "run", "Output_label", "banner_move", "banner_resize"]
+for s in range(6):
+    line2 = ["\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;"] * 2 + ["\n            Check_run();", "", "", ""]
+    line3 = ["\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + ";"] * 2 + ["\n            Check_run();", "", "", ""]
     x += 1
     output += """
         private void """ + text_icon[s] + """_MouseEnter(object sender, EventArgs e)
@@ -623,6 +623,27 @@ for s in range(4):
         private void """ + text_icon[s] + """_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();""" + line3[s] + """
+        }"""
+line4 = [''] * 5 + ["\n                this.Size = new Size(this.Size.Width + mouse_x - e.X, this.Size.Height + mouse_y - e.Y);"]
+for t in range(4, 6):
+    output += """
+        private void """ + text_icon[s] + """_MouseDown(object sender, MouseEventArgs e)
+        {
+            // e.Button;
+            mouse_x = e.X;
+            mouse_y = e.Y;
+            mouse_down = true;
+        }
+        private void """ + text_icon[s] + """_MouseUp(object sender, MouseEventArgs e)
+        {
+            mouse_down = false;
+        }
+        private void banner_move_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (mouse_down)
+            {
+                this.Location = new Point(this.Location.X + e.X - mouse_x, this.Location.Y + e.Y - mouse_y);""" + line4[s] + """
+            }
         }"""
 view = ["view_alpha", "view_algorithm", "view_WrapS", "view_WrapT", "view_min", "view_mag", "view_rgba", "view_palette", "view_cmpr", "view_options"]
 # ck_name = ["alpha_ck_array", "algorithm_ck", "WrapS_ck", "WrapT_ck", "minification_ck", "magnification_ck"]
