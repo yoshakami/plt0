@@ -1059,25 +1059,40 @@ namespace plt0_gui
             else
                 txt.Text = txt.Text.Substring(0, len - 1);
         }
-        private void Check_run()
+        private bool Check_run()
         {
             if (bmd)
             {
                 if (!File.Exists(input_file2))
                 {
                     run_ck.BackgroundImage = run_off;
-                    return;
+                    return false;
                 }
             }
             if (File.Exists(input_file) && encoding != 7)
             {
                 if (bmd || bti || tex0 || tpl || bmp || png || jpeg || gif || ico || tif || tiff)
+                {
                     run_ck.BackgroundImage = run_on;
+                    return true;
+                }
                 else
+                {
                     run_ck.BackgroundImage = run_off;
+                    return true;  // yup, technically you can preview the file even though output file type isn't inserted haha
+                }
             }
             else
+            {
                 run_ck.BackgroundImage = run_off;
+                return false;
+            }
+        }
+        private void Preview()
+        {
+            if (layout != 2)
+                return;
+
         }
         private void Organize_args()
         {
@@ -1501,6 +1516,7 @@ namespace plt0_gui
         private void selected_encoding(PictureBox radiobutton)
         {
             radiobutton.BackgroundImage = pink_circle_on;
+            
         }
         private void unchecked_A(PictureBox radiobutton)
         {
@@ -2905,41 +2921,22 @@ namespace plt0_gui
             this.view_cmpr_ck = new System.Windows.Forms.PictureBox();
             this.view_cmpr_label = new System.Windows.Forms.Label();
             this.view_cmpr_hitbox = new System.Windows.Forms.Label();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.pictureBox5 = new System.Windows.Forms.PictureBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.pictureBox6 = new System.Windows.Forms.PictureBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.pictureBox7 = new System.Windows.Forms.PictureBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.pictureBox8 = new System.Windows.Forms.PictureBox();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
-            this.pictureBox9 = new System.Windows.Forms.PictureBox();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
-            this.pictureBox10 = new System.Windows.Forms.PictureBox();
-            this.label19 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.pictureBox11 = new System.Windows.Forms.PictureBox();
-            this.label21 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
             this.view_options_ck = new System.Windows.Forms.PictureBox();
             this.view_options_label = new System.Windows.Forms.Label();
             this.view_options_hitbox = new System.Windows.Forms.Label();
             this.banner_move = new System.Windows.Forms.Label();
             this.banner_resize = new System.Windows.Forms.Label();
+            this.textchange_ck = new System.Windows.Forms.PictureBox();
+            this.textchange_label = new System.Windows.Forms.Label();
+            this.textchange_hitbox = new System.Windows.Forms.Label();
+            this.auto_update_ck = new System.Windows.Forms.PictureBox();
+            this.auto_update_label = new System.Windows.Forms.Label();
+            this.auto_update_hitbox = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.upscale_ck = new System.Windows.Forms.PictureBox();
+            this.upscale_label = new System.Windows.Forms.Label();
+            this.upscale_hitbox = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.bmd_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
@@ -3050,17 +3047,11 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.view_rgba_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.view_palette_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.view_cmpr_ck)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.view_options_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textchange_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.auto_update_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.upscale_ck)).BeginInit();
             this.SuspendLayout();
             // 
             // output_file_type_label
@@ -8766,416 +8757,6 @@ namespace plt0_gui
             this.view_cmpr_hitbox.MouseEnter += new System.EventHandler(this.view_cmpr_MouseEnter);
             this.view_cmpr_hitbox.MouseLeave += new System.EventHandler(this.view_cmpr_MouseLeave);
             // 
-            // pictureBox2
-            // 
-            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.pictureBox2.Enabled = false;
-            this.pictureBox2.ErrorImage = null;
-            this.pictureBox2.InitialImage = null;
-            this.pictureBox2.Location = new System.Drawing.Point(1170, 1259);
-            this.pictureBox2.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(64, 64);
-            this.pictureBox2.TabIndex = 580;
-            this.pictureBox2.TabStop = false;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.label3.ForeColor = System.Drawing.SystemColors.Window;
-            this.label3.Location = new System.Drawing.Point(1238, 1259);
-            this.label3.Margin = new System.Windows.Forms.Padding(0);
-            this.label3.Name = "label3";
-            this.label3.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.label3.Size = new System.Drawing.Size(93, 64);
-            this.label3.TabIndex = 578;
-            this.label3.Text = "CI14x2";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.BackColor = System.Drawing.Color.Transparent;
-            this.label4.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.label4.ForeColor = System.Drawing.SystemColors.Control;
-            this.label4.Location = new System.Drawing.Point(1167, 1259);
-            this.label4.Margin = new System.Windows.Forms.Padding(0);
-            this.label4.Name = "label4";
-            this.label4.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
-            this.label4.Size = new System.Drawing.Size(190, 64);
-            this.label4.TabIndex = 579;
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.pictureBox3.Enabled = false;
-            this.pictureBox3.ErrorImage = null;
-            this.pictureBox3.InitialImage = null;
-            this.pictureBox3.Location = new System.Drawing.Point(1170, 1195);
-            this.pictureBox3.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(64, 64);
-            this.pictureBox3.TabIndex = 577;
-            this.pictureBox3.TabStop = false;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.BackColor = System.Drawing.Color.Transparent;
-            this.label5.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.label5.ForeColor = System.Drawing.SystemColors.Window;
-            this.label5.Location = new System.Drawing.Point(1238, 1196);
-            this.label5.Margin = new System.Windows.Forms.Padding(0);
-            this.label5.Name = "label5";
-            this.label5.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.label5.Size = new System.Drawing.Size(48, 64);
-            this.label5.TabIndex = 575;
-            this.label5.Text = "CI8";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.BackColor = System.Drawing.Color.Transparent;
-            this.label6.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.label6.ForeColor = System.Drawing.SystemColors.Control;
-            this.label6.Location = new System.Drawing.Point(1167, 1195);
-            this.label6.Margin = new System.Windows.Forms.Padding(0);
-            this.label6.Name = "label6";
-            this.label6.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
-            this.label6.Size = new System.Drawing.Size(190, 64);
-            this.label6.TabIndex = 576;
-            // 
-            // pictureBox4
-            // 
-            this.pictureBox4.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.pictureBox4.Enabled = false;
-            this.pictureBox4.ErrorImage = null;
-            this.pictureBox4.InitialImage = null;
-            this.pictureBox4.Location = new System.Drawing.Point(1170, 1131);
-            this.pictureBox4.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(64, 64);
-            this.pictureBox4.TabIndex = 574;
-            this.pictureBox4.TabStop = false;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.BackColor = System.Drawing.Color.Transparent;
-            this.label7.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.label7.ForeColor = System.Drawing.SystemColors.Window;
-            this.label7.Location = new System.Drawing.Point(1238, 1132);
-            this.label7.Margin = new System.Windows.Forms.Padding(0);
-            this.label7.Name = "label7";
-            this.label7.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.label7.Size = new System.Drawing.Size(48, 64);
-            this.label7.TabIndex = 572;
-            this.label7.Text = "CI4";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.BackColor = System.Drawing.Color.Transparent;
-            this.label8.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.label8.ForeColor = System.Drawing.SystemColors.Control;
-            this.label8.Location = new System.Drawing.Point(1167, 1131);
-            this.label8.Margin = new System.Windows.Forms.Padding(0);
-            this.label8.Name = "label8";
-            this.label8.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
-            this.label8.Size = new System.Drawing.Size(190, 64);
-            this.label8.TabIndex = 573;
-            // 
-            // pictureBox5
-            // 
-            this.pictureBox5.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.pictureBox5.Enabled = false;
-            this.pictureBox5.ErrorImage = null;
-            this.pictureBox5.InitialImage = null;
-            this.pictureBox5.Location = new System.Drawing.Point(875, 1259);
-            this.pictureBox5.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(64, 64);
-            this.pictureBox5.TabIndex = 571;
-            this.pictureBox5.TabStop = false;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.BackColor = System.Drawing.Color.Transparent;
-            this.label9.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.label9.ForeColor = System.Drawing.SystemColors.Window;
-            this.label9.Location = new System.Drawing.Point(943, 1260);
-            this.label9.Margin = new System.Windows.Forms.Padding(0);
-            this.label9.Name = "label9";
-            this.label9.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.label9.Size = new System.Drawing.Size(108, 64);
-            this.label9.TabIndex = 569;
-            this.label9.Text = "RGBA32";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.BackColor = System.Drawing.Color.Transparent;
-            this.label10.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.label10.ForeColor = System.Drawing.SystemColors.Control;
-            this.label10.Location = new System.Drawing.Point(872, 1259);
-            this.label10.Margin = new System.Windows.Forms.Padding(0);
-            this.label10.Name = "label10";
-            this.label10.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
-            this.label10.Size = new System.Drawing.Size(190, 64);
-            this.label10.TabIndex = 570;
-            // 
-            // pictureBox6
-            // 
-            this.pictureBox6.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.pictureBox6.Enabled = false;
-            this.pictureBox6.ErrorImage = null;
-            this.pictureBox6.InitialImage = null;
-            this.pictureBox6.Location = new System.Drawing.Point(875, 1195);
-            this.pictureBox6.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBox6.Name = "pictureBox6";
-            this.pictureBox6.Size = new System.Drawing.Size(64, 64);
-            this.pictureBox6.TabIndex = 568;
-            this.pictureBox6.TabStop = false;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.BackColor = System.Drawing.Color.Transparent;
-            this.label11.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.label11.ForeColor = System.Drawing.SystemColors.Window;
-            this.label11.Location = new System.Drawing.Point(943, 1196);
-            this.label11.Margin = new System.Windows.Forms.Padding(0);
-            this.label11.Name = "label11";
-            this.label11.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.label11.Size = new System.Drawing.Size(108, 64);
-            this.label11.TabIndex = 566;
-            this.label11.Text = "RGB5A3";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.BackColor = System.Drawing.Color.Transparent;
-            this.label12.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.label12.ForeColor = System.Drawing.SystemColors.Control;
-            this.label12.Location = new System.Drawing.Point(872, 1195);
-            this.label12.Margin = new System.Windows.Forms.Padding(0);
-            this.label12.Name = "label12";
-            this.label12.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
-            this.label12.Size = new System.Drawing.Size(190, 64);
-            this.label12.TabIndex = 567;
-            // 
-            // pictureBox7
-            // 
-            this.pictureBox7.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.pictureBox7.Enabled = false;
-            this.pictureBox7.ErrorImage = null;
-            this.pictureBox7.InitialImage = null;
-            this.pictureBox7.Location = new System.Drawing.Point(875, 1131);
-            this.pictureBox7.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBox7.Name = "pictureBox7";
-            this.pictureBox7.Size = new System.Drawing.Size(64, 64);
-            this.pictureBox7.TabIndex = 565;
-            this.pictureBox7.TabStop = false;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.BackColor = System.Drawing.Color.Transparent;
-            this.label13.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.label13.ForeColor = System.Drawing.SystemColors.Window;
-            this.label13.Location = new System.Drawing.Point(943, 1131);
-            this.label13.Margin = new System.Windows.Forms.Padding(0);
-            this.label13.Name = "label13";
-            this.label13.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.label13.Size = new System.Drawing.Size(107, 64);
-            this.label13.TabIndex = 563;
-            this.label13.Text = "RGB565";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.BackColor = System.Drawing.Color.Transparent;
-            this.label14.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.label14.ForeColor = System.Drawing.SystemColors.Control;
-            this.label14.Location = new System.Drawing.Point(872, 1131);
-            this.label14.Margin = new System.Windows.Forms.Padding(0);
-            this.label14.Name = "label14";
-            this.label14.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
-            this.label14.Size = new System.Drawing.Size(190, 64);
-            this.label14.TabIndex = 564;
-            // 
-            // pictureBox8
-            // 
-            this.pictureBox8.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.pictureBox8.Enabled = false;
-            this.pictureBox8.ErrorImage = null;
-            this.pictureBox8.InitialImage = null;
-            this.pictureBox8.Location = new System.Drawing.Point(599, 1323);
-            this.pictureBox8.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBox8.Name = "pictureBox8";
-            this.pictureBox8.Size = new System.Drawing.Size(64, 64);
-            this.pictureBox8.TabIndex = 562;
-            this.pictureBox8.TabStop = false;
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.BackColor = System.Drawing.Color.Transparent;
-            this.label15.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.label15.ForeColor = System.Drawing.SystemColors.Window;
-            this.label15.Location = new System.Drawing.Point(667, 1324);
-            this.label15.Margin = new System.Windows.Forms.Padding(0);
-            this.label15.Name = "label15";
-            this.label15.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.label15.Size = new System.Drawing.Size(48, 64);
-            this.label15.TabIndex = 560;
-            this.label15.Text = "AI8";
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.BackColor = System.Drawing.Color.Transparent;
-            this.label16.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.label16.ForeColor = System.Drawing.SystemColors.Control;
-            this.label16.Location = new System.Drawing.Point(596, 1323);
-            this.label16.Margin = new System.Windows.Forms.Padding(0);
-            this.label16.Name = "label16";
-            this.label16.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
-            this.label16.Size = new System.Drawing.Size(190, 64);
-            this.label16.TabIndex = 561;
-            // 
-            // pictureBox9
-            // 
-            this.pictureBox9.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox9.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.pictureBox9.Enabled = false;
-            this.pictureBox9.ErrorImage = null;
-            this.pictureBox9.InitialImage = null;
-            this.pictureBox9.Location = new System.Drawing.Point(599, 1259);
-            this.pictureBox9.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBox9.Name = "pictureBox9";
-            this.pictureBox9.Size = new System.Drawing.Size(64, 64);
-            this.pictureBox9.TabIndex = 559;
-            this.pictureBox9.TabStop = false;
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.BackColor = System.Drawing.Color.Transparent;
-            this.label17.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.label17.ForeColor = System.Drawing.SystemColors.Window;
-            this.label17.Location = new System.Drawing.Point(667, 1260);
-            this.label17.Margin = new System.Windows.Forms.Padding(0);
-            this.label17.Name = "label17";
-            this.label17.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.label17.Size = new System.Drawing.Size(48, 64);
-            this.label17.TabIndex = 557;
-            this.label17.Text = "AI4";
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.BackColor = System.Drawing.Color.Transparent;
-            this.label18.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.label18.ForeColor = System.Drawing.SystemColors.Control;
-            this.label18.Location = new System.Drawing.Point(596, 1259);
-            this.label18.Margin = new System.Windows.Forms.Padding(0);
-            this.label18.Name = "label18";
-            this.label18.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
-            this.label18.Size = new System.Drawing.Size(190, 64);
-            this.label18.TabIndex = 558;
-            // 
-            // pictureBox10
-            // 
-            this.pictureBox10.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox10.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.pictureBox10.Enabled = false;
-            this.pictureBox10.ErrorImage = null;
-            this.pictureBox10.InitialImage = null;
-            this.pictureBox10.Location = new System.Drawing.Point(599, 1195);
-            this.pictureBox10.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBox10.Name = "pictureBox10";
-            this.pictureBox10.Size = new System.Drawing.Size(64, 64);
-            this.pictureBox10.TabIndex = 556;
-            this.pictureBox10.TabStop = false;
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.BackColor = System.Drawing.Color.Transparent;
-            this.label19.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.label19.ForeColor = System.Drawing.SystemColors.Window;
-            this.label19.Location = new System.Drawing.Point(667, 1195);
-            this.label19.Margin = new System.Windows.Forms.Padding(0);
-            this.label19.Name = "label19";
-            this.label19.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.label19.Size = new System.Drawing.Size(31, 64);
-            this.label19.TabIndex = 554;
-            this.label19.Text = "I8";
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.BackColor = System.Drawing.Color.Transparent;
-            this.label20.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.label20.ForeColor = System.Drawing.SystemColors.Control;
-            this.label20.Location = new System.Drawing.Point(596, 1195);
-            this.label20.Margin = new System.Windows.Forms.Padding(0);
-            this.label20.Name = "label20";
-            this.label20.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
-            this.label20.Size = new System.Drawing.Size(190, 64);
-            this.label20.TabIndex = 555;
-            // 
-            // pictureBox11
-            // 
-            this.pictureBox11.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox11.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.pictureBox11.Enabled = false;
-            this.pictureBox11.ErrorImage = null;
-            this.pictureBox11.InitialImage = null;
-            this.pictureBox11.Location = new System.Drawing.Point(599, 1131);
-            this.pictureBox11.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBox11.Name = "pictureBox11";
-            this.pictureBox11.Size = new System.Drawing.Size(64, 64);
-            this.pictureBox11.TabIndex = 553;
-            this.pictureBox11.TabStop = false;
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.BackColor = System.Drawing.Color.Transparent;
-            this.label21.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.label21.ForeColor = System.Drawing.SystemColors.Window;
-            this.label21.Location = new System.Drawing.Point(667, 1131);
-            this.label21.Margin = new System.Windows.Forms.Padding(0);
-            this.label21.Name = "label21";
-            this.label21.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.label21.Size = new System.Drawing.Size(31, 64);
-            this.label21.TabIndex = 551;
-            this.label21.Text = "I4";
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.BackColor = System.Drawing.Color.Transparent;
-            this.label22.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.label22.ForeColor = System.Drawing.SystemColors.Control;
-            this.label22.Location = new System.Drawing.Point(596, 1131);
-            this.label22.Margin = new System.Windows.Forms.Padding(0);
-            this.label22.Name = "label22";
-            this.label22.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
-            this.label22.Size = new System.Drawing.Size(190, 64);
-            this.label22.TabIndex = 552;
-            // 
             // view_options_ck
             // 
             this.view_options_ck.BackColor = System.Drawing.Color.Transparent;
@@ -9261,6 +8842,156 @@ namespace plt0_gui
             this.banner_resize.MouseMove += new System.Windows.Forms.MouseEventHandler(this.banner_resize_MouseMove);
             this.banner_resize.MouseUp += new System.Windows.Forms.MouseEventHandler(this.banner_resize_MouseUp);
             // 
+            // textchange_ck
+            // 
+            this.textchange_ck.BackColor = System.Drawing.Color.Transparent;
+            this.textchange_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.textchange_ck.Enabled = false;
+            this.textchange_ck.ErrorImage = null;
+            this.textchange_ck.InitialImage = null;
+            this.textchange_ck.Location = new System.Drawing.Point(503, 32);
+            this.textchange_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.textchange_ck.Name = "textchange_ck";
+            this.textchange_ck.Size = new System.Drawing.Size(64, 64);
+            this.textchange_ck.TabIndex = 590;
+            this.textchange_ck.TabStop = false;
+            // 
+            // textchange_label
+            // 
+            this.textchange_label.AutoSize = true;
+            this.textchange_label.BackColor = System.Drawing.Color.Transparent;
+            this.textchange_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.textchange_label.ForeColor = System.Drawing.SystemColors.Window;
+            this.textchange_label.Location = new System.Drawing.Point(572, 32);
+            this.textchange_label.Margin = new System.Windows.Forms.Padding(0);
+            this.textchange_label.Name = "textchange_label";
+            this.textchange_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.textchange_label.Size = new System.Drawing.Size(358, 64);
+            this.textchange_label.TabIndex = 589;
+            this.textchange_label.Text = "Update preview for textboxes";
+            // 
+            // textchange_hitbox
+            // 
+            this.textchange_hitbox.AutoSize = true;
+            this.textchange_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.textchange_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.textchange_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.textchange_hitbox.Location = new System.Drawing.Point(496, 32);
+            this.textchange_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.textchange_hitbox.Name = "textchange_hitbox";
+            this.textchange_hitbox.Padding = new System.Windows.Forms.Padding(100, 44, 0, 0);
+            this.textchange_hitbox.Size = new System.Drawing.Size(100, 64);
+            this.textchange_hitbox.TabIndex = 591;
+            // 
+            // auto_update_ck
+            // 
+            this.auto_update_ck.BackColor = System.Drawing.Color.Transparent;
+            this.auto_update_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.auto_update_ck.Enabled = false;
+            this.auto_update_ck.ErrorImage = null;
+            this.auto_update_ck.InitialImage = null;
+            this.auto_update_ck.Location = new System.Drawing.Point(968, 32);
+            this.auto_update_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.auto_update_ck.Name = "auto_update_ck";
+            this.auto_update_ck.Size = new System.Drawing.Size(64, 64);
+            this.auto_update_ck.TabIndex = 593;
+            this.auto_update_ck.TabStop = false;
+            // 
+            // auto_update_label
+            // 
+            this.auto_update_label.AutoSize = true;
+            this.auto_update_label.BackColor = System.Drawing.Color.Transparent;
+            this.auto_update_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.auto_update_label.ForeColor = System.Drawing.SystemColors.Window;
+            this.auto_update_label.Location = new System.Drawing.Point(1037, 32);
+            this.auto_update_label.Margin = new System.Windows.Forms.Padding(0);
+            this.auto_update_label.Name = "auto_update_label";
+            this.auto_update_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.auto_update_label.Size = new System.Drawing.Size(252, 64);
+            this.auto_update_label.TabIndex = 592;
+            this.auto_update_label.Text = "Auto update preview";
+            // 
+            // auto_update_hitbox
+            // 
+            this.auto_update_hitbox.AutoSize = true;
+            this.auto_update_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.auto_update_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.auto_update_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.auto_update_hitbox.Location = new System.Drawing.Point(961, 32);
+            this.auto_update_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.auto_update_hitbox.Name = "auto_update_hitbox";
+            this.auto_update_hitbox.Padding = new System.Windows.Forms.Padding(100, 44, 0, 0);
+            this.auto_update_hitbox.Size = new System.Drawing.Size(100, 64);
+            this.auto_update_hitbox.TabIndex = 594;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pictureBox1.Enabled = false;
+            this.pictureBox1.ErrorImage = null;
+            this.pictureBox1.InitialImage = null;
+            this.pictureBox1.Location = new System.Drawing.Point(1647, 32);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(256, 64);
+            this.pictureBox1.TabIndex = 596;
+            this.pictureBox1.TabStop = false;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.label2.ForeColor = System.Drawing.SystemColors.Control;
+            this.label2.Location = new System.Drawing.Point(1366, 31);
+            this.label2.Margin = new System.Windows.Forms.Padding(0);
+            this.label2.Name = "label2";
+            this.label2.Padding = new System.Windows.Forms.Padding(100, 44, 0, 0);
+            this.label2.Size = new System.Drawing.Size(100, 64);
+            this.label2.TabIndex = 597;
+            // 
+            // upscale_ck
+            // 
+            this.upscale_ck.BackColor = System.Drawing.Color.Transparent;
+            this.upscale_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.upscale_ck.Enabled = false;
+            this.upscale_ck.ErrorImage = null;
+            this.upscale_ck.InitialImage = null;
+            this.upscale_ck.Location = new System.Drawing.Point(1321, 32);
+            this.upscale_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.upscale_ck.Name = "upscale_ck";
+            this.upscale_ck.Size = new System.Drawing.Size(64, 64);
+            this.upscale_ck.TabIndex = 599;
+            this.upscale_ck.TabStop = false;
+            // 
+            // upscale_label
+            // 
+            this.upscale_label.AutoSize = true;
+            this.upscale_label.BackColor = System.Drawing.Color.Transparent;
+            this.upscale_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.upscale_label.ForeColor = System.Drawing.SystemColors.Window;
+            this.upscale_label.Location = new System.Drawing.Point(1390, 32);
+            this.upscale_label.Margin = new System.Windows.Forms.Padding(0);
+            this.upscale_label.Name = "upscale_label";
+            this.upscale_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.upscale_label.Size = new System.Drawing.Size(201, 64);
+            this.upscale_label.TabIndex = 598;
+            this.upscale_label.Text = "Upscale Preview";
+            // 
+            // upscale_hitbox
+            // 
+            this.upscale_hitbox.AutoSize = true;
+            this.upscale_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.upscale_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.upscale_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.upscale_hitbox.Location = new System.Drawing.Point(1314, 32);
+            this.upscale_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.upscale_hitbox.Name = "upscale_hitbox";
+            this.upscale_hitbox.Padding = new System.Windows.Forms.Padding(100, 44, 0, 0);
+            this.upscale_hitbox.Size = new System.Drawing.Size(100, 64);
+            this.upscale_hitbox.TabIndex = 600;
+            // 
             // plt0_gui
             // 
             this.AllowDrop = true;
@@ -9268,7 +8999,18 @@ namespace plt0_gui
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1924, 1061);
+            this.ClientSize = new System.Drawing.Size(2900, 1765);
+            this.Controls.Add(this.upscale_ck);
+            this.Controls.Add(this.upscale_label);
+            this.Controls.Add(this.upscale_hitbox);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.auto_update_ck);
+            this.Controls.Add(this.auto_update_label);
+            this.Controls.Add(this.auto_update_hitbox);
+            this.Controls.Add(this.textchange_ck);
+            this.Controls.Add(this.textchange_label);
+            this.Controls.Add(this.textchange_hitbox);
             this.Controls.Add(this.palette_rgb565_label);
             this.Controls.Add(this.alpha_label);
             this.Controls.Add(this.ask_exit_ck);
@@ -9305,36 +9047,6 @@ namespace plt0_gui
             this.Controls.Add(this.view_cmpr_ck);
             this.Controls.Add(this.view_cmpr_label);
             this.Controls.Add(this.view_cmpr_hitbox);
-            this.Controls.Add(this.pictureBox2);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.pictureBox3);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.pictureBox4);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.pictureBox5);
-            this.Controls.Add(this.label9);
-            this.Controls.Add(this.label10);
-            this.Controls.Add(this.pictureBox6);
-            this.Controls.Add(this.label11);
-            this.Controls.Add(this.label12);
-            this.Controls.Add(this.pictureBox7);
-            this.Controls.Add(this.label13);
-            this.Controls.Add(this.label14);
-            this.Controls.Add(this.pictureBox8);
-            this.Controls.Add(this.label15);
-            this.Controls.Add(this.label16);
-            this.Controls.Add(this.pictureBox9);
-            this.Controls.Add(this.label17);
-            this.Controls.Add(this.label18);
-            this.Controls.Add(this.pictureBox10);
-            this.Controls.Add(this.label19);
-            this.Controls.Add(this.label20);
-            this.Controls.Add(this.pictureBox11);
-            this.Controls.Add(this.label21);
-            this.Controls.Add(this.label22);
             this.Controls.Add(this.view_palette_ck);
             this.Controls.Add(this.view_palette_label);
             this.Controls.Add(this.view_palette_hitbox);
@@ -9797,17 +9509,11 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.view_rgba_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.view_palette_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.view_cmpr_ck)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.view_options_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textchange_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.auto_update_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.upscale_ck)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
