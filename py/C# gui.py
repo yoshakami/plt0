@@ -643,7 +643,7 @@ for t in range(4, 6):
         {
             if (mouse_down)
             {
-                this.Location = new Point(this.Location.X + e.X - mouse_x, this.Location.Y + e.Y - mouse_y);""" + line4[s] + """
+                this.Location = new Point(this.Location.X + e.X - mouse_x, this.Location.Y + e.Y - mouse_y);""" + line4[t] + """
             }
         }"""
 view = ["view_alpha", "view_algorithm", "view_WrapS", "view_WrapT", "view_min", "view_mag", "view_rgba", "view_palette", "view_cmpr", "view_options"]

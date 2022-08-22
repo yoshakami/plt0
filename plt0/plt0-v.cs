@@ -13625,7 +13625,6 @@ namespace plt0_gui
             if (mouse_down)
             {
                 this.Location = new Point(this.Location.X + e.X - mouse_x, this.Location.Y + e.Y - mouse_y);
-                this.Size = new Size(this.Size.Width + mouse_x - e.X, this.Size.Height + mouse_y - e.Y);
             }
         }
         private void banner_resize_MouseDown(object sender, MouseEventArgs e)
