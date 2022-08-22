@@ -8906,6 +8906,9 @@ namespace plt0_gui
             this.textchange_label.Size = new System.Drawing.Size(358, 64);
             this.textchange_label.TabIndex = 589;
             this.textchange_label.Text = "Update preview for textboxes";
+            this.textchange_label.Click += new System.EventHandler(this.textchange_Click);
+            this.textchange_label.MouseEnter += new System.EventHandler(this.textchange_MouseEnter);
+            this.textchange_label.MouseLeave += new System.EventHandler(this.textchange_MouseLeave);
             // 
             // textchange_hitbox
             // 
@@ -8982,7 +8985,9 @@ namespace plt0_gui
             this.sync_preview_ck.Size = new System.Drawing.Size(256, 64);
             this.sync_preview_ck.TabIndex = 596;
             this.sync_preview_ck.TabStop = false;
-            this.sync_preview_ck.Click += new System.EventHandler(this.safe_mode_Click);
+            this.sync_preview_ck.Click += new System.EventHandler(this.sync_preview_Click);
+            this.sync_preview_ck.MouseEnter += new System.EventHandler(this.sync_preview_MouseEnter);
+            this.sync_preview_ck.MouseLeave += new System.EventHandler(this.sync_preview_MouseLeave);
             // 
             // label2
             // 
@@ -9052,14 +9057,14 @@ namespace plt0_gui
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1924, 1061);
+            this.Controls.Add(this.auto_update_label);
+            this.Controls.Add(this.upscale_label);
             this.Controls.Add(this.textchange_label);
             this.Controls.Add(this.upscale_ck);
-            this.Controls.Add(this.upscale_label);
             this.Controls.Add(this.upscale_hitbox);
             this.Controls.Add(this.sync_preview_ck);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.auto_update_ck);
-            this.Controls.Add(this.auto_update_label);
             this.Controls.Add(this.auto_update_hitbox);
             this.Controls.Add(this.textchange_ck);
             this.Controls.Add(this.textchange_hitbox);
@@ -10064,6 +10069,22 @@ namespace plt0_gui
             if (File.Exists(execPath + "images/version_hover.png"))
             {
                 version_hover = Image.FromFile(execPath + "images/version_hover.png");
+            }
+            if (File.Exists(execPath + "images/sync_preview_on.png"))
+            {
+                sync_preview_on = Image.FromFile(execPath + "images/sync_preview_on.png");
+            }
+            if (File.Exists(execPath + "images/sync_preview_off.png"))
+            {
+                sync_preview_off = Image.FromFile(execPath + "images/sync_preview_off.png");
+            }
+            if (File.Exists(execPath + "images/sync_preview_hover.png"))
+            {
+                sync_preview_hover = Image.FromFile(execPath + "images/sync_preview_hover.png");
+            }
+            if (File.Exists(execPath + "images/sync_preview_selected.png"))
+            {
+                sync_preview_selected = Image.FromFile(execPath + "images/sync_preview_selected.png");
             }
         }
         private void bmd_Click(object sender, EventArgs e)
@@ -13978,6 +13999,10 @@ namespace plt0_gui
                 output_label.Text = "Run " + run_count.ToString() + " time\n" + cli.Check_exit();
             else
                 output_label.Text = "Run " + run_count.ToString() + " times\n" + cli.Check_exit();
+        }
+        private void sync_preview_Click(object sender, EventArgs e)
+        {
+            Preview();
         }
     }
 }
