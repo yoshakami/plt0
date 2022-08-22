@@ -1695,6 +1695,7 @@ namespace plt0_gui
         }
         private void Layout_All()
         {
+            View_alpha();
             View_algorithm(255);
             View_cmpr();
             View_palette();
@@ -1703,7 +1704,13 @@ namespace plt0_gui
             View_WrapS();
             View_WrapT();
             View_options();
-            View_rgb5a3();
+            View_rgba();
+            round3_hitbox.Visible = true;
+            round3_label.Visible = true;
+            round3_txt.Visible = true;
+            round4_hitbox.Visible = true;
+            round4_label.Visible = true;
+            round4_txt.Visible = true;
         }
         private void Layout_Auto()
         {
@@ -9181,6 +9188,8 @@ namespace plt0_gui
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1924, 1061);
+            this.Controls.Add(this.alpha_label);
+            this.Controls.Add(this.ask_exit_ck);
             this.Controls.Add(this.ask_exit_label);
             this.Controls.Add(this.Tclamp_label);
             this.Controls.Add(this.Trepeat_label);
@@ -9205,7 +9214,6 @@ namespace plt0_gui
             this.Controls.Add(this.no_gradient_label);
             this.Controls.Add(this.no_alpha_label);
             this.Controls.Add(this.mix_label);
-            this.Controls.Add(this.alpha_label);
             this.Controls.Add(this.palette_ai8_ck);
             this.Controls.Add(this.palette_ai8_label);
             this.Controls.Add(this.cie_601_label);
@@ -9490,7 +9498,6 @@ namespace plt0_gui
             this.Controls.Add(this.FORCE_ALPHA_label);
             this.Controls.Add(this.bmp_32_ck);
             this.Controls.Add(this.bmp_32_label);
-            this.Controls.Add(this.ask_exit_ck);
             this.Controls.Add(this.ask_exit_hitbox);
             this.Controls.Add(this.options_label);
             this.Controls.Add(this.tiff_ck);
@@ -10227,20 +10234,12 @@ namespace plt0_gui
                 bmd = false;
                 cli_textbox_label.Text = cli_textbox_label.Text.Replace("bmd ", "");
                 hover_checkbox(bmd_ck);
-                View_WrapS();
-                View_WrapT();
-                View_min();
-                View_mag();
             }
             else
             {
                 bmd = true;
                 cli_textbox_label.Text += "bmd ";
                 selected_checkbox(bmd_ck);
-                Hide_WrapS();
-                Hide_WrapT();
-                Hide_min();
-                Hide_mag();
             }
             Check_run();
         }
@@ -10267,12 +10266,20 @@ namespace plt0_gui
                 bti = false;
                 cli_textbox_label.Text = cli_textbox_label.Text.Replace("bti ", "");
                 hover_checkbox(bti_ck);
+                View_WrapS();
+                View_WrapT();
+                View_min();
+                View_mag();
             }
             else
             {
                 bti = true;
                 cli_textbox_label.Text += "bti ";
                 selected_checkbox(bti_ck);
+                Hide_WrapS();
+                Hide_WrapT();
+                Hide_min();
+                Hide_mag();
             }
             Check_run();
         }
@@ -10299,20 +10306,12 @@ namespace plt0_gui
                 tex0 = false;
                 cli_textbox_label.Text = cli_textbox_label.Text.Replace("tex0 ", "");
                 hover_checkbox(tex0_ck);
-                View_WrapS();
-                View_WrapT();
-                View_min();
-                View_mag();
             }
             else
             {
                 tex0 = true;
                 cli_textbox_label.Text += "tex0 ";
                 selected_checkbox(tex0_ck);
-                Hide_WrapS();
-                Hide_WrapT();
-                Hide_min();
-                Hide_mag();
             }
             Check_run();
         }
@@ -10339,12 +10338,20 @@ namespace plt0_gui
                 tpl = false;
                 cli_textbox_label.Text = cli_textbox_label.Text.Replace("tpl ", "");
                 hover_checkbox(tpl_ck);
+                View_WrapS();
+                View_WrapT();
+                View_min();
+                View_mag();
             }
             else
             {
                 tpl = true;
                 cli_textbox_label.Text += "tpl ";
                 selected_checkbox(tpl_ck);
+                Hide_WrapS();
+                Hide_WrapT();
+                Hide_min();
+                Hide_mag();
             }
             Check_run();
         }
@@ -10602,6 +10609,7 @@ namespace plt0_gui
                 cli_textbox_label.Text += "tiff ";
                 selected_checkbox(tiff_ck);
             }
+            Check_run();
         }
         private void tiff_MouseEnter(object sender, EventArgs e)
         {

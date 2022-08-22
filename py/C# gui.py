@@ -18,7 +18,7 @@ while (text[w][:14] == "        Image "):
     w += 1
 output += """
         }"""
-w = 0
+w = -1
 booleans = ["bmd", "bti", "tex0", "tpl", "bmp", "png", "jpg", "jpeg", "gif", "ico", "tif", "tiff", "ask_exit", "bmp_32", "FORCE_ALPHA", "funky", "no_warning", "random", "reverse", "safe_mode", "stfu", "warn"]
 check_run = ["\n            Check_run();"] * 12 + [""] * 30
 layout_auto = ["", "\n            View_WrapS();\n            View_WrapT();\n            View_min();\n            View_mag();"] * 2 + [""] * 30
@@ -33,13 +33,13 @@ for y in booleans:
             {
                 """ + y + """ = false;
                 cli_textbox_label.Text = cli_textbox_label.Text.Replace(\"""" + y + """ ", "");
-                hover_checkbox(""" + y + "_ck);" + layout_auto[w] + """
+                hover_checkbox(""" + y + "_ck);" + layout_auto2[w] + """
             }
             else
             {
                 """ + y + """ = true;
                 cli_textbox_label.Text += \"""" + y + """ ";
-                selected_checkbox(""" + y + "_ck);" + layout_auto2[w] + """
+                selected_checkbox(""" + y + "_ck);" + layout_auto[w] + """
             }""" + check_run[w] + """
         }
         private void """ + y + """_MouseEnter(object sender, EventArgs e)
