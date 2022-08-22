@@ -1714,6 +1714,8 @@ namespace plt0_gui
         }
         private void Layout_Auto()
         {
+
+            cie_601_label.Text = "Default";
             Hide_options();
             Hide_cmpr();
             Hide_encoding(1);
@@ -2093,6 +2095,7 @@ namespace plt0_gui
         }
         private void View_cmpr()
         {
+            cie_601_label.Text = "Default";
             no_gradient_ck.Visible = true;
             no_gradient_hitbox.Visible = true;
             no_gradient_label.Visible = true;
@@ -2241,9 +2244,6 @@ namespace plt0_gui
             if (layout == 0)
                 return;
             cie_601_label.Text = "CIE 601";
-            cie_601_ck.Visible = true;
-            cie_601_hitbox.Visible = true;
-            cie_601_label.Visible = true;
             cie_709_ck.Visible = true;
             cie_709_hitbox.Visible = true;
             cie_709_label.Visible = true;
@@ -2257,9 +2257,6 @@ namespace plt0_gui
             if (layout == 0)
                 return;
             cie_601_label.Text = "CIE 601";
-            cie_601_ck.Visible = true;
-            cie_601_hitbox.Visible = true;
-            cie_601_label.Visible = true;
             cie_709_ck.Visible = true;
             cie_709_hitbox.Visible = true;
             cie_709_label.Visible = true;
@@ -2270,9 +2267,6 @@ namespace plt0_gui
             if (layout == 0)
                 return;
             cie_601_label.Text = "CIE 601";
-            cie_601_ck.Visible = true;
-            cie_601_hitbox.Visible = true;
-            cie_601_label.Visible = true;
             cie_709_ck.Visible = true;
             cie_709_hitbox.Visible = true;
             cie_709_label.Visible = true;
@@ -2286,9 +2280,6 @@ namespace plt0_gui
             if (layout == 0)
                 return;
             cie_601_label.Text = "CIE 601";
-            cie_601_ck.Visible = true;
-            cie_601_hitbox.Visible = true;
-            cie_601_label.Visible = true;
             cie_709_ck.Visible = true;
             cie_709_hitbox.Visible = true;
             cie_709_label.Visible = true;
@@ -2299,9 +2290,6 @@ namespace plt0_gui
             if (layout == 0)
                 return;
             cie_601_label.Text = "Default";
-            cie_601_ck.Visible = true;
-            cie_601_hitbox.Visible = true;
-            cie_601_label.Visible = true;
             round5_hitbox.Visible = true;
             round5_label.Visible = true;
             round5_txt.Visible = true;
@@ -2316,9 +2304,6 @@ namespace plt0_gui
                 return;
             View_alpha();
             cie_601_label.Text = "Default";
-            cie_601_ck.Visible = true;
-            cie_601_hitbox.Visible = true;
-            cie_601_label.Visible = true;
             round3_hitbox.Visible = true;
             round3_label.Visible = true;
             round3_txt.Visible = true;
@@ -2337,35 +2322,23 @@ namespace plt0_gui
         {
             //view_rgba = true;
             cie_601_label.Text = "Default";
-            cie_601_ck.Visible = true;
-            cie_601_hitbox.Visible = true;
-            cie_601_label.Visible = true;
         }
         private void View_ci4()
         {
             View_palette();
             cie_601_label.Text = "Default";
-            cie_601_ck.Visible = true;
-            cie_601_hitbox.Visible = true;
-            cie_601_label.Visible = true;
             //view_rgba = true;
         }
         private void View_ci8()
         {
             View_palette();
             cie_601_label.Text = "Default";
-            cie_601_ck.Visible = true;
-            cie_601_hitbox.Visible = true;
-            cie_601_label.Visible = true;
             //view_rgba = true;
         }
         private void View_ci14x2()
         {
             View_palette();
             cie_601_label.Text = "Default";
-            cie_601_ck.Visible = true;
-            cie_601_hitbox.Visible = true;
-            cie_601_label.Visible = true;
             //view_rgba = true;
         }
         private void Hide_encoding(byte encoding)
@@ -2376,9 +2349,6 @@ namespace plt0_gui
             {
                 case 0:
                 case 2:
-                    cie_601_ck.Visible = false;
-                    cie_601_hitbox.Visible = false;
-                    cie_601_label.Visible = false;
                     cie_709_ck.Visible = false;
                     cie_709_hitbox.Visible = false;
                     cie_709_label.Visible = false;
@@ -2388,9 +2358,6 @@ namespace plt0_gui
                     break;
                 case 1:
                 case 3:
-                    cie_601_ck.Visible = false;
-                    cie_601_hitbox.Visible = false;
-                    cie_601_label.Visible = false;
                     cie_709_ck.Visible = false;
                     cie_709_hitbox.Visible = false;
                     cie_709_label.Visible = false;
@@ -9188,6 +9155,7 @@ namespace plt0_gui
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1924, 1061);
+            this.Controls.Add(this.palette_rgb565_label);
             this.Controls.Add(this.alpha_label);
             this.Controls.Add(this.ask_exit_ck);
             this.Controls.Add(this.ask_exit_label);
@@ -9280,7 +9248,6 @@ namespace plt0_gui
             this.Controls.Add(this.palette_rgb5a3_label);
             this.Controls.Add(this.palette_rgb5a3_hitbox);
             this.Controls.Add(this.palette_rgb565_ck);
-            this.Controls.Add(this.palette_rgb565_label);
             this.Controls.Add(this.palette_rgb565_hitbox);
             this.Controls.Add(this.palette_ai8_hitbox);
             this.Controls.Add(this.palette_label);
@@ -10266,20 +10233,20 @@ namespace plt0_gui
                 bti = false;
                 cli_textbox_label.Text = cli_textbox_label.Text.Replace("bti ", "");
                 hover_checkbox(bti_ck);
-                View_WrapS();
-                View_WrapT();
-                View_min();
-                View_mag();
+                Hide_WrapS();
+                Hide_WrapT();
+                Hide_min();
+                Hide_mag();
             }
             else
             {
                 bti = true;
                 cli_textbox_label.Text += "bti ";
                 selected_checkbox(bti_ck);
-                Hide_WrapS();
-                Hide_WrapT();
-                Hide_min();
-                Hide_mag();
+                View_WrapS();
+                View_WrapT();
+                View_min();
+                View_mag();
             }
             Check_run();
         }
@@ -10338,20 +10305,20 @@ namespace plt0_gui
                 tpl = false;
                 cli_textbox_label.Text = cli_textbox_label.Text.Replace("tpl ", "");
                 hover_checkbox(tpl_ck);
-                View_WrapS();
-                View_WrapT();
-                View_min();
-                View_mag();
+                Hide_WrapS();
+                Hide_WrapT();
+                Hide_min();
+                Hide_mag();
             }
             else
             {
                 tpl = true;
                 cli_textbox_label.Text += "tpl ";
                 selected_checkbox(tpl_ck);
-                Hide_WrapS();
-                Hide_WrapT();
-                Hide_min();
-                Hide_mag();
+                View_WrapS();
+                View_WrapT();
+                View_min();
+                View_mag();
             }
             Check_run();
         }
@@ -13486,7 +13453,7 @@ namespace plt0_gui
         private void palette_RGB565_Click(object sender, EventArgs e)
         {
             unchecked_palette(palette_ck[palette_enc]);
-            Hide_encoding(palette_enc);
+            Hide_encoding((byte)(palette_enc + 3));
             selected_palette(palette_rgb565_ck);
             palette_enc = 1;
             View_rgb565();

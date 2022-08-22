@@ -569,7 +569,7 @@ for q in range(len(palette_enc)):
         private void palette_""" + palette_enc[q] + """_Click(object sender, EventArgs e)
         {
             unchecked_palette(palette_ck[palette_enc]);
-            Hide_encoding(palette_enc);
+            Hide_encoding((byte)(palette_enc + 3));
             selected_palette(palette_""" + palette_enc[q].lower() + """_ck);
             palette_enc = """ + str(q) + """;
             View_""" + palette_enc[q].lower() + """();
