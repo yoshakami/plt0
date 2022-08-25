@@ -324,7 +324,6 @@ for k in range(len(lyt)):
                     break;
             }
             selected_""" + Lyt[k] + """();
-            layout = """ + str(k) + """;
             Layout_""" + Lyt[k] + """();
         }
         private void """ + Lyt[k] + """_MouseEnter(object sender, EventArgs e)
