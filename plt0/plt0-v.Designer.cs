@@ -386,10 +386,10 @@
         private System.Windows.Forms.Label upscale_label;
         private System.Windows.Forms.Label upscale_hitbox;
         private System.Windows.Forms.Label banner_move;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.Label label2;
+        private PictureBoxWithInterpolationMode image_ck;
+        private System.Windows.Forms.Label preview4k_label;
+        private System.Windows.Forms.PictureBox preview4k_ck;
+        private System.Windows.Forms.Label preview4k_hitbox;
         /*
 /// <summary>
 /// Required designer variable.

@@ -1136,12 +1136,18 @@ namespace plt0_gui
                     }
                 }
                 arg_array.Add("bmp");
-                arg_array.Add("/images/" + num + ".bmp");  // even if there's an output file in the args, the last one is th eoutput file :) that's how I made it
+                arg_array.Add(execPath + "images/" + num + ".bmp");  // even if there's an output file in the args, the last one is th eoutput file :) that's how I made it
                 cli.Parse_args(arg_array.ToArray());
-                PictureBoxWithInterpolationMode test = new PictureBoxWithInterpolationMode();
+                // PictureBoxWithInterpolationMode preview_ck2 = new PictureBoxWithInterpolationMode();
                 if (upscale)
-                    test.BackgroundImage = Image.FromFile("/images/" + num + ".bmp");
-                    //do something
+                    image_ck.BackgroundImageLayout = ImageLayout.Zoom;
+                else
+                    image_ck.BackgroundImageLayout = ImageLayout.Center;
+                //preview_ck2.Location = new Point(815, 96);
+                //preview_ck2.Size = new Size(768, 768);
+                image_ck.InterpolationMode = InterpolationMode.NearestNeighbor;
+                image_ck.BackgroundImage = Image.FromFile(execPath + "images/" + num + ".bmp");
+                //do something
             }
         }
         private void Organize_args()
@@ -3010,10 +3016,10 @@ namespace plt0_gui
             this.upscale_label = new System.Windows.Forms.Label();
             this.upscale_hitbox = new System.Windows.Forms.Label();
             this.banner_move = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.image_ck = new PictureBoxWithInterpolationMode();
+            this.preview4k_label = new System.Windows.Forms.Label();
+            this.preview4k_ck = new System.Windows.Forms.PictureBox();
+            this.preview4k_hitbox = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.bmd_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
@@ -3129,8 +3135,8 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.auto_update_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sync_preview_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.upscale_ck)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.image_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.preview4k_ck)).BeginInit();
             this.SuspendLayout();
             // 
             // output_file_type_label
@@ -9078,64 +9084,65 @@ namespace plt0_gui
             this.banner_move.MouseMove += new System.Windows.Forms.MouseEventHandler(this.banner_move_MouseMove);
             this.banner_move.MouseUp += new System.Windows.Forms.MouseEventHandler(this.banner_move_MouseUp);
             // 
-            // pictureBox1
+            // image_ck
             // 
-            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox1.Enabled = false;
-            this.pictureBox1.ErrorImage = null;
-            this.pictureBox1.InitialImage = null;
-            this.pictureBox1.Location = new System.Drawing.Point(2735, 96);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(768, 768);
-            this.pictureBox1.TabIndex = 602;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Visible = false;
+            this.image_ck.BackColor = System.Drawing.Color.Transparent;
+            this.image_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.image_ck.Enabled = false;
+            this.image_ck.ErrorImage = null;
+            this.image_ck.InitialImage = null;
+            this.image_ck.Location = new System.Drawing.Point(815, 96);
+            this.image_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.image_ck.Name = "image_ck";
+            this.image_ck.Size = new System.Drawing.Size(768, 768);
+            this.image_ck.TabIndex = 602;
+            this.image_ck.TabStop = false;
+            this.image_ck.Visible = false;
+            this.image_ck.InterpolationMode = InterpolationMode.NearestNeighbor;
             // 
-            // label1
+            // preview4k_label
             // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.label1.ForeColor = System.Drawing.SystemColors.Window;
-            this.label1.Location = new System.Drawing.Point(677, 1131);
-            this.label1.Margin = new System.Windows.Forms.Padding(0);
-            this.label1.Name = "label1";
-            this.label1.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.label1.Size = new System.Drawing.Size(1003, 64);
-            this.label1.TabIndex = 603;
-            this.label1.Text = "4k screen Preview input file (because why not using that space on fullscreen mode" +
+            this.preview4k_label.AutoSize = true;
+            this.preview4k_label.BackColor = System.Drawing.Color.Transparent;
+            this.preview4k_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.preview4k_label.ForeColor = System.Drawing.SystemColors.Window;
+            this.preview4k_label.Location = new System.Drawing.Point(677, 1131);
+            this.preview4k_label.Margin = new System.Windows.Forms.Padding(0);
+            this.preview4k_label.Name = "preview4k_label";
+            this.preview4k_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.preview4k_label.Size = new System.Drawing.Size(1003, 64);
+            this.preview4k_label.TabIndex = 603;
+            this.preview4k_label.Text = "4k screen Preview input file (because why not using that space on fullscreen mode" +
     ")";
-            this.label1.Visible = false;
+            this.preview4k_label.Visible = false;
             // 
-            // pictureBox2
+            // preview4k_ck
             // 
-            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.pictureBox2.Enabled = false;
-            this.pictureBox2.ErrorImage = null;
-            this.pictureBox2.InitialImage = null;
-            this.pictureBox2.Location = new System.Drawing.Point(608, 1131);
-            this.pictureBox2.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(64, 64);
-            this.pictureBox2.TabIndex = 604;
-            this.pictureBox2.TabStop = false;
+            this.preview4k_ck.BackColor = System.Drawing.Color.Transparent;
+            this.preview4k_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.preview4k_ck.Enabled = false;
+            this.preview4k_ck.ErrorImage = null;
+            this.preview4k_ck.InitialImage = null;
+            this.preview4k_ck.Location = new System.Drawing.Point(608, 1131);
+            this.preview4k_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.preview4k_ck.Name = "preview4k_ck";
+            this.preview4k_ck.Size = new System.Drawing.Size(64, 64);
+            this.preview4k_ck.TabIndex = 604;
+            this.preview4k_ck.TabStop = false;
             // 
-            // label2
+            // preview4k_hitbox
             // 
-            this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.Transparent;
-            this.label2.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.label2.ForeColor = System.Drawing.SystemColors.Control;
-            this.label2.Location = new System.Drawing.Point(601, 1131);
-            this.label2.Margin = new System.Windows.Forms.Padding(0);
-            this.label2.Name = "label2";
-            this.label2.Padding = new System.Windows.Forms.Padding(100, 44, 0, 0);
-            this.label2.Size = new System.Drawing.Size(100, 64);
-            this.label2.TabIndex = 605;
-            this.label2.Visible = false;
+            this.preview4k_hitbox.AutoSize = true;
+            this.preview4k_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.preview4k_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.preview4k_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.preview4k_hitbox.Location = new System.Drawing.Point(601, 1131);
+            this.preview4k_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.preview4k_hitbox.Name = "preview4k_hitbox";
+            this.preview4k_hitbox.Padding = new System.Windows.Forms.Padding(100, 44, 0, 0);
+            this.preview4k_hitbox.Size = new System.Drawing.Size(100, 64);
+            this.preview4k_hitbox.TabIndex = 605;
+            this.preview4k_hitbox.Visible = false;
             // 
             // plt0_gui
             // 
@@ -9145,10 +9152,10 @@ namespace plt0_gui
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(3085, 1953);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.pictureBox2);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.preview4k_label);
+            this.Controls.Add(this.preview4k_ck);
+            this.Controls.Add(this.preview4k_hitbox);
+            this.Controls.Add(this.image_ck);
             this.Controls.Add(this.upscale_label);
             this.Controls.Add(this.auto_update_label);
             this.Controls.Add(this.textchange_label);
@@ -9661,8 +9668,8 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.auto_update_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sync_preview_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.upscale_ck)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.image_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.preview4k_ck)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
