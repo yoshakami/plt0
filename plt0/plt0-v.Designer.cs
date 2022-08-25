@@ -386,6 +386,10 @@
         private System.Windows.Forms.Label upscale_label;
         private System.Windows.Forms.Label upscale_hitbox;
         private System.Windows.Forms.Label banner_move;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Label label2;
         /*
 /// <summary>
 /// Required designer variable.

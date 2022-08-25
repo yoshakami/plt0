@@ -12,6 +12,7 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -24,7 +25,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -96,6 +96,8 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -122,6 +124,9 @@
     <Compile Include="code\IntArrayComparer.cs" />
     <Compile Include="code\Parse_args.cs" />
     <Compile Include="code\Write_into_tpl.cs" />
+    <Compile Include="plt0-v-picturebox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="plt0-v.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -137,6 +142,7 @@
     <Compile Include="code\Write_plt0.cs" />
     <Compile Include="code\Write_tex0.cs" />
     <Compile Include="code\Write_tpl.cs" />
+    <Compile Include="Settings.cs" />
     <EmbeddedResource Include="plt0-v.resx">
       <DependentUpon>plt0-v.cs</DependentUpon>
     </EmbeddedResource>
@@ -165,7 +171,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="luma.ico" />
-    <None Include="Resources\%24this.BackgroundImage.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8">

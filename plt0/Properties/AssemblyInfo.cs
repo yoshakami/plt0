@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("plt0")]
 [assembly: AssemblyDescription("texture encoder")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("I'm alone")]
 [assembly: AssemblyProduct("encodes images to tex0")]
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyCopyright("I did it for free")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

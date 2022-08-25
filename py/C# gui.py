@@ -21,8 +21,8 @@ output += """
 w = -1
 booleans = ["bmd", "bti", "tex0", "tpl", "bmp", "png", "jpg", "jpeg", "gif", "ico", "tif", "tiff", "ask_exit", "bmp_32", "FORCE_ALPHA", "funky", "no_warning", "random", "reverse", "safe_mode", "stfu", "warn"]
 check_run = ["\n            Check_run();"] * 12 + [""] * 30
-layout_auto = ["", "\n            View_WrapS();\n            View_WrapT();\n            View_min();\n            View_mag();"] * 2 + [""] * 11 + ["\n            Preview();", ""] + ["\n            Preview();"] * 2 + [""] * 30
-layout_auto2 = ["", "\n            Hide_WrapS();\n            Hide_WrapT();\n            Hide_min();\n            Hide_mag();"] * 2 + [""] * 11 + ["\n            Preview();", ""] + ["\n            Preview();"] * 2 + [""] * 30
+layout_auto = ["", "\n            View_WrapS();\n            View_WrapT();\n            View_min();\n            View_mag();"] * 2 + [""] * 11 + ["\n            Preview(false);", ""] + ["\n            Preview(false);"] * 2 + [""] * 30
+layout_auto2 = ["", "\n            Hide_WrapS();\n            Hide_WrapT();\n            Hide_min();\n            Hide_mag();"] * 2 + [""] * 11 + ["\n            Preview(false);", ""] + ["\n            Preview(false);"] * 2 + [""] * 30
 for y in booleans:
     x += 1
     w += 1
@@ -73,7 +73,7 @@ for z in range(len(encoding)):
             encoding = """ + str(z) + """; // """ + encoding[z].upper() + check_run[z] + """
             View_""" + encoding[z] + """();
             Organize_args();
-            Preview();
+            Preview(false);
         }
         private void """ + encoding[z].upper() + """_MouseEnter(object sender, EventArgs e)
         {
@@ -103,7 +103,7 @@ for a in range(len(algorithm)):
             selected_algorithm(""" + algorithm[a].lower() + """_ck);
             algorithm = """ + str(a) + """; // """ + algorithm[a] + """
             Organize_args();""" + layout2[a] + """
-            Preview();
+            Preview(false);
         }
         private void """ + algorithm[a] + """_MouseEnter(object sender, EventArgs e)
         {
@@ -131,7 +131,7 @@ for b in range(len(alpha)):
             selected_alpha(""" + alpha[b].lower() + """_ck);
             alpha = """ + str(b) + """; // """ + alpha[b] + """
             Organize_args();
-            Preview();
+            Preview(false);
         }
         private void """ + alpha[b] + """_MouseEnter(object sender, EventArgs e)
         {
@@ -283,7 +283,7 @@ for g in channel:  # this looks unreadable because it's packed up instead of pas
             selected_""" + channel[h] + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
             """ + g.lower() + " = " + str(h) + "; // " + channel2[i] + " channel set to " + channel[h] + """
             Organize_args();
-            Preview();
+            Preview(false);
         }
         private void """ + g + '_' + channel[h] + """_MouseEnter(object sender, EventArgs e)
         {
@@ -549,7 +549,7 @@ for p in range(3):
         {
             """ + textbox[p][:-4] + """ = """ + textbox[p] + """.Text;""" + check_run[w] + """
             Organize_args();
-            Preview();
+            Preview(true);
         }"""
 for o in range(3, len(textbox)):
     x += 1
@@ -566,7 +566,7 @@ for o in range(3, len(textbox)):
         {
             Parse_""" + var_type[o] + "_text(" + textbox[o] + ", out " + textbox[o][:-4] + ", " + str(max_value[o]) + """);
             Organize_args();
-            Preview();
+            Preview(true);
         }"""
 palette_enc = ["AI8", "RGB565", "RGB5A3"]
 for q in range(len(palette_enc)):
@@ -580,7 +580,7 @@ for q in range(len(palette_enc)):
             palette_enc = """ + str(q) + """;
             View_""" + palette_enc[q].lower() + """();
             Organize_args();
-            Preview();
+            Preview(false);
         }
         private void palette_""" + palette_enc[q] + """_MouseEnter(object sender, EventArgs e)
         {
@@ -732,7 +732,7 @@ output += """
         }
         private void sync_preview_Click(object sender, EventArgs e)
         {
-            Preview();
+            Preview(false);
         }
     }
 }
