@@ -2972,6 +2972,7 @@ namespace plt0_gui
             this.upscale_ck = new System.Windows.Forms.PictureBox();
             this.upscale_label = new System.Windows.Forms.Label();
             this.upscale_hitbox = new System.Windows.Forms.Label();
+            this.banner_move = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.bmd_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
@@ -8590,7 +8591,7 @@ namespace plt0_gui
             this.version_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.version_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.version_hitbox.ForeColor = System.Drawing.Color.Gray;
-            this.version_hitbox.Location = new System.Drawing.Point(757, 0);
+            this.version_hitbox.Location = new System.Drawing.Point(674, 0);
             this.version_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.version_hitbox.Name = "version_hitbox";
             this.version_hitbox.Padding = new System.Windows.Forms.Padding(64, 6, 0, 6);
@@ -8624,7 +8625,7 @@ namespace plt0_gui
             this.version_ck.Enabled = false;
             this.version_ck.ErrorImage = null;
             this.version_ck.InitialImage = null;
-            this.version_ck.Location = new System.Drawing.Point(757, 0);
+            this.version_ck.Location = new System.Drawing.Point(674, 0);
             this.version_ck.Margin = new System.Windows.Forms.Padding(0);
             this.version_ck.Name = "version_ck";
             this.version_ck.Size = new System.Drawing.Size(64, 32);
@@ -9014,6 +9015,25 @@ namespace plt0_gui
             this.upscale_hitbox.Click += new System.EventHandler(this.upscale_Click);
             this.upscale_hitbox.MouseEnter += new System.EventHandler(this.upscale_MouseEnter);
             this.upscale_hitbox.MouseLeave += new System.EventHandler(this.upscale_MouseLeave);
+            // 
+            // banner_move
+            // 
+            this.banner_move.AutoSize = true;
+            this.banner_move.BackColor = System.Drawing.Color.Transparent;
+            this.banner_move.Cursor = System.Windows.Forms.Cursors.SizeAll;
+            this.banner_move.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.banner_move.ForeColor = System.Drawing.SystemColors.Control;
+            this.banner_move.Location = new System.Drawing.Point(762, 0);
+            this.banner_move.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_move.Name = "banner_move";
+            this.banner_move.Padding = new System.Windows.Forms.Padding(880, 6, 0, 6);
+            this.banner_move.Size = new System.Drawing.Size(880, 32);
+            this.banner_move.TabIndex = 601;
+            this.banner_move.MouseDown += new System.Windows.Forms.MouseEventHandler(this.banner_move_MouseDown);
+            this.banner_move.MouseEnter += new System.EventHandler(this.banner_move_MouseEnter);
+            this.banner_move.MouseLeave += new System.EventHandler(this.banner_move_MouseLeave);
+            this.banner_move.MouseMove += new System.Windows.Forms.MouseEventHandler(this.banner_move_MouseMove);
+            this.banner_move.MouseUp += new System.Windows.Forms.MouseEventHandler(this.banner_move_MouseUp);
             // 
             // plt0_gui
             // 
@@ -9406,6 +9426,7 @@ namespace plt0_gui
             this.Controls.Add(this.textchange_hitbox);
             this.Controls.Add(this.auto_update_hitbox);
             this.Controls.Add(this.upscale_hitbox);
+            this.Controls.Add(this.banner_move);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Segoe UI", 15F);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
