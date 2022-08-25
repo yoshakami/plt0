@@ -508,7 +508,6 @@ namespace plt0_gui
                 switch (lines[2].ToUpper())
                 {
                     case "ALL":
-                        layout = 0;
                         checked_All();
                         unchecked_Auto();
                         unchecked_Preview();
@@ -523,7 +522,6 @@ namespace plt0_gui
                         View_min();*/
                         break;
                     case "AUTO":
-                        layout = 1;
                         unchecked_All();
                         checked_Auto();
                         unchecked_Preview();
@@ -531,7 +529,6 @@ namespace plt0_gui
                         Layout_Auto();
                         break;
                     case "PREVIEW":
-                        layout = 2;
                         unchecked_All();
                         unchecked_Auto();
                         checked_Preview();
@@ -542,7 +539,6 @@ namespace plt0_gui
                         // view encoding and channel swap and some options
                         break;
                     case "PAINT":
-                        layout = 3;
                         unchecked_All();
                         unchecked_Auto();
                         unchecked_Preview();
@@ -1110,14 +1106,14 @@ namespace plt0_gui
             if (Check_run())
             {
                 int num = 1;
-                while (File.Exists("/images/" + num + ".bmp"))
+                while (File.Exists(execPath + "images/" + num + ".bmp"))
                 {
                     num++;
                 }
-                Parse_args_class cli = new Parse_args_class();
-                foreach(string arg in arg_array)  // best to parse here rather than in Organize_args because this is only for layout 2
+                // foreach(string arg in arg_array)  // best to parse here rather than in Organize_args because this is only for layout 2
+                for (byte i = 0; i < arg_array.Count; i++)
                 {
-                    switch (arg)
+                    switch (arg_array[i])
                     {
                         case "bmd":
                         case "bti":
@@ -1131,22 +1127,26 @@ namespace plt0_gui
                         case "ico":
                         case "tif":
                         case "tiff":
-                            arg_array.Remove(arg);
+                            arg_array.Remove(arg_array[i]);
                             break;
                     }
                 }
                 arg_array.Add("bmp");
                 arg_array.Add(execPath + "images/" + num + ".bmp");  // even if there's an output file in the args, the last one is th eoutput file :) that's how I made it
+                Parse_args_class cli = new Parse_args_class();
                 cli.Parse_args(arg_array.ToArray());
+                input_file2 = cli.Check_exit();
                 // PictureBoxWithInterpolationMode preview_ck2 = new PictureBoxWithInterpolationMode();
                 if (upscale)
-                    image_ck.BackgroundImageLayout = ImageLayout.Zoom;
+                    image_ck.SizeMode = PictureBoxSizeMode.Zoom;
                 else
-                    image_ck.BackgroundImageLayout = ImageLayout.Center;
+                    image_ck.SizeMode = PictureBoxSizeMode.CenterImage;
                 //preview_ck2.Location = new Point(815, 96);
                 //preview_ck2.Size = new Size(768, 768);
-                image_ck.InterpolationMode = InterpolationMode.NearestNeighbor;
-                image_ck.BackgroundImage = Image.FromFile(execPath + "images/" + num + ".bmp");
+                //image_ck.InterpolationMode = InterpolationMode.NearestNeighbor;
+                //if (image_ck.BackgroundImage != null)
+                //    image_ck.BackgroundImage.Dispose();
+                image_ck.Image = Image.FromFile(execPath + "images/" + num + ".bmp");
                 //do something
             }
         }
@@ -1572,7 +1572,7 @@ namespace plt0_gui
         private void selected_encoding(PictureBox radiobutton)
         {
             radiobutton.BackgroundImage = pink_circle_on;
-            
+
         }
         private void unchecked_A(PictureBox radiobutton)
         {
@@ -1768,6 +1768,7 @@ namespace plt0_gui
         }
         private void Layout_All()
         {
+            layout = 1;
             View_alpha();
             View_algorithm(255);
             View_cmpr();
@@ -1788,9 +1789,11 @@ namespace plt0_gui
                 Move_options_right();
             options_are_on_the_left = false;
             Hide_Preview_stuff();
+            layout = 0;
         }
         private void Layout_Auto()
         {
+            layout = 1;
             cie_601_label.Text = "Default";
             Hide_options();
             Hide_cmpr();
@@ -1859,6 +1862,7 @@ namespace plt0_gui
         }
         private void Layout_Preview()
         {
+            layout = 1;
             View_alpha();
             View_algorithm(255);
             View_cmpr();
@@ -1887,6 +1891,8 @@ namespace plt0_gui
             textchange_hitbox.Visible = true;
             textchange_label.Visible = true;
             sync_preview_ck.Visible = true;
+            image_ck.Visible = true;
+            layout = 2;
         }
         private void Move_options_left()
         {
@@ -1985,9 +1991,12 @@ namespace plt0_gui
             textchange_hitbox.Visible = false;
             textchange_label.Visible = false;
             sync_preview_ck.Visible = false;
+            image_ck.Visible = false;
         }
         private void View_alpha()
         {
+            if (layout != 1)
+                return;
             for (byte i = 0; i < alpha_ck_array.Count; i++)
             {
                 alpha_ck_array[i].Visible = true;
@@ -2003,7 +2012,7 @@ namespace plt0_gui
         }
         private void Hide_alpha()
         {
-            if (layout == 0)
+            if (layout != 1)
                 return;
             //System.Windows.Forms.FormWindowState previous = this.WindowState;
             //this.WindowState = FormWindowState.Minimized;
@@ -2023,6 +2032,8 @@ namespace plt0_gui
         }
         private void View_algorithm(byte algorithm)
         {
+            if (layout != 1)
+                return;
             /*if (algorithm < 2)
             {
                 for (byte i = 0; i < 2; i++)
@@ -2062,7 +2073,7 @@ namespace plt0_gui
         }
         private void Hide_algorithm(byte algorithm)
         {
-            if (layout == 0)
+            if (layout != 1)
                 return;
             if (algorithm == 2)
             {
@@ -2097,6 +2108,8 @@ namespace plt0_gui
         }
         private void View_options()
         {
+            if (layout != 1)
+                return;
             ask_exit_hitbox.Visible = true;
             warn_hitbox.Visible = true;
             FORCE_ALPHA_hitbox.Visible = true;
@@ -2119,7 +2132,7 @@ namespace plt0_gui
         }
         private void Hide_options()
         {
-            if (layout == 0)
+            if (layout != 1)
                 return;
             ask_exit_hitbox.Visible = false;
             warn_hitbox.Visible = false;
@@ -2143,6 +2156,8 @@ namespace plt0_gui
         }
         private void View_WrapS()
         {
+            if (layout != 1)
+                return;
             for (byte i = 0; i < WrapS_ck.Count; i++)
             {
                 WrapS_ck[i].Visible = true;
@@ -2158,7 +2173,7 @@ namespace plt0_gui
         }
         private void Hide_WrapS()
         {
-            if (layout == 0)
+            if (layout != 1)
                 return;
             for (byte i = 0; i < WrapS_ck.Count; i++)
             {
@@ -2175,6 +2190,8 @@ namespace plt0_gui
         }
         private void View_WrapT()
         {
+            if (layout != 1)
+                return;
             for (byte i = 0; i < WrapT_ck.Count; i++)
             {
                 WrapT_ck[i].Visible = true;
@@ -2190,7 +2207,7 @@ namespace plt0_gui
         }
         private void Hide_WrapT()
         {
-            if (layout == 0)
+            if (layout != 1)
                 return;
             for (byte i = 0; i < WrapT_ck.Count; i++)
             {
@@ -2207,6 +2224,8 @@ namespace plt0_gui
         }
         private void View_min()
         {
+            if (layout != 1)
+                return;
             for (byte i = 0; i < minification_ck.Count; i++)
             {
                 minification_ck[i].Visible = true;
@@ -2228,7 +2247,7 @@ namespace plt0_gui
         }
         private void Hide_min()
         {
-            if (layout == 0)
+            if (layout != 1)
                 return;
             for (byte i = 0; i < minification_ck.Count; i++)
             {
@@ -2251,6 +2270,8 @@ namespace plt0_gui
         }
         private void View_mag()
         {
+            if (layout != 1)
+                return;
             for (byte i = 0; i < magnification_ck.Count; i++)
             {
                 magnification_ck[i].Visible = true;
@@ -2273,7 +2294,7 @@ namespace plt0_gui
         private void Hide_mag()
         {
             // this.FormBorderStyle = FormBorderStyle.SizableToolWindow;
-            if (layout == 0)
+            if (layout != 1)
                 return;
             for (byte i = 0; i < magnification_ck.Count; i++)
             {
@@ -2326,6 +2347,8 @@ namespace plt0_gui
         }
         private void View_cmpr()
         {
+            if (layout != 1)
+                return;
             View_diversity();
             cie_601_label.Text = "Default";
             no_gradient_ck.Visible = true;
@@ -2347,7 +2370,7 @@ namespace plt0_gui
         }
         private void Hide_cmpr()
         {
-            if (layout == 0)
+            if (layout != 1)
                 return;
             Hide_diversity();
             no_gradient_ck.Visible = false;
@@ -2369,6 +2392,8 @@ namespace plt0_gui
         }
         private void View_palette()
         {
+            if (layout != 1)
+                return;
             View_diversity();
             palette_label.Visible = true;
             palette_ai8_hitbox.Visible = true;
@@ -2387,7 +2412,7 @@ namespace plt0_gui
         }
         private void Hide_palette()
         {
-            if (layout == 0)
+            if (layout != 1)
                 return;
             Hide_diversity();
             palette_label.Visible = false;
@@ -2407,6 +2432,8 @@ namespace plt0_gui
         }
         private void View_No_Gradient()
         {
+            if (layout != 1)
+                return;
             cmpr_max_hitbox.Visible = false;
             cmpr_max_label.Visible = false;
             cmpr_max_txt.Visible = false;
@@ -2416,6 +2443,8 @@ namespace plt0_gui
         }
         private void View_rgba()
         {
+            if (layout != 1)
+                return;
             custom_rgba_label.Visible = true;
             custom_r_hitbox.Visible = true;
             custom_r_label.Visible = true;
@@ -2433,7 +2462,7 @@ namespace plt0_gui
         }
         private void Hide_rgba()
         {
-            if (layout == 0)
+            if (layout != 1)
                 return;
             custom_rgba_label.Visible = false;
             custom_r_hitbox.Visible = false;
@@ -2452,7 +2481,7 @@ namespace plt0_gui
         }
         private void View_i4()
         {
-            if (layout == 0)
+            if (layout != 1)
                 return;
             cie_601_label.Text = "CIE 601";
             cie_709_ck.Visible = true;
@@ -2465,7 +2494,7 @@ namespace plt0_gui
         }
         private void View_i8()
         {
-            if (layout == 0)
+            if (layout != 1)
                 return;
             cie_601_label.Text = "CIE 601";
             cie_709_ck.Visible = true;
@@ -2475,7 +2504,7 @@ namespace plt0_gui
         }
         private void View_ai4()
         {
-            if (layout == 0)
+            if (layout != 1)
                 return;
             cie_601_label.Text = "CIE 601";
             cie_709_ck.Visible = true;
@@ -2488,7 +2517,7 @@ namespace plt0_gui
         }
         private void View_ai8()
         {
-            if (layout == 0)
+            if (layout != 1)
                 return;
             cie_601_label.Text = "CIE 601";
             cie_709_ck.Visible = true;
@@ -2498,7 +2527,7 @@ namespace plt0_gui
         }
         private void View_rgb565()
         {
-            if (layout == 0)
+            if (layout != 1)
                 return;
             cie_601_label.Text = "Default";
             round5_hitbox.Visible = true;
@@ -2511,7 +2540,7 @@ namespace plt0_gui
         }
         private void View_rgb5a3()
         {
-            if (layout == 0)
+            if (layout != 1)
                 return;
             View_alpha();
             cie_601_label.Text = "Default";
@@ -2532,29 +2561,37 @@ namespace plt0_gui
         private void View_rgba32()
         {
             //view_rgba = true;
+            if (layout != 1)
+                return;
             cie_601_label.Text = "Default";
         }
         private void View_ci4()
         {
+            if (layout != 1)
+                return;
             View_palette();
             cie_601_label.Text = "Default";
             //view_rgba = true;
         }
         private void View_ci8()
         {
+            if (layout != 1)
+                return;
             View_palette();
             cie_601_label.Text = "Default";
             //view_rgba = true;
         }
         private void View_ci14x2()
         {
+            if (layout != 1)
+                return;
             View_palette();
             cie_601_label.Text = "Default";
             //view_rgba = true;
         }
         private void Hide_encoding(byte encoding)
         {
-            if (layout == 0)
+            if (layout != 1)
                 return;
             switch (encoding)
             {
@@ -3016,10 +3053,10 @@ namespace plt0_gui
             this.upscale_label = new System.Windows.Forms.Label();
             this.upscale_hitbox = new System.Windows.Forms.Label();
             this.banner_move = new System.Windows.Forms.Label();
-            this.image_ck = new PictureBoxWithInterpolationMode();
             this.preview4k_label = new System.Windows.Forms.Label();
             this.preview4k_ck = new System.Windows.Forms.PictureBox();
             this.preview4k_hitbox = new System.Windows.Forms.Label();
+            this.image_ck = new PictureBoxWithInterpolationMode();
             ((System.ComponentModel.ISupportInitialize)(this.bmd_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
@@ -3135,8 +3172,8 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.auto_update_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sync_preview_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.upscale_ck)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.image_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.preview4k_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.image_ck)).BeginInit();
             this.SuspendLayout();
             // 
             // output_file_type_label
@@ -9084,22 +9121,6 @@ namespace plt0_gui
             this.banner_move.MouseMove += new System.Windows.Forms.MouseEventHandler(this.banner_move_MouseMove);
             this.banner_move.MouseUp += new System.Windows.Forms.MouseEventHandler(this.banner_move_MouseUp);
             // 
-            // image_ck
-            // 
-            this.image_ck.BackColor = System.Drawing.Color.Transparent;
-            this.image_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.image_ck.Enabled = false;
-            this.image_ck.ErrorImage = null;
-            this.image_ck.InitialImage = null;
-            this.image_ck.Location = new System.Drawing.Point(815, 96);
-            this.image_ck.Margin = new System.Windows.Forms.Padding(0);
-            this.image_ck.Name = "image_ck";
-            this.image_ck.Size = new System.Drawing.Size(768, 768);
-            this.image_ck.TabIndex = 602;
-            this.image_ck.TabStop = false;
-            this.image_ck.Visible = false;
-            this.image_ck.InterpolationMode = InterpolationMode.NearestNeighbor;
-            // 
             // preview4k_label
             // 
             this.preview4k_label.AutoSize = true;
@@ -9143,6 +9164,25 @@ namespace plt0_gui
             this.preview4k_hitbox.Size = new System.Drawing.Size(100, 64);
             this.preview4k_hitbox.TabIndex = 605;
             this.preview4k_hitbox.Visible = false;
+            // 
+            // image_ck
+            // 
+            this.image_ck.BackColor = System.Drawing.Color.Transparent;
+            this.image_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.image_ck.Enabled = false;
+            this.image_ck.ErrorImage = null;
+            this.image_ck.InitialImage = null;
+            this.image_ck.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+            this.image_ck.Location = new System.Drawing.Point(815, 96);
+            this.image_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.image_ck.MaximumSize = new System.Drawing.Size(768, 768);
+            this.image_ck.MinimumSize = new System.Drawing.Size(768, 768);
+            this.image_ck.Name = "image_ck";
+            this.image_ck.Size = new System.Drawing.Size(768, 768);
+            this.image_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.image_ck.TabIndex = 602;
+            this.image_ck.TabStop = false;
+            this.image_ck.Visible = false;
             // 
             // plt0_gui
             // 
@@ -9668,8 +9708,8 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.auto_update_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sync_preview_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.upscale_ck)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.image_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.preview4k_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.image_ck)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -14089,6 +14129,7 @@ namespace plt0_gui
                 output_label.Text = "Run " + run_count.ToString() + " time\n" + cli.Check_exit();
             else
                 output_label.Text = "Run " + run_count.ToString() + " times\n" + cli.Check_exit();
+
         }
         private void sync_preview_Click(object sender, EventArgs e)
         {

@@ -1259,7 +1259,11 @@ class Parse_args_class
                 return;
             }
             Convert_to_bmp_class _bmp = new Convert_to_bmp_class(this);
-            byte[] bmp_image = _bmp.Convert_to_bmp((Bitmap)Bitmap.FromFile(input_file));
+            byte[] bmp_image;
+            using (Bitmap input_file_image = (Bitmap)Bitmap.FromFile(input_file))
+            {
+                bmp_image = _bmp.Convert_to_bmp(input_file_image);
+            }
 
             /* if (colour_number > max_colours && max_colours == 16385)
         {
@@ -1397,7 +1401,11 @@ class Parse_args_class
                     }
                     if (!success)
                     {
-                        byte[] bmp_palette = _bmp.Convert_to_bmp((Bitmap)Bitmap.FromFile(input_file2));  // will fail if this isn't a supported image
+                        byte[] bmp_palette;
+                        using (Bitmap input_file2_image = (Bitmap)Bitmap.FromFile(input_file2))
+                        {
+                            bmp_palette = _bmp.Convert_to_bmp(input_file2_image); // will fail if this isn't a supported image
+                        }
                         user_palette = true;
                         int array_size = bmp_palette[2] | bmp_palette[3] << 8 | bmp_palette[4] << 16 | bmp_palette[5] << 24;
                         int pixel_start_offset = bmp_palette[10] | bmp_palette[11] << 8 | bmp_palette[12] << 16 | bmp_palette[13] << 24;
