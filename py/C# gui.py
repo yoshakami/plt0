@@ -19,7 +19,7 @@ while (text[w][:14] == "        Image "):
 output += """
         }"""
 w = -1
-booleans = ["bmd", "bti", "tex0", "tpl", "bmp", "png", "jpg", "jpeg", "gif", "ico", "tif", "tiff", "ask_exit", "bmp_32", "FORCE_ALPHA", "funky", "no_warning", "random", "reverse", "safe_mode", "stfu", "warn"]
+booleans = ["bmd", "bti", "tex0", "tpl", "bmp", "png", "jpg", "jpeg", "gif", "ico", "tif", "tiff", "ask_exit", "bmp_32", "FORCE_ALPHA", "funky", "no_warning", "random", "reversex", "reversey", "safe_mode", "stfu", "warn"]
 check_run = ["\n            Check_run();"] * 12 + [""] * 30
 layout_auto = ["", "\n            View_WrapS();\n            View_WrapT();\n            View_min();\n            View_mag();"] * 2 + [""] * 11 + ["\n            Preview(false);", ""] + ["\n            Preview(false);"] * 2 + [""] * 30
 layout_auto2 = ["", "\n            Hide_WrapS();\n            Hide_WrapT();\n            Hide_min();\n            Hide_mag();"] * 2 + [""] * 11 + ["\n            Preview(false);", ""] + ["\n            Preview(false);"] * 2 + [""] * 30
@@ -619,8 +619,8 @@ for r in range(3):
         }"""
 text_icon = ["version", "cli_textbox", "run", "Output_label", "banner_move", "banner_resize", "sync_preview"]
 for s in range(len(text_icon)):
-    line2 = ["\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;"] * 3  + ["", "", "", "\n            if (preview_changed)\n                " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;\n            else\n                " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_selected;"]
-    line3 = ["\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + ";"] * 2 + ["\n            Check_run();", "", "", "", "\n            if (preview_changed)\n                " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_off;\n            else\n                " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_on;"]
+    line2 = ["\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;", "\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;\n            this.cli_textbox_label.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(4)))), ((int)(((byte)(0)))));", "\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;","", "", "", "\n            if (preview_changed)\n                " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;\n            else\n                " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_selected;"]
+    line3 = ["\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + ";", "\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;\n            this.cli_textbox_label.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(20)))), ((int)(((byte)(0)))), ((int)(((byte)(49)))));","\n            Check_run();", "", "", "", "\n            if (preview_changed)\n                " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_off;\n            else\n                " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_on;"]
     x += 1
     output += """
         private void """ + text_icon[s] + """_MouseEnter(object sender, EventArgs e)

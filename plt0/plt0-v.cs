@@ -59,7 +59,7 @@ namespace plt0_gui
         bool upscale = true;
         bool auto_update = true;
         bool textchange = false;
-        bool options_are_upwards = false;
+        bool all_layout_is_enabled = true;
         // banner_move
         int mouse_x;
         int mouse_y;
@@ -417,7 +417,7 @@ namespace plt0_gui
             unchecked_checkbox(tex0_ck);
             unchecked_checkbox(png_ck);
             unchecked_checkbox(random_ck);
-            unchecked_checkbox(reverse_ck);
+            unchecked_checkbox(reversey_ck);
             unchecked_checkbox(funky_ck);
             unchecked_checkbox(no_warning_ck);
             unchecked_checkbox(gif_ck);
@@ -1800,9 +1800,11 @@ namespace plt0_gui
             if (preview_layout_is_enabled)
                 Disable_Preview_Layout();
             preview_layout_is_enabled = false;
-            options_are_upwards = true;
+            all_layout_is_enabled = true;
             options_label.Location = new Point(1674, 32);
-            Hide_Preview_stuff();
+            ask_exit_ck.Visible = true;
+            ask_exit_hitbox.Visible = true;
+            ask_exit_label.Visible = true;
             layout = 0;
         }
         private void Layout_Auto()
@@ -1871,8 +1873,10 @@ namespace plt0_gui
             View_algorithm(algorithm);
             if (preview_layout_is_enabled)
                 Disable_Preview_Layout();
+            if (all_layout_is_enabled)
+                Disable_All_Layout();
+            all_layout_is_enabled = false;
             preview_layout_is_enabled = false;
-            Hide_Preview_stuff();
         }
         private void Layout_Preview()
         {
@@ -1896,6 +1900,9 @@ namespace plt0_gui
             if (!preview_layout_is_enabled)
                 Enable_Preview_Layout();
             preview_layout_is_enabled = true;
+            if (all_layout_is_enabled)
+                Disable_All_Layout();
+            all_layout_is_enabled = false;
             auto_update_ck.Visible = true;
             auto_update_hitbox.Visible = true;
             auto_update_label.Visible = true;
@@ -1911,37 +1918,6 @@ namespace plt0_gui
         }
         private void Enable_Preview_Layout()
         {
-            /* options_label.Location = new Point(options_label.Location.X - 888, options_label.Location.Y);
-            ask_exit_ck.Location = new Point(ask_exit_ck.Location.X - 888, ask_exit_ck.Location.Y);
-            ask_exit_label.Location = new Point(ask_exit_label.Location.X - 888, ask_exit_label.Location.Y);
-            ask_exit_hitbox.Location = new Point(ask_exit_hitbox.Location.X - 888, ask_exit_hitbox.Location.Y);
-            bmp_32_ck.Location = new Point(bmp_32_ck.Location.X - 888, bmp_32_ck.Location.Y);
-            bmp_32_label.Location = new Point(bmp_32_label.Location.X - 888, bmp_32_label.Location.Y);
-            bmp_32_hitbox.Location = new Point(bmp_32_hitbox.Location.X - 888, bmp_32_hitbox.Location.Y);
-            FORCE_ALPHA_ck.Location = new Point(FORCE_ALPHA_ck.Location.X - 888, FORCE_ALPHA_ck.Location.Y);
-            FORCE_ALPHA_label.Location = new Point(FORCE_ALPHA_label.Location.X - 888, FORCE_ALPHA_label.Location.Y);
-            FORCE_ALPHA_hitbox.Location = new Point(FORCE_ALPHA_hitbox.Location.X - 888, FORCE_ALPHA_hitbox.Location.Y);
-            funky_ck.Location = new Point(funky_ck.Location.X - 888, funky_ck.Location.Y);
-            funky_label.Location = new Point(funky_label.Location.X - 888, funky_label.Location.Y);
-            funky_hitbox.Location = new Point(funky_hitbox.Location.X - 888, funky_hitbox.Location.Y);
-            no_warning_ck.Location = new Point(no_warning_ck.Location.X - 888, no_warning_ck.Location.Y);
-            no_warning_label.Location = new Point(no_warning_label.Location.X - 888, no_warning_label.Location.Y);
-            no_warning_hitbox.Location = new Point(no_warning_hitbox.Location.X - 888, no_warning_hitbox.Location.Y);
-            random_ck.Location = new Point(random_ck.Location.X - 888, random_ck.Location.Y);
-            random_label.Location = new Point(random_label.Location.X - 888, random_label.Location.Y);
-            random_hitbox.Location = new Point(random_hitbox.Location.X - 888, random_hitbox.Location.Y);
-            reverse_ck.Location = new Point(reverse_ck.Location.X - 888, reverse_ck.Location.Y);
-            reverse_label.Location = new Point(reverse_label.Location.X - 888, reverse_label.Location.Y);
-            reverse_hitbox.Location = new Point(reverse_hitbox.Location.X - 888, reverse_hitbox.Location.Y);
-            safe_mode_ck.Location = new Point(safe_mode_ck.Location.X - 888, safe_mode_ck.Location.Y);
-            safe_mode_label.Location = new Point(safe_mode_label.Location.X - 888, safe_mode_label.Location.Y);
-            safe_mode_hitbox.Location = new Point(safe_mode_hitbox.Location.X - 888, safe_mode_hitbox.Location.Y);
-            stfu_ck.Location = new Point(stfu_ck.Location.X - 888, stfu_ck.Location.Y);
-            stfu_label.Location = new Point(stfu_label.Location.X - 888, stfu_label.Location.Y);
-            stfu_hitbox.Location = new Point(stfu_hitbox.Location.X - 888, stfu_hitbox.Location.Y);
-            warn_ck.Location = new Point(warn_ck.Location.X - 888, warn_ck.Location.Y);
-            warn_label.Location = new Point(warn_label.Location.X - 888, warn_label.Location.Y);
-            warn_hitbox.Location = new Point(warn_hitbox.Location.X - 888, warn_hitbox.Location.Y);*/
             output_label.Visible = false;
             description_title.Visible = false;
             description_surrounding.Visible = false;
@@ -1951,50 +1927,6 @@ namespace plt0_gui
             }
         }
         private void Disable_Preview_Layout()
-        {
-            /* ask_exit_ck.Location = new Point(ask_exit_ck.Location.X + 888, ask_exit_ck.Location.Y);
-            ask_exit_label.Location = new Point(ask_exit_label.Location.X + 888, ask_exit_label.Location.Y);
-            ask_exit_hitbox.Location = new Point(ask_exit_hitbox.Location.X + 888, ask_exit_hitbox.Location.Y);
-            bmp_32_ck.Location = new Point(bmp_32_ck.Location.X + 888, bmp_32_ck.Location.Y);
-            bmp_32_label.Location = new Point(bmp_32_label.Location.X + 888, bmp_32_label.Location.Y);
-            bmp_32_hitbox.Location = new Point(bmp_32_hitbox.Location.X + 888, bmp_32_hitbox.Location.Y);
-            FORCE_ALPHA_ck.Location = new Point(FORCE_ALPHA_ck.Location.X + 888, FORCE_ALPHA_ck.Location.Y);
-            FORCE_ALPHA_label.Location = new Point(FORCE_ALPHA_label.Location.X + 888, FORCE_ALPHA_label.Location.Y);
-            FORCE_ALPHA_hitbox.Location = new Point(FORCE_ALPHA_hitbox.Location.X + 888, FORCE_ALPHA_hitbox.Location.Y);
-            funky_ck.Location = new Point(funky_ck.Location.X + 888, funky_ck.Location.Y);
-            funky_label.Location = new Point(funky_label.Location.X + 888, funky_label.Location.Y);
-            funky_hitbox.Location = new Point(funky_hitbox.Location.X + 888, funky_hitbox.Location.Y);
-            no_warning_ck.Location = new Point(no_warning_ck.Location.X + 888, no_warning_ck.Location.Y);
-            no_warning_label.Location = new Point(no_warning_label.Location.X + 888, no_warning_label.Location.Y);
-            no_warning_hitbox.Location = new Point(no_warning_hitbox.Location.X + 888, no_warning_hitbox.Location.Y);
-            random_ck.Location = new Point(random_ck.Location.X + 888, random_ck.Location.Y);
-            random_label.Location = new Point(random_label.Location.X + 888, random_label.Location.Y);
-            random_hitbox.Location = new Point(random_hitbox.Location.X + 888, random_hitbox.Location.Y);
-            reverse_ck.Location = new Point(reverse_ck.Location.X + 888, reverse_ck.Location.Y);
-            reverse_label.Location = new Point(reverse_label.Location.X + 888, reverse_label.Location.Y);
-            reverse_hitbox.Location = new Point(reverse_hitbox.Location.X + 888, reverse_hitbox.Location.Y);
-            safe_mode_ck.Location = new Point(safe_mode_ck.Location.X + 888, safe_mode_ck.Location.Y);
-            safe_mode_label.Location = new Point(safe_mode_label.Location.X + 888, safe_mode_label.Location.Y);
-            safe_mode_hitbox.Location = new Point(safe_mode_hitbox.Location.X + 888, safe_mode_hitbox.Location.Y);
-            stfu_ck.Location = new Point(stfu_ck.Location.X + 888, stfu_ck.Location.Y);
-            stfu_label.Location = new Point(stfu_label.Location.X + 888, stfu_label.Location.Y);
-            stfu_hitbox.Location = new Point(stfu_hitbox.Location.X + 888, stfu_hitbox.Location.Y);
-            warn_ck.Location = new Point(warn_ck.Location.X + 888, warn_ck.Location.Y);
-            warn_label.Location = new Point(warn_label.Location.X + 888, warn_label.Location.Y);
-            warn_hitbox.Location = new Point(warn_hitbox.Location.X + 888, warn_hitbox.Location.Y); */
-            output_label.Visible = true;
-            description_title.Visible = true;
-            description_surrounding.Visible = true;
-            for (byte i = 0; i < 8; i++)
-            {
-                desc[i].Location = new Point(desc[i].Location.X, desc[i].Location.Y - 1000);
-            }
-        }
-        private void Layout_Paint()
-        {
-            Hide_Preview_stuff();
-        }
-        private void Hide_Preview_stuff()
         {
             auto_update_ck.Visible = false;
             auto_update_hitbox.Visible = false;
@@ -2007,6 +1939,25 @@ namespace plt0_gui
             textchange_label.Visible = false;
             sync_preview_ck.Visible = false;
             image_ck.Visible = false;
+
+            output_label.Visible = true;
+            description_title.Visible = true;
+            description_surrounding.Visible = true;
+            for (byte i = 0; i < 8; i++)
+            {
+                desc[i].Location = new Point(desc[i].Location.X, desc[i].Location.Y - 1000);
+            }
+        }
+        private void Disable_All_Layout()
+        {
+            ask_exit_ck.Visible = false;
+            ask_exit_hitbox.Visible = false;
+            ask_exit_label.Visible = false;
+            options_label.Location = new Point(1674, 96);
+        }
+        private void Layout_Paint()
+        {
+            Disable_Preview_Layout();
         }
         private void View_alpha()
         {
@@ -2729,8 +2680,8 @@ namespace plt0_gui
             this.stfu_label = new System.Windows.Forms.Label();
             this.safe_mode_ck = new System.Windows.Forms.PictureBox();
             this.safe_mode_label = new System.Windows.Forms.Label();
-            this.reverse_ck = new System.Windows.Forms.PictureBox();
-            this.reverse_label = new System.Windows.Forms.Label();
+            this.reversey_ck = new System.Windows.Forms.PictureBox();
+            this.reversey_label = new System.Windows.Forms.Label();
             this.random_ck = new System.Windows.Forms.PictureBox();
             this.random_label = new System.Windows.Forms.Label();
             this.no_warning_ck = new System.Windows.Forms.PictureBox();
@@ -2749,7 +2700,7 @@ namespace plt0_gui
             this.funky_hitbox = new System.Windows.Forms.Label();
             this.no_warning_hitbox = new System.Windows.Forms.Label();
             this.random_hitbox = new System.Windows.Forms.Label();
-            this.reverse_hitbox = new System.Windows.Forms.Label();
+            this.reversey_hitbox = new System.Windows.Forms.Label();
             this.safe_mode_hitbox = new System.Windows.Forms.Label();
             this.stfu_hitbox = new System.Windows.Forms.Label();
             this.warn_hitbox = new System.Windows.Forms.Label();
@@ -3072,6 +3023,9 @@ namespace plt0_gui
             this.preview4k_ck = new System.Windows.Forms.PictureBox();
             this.preview4k_hitbox = new System.Windows.Forms.Label();
             this.image_ck = new PictureBoxWithInterpolationMode();
+            this.reversex_ck = new System.Windows.Forms.PictureBox();
+            this.reversex_label = new System.Windows.Forms.Label();
+            this.reversex_hitbox = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.bmd_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
@@ -3087,7 +3041,7 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.warn_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.stfu_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.safe_mode_ck)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.reverse_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.reversey_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.random_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.no_warning_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.funky_ck)).BeginInit();
@@ -3189,6 +3143,7 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.upscale_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.preview4k_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.image_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.reversex_ck)).BeginInit();
             this.SuspendLayout();
             // 
             // output_file_type_label
@@ -3786,7 +3741,7 @@ namespace plt0_gui
             this.options_label.BackColor = System.Drawing.Color.Transparent;
             this.options_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.options_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.options_label.Location = new System.Drawing.Point(1674, 99);
+            this.options_label.Location = new System.Drawing.Point(1674, 96);
             this.options_label.Margin = new System.Windows.Forms.Padding(0);
             this.options_label.Name = "options_label";
             this.options_label.Size = new System.Drawing.Size(97, 20);
@@ -3886,36 +3841,36 @@ namespace plt0_gui
             this.safe_mode_label.MouseEnter += new System.EventHandler(this.safe_mode_MouseEnter);
             this.safe_mode_label.MouseLeave += new System.EventHandler(this.safe_mode_MouseLeave);
             // 
-            // reverse_ck
+            // reversey_ck
             // 
-            this.reverse_ck.BackColor = System.Drawing.Color.Transparent;
-            this.reverse_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.reverse_ck.Enabled = false;
-            this.reverse_ck.ErrorImage = null;
-            this.reverse_ck.InitialImage = null;
-            this.reverse_ck.Location = new System.Drawing.Point(1647, 512);
-            this.reverse_ck.Margin = new System.Windows.Forms.Padding(0);
-            this.reverse_ck.Name = "reverse_ck";
-            this.reverse_ck.Size = new System.Drawing.Size(64, 64);
-            this.reverse_ck.TabIndex = 181;
-            this.reverse_ck.TabStop = false;
+            this.reversey_ck.BackColor = System.Drawing.Color.Transparent;
+            this.reversey_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.reversey_ck.Enabled = false;
+            this.reversey_ck.ErrorImage = null;
+            this.reversey_ck.InitialImage = null;
+            this.reversey_ck.Location = new System.Drawing.Point(1647, 512);
+            this.reversey_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.reversey_ck.Name = "reversey_ck";
+            this.reversey_ck.Size = new System.Drawing.Size(64, 64);
+            this.reversey_ck.TabIndex = 181;
+            this.reversey_ck.TabStop = false;
             // 
-            // reverse_label
+            // reversey_label
             // 
-            this.reverse_label.AutoSize = true;
-            this.reverse_label.BackColor = System.Drawing.Color.Transparent;
-            this.reverse_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.reverse_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.reverse_label.Location = new System.Drawing.Point(1716, 512);
-            this.reverse_label.Margin = new System.Windows.Forms.Padding(0);
-            this.reverse_label.Name = "reverse_label";
-            this.reverse_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.reverse_label.Size = new System.Drawing.Size(174, 64);
-            this.reverse_label.TabIndex = 179;
-            this.reverse_label.Text = "reverse image";
-            this.reverse_label.Click += new System.EventHandler(this.reverse_Click);
-            this.reverse_label.MouseEnter += new System.EventHandler(this.reverse_MouseEnter);
-            this.reverse_label.MouseLeave += new System.EventHandler(this.reverse_MouseLeave);
+            this.reversey_label.AutoSize = true;
+            this.reversey_label.BackColor = System.Drawing.Color.Transparent;
+            this.reversey_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.reversey_label.ForeColor = System.Drawing.SystemColors.Window;
+            this.reversey_label.Location = new System.Drawing.Point(1716, 512);
+            this.reversey_label.Margin = new System.Windows.Forms.Padding(0);
+            this.reversey_label.Name = "reversey_label";
+            this.reversey_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.reversey_label.Size = new System.Drawing.Size(174, 64);
+            this.reversey_label.TabIndex = 179;
+            this.reversey_label.Text = "reverse y-axis";
+            this.reversey_label.Click += new System.EventHandler(this.reverse_Click);
+            this.reversey_label.MouseEnter += new System.EventHandler(this.reverse_MouseEnter);
+            this.reversey_label.MouseLeave += new System.EventHandler(this.reverse_MouseLeave);
             // 
             // random_ck
             // 
@@ -3924,7 +3879,7 @@ namespace plt0_gui
             this.random_ck.Enabled = false;
             this.random_ck.ErrorImage = null;
             this.random_ck.InitialImage = null;
-            this.random_ck.Location = new System.Drawing.Point(1647, 448);
+            this.random_ck.Location = new System.Drawing.Point(1647, 384);
             this.random_ck.Margin = new System.Windows.Forms.Padding(0);
             this.random_ck.Name = "random_ck";
             this.random_ck.Size = new System.Drawing.Size(64, 64);
@@ -3937,7 +3892,7 @@ namespace plt0_gui
             this.random_label.BackColor = System.Drawing.Color.Transparent;
             this.random_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.random_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.random_label.Location = new System.Drawing.Point(1716, 448);
+            this.random_label.Location = new System.Drawing.Point(1716, 384);
             this.random_label.Margin = new System.Windows.Forms.Padding(0);
             this.random_label.Name = "random_label";
             this.random_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -3955,7 +3910,7 @@ namespace plt0_gui
             this.no_warning_ck.Enabled = false;
             this.no_warning_ck.ErrorImage = null;
             this.no_warning_ck.InitialImage = null;
-            this.no_warning_ck.Location = new System.Drawing.Point(1647, 384);
+            this.no_warning_ck.Location = new System.Drawing.Point(1647, 320);
             this.no_warning_ck.Margin = new System.Windows.Forms.Padding(0);
             this.no_warning_ck.Name = "no_warning_ck";
             this.no_warning_ck.Size = new System.Drawing.Size(64, 64);
@@ -3968,7 +3923,7 @@ namespace plt0_gui
             this.no_warning_label.BackColor = System.Drawing.Color.Transparent;
             this.no_warning_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.no_warning_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.no_warning_label.Location = new System.Drawing.Point(1716, 384);
+            this.no_warning_label.Location = new System.Drawing.Point(1716, 320);
             this.no_warning_label.Margin = new System.Windows.Forms.Padding(0);
             this.no_warning_label.Name = "no_warning_label";
             this.no_warning_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -3986,7 +3941,7 @@ namespace plt0_gui
             this.funky_ck.Enabled = false;
             this.funky_ck.ErrorImage = null;
             this.funky_ck.InitialImage = null;
-            this.funky_ck.Location = new System.Drawing.Point(1647, 320);
+            this.funky_ck.Location = new System.Drawing.Point(1647, 256);
             this.funky_ck.Margin = new System.Windows.Forms.Padding(0);
             this.funky_ck.Name = "funky_ck";
             this.funky_ck.Size = new System.Drawing.Size(64, 64);
@@ -3999,7 +3954,7 @@ namespace plt0_gui
             this.funky_label.BackColor = System.Drawing.Color.Transparent;
             this.funky_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.funky_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.funky_label.Location = new System.Drawing.Point(1716, 320);
+            this.funky_label.Location = new System.Drawing.Point(1716, 256);
             this.funky_label.Margin = new System.Windows.Forms.Padding(0);
             this.funky_label.Name = "funky_label";
             this.funky_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -4017,7 +3972,7 @@ namespace plt0_gui
             this.FORCE_ALPHA_ck.Enabled = false;
             this.FORCE_ALPHA_ck.ErrorImage = null;
             this.FORCE_ALPHA_ck.InitialImage = null;
-            this.FORCE_ALPHA_ck.Location = new System.Drawing.Point(1647, 256);
+            this.FORCE_ALPHA_ck.Location = new System.Drawing.Point(1647, 192);
             this.FORCE_ALPHA_ck.Margin = new System.Windows.Forms.Padding(0);
             this.FORCE_ALPHA_ck.Name = "FORCE_ALPHA_ck";
             this.FORCE_ALPHA_ck.Size = new System.Drawing.Size(64, 64);
@@ -4030,7 +3985,7 @@ namespace plt0_gui
             this.FORCE_ALPHA_label.BackColor = System.Drawing.Color.Transparent;
             this.FORCE_ALPHA_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.FORCE_ALPHA_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.FORCE_ALPHA_label.Location = new System.Drawing.Point(1716, 256);
+            this.FORCE_ALPHA_label.Location = new System.Drawing.Point(1716, 192);
             this.FORCE_ALPHA_label.Margin = new System.Windows.Forms.Padding(0);
             this.FORCE_ALPHA_label.Name = "FORCE_ALPHA_label";
             this.FORCE_ALPHA_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -4048,7 +4003,7 @@ namespace plt0_gui
             this.bmp_32_ck.Enabled = false;
             this.bmp_32_ck.ErrorImage = null;
             this.bmp_32_ck.InitialImage = null;
-            this.bmp_32_ck.Location = new System.Drawing.Point(1647, 192);
+            this.bmp_32_ck.Location = new System.Drawing.Point(1647, 128);
             this.bmp_32_ck.Margin = new System.Windows.Forms.Padding(0);
             this.bmp_32_ck.Name = "bmp_32_ck";
             this.bmp_32_ck.Size = new System.Drawing.Size(64, 64);
@@ -4061,7 +4016,7 @@ namespace plt0_gui
             this.bmp_32_label.BackColor = System.Drawing.Color.Transparent;
             this.bmp_32_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.bmp_32_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.bmp_32_label.Location = new System.Drawing.Point(1716, 192);
+            this.bmp_32_label.Location = new System.Drawing.Point(1716, 128);
             this.bmp_32_label.Margin = new System.Windows.Forms.Padding(0);
             this.bmp_32_label.Name = "bmp_32_label";
             this.bmp_32_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -4085,6 +4040,7 @@ namespace plt0_gui
             this.ask_exit_ck.Size = new System.Drawing.Size(64, 64);
             this.ask_exit_ck.TabIndex = 163;
             this.ask_exit_ck.TabStop = false;
+            this.ask_exit_ck.Visible = false;
             // 
             // ask_exit_label
             // 
@@ -4099,6 +4055,7 @@ namespace plt0_gui
             this.ask_exit_label.Size = new System.Drawing.Size(101, 64);
             this.ask_exit_label.TabIndex = 161;
             this.ask_exit_label.Text = "ask exit";
+            this.ask_exit_label.Visible = false;
             this.ask_exit_label.Click += new System.EventHandler(this.ask_exit_Click);
             this.ask_exit_label.MouseEnter += new System.EventHandler(this.ask_exit_MouseEnter);
             this.ask_exit_label.MouseLeave += new System.EventHandler(this.ask_exit_MouseLeave);
@@ -4115,6 +4072,7 @@ namespace plt0_gui
             this.ask_exit_hitbox.Padding = new System.Windows.Forms.Padding(280, 44, 0, 0);
             this.ask_exit_hitbox.Size = new System.Drawing.Size(280, 64);
             this.ask_exit_hitbox.TabIndex = 162;
+            this.ask_exit_hitbox.Visible = false;
             this.ask_exit_hitbox.Click += new System.EventHandler(this.ask_exit_Click);
             this.ask_exit_hitbox.MouseEnter += new System.EventHandler(this.ask_exit_MouseEnter);
             this.ask_exit_hitbox.MouseLeave += new System.EventHandler(this.ask_exit_MouseLeave);
@@ -4125,7 +4083,7 @@ namespace plt0_gui
             this.bmp_32_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.bmp_32_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.bmp_32_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.bmp_32_hitbox.Location = new System.Drawing.Point(1640, 192);
+            this.bmp_32_hitbox.Location = new System.Drawing.Point(1640, 128);
             this.bmp_32_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.bmp_32_hitbox.Name = "bmp_32_hitbox";
             this.bmp_32_hitbox.Padding = new System.Windows.Forms.Padding(280, 44, 0, 0);
@@ -4141,7 +4099,7 @@ namespace plt0_gui
             this.FORCE_ALPHA_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.FORCE_ALPHA_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.FORCE_ALPHA_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.FORCE_ALPHA_hitbox.Location = new System.Drawing.Point(1640, 256);
+            this.FORCE_ALPHA_hitbox.Location = new System.Drawing.Point(1640, 192);
             this.FORCE_ALPHA_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.FORCE_ALPHA_hitbox.Name = "FORCE_ALPHA_hitbox";
             this.FORCE_ALPHA_hitbox.Padding = new System.Windows.Forms.Padding(280, 44, 0, 0);
@@ -4157,7 +4115,7 @@ namespace plt0_gui
             this.funky_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.funky_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.funky_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.funky_hitbox.Location = new System.Drawing.Point(1640, 320);
+            this.funky_hitbox.Location = new System.Drawing.Point(1640, 256);
             this.funky_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.funky_hitbox.Name = "funky_hitbox";
             this.funky_hitbox.Padding = new System.Windows.Forms.Padding(280, 44, 0, 0);
@@ -4173,7 +4131,7 @@ namespace plt0_gui
             this.no_warning_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.no_warning_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.no_warning_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.no_warning_hitbox.Location = new System.Drawing.Point(1640, 384);
+            this.no_warning_hitbox.Location = new System.Drawing.Point(1640, 320);
             this.no_warning_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.no_warning_hitbox.Name = "no_warning_hitbox";
             this.no_warning_hitbox.Padding = new System.Windows.Forms.Padding(280, 44, 0, 0);
@@ -4189,7 +4147,7 @@ namespace plt0_gui
             this.random_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.random_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.random_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.random_hitbox.Location = new System.Drawing.Point(1640, 448);
+            this.random_hitbox.Location = new System.Drawing.Point(1640, 384);
             this.random_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.random_hitbox.Name = "random_hitbox";
             this.random_hitbox.Padding = new System.Windows.Forms.Padding(300, 44, 0, 0);
@@ -4199,21 +4157,21 @@ namespace plt0_gui
             this.random_hitbox.MouseEnter += new System.EventHandler(this.random_MouseEnter);
             this.random_hitbox.MouseLeave += new System.EventHandler(this.random_MouseLeave);
             // 
-            // reverse_hitbox
+            // reversey_hitbox
             // 
-            this.reverse_hitbox.AutoSize = true;
-            this.reverse_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.reverse_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.reverse_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.reverse_hitbox.Location = new System.Drawing.Point(1640, 512);
-            this.reverse_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.reverse_hitbox.Name = "reverse_hitbox";
-            this.reverse_hitbox.Padding = new System.Windows.Forms.Padding(280, 44, 0, 0);
-            this.reverse_hitbox.Size = new System.Drawing.Size(280, 64);
-            this.reverse_hitbox.TabIndex = 196;
-            this.reverse_hitbox.Click += new System.EventHandler(this.reverse_Click);
-            this.reverse_hitbox.MouseEnter += new System.EventHandler(this.reverse_MouseEnter);
-            this.reverse_hitbox.MouseLeave += new System.EventHandler(this.reverse_MouseLeave);
+            this.reversey_hitbox.AutoSize = true;
+            this.reversey_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.reversey_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.reversey_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.reversey_hitbox.Location = new System.Drawing.Point(1640, 512);
+            this.reversey_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.reversey_hitbox.Name = "reversey_hitbox";
+            this.reversey_hitbox.Padding = new System.Windows.Forms.Padding(280, 44, 0, 0);
+            this.reversey_hitbox.Size = new System.Drawing.Size(280, 64);
+            this.reversey_hitbox.TabIndex = 196;
+            this.reversey_hitbox.Click += new System.EventHandler(this.reverse_Click);
+            this.reversey_hitbox.MouseEnter += new System.EventHandler(this.reverse_MouseEnter);
+            this.reversey_hitbox.MouseLeave += new System.EventHandler(this.reverse_MouseLeave);
             // 
             // safe_mode_hitbox
             // 
@@ -9200,6 +9158,47 @@ namespace plt0_gui
             this.image_ck.TabStop = false;
             this.image_ck.Visible = false;
             // 
+            // reversex_ck
+            // 
+            this.reversex_ck.BackColor = System.Drawing.Color.Transparent;
+            this.reversex_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.reversex_ck.Enabled = false;
+            this.reversex_ck.ErrorImage = null;
+            this.reversex_ck.InitialImage = null;
+            this.reversex_ck.Location = new System.Drawing.Point(1647, 448);
+            this.reversex_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.reversex_ck.Name = "reversex_ck";
+            this.reversex_ck.Size = new System.Drawing.Size(64, 64);
+            this.reversex_ck.TabIndex = 607;
+            this.reversex_ck.TabStop = false;
+            // 
+            // reversex_label
+            // 
+            this.reversex_label.AutoSize = true;
+            this.reversex_label.BackColor = System.Drawing.Color.Transparent;
+            this.reversex_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.reversex_label.ForeColor = System.Drawing.SystemColors.Window;
+            this.reversex_label.Location = new System.Drawing.Point(1716, 448);
+            this.reversex_label.Margin = new System.Windows.Forms.Padding(0);
+            this.reversex_label.Name = "reversex_label";
+            this.reversex_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.reversex_label.Size = new System.Drawing.Size(174, 64);
+            this.reversex_label.TabIndex = 606;
+            this.reversex_label.Text = "reverse x-axis";
+            // 
+            // reversex_hitbox
+            // 
+            this.reversex_hitbox.AutoSize = true;
+            this.reversex_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.reversex_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.reversex_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.reversex_hitbox.Location = new System.Drawing.Point(1640, 448);
+            this.reversex_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.reversex_hitbox.Name = "reversex_hitbox";
+            this.reversex_hitbox.Padding = new System.Windows.Forms.Padding(280, 44, 0, 0);
+            this.reversex_hitbox.Size = new System.Drawing.Size(280, 64);
+            this.reversex_hitbox.TabIndex = 608;
+            // 
             // plt0_gui
             // 
             this.AllowDrop = true;
@@ -9207,7 +9206,10 @@ namespace plt0_gui
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(2465, 1609);
+            this.ClientSize = new System.Drawing.Size(1924, 1061);
+            this.Controls.Add(this.reversex_ck);
+            this.Controls.Add(this.reversex_label);
+            this.Controls.Add(this.reversex_hitbox);
             this.Controls.Add(this.preview4k_label);
             this.Controls.Add(this.preview4k_ck);
             this.Controls.Add(this.preview4k_hitbox);
@@ -9487,8 +9489,8 @@ namespace plt0_gui
             this.Controls.Add(this.stfu_label);
             this.Controls.Add(this.safe_mode_ck);
             this.Controls.Add(this.safe_mode_label);
-            this.Controls.Add(this.reverse_ck);
-            this.Controls.Add(this.reverse_label);
+            this.Controls.Add(this.reversey_ck);
+            this.Controls.Add(this.reversey_label);
             this.Controls.Add(this.random_ck);
             this.Controls.Add(this.random_label);
             this.Controls.Add(this.no_warning_ck);
@@ -9544,7 +9546,7 @@ namespace plt0_gui
             this.Controls.Add(this.funky_hitbox);
             this.Controls.Add(this.no_warning_hitbox);
             this.Controls.Add(this.random_hitbox);
-            this.Controls.Add(this.reverse_hitbox);
+            this.Controls.Add(this.reversey_hitbox);
             this.Controls.Add(this.safe_mode_hitbox);
             this.Controls.Add(this.stfu_hitbox);
             this.Controls.Add(this.warn_hitbox);
@@ -9624,7 +9626,7 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.warn_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.stfu_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.safe_mode_ck)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.reverse_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.reversey_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.random_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.no_warning_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.funky_ck)).EndInit();
@@ -9726,6 +9728,7 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.upscale_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.preview4k_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.image_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.reversex_ck)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -10838,14 +10841,14 @@ namespace plt0_gui
             {
                 reverse = false;
                 Organize_args();
-                hover_checkbox(reverse_ck);
+                hover_checkbox(reversey_ck);
                 Preview(false);
             }
             else
             {
                 reverse = true;
                 Organize_args();
-                selected_checkbox(reverse_ck);
+                selected_checkbox(reversey_ck);
                 Preview(false);
             }
         }
@@ -10853,17 +10856,17 @@ namespace plt0_gui
         {
             Parse_Markdown(lines[77]);
             if (reverse)
-                selected_checkbox(reverse_ck);
+                selected_checkbox(reversey_ck);
             else
-                hover_checkbox(reverse_ck);
+                hover_checkbox(reversey_ck);
         }
         private void reverse_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
             if (reverse)
-                checked_checkbox(reverse_ck);
+                checked_checkbox(reversey_ck);
             else
-                unchecked_checkbox(reverse_ck);
+                unchecked_checkbox(reversey_ck);
         }
         private void safe_mode_Click(object sender, EventArgs e)
         {
@@ -13665,6 +13668,7 @@ namespace plt0_gui
         {
             Parse_Markdown(lines[162]);
             cli_textbox_ck.BackgroundImage = cli_textbox_hover;
+            this.cli_textbox_label.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(4)))), ((int)(((byte)(0)))));
         }
         private void cli_textbox_MouseLeave(object sender, EventArgs e)
         {

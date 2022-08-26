@@ -47,8 +47,8 @@
         private System.Windows.Forms.Label stfu_label;
         private System.Windows.Forms.PictureBox safe_mode_ck;
         private System.Windows.Forms.Label safe_mode_label;
-        private System.Windows.Forms.PictureBox reverse_ck;
-        private System.Windows.Forms.Label reverse_label;
+        private System.Windows.Forms.PictureBox reversey_ck;
+        private System.Windows.Forms.Label reversey_label;
         private System.Windows.Forms.PictureBox random_ck;
         private System.Windows.Forms.Label random_label;
         private System.Windows.Forms.PictureBox no_warning_ck;
@@ -67,7 +67,7 @@
         private System.Windows.Forms.Label funky_hitbox;
         private System.Windows.Forms.Label no_warning_hitbox;
         private System.Windows.Forms.Label random_hitbox;
-        private System.Windows.Forms.Label reverse_hitbox;
+        private System.Windows.Forms.Label reversey_hitbox;
         private System.Windows.Forms.Label safe_mode_hitbox;
         private System.Windows.Forms.Label stfu_hitbox;
         private System.Windows.Forms.Label warn_hitbox;
@@ -391,6 +391,9 @@
         private System.Windows.Forms.Label preview4k_label;
         private System.Windows.Forms.PictureBox preview4k_ck;
         private System.Windows.Forms.Label preview4k_hitbox;
+        private System.Windows.Forms.PictureBox reversex_ck;
+        private System.Windows.Forms.Label reversex_label;
+        private System.Windows.Forms.Label reversex_hitbox;
         /*
 /// <summary>
 /// Required designer variable.
