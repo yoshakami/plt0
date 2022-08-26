@@ -2735,11 +2735,31 @@ same for blue + green*/
         }
         if (_plt0.reverse_y)
             index_list.Reverse();
-        if (_plt0.reverse_x && _plt0.texture_format_int32[3] != 0xE)
+        if (_plt0.reverse_x)
         {
-            for (int i = 0; i < index_list.Count; i++)
+            if (_plt0.texture_format_int32[3] == 0xE)
             {
-                index_list[i] = index_list[i].Reverse().ToArray();
+                int blocks_wide = _plt0.canvas_width >> 2;
+                int blocks_tall = _plt0.canvas_height >> 2;
+                //byte[][] index_reversed = new byte[blocks_wide][]; // I guess byte[][] sucks nowadays that List<byte[]> exists, can't get it to work
+                List<byte[]> index_reversed = new List<byte[]>();
+                int h = 0;
+                for (int d = 0; d < blocks_tall; d++)
+                {
+                    for (int i = blocks_wide - 1; i >= 0; i--)
+                    {
+                        index_reversed.Add(index_list[h + i]);
+                    }
+                    h += blocks_wide;
+                }
+                return index_reversed;
+            }
+            else
+            {
+                for (int i = 0; i < index_list.Count; i++)
+                {
+                    index_list[i] = index_list[i].Reverse().ToArray();
+                }
             }
         }
         return index_list;
