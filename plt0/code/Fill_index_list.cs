@@ -51,7 +51,7 @@ class Fill_index_list_class
                                         }
                                         cursor += 24;
                                     }
-                                    index_list.Add((byte[])index.Reverse());
+                                    index_list.Add(index.Reverse().ToArray());
                                     count = 0;
                                     // cursor -= (blocks_wide * block_height_array[texture_format3] * block_width_array[texture_format3]) - block_width_array[texture_format3];  // goes back to the left-most block
                                     cursor -= (blocks_wide << 6) - 8;  // same but better
@@ -123,7 +123,7 @@ class Fill_index_list_class
                                     index[count] = data[cursor];
                                     cursor++;
                                 }
-                                index_list.Add((byte[])index.Reverse());
+                                index_list.Add(index.Reverse().ToArray());
                             }
                         }
                         else
@@ -209,7 +209,7 @@ class Fill_index_list_class
                                         }
                                         cursor += (block_height_array[texture_format3] - 1) * block_width_array[texture_format3];  // goes to next right block to fill the line horizontally
                                     }
-                                    index_list.Add((byte[])index.Reverse());
+                                    index_list.Add(index.Reverse().ToArray());
                                     count = 0;
                                     cursor -= (blocks_wide * block_height_array[texture_format3] * block_width_array[texture_format3]) - block_width_array[texture_format3];  // goes back to the left-most block
                                 }
