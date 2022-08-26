@@ -1,6 +1,6 @@
 plt0 config v1.0
 Layout (change next line with one of these: "All", "Auto", "Preview", "Paint")
-All
+Preview
 Window Location ("Normal", "Maximized", "Bottom_left", "Left", "Top_left", "Top", "Top_right", "Right", "Bottom_right", "Bottom")
 Maximized
 Textboxes text color (System.Drawing.Color)
@@ -171,8 +171,6 @@ Toogle the WrapS Category
 Toogle the WrapT Category
 Toogle the Minification Filter Category
 Toogle the Magnification Filter Category
-this is padding data to alignment.
-this is padding data to alignment.
 this is padding data to alignment.
 this is padding data to alignment.
 this is padding data to alignment.
