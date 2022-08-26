@@ -418,6 +418,7 @@ namespace plt0_gui
             unchecked_checkbox(tex0_ck);
             unchecked_checkbox(png_ck);
             unchecked_checkbox(random_ck);
+            unchecked_checkbox(reversex_ck);
             unchecked_checkbox(reversey_ck);
             unchecked_checkbox(funky_ck);
             unchecked_checkbox(no_warning_ck);
@@ -10790,12 +10791,14 @@ namespace plt0_gui
                 no_warning = false;
                 Organize_args();
                 hover_checkbox(no_warning_ck);
+                Preview(false);
             }
             else
             {
                 no_warning = true;
                 Organize_args();
                 selected_checkbox(no_warning_ck);
+                Preview(false);
             }
         }
         private void no_warning_MouseEnter(object sender, EventArgs e)
@@ -10887,12 +10890,14 @@ namespace plt0_gui
                 reversey = false;
                 Organize_args();
                 hover_checkbox(reversey_ck);
+                Preview(false);
             }
             else
             {
                 reversey = true;
                 Organize_args();
                 selected_checkbox(reversey_ck);
+                Preview(false);
             }
         }
         private void reversey_MouseEnter(object sender, EventArgs e)
@@ -10918,12 +10923,14 @@ namespace plt0_gui
                 safe_mode = false;
                 Organize_args();
                 hover_checkbox(safe_mode_ck);
+                Preview(false);
             }
             else
             {
                 safe_mode = true;
                 Organize_args();
                 selected_checkbox(safe_mode_ck);
+                Preview(false);
             }
         }
         private void safe_mode_MouseEnter(object sender, EventArgs e)
@@ -10949,12 +10956,14 @@ namespace plt0_gui
                 stfu = false;
                 Organize_args();
                 hover_checkbox(stfu_ck);
+                Preview(false);
             }
             else
             {
                 stfu = true;
                 Organize_args();
                 selected_checkbox(stfu_ck);
+                Preview(false);
             }
         }
         private void stfu_MouseEnter(object sender, EventArgs e)
@@ -10980,12 +10989,14 @@ namespace plt0_gui
                 warn = false;
                 Organize_args();
                 hover_checkbox(warn_ck);
+                Preview(false);
             }
             else
             {
                 warn = true;
                 Organize_args();
                 selected_checkbox(warn_ck);
+                Preview(false);
             }
         }
         private void warn_MouseEnter(object sender, EventArgs e)
