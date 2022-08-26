@@ -1187,7 +1187,7 @@ namespace plt0_gui
                 args += encoding_array[encoding] + " ";
                 arg_array.Add(encoding_array[encoding]);
             }
-            if (palette_enc != 3)
+            if (palette_enc != 3 && encoding > 7 && encoding != 14)
             {
                 args += encoding_array[palette_enc + 3] + " ";
                 arg_array.Add(encoding_array[palette_enc + 3]);

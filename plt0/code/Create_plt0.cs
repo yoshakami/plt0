@@ -1750,6 +1750,8 @@ class Create_plt0_class
                                             {
                                                 blue += 16;
                                             }
+                                            index[j] = (byte)(((a >> 1) & 0x70) + (red >> 4));
+                                            index[j + 1] = (byte)((green & 0xf0) + (blue >> 4));
                                             j += 2;
                                             if (j == _plt0.canvas_width << 1)
                                             {
@@ -1777,7 +1779,6 @@ class Create_plt0_class
                                             {
                                                 blue += 8;
                                             }
-
                                             index[j] = (byte)(0x80 + ((red >> 1) & 0x7c) + (green >> 6));
                                             index[j + 1] = (byte)(((green << 2) & 0xe0) + (blue >> 3));
                                             j += 2;

@@ -1075,7 +1075,7 @@ class Write_bmp_class
                             {
                                 for (int j = 0; j < index_list[z].Count; j++)
                                 {
-                                    for (int k = 0; k < index_list[z][0].Length; k++, index += 4)
+                                    for (int k = 0; k < index_list[z][0].Length; k+=2, index += 4)
                                     {
                                         pixel_alpha = (byte)((index_list[z][j][k] << 1) & 0xe0);
                                         if (pixel_alpha == 0xe0)
