@@ -304,6 +304,8 @@ namespace plt0_gui
             //markdown.Add(font_unit);
             //markdown.Add(font_encoding);
             //markdown.Add(font_size);
+            if (Directory.Exists(execPath + "images/preview"))
+                Directory.Delete(execPath + "images/preview");
             encoding_ck.Add(i4_ck);
             encoding_ck.Add(i8_ck);
             encoding_ck.Add(ai4_ck);
@@ -730,6 +732,7 @@ namespace plt0_gui
                     // um, idk what to do here if the user doesn't let the app write a file.
                 }
             }
+            Directory.CreateDirectory(execPath + "images/preview");
             plt0.NativeMethods.FreeConsole();
         }
 

@@ -32,13 +32,13 @@ for y in booleans:
             if (""" + y + """)
             {
                 """ + y + """ = false;
-                cli_textbox_label.Text = cli_textbox_label.Text.Replace(\"""" + y + """ ", "");
+                Organize_args();
                 hover_checkbox(""" + y + "_ck);" + layout_auto2[w] + """
             }
             else
             {
                 """ + y + """ = true;
-                cli_textbox_label.Text += \"""" + y + """ ";
+                Organize_args();
                 selected_checkbox(""" + y + "_ck);" + layout_auto[w] + """
             }""" + check_run[w] + """
         }
