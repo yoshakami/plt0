@@ -2631,7 +2631,7 @@ same for blue + green*/
         {
             for (int i = 0; i < index_list.Count; i++)
             {
-                index_list[i].Reverse();
+                index_list[i] = (byte[])index_list[i].Reverse();
             }
         }
         return index_list;

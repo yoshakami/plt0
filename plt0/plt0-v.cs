@@ -802,7 +802,7 @@ namespace plt0_gui
             else
                 txt = txt.Replace("\\d", "");
             // implement b, c, f, g, i, j, k, q, s, u, v, x
-            string[] txt_label = txt.Split(new string[] { "\\j" }, StringSplitOptions.RemoveEmptyEntries);
+            string[] txt_label = txt.Split(new string[] { "\\j" }, StringSplitOptions.None);
             for (byte i = 0; i < (byte)txt_label.Length; i++)
             {
                 font_colour = lines[10];  // default colour
@@ -1927,7 +1927,7 @@ namespace plt0_gui
             output_label.Visible = false;
             description_title.Visible = false;
             description_surrounding.Visible = false;
-            for (byte i = 0; i < 8; i++)
+            for (byte i = 0; i < 9; i++)
             {
                 desc[i].Location = new Point(desc[i].Location.X, desc[i].Location.Y + 1000);
             }
@@ -1949,7 +1949,7 @@ namespace plt0_gui
             output_label.Visible = true;
             description_title.Visible = true;
             description_surrounding.Visible = true;
-            for (byte i = 0; i < 8; i++)
+            for (byte i = 0; i < 9; i++)
             {
                 desc[i].Location = new Point(desc[i].Location.X, desc[i].Location.Y - 1000);
             }
