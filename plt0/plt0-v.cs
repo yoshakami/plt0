@@ -1109,7 +1109,7 @@ namespace plt0_gui
             if (Check_run())
             {
                 int num = 1;
-                while (File.Exists(execPath + "images/" + num + ".bmp"))
+                while (File.Exists(execPath + "images/preview/" + num + ".bmp"))
                 {
                     num++;
                 }
@@ -1135,7 +1135,7 @@ namespace plt0_gui
                     }
                 }
                 arg_array.Add("bmp");
-                arg_array.Add(execPath + "images/" + num + ".bmp");  // even if there's an output file in the args, the last one is th eoutput file :) that's how I made it
+                arg_array.Add(execPath + "images/preview/" + num + ".bmp");  // even if there's an output file in the args, the last one is th eoutput file :) that's how I made it
                 Parse_args_class cli = new Parse_args_class();
                 cli.Parse_args(arg_array.ToArray());
                 input_file2 = cli.Check_exit();
@@ -1149,7 +1149,7 @@ namespace plt0_gui
                 //image_ck.InterpolationMode = InterpolationMode.NearestNeighbor;
                 //if (image_ck.BackgroundImage != null)
                 //    image_ck.BackgroundImage.Dispose();
-                image_ck.Image = Image.FromFile(execPath + "images/" + num + ".bmp");
+                image_ck.Image = Image.FromFile(execPath + "images/preview/" + num + ".bmp");
                 //do something
             }
         }
