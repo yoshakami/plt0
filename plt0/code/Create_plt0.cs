@@ -1933,6 +1933,20 @@ class Create_plt0_class
                         II II II II   II II II II
                         II II II II   II II II II
 
+
+                        how I will store each block:
+                        16  15  12  11
+                        14  13  10   9
+                         8   7   4   3
+                         6   5   2   1
+
+                        how blocks are supposed to be stored:
+                        1  2   5  6
+                        3  4   7  8
+                        9  10  13 14
+                        11 12  15 16
+
+                        the reason for this choice is conveniency, considering that a bmp file starts by the last line
                          */
                         index_list.Clear();  // removes the "fill height" lines, because UH YOUVE GUESSED IT, I4M NOT STORING THESE IN LINE ORDER BUT IN SUB-BLOCK ORDER
                                              // I swear this is a nightmare
@@ -2746,21 +2760,19 @@ same for blue + green*/
                 int h = ((blocks_wide>>1) - 1) << 2;
                 for (int d = 0; d < blocks_tall; d++)
                 {
-                    for (int e = 0; e < blocks_wide >> 1; e++)
-                    {
-                        for (int i = blocks_wide - 3; i >= 0; i -= 4)
+                    for (int i = blocks_wide - 3; i >= 0; i -= 4)
                         {
                             index_reversed.Add(index_list[h + i]);
                             index_reversed.Add(index_list[h + i - 1]);
                         }
+                    
                         for (int i = blocks_wide - 1; i >= 0; i -= 4)
                         {
                             index_reversed.Add(index_list[h + i]);
                             index_reversed.Add(index_list[h + i - 1]);
                         }
-                        h -= 4;
-                    }
-                    h += (blocks_wide << 2);
+                    
+                    h += (blocks_wide << 1);
                 }
                 return index_reversed;
             }
