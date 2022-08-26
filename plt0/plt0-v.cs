@@ -309,8 +309,8 @@ namespace plt0_gui
                 string[] files = Directory.GetFiles(execPath + "images/preview");
                 for (int i = 0; i < files.Length;i++)
                     File.Delete(files[i]);
+                Directory.Delete(execPath + "images/preview");
             }
-            Directory.Delete(execPath + "images/preview");
             encoding_ck.Add(i4_ck);
             encoding_ck.Add(i8_ck);
             encoding_ck.Add(ai4_ck);
@@ -1154,7 +1154,10 @@ namespace plt0_gui
                 //image_ck.InterpolationMode = InterpolationMode.NearestNeighbor;
                 //if (image_ck.BackgroundImage != null)
                 //    image_ck.BackgroundImage.Dispose();
-                image_ck.Image = Image.FromFile(execPath + "images/preview/" + num + ".bmp");
+                if (File.Exists(execPath + "images/preview/" + num + ".bmp"))
+                    image_ck.Image = Image.FromFile(execPath + "images/preview/" + num + ".bmp");
+                else
+                    cli_textbox_label.Text = cli.Check_exit();
                 //do something
             }
         }

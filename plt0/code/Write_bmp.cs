@@ -26,13 +26,55 @@ class Write_bmp_class
         byte pixel_color;
         byte pixel_alpha;
         byte[] data = new byte[54];  // header data
-        byte[] palette = new byte[colour_number_x4];
         byte[] pixel = new byte[0];
         string end = ".bmp";
         bool done = false;
         // vanilla BITMAPV4HEADER
         // byte[] alpha_header = { 00, 00, 0xFF, 00, 00, 0xFF, 00, 00, 0xFF, 00, 00, 00, 00, 00, 00, 0xFF, 0x20, 0x6E, 0x69, 0x57, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00 };
-
+        switch (texture_format_int32[3])
+        {
+            case 0:  // I4
+                {
+                    colour_number_x4 = 64; // 16 * 4
+                    break;
+                }
+            /* case 8: // CI4
+                {
+                    width >>= 1;  // 4-bit per pixel
+                    break;
+                }*/
+            case 1: // I8
+                {
+                    colour_number_x4 = 1024; // 256 * 4
+                    break;
+                }
+            /* 
+              case 9:  // CI8
+                nothing happens
+           
+            case 4:  // RGB565
+                {
+                    width *= 3; // converted to 24bpp to prevent loss
+                    break;
+                } */
+            case 2: // AI4
+            case 3:  // IA8
+            case 5:  // RGB5A3
+            case 6:  // RGBA32
+            case 10: // CI14x2
+            case 0xE:  // CMPR
+                {
+                    colour_number_x4 = 0;
+                    alpha_header_size = 0x44;
+                    break;
+                }
+        }
+        if ((has_palette && alpha > 0) || bmp_32)  // AI8 Palette with alpha // RGB565 Palette with alpha // RGB5A3 Palette with alpha
+        {
+            colour_number_x4 = 0;
+            alpha_header_size = 0x44;
+        }
+        byte[] palette = new byte[colour_number_x4];
         // custom padding - the funni one  - it is mandatory to add these padding bytes, else paint.net won't open the picture. (it's fine with explorer.exe's preview) - these bytes can be whatever you want. so I've made it write some fun text 
         byte[] alpha_header = { 0, 0, 255, 0, 0, 255, 0, 0, 255, 0, 0, 0, 0, 0, 0, 255, 32, 110, 105, 87, 0, 104, 116, 116, 112, 115, 58, 47, 47, 100, 105, 115, 99, 111, 114, 100, 46, 103, 103, 47, 118, 57, 86, 112, 68, 90, 57, 0, 116, 104, 105, 115, 32, 105, 115, 32, 112, 97, 100, 100, 105, 110, 103, 32, 100, 97, 116, 97 };
         for (int z = 0; z < mipmaps_number + 1; z++)
@@ -45,7 +87,6 @@ class Write_bmp_class
                 case 0:  // I4
                     {
                         width >>= 1;  // 4-bit per pixel
-                        colour_number_x4 = 64; // 16 * 4
                         break;
                     }
                 case 8: // CI4
@@ -53,7 +94,7 @@ class Write_bmp_class
                         width >>= 1;  // 4-bit per pixel
                         break;
                     }
-                case 1: // I8
+                /* case 1: // I8
                     {
                         colour_number_x4 = 1024; // 256 * 4
                         break;
@@ -74,16 +115,12 @@ class Write_bmp_class
                 case 10: // CI14x2
                 case 0xE:  // CMPR
                     {
-                        colour_number_x4 = 0;
-                        alpha_header_size = 0x44;
                         width <<= 2; // 32 bits per pixel
                         break;
                     }
             }
             if ((has_palette && alpha > 0) || bmp_32)  // AI8 Palette with alpha // RGB565 Palette with alpha // RGB5A3 Palette with alpha
             {
-                colour_number_x4 = 0;
-                alpha_header_size = 0x44;
                 width = canvas_dim[z][2] << 2; // 32 bits per pixel
             }
             image_size = ((width + padding) * height);
@@ -1285,8 +1322,11 @@ class Write_bmp_class
                     if (png || gif || jpeg || jpg || ico || tiff || tif)
                     {
                         // LMAO THE NUMBER OF ARGS, that's how you do dependancy injection without renaming EACH VARIABLE
-                        Convert_from_bmp_class.Convert_from_bmp((Bitmap)Bitmap.FromFile(output_file + end), z, output_file, canvas_dim[z][2], canvas_dim[z][3], png, tif, tiff, jpg, jpeg, gif, ico, no_warning, warn, stfu);  // the problem was in this func.....
-                                                                                                                                                                                                                               // done = true;  // fun fact, this statement is never executed.
+                        using (Bitmap output_bmp = (Bitmap)Bitmap.FromFile(output_file + end))
+                        {
+                            Convert_from_bmp_class.Convert_from_bmp(output_bmp, z, output_file, canvas_dim[z][2], canvas_dim[z][3], png, tif, tiff, jpg, jpeg, gif, ico, no_warning, warn, stfu);  // the problem was in this func.....
+                        }
+                        // done = true;  // fun fact, this statement is never executed.
                     }
                     done = true;
                 }

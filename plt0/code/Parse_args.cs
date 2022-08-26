@@ -964,6 +964,7 @@ class Parse_args_class
                         }
                         else
                         {
+                            success = false;
                             if (args[i].Length == 3)
                             {
                                 success = true;
@@ -1003,7 +1004,7 @@ class Parse_args_class
                                                 }
                                         }
                                     }
-                                    pass = 3;
+                                    //pass = 3;
                                     continue;
                                 }
                             }
@@ -1046,8 +1047,8 @@ class Parse_args_class
                                                 }
                                         }
                                     }
-                                    pass = 4;
-                                    continue;
+                                    // pass = 4;  // WHY DID YOU PUT THAT
+                                    continue;  // apparently putting "continue" skips all remaining args without going back to the "for" loop, while break does exit the switch without exiting the for loop
                                 }
                             }
                             if (args[i].Contains(".") && args[i].Length > 1)
@@ -1055,7 +1056,7 @@ class Parse_args_class
                                 output_file = args[i].Substring(0, args[i].Length - args[i].Split('.')[args[i].Split('.').Length - 1].Length - 1);  // removes the text after the extension dot.
                                 swap = args[i];
                             }
-                            else
+                            else if (!success)
                             {
                                 output_file = args[i];
                                 swap = args[i];
@@ -1150,8 +1151,8 @@ class Parse_args_class
             colour_number_x2 = colour_number << 1;
             colour_number_x4 = colour_number << 2;
         }
-        try
-        {
+        /*try
+        { // */
             byte[] id = new byte[9];
             using (System.IO.FileStream file = System.IO.File.Open(input_file, System.IO.FileMode.Open, System.IO.FileAccess.Read))
             {
@@ -1575,7 +1576,7 @@ class Parse_args_class
                 Write_tex0_class.Write_tex0(index_list, texture_format_int32, bitmap_width, bitmap_height, format_ratio, output_file, has_palette, safe_mode, no_warning, warn, stfu, block_width, block_height, mipmaps_number);
             }
             correct = true;
-        }
+        /* }  // put /* before this line for debugging
         catch (Exception ex)  // remove this when debugging else it'll tell you every error were at this line lol
         {
             if (ex.Message == "Out of memory." && ex.Source == "System.Drawing")
