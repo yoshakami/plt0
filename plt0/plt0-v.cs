@@ -305,7 +305,12 @@ namespace plt0_gui
             //markdown.Add(font_encoding);
             //markdown.Add(font_size);
             if (Directory.Exists(execPath + "images/preview"))
-                Directory.Delete(execPath + "images/preview");
+            {
+                string[] files = Directory.GetFiles(execPath + "images/preview");
+                for (int i = 0; i < files.Length;i++)
+                    File.Delete(files[i]);
+            }
+            Directory.Delete(execPath + "images/preview");
             encoding_ck.Add(i4_ck);
             encoding_ck.Add(i8_ck);
             encoding_ck.Add(ai4_ck);
@@ -10234,13 +10239,13 @@ namespace plt0_gui
             if (bmd)
             {
                 bmd = false;
-                cli_textbox_label.Text = cli_textbox_label.Text.Replace("bmd ", "");
+                Organize_args();
                 hover_checkbox(bmd_ck);
             }
             else
             {
                 bmd = true;
-                cli_textbox_label.Text += "bmd ";
+                Organize_args();
                 selected_checkbox(bmd_ck);
             }
             Check_run();
@@ -10266,7 +10271,7 @@ namespace plt0_gui
             if (bti)
             {
                 bti = false;
-                cli_textbox_label.Text = cli_textbox_label.Text.Replace("bti ", "");
+                Organize_args();
                 hover_checkbox(bti_ck);
                 Hide_WrapS();
                 Hide_WrapT();
@@ -10276,7 +10281,7 @@ namespace plt0_gui
             else
             {
                 bti = true;
-                cli_textbox_label.Text += "bti ";
+                Organize_args();
                 selected_checkbox(bti_ck);
                 View_WrapS();
                 View_WrapT();
@@ -10306,13 +10311,13 @@ namespace plt0_gui
             if (tex0)
             {
                 tex0 = false;
-                cli_textbox_label.Text = cli_textbox_label.Text.Replace("tex0 ", "");
+                Organize_args();
                 hover_checkbox(tex0_ck);
             }
             else
             {
                 tex0 = true;
-                cli_textbox_label.Text += "tex0 ";
+                Organize_args();
                 selected_checkbox(tex0_ck);
             }
             Check_run();
@@ -10338,7 +10343,7 @@ namespace plt0_gui
             if (tpl)
             {
                 tpl = false;
-                cli_textbox_label.Text = cli_textbox_label.Text.Replace("tpl ", "");
+                Organize_args();
                 hover_checkbox(tpl_ck);
                 Hide_WrapS();
                 Hide_WrapT();
@@ -10348,7 +10353,7 @@ namespace plt0_gui
             else
             {
                 tpl = true;
-                cli_textbox_label.Text += "tpl ";
+                Organize_args();
                 selected_checkbox(tpl_ck);
                 View_WrapS();
                 View_WrapT();
@@ -10378,13 +10383,13 @@ namespace plt0_gui
             if (bmp)
             {
                 bmp = false;
-                cli_textbox_label.Text = cli_textbox_label.Text.Replace("bmp ", "");
+                Organize_args();
                 hover_checkbox(bmp_ck);
             }
             else
             {
                 bmp = true;
-                cli_textbox_label.Text += "bmp ";
+                Organize_args();
                 selected_checkbox(bmp_ck);
             }
             Check_run();
@@ -10410,13 +10415,13 @@ namespace plt0_gui
             if (png)
             {
                 png = false;
-                cli_textbox_label.Text = cli_textbox_label.Text.Replace("png ", "");
+                Organize_args();
                 hover_checkbox(png_ck);
             }
             else
             {
                 png = true;
-                cli_textbox_label.Text += "png ";
+                Organize_args();
                 selected_checkbox(png_ck);
             }
             Check_run();
@@ -10442,13 +10447,13 @@ namespace plt0_gui
             if (jpg)
             {
                 jpg = false;
-                cli_textbox_label.Text = cli_textbox_label.Text.Replace("jpg ", "");
+                Organize_args();
                 hover_checkbox(jpg_ck);
             }
             else
             {
                 jpg = true;
-                cli_textbox_label.Text += "jpg ";
+                Organize_args();
                 selected_checkbox(jpg_ck);
             }
             Check_run();
@@ -10474,13 +10479,13 @@ namespace plt0_gui
             if (jpeg)
             {
                 jpeg = false;
-                cli_textbox_label.Text = cli_textbox_label.Text.Replace("jpeg ", "");
+                Organize_args();
                 hover_checkbox(jpeg_ck);
             }
             else
             {
                 jpeg = true;
-                cli_textbox_label.Text += "jpeg ";
+                Organize_args();
                 selected_checkbox(jpeg_ck);
             }
             Check_run();
@@ -10506,13 +10511,13 @@ namespace plt0_gui
             if (gif)
             {
                 gif = false;
-                cli_textbox_label.Text = cli_textbox_label.Text.Replace("gif ", "");
+                Organize_args();
                 hover_checkbox(gif_ck);
             }
             else
             {
                 gif = true;
-                cli_textbox_label.Text += "gif ";
+                Organize_args();
                 selected_checkbox(gif_ck);
             }
             Check_run();
@@ -10538,13 +10543,13 @@ namespace plt0_gui
             if (ico)
             {
                 ico = false;
-                cli_textbox_label.Text = cli_textbox_label.Text.Replace("ico ", "");
+                Organize_args();
                 hover_checkbox(ico_ck);
             }
             else
             {
                 ico = true;
-                cli_textbox_label.Text += "ico ";
+                Organize_args();
                 selected_checkbox(ico_ck);
             }
             Check_run();
@@ -10570,13 +10575,13 @@ namespace plt0_gui
             if (tif)
             {
                 tif = false;
-                cli_textbox_label.Text = cli_textbox_label.Text.Replace("tif ", "");
+                Organize_args();
                 hover_checkbox(tif_ck);
             }
             else
             {
                 tif = true;
-                cli_textbox_label.Text += "tif ";
+                Organize_args();
                 selected_checkbox(tif_ck);
             }
             Check_run();
@@ -10602,13 +10607,13 @@ namespace plt0_gui
             if (tiff)
             {
                 tiff = false;
-                cli_textbox_label.Text = cli_textbox_label.Text.Replace("tiff ", "");
+                Organize_args();
                 hover_checkbox(tiff_ck);
             }
             else
             {
                 tiff = true;
-                cli_textbox_label.Text += "tiff ";
+                Organize_args();
                 selected_checkbox(tiff_ck);
             }
             Check_run();
@@ -10634,13 +10639,13 @@ namespace plt0_gui
             if (ask_exit)
             {
                 ask_exit = false;
-                cli_textbox_label.Text = cli_textbox_label.Text.Replace("ask_exit ", "");
+                Organize_args();
                 hover_checkbox(ask_exit_ck);
             }
             else
             {
                 ask_exit = true;
-                cli_textbox_label.Text += "ask_exit ";
+                Organize_args();
                 selected_checkbox(ask_exit_ck);
             }
         }
@@ -10665,13 +10670,13 @@ namespace plt0_gui
             if (bmp_32)
             {
                 bmp_32 = false;
-                cli_textbox_label.Text = cli_textbox_label.Text.Replace("bmp_32 ", "");
+                Organize_args();
                 hover_checkbox(bmp_32_ck);
             }
             else
             {
                 bmp_32 = true;
-                cli_textbox_label.Text += "bmp_32 ";
+                Organize_args();
                 selected_checkbox(bmp_32_ck);
             }
         }
@@ -10696,13 +10701,13 @@ namespace plt0_gui
             if (FORCE_ALPHA)
             {
                 FORCE_ALPHA = false;
-                cli_textbox_label.Text = cli_textbox_label.Text.Replace("FORCE_ALPHA ", "");
+                Organize_args();
                 hover_checkbox(FORCE_ALPHA_ck);
             }
             else
             {
                 FORCE_ALPHA = true;
-                cli_textbox_label.Text += "FORCE_ALPHA ";
+                Organize_args();
                 selected_checkbox(FORCE_ALPHA_ck);
             }
         }
@@ -10727,14 +10732,14 @@ namespace plt0_gui
             if (funky)
             {
                 funky = false;
-                cli_textbox_label.Text = cli_textbox_label.Text.Replace("funky ", "");
+                Organize_args();
                 hover_checkbox(funky_ck);
                 Preview(false);
             }
             else
             {
                 funky = true;
-                cli_textbox_label.Text += "funky ";
+                Organize_args();
                 selected_checkbox(funky_ck);
                 Preview(false);
             }
@@ -10760,13 +10765,13 @@ namespace plt0_gui
             if (no_warning)
             {
                 no_warning = false;
-                cli_textbox_label.Text = cli_textbox_label.Text.Replace("no_warning ", "");
+                Organize_args();
                 hover_checkbox(no_warning_ck);
             }
             else
             {
                 no_warning = true;
-                cli_textbox_label.Text += "no_warning ";
+                Organize_args();
                 selected_checkbox(no_warning_ck);
             }
         }
@@ -10791,14 +10796,14 @@ namespace plt0_gui
             if (random)
             {
                 random = false;
-                cli_textbox_label.Text = cli_textbox_label.Text.Replace("random ", "");
+                Organize_args();
                 hover_checkbox(random_ck);
                 Preview(false);
             }
             else
             {
                 random = true;
-                cli_textbox_label.Text += "random ";
+                Organize_args();
                 selected_checkbox(random_ck);
                 Preview(false);
             }
@@ -10824,14 +10829,14 @@ namespace plt0_gui
             if (reverse)
             {
                 reverse = false;
-                cli_textbox_label.Text = cli_textbox_label.Text.Replace("reverse ", "");
+                Organize_args();
                 hover_checkbox(reverse_ck);
                 Preview(false);
             }
             else
             {
                 reverse = true;
-                cli_textbox_label.Text += "reverse ";
+                Organize_args();
                 selected_checkbox(reverse_ck);
                 Preview(false);
             }
@@ -10857,13 +10862,13 @@ namespace plt0_gui
             if (safe_mode)
             {
                 safe_mode = false;
-                cli_textbox_label.Text = cli_textbox_label.Text.Replace("safe_mode ", "");
+                Organize_args();
                 hover_checkbox(safe_mode_ck);
             }
             else
             {
                 safe_mode = true;
-                cli_textbox_label.Text += "safe_mode ";
+                Organize_args();
                 selected_checkbox(safe_mode_ck);
             }
         }
@@ -10888,13 +10893,13 @@ namespace plt0_gui
             if (stfu)
             {
                 stfu = false;
-                cli_textbox_label.Text = cli_textbox_label.Text.Replace("stfu ", "");
+                Organize_args();
                 hover_checkbox(stfu_ck);
             }
             else
             {
                 stfu = true;
-                cli_textbox_label.Text += "stfu ";
+                Organize_args();
                 selected_checkbox(stfu_ck);
             }
         }
@@ -10919,13 +10924,13 @@ namespace plt0_gui
             if (warn)
             {
                 warn = false;
-                cli_textbox_label.Text = cli_textbox_label.Text.Replace("warn ", "");
+                Organize_args();
                 hover_checkbox(warn_ck);
             }
             else
             {
                 warn = true;
-                cli_textbox_label.Text += "warn ";
+                Organize_args();
                 selected_checkbox(warn_ck);
             }
         }
@@ -12455,7 +12460,6 @@ namespace plt0_gui
                     break;
             }
             selected_All();
-            layout = 0;
             Layout_All();
         }
         private void All_MouseEnter(object sender, EventArgs e)
@@ -12508,7 +12512,6 @@ namespace plt0_gui
                     break;
             }
             selected_Auto();
-            layout = 1;
             Layout_Auto();
         }
         private void Auto_MouseEnter(object sender, EventArgs e)
@@ -12561,7 +12564,6 @@ namespace plt0_gui
                     break;
             }
             selected_Preview();
-            layout = 2;
             Layout_Preview();
         }
         private void Preview_MouseEnter(object sender, EventArgs e)
@@ -12614,7 +12616,6 @@ namespace plt0_gui
                     break;
             }
             selected_Paint();
-            layout = 3;
             Layout_Paint();
         }
         private void Paint_MouseEnter(object sender, EventArgs e)
@@ -14132,7 +14133,6 @@ namespace plt0_gui
                 output_label.Text = "Run " + run_count.ToString() + " time\n" + cli.Check_exit();
             else
                 output_label.Text = "Run " + run_count.ToString() + " times\n" + cli.Check_exit();
-
         }
         private void sync_preview_Click(object sender, EventArgs e)
         {
