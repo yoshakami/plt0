@@ -1807,7 +1807,7 @@ namespace plt0_gui
                 Disable_Preview_Layout();
             preview_layout_is_enabled = false;
             all_layout_is_enabled = true;
-            options_label.Location = new Point(1674, 32);
+            options_label.Location = new Point(1674, 40);
             ask_exit_ck.Visible = true;
             ask_exit_hitbox.Visible = true;
             ask_exit_label.Visible = true;
@@ -3028,10 +3028,10 @@ namespace plt0_gui
             this.preview4k_label = new System.Windows.Forms.Label();
             this.preview4k_ck = new System.Windows.Forms.PictureBox();
             this.preview4k_hitbox = new System.Windows.Forms.Label();
-            this.image_ck = new PictureBoxWithInterpolationMode();
             this.reversex_ck = new System.Windows.Forms.PictureBox();
             this.reversex_label = new System.Windows.Forms.Label();
             this.reversex_hitbox = new System.Windows.Forms.Label();
+            this.image_ck = new PictureBoxWithInterpolationMode();
             ((System.ComponentModel.ISupportInitialize)(this.bmd_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
@@ -3148,8 +3148,8 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.sync_preview_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.upscale_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.preview4k_ck)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.image_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.reversex_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.image_ck)).BeginInit();
             this.SuspendLayout();
             // 
             // output_file_type_label
@@ -9145,25 +9145,6 @@ namespace plt0_gui
             this.preview4k_hitbox.TabIndex = 605;
             this.preview4k_hitbox.Visible = false;
             // 
-            // image_ck
-            // 
-            this.image_ck.BackColor = System.Drawing.Color.Transparent;
-            this.image_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.image_ck.Enabled = false;
-            this.image_ck.ErrorImage = null;
-            this.image_ck.InitialImage = null;
-            this.image_ck.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-            this.image_ck.Location = new System.Drawing.Point(815, 96);
-            this.image_ck.Margin = new System.Windows.Forms.Padding(0);
-            this.image_ck.MaximumSize = new System.Drawing.Size(768, 768);
-            this.image_ck.MinimumSize = new System.Drawing.Size(768, 768);
-            this.image_ck.Name = "image_ck";
-            this.image_ck.Size = new System.Drawing.Size(768, 768);
-            this.image_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.image_ck.TabIndex = 602;
-            this.image_ck.TabStop = false;
-            this.image_ck.Visible = false;
-            // 
             // reversex_ck
             // 
             this.reversex_ck.BackColor = System.Drawing.Color.Transparent;
@@ -9191,6 +9172,9 @@ namespace plt0_gui
             this.reversex_label.Size = new System.Drawing.Size(174, 64);
             this.reversex_label.TabIndex = 606;
             this.reversex_label.Text = "reverse x-axis";
+            this.reversex_label.Click += new System.EventHandler(this.reversex_Click);
+            this.reversex_label.MouseEnter += new System.EventHandler(this.reversex_MouseEnter);
+            this.reversex_label.MouseLeave += new System.EventHandler(this.reversex_MouseLeave);
             // 
             // reversex_hitbox
             // 
@@ -9204,6 +9188,28 @@ namespace plt0_gui
             this.reversex_hitbox.Padding = new System.Windows.Forms.Padding(280, 44, 0, 0);
             this.reversex_hitbox.Size = new System.Drawing.Size(280, 64);
             this.reversex_hitbox.TabIndex = 608;
+            this.reversex_hitbox.Click += new System.EventHandler(this.reversex_Click);
+            this.reversex_hitbox.MouseEnter += new System.EventHandler(this.reversex_MouseEnter);
+            this.reversex_hitbox.MouseLeave += new System.EventHandler(this.reversex_MouseLeave);
+            // 
+            // image_ck
+            // 
+            this.image_ck.BackColor = System.Drawing.Color.Transparent;
+            this.image_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.image_ck.Enabled = false;
+            this.image_ck.ErrorImage = null;
+            this.image_ck.InitialImage = null;
+            this.image_ck.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+            this.image_ck.Location = new System.Drawing.Point(815, 96);
+            this.image_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.image_ck.MaximumSize = new System.Drawing.Size(768, 768);
+            this.image_ck.MinimumSize = new System.Drawing.Size(768, 768);
+            this.image_ck.Name = "image_ck";
+            this.image_ck.Size = new System.Drawing.Size(768, 768);
+            this.image_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.image_ck.TabIndex = 602;
+            this.image_ck.TabStop = false;
+            this.image_ck.Visible = false;
             // 
             // plt0_gui
             // 
@@ -9733,8 +9739,8 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.sync_preview_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.upscale_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.preview4k_ck)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.image_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.reversex_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.image_ck)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -13710,7 +13716,7 @@ namespace plt0_gui
         private void cli_textbox_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
-            cli_textbox_ck.BackgroundImage = cli_textbox_hover;
+            cli_textbox_ck.BackgroundImage = cli_textbox;
             this.cli_textbox_label.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(20)))), ((int)(((byte)(0)))), ((int)(((byte)(49)))));
         }
         private void run_MouseEnter(object sender, EventArgs e)
