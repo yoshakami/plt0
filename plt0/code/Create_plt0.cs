@@ -2625,7 +2625,15 @@ same for blue + green*/
 
             }
         }
-        //if (rev)
+        if (_plt0.reverse_y)
+            index_list.Reverse();
+        if (_plt0.reverse_x)
+        {
+            for (int i = 0; i < index_list.Count; i++)
+            {
+                index_list[i].Reverse();
+            }
+        }
         return index_list;
     }
 }
