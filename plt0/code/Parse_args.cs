@@ -946,8 +946,15 @@ class Parse_args_class
                         if (System.IO.File.Exists(args[i]) && input_file == "")
                         {
                             input_file = args[i];
-                            input_fil = args[i].Substring(0, args[i].Length - args[i].Split('.')[args[i].Split('.').Length - 1].Length - 1);  // removes the text after the extension dot.
-                            input_ext = args[i].Substring(args[i].Length - args[i].Split('.')[args[i].Split('.').Length - 1].Length - 1, args[i].Length - input_fil.Length);  // removes the text before the extension dot.
+                            if (args[i].Contains('.'))
+                            {
+                                input_fil = args[i].Substring(0, args[i].Length - args[i].Split('.')[args[i].Split('.').Length - 1].Length - 1);  // removes the text after the extension dot.
+                                input_ext = args[i].Substring(args[i].Length - args[i].Split('.')[args[i].Split('.').Length - 1].Length - 1, args[i].Length - input_fil.Length);  // removes the text before the extension dot.
+                            }
+                            else
+                            {
+                                input_fil = args[i];
+                            }
                         }
                         else if (System.IO.File.Exists(swap) && input_file2 == "")  // swap out args[i] and output file.
                         {

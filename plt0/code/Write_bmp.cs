@@ -886,7 +886,7 @@ class Write_bmp_class
                         }
                 }
             }
-            if (has_palette && texture_format_int32[3] != 10 && !bmp_32 && alpha < 1 || funky) // && (texture_format_int32[3] > 2 || texture_format_int32[3] != 0xe)))
+            if ((has_palette || funky) && texture_format_int32[3] != 0 && texture_format_int32[3] != 10 && !bmp_32 && alpha < 1) // && (texture_format_int32[3] > 2 || texture_format_int32[3] != 0xe)))
             {
                 if (texture_format_int32[3] == 3 || texture_format_int32[3] == 4 || texture_format_int32[3] == 5)
                 {
@@ -913,18 +913,26 @@ class Write_bmp_class
                     case 0:  // reverse I4
                         {
                             // fill palette data
-                            for (byte j = 0, k = 0; j < 16; k += 4, j++)  // builds EVERY POSSIBLE I4 COLOUR
+                            if (funky)
                             {
-                                palette[k] = (byte)(j << 4);  // Blue
-                                palette[k + 1] = (byte)(j << 4);  // Green
-                                palette[k + 2] = (byte)(j << 4);  // Red
-                                palette[k + 3] = 0xff;  // Alpha - unused
-                                if (j == 15)
+                                Random rnd = new Random();
+                                rnd.NextBytes(palette);
+                            }
+                            else
+                            {
+                                for (byte j = 0, k = 0; j < 16; k += 4, j++)  // builds EVERY POSSIBLE I4 COLOUR
                                 {
-                                    palette[k] = 0xff;  // Blue
-                                    palette[k + 1] = 0xff;  // Green
-                                    palette[k + 2] = 0xff;  // Red
+                                    palette[k] = (byte)(j << 4);  // Blue
+                                    palette[k + 1] = (byte)(j << 4);  // Green
+                                    palette[k + 2] = (byte)(j << 4);  // Red
                                     palette[k + 3] = 0xff;  // Alpha - unused
+                                    if (j == 15)
+                                    {
+                                        palette[k] = 0xff;  // Blue
+                                        palette[k + 1] = 0xff;  // Green
+                                        palette[k + 2] = 0xff;  // Red
+                                        palette[k + 3] = 0xff;  // Alpha - unused
+                                    }
                                 }
                             }
 
