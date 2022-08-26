@@ -123,6 +123,7 @@
     <Compile Include="code\Fill_palette.cs" />
     <Compile Include="code\IntArrayComparer.cs" />
     <Compile Include="code\Parse_args.cs" />
+    <Compile Include="code\Reverse_x.cs" />
     <Compile Include="code\Write_into_tpl.cs" />
     <Compile Include="plt0-v-picturebox.cs">
       <SubType>Component</SubType>

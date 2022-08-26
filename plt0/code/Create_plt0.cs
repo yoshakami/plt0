@@ -1934,6 +1934,19 @@ class Create_plt0_class
                         II II II II   II II II II
 
 
+                        /* hmm, well. let's be honest. this is the harderest encoding to write, and the most efficient one
+                         * I'll be directly storing sub-blocks here because the rgb565 values can't be added like that lol 
+
+                         each block is 4 sub blocks
+                        this is a sub-block structure. with 4x4 pixel and 2 rgb565 colours
+                        RRRR  RGGG    GGGB  BBBB
+                        RRRR  RGGG    GGGB  BBBB
+                        II II II II   II II II II  - 2 bit index per pixel
+                        II II II II   II II II II
+                        II II II II   II II II II
+                        II II II II   II II II II
+
+
                         how I will store each block:
                         16  15  12  11
                         14  13  10   9
@@ -1969,6 +1982,8 @@ class Create_plt0_class
                         ushort[] Colour_array = { 1, 0, 0 };  // default
                         ushort diff_max;
                         byte diff_max_index = 0;
+                        //byte swap;
+                        //byte swap2;
                         List<ushort> colour_palette = new List<ushort>();
                         // bool use__plt0.alpha = false;
                         // bool done = false;
@@ -2692,6 +2707,51 @@ same for blue + green*/
                                                     index[7 - h] += (byte)(diff_min_index << (w << 1));
                                                 }
                                             }
+                                            if (_plt0.reverse_y)  // swap
+                                            {
+                                                red = index[7];
+                                                green = index[6];  // just a random byte
+                                                index[7] = index[4];
+                                                index[6] = index[5];
+                                                index[5] = green;
+                                                index[4] = red;
+                                            }
+                                        }
+                                        else if (_plt0.reverse_y)
+                                        {
+                                            //for (sbyte h = 3; h >= 0; h--)
+                                            for (byte h = 0; h < 4; h++)
+                                            {
+                                                for (byte w = 0; w < 4; w++)  // index_size = number of pixels
+                                                {
+                                                    if (((alpha_bitfield >> (h * 4) + w) & 1) == 1)
+                                                    {
+                                                        index[4 + h] += (byte)(3 << (6 - (w << 1)));
+                                                        continue;
+                                                    }
+                                                    diff_min = 500;
+                                                    // diff_min_index = w;
+                                                    for (byte i = 0; i < colour_palette.Count; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
+                                                    {
+                                                        if (colour_palette[i] == Colour_rgb565[(h * 4) + w])  // if it's the exact same colour
+                                                        {
+                                                            diff_min_index = i;  // index is stored on 1 byte, while each colour is stored on 2 bytes
+                                                            break;
+                                                        }
+                                                        else  // calculate difference between each separate colour channel and store the sum
+                                                        {
+                                                            diff = (short)(Math.Abs(((colour_palette[i] >> 8) & 248) - ((Colour_rgb565[(h * 4) + w] >> 8) & 248)) + Math.Abs(((colour_palette[i] >> 3) & 252) - ((Colour_rgb565[(h * 4) + w] >> 3) & 252)) + Math.Abs(((colour_palette[i] << 3) & 248) - ((Colour_rgb565[(h * 4) + w] << 3) & 248)));
+                                                            if (diff < diff_min)
+                                                            {
+                                                                diff_min = diff;
+                                                                diff_min_index = i;
+                                                            }
+                                                        }
+                                                    }
+                                                    index[4 + h] += (byte)(diff_min_index << (6 - (w << 1)));
+                                                    // Console.WriteLine(index[4 + h]);
+                                                }
+                                            }
                                         }
                                         else
                                         {
@@ -2747,42 +2807,36 @@ same for blue + green*/
 
             }
         }
+        List<byte[]> index_reversed = new List<byte[]>();
         if (_plt0.reverse_y)
-            index_list.Reverse();
-        if (_plt0.reverse_x)
         {
             if (_plt0.texture_format_int32[3] == 0xE)
             {
                 int blocks_wide = _plt0.canvas_width >> 2;
                 int blocks_tall = _plt0.canvas_height >> 3;
-                //byte[][] index_reversed = new byte[blocks_wide][]; // I guess byte[][] sucks nowadays that List<byte[]> exists, can't get it to work
-                List<byte[]> index_reversed = new List<byte[]>();
-                int h = ((blocks_wide>>1) - 1) << 2;
+                int h = index_list.Count - (blocks_wide << 1);
                 for (int d = 0; d < blocks_tall; d++)
                 {
-                    for (int i = blocks_wide - 3; i >= 0; i -= 4)
-                        {
-                            index_reversed.Add(index_list[h + i]);
-                            index_reversed.Add(index_list[h + i - 1]);
-                        }
-                    
-                        for (int i = blocks_wide - 1; i >= 0; i -= 4)
-                        {
-                            index_reversed.Add(index_list[h + i]);
-                            index_reversed.Add(index_list[h + i - 1]);
-                        }
-                    
-                    h += (blocks_wide << 1);
+                    for (int i = 0, e = 0; e < blocks_wide; i += 4, e += 2)
+                    {
+                        index_reversed.Add(index_list[h + i + 2]);
+                        index_reversed.Add(index_list[h + i + 3]);
+                        index_reversed.Add(index_list[h + i ]);
+                        index_reversed.Add(index_list[h + i + 1]);
+                    }
+                    h -= blocks_wide << 1;
+                }
+                if (_plt0.reverse_x)
+                {
+                    return Reverse_x_class.Reverse_x(_plt0.canvas_width, _plt0.canvas_height, index_reversed, _plt0.texture_format_int32[3]);
                 }
                 return index_reversed;
             }
-            else
-            {
-                for (int i = 0; i < index_list.Count; i++)
-                {
-                    index_list[i] = index_list[i].Reverse().ToArray();
-                }
-            }
+            index_list.Reverse();
+        }
+        if (_plt0.reverse_x)
+        {
+            return Reverse_x_class.Reverse_x(_plt0.canvas_width, _plt0.canvas_height, index_list, _plt0.texture_format_int32[3]);
         }
         return index_list;
     }
