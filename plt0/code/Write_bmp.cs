@@ -1004,12 +1004,21 @@ class Write_bmp_class
                             else  // 8-bit
                             {
                                 // fill palette data
-                                for (int j = 0, k = 0; j < 256; k += 4, j++)  // builds EVERY POSSIBLE I4 COLOUR
+                                if (funky)
                                 {
-                                    palette[k] = (byte)j;  // Blue
-                                    palette[k + 1] = (byte)j;  // Green
-                                    palette[k + 2] = (byte)j;  // Red
-                                    palette[k + 3] = 0xff;  // Alpha - unused
+                                    Random rnd = new Random();
+                                    rnd.NextBytes(palette);
+                                }
+                                else
+                                {
+                                    // fill palette data
+                                    for (int j = 0, k = 0; j < 256; k += 4, j++)  // builds EVERY POSSIBLE I4 COLOUR
+                                    {
+                                        palette[k] = (byte)j;  // Blue
+                                        palette[k + 1] = (byte)j;  // Green
+                                        palette[k + 2] = (byte)j;  // Red
+                                        palette[k + 3] = 0xff;  // Alpha - unused
+                                    }
                                 }
                                 // fill pixel data
                                 for (int j = 0; j < index_list[z].Count; j++)

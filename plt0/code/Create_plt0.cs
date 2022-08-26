@@ -1283,7 +1283,7 @@ class Create_plt0_class
                     {
                         switch (_plt0.algorithm)
                         {
-                            case 0: // cie_601
+                            default: // cie_601
                                 {
                                     for (int i = pixel_data_start_offset; i < bmp_filesize; i += 8)  // process every pixel by groups of two to fit the AAAA BBBB  profile
                                     {
@@ -1362,7 +1362,7 @@ class Create_plt0_class
                     {
                         switch (_plt0.algorithm)
                         {
-                            case 0: // cie_601
+                            default: // cie_601
                                 {
                                     for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)  // process every pixel to fit the CCCC CCCC profile
                                     {
@@ -1411,7 +1411,7 @@ class Create_plt0_class
                     {
                         switch (_plt0.algorithm)
                         {
-                            case 0: // cie_601
+                            default: // cie_601
                                 {
                                     for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)  // process every pixel to fit the AAAA CCCC profile
                                     {
@@ -1491,7 +1491,7 @@ class Create_plt0_class
 
                         switch (_plt0.algorithm)
                         {
-                            case 0: // cie_601
+                            default: // cie_601
                                 {
                                     for (int i = pixel_data_start_offset; i < bmp_filesize; i += 4)  // process every pixel to fit the AAAA AAAA  CCCC CCCC  profile
                                     {
@@ -2625,7 +2625,7 @@ same for blue + green*/
 
             }
         }
-
+        //if (rev)
         return index_list;
     }
 }

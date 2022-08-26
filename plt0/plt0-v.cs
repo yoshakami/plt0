@@ -54,11 +54,12 @@ namespace plt0_gui
         bool strikeout;*/
         byte font_style;
         bool vertical;
-        bool options_are_on_the_left = false;
+        bool preview_layout_is_enabled = false;
         bool preview_changed = false;
         bool upscale = true;
         bool auto_update = true;
         bool textchange = false;
+        bool options_are_upwards = false;
         // banner_move
         int mouse_x;
         int mouse_y;
@@ -1796,9 +1797,11 @@ namespace plt0_gui
             round4_hitbox.Visible = true;
             round4_label.Visible = true;
             round4_txt.Visible = true;
-            if (options_are_on_the_left)
-                Move_options_right();
-            options_are_on_the_left = false;
+            if (preview_layout_is_enabled)
+                Disable_Preview_Layout();
+            preview_layout_is_enabled = false;
+            options_are_upwards = true;
+            options_label.Location = new Point(1674, 32);
             Hide_Preview_stuff();
             layout = 0;
         }
@@ -1866,9 +1869,9 @@ namespace plt0_gui
             else
                 Hide_algorithm(2);
             View_algorithm(algorithm);
-            if (options_are_on_the_left)
-                Move_options_right();
-            options_are_on_the_left = false;
+            if (preview_layout_is_enabled)
+                Disable_Preview_Layout();
+            preview_layout_is_enabled = false;
             Hide_Preview_stuff();
         }
         private void Layout_Preview()
@@ -1890,8 +1893,9 @@ namespace plt0_gui
             round4_hitbox.Visible = true;
             round4_label.Visible = true;
             round4_txt.Visible = true;
-            Move_options_left();
-            options_are_on_the_left = true;
+            if (!preview_layout_is_enabled)
+                Enable_Preview_Layout();
+            preview_layout_is_enabled = true;
             auto_update_ck.Visible = true;
             auto_update_hitbox.Visible = true;
             auto_update_label.Visible = true;
@@ -1905,7 +1909,7 @@ namespace plt0_gui
             image_ck.Visible = true;
             layout = 2;
         }
-        private void Move_options_left()
+        private void Enable_Preview_Layout()
         {
             /* options_label.Location = new Point(options_label.Location.X - 888, options_label.Location.Y);
             ask_exit_ck.Location = new Point(ask_exit_ck.Location.X - 888, ask_exit_ck.Location.Y);
@@ -1946,7 +1950,7 @@ namespace plt0_gui
                 desc[i].Location = new Point(desc[i].Location.X, desc[i].Location.Y + 1000);
             }
         }
-        private void Move_options_right()
+        private void Disable_Preview_Layout()
         {
             /* ask_exit_ck.Location = new Point(ask_exit_ck.Location.X + 888, ask_exit_ck.Location.Y);
             ask_exit_label.Location = new Point(ask_exit_label.Location.X + 888, ask_exit_label.Location.Y);
@@ -3783,6 +3787,7 @@ namespace plt0_gui
             this.options_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.options_label.ForeColor = System.Drawing.SystemColors.Control;
             this.options_label.Location = new System.Drawing.Point(1674, 99);
+            this.options_label.Margin = new System.Windows.Forms.Padding(0);
             this.options_label.Name = "options_label";
             this.options_label.Size = new System.Drawing.Size(97, 20);
             this.options_label.TabIndex = 160;
@@ -4074,7 +4079,7 @@ namespace plt0_gui
             this.ask_exit_ck.Enabled = false;
             this.ask_exit_ck.ErrorImage = null;
             this.ask_exit_ck.InitialImage = null;
-            this.ask_exit_ck.Location = new System.Drawing.Point(1647, 128);
+            this.ask_exit_ck.Location = new System.Drawing.Point(1647, 64);
             this.ask_exit_ck.Margin = new System.Windows.Forms.Padding(0);
             this.ask_exit_ck.Name = "ask_exit_ck";
             this.ask_exit_ck.Size = new System.Drawing.Size(64, 64);
@@ -4087,7 +4092,7 @@ namespace plt0_gui
             this.ask_exit_label.BackColor = System.Drawing.Color.Transparent;
             this.ask_exit_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.ask_exit_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.ask_exit_label.Location = new System.Drawing.Point(1716, 128);
+            this.ask_exit_label.Location = new System.Drawing.Point(1716, 64);
             this.ask_exit_label.Margin = new System.Windows.Forms.Padding(0);
             this.ask_exit_label.Name = "ask_exit_label";
             this.ask_exit_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -4104,7 +4109,7 @@ namespace plt0_gui
             this.ask_exit_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.ask_exit_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.ask_exit_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.ask_exit_hitbox.Location = new System.Drawing.Point(1640, 128);
+            this.ask_exit_hitbox.Location = new System.Drawing.Point(1640, 64);
             this.ask_exit_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.ask_exit_hitbox.Name = "ask_exit_hitbox";
             this.ask_exit_hitbox.Padding = new System.Windows.Forms.Padding(280, 44, 0, 0);
@@ -9202,7 +9207,7 @@ namespace plt0_gui
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(3085, 1953);
+            this.ClientSize = new System.Drawing.Size(2465, 1609);
             this.Controls.Add(this.preview4k_label);
             this.Controls.Add(this.preview4k_ck);
             this.Controls.Add(this.preview4k_hitbox);
