@@ -13668,12 +13668,12 @@ namespace plt0_gui
         {
             Parse_Markdown(lines[162]);
             cli_textbox_ck.BackgroundImage = cli_textbox_hover;
-            this.cli_textbox_label.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(4)))), ((int)(((byte)(0)))));
         }
         private void cli_textbox_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
             cli_textbox_ck.BackgroundImage = cli_textbox;
+            this.cli_textbox_label.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(20)))), ((int)(((byte)(0)))), ((int)(((byte)(49)))));
         }
         private void run_MouseEnter(object sender, EventArgs e)
         {
