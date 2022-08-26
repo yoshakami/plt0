@@ -9,7 +9,7 @@ class Fill_index_list_class
     {
         _dec = Decode_texture_class;
     }
-    public List<List<byte[]>> Fill_index_list(byte[] data, int start, byte texture_format3, byte mipmaps_number, byte[] real_block_width_array, byte[] block_width_array, byte[] block_height_array, bool reverse)
+    public List<List<byte[]>> Fill_index_list(byte[] data, int start, byte texture_format3, byte mipmaps_number, byte[] real_block_width_array, byte[] block_width_array, byte[] block_height_array, bool reverse_x, bool reverse_y)
     {
         int blocks_wide;
         int blocks_tall;
@@ -28,35 +28,69 @@ class Fill_index_list_class
                         Array.Resize(ref index, _dec.canvas_dim[m][2] << 2);
                         blocks_wide = _dec.canvas_dim[m][2] >> 2;
                         blocks_tall = _dec.canvas_dim[m][3] >> 2;
-                        for (int t = 0; t < blocks_tall; t++)
+                        if (reverse_x)
                         {
-                            for (int h = 0; h < 4; h++) // height of a block - the number of lines
+                            for (int t = 0; t < blocks_tall; t++)
                             {
-                                for (int b = 0; b < blocks_wide; b++)
+                                for (int h = 0; h < 4; h++) // height of a block - the number of lines
                                 {
-                                    for (int w = 0; w < 8; w++)
+                                    for (int b = 0; b < blocks_wide; b++)
                                     {
-                                        index[count] = data[cursor];
-                                        cursor++;
-                                        count++;
+                                        for (int w = 0; w < 8; w++)
+                                        {
+                                            index[count] = data[cursor];
+                                            cursor++;
+                                            count++;
+                                        }
+                                        cursor += 24;
+                                        for (int w = 0; w < 8; w++)
+                                        {
+                                            index[count] = data[cursor];
+                                            cursor++;
+                                            count++;
+                                        }
+                                        cursor += 24;
                                     }
-                                    cursor += 24;
-                                    for (int w = 0; w < 8; w++)
-                                    {
-                                        index[count] = data[cursor];
-                                        cursor++;
-                                        count++;
-                                    }
-                                    cursor += 24;
-                                }
-                                index_list.Add(index.ToArray());
-                                count = 0;
-                                // cursor -= (blocks_wide * block_height_array[texture_format3] * block_width_array[texture_format3]) - block_width_array[texture_format3];  // goes back to the left-most block
-                                cursor -= (blocks_wide << 6) - 8;  // same but better
-                            }  // 4 * 16 == 64 == 1 << 6
-                            cursor += ((blocks_wide - 1) << 6) + 32;  // counters the last two operations beacause we've just filled a whole width of block.
+                                    index_list.Add((byte[])index.Reverse());
+                                    count = 0;
+                                    // cursor -= (blocks_wide * block_height_array[texture_format3] * block_width_array[texture_format3]) - block_width_array[texture_format3];  // goes back to the left-most block
+                                    cursor -= (blocks_wide << 6) - 8;  // same but better
+                                }  // 4 * 16 == 64 == 1 << 6
+                                cursor += ((blocks_wide - 1) << 6) + 32;  // counters the last two operations beacause we've just filled a whole width of block.
+                            }
                         }
-                        if (!reverse)
+                        else
+                        {
+                            for (int t = 0; t < blocks_tall; t++)
+                            {
+                                for (int h = 0; h < 4; h++) // height of a block - the number of lines
+                                {
+                                    for (int b = 0; b < blocks_wide; b++)
+                                    {
+                                        for (int w = 0; w < 8; w++)
+                                        {
+                                            index[count] = data[cursor];
+                                            cursor++;
+                                            count++;
+                                        }
+                                        cursor += 24;
+                                        for (int w = 0; w < 8; w++)
+                                        {
+                                            index[count] = data[cursor];
+                                            cursor++;
+                                            count++;
+                                        }
+                                        cursor += 24;
+                                    }
+                                    index_list.Add(index.ToArray());
+                                    count = 0;
+                                    // cursor -= (blocks_wide * block_height_array[texture_format3] * block_width_array[texture_format3]) - block_width_array[texture_format3];  // goes back to the left-most block
+                                    cursor -= (blocks_wide << 6) - 8;  // same but better
+                                }  // 4 * 16 == 64 == 1 << 6
+                                cursor += ((blocks_wide - 1) << 6) + 32;  // counters the last two operations beacause we've just filled a whole width of block.
+                            }
+                        }
+                        if (!reverse_y)
                         {
                             index_list.Reverse();
                         }
@@ -80,17 +114,31 @@ class Fill_index_list_class
                     {
                         blocks_wide = _dec.canvas_dim[m][2] >> 3;
                         blocks_tall = _dec.canvas_dim[m][3] >> 3;
-                        for (int b = 0; b < (blocks_tall * blocks_wide) << 2; b++)
+                        if (reverse_x)
                         {
-                            for (count = 0; count < 8; count++)
+                            for (int b = 0; b < (blocks_tall * blocks_wide) << 2; b++)
                             {
-                                index[count] = data[cursor];
-                                cursor++;
+                                for (count = 0; count < 8; count++)
+                                {
+                                    index[count] = data[cursor];
+                                    cursor++;
+                                }
+                                index_list.Add((byte[])index.Reverse());
                             }
-                            index_list.Add(index.ToArray());
-
                         }
-                        if (!reverse)
+                        else
+                        {
+                            for (int b = 0; b < (blocks_tall * blocks_wide) << 2; b++)
+                            {
+                                for (count = 0; count < 8; count++)
+                                {
+                                    index[count] = data[cursor];
+                                    cursor++;
+                                }
+                                index_list.Add(index.ToArray());
+                            }
+                        }
+                        if (!reverse_y)
                         {
                             index_list.Reverse();
                         }
@@ -144,28 +192,55 @@ class Fill_index_list_class
                         Array.Resize(ref index, len);
                         blocks_wide = _dec.canvas_dim[m][2] / real_block_width_array[texture_format3];
                         blocks_tall = _dec.canvas_dim[m][3] / block_height_array[texture_format3];
-                        for (int t = 0; t < blocks_tall; t++)
+                        if (reverse_x)
                         {
-                            for (byte h = 0; h < block_height_array[texture_format3]; h++)
+                            for (int t = 0; t < blocks_tall; t++)
                             {
-
-                                for (int b = 0; b < blocks_wide; b++)
+                                for (byte h = 0; h < block_height_array[texture_format3]; h++)
                                 {
-                                    for (byte w = 0; w < block_width_array[texture_format3]; w++)
+
+                                    for (int b = 0; b < blocks_wide; b++)
                                     {
-                                        index[count] = data[cursor];
-                                        count++;
-                                        cursor++;
+                                        for (byte w = 0; w < block_width_array[texture_format3]; w++)
+                                        {
+                                            index[count] = data[cursor];
+                                            count++;
+                                            cursor++;
+                                        }
+                                        cursor += (block_height_array[texture_format3] - 1) * block_width_array[texture_format3];  // goes to next right block to fill the line horizontally
                                     }
-                                    cursor += (block_height_array[texture_format3] - 1) * block_width_array[texture_format3];  // goes to next right block to fill the line horizontally
+                                    index_list.Add((byte[])index.Reverse());
+                                    count = 0;
+                                    cursor -= (blocks_wide * block_height_array[texture_format3] * block_width_array[texture_format3]) - block_width_array[texture_format3];  // goes back to the left-most block
                                 }
-                                index_list.Add(index.ToArray());
-                                count = 0;
-                                cursor -= (blocks_wide * block_height_array[texture_format3] * block_width_array[texture_format3]) - block_width_array[texture_format3];  // goes back to the left-most block
+                                cursor += ((blocks_wide - 1) * block_height_array[texture_format3] * block_width_array[texture_format3]);  // counters the last two operations beacause we've just filled a whole width of block.
                             }
-                            cursor += ((blocks_wide - 1) * block_height_array[texture_format3] * block_width_array[texture_format3]);  // counters the last two operations beacause we've just filled a whole width of block.
                         }
-                        if (!reverse)
+                        else
+                        {
+                            for (int t = 0; t < blocks_tall; t++)
+                            {
+                                for (byte h = 0; h < block_height_array[texture_format3]; h++)
+                                {
+
+                                    for (int b = 0; b < blocks_wide; b++)
+                                    {
+                                        for (byte w = 0; w < block_width_array[texture_format3]; w++)
+                                        {
+                                            index[count] = data[cursor];
+                                            count++;
+                                            cursor++;
+                                        }
+                                        cursor += (block_height_array[texture_format3] - 1) * block_width_array[texture_format3];  // goes to next right block to fill the line horizontally
+                                    }
+                                    index_list.Add(index.ToArray());
+                                    count = 0;
+                                    cursor -= (blocks_wide * block_height_array[texture_format3] * block_width_array[texture_format3]) - block_width_array[texture_format3];  // goes back to the left-most block
+                                }
+                                cursor += ((blocks_wide - 1) * block_height_array[texture_format3] * block_width_array[texture_format3]);  // counters the last two operations beacause we've just filled a whole width of block.
+                            }
+                        }
+                        if (!reverse_y)
                         {
                             index_list.Reverse();
                         }
