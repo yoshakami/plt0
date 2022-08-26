@@ -912,40 +912,70 @@ class Write_bmp_class
                 {
                     case 0:  // reverse I4
                         {
-                            // fill palette data
-                            if (funky)
+                            if (bmp_32)  // 32-bit
                             {
-                                Random rnd = new Random();
-                                rnd.NextBytes(palette);
-                            }
-                            else
-                            {
-                                for (byte j = 0, k = 0; j < 16; k += 4, j++)  // builds EVERY POSSIBLE I4 COLOUR
+                                for (int j = 0; j < index_list[z].Count; j++)
                                 {
-                                    palette[k] = (byte)(j << 4);  // Blue
-                                    palette[k + 1] = (byte)(j << 4);  // Green
-                                    palette[k + 2] = (byte)(j << 4);  // Red
-                                    palette[k + 3] = 0xff;  // Alpha - unused
-                                    if (j == 15)
+                                    for (int k = 0; k < index_list[z][0].Length; k++, index += 8)
                                     {
-                                        palette[k] = 0xff;  // Blue
-                                        palette[k + 1] = 0xff;  // Green
-                                        palette[k + 2] = 0xff;  // Red
-                                        palette[k + 3] = 0xff;  // Alpha - unused
+                                        pixel_color = (byte)(index_list[z][j][k] & 240);
+                                        if (pixel_color == 240)
+                                        {
+                                            pixel_color = 255;
+                                        }
+                                        pixel[index] = pixel_color;
+                                        pixel[index + 1] = pixel_color;
+                                        pixel[index + 2] = pixel_color;
+                                        pixel[index + 3] = 0xff;
+                                        pixel_color = (byte)((index_list[z][j][k] & 15) << 4);
+                                        if (pixel_color == 240)
+                                        {
+                                            pixel_color = 255;
+                                        }
+                                        pixel[index + 4] = pixel_color;
+                                        pixel[index + 5] = pixel_color;
+                                        pixel[index + 6] = pixel_color;
+                                        pixel[index + 7] = 0xff;
                                     }
                                 }
                             }
-
-                            // fill pixel data
-                            for (int j = 0; j < index_list[z].Count; j++)
+                            else  // 4-bit
                             {
-                                for (int k = 0; k < index_list[z][0].Length; k++, index++)
+                                // fill palette data
+                                if (funky)
                                 {
-                                    pixel[index] = index_list[z][j][k];
+                                    Random rnd = new Random();
+                                    rnd.NextBytes(palette);
                                 }
-                                for (int k = 0; k < padding; k++, index++)
+                                else
                                 {
-                                    pixel[index] = 0x69;  // my signature XDDDD 
+                                    for (byte j = 0, k = 0; j < 16; k += 4, j++)  // builds EVERY POSSIBLE I4 COLOUR
+                                    {
+                                        palette[k] = (byte)(j << 4);  // Blue
+                                        palette[k + 1] = (byte)(j << 4);  // Green
+                                        palette[k + 2] = (byte)(j << 4);  // Red
+                                        palette[k + 3] = 0xff;  // Alpha - unused
+                                        if (j == 15)
+                                        {
+                                            palette[k] = 0xff;  // Blue
+                                            palette[k + 1] = 0xff;  // Green
+                                            palette[k + 2] = 0xff;  // Red
+                                            palette[k + 3] = 0xff;  // Alpha - unused
+                                        }
+                                    }
+                                }
+
+                                // fill pixel data
+                                for (int j = 0; j < index_list[z].Count; j++)
+                                {
+                                    for (int k = 0; k < index_list[z][0].Length; k++, index++)
+                                    {
+                                        pixel[index] = index_list[z][j][k];
+                                    }
+                                    for (int k = 0; k < padding; k++, index++)
+                                    {
+                                        pixel[index] = 0x69;  // my signature XDDDD 
+                                    }
                                 }
                             }
 
@@ -953,25 +983,45 @@ class Write_bmp_class
                         }
                     case 1:  // reverse I8
                         {
-
-                            // fill palette data
-                            for (int j = 0, k = 0; j < 256; k += 4, j++)  // builds EVERY POSSIBLE I4 COLOUR
+                            if (bmp_32) // 32-bit
                             {
-                                palette[k] = (byte)j;  // Blue
-                                palette[k + 1] = (byte)j;  // Green
-                                palette[k + 2] = (byte)j;  // Red
-                                palette[k + 3] = 0xff;  // Alpha - unused
-                            }
-                            // fill pixel data
-                            for (int j = 0; j < index_list[z].Count; j++)
-                            {
-                                for (int k = 0; k < index_list[z][0].Length; k++, index++)
+                                for (int j = 0; j < index_list[z].Count; j++)
                                 {
-                                    pixel[index] = index_list[z][j][k];
+                                    for (int k = 0; k < index_list[z][0].Length; k++, index += 4)
+                                    {
+                                        pixel_color = index_list[z][j][k];
+                                        if (pixel_color == 240)
+                                        {
+                                            pixel_color = 255;
+                                        }
+                                        pixel[index] = pixel_color;
+                                        pixel[index + 1] = pixel_color;
+                                        pixel[index + 2] = pixel_color;
+                                        pixel[index + 3] = 0xff;
+                                    }
                                 }
-                                for (int k = 0; k < padding; k++, index++)
+                            }
+                            else  // 8-bit
+                            {
+                                // fill palette data
+                                for (int j = 0, k = 0; j < 256; k += 4, j++)  // builds EVERY POSSIBLE I4 COLOUR
                                 {
-                                    pixel[index] = 0x69;  // my signature XDDDD 
+                                    palette[k] = (byte)j;  // Blue
+                                    palette[k + 1] = (byte)j;  // Green
+                                    palette[k + 2] = (byte)j;  // Red
+                                    palette[k + 3] = 0xff;  // Alpha - unused
+                                }
+                                // fill pixel data
+                                for (int j = 0; j < index_list[z].Count; j++)
+                                {
+                                    for (int k = 0; k < index_list[z][0].Length; k++, index++)
+                                    {
+                                        pixel[index] = index_list[z][j][k];
+                                    }
+                                    for (int k = 0; k < padding; k++, index++)
+                                    {
+                                        pixel[index] = 0x69;  // my signature XDDDD 
+                                    }
                                 }
                             }
                             break;
