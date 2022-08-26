@@ -2108,39 +2108,75 @@ same for blue + green*/
                                             index[i] = 0;
                                         }
                                         // time to get the "linear interpolation to add third and fourth colour
-                                        // Console.WriteLine("creating indexes"); SHUT THE F*CK UP
                                         // CI2 if that's a name lol
-                                        for (sbyte h = 3; h >= 0; h--)
-                                        //for (byte h = 0; h < 4; h++)
+                                        if (_plt0.reverse_x)
                                         {
-                                            for (byte w = 0; w < 4; w++)  // index_size = number of pixels
+                                            for (sbyte h = 3; h >= 0; h--)
                                             {
-                                                if (((alpha_bitfield >> (h * 4) + w) & 1) == 1)
+                                                for (sbyte w = 3; w >= 0; w--)  // index_size = number of pixels
                                                 {
-                                                    index[7 - h] += (byte)(3 << (6 - (w << 1)));
-                                                    continue;
-                                                }
-                                                diff_min = 500;
-                                                // diff_min_index = w;
-                                                for (byte i = 0; i < colour_palette.Count; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
-                                                {
-                                                    if (colour_palette[i] == Colour_rgb565[(h * 4) + w])  // if it's the exact same colour
+                                                    if (((alpha_bitfield >> (h * 4) + w) & 1) == 1)
                                                     {
-                                                        diff_min_index = i;  // index is stored on 1 byte, while each colour is stored on 2 bytes
-                                                        break;
+                                                        index[7 - h] += (byte)(3 << (w << 1));
+                                                        continue;
                                                     }
-                                                    else  // calculate difference between each separate colour channel and store the sum
+                                                    diff_min = 500;
+                                                    // diff_min_index = w;
+                                                    for (byte i = 0; i < colour_palette.Count; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
                                                     {
-                                                        diff = (short)(Math.Abs(((colour_palette[i] >> 8) & 248) - ((Colour_rgb565[(h * 4) + w] >> 8) & 248)) + Math.Abs(((colour_palette[i] >> 3) & 252) - ((Colour_rgb565[(h * 4) + w] >> 3) & 252)) + Math.Abs(((colour_palette[i] << 3) & 248) - ((Colour_rgb565[(h * 4) + w] << 3) & 248)));
-                                                        if (diff < diff_min)
+                                                        if (colour_palette[i] == Colour_rgb565[(h * 4) + w])  // if it's the exact same colour
                                                         {
-                                                            diff_min = diff;
-                                                            diff_min_index = i;
+                                                            diff_min_index = i;  // index is stored on 1 byte, while each colour is stored on 2 bytes
+                                                            break;
+                                                        }
+                                                        else  // calculate difference between each separate colour channel and store the sum
+                                                        {
+                                                            diff = (short)(Math.Abs(((colour_palette[i] >> 8) & 248) - ((Colour_rgb565[(h * 4) + w] >> 8) & 248)) + Math.Abs(((colour_palette[i] >> 3) & 252) - ((Colour_rgb565[(h * 4) + w] >> 3) & 252)) + Math.Abs(((colour_palette[i] << 3) & 248) - ((Colour_rgb565[(h * 4) + w] << 3) & 248)));
+                                                            if (diff < diff_min)
+                                                            {
+                                                                diff_min = diff;
+                                                                diff_min_index = i;
+                                                            }
                                                         }
                                                     }
+                                                    index[7 - h] += (byte)(diff_min_index << (w << 1));
                                                 }
-                                                index[7 - h] += (byte)(diff_min_index << (6 - (w << 1)));
-                                                // Console.WriteLine(index[4 + h]);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            for (sbyte h = 3; h >= 0; h--)
+                                            //for (byte h = 0; h < 4; h++)
+                                            {
+                                                for (byte w = 0; w < 4; w++)  // index_size = number of pixels
+                                                {
+                                                    if (((alpha_bitfield >> (h * 4) + w) & 1) == 1)
+                                                    {
+                                                        index[7 - h] += (byte)(3 << (6 - (w << 1)));
+                                                        continue;
+                                                    }
+                                                    diff_min = 500;
+                                                    // diff_min_index = w;
+                                                    for (byte i = 0; i < colour_palette.Count; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
+                                                    {
+                                                        if (colour_palette[i] == Colour_rgb565[(h * 4) + w])  // if it's the exact same colour
+                                                        {
+                                                            diff_min_index = i;  // index is stored on 1 byte, while each colour is stored on 2 bytes
+                                                            break;
+                                                        }
+                                                        else  // calculate difference between each separate colour channel and store the sum
+                                                        {
+                                                            diff = (short)(Math.Abs(((colour_palette[i] >> 8) & 248) - ((Colour_rgb565[(h * 4) + w] >> 8) & 248)) + Math.Abs(((colour_palette[i] >> 3) & 252) - ((Colour_rgb565[(h * 4) + w] >> 3) & 252)) + Math.Abs(((colour_palette[i] << 3) & 248) - ((Colour_rgb565[(h * 4) + w] << 3) & 248)));
+                                                            if (diff < diff_min)
+                                                            {
+                                                                diff_min = diff;
+                                                                diff_min_index = i;
+                                                            }
+                                                        }
+                                                    }
+                                                    index[7 - h] += (byte)(diff_min_index << (6 - (w << 1)));
+                                                    // Console.WriteLine(index[4 + h]);
+                                                }
                                             }
                                         }
                                         index_list.Add(index.ToArray());
@@ -2369,38 +2405,75 @@ same for blue + green*/
                                             index[i] = 0;
                                         }
                                         // time to get the "linear interpolation to add third and fourth colour
-                                        // Console.WriteLine("creating indexes"); SHUT THE F*CK UP
                                         // CI2 if that's a name lol
-                                        for (sbyte h = 3; h >= 0; h--)
-                                        //for (byte h = 0; h < 4; h++)
+
+                                        if (_plt0.reverse_x)
                                         {
-                                            for (byte w = 0; w < 4; w++)  // index_size = number of pixels
+                                            for (sbyte h = 3; h >= 0; h--)
                                             {
-                                                if (((alpha_bitfield >> (h * 4) + w) & 1) == 1)
+                                                for (sbyte w = 3; w >= 0; w--)  // index_size = number of pixels
                                                 {
-                                                    index[7 - h] += (byte)(3 << (6 - (w << 1)));
-                                                    continue;
-                                                }
-                                                diff_min = 500;
-                                                // diff_min_index = w;
-                                                for (byte i = 0; i < colour_palette.Count; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
-                                                {
-                                                    if (colour_palette[i] == Colour_rgb565[(h * 4) + w])  // if it's the exact same colour
+                                                    if (((alpha_bitfield >> (h * 4) + w) & 1) == 1)
                                                     {
-                                                        diff_min_index = i;  // index is stored on 1 byte, while each colour is stored on 2 bytes
-                                                        break;
+                                                        index[7 - h] += (byte)(3 << (w << 1));
+                                                        continue;
                                                     }
-                                                    else  // calculate difference between each separate colour channel and store the sum
+                                                    diff_min = 500;
+                                                    // diff_min_index = w;
+                                                    for (byte i = 0; i < colour_palette.Count; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
                                                     {
-                                                        diff = (short)(Math.Abs(((colour_palette[i] >> 8) & 248) - ((Colour_rgb565[(h * 4) + w] >> 8) & 248)) + Math.Abs(((colour_palette[i] >> 3) & 252) - ((Colour_rgb565[(h * 4) + w] >> 3) & 252)) + Math.Abs(((colour_palette[i] << 3) & 248) - ((Colour_rgb565[(h * 4) + w] << 3) & 248)));
-                                                        if (diff < diff_min)
+                                                        if (colour_palette[i] == Colour_rgb565[(h * 4) + w])  // if it's the exact same colour
                                                         {
-                                                            diff_min = diff;
-                                                            diff_min_index = i;
+                                                            diff_min_index = i;  // index is stored on 1 byte, while each colour is stored on 2 bytes
+                                                            break;
+                                                        }
+                                                        else  // calculate difference between each separate colour channel and store the sum
+                                                        {
+                                                            diff = (short)(Math.Abs(((colour_palette[i] >> 8) & 248) - ((Colour_rgb565[(h * 4) + w] >> 8) & 248)) + Math.Abs(((colour_palette[i] >> 3) & 252) - ((Colour_rgb565[(h * 4) + w] >> 3) & 252)) + Math.Abs(((colour_palette[i] << 3) & 248) - ((Colour_rgb565[(h * 4) + w] << 3) & 248)));
+                                                            if (diff < diff_min)
+                                                            {
+                                                                diff_min = diff;
+                                                                diff_min_index = i;
+                                                            }
                                                         }
                                                     }
+                                                    index[7 - h] += (byte)(diff_min_index << (w << 1));
                                                 }
-                                                index[7 - h] += (byte)(diff_min_index << (6 - (w << 1)));
+                                            }
+                                        }
+                                        else
+                                        {
+                                            for (sbyte h = 3; h >= 0; h--)
+                                            //for (byte h = 0; h < 4; h++)
+                                            {
+                                                for (byte w = 0; w < 4; w++)  // index_size = number of pixels
+                                                {
+                                                    if (((alpha_bitfield >> (h * 4) + w) & 1) == 1)
+                                                    {
+                                                        index[7 - h] += (byte)(3 << (6 - (w << 1)));
+                                                        continue;
+                                                    }
+                                                    diff_min = 500;
+                                                    // diff_min_index = w;
+                                                    for (byte i = 0; i < colour_palette.Count; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
+                                                    {
+                                                        if (colour_palette[i] == Colour_rgb565[(h * 4) + w])  // if it's the exact same colour
+                                                        {
+                                                            diff_min_index = i;  // index is stored on 1 byte, while each colour is stored on 2 bytes
+                                                            break;
+                                                        }
+                                                        else  // calculate difference between each separate colour channel and store the sum
+                                                        {
+                                                            diff = (short)(Math.Abs(((colour_palette[i] >> 8) & 248) - ((Colour_rgb565[(h * 4) + w] >> 8) & 248)) + Math.Abs(((colour_palette[i] >> 3) & 252) - ((Colour_rgb565[(h * 4) + w] >> 3) & 252)) + Math.Abs(((colour_palette[i] << 3) & 248) - ((Colour_rgb565[(h * 4) + w] << 3) & 248)));
+                                                            if (diff < diff_min)
+                                                            {
+                                                                diff_min = diff;
+                                                                diff_min_index = i;
+                                                            }
+                                                        }
+                                                    }
+                                                    index[7 - h] += (byte)(diff_min_index << (6 - (w << 1)));
+                                                }
                                             }
                                         }
                                         index_list.Add(index.ToArray());
@@ -2571,41 +2644,78 @@ same for blue + green*/
                                             index[i] = 0;
                                         }
                                         // time to get the "linear interpolation to add third and fourth colour
-                                        // Console.WriteLine("creating indexes"); SHUT THE F*CK UP
                                         // CI2 if that's a name lol
-                                        for (sbyte h = 3; h >= 0; h--)
-                                        //for (byte h = 0; h < 4; h++)
+                                        if (_plt0.reverse_x)
                                         {
-                                            for (byte w = 0; w < 4; w++)  // index_size = number of pixels
+                                            for (sbyte h = 3; h >= 0; h--)
                                             {
-                                                if (((alpha_bitfield >> (h * 4) + w) & 1) == 1)
+                                                for (sbyte w = 3; w >= 0; w--)  // index_size = number of pixels
                                                 {
-                                                    index[7 - h] += (byte)(3 << (6 - (w << 1)));
-                                                    continue;
-                                                }
-                                                diff_min = 500;
-                                                // diff_min_index = w;
-                                                for (byte i = 0; i < colour_palette.Count; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
-                                                {
-                                                    if (colour_palette[i] == Colour_rgb565[(h * 4) + w])  // if it's the exact same colour
+                                                    if (((alpha_bitfield >> (h * 4) + w) & 1) == 1)
                                                     {
-                                                        diff_min_index = i;  // index is stored on 1 byte, while each colour is stored on 2 bytes
-                                                        break;
+                                                        index[7 - h] += (byte)(3 << (w << 1));
+                                                        continue;
                                                     }
-                                                    else  // calculate difference between each separate colour channel and store the sum
+                                                    diff_min = 500;
+                                                    // diff_min_index = w;
+                                                    for (byte i = 0; i < colour_palette.Count; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
                                                     {
-                                                        diff = (short)(Math.Abs(((colour_palette[i] >> 8) & 248) - ((Colour_rgb565[(h * 4) + w] >> 8) & 248)) + Math.Abs(((colour_palette[i] >> 3) & 252) - ((Colour_rgb565[(h * 4) + w] >> 3) & 252)) + Math.Abs(((colour_palette[i] << 3) & 248) - ((Colour_rgb565[(h * 4) + w] << 3) & 248)));
-                                                        if (diff < diff_min)
+                                                        if (colour_palette[i] == Colour_rgb565[(h * 4) + w])  // if it's the exact same colour
                                                         {
-                                                            diff_min = diff;
-                                                            diff_min_index = i;
+                                                            diff_min_index = i;  // index is stored on 1 byte, while each colour is stored on 2 bytes
+                                                            break;
+                                                        }
+                                                        else  // calculate difference between each separate colour channel and store the sum
+                                                        {
+                                                            diff = (short)(Math.Abs(((colour_palette[i] >> 8) & 248) - ((Colour_rgb565[(h * 4) + w] >> 8) & 248)) + Math.Abs(((colour_palette[i] >> 3) & 252) - ((Colour_rgb565[(h * 4) + w] >> 3) & 252)) + Math.Abs(((colour_palette[i] << 3) & 248) - ((Colour_rgb565[(h * 4) + w] << 3) & 248)));
+                                                            if (diff < diff_min)
+                                                            {
+                                                                diff_min = diff;
+                                                                diff_min_index = i;
+                                                            }
                                                         }
                                                     }
+                                                    index[7 - h] += (byte)(diff_min_index << (w << 1));
                                                 }
-                                                index[7 - h] += (byte)(diff_min_index << (6 - (w << 1)));
-                                                // Console.WriteLine(index[4 + h]);
                                             }
                                         }
+                                        else
+                                        {
+                                            for (sbyte h = 3; h >= 0; h--)
+                                            //for (byte h = 0; h < 4; h++)
+                                            {
+                                                for (byte w = 0; w < 4; w++)  // index_size = number of pixels
+                                                {
+                                                    if (((alpha_bitfield >> (h * 4) + w) & 1) == 1)
+                                                    {
+                                                        index[7 - h] += (byte)(3 << (6 - (w << 1)));
+                                                        continue;
+                                                    }
+                                                    diff_min = 500;
+                                                    // diff_min_index = w;
+                                                    for (byte i = 0; i < colour_palette.Count; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
+                                                    {
+                                                        if (colour_palette[i] == Colour_rgb565[(h * 4) + w])  // if it's the exact same colour
+                                                        {
+                                                            diff_min_index = i;  // index is stored on 1 byte, while each colour is stored on 2 bytes
+                                                            break;
+                                                        }
+                                                        else  // calculate difference between each separate colour channel and store the sum
+                                                        {
+                                                            diff = (short)(Math.Abs(((colour_palette[i] >> 8) & 248) - ((Colour_rgb565[(h * 4) + w] >> 8) & 248)) + Math.Abs(((colour_palette[i] >> 3) & 252) - ((Colour_rgb565[(h * 4) + w] >> 3) & 252)) + Math.Abs(((colour_palette[i] << 3) & 248) - ((Colour_rgb565[(h * 4) + w] << 3) & 248)));
+                                                            if (diff < diff_min)
+                                                            {
+                                                                diff_min = diff;
+                                                                diff_min_index = i;
+                                                            }
+                                                        }
+                                                    }
+                                                    index[7 - h] += (byte)(diff_min_index << (6 - (w << 1)));
+                                                    // Console.WriteLine(index[4 + h]);
+                                                }
+                                            }
+                                        }
+
                                         index_list.Add(index.ToArray());
                                         // index is overwritten each time
                                         // the lists need to be cleaned
@@ -2613,8 +2723,6 @@ same for blue + green*/
                                         colour_palette.Clear();
                                         Colour_rgb565.Clear();
                                         alpha_bitfield = 0;
-                                        // THAT INDEX ARRAY THAT I CAN4T SEE CONTENTS IN THE DEBUGGER ALSO NEEDS TO BE CLEANED
-                                        // edit: moved it after the swap function THAT FREAKING DOES CHANGE ARRAY CONTENTS
                                     }
                                 }
                                 break;
@@ -2627,7 +2735,7 @@ same for blue + green*/
         }
         if (_plt0.reverse_y)
             index_list.Reverse();
-        if (_plt0.reverse_x)
+        if (_plt0.reverse_x && _plt0.texture_format_int32[3] != 0xE)
         {
             for (int i = 0; i < index_list.Count; i++)
             {
