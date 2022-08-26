@@ -84,7 +84,8 @@ namespace plt0_gui
         bool bmp_32 = false;
         bool random = false;
         bool safe_mode = false;
-        bool reverse = false;
+        bool reversex = false;
+        bool reversey = false;
         bool warn = false;
         bool stfu = false;
         bool no_warning = false;
@@ -1370,7 +1371,7 @@ namespace plt0_gui
             if (ask_exit)
             {
                 args += "ask_exit ";
-                arg_array.Add("ask_exit");
+                arg_array.Add("ask");
             }
             if (bmp_32)
             {
@@ -1390,22 +1391,27 @@ namespace plt0_gui
             if (no_warning)
             {
                 args += "no_warning ";
-                arg_array.Add("no_warning");
+                arg_array.Add("nw");
             }
             if (random)
             {
                 args += "random ";
                 arg_array.Add("random");
             }
-            if (reverse)
+            if (reversex)
             {
-                args += "reverse ";
-                arg_array.Add("reverse");
+                args += "reverse x ";
+                arg_array.Add("x");
+            }
+            if (reversey)
+            {
+                args += "reverse y ";
+                arg_array.Add("y");
             }
             if (safe_mode)
             {
                 args += "safe_mode ";
-                arg_array.Add("safe_mode");
+                arg_array.Add("safe");
             }
             if (stfu)
             {
@@ -3868,9 +3874,9 @@ namespace plt0_gui
             this.reversey_label.Size = new System.Drawing.Size(174, 64);
             this.reversey_label.TabIndex = 179;
             this.reversey_label.Text = "reverse y-axis";
-            this.reversey_label.Click += new System.EventHandler(this.reverse_Click);
-            this.reversey_label.MouseEnter += new System.EventHandler(this.reverse_MouseEnter);
-            this.reversey_label.MouseLeave += new System.EventHandler(this.reverse_MouseLeave);
+            this.reversey_label.Click += new System.EventHandler(this.reversey_Click);
+            this.reversey_label.MouseEnter += new System.EventHandler(this.reversey_MouseEnter);
+            this.reversey_label.MouseLeave += new System.EventHandler(this.reversey_MouseLeave);
             // 
             // random_ck
             // 
@@ -4169,9 +4175,9 @@ namespace plt0_gui
             this.reversey_hitbox.Padding = new System.Windows.Forms.Padding(280, 44, 0, 0);
             this.reversey_hitbox.Size = new System.Drawing.Size(280, 64);
             this.reversey_hitbox.TabIndex = 196;
-            this.reversey_hitbox.Click += new System.EventHandler(this.reverse_Click);
-            this.reversey_hitbox.MouseEnter += new System.EventHandler(this.reverse_MouseEnter);
-            this.reversey_hitbox.MouseLeave += new System.EventHandler(this.reverse_MouseLeave);
+            this.reversey_hitbox.Click += new System.EventHandler(this.reversey_Click);
+            this.reversey_hitbox.MouseEnter += new System.EventHandler(this.reversey_MouseEnter);
+            this.reversey_hitbox.MouseLeave += new System.EventHandler(this.reversey_MouseLeave);
             // 
             // safe_mode_hitbox
             // 
