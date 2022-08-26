@@ -394,6 +394,47 @@
         private System.Windows.Forms.PictureBox reversex_ck;
         private System.Windows.Forms.Label reversex_label;
         private System.Windows.Forms.Label reversex_hitbox;
+        private System.Windows.Forms.Label cmpr_c1_label;
+        private System.Windows.Forms.TextBox cmpr_c1_txt;
+        private System.Windows.Forms.Label cmpr_c1_hitbox;
+        private System.Windows.Forms.Label cmpr_c1_ck;
+        private System.Windows.Forms.Label cmpr_c2_ck;
+        private System.Windows.Forms.Label cmpr_c2_label;
+        private System.Windows.Forms.TextBox cmpr_c2_txt;
+        private System.Windows.Forms.Label cmpr_c2_hitbox;
+        private System.Windows.Forms.Label cmpr_c3_ck;
+        private System.Windows.Forms.Label cmpr_c3_label;
+        private System.Windows.Forms.TextBox cmpr_c3_txt;
+        private System.Windows.Forms.Label cmpr_c3_hitbox;
+        private System.Windows.Forms.Label cmpr_c4_ck;
+        private System.Windows.Forms.Label cmpr_c4_label;
+        private System.Windows.Forms.TextBox cmpr_c4_txt;
+        private System.Windows.Forms.Label cmpr_c4_hitbox;
+        private System.Windows.Forms.PictureBox cmpr_swap_ck;
+        private System.Windows.Forms.Label cmpr_swap_label;
+        private System.Windows.Forms.Label cmpr_swap_hitbox;
+        private System.Windows.Forms.Label cmpr_block1;
+        private System.Windows.Forms.Label cmpr_block2;
+        private System.Windows.Forms.Label cmpr_block3;
+        private System.Windows.Forms.Label cmpr_blockB;
+        private System.Windows.Forms.Label cmpr_block9;
+        private System.Windows.Forms.Label cmpr_block4;
+        private System.Windows.Forms.Label cmpr_blockA;
+        private System.Windows.Forms.Label cmpr_blockC;
+        private System.Windows.Forms.Label cmpr_block5;
+        private System.Windows.Forms.Label cmpr_block7;
+        private System.Windows.Forms.Label cmpr_blockD;
+        private System.Windows.Forms.Label cmpr_blockF;
+        private System.Windows.Forms.Label cmpr_block6;
+        private System.Windows.Forms.Label cmpr_block8;
+        private System.Windows.Forms.Label cmpr_blockE;
+        private System.Windows.Forms.Label cmpr_blockG;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
         /*
 /// <summary>
 /// Required designer variable.
