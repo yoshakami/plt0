@@ -67,7 +67,7 @@ class Reverse_x_class
                     index_list[i] = index.ToArray();
                 }
                 break;
-            case 14:
+            case 14:  // CMPR
                 int blocks_wide = canvas_width >> 2;
                 int blocks_tall = canvas_height >> 3;
                 //byte[][] index_reversed = new byte[blocks_wide][]; // I guess byte[][] sucks nowadays that List<byte[]> exists, can't get it to work

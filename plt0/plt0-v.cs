@@ -306,6 +306,8 @@ namespace plt0_gui
             //markdown.Add(font_unit);
             //markdown.Add(font_encoding);
             //markdown.Add(font_size);
+            this.image_ck.Location = new System.Drawing.Point(815, 96);
+            this.cmpr_preview_ck.Location = new System.Drawing.Point(896, 44);
             if (Directory.Exists(execPath + "images/preview"))
             {
                 string[] files = Directory.GetFiles(execPath + "images/preview");
@@ -3068,12 +3070,15 @@ namespace plt0_gui
             this.cmpr_block8 = new System.Windows.Forms.Label();
             this.cmpr_blockE = new System.Windows.Forms.Label();
             this.cmpr_blockG = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.cmpr_block_paint_ck = new System.Windows.Forms.PictureBox();
+            this.cmpr_block_paint_label = new System.Windows.Forms.Label();
+            this.cmpr_block_paint_hitbox = new System.Windows.Forms.Label();
+            this.cmpr_block_selection_ck = new System.Windows.Forms.PictureBox();
+            this.cmpr_block_selection_label = new System.Windows.Forms.Label();
+            this.cmpr_block_selection_hitbox = new System.Windows.Forms.Label();
+            this.cmpr_preview_ck = new PictureBoxWithInterpolationMode();
+            this.cmpr_picture_tooltip_label = new System.Windows.Forms.Label();
+            this.cmpr_selected_block_label = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.bmd_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
@@ -3193,8 +3198,9 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.reversex_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.image_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_swap_ck)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmpr_block_paint_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmpr_block_selection_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).BeginInit();
             this.SuspendLayout();
             // 
             // output_file_type_label
@@ -9245,7 +9251,7 @@ namespace plt0_gui
             this.image_ck.ErrorImage = null;
             this.image_ck.InitialImage = null;
             this.image_ck.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-            this.image_ck.Location = new System.Drawing.Point(815, 96);
+            this.image_ck.Location = new System.Drawing.Point(815, 1596);
             this.image_ck.Margin = new System.Windows.Forms.Padding(0);
             this.image_ck.MaximumSize = new System.Drawing.Size(768, 768);
             this.image_ck.MinimumSize = new System.Drawing.Size(768, 768);
@@ -9714,93 +9720,138 @@ namespace plt0_gui
             this.cmpr_blockG.Size = new System.Drawing.Size(64, 64);
             this.cmpr_blockG.TabIndex = 646;
             // 
-            // pictureBox1
+            // cmpr_block_paint_ck
             // 
-            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.pictureBox1.Enabled = false;
-            this.pictureBox1.ErrorImage = null;
-            this.pictureBox1.InitialImage = null;
-            this.pictureBox1.Location = new System.Drawing.Point(1981, 577);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(64, 64);
-            this.pictureBox1.TabIndex = 665;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Visible = false;
+            this.cmpr_block_paint_ck.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_block_paint_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.cmpr_block_paint_ck.Enabled = false;
+            this.cmpr_block_paint_ck.ErrorImage = null;
+            this.cmpr_block_paint_ck.InitialImage = null;
+            this.cmpr_block_paint_ck.Location = new System.Drawing.Point(2296, 138);
+            this.cmpr_block_paint_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_block_paint_ck.Name = "cmpr_block_paint_ck";
+            this.cmpr_block_paint_ck.Size = new System.Drawing.Size(64, 64);
+            this.cmpr_block_paint_ck.TabIndex = 665;
+            this.cmpr_block_paint_ck.TabStop = false;
+            this.cmpr_block_paint_ck.Visible = false;
             // 
-            // label1
+            // cmpr_block_paint_label
             // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.label1.ForeColor = System.Drawing.SystemColors.Window;
-            this.label1.Location = new System.Drawing.Point(2049, 577);
-            this.label1.Margin = new System.Windows.Forms.Padding(0);
-            this.label1.Name = "label1";
-            this.label1.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.label1.Size = new System.Drawing.Size(161, 64);
-            this.label1.TabIndex = 663;
-            this.label1.Text = "Picture Paint";
-            this.label1.Visible = false;
+            this.cmpr_block_paint_label.AutoSize = true;
+            this.cmpr_block_paint_label.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_block_paint_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.cmpr_block_paint_label.ForeColor = System.Drawing.SystemColors.Window;
+            this.cmpr_block_paint_label.Location = new System.Drawing.Point(2364, 138);
+            this.cmpr_block_paint_label.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_block_paint_label.Name = "cmpr_block_paint_label";
+            this.cmpr_block_paint_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.cmpr_block_paint_label.Size = new System.Drawing.Size(358, 64);
+            this.cmpr_block_paint_label.TabIndex = 663;
+            this.cmpr_block_paint_label.Text = "Paint Pixels of selected block";
+            this.cmpr_block_paint_label.Visible = false;
             // 
-            // label2
+            // cmpr_block_paint_hitbox
             // 
-            this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.Transparent;
-            this.label2.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.label2.ForeColor = System.Drawing.SystemColors.Control;
-            this.label2.Location = new System.Drawing.Point(1978, 577);
-            this.label2.Margin = new System.Windows.Forms.Padding(0);
-            this.label2.Name = "label2";
-            this.label2.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
-            this.label2.Size = new System.Drawing.Size(190, 64);
-            this.label2.TabIndex = 664;
-            this.label2.Visible = false;
+            this.cmpr_block_paint_hitbox.AutoSize = true;
+            this.cmpr_block_paint_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_block_paint_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.cmpr_block_paint_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.cmpr_block_paint_hitbox.Location = new System.Drawing.Point(2293, 138);
+            this.cmpr_block_paint_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_block_paint_hitbox.Name = "cmpr_block_paint_hitbox";
+            this.cmpr_block_paint_hitbox.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
+            this.cmpr_block_paint_hitbox.Size = new System.Drawing.Size(190, 64);
+            this.cmpr_block_paint_hitbox.TabIndex = 664;
+            this.cmpr_block_paint_hitbox.Visible = false;
             // 
-            // pictureBox2
+            // cmpr_block_selection_ck
             // 
-            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.pictureBox2.Enabled = false;
-            this.pictureBox2.ErrorImage = null;
-            this.pictureBox2.InitialImage = null;
-            this.pictureBox2.Location = new System.Drawing.Point(1982, 512);
-            this.pictureBox2.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(64, 64);
-            this.pictureBox2.TabIndex = 662;
-            this.pictureBox2.TabStop = false;
-            this.pictureBox2.Visible = false;
+            this.cmpr_block_selection_ck.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_block_selection_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.cmpr_block_selection_ck.Enabled = false;
+            this.cmpr_block_selection_ck.ErrorImage = null;
+            this.cmpr_block_selection_ck.InitialImage = null;
+            this.cmpr_block_selection_ck.Location = new System.Drawing.Point(2297, 73);
+            this.cmpr_block_selection_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_block_selection_ck.Name = "cmpr_block_selection_ck";
+            this.cmpr_block_selection_ck.Size = new System.Drawing.Size(64, 64);
+            this.cmpr_block_selection_ck.TabIndex = 662;
+            this.cmpr_block_selection_ck.TabStop = false;
+            this.cmpr_block_selection_ck.Visible = false;
             // 
-            // label3
+            // cmpr_block_selection_label
             // 
-            this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.label3.ForeColor = System.Drawing.SystemColors.Window;
-            this.label3.Location = new System.Drawing.Point(2050, 512);
-            this.label3.Margin = new System.Windows.Forms.Padding(0);
-            this.label3.Name = "label3";
-            this.label3.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.label3.Size = new System.Drawing.Size(189, 64);
-            this.label3.TabIndex = 660;
-            this.label3.Text = "Block Selection";
-            this.label3.Visible = false;
+            this.cmpr_block_selection_label.AutoSize = true;
+            this.cmpr_block_selection_label.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_block_selection_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.cmpr_block_selection_label.ForeColor = System.Drawing.SystemColors.Window;
+            this.cmpr_block_selection_label.Location = new System.Drawing.Point(2365, 73);
+            this.cmpr_block_selection_label.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_block_selection_label.Name = "cmpr_block_selection_label";
+            this.cmpr_block_selection_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.cmpr_block_selection_label.Size = new System.Drawing.Size(189, 64);
+            this.cmpr_block_selection_label.TabIndex = 660;
+            this.cmpr_block_selection_label.Text = "Block Selection";
+            this.cmpr_block_selection_label.Visible = false;
             // 
-            // label4
+            // cmpr_block_selection_hitbox
             // 
-            this.label4.AutoSize = true;
-            this.label4.BackColor = System.Drawing.Color.Transparent;
-            this.label4.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.label4.ForeColor = System.Drawing.SystemColors.Control;
-            this.label4.Location = new System.Drawing.Point(1979, 512);
-            this.label4.Margin = new System.Windows.Forms.Padding(0);
-            this.label4.Name = "label4";
-            this.label4.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
-            this.label4.Size = new System.Drawing.Size(190, 64);
-            this.label4.TabIndex = 661;
-            this.label4.Visible = false;
+            this.cmpr_block_selection_hitbox.AutoSize = true;
+            this.cmpr_block_selection_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_block_selection_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.cmpr_block_selection_hitbox.ForeColor = System.Drawing.SystemColors.Control;
+            this.cmpr_block_selection_hitbox.Location = new System.Drawing.Point(2294, 73);
+            this.cmpr_block_selection_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_block_selection_hitbox.Name = "cmpr_block_selection_hitbox";
+            this.cmpr_block_selection_hitbox.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
+            this.cmpr_block_selection_hitbox.Size = new System.Drawing.Size(190, 64);
+            this.cmpr_block_selection_hitbox.TabIndex = 661;
+            this.cmpr_block_selection_hitbox.Visible = false;
+            // 
+            // cmpr_preview_ck
+            // 
+            this.cmpr_preview_ck.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_preview_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.cmpr_preview_ck.Enabled = false;
+            this.cmpr_preview_ck.ErrorImage = null;
+            this.cmpr_preview_ck.InitialImage = null;
+            this.cmpr_preview_ck.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+            this.cmpr_preview_ck.Location = new System.Drawing.Point(2816, 44);
+            this.cmpr_preview_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_preview_ck.MaximumSize = new System.Drawing.Size(1024, 1024);
+            this.cmpr_preview_ck.MinimumSize = new System.Drawing.Size(1024, 1024);
+            this.cmpr_preview_ck.Name = "cmpr_preview_ck";
+            this.cmpr_preview_ck.Size = new System.Drawing.Size(1024, 1024);
+            this.cmpr_preview_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.cmpr_preview_ck.TabIndex = 666;
+            this.cmpr_preview_ck.TabStop = false;
+            this.cmpr_preview_ck.Visible = false;
+            // 
+            // cmpr_picture_tooltip_label
+            // 
+            this.cmpr_picture_tooltip_label.AutoSize = true;
+            this.cmpr_picture_tooltip_label.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_picture_tooltip_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.cmpr_picture_tooltip_label.ForeColor = System.Drawing.SystemColors.Control;
+            this.cmpr_picture_tooltip_label.Location = new System.Drawing.Point(2319, 32);
+            this.cmpr_picture_tooltip_label.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_picture_tooltip_label.Name = "cmpr_picture_tooltip_label";
+            this.cmpr_picture_tooltip_label.Size = new System.Drawing.Size(175, 20);
+            this.cmpr_picture_tooltip_label.TabIndex = 667;
+            this.cmpr_picture_tooltip_label.Text = "Picture tooltip";
+            // 
+            // cmpr_selected_block_label
+            // 
+            this.cmpr_selected_block_label.AutoSize = true;
+            this.cmpr_selected_block_label.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_selected_block_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.cmpr_selected_block_label.ForeColor = System.Drawing.SystemColors.Control;
+            this.cmpr_selected_block_label.Location = new System.Drawing.Point(2025, 601);
+            this.cmpr_selected_block_label.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_selected_block_label.Name = "cmpr_selected_block_label";
+            this.cmpr_selected_block_label.Size = new System.Drawing.Size(184, 20);
+            this.cmpr_selected_block_label.TabIndex = 668;
+            this.cmpr_selected_block_label.Text = "Selected Block";
             // 
             // plt0_gui
             // 
@@ -9810,12 +9861,15 @@ namespace plt0_gui
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(3755, 2044);
-            this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.pictureBox2);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label4);
+            this.Controls.Add(this.cmpr_selected_block_label);
+            this.Controls.Add(this.cmpr_picture_tooltip_label);
+            this.Controls.Add(this.cmpr_preview_ck);
+            this.Controls.Add(this.cmpr_block_paint_ck);
+            this.Controls.Add(this.cmpr_block_paint_label);
+            this.Controls.Add(this.cmpr_block_paint_hitbox);
+            this.Controls.Add(this.cmpr_block_selection_ck);
+            this.Controls.Add(this.cmpr_block_selection_label);
+            this.Controls.Add(this.cmpr_block_selection_hitbox);
             this.Controls.Add(this.cmpr_block1);
             this.Controls.Add(this.cmpr_block2);
             this.Controls.Add(this.cmpr_block3);
@@ -10374,8 +10428,9 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.reversex_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.image_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_swap_ck)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmpr_block_paint_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmpr_block_selection_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

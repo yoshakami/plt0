@@ -429,12 +429,15 @@
         private System.Windows.Forms.Label cmpr_block8;
         private System.Windows.Forms.Label cmpr_blockE;
         private System.Windows.Forms.Label cmpr_blockG;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.PictureBox cmpr_block_paint_ck;
+        private System.Windows.Forms.Label cmpr_block_paint_label;
+        private System.Windows.Forms.Label cmpr_block_paint_hitbox;
+        private System.Windows.Forms.PictureBox cmpr_block_selection_ck;
+        private System.Windows.Forms.Label cmpr_block_selection_label;
+        private System.Windows.Forms.Label cmpr_block_selection_hitbox;
+        private PictureBoxWithInterpolationMode cmpr_preview_ck;
+        private System.Windows.Forms.Label cmpr_picture_tooltip_label;
+        private System.Windows.Forms.Label cmpr_selected_block_label;
         /*
 /// <summary>
 /// Required designer variable.
