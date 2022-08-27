@@ -10041,6 +10041,7 @@ namespace plt0_gui
             this.cmpr_swap_label.Size = new System.Drawing.Size(169, 64);
             this.cmpr_swap_label.TabIndex = 625;
             this.cmpr_swap_label.Text = "Swap Colours";
+            this.cmpr_swap_label.Click += new System.EventHandler(this.Swap_Colours_Click);
             this.cmpr_swap_label.MouseEnter += new System.EventHandler(this.cmpr_swap_MouseEnter);
             this.cmpr_swap_label.MouseLeave += new System.EventHandler(this.cmpr_swap_MouseLeave);
             // 
@@ -10056,6 +10057,7 @@ namespace plt0_gui
             this.cmpr_swap_hitbox.Padding = new System.Windows.Forms.Padding(280, 44, 0, 0);
             this.cmpr_swap_hitbox.Size = new System.Drawing.Size(280, 64);
             this.cmpr_swap_hitbox.TabIndex = 627;
+            this.cmpr_swap_hitbox.Click += new System.EventHandler(this.Swap_Colours_Click);
             this.cmpr_swap_hitbox.MouseEnter += new System.EventHandler(this.cmpr_swap_MouseEnter);
             this.cmpr_swap_hitbox.MouseLeave += new System.EventHandler(this.cmpr_swap_MouseLeave);
             // 
@@ -15970,7 +15972,7 @@ namespace plt0_gui
         {
             Preview(false);
         }
-        private void parse_rgb565(Label lab, TextBox txt, byte j, out ushort out_colour)
+        private void parse_rgb565(Label lab, TextBox txt, byte j, out ushort out_colour, ushort default_colour)
         {
             success = false;
             len = txt.Text.Length;
@@ -15983,7 +15985,10 @@ namespace plt0_gui
                 if (!IsInputChar(txt.Text[0]) && txt.Text[0] != '#')
                     txt.Text = "";
             if (len < 3)
+            {
+                out_colour = default_colour;
                 return;
+            }
             if (txt.Text[0] == '#' && len > 3)
             {
                 if (len == 4)
@@ -16066,6 +16071,9 @@ namespace plt0_gui
                 out_colour = (ushort)((cmpr_colour[j] << 8) | (cmpr_colour[j + 1]));
                 Update_Colours();
             }
+            else
+            out_colour = default_colour;
+
         }
         private void Update_Colours()
         {
@@ -16109,12 +16117,29 @@ namespace plt0_gui
         }
         private void cmpr_c2_TextChanged(object sender, EventArgs e)
         {
-            parse_rgb565(cmpr_c2, cmpr_c2_txt, 2, out colour2);
+            parse_rgb565(cmpr_c2, cmpr_c2_txt, 2, out colour2, colour2);
         }
 
         private void cmpr_c1_TextChanged(object sender, EventArgs e)
         {
-            parse_rgb565(cmpr_c1, cmpr_c1_txt, 0, out colour1);
+            parse_rgb565(cmpr_c1, cmpr_c1_txt, 0, out colour1, colour1);
+        }
+
+        private void Swap_Colours_Click(object sender, EventArgs e)
+        {
+            colour3 = colour1;
+            colour1 = colour2;
+            colour2 = colour3;
+            red = cmpr_colours_argb[1];
+            green = cmpr_colours_argb[2];
+            blue = cmpr_colours_argb[3];
+            cmpr_colours_argb[1] = cmpr_colours_argb[5];
+            cmpr_colours_argb[2] = cmpr_colours_argb[6];
+            cmpr_colours_argb[3] = cmpr_colours_argb[7];
+            cmpr_colours_argb[5] = red;
+            cmpr_colours_argb[6] = green;
+            cmpr_colours_argb[7] = blue;
+            Update_Colours();
         }
     }
 }
