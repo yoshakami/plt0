@@ -131,6 +131,7 @@ namespace plt0_gui
         byte round5 = 3;
         byte round6 = 1;
         ushort num_colours = 0;
+        byte tooltip = 0;
         byte layout;
         byte arrow;
         int number;
@@ -281,6 +282,12 @@ namespace plt0_gui
         Image sync_preview_off;
         Image sync_preview_hover;
         Image sync_preview_selected;
+        Image cmpr_save;
+        Image cmpr_save_hover;
+        Image cmpr_save_as_hover;
+        Image cmpr_save_as;
+        Image cmpr_swap_hover;
+        Image cmpr_swap;
 
         // I couldn't manage to get external fonts working. this needs to be specified within the app itself :/
         // static string fontname = "Segoe UI";
@@ -1751,6 +1758,22 @@ namespace plt0_gui
         {
             radiobutton.BackgroundImage = pink_circle_on;
 
+        }
+        private void unchecked_tooltip(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = cherry_circle;
+        }
+        private void checked_tooltip(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = cherry_circle_on;
+        }
+        private void hover_tooltip(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = blue_circle;
+        }
+        private void selected_tooltip(PictureBox radiobutton)
+        {
+            radiobutton.BackgroundImage = blue_circle_on;
         }
         private void unchecked_A(PictureBox radiobutton)
         {
