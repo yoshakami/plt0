@@ -5653,7 +5653,6 @@ namespace plt0_gui
             // 
             this.no_alpha_ck.BackColor = System.Drawing.Color.Transparent;
             this.no_alpha_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.no_alpha_ck.Enabled = false;
             this.no_alpha_ck.ErrorImage = null;
             this.no_alpha_ck.InitialImage = null;
             this.no_alpha_ck.Location = new System.Drawing.Point(503, 429);
@@ -5662,6 +5661,9 @@ namespace plt0_gui
             this.no_alpha_ck.Size = new System.Drawing.Size(64, 64);
             this.no_alpha_ck.TabIndex = 251;
             this.no_alpha_ck.TabStop = false;
+            this.no_alpha_ck.Click += new System.EventHandler(this.No_alpha_Click);
+            this.no_alpha_ck.MouseEnter += new System.EventHandler(this.No_alpha_MouseEnter);
+            this.no_alpha_ck.MouseLeave += new System.EventHandler(this.No_alpha_MouseLeave);
             // 
             // no_alpha_label
             // 
@@ -5686,7 +5688,7 @@ namespace plt0_gui
             this.no_alpha_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.no_alpha_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.no_alpha_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.no_alpha_hitbox.Location = new System.Drawing.Point(500, 429);
+            this.no_alpha_hitbox.Location = new System.Drawing.Point(500, 1429);
             this.no_alpha_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.no_alpha_hitbox.Name = "no_alpha_hitbox";
             this.no_alpha_hitbox.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
