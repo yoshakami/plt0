@@ -15235,9 +15235,299 @@ namespace plt0_gui
             Hide_description();
             youtube_ck.BackgroundImage = youtube;
         }
-        private void version_MouseEnter(object sender, EventArgs e)
+        private void view_alpha_Click(object sender, EventArgs e)
+        {
+            if (view_alpha)
+            {
+                Hide_alpha();
+                Category_hover(view_alpha_ck);
+            }
+            else
+            {
+                View_alpha();
+                Category_selected(view_alpha_ck);
+            }
+        }
+        private void view_alpha_MouseEnter(object sender, EventArgs e)
         {
             Parse_Markdown(lines[162]);
+            if (view_alpha)
+                Category_selected(view_alpha_ck);
+            else
+                Category_hover(view_alpha_ck);
+        }
+        private void view_alpha_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (view_alpha)
+                Category_checked(view_alpha_ck);
+            else
+                Category_unchecked(view_alpha_ck);
+        }
+        private void view_algorithm_Click(object sender, EventArgs e)
+        {
+            if (view_algorithm)
+            {
+                Hide_algorithm(algorithm);
+                Category_hover(view_algorithm_ck);
+            }
+            else
+            {
+                View_algorithm(algorithm);
+                Category_selected(view_algorithm_ck);
+            }
+        }
+        private void view_algorithm_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[163]);
+            if (view_algorithm)
+                Category_selected(view_algorithm_ck);
+            else
+                Category_hover(view_algorithm_ck);
+        }
+        private void view_algorithm_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (view_algorithm)
+                Category_checked(view_algorithm_ck);
+            else
+                Category_unchecked(view_algorithm_ck);
+        }
+        private void view_WrapS_Click(object sender, EventArgs e)
+        {
+            if (view_WrapS)
+            {
+                Hide_WrapS();
+                Category_hover(view_WrapS_ck);
+            }
+            else
+            {
+                View_WrapS();
+                Category_selected(view_WrapS_ck);
+            }
+        }
+        private void view_WrapS_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[164]);
+            if (view_WrapS)
+                Category_selected(view_WrapS_ck);
+            else
+                Category_hover(view_WrapS_ck);
+        }
+        private void view_WrapS_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (view_WrapS)
+                Category_checked(view_WrapS_ck);
+            else
+                Category_unchecked(view_WrapS_ck);
+        }
+        private void view_WrapT_Click(object sender, EventArgs e)
+        {
+            if (view_WrapT)
+            {
+                Hide_WrapT();
+                Category_hover(view_WrapT_ck);
+            }
+            else
+            {
+                View_WrapT();
+                Category_selected(view_WrapT_ck);
+            }
+        }
+        private void view_WrapT_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[165]);
+            if (view_WrapT)
+                Category_selected(view_WrapT_ck);
+            else
+                Category_hover(view_WrapT_ck);
+        }
+        private void view_WrapT_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (view_WrapT)
+                Category_checked(view_WrapT_ck);
+            else
+                Category_unchecked(view_WrapT_ck);
+        }
+        private void view_min_Click(object sender, EventArgs e)
+        {
+            if (view_min)
+            {
+                Hide_min();
+                Category_hover(view_min_ck);
+            }
+            else
+            {
+                View_min();
+                Category_selected(view_min_ck);
+            }
+        }
+        private void view_min_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[166]);
+            if (view_min)
+                Category_selected(view_min_ck);
+            else
+                Category_hover(view_min_ck);
+        }
+        private void view_min_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (view_min)
+                Category_checked(view_min_ck);
+            else
+                Category_unchecked(view_min_ck);
+        }
+        private void view_mag_Click(object sender, EventArgs e)
+        {
+            if (view_mag)
+            {
+                Hide_mag();
+                Category_hover(view_mag_ck);
+            }
+            else
+            {
+                View_mag();
+                Category_selected(view_mag_ck);
+            }
+        }
+        private void view_mag_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[167]);
+            if (view_mag)
+                Category_selected(view_mag_ck);
+            else
+                Category_hover(view_mag_ck);
+        }
+        private void view_mag_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (view_mag)
+                Category_checked(view_mag_ck);
+            else
+                Category_unchecked(view_mag_ck);
+        }
+        private void view_rgba_Click(object sender, EventArgs e)
+        {
+            if (view_rgba)
+            {
+                Hide_rgba();
+                Category_hover(view_rgba_ck);
+            }
+            else
+            {
+                View_rgba();
+                Category_selected(view_rgba_ck);
+            }
+        }
+        private void view_rgba_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[168]);
+            if (view_rgba)
+                Category_selected(view_rgba_ck);
+            else
+                Category_hover(view_rgba_ck);
+        }
+        private void view_rgba_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (view_rgba)
+                Category_checked(view_rgba_ck);
+            else
+                Category_unchecked(view_rgba_ck);
+        }
+        private void view_palette_Click(object sender, EventArgs e)
+        {
+            if (view_palette)
+            {
+                Hide_palette();
+                Category_hover(view_palette_ck);
+            }
+            else
+            {
+                View_palette();
+                Category_selected(view_palette_ck);
+            }
+        }
+        private void view_palette_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[169]);
+            if (view_palette)
+                Category_selected(view_palette_ck);
+            else
+                Category_hover(view_palette_ck);
+        }
+        private void view_palette_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (view_palette)
+                Category_checked(view_palette_ck);
+            else
+                Category_unchecked(view_palette_ck);
+        }
+        private void view_cmpr_Click(object sender, EventArgs e)
+        {
+            if (view_cmpr)
+            {
+                Hide_cmpr();
+                Category_hover(view_cmpr_ck);
+            }
+            else
+            {
+                View_cmpr();
+                Category_selected(view_cmpr_ck);
+            }
+        }
+        private void view_cmpr_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[170]);
+            if (view_cmpr)
+                Category_selected(view_cmpr_ck);
+            else
+                Category_hover(view_cmpr_ck);
+        }
+        private void view_cmpr_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (view_cmpr)
+                Category_checked(view_cmpr_ck);
+            else
+                Category_unchecked(view_cmpr_ck);
+        }
+        private void view_options_Click(object sender, EventArgs e)
+        {
+            if (view_options)
+            {
+                Hide_options();
+                Category_hover(view_options_ck);
+            }
+            else
+            {
+                View_options();
+                Category_selected(view_options_ck);
+            }
+        }
+        private void view_options_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[171]);
+            if (view_options)
+                Category_selected(view_options_ck);
+            else
+                Category_hover(view_options_ck);
+        }
+        private void view_options_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (view_options)
+                Category_checked(view_options_ck);
+            else
+                Category_unchecked(view_options_ck);
+        }
+        private void version_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[172]);
             version_ck.BackgroundImage = version_hover;
         }
         private void version_MouseLeave(object sender, EventArgs e)
@@ -15247,7 +15537,7 @@ namespace plt0_gui
         }
         private void cli_textbox_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[163]);
+            Parse_Markdown(lines[173]);
             cli_textbox_ck.BackgroundImage = cli_textbox_hover;
             this.cli_textbox_label.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(4)))), ((int)(((byte)(0)))));
         }
@@ -15259,7 +15549,7 @@ namespace plt0_gui
         }
         private void run_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[164]);
+            Parse_Markdown(lines[174]);
             run_ck.BackgroundImage = run_hover;
         }
         private void run_MouseLeave(object sender, EventArgs e)
@@ -15269,7 +15559,7 @@ namespace plt0_gui
         }
         private void Output_label_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[165]);
+            Parse_Markdown(lines[175]);
         }
         private void Output_label_MouseLeave(object sender, EventArgs e)
         {
@@ -15277,7 +15567,7 @@ namespace plt0_gui
         }
         private void banner_move_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[166]);
+            Parse_Markdown(lines[176]);
         }
         private void banner_move_MouseLeave(object sender, EventArgs e)
         {
@@ -15285,7 +15575,7 @@ namespace plt0_gui
         }
         private void banner_resize_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[167]);
+            Parse_Markdown(lines[177]);
         }
         private void banner_resize_MouseLeave(object sender, EventArgs e)
         {
@@ -15293,7 +15583,7 @@ namespace plt0_gui
         }
         private void sync_preview_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[168]);
+            Parse_Markdown(lines[178]);
             if (preview_changed)
                 sync_preview_ck.BackgroundImage = sync_preview_hover;
             else
@@ -15309,7 +15599,7 @@ namespace plt0_gui
         }
         private void cmpr_save_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[169]);
+            Parse_Markdown(lines[179]);
             cmpr_save_ck.BackgroundImage = cmpr_save_hover;
         }
         private void cmpr_save_MouseLeave(object sender, EventArgs e)
@@ -15319,7 +15609,7 @@ namespace plt0_gui
         }
         private void cmpr_save_as_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[170]);
+            Parse_Markdown(lines[180]);
             cmpr_save_as_ck.BackgroundImage = cmpr_save_as_hover;
         }
         private void cmpr_save_as_MouseLeave(object sender, EventArgs e)
@@ -15329,7 +15619,7 @@ namespace plt0_gui
         }
         private void cmpr_swap_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[171]);
+            Parse_Markdown(lines[181]);
             cmpr_swap_ck.BackgroundImage = cmpr_swap_hover;
         }
         private void cmpr_swap_MouseLeave(object sender, EventArgs e)
@@ -15339,7 +15629,7 @@ namespace plt0_gui
         }
         private void cmpr_mouse1_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[172]);
+            Parse_Markdown(lines[182]);
         }
         private void cmpr_mouse1_MouseLeave(object sender, EventArgs e)
         {
@@ -15347,7 +15637,7 @@ namespace plt0_gui
         }
         private void cmpr_mouse2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[173]);
+            Parse_Markdown(lines[183]);
         }
         private void cmpr_mouse2_MouseLeave(object sender, EventArgs e)
         {
@@ -15355,7 +15645,7 @@ namespace plt0_gui
         }
         private void cmpr_mouse3_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[174]);
+            Parse_Markdown(lines[184]);
         }
         private void cmpr_mouse3_MouseLeave(object sender, EventArgs e)
         {
@@ -15363,7 +15653,7 @@ namespace plt0_gui
         }
         private void cmpr_mouse4_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[175]);
+            Parse_Markdown(lines[185]);
         }
         private void cmpr_mouse4_MouseLeave(object sender, EventArgs e)
         {
@@ -15371,7 +15661,7 @@ namespace plt0_gui
         }
         private void cmpr_mouse5_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[176]);
+            Parse_Markdown(lines[186]);
         }
         private void cmpr_mouse5_MouseLeave(object sender, EventArgs e)
         {
@@ -15379,7 +15669,7 @@ namespace plt0_gui
         }
         private void cmpr_sel_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[177]);
+            Parse_Markdown(lines[187]);
         }
         private void cmpr_sel_MouseLeave(object sender, EventArgs e)
         {
@@ -15387,7 +15677,7 @@ namespace plt0_gui
         }
         private void cmpr_c1_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[178]);
+            Parse_Markdown(lines[188]);
         }
         private void cmpr_c1_MouseLeave(object sender, EventArgs e)
         {
@@ -15395,7 +15685,7 @@ namespace plt0_gui
         }
         private void cmpr_c2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[179]);
+            Parse_Markdown(lines[189]);
         }
         private void cmpr_c2_MouseLeave(object sender, EventArgs e)
         {
@@ -15403,7 +15693,7 @@ namespace plt0_gui
         }
         private void cmpr_c3_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[180]);
+            Parse_Markdown(lines[190]);
         }
         private void cmpr_c3_MouseLeave(object sender, EventArgs e)
         {
@@ -15411,7 +15701,7 @@ namespace plt0_gui
         }
         private void cmpr_c4_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[181]);
+            Parse_Markdown(lines[191]);
         }
         private void cmpr_c4_MouseLeave(object sender, EventArgs e)
         {
@@ -15453,296 +15743,6 @@ namespace plt0_gui
                 this.Location = new Point(this.Location.X + e.X - mouse_x, this.Location.Y + e.Y - mouse_y);
                 this.Size = new Size(this.Size.Width + mouse_x - e.X, this.Size.Height + mouse_y - e.Y);
             }
-        }
-        private void view_alpha_Click(object sender, EventArgs e)
-        {
-            if (view_alpha)
-            {
-                Hide_alpha();
-                Category_hover(view_alpha_ck);
-            }
-            else
-            {
-                View_alpha();
-                Category_selected(view_alpha_ck);
-            }
-        }
-        private void view_alpha_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[182]);
-            if (view_alpha)
-                Category_selected(view_alpha_ck);
-            else
-                Category_hover(view_alpha_ck);
-        }
-        private void view_alpha_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-            if (view_alpha)
-                Category_checked(view_alpha_ck);
-            else
-                Category_unchecked(view_alpha_ck);
-        }
-        private void view_algorithm_Click(object sender, EventArgs e)
-        {
-            if (view_algorithm)
-            {
-                Hide_algorithm(algorithm);
-                Category_hover(view_algorithm_ck);
-            }
-            else
-            {
-                View_algorithm(algorithm);
-                Category_selected(view_algorithm_ck);
-            }
-        }
-        private void view_algorithm_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[183]);
-            if (view_algorithm)
-                Category_selected(view_algorithm_ck);
-            else
-                Category_hover(view_algorithm_ck);
-        }
-        private void view_algorithm_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-            if (view_algorithm)
-                Category_checked(view_algorithm_ck);
-            else
-                Category_unchecked(view_algorithm_ck);
-        }
-        private void view_WrapS_Click(object sender, EventArgs e)
-        {
-            if (view_WrapS)
-            {
-                Hide_WrapS();
-                Category_hover(view_WrapS_ck);
-            }
-            else
-            {
-                View_WrapS();
-                Category_selected(view_WrapS_ck);
-            }
-        }
-        private void view_WrapS_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[184]);
-            if (view_WrapS)
-                Category_selected(view_WrapS_ck);
-            else
-                Category_hover(view_WrapS_ck);
-        }
-        private void view_WrapS_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-            if (view_WrapS)
-                Category_checked(view_WrapS_ck);
-            else
-                Category_unchecked(view_WrapS_ck);
-        }
-        private void view_WrapT_Click(object sender, EventArgs e)
-        {
-            if (view_WrapT)
-            {
-                Hide_WrapT();
-                Category_hover(view_WrapT_ck);
-            }
-            else
-            {
-                View_WrapT();
-                Category_selected(view_WrapT_ck);
-            }
-        }
-        private void view_WrapT_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[185]);
-            if (view_WrapT)
-                Category_selected(view_WrapT_ck);
-            else
-                Category_hover(view_WrapT_ck);
-        }
-        private void view_WrapT_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-            if (view_WrapT)
-                Category_checked(view_WrapT_ck);
-            else
-                Category_unchecked(view_WrapT_ck);
-        }
-        private void view_min_Click(object sender, EventArgs e)
-        {
-            if (view_min)
-            {
-                Hide_min();
-                Category_hover(view_min_ck);
-            }
-            else
-            {
-                View_min();
-                Category_selected(view_min_ck);
-            }
-        }
-        private void view_min_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[186]);
-            if (view_min)
-                Category_selected(view_min_ck);
-            else
-                Category_hover(view_min_ck);
-        }
-        private void view_min_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-            if (view_min)
-                Category_checked(view_min_ck);
-            else
-                Category_unchecked(view_min_ck);
-        }
-        private void view_mag_Click(object sender, EventArgs e)
-        {
-            if (view_mag)
-            {
-                Hide_mag();
-                Category_hover(view_mag_ck);
-            }
-            else
-            {
-                View_mag();
-                Category_selected(view_mag_ck);
-            }
-        }
-        private void view_mag_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[187]);
-            if (view_mag)
-                Category_selected(view_mag_ck);
-            else
-                Category_hover(view_mag_ck);
-        }
-        private void view_mag_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-            if (view_mag)
-                Category_checked(view_mag_ck);
-            else
-                Category_unchecked(view_mag_ck);
-        }
-        private void view_rgba_Click(object sender, EventArgs e)
-        {
-            if (view_rgba)
-            {
-                Hide_rgba();
-                Category_hover(view_rgba_ck);
-            }
-            else
-            {
-                View_rgba();
-                Category_selected(view_rgba_ck);
-            }
-        }
-        private void view_rgba_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[188]);
-            if (view_rgba)
-                Category_selected(view_rgba_ck);
-            else
-                Category_hover(view_rgba_ck);
-        }
-        private void view_rgba_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-            if (view_rgba)
-                Category_checked(view_rgba_ck);
-            else
-                Category_unchecked(view_rgba_ck);
-        }
-        private void view_palette_Click(object sender, EventArgs e)
-        {
-            if (view_palette)
-            {
-                Hide_palette();
-                Category_hover(view_palette_ck);
-            }
-            else
-            {
-                View_palette();
-                Category_selected(view_palette_ck);
-            }
-        }
-        private void view_palette_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[189]);
-            if (view_palette)
-                Category_selected(view_palette_ck);
-            else
-                Category_hover(view_palette_ck);
-        }
-        private void view_palette_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-            if (view_palette)
-                Category_checked(view_palette_ck);
-            else
-                Category_unchecked(view_palette_ck);
-        }
-        private void view_cmpr_Click(object sender, EventArgs e)
-        {
-            if (view_cmpr)
-            {
-                Hide_cmpr();
-                Category_hover(view_cmpr_ck);
-            }
-            else
-            {
-                View_cmpr();
-                Category_selected(view_cmpr_ck);
-            }
-        }
-        private void view_cmpr_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[190]);
-            if (view_cmpr)
-                Category_selected(view_cmpr_ck);
-            else
-                Category_hover(view_cmpr_ck);
-        }
-        private void view_cmpr_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-            if (view_cmpr)
-                Category_checked(view_cmpr_ck);
-            else
-                Category_unchecked(view_cmpr_ck);
-        }
-        private void view_options_Click(object sender, EventArgs e)
-        {
-            if (view_options)
-            {
-                Hide_options();
-                Category_hover(view_options_ck);
-            }
-            else
-            {
-                View_options();
-                Category_selected(view_options_ck);
-            }
-        }
-        private void view_options_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[191]);
-            if (view_options)
-                Category_selected(view_options_ck);
-            else
-                Category_hover(view_options_ck);
-        }
-        private void view_options_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-            if (view_options)
-                Category_checked(view_options_ck);
-            else
-                Category_unchecked(view_options_ck);
         }
         private void textchange_Click(object sender, EventArgs e)
         {
