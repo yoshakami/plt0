@@ -164,11 +164,8 @@
         private System.Windows.Forms.PictureBox auto_ck;
         private System.Windows.Forms.PictureBox paint_ck;
         private System.Windows.Forms.PictureBox banner_x_ck;
-        private System.Windows.Forms.Label banner_x_hitbox;
         private System.Windows.Forms.PictureBox banner_5_ck;
-        private System.Windows.Forms.Label banner_5_hitbox;
         private System.Windows.Forms.PictureBox banner_minus_ck;
-        private System.Windows.Forms.Label banner_minus_hitbox;
         private System.Windows.Forms.PictureBox banner_9_ck;
         private System.Windows.Forms.PictureBox banner_8_ck;
         private System.Windows.Forms.PictureBox banner_7_ck;
@@ -179,8 +176,6 @@
         private System.Windows.Forms.PictureBox banner_1_ck;
         private System.Windows.Forms.PictureBox cli_textbox_ck;
         private System.Windows.Forms.PictureBox run_ck;
-        private System.Windows.Forms.Label run_hitbox;
-        private System.Windows.Forms.Label cli_textbox_hitbox;
         private System.Windows.Forms.TextBox input_file_txt;
         private System.Windows.Forms.Label input_file_label;
         private System.Windows.Forms.Label input_file2_label;
@@ -231,11 +226,8 @@
         private System.Windows.Forms.Label palette_ai8_label;
         private System.Windows.Forms.Label palette_label;
         private System.Windows.Forms.PictureBox github_ck;
-        private System.Windows.Forms.Label github_hitbox;
         private System.Windows.Forms.PictureBox youtube_ck;
-        private System.Windows.Forms.Label youtube_hitbox;
         private System.Windows.Forms.PictureBox discord_ck;
-        private System.Windows.Forms.Label discord_hitbox;
         private System.Windows.Forms.Label desc2;
         private System.Windows.Forms.Label desc3;
         private System.Windows.Forms.Label desc4;
@@ -308,9 +300,7 @@
         private System.Windows.Forms.Label cmpr_picture_tooltip_label;
         private System.Windows.Forms.Label cmpr_selected_block_label;
         private System.Windows.Forms.PictureBox cmpr_save_ck;
-        private System.Windows.Forms.Label cmpr_save_hitbox;
         private System.Windows.Forms.PictureBox cmpr_save_as_ck;
-        private System.Windows.Forms.Label cmpr_save_as_hitbox;
         private System.Windows.Forms.Label cmpr_warning;
         private System.Windows.Forms.Label cmpr_sel_label;
         private System.Windows.Forms.Label cmpr_mouse1_label;

@@ -3325,11 +3325,8 @@ namespace plt0_gui
             this.auto_ck = new System.Windows.Forms.PictureBox();
             this.paint_ck = new System.Windows.Forms.PictureBox();
             this.banner_x_ck = new System.Windows.Forms.PictureBox();
-            this.banner_x_hitbox = new System.Windows.Forms.Label();
             this.banner_5_ck = new System.Windows.Forms.PictureBox();
-            this.banner_5_hitbox = new System.Windows.Forms.Label();
             this.banner_minus_ck = new System.Windows.Forms.PictureBox();
-            this.banner_minus_hitbox = new System.Windows.Forms.Label();
             this.banner_9_ck = new System.Windows.Forms.PictureBox();
             this.banner_8_ck = new System.Windows.Forms.PictureBox();
             this.banner_7_ck = new System.Windows.Forms.PictureBox();
@@ -3340,8 +3337,6 @@ namespace plt0_gui
             this.banner_1_ck = new System.Windows.Forms.PictureBox();
             this.cli_textbox_ck = new System.Windows.Forms.PictureBox();
             this.run_ck = new System.Windows.Forms.PictureBox();
-            this.run_hitbox = new System.Windows.Forms.Label();
-            this.cli_textbox_hitbox = new System.Windows.Forms.Label();
             this.input_file_txt = new System.Windows.Forms.TextBox();
             this.input_file_label = new System.Windows.Forms.Label();
             this.input_file2_label = new System.Windows.Forms.Label();
@@ -3392,11 +3387,8 @@ namespace plt0_gui
             this.palette_ai8_label = new System.Windows.Forms.Label();
             this.palette_label = new System.Windows.Forms.Label();
             this.github_ck = new System.Windows.Forms.PictureBox();
-            this.github_hitbox = new System.Windows.Forms.Label();
             this.youtube_ck = new System.Windows.Forms.PictureBox();
-            this.youtube_hitbox = new System.Windows.Forms.Label();
             this.discord_ck = new System.Windows.Forms.PictureBox();
-            this.discord_hitbox = new System.Windows.Forms.Label();
             this.desc2 = new System.Windows.Forms.Label();
             this.desc3 = new System.Windows.Forms.Label();
             this.desc4 = new System.Windows.Forms.Label();
@@ -3466,9 +3458,7 @@ namespace plt0_gui
             this.cmpr_picture_tooltip_label = new System.Windows.Forms.Label();
             this.cmpr_selected_block_label = new System.Windows.Forms.Label();
             this.cmpr_save_ck = new System.Windows.Forms.PictureBox();
-            this.cmpr_save_hitbox = new System.Windows.Forms.Label();
             this.cmpr_save_as_ck = new System.Windows.Forms.PictureBox();
-            this.cmpr_save_as_hitbox = new System.Windows.Forms.Label();
             this.cmpr_warning = new System.Windows.Forms.Label();
             this.cmpr_sel_label = new System.Windows.Forms.Label();
             this.cmpr_mouse1_label = new System.Windows.Forms.Label();
@@ -5988,22 +5978,6 @@ namespace plt0_gui
             this.banner_x_ck.TabIndex = 404;
             this.banner_x_ck.TabStop = false;
             // 
-            // banner_x_hitbox
-            // 
-            this.banner_x_hitbox.AutoSize = true;
-            this.banner_x_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.banner_x_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.banner_x_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.banner_x_hitbox.Location = new System.Drawing.Point(1870, 1099);
-            this.banner_x_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.banner_x_hitbox.Name = "banner_x_hitbox";
-            this.banner_x_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
-            this.banner_x_hitbox.Size = new System.Drawing.Size(32, 32);
-            this.banner_x_hitbox.TabIndex = 403;
-            this.banner_x_hitbox.Click += new System.EventHandler(this.Close_Click);
-            this.banner_x_hitbox.MouseEnter += new System.EventHandler(this.Close_MouseEnter);
-            this.banner_x_hitbox.MouseLeave += new System.EventHandler(this.Close_MouseLeave);
-            // 
             // banner_5_ck
             // 
             this.banner_5_ck.BackColor = System.Drawing.Color.Transparent;
@@ -6017,22 +5991,6 @@ namespace plt0_gui
             this.banner_5_ck.TabIndex = 406;
             this.banner_5_ck.TabStop = false;
             // 
-            // banner_5_hitbox
-            // 
-            this.banner_5_hitbox.AutoSize = true;
-            this.banner_5_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.banner_5_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.banner_5_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.banner_5_hitbox.Location = new System.Drawing.Point(1838, 1099);
-            this.banner_5_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.banner_5_hitbox.Name = "banner_5_hitbox";
-            this.banner_5_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
-            this.banner_5_hitbox.Size = new System.Drawing.Size(32, 32);
-            this.banner_5_hitbox.TabIndex = 405;
-            this.banner_5_hitbox.Click += new System.EventHandler(this.Maximized_Click);
-            this.banner_5_hitbox.MouseEnter += new System.EventHandler(this.Maximized_MouseEnter);
-            this.banner_5_hitbox.MouseLeave += new System.EventHandler(this.Maximized_MouseLeave);
-            // 
             // banner_minus_ck
             // 
             this.banner_minus_ck.BackColor = System.Drawing.Color.Transparent;
@@ -6045,22 +6003,6 @@ namespace plt0_gui
             this.banner_minus_ck.Size = new System.Drawing.Size(32, 32);
             this.banner_minus_ck.TabIndex = 408;
             this.banner_minus_ck.TabStop = false;
-            // 
-            // banner_minus_hitbox
-            // 
-            this.banner_minus_hitbox.AutoSize = true;
-            this.banner_minus_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.banner_minus_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.banner_minus_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.banner_minus_hitbox.Location = new System.Drawing.Point(1806, 1099);
-            this.banner_minus_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.banner_minus_hitbox.Name = "banner_minus_hitbox";
-            this.banner_minus_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
-            this.banner_minus_hitbox.Size = new System.Drawing.Size(32, 32);
-            this.banner_minus_hitbox.TabIndex = 407;
-            this.banner_minus_hitbox.Click += new System.EventHandler(this.Minimized_Click);
-            this.banner_minus_hitbox.MouseEnter += new System.EventHandler(this.Minimized_MouseEnter);
-            this.banner_minus_hitbox.MouseLeave += new System.EventHandler(this.Minimized_MouseLeave);
             // 
             // banner_9_ck
             // 
@@ -6201,37 +6143,6 @@ namespace plt0_gui
             this.run_ck.Size = new System.Drawing.Size(128, 64);
             this.run_ck.TabIndex = 428;
             this.run_ck.TabStop = false;
-            // 
-            // run_hitbox
-            // 
-            this.run_hitbox.AutoSize = true;
-            this.run_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.run_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.run_hitbox.ForeColor = System.Drawing.SystemColors.Window;
-            this.run_hitbox.Location = new System.Drawing.Point(1500, 1005);
-            this.run_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.run_hitbox.Name = "run_hitbox";
-            this.run_hitbox.Padding = new System.Windows.Forms.Padding(128, 44, 0, 0);
-            this.run_hitbox.Size = new System.Drawing.Size(128, 64);
-            this.run_hitbox.TabIndex = 429;
-            this.run_hitbox.Click += new System.EventHandler(this.Run_Click);
-            this.run_hitbox.MouseEnter += new System.EventHandler(this.run_MouseEnter);
-            this.run_hitbox.MouseLeave += new System.EventHandler(this.run_MouseLeave);
-            // 
-            // cli_textbox_hitbox
-            // 
-            this.cli_textbox_hitbox.AutoSize = true;
-            this.cli_textbox_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.cli_textbox_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.cli_textbox_hitbox.ForeColor = System.Drawing.SystemColors.Window;
-            this.cli_textbox_hitbox.Location = new System.Drawing.Point(9, 1005);
-            this.cli_textbox_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.cli_textbox_hitbox.Name = "cli_textbox_hitbox";
-            this.cli_textbox_hitbox.Padding = new System.Windows.Forms.Padding(1472, 44, 0, 0);
-            this.cli_textbox_hitbox.Size = new System.Drawing.Size(1472, 64);
-            this.cli_textbox_hitbox.TabIndex = 430;
-            this.cli_textbox_hitbox.MouseEnter += new System.EventHandler(this.cli_textbox_MouseEnter);
-            this.cli_textbox_hitbox.MouseLeave += new System.EventHandler(this.cli_textbox_MouseLeave);
             // 
             // input_file_txt
             // 
@@ -7013,22 +6924,6 @@ namespace plt0_gui
             this.github_ck.TabIndex = 484;
             this.github_ck.TabStop = false;
             // 
-            // github_hitbox
-            // 
-            this.github_hitbox.AutoSize = true;
-            this.github_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.github_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.github_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.github_hitbox.Location = new System.Drawing.Point(1693, 1099);
-            this.github_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.github_hitbox.Name = "github_hitbox";
-            this.github_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
-            this.github_hitbox.Size = new System.Drawing.Size(32, 32);
-            this.github_hitbox.TabIndex = 483;
-            this.github_hitbox.Click += new System.EventHandler(this.github_Click);
-            this.github_hitbox.MouseEnter += new System.EventHandler(this.github_MouseEnter);
-            this.github_hitbox.MouseLeave += new System.EventHandler(this.github_MouseLeave);
-            // 
             // youtube_ck
             // 
             this.youtube_ck.BackColor = System.Drawing.Color.Transparent;
@@ -7042,22 +6937,6 @@ namespace plt0_gui
             this.youtube_ck.TabIndex = 486;
             this.youtube_ck.TabStop = false;
             // 
-            // youtube_hitbox
-            // 
-            this.youtube_hitbox.AutoSize = true;
-            this.youtube_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.youtube_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.youtube_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.youtube_hitbox.Location = new System.Drawing.Point(1747, 1099);
-            this.youtube_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.youtube_hitbox.Name = "youtube_hitbox";
-            this.youtube_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
-            this.youtube_hitbox.Size = new System.Drawing.Size(32, 32);
-            this.youtube_hitbox.TabIndex = 485;
-            this.youtube_hitbox.Click += new System.EventHandler(this.youtube_Click);
-            this.youtube_hitbox.MouseEnter += new System.EventHandler(this.youtube_MouseEnter);
-            this.youtube_hitbox.MouseLeave += new System.EventHandler(this.youtube_MouseLeave);
-            // 
             // discord_ck
             // 
             this.discord_ck.BackColor = System.Drawing.Color.Transparent;
@@ -7070,22 +6949,6 @@ namespace plt0_gui
             this.discord_ck.Size = new System.Drawing.Size(32, 32);
             this.discord_ck.TabIndex = 488;
             this.discord_ck.TabStop = false;
-            // 
-            // discord_hitbox
-            // 
-            this.discord_hitbox.AutoSize = true;
-            this.discord_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.discord_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.discord_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.discord_hitbox.Location = new System.Drawing.Point(1643, 1099);
-            this.discord_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.discord_hitbox.Name = "discord_hitbox";
-            this.discord_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
-            this.discord_hitbox.Size = new System.Drawing.Size(32, 32);
-            this.discord_hitbox.TabIndex = 487;
-            this.discord_hitbox.Click += new System.EventHandler(this.discord_Click);
-            this.discord_hitbox.MouseEnter += new System.EventHandler(this.discord_MouseEnter);
-            this.discord_hitbox.MouseLeave += new System.EventHandler(this.discord_MouseLeave);
             // 
             // desc2
             // 
@@ -8136,21 +7999,6 @@ namespace plt0_gui
             this.cmpr_save_ck.TabIndex = 669;
             this.cmpr_save_ck.TabStop = false;
             // 
-            // cmpr_save_hitbox
-            // 
-            this.cmpr_save_hitbox.AutoSize = true;
-            this.cmpr_save_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_save_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.cmpr_save_hitbox.ForeColor = System.Drawing.SystemColors.Window;
-            this.cmpr_save_hitbox.Location = new System.Drawing.Point(1982, 1005);
-            this.cmpr_save_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_save_hitbox.Name = "cmpr_save_hitbox";
-            this.cmpr_save_hitbox.Padding = new System.Windows.Forms.Padding(128, 44, 0, 0);
-            this.cmpr_save_hitbox.Size = new System.Drawing.Size(128, 64);
-            this.cmpr_save_hitbox.TabIndex = 670;
-            this.cmpr_save_hitbox.MouseEnter += new System.EventHandler(this.cmpr_save_MouseEnter);
-            this.cmpr_save_hitbox.MouseLeave += new System.EventHandler(this.cmpr_save_MouseLeave);
-            // 
             // cmpr_save_as_ck
             // 
             this.cmpr_save_as_ck.BackColor = System.Drawing.Color.Transparent;
@@ -8163,21 +8011,6 @@ namespace plt0_gui
             this.cmpr_save_as_ck.Size = new System.Drawing.Size(128, 64);
             this.cmpr_save_as_ck.TabIndex = 671;
             this.cmpr_save_as_ck.TabStop = false;
-            // 
-            // cmpr_save_as_hitbox
-            // 
-            this.cmpr_save_as_hitbox.AutoSize = true;
-            this.cmpr_save_as_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_save_as_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.cmpr_save_as_hitbox.ForeColor = System.Drawing.SystemColors.Window;
-            this.cmpr_save_as_hitbox.Location = new System.Drawing.Point(2127, 1005);
-            this.cmpr_save_as_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_save_as_hitbox.Name = "cmpr_save_as_hitbox";
-            this.cmpr_save_as_hitbox.Padding = new System.Windows.Forms.Padding(128, 44, 0, 0);
-            this.cmpr_save_as_hitbox.Size = new System.Drawing.Size(128, 64);
-            this.cmpr_save_as_hitbox.TabIndex = 672;
-            this.cmpr_save_as_hitbox.MouseEnter += new System.EventHandler(this.cmpr_save_as_MouseEnter);
-            this.cmpr_save_as_hitbox.MouseLeave += new System.EventHandler(this.cmpr_save_as_MouseLeave);
             // 
             // cmpr_warning
             // 
@@ -8362,9 +8195,7 @@ namespace plt0_gui
             this.Controls.Add(this.cmpr_sel_label);
             this.Controls.Add(this.cmpr_warning);
             this.Controls.Add(this.cmpr_save_as_ck);
-            this.Controls.Add(this.cmpr_save_as_hitbox);
             this.Controls.Add(this.cmpr_save_ck);
-            this.Controls.Add(this.cmpr_save_hitbox);
             this.Controls.Add(this.cmpr_selected_block_label);
             this.Controls.Add(this.cmpr_picture_tooltip_label);
             this.Controls.Add(this.cmpr_preview_ck);
@@ -8463,11 +8294,8 @@ namespace plt0_gui
             this.Controls.Add(this.desc4);
             this.Controls.Add(this.desc3);
             this.Controls.Add(this.discord_ck);
-            this.Controls.Add(this.discord_hitbox);
             this.Controls.Add(this.youtube_ck);
-            this.Controls.Add(this.youtube_hitbox);
             this.Controls.Add(this.github_ck);
-            this.Controls.Add(this.github_hitbox);
             this.Controls.Add(this.palette_rgb5a3_ck);
             this.Controls.Add(this.palette_rgb5a3_label);
             this.Controls.Add(this.palette_rgb565_ck);
@@ -8523,11 +8351,8 @@ namespace plt0_gui
             this.Controls.Add(this.banner_8_ck);
             this.Controls.Add(this.banner_9_ck);
             this.Controls.Add(this.banner_minus_ck);
-            this.Controls.Add(this.banner_minus_hitbox);
             this.Controls.Add(this.banner_5_ck);
-            this.Controls.Add(this.banner_5_hitbox);
             this.Controls.Add(this.banner_x_ck);
-            this.Controls.Add(this.banner_x_hitbox);
             this.Controls.Add(this.paint_ck);
             this.Controls.Add(this.auto_ck);
             this.Controls.Add(this.preview_ck);
@@ -8661,8 +8486,6 @@ namespace plt0_gui
             this.Controls.Add(this.mandatory_settings_label);
             this.Controls.Add(this.output_file_type_label);
             this.Controls.Add(this.surrounding_ck);
-            this.Controls.Add(this.run_hitbox);
-            this.Controls.Add(this.cli_textbox_hitbox);
             this.Controls.Add(this.view_min_label);
             this.Controls.Add(this.desc2);
             this.Controls.Add(this.description);
