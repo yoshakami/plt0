@@ -803,6 +803,156 @@ namespace plt0_gui
             text = text.Substring(0, y) + text.Substring(i);
             return text;
         }
+        private void Parse_Markdown(string txt, Label lab)
+        {// these are variables. easy to replace
+            txt = txt.Replace("\\a", appdata).Replace("\\e", execName).Replace("\\h", this.Height.ToString()).Replace("\\l", layout_name[layout]).Replace("\\m", mipmaps.ToString()).Replace("\\n", "\n").Replace("\\o", output_name).Replace("\\p", execPath).Replace("\\r", "\r").Replace("\\t", "\t").Replace("\\w", this.Width.ToString()).Replace("\\0", block_width_array[encoding].ToString()).Replace("\\y", block_height_array[encoding].ToString()).Replace("\\z", block_depth_array[encoding].ToString());
+            if (input_file_image != null)
+                txt = txt.Replace("\\d", input_file_image.PixelFormat.ToString());
+            else
+                txt = txt.Replace("\\d", "");
+            // implement b, c, f, g, i, j, k, q, s, u, v, x
+                font_colour = lines[10];  // default colour
+                font_name = lines[12]; // default font name
+                font_style = 0;
+                font_unit = "point";
+                size_font = 15F;
+                font_encoding = "128";
+                font_size = "15";
+                byte.TryParse(lines[14], out GdiCharSet);
+                if (txt.Contains("\\b"))
+                {
+                    font_style += 1;
+                }
+                if (txt.Contains("\\i"))
+                {
+                    font_style += 2;
+                }
+                if (txt.Contains("\\k"))
+                {
+                    font_style += 4;
+                }
+                if (txt.Contains("\\u"))
+                {
+                    font_style += 8;
+                }
+                if (txt.Contains("\\v"))
+                {
+                    vertical = false;
+                }
+                txt = Parse_Special_Markdown(txt.LastIndexOf("\\f"), txt, 0);
+                txt = Parse_Special_Markdown(txt.LastIndexOf("\\c"), txt, 1);
+                txt = Parse_Special_Markdown(txt.LastIndexOf("\\q"), txt, 2);
+                txt = Parse_Special_Markdown(txt.LastIndexOf("\\g"), txt, 3);
+                txt = Parse_Special_Markdown(txt.LastIndexOf("\\s"), txt, 4);
+                if (markdown[0] != "")
+                    font_name = markdown[0];
+                if (markdown[1] != "")
+                    font_colour = markdown[1];
+                if (markdown[2] != "")
+                    font_unit = markdown[2];
+                if (markdown[3] != "")
+                    font_encoding = markdown[3];
+                if (markdown[4] != "")
+                    font_size = markdown[4];
+                if (font_encoding != "")
+                    byte.TryParse(font_encoding, out GdiCharSet);
+                if (font_size != "")
+                    float.TryParse(font_size, out size_font);
+                if (size_font == 0F)
+                    size_font = 0.000001F;
+                switch (font_unit.ToLower())
+                {
+                    case "world":
+                        unit_font = GraphicsUnit.World;
+                        break;
+                    case "pixel":
+                        unit_font = GraphicsUnit.Pixel;
+                        break;
+                    case "point":
+                        unit_font = GraphicsUnit.Point;
+                        break;
+                    case "inch":
+                        unit_font = GraphicsUnit.Inch;
+                        break;
+                    case "document":
+                        unit_font = GraphicsUnit.Document;
+                        break;
+                    case "display":
+                        unit_font = GraphicsUnit.Display;
+                        break;
+                    case "milimeter":
+                        unit_font = GraphicsUnit.Display;
+                        break;
+                    default:  // I were to always suppose the setting file's markdown would never have errors so I haven't made any hard check. It's not worth securing everything since it's just visual and I'm doing this for free.
+                        unit_font = GraphicsUnit.Point;
+                        break;
+
+                }
+                // txt = Parse_Special_Markdown(txt.LastIndexOf("\\j"), txt, backslash_j);  OH GOSH I AM IDIOT - that happens when you leave your code for one day lol
+                y = 0;
+                y = txt.IndexOf("\\x");
+                while (y != -1)
+                {
+                    byte.TryParse(txt.Substring(y + 2, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out byte_text);
+                    txt = txt.Substring(0, y) + System.Text.Encoding.Unicode.GetString(new[] { byte_text }) + txt.Substring(y + 4);
+                    y = txt.IndexOf("\\x");
+                }
+                txt = txt.Replace("\\b", "").Replace("\\i", "").Replace("\\k", "").Replace("\\u", "").Replace("\\v", "");
+                // lab.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, ((System.Drawing.FontStyle)((((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic) | System.Drawing.FontStyle.Underline) | System.Drawing.FontStyle.Strikeout))), System.Drawing.GraphicsUnit.World, ((byte)(0)), true);
+                switch (font_style)
+                {
+                    case 0:
+                        lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Regular, unit_font, GdiCharSet, vertical);
+                        break;
+                    case 1:
+                        lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Bold, unit_font, GdiCharSet, vertical);
+                        break;
+                    case 2:
+                        lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Italic, unit_font, GdiCharSet, vertical);
+                        break;
+                    case 3:
+                        lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Bold | FontStyle.Italic, unit_font, GdiCharSet, vertical);
+                        break;
+                    case 4:
+                        lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Strikeout, unit_font, GdiCharSet, vertical);
+                        break;
+                    case 5:
+                        lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Strikeout | FontStyle.Bold, unit_font, GdiCharSet, vertical);
+                        break;
+                    case 6:
+                        lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Strikeout | FontStyle.Italic, unit_font, GdiCharSet, vertical);
+                        break;
+                    case 7:
+                        lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Strikeout | FontStyle.Italic | FontStyle.Bold, unit_font, GdiCharSet, vertical);
+                        break;
+                    case 8:
+                        lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Underline, unit_font, GdiCharSet, vertical);
+                        break;
+                    case 9:
+                        lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Underline | FontStyle.Bold, unit_font, GdiCharSet, vertical);
+                        break;
+                    case 10:
+                        lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Underline | FontStyle.Italic, unit_font, GdiCharSet, vertical);
+                        break;
+                    case 11:
+                        lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Underline | FontStyle.Bold | FontStyle.Italic, unit_font, GdiCharSet, vertical);
+                        break;
+                    case 12:
+                        lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Underline | FontStyle.Strikeout, unit_font, GdiCharSet, vertical);
+                        break;
+                    case 13:
+                        lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Underline | FontStyle.Strikeout | FontStyle.Bold, unit_font, GdiCharSet, vertical);
+                        break;
+                    case 14:
+                        lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Underline | FontStyle.Strikeout | FontStyle.Italic, unit_font, GdiCharSet, vertical);
+                        break;
+                    case 15:
+                        lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Underline | FontStyle.Strikeout | FontStyle.Italic | FontStyle.Bold, unit_font, GdiCharSet, vertical);
+                        break;
+                }
+                lab.ForeColor = Color.FromName(font_colour);
+                lab.Text = txt;
+        }
         private void Parse_Markdown(string txt)
         {
             // these are variables. easy to replace
@@ -15681,17 +15831,17 @@ namespace plt0_gui
                 cmpr_warning.Text = "";
             else
             {
-                cmpr_warning.Text = Parse_Markdown(lines[193]);
+                Parse_Markdown(lines[193], cmpr_warning);
             }
         }
         private void Put_that_damn_cmpr_layout_in_place()
         {
             Check_Paint();
-            cmpr_mouse0_label.Text = Parse_Markdown(lines[194]);
-            cmpr_mouse1_label.Text = Parse_Markdown(lines[195]);
-            cmpr_mouse2_label.Text = Parse_Markdown(lines[196]);
-            cmpr_mouse3_label.Text = Parse_Markdown(lines[197]);
-            cmpr_mouse4_label.Text = Parse_Markdown(lines[198]);
+            Parse_Markdown(lines[194], cmpr_mouse0_label);
+            Parse_Markdown(lines[195], cmpr_mouse1_label);
+            Parse_Markdown(lines[196], cmpr_mouse2_label);
+            Parse_Markdown(lines[197], cmpr_mouse3_label);
+            Parse_Markdown(lines[198], cmpr_mouse4_label);
         }
         private void Run_Click(object sender, EventArgs e)
         {

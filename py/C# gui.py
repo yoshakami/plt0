@@ -790,7 +790,7 @@ output += """
 for y in range(5):
     x += 1
     output += """
-            Parse_Markdown(lines[""" + str(x) + "], cmpr_mouse" + str(y) + "_label);"
+            Parse_Markdown(lines[""" + str(x) + "], cmpr_mouse" + str(y + 1) + "_label);"
 output += """
         }
         private void Run_Click(object sender, EventArgs e)
