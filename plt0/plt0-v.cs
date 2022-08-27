@@ -1618,21 +1618,21 @@ namespace plt0_gui
             if (file != null) // prevent crashes if it's for example a google chrome favourite that was dragged
             {
                 bool isFolder = System.IO.File.GetAttributes(file[0]).HasFlag(System.IO.FileAttributes.Directory);
-                if (isFolder)
+                if (!isFolder)  // that means it's a file.
                 {
-                    //byte len = (byte)file[0].Split('\\').Length;
-                    //Output.Text += file[0].Split('\\')[len - 1] + " over Mario\n";  // file is actually a full path starting from a drive, but I won't clutter the display
-                    //Replace_Character(file[0], "pc01_mario");  // file[0] is the folder name of the mod the user wants to be over mario
+                    byte len = (byte)file[0].Split('\\').Length;
+                    input_file = file[0];
+                    input_file_txt.Text = file[0].Split('\\')[len - 1];// file is actually a full path starting from a drive, but I won't clutter the display
                 }
                 else
                 {
-                    //Output.Text += "only folders are accepted\n";
+                    output_label.Text = "only files are accepted\n";
                     return;
                 }
             }
             else
             {
-                //Output.Text += e.Data.GetData(DataFormats.Text) + "\n";
+                output_label.Text = (string)e.Data.GetData(DataFormats.Text);
             }
         }
         private bool ishex(char txt)
@@ -1669,45 +1669,6 @@ namespace plt0_gui
 
             return true;
         }
-        /*
-        private bool ishexdouble(string txt)
-        {
-            if (txt.Length > 8)
-                return false;
-            for (byte i = 0; i < txt.Length; i++)
-            {
-                switch (txt[i])
-                {
-                    case '0':
-                    case '1':
-                    case '2':
-                    case '3':
-                    case '4':
-                    case '5':
-                    case '6':
-                    case '7':
-                    case '8':
-                    case '9':
-                    case 'a':
-                    case 'b':
-                    case 'c':
-                    case 'd':
-                    case 'e':
-                    case 'f':
-                    case 'A':
-                    case 'B':
-                    case 'C':
-                    case 'D':
-                    case 'E':
-                    case 'F':
-                        // that's a correct hex char
-                        break;
-                    default:
-                        return false;
-                }
-            }
-            return true;
-        }*/
         private bool ishexchar(char txt)
         {
             switch (txt)
@@ -2953,10 +2914,10 @@ namespace plt0_gui
         // actually not the whole code, but let's pretend I haven't typed 15k lines
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(plt0_gui));
             this.output_file_type_label = new System.Windows.Forms.Label();
             this.mandatory_settings_label = new System.Windows.Forms.Label();
             this.bmd_label = new System.Windows.Forms.Label();
-            this.bmd_ck = new System.Windows.Forms.PictureBox();
             this.bti_ck = new System.Windows.Forms.PictureBox();
             this.bti_label = new System.Windows.Forms.Label();
             this.tex0_ck = new System.Windows.Forms.PictureBox();
@@ -3259,7 +3220,7 @@ namespace plt0_gui
             this.cmpr_sel = new System.Windows.Forms.Label();
             this.cmpr_preview_ck = new PictureBoxWithInterpolationMode();
             this.image_ck = new PictureBoxWithInterpolationMode();
-            ((System.ComponentModel.ISupportInitialize)(this.bmd_ck)).BeginInit();
+            this.bmd_ck = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tpl_ck)).BeginInit();
@@ -3383,6 +3344,7 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_save_as_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.image_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bmd_ck)).BeginInit();
             this.SuspendLayout();
             // 
             // output_file_type_label
@@ -3427,19 +3389,6 @@ namespace plt0_gui
             this.bmd_label.MouseEnter += new System.EventHandler(this.bmd_MouseEnter);
             this.bmd_label.MouseLeave += new System.EventHandler(this.bmd_MouseLeave);
             // 
-            // bmd_ck
-            // 
-            this.bmd_ck.BackColor = System.Drawing.Color.Transparent;
-            this.bmd_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.bmd_ck.ErrorImage = null;
-            this.bmd_ck.InitialImage = null;
-            this.bmd_ck.Location = new System.Drawing.Point(40, 128);
-            this.bmd_ck.Margin = new System.Windows.Forms.Padding(0);
-            this.bmd_ck.Name = "bmd_ck";
-            this.bmd_ck.Size = new System.Drawing.Size(64, 64);
-            this.bmd_ck.TabIndex = 126;
-            this.bmd_ck.TabStop = false;
-            // 
             // bti_ck
             // 
             this.bti_ck.BackColor = System.Drawing.Color.Transparent;
@@ -3452,6 +3401,9 @@ namespace plt0_gui
             this.bti_ck.Size = new System.Drawing.Size(64, 64);
             this.bti_ck.TabIndex = 129;
             this.bti_ck.TabStop = false;
+            this.bti_ck.Click += new System.EventHandler(this.bti_Click);
+            this.bti_ck.MouseEnter += new System.EventHandler(this.bti_MouseEnter);
+            this.bti_ck.MouseLeave += new System.EventHandler(this.bti_MouseLeave);
             // 
             // bti_label
             // 
@@ -3482,6 +3434,9 @@ namespace plt0_gui
             this.tex0_ck.Size = new System.Drawing.Size(64, 64);
             this.tex0_ck.TabIndex = 132;
             this.tex0_ck.TabStop = false;
+            this.tex0_ck.Click += new System.EventHandler(this.tex0_Click);
+            this.tex0_ck.MouseEnter += new System.EventHandler(this.tex0_MouseEnter);
+            this.tex0_ck.MouseLeave += new System.EventHandler(this.tex0_MouseLeave);
             // 
             // tex0_label
             // 
@@ -3512,6 +3467,9 @@ namespace plt0_gui
             this.tpl_ck.Size = new System.Drawing.Size(64, 64);
             this.tpl_ck.TabIndex = 135;
             this.tpl_ck.TabStop = false;
+            this.tpl_ck.Click += new System.EventHandler(this.tpl_Click);
+            this.tpl_ck.MouseEnter += new System.EventHandler(this.tpl_MouseEnter);
+            this.tpl_ck.MouseLeave += new System.EventHandler(this.tpl_MouseLeave);
             // 
             // tpl_label
             // 
@@ -3542,6 +3500,9 @@ namespace plt0_gui
             this.bmp_ck.Size = new System.Drawing.Size(64, 64);
             this.bmp_ck.TabIndex = 138;
             this.bmp_ck.TabStop = false;
+            this.bmp_ck.Click += new System.EventHandler(this.bmp_Click);
+            this.bmp_ck.MouseEnter += new System.EventHandler(this.bmp_MouseEnter);
+            this.bmp_ck.MouseLeave += new System.EventHandler(this.bmp_MouseLeave);
             // 
             // bmp_label
             // 
@@ -3572,6 +3533,9 @@ namespace plt0_gui
             this.png_ck.Size = new System.Drawing.Size(64, 64);
             this.png_ck.TabIndex = 141;
             this.png_ck.TabStop = false;
+            this.png_ck.Click += new System.EventHandler(this.png_Click);
+            this.png_ck.MouseEnter += new System.EventHandler(this.png_MouseEnter);
+            this.png_ck.MouseLeave += new System.EventHandler(this.png_MouseLeave);
             // 
             // png_label
             // 
@@ -3602,6 +3566,9 @@ namespace plt0_gui
             this.jpg_ck.Size = new System.Drawing.Size(64, 64);
             this.jpg_ck.TabIndex = 144;
             this.jpg_ck.TabStop = false;
+            this.jpg_ck.Click += new System.EventHandler(this.jpg_Click);
+            this.jpg_ck.MouseEnter += new System.EventHandler(this.jpg_MouseEnter);
+            this.jpg_ck.MouseLeave += new System.EventHandler(this.jpg_MouseLeave);
             // 
             // jpg_label
             // 
@@ -3632,6 +3599,9 @@ namespace plt0_gui
             this.tiff_ck.Size = new System.Drawing.Size(64, 64);
             this.tiff_ck.TabIndex = 159;
             this.tiff_ck.TabStop = false;
+            this.tiff_ck.Click += new System.EventHandler(this.tiff_Click);
+            this.tiff_ck.MouseEnter += new System.EventHandler(this.tiff_MouseEnter);
+            this.tiff_ck.MouseLeave += new System.EventHandler(this.tiff_MouseLeave);
             // 
             // tiff_label
             // 
@@ -3662,6 +3632,9 @@ namespace plt0_gui
             this.tif_ck.Size = new System.Drawing.Size(64, 64);
             this.tif_ck.TabIndex = 156;
             this.tif_ck.TabStop = false;
+            this.tif_ck.Click += new System.EventHandler(this.tif_Click);
+            this.tif_ck.MouseEnter += new System.EventHandler(this.tif_MouseEnter);
+            this.tif_ck.MouseLeave += new System.EventHandler(this.tif_MouseLeave);
             // 
             // tif_label
             // 
@@ -3692,6 +3665,9 @@ namespace plt0_gui
             this.ico_ck.Size = new System.Drawing.Size(64, 64);
             this.ico_ck.TabIndex = 153;
             this.ico_ck.TabStop = false;
+            this.ico_ck.Click += new System.EventHandler(this.ico_Click);
+            this.ico_ck.MouseEnter += new System.EventHandler(this.ico_MouseEnter);
+            this.ico_ck.MouseLeave += new System.EventHandler(this.ico_MouseLeave);
             // 
             // ico_label
             // 
@@ -3722,6 +3698,9 @@ namespace plt0_gui
             this.gif_ck.Size = new System.Drawing.Size(64, 64);
             this.gif_ck.TabIndex = 150;
             this.gif_ck.TabStop = false;
+            this.gif_ck.Click += new System.EventHandler(this.gif_Click);
+            this.gif_ck.MouseEnter += new System.EventHandler(this.gif_MouseEnter);
+            this.gif_ck.MouseLeave += new System.EventHandler(this.gif_MouseLeave);
             // 
             // gif_label
             // 
@@ -3752,6 +3731,9 @@ namespace plt0_gui
             this.jpeg_ck.Size = new System.Drawing.Size(64, 64);
             this.jpeg_ck.TabIndex = 147;
             this.jpeg_ck.TabStop = false;
+            this.jpeg_ck.Click += new System.EventHandler(this.jpeg_Click);
+            this.jpeg_ck.MouseEnter += new System.EventHandler(this.jpeg_MouseEnter);
+            this.jpeg_ck.MouseLeave += new System.EventHandler(this.jpeg_MouseLeave);
             // 
             // jpeg_label
             // 
@@ -3795,6 +3777,9 @@ namespace plt0_gui
             this.warn_ck.Size = new System.Drawing.Size(64, 64);
             this.warn_ck.TabIndex = 190;
             this.warn_ck.TabStop = false;
+            this.warn_ck.Click += new System.EventHandler(this.warn_Click);
+            this.warn_ck.MouseEnter += new System.EventHandler(this.warn_MouseEnter);
+            this.warn_ck.MouseLeave += new System.EventHandler(this.warn_MouseLeave);
             // 
             // warn_label
             // 
@@ -3825,6 +3810,9 @@ namespace plt0_gui
             this.stfu_ck.Size = new System.Drawing.Size(64, 64);
             this.stfu_ck.TabIndex = 187;
             this.stfu_ck.TabStop = false;
+            this.stfu_ck.Click += new System.EventHandler(this.stfu_Click);
+            this.stfu_ck.MouseEnter += new System.EventHandler(this.stfu_MouseEnter);
+            this.stfu_ck.MouseLeave += new System.EventHandler(this.stfu_MouseLeave);
             // 
             // stfu_label
             // 
@@ -3855,6 +3843,9 @@ namespace plt0_gui
             this.safe_mode_ck.Size = new System.Drawing.Size(64, 64);
             this.safe_mode_ck.TabIndex = 184;
             this.safe_mode_ck.TabStop = false;
+            this.safe_mode_ck.Click += new System.EventHandler(this.safe_mode_Click);
+            this.safe_mode_ck.MouseEnter += new System.EventHandler(this.safe_mode_MouseEnter);
+            this.safe_mode_ck.MouseLeave += new System.EventHandler(this.safe_mode_MouseLeave);
             // 
             // safe_mode_label
             // 
@@ -3885,6 +3876,9 @@ namespace plt0_gui
             this.reversey_ck.Size = new System.Drawing.Size(64, 64);
             this.reversey_ck.TabIndex = 181;
             this.reversey_ck.TabStop = false;
+            this.reversey_ck.Click += new System.EventHandler(this.reversey_Click);
+            this.reversey_ck.MouseEnter += new System.EventHandler(this.reversey_MouseEnter);
+            this.reversey_ck.MouseLeave += new System.EventHandler(this.reversey_MouseLeave);
             // 
             // reversey_label
             // 
@@ -3915,6 +3909,9 @@ namespace plt0_gui
             this.random_ck.Size = new System.Drawing.Size(64, 64);
             this.random_ck.TabIndex = 178;
             this.random_ck.TabStop = false;
+            this.random_ck.Click += new System.EventHandler(this.random_Click);
+            this.random_ck.MouseEnter += new System.EventHandler(this.random_MouseEnter);
+            this.random_ck.MouseLeave += new System.EventHandler(this.random_MouseLeave);
             // 
             // random_label
             // 
@@ -3945,6 +3942,9 @@ namespace plt0_gui
             this.no_warning_ck.Size = new System.Drawing.Size(64, 64);
             this.no_warning_ck.TabIndex = 175;
             this.no_warning_ck.TabStop = false;
+            this.no_warning_ck.Click += new System.EventHandler(this.no_warning_Click);
+            this.no_warning_ck.MouseEnter += new System.EventHandler(this.no_warning_MouseEnter);
+            this.no_warning_ck.MouseLeave += new System.EventHandler(this.no_warning_MouseLeave);
             // 
             // no_warning_label
             // 
@@ -3975,6 +3975,9 @@ namespace plt0_gui
             this.funky_ck.Size = new System.Drawing.Size(64, 64);
             this.funky_ck.TabIndex = 172;
             this.funky_ck.TabStop = false;
+            this.funky_ck.Click += new System.EventHandler(this.funky_Click);
+            this.funky_ck.MouseEnter += new System.EventHandler(this.funky_MouseEnter);
+            this.funky_ck.MouseLeave += new System.EventHandler(this.funky_MouseLeave);
             // 
             // funky_label
             // 
@@ -4005,6 +4008,9 @@ namespace plt0_gui
             this.FORCE_ALPHA_ck.Size = new System.Drawing.Size(64, 64);
             this.FORCE_ALPHA_ck.TabIndex = 169;
             this.FORCE_ALPHA_ck.TabStop = false;
+            this.FORCE_ALPHA_ck.Click += new System.EventHandler(this.FORCE_ALPHA_Click);
+            this.FORCE_ALPHA_ck.MouseEnter += new System.EventHandler(this.FORCE_ALPHA_MouseEnter);
+            this.FORCE_ALPHA_ck.MouseLeave += new System.EventHandler(this.FORCE_ALPHA_MouseLeave);
             // 
             // FORCE_ALPHA_label
             // 
@@ -4035,6 +4041,9 @@ namespace plt0_gui
             this.bmp_32_ck.Size = new System.Drawing.Size(64, 64);
             this.bmp_32_ck.TabIndex = 166;
             this.bmp_32_ck.TabStop = false;
+            this.bmp_32_ck.Click += new System.EventHandler(this.bmp_32_Click);
+            this.bmp_32_ck.MouseEnter += new System.EventHandler(this.bmp_32_MouseEnter);
+            this.bmp_32_ck.MouseLeave += new System.EventHandler(this.bmp_32_MouseLeave);
             // 
             // bmp_32_label
             // 
@@ -4066,6 +4075,9 @@ namespace plt0_gui
             this.ask_exit_ck.TabIndex = 163;
             this.ask_exit_ck.TabStop = false;
             this.ask_exit_ck.Visible = false;
+            this.ask_exit_ck.Click += new System.EventHandler(this.ask_exit_Click);
+            this.ask_exit_ck.MouseEnter += new System.EventHandler(this.ask_exit_MouseEnter);
+            this.ask_exit_ck.MouseLeave += new System.EventHandler(this.ask_exit_MouseLeave);
             // 
             // ask_exit_label
             // 
@@ -4097,6 +4109,9 @@ namespace plt0_gui
             this.cmpr_ck.Size = new System.Drawing.Size(64, 64);
             this.cmpr_ck.TabIndex = 233;
             this.cmpr_ck.TabStop = false;
+            this.cmpr_ck.Click += new System.EventHandler(this.CMPR_Click);
+            this.cmpr_ck.MouseEnter += new System.EventHandler(this.CMPR_MouseEnter);
+            this.cmpr_ck.MouseLeave += new System.EventHandler(this.CMPR_MouseLeave);
             // 
             // cmpr_label
             // 
@@ -4127,6 +4142,9 @@ namespace plt0_gui
             this.ci14x2_ck.Size = new System.Drawing.Size(64, 64);
             this.ci14x2_ck.TabIndex = 230;
             this.ci14x2_ck.TabStop = false;
+            this.ci14x2_ck.Click += new System.EventHandler(this.CI14X2_Click);
+            this.ci14x2_ck.MouseEnter += new System.EventHandler(this.CI14X2_MouseEnter);
+            this.ci14x2_ck.MouseLeave += new System.EventHandler(this.CI14X2_MouseLeave);
             // 
             // ci14x2_label
             // 
@@ -4157,6 +4175,9 @@ namespace plt0_gui
             this.ci8_ck.Size = new System.Drawing.Size(64, 64);
             this.ci8_ck.TabIndex = 227;
             this.ci8_ck.TabStop = false;
+            this.ci8_ck.Click += new System.EventHandler(this.CI8_Click);
+            this.ci8_ck.MouseEnter += new System.EventHandler(this.CI8_MouseEnter);
+            this.ci8_ck.MouseLeave += new System.EventHandler(this.CI8_MouseLeave);
             // 
             // ci8_label
             // 
@@ -4187,6 +4208,9 @@ namespace plt0_gui
             this.ci4_ck.Size = new System.Drawing.Size(64, 64);
             this.ci4_ck.TabIndex = 224;
             this.ci4_ck.TabStop = false;
+            this.ci4_ck.Click += new System.EventHandler(this.CI4_Click);
+            this.ci4_ck.MouseEnter += new System.EventHandler(this.CI4_MouseEnter);
+            this.ci4_ck.MouseLeave += new System.EventHandler(this.CI4_MouseLeave);
             // 
             // ci4_label
             // 
@@ -4217,6 +4241,9 @@ namespace plt0_gui
             this.rgba32_ck.Size = new System.Drawing.Size(64, 64);
             this.rgba32_ck.TabIndex = 221;
             this.rgba32_ck.TabStop = false;
+            this.rgba32_ck.Click += new System.EventHandler(this.RGBA32_Click);
+            this.rgba32_ck.MouseEnter += new System.EventHandler(this.RGBA32_MouseEnter);
+            this.rgba32_ck.MouseLeave += new System.EventHandler(this.RGBA32_MouseLeave);
             // 
             // rgba32_label
             // 
@@ -4247,6 +4274,9 @@ namespace plt0_gui
             this.rgb5a3_ck.Size = new System.Drawing.Size(64, 64);
             this.rgb5a3_ck.TabIndex = 218;
             this.rgb5a3_ck.TabStop = false;
+            this.rgb5a3_ck.Click += new System.EventHandler(this.RGB5A3_Click);
+            this.rgb5a3_ck.MouseEnter += new System.EventHandler(this.RGB5A3_MouseEnter);
+            this.rgb5a3_ck.MouseLeave += new System.EventHandler(this.RGB5A3_MouseLeave);
             // 
             // rgb5a3_label
             // 
@@ -4277,6 +4307,9 @@ namespace plt0_gui
             this.rgb565_ck.Size = new System.Drawing.Size(64, 64);
             this.rgb565_ck.TabIndex = 215;
             this.rgb565_ck.TabStop = false;
+            this.rgb565_ck.Click += new System.EventHandler(this.RGB565_Click);
+            this.rgb565_ck.MouseEnter += new System.EventHandler(this.RGB565_MouseEnter);
+            this.rgb565_ck.MouseLeave += new System.EventHandler(this.RGB565_MouseLeave);
             // 
             // rgb565_label
             // 
@@ -4307,6 +4340,9 @@ namespace plt0_gui
             this.ai8_ck.Size = new System.Drawing.Size(64, 64);
             this.ai8_ck.TabIndex = 212;
             this.ai8_ck.TabStop = false;
+            this.ai8_ck.Click += new System.EventHandler(this.AI8_Click);
+            this.ai8_ck.MouseEnter += new System.EventHandler(this.AI8_MouseEnter);
+            this.ai8_ck.MouseLeave += new System.EventHandler(this.AI8_MouseLeave);
             // 
             // ai8_label
             // 
@@ -4337,6 +4373,9 @@ namespace plt0_gui
             this.ai4_ck.Size = new System.Drawing.Size(64, 64);
             this.ai4_ck.TabIndex = 209;
             this.ai4_ck.TabStop = false;
+            this.ai4_ck.Click += new System.EventHandler(this.AI4_Click);
+            this.ai4_ck.MouseEnter += new System.EventHandler(this.AI4_MouseEnter);
+            this.ai4_ck.MouseLeave += new System.EventHandler(this.AI4_MouseLeave);
             // 
             // ai4_label
             // 
@@ -4367,6 +4406,9 @@ namespace plt0_gui
             this.i8_ck.Size = new System.Drawing.Size(64, 64);
             this.i8_ck.TabIndex = 206;
             this.i8_ck.TabStop = false;
+            this.i8_ck.Click += new System.EventHandler(this.I8_Click);
+            this.i8_ck.MouseEnter += new System.EventHandler(this.I8_MouseEnter);
+            this.i8_ck.MouseLeave += new System.EventHandler(this.I8_MouseLeave);
             // 
             // i8_label
             // 
@@ -4397,6 +4439,9 @@ namespace plt0_gui
             this.i4_ck.Size = new System.Drawing.Size(64, 64);
             this.i4_ck.TabIndex = 203;
             this.i4_ck.TabStop = false;
+            this.i4_ck.Click += new System.EventHandler(this.I4_Click);
+            this.i4_ck.MouseEnter += new System.EventHandler(this.I4_MouseEnter);
+            this.i4_ck.MouseLeave += new System.EventHandler(this.I4_MouseLeave);
             // 
             // i4_label
             // 
@@ -4453,6 +4498,9 @@ namespace plt0_gui
             this.no_gradient_ck.Size = new System.Drawing.Size(64, 64);
             this.no_gradient_ck.TabIndex = 247;
             this.no_gradient_ck.TabStop = false;
+            this.no_gradient_ck.Click += new System.EventHandler(this.No_gradient_Click);
+            this.no_gradient_ck.MouseEnter += new System.EventHandler(this.No_gradient_MouseEnter);
+            this.no_gradient_ck.MouseLeave += new System.EventHandler(this.No_gradient_MouseLeave);
             // 
             // no_gradient_label
             // 
@@ -4483,6 +4531,9 @@ namespace plt0_gui
             this.custom_ck.Size = new System.Drawing.Size(64, 64);
             this.custom_ck.TabIndex = 244;
             this.custom_ck.TabStop = false;
+            this.custom_ck.Click += new System.EventHandler(this.Custom_Click);
+            this.custom_ck.MouseEnter += new System.EventHandler(this.Custom_MouseEnter);
+            this.custom_ck.MouseLeave += new System.EventHandler(this.Custom_MouseLeave);
             // 
             // custom_label
             // 
@@ -4513,6 +4564,9 @@ namespace plt0_gui
             this.cie_709_ck.Size = new System.Drawing.Size(64, 64);
             this.cie_709_ck.TabIndex = 241;
             this.cie_709_ck.TabStop = false;
+            this.cie_709_ck.Click += new System.EventHandler(this.Cie_709_Click);
+            this.cie_709_ck.MouseEnter += new System.EventHandler(this.Cie_709_MouseEnter);
+            this.cie_709_ck.MouseLeave += new System.EventHandler(this.Cie_709_MouseLeave);
             // 
             // cie_709_label
             // 
@@ -4543,6 +4597,9 @@ namespace plt0_gui
             this.cie_601_ck.Size = new System.Drawing.Size(64, 64);
             this.cie_601_ck.TabIndex = 238;
             this.cie_601_ck.TabStop = false;
+            this.cie_601_ck.Click += new System.EventHandler(this.Cie_601_Click);
+            this.cie_601_ck.MouseEnter += new System.EventHandler(this.Cie_601_MouseEnter);
+            this.cie_601_ck.MouseLeave += new System.EventHandler(this.Cie_601_MouseLeave);
             // 
             // cie_601_label
             // 
@@ -4585,6 +4642,9 @@ namespace plt0_gui
             this.mix_ck.Size = new System.Drawing.Size(64, 64);
             this.mix_ck.TabIndex = 257;
             this.mix_ck.TabStop = false;
+            this.mix_ck.Click += new System.EventHandler(this.Mix_Click);
+            this.mix_ck.MouseEnter += new System.EventHandler(this.Mix_MouseEnter);
+            this.mix_ck.MouseLeave += new System.EventHandler(this.Mix_MouseLeave);
             // 
             // mix_label
             // 
@@ -4615,6 +4675,9 @@ namespace plt0_gui
             this.alpha_ck.Size = new System.Drawing.Size(64, 64);
             this.alpha_ck.TabIndex = 254;
             this.alpha_ck.TabStop = false;
+            this.alpha_ck.Click += new System.EventHandler(this.Alpha_Click);
+            this.alpha_ck.MouseEnter += new System.EventHandler(this.Alpha_MouseEnter);
+            this.alpha_ck.MouseLeave += new System.EventHandler(this.Alpha_MouseLeave);
             // 
             // alpha_label
             // 
@@ -4691,6 +4754,9 @@ namespace plt0_gui
             this.Tmirror_ck.Size = new System.Drawing.Size(64, 64);
             this.Tmirror_ck.TabIndex = 267;
             this.Tmirror_ck.TabStop = false;
+            this.Tmirror_ck.Click += new System.EventHandler(this.WrapT_Mirror_Click);
+            this.Tmirror_ck.MouseEnter += new System.EventHandler(this.WrapT_Mirror_MouseEnter);
+            this.Tmirror_ck.MouseLeave += new System.EventHandler(this.WrapT_Mirror_MouseLeave);
             // 
             // Tmirror_label
             // 
@@ -4721,6 +4787,9 @@ namespace plt0_gui
             this.Trepeat_ck.Size = new System.Drawing.Size(64, 64);
             this.Trepeat_ck.TabIndex = 264;
             this.Trepeat_ck.TabStop = false;
+            this.Trepeat_ck.Click += new System.EventHandler(this.WrapT_Repeat_Click);
+            this.Trepeat_ck.MouseEnter += new System.EventHandler(this.WrapT_Repeat_MouseEnter);
+            this.Trepeat_ck.MouseLeave += new System.EventHandler(this.WrapT_Repeat_MouseLeave);
             // 
             // Trepeat_label
             // 
@@ -4751,6 +4820,9 @@ namespace plt0_gui
             this.Tclamp_ck.Size = new System.Drawing.Size(64, 64);
             this.Tclamp_ck.TabIndex = 261;
             this.Tclamp_ck.TabStop = false;
+            this.Tclamp_ck.Click += new System.EventHandler(this.WrapT_Clamp_Click);
+            this.Tclamp_ck.MouseEnter += new System.EventHandler(this.WrapT_Clamp_MouseEnter);
+            this.Tclamp_ck.MouseLeave += new System.EventHandler(this.WrapT_Clamp_MouseLeave);
             // 
             // Tclamp_label
             // 
@@ -4793,6 +4865,9 @@ namespace plt0_gui
             this.Smirror_ck.Size = new System.Drawing.Size(64, 64);
             this.Smirror_ck.TabIndex = 277;
             this.Smirror_ck.TabStop = false;
+            this.Smirror_ck.Click += new System.EventHandler(this.WrapS_Mirror_Click);
+            this.Smirror_ck.MouseEnter += new System.EventHandler(this.WrapS_Mirror_MouseEnter);
+            this.Smirror_ck.MouseLeave += new System.EventHandler(this.WrapS_Mirror_MouseLeave);
             // 
             // Smirror_label
             // 
@@ -4823,6 +4898,9 @@ namespace plt0_gui
             this.Srepeat_ck.Size = new System.Drawing.Size(64, 64);
             this.Srepeat_ck.TabIndex = 274;
             this.Srepeat_ck.TabStop = false;
+            this.Srepeat_ck.Click += new System.EventHandler(this.WrapS_Repeat_Click);
+            this.Srepeat_ck.MouseEnter += new System.EventHandler(this.WrapS_Repeat_MouseEnter);
+            this.Srepeat_ck.MouseLeave += new System.EventHandler(this.WrapS_Repeat_MouseLeave);
             // 
             // Srepeat_label
             // 
@@ -4853,6 +4931,9 @@ namespace plt0_gui
             this.Sclamp_ck.Size = new System.Drawing.Size(64, 64);
             this.Sclamp_ck.TabIndex = 271;
             this.Sclamp_ck.TabStop = false;
+            this.Sclamp_ck.Click += new System.EventHandler(this.WrapS_Clamp_Click);
+            this.Sclamp_ck.MouseEnter += new System.EventHandler(this.WrapS_Clamp_MouseEnter);
+            this.Sclamp_ck.MouseLeave += new System.EventHandler(this.WrapS_Clamp_MouseLeave);
             // 
             // Sclamp_label
             // 
@@ -4919,6 +5000,9 @@ namespace plt0_gui
             this.min_linearmipmaplinear_ck.Size = new System.Drawing.Size(64, 64);
             this.min_linearmipmaplinear_ck.TabIndex = 324;
             this.min_linearmipmaplinear_ck.TabStop = false;
+            this.min_linearmipmaplinear_ck.Click += new System.EventHandler(this.Minification_LinearMipmapLinear_Click);
+            this.min_linearmipmaplinear_ck.MouseEnter += new System.EventHandler(this.Minification_LinearMipmapLinear_MouseEnter);
+            this.min_linearmipmaplinear_ck.MouseLeave += new System.EventHandler(this.Minification_LinearMipmapLinear_MouseLeave);
             // 
             // min_linearmipmaplinear_label
             // 
@@ -4949,6 +5033,9 @@ namespace plt0_gui
             this.min_linearmipmapnearest_ck.Size = new System.Drawing.Size(64, 64);
             this.min_linearmipmapnearest_ck.TabIndex = 321;
             this.min_linearmipmapnearest_ck.TabStop = false;
+            this.min_linearmipmapnearest_ck.Click += new System.EventHandler(this.Minification_LinearMipmapNearest_Click);
+            this.min_linearmipmapnearest_ck.MouseEnter += new System.EventHandler(this.Minification_LinearMipmapNearest_MouseEnter);
+            this.min_linearmipmapnearest_ck.MouseLeave += new System.EventHandler(this.Minification_LinearMipmapNearest_MouseLeave);
             // 
             // min_linearmipmapnearest_label
             // 
@@ -4979,6 +5066,9 @@ namespace plt0_gui
             this.min_nearestmipmaplinear_ck.Size = new System.Drawing.Size(64, 64);
             this.min_nearestmipmaplinear_ck.TabIndex = 318;
             this.min_nearestmipmaplinear_ck.TabStop = false;
+            this.min_nearestmipmaplinear_ck.Click += new System.EventHandler(this.Minification_NearestMipmapLinear_Click);
+            this.min_nearestmipmaplinear_ck.MouseEnter += new System.EventHandler(this.Minification_NearestMipmapLinear_MouseEnter);
+            this.min_nearestmipmaplinear_ck.MouseLeave += new System.EventHandler(this.Minification_NearestMipmapLinear_MouseLeave);
             // 
             // min_nearestmipmaplinear_label
             // 
@@ -5009,6 +5099,9 @@ namespace plt0_gui
             this.min_nearestmipmapnearest_ck.Size = new System.Drawing.Size(64, 64);
             this.min_nearestmipmapnearest_ck.TabIndex = 315;
             this.min_nearestmipmapnearest_ck.TabStop = false;
+            this.min_nearestmipmapnearest_ck.Click += new System.EventHandler(this.Minification_NearestMipmapNearest_Click);
+            this.min_nearestmipmapnearest_ck.MouseEnter += new System.EventHandler(this.Minification_NearestMipmapNearest_MouseEnter);
+            this.min_nearestmipmapnearest_ck.MouseLeave += new System.EventHandler(this.Minification_NearestMipmapNearest_MouseLeave);
             // 
             // min_nearestmipmapnearest_label
             // 
@@ -5039,6 +5132,9 @@ namespace plt0_gui
             this.min_linear_ck.Size = new System.Drawing.Size(64, 64);
             this.min_linear_ck.TabIndex = 312;
             this.min_linear_ck.TabStop = false;
+            this.min_linear_ck.Click += new System.EventHandler(this.Minification_Linear_Click);
+            this.min_linear_ck.MouseEnter += new System.EventHandler(this.Minification_Linear_MouseEnter);
+            this.min_linear_ck.MouseLeave += new System.EventHandler(this.Minification_Linear_MouseLeave);
             // 
             // min_linear_label
             // 
@@ -5069,6 +5165,9 @@ namespace plt0_gui
             this.min_nearest_neighbour_ck.Size = new System.Drawing.Size(64, 64);
             this.min_nearest_neighbour_ck.TabIndex = 309;
             this.min_nearest_neighbour_ck.TabStop = false;
+            this.min_nearest_neighbour_ck.Click += new System.EventHandler(this.Minification_Nearest_Neighbour_Click);
+            this.min_nearest_neighbour_ck.MouseEnter += new System.EventHandler(this.Minification_Nearest_Neighbour_MouseEnter);
+            this.min_nearest_neighbour_ck.MouseLeave += new System.EventHandler(this.Minification_Nearest_Neighbour_MouseLeave);
             // 
             // min_nearest_neighbour_label
             // 
@@ -5099,6 +5198,9 @@ namespace plt0_gui
             this.mag_linearmipmaplinear_ck.Size = new System.Drawing.Size(64, 64);
             this.mag_linearmipmaplinear_ck.TabIndex = 342;
             this.mag_linearmipmaplinear_ck.TabStop = false;
+            this.mag_linearmipmaplinear_ck.Click += new System.EventHandler(this.Magnification_LinearMipmapLinear_Click);
+            this.mag_linearmipmaplinear_ck.MouseEnter += new System.EventHandler(this.Magnification_LinearMipmapLinear_MouseEnter);
+            this.mag_linearmipmaplinear_ck.MouseLeave += new System.EventHandler(this.Magnification_LinearMipmapLinear_MouseLeave);
             // 
             // mag_linearmipmaplinear_label
             // 
@@ -5129,6 +5231,9 @@ namespace plt0_gui
             this.mag_linearmipmapnearest_ck.Size = new System.Drawing.Size(64, 64);
             this.mag_linearmipmapnearest_ck.TabIndex = 339;
             this.mag_linearmipmapnearest_ck.TabStop = false;
+            this.mag_linearmipmapnearest_ck.Click += new System.EventHandler(this.Magnification_LinearMipmapNearest_Click);
+            this.mag_linearmipmapnearest_ck.MouseEnter += new System.EventHandler(this.Magnification_LinearMipmapNearest_MouseEnter);
+            this.mag_linearmipmapnearest_ck.MouseLeave += new System.EventHandler(this.Magnification_LinearMipmapNearest_MouseLeave);
             // 
             // mag_linearmipmapnearest_label
             // 
@@ -5159,6 +5264,9 @@ namespace plt0_gui
             this.mag_nearestmipmaplinear_ck.Size = new System.Drawing.Size(64, 64);
             this.mag_nearestmipmaplinear_ck.TabIndex = 336;
             this.mag_nearestmipmaplinear_ck.TabStop = false;
+            this.mag_nearestmipmaplinear_ck.Click += new System.EventHandler(this.Magnification_NearestMipmapLinear_Click);
+            this.mag_nearestmipmaplinear_ck.MouseEnter += new System.EventHandler(this.Magnification_NearestMipmapLinear_MouseEnter);
+            this.mag_nearestmipmaplinear_ck.MouseLeave += new System.EventHandler(this.Magnification_NearestMipmapLinear_MouseLeave);
             // 
             // mag_nearestmipmaplinear_label
             // 
@@ -5189,6 +5297,9 @@ namespace plt0_gui
             this.mag_nearestmipmapnearest_ck.Size = new System.Drawing.Size(64, 64);
             this.mag_nearestmipmapnearest_ck.TabIndex = 333;
             this.mag_nearestmipmapnearest_ck.TabStop = false;
+            this.mag_nearestmipmapnearest_ck.Click += new System.EventHandler(this.Magnification_NearestMipmapNearest_Click);
+            this.mag_nearestmipmapnearest_ck.MouseEnter += new System.EventHandler(this.Magnification_NearestMipmapNearest_MouseEnter);
+            this.mag_nearestmipmapnearest_ck.MouseLeave += new System.EventHandler(this.Magnification_NearestMipmapNearest_MouseLeave);
             // 
             // mag_nearestmipmapnearest_label
             // 
@@ -5219,6 +5330,9 @@ namespace plt0_gui
             this.mag_linear_ck.Size = new System.Drawing.Size(64, 64);
             this.mag_linear_ck.TabIndex = 330;
             this.mag_linear_ck.TabStop = false;
+            this.mag_linear_ck.Click += new System.EventHandler(this.Magnification_Linear_Click);
+            this.mag_linear_ck.MouseEnter += new System.EventHandler(this.Magnification_Linear_MouseEnter);
+            this.mag_linear_ck.MouseLeave += new System.EventHandler(this.Magnification_Linear_MouseLeave);
             // 
             // mag_linear_label
             // 
@@ -5249,6 +5363,9 @@ namespace plt0_gui
             this.mag_nearest_neighbour_ck.Size = new System.Drawing.Size(64, 64);
             this.mag_nearest_neighbour_ck.TabIndex = 327;
             this.mag_nearest_neighbour_ck.TabStop = false;
+            this.mag_nearest_neighbour_ck.Click += new System.EventHandler(this.Magnification_Nearest_Neighbour_Click);
+            this.mag_nearest_neighbour_ck.MouseEnter += new System.EventHandler(this.Magnification_Nearest_Neighbour_MouseEnter);
+            this.mag_nearest_neighbour_ck.MouseLeave += new System.EventHandler(this.Magnification_Nearest_Neighbour_MouseLeave);
             // 
             // mag_nearest_neighbour_label
             // 
@@ -5279,6 +5396,9 @@ namespace plt0_gui
             this.r_r_ck.Size = new System.Drawing.Size(64, 64);
             this.r_r_ck.TabIndex = 343;
             this.r_r_ck.TabStop = false;
+            this.r_r_ck.Click += new System.EventHandler(this.R_R_Click);
+            this.r_r_ck.MouseEnter += new System.EventHandler(this.R_R_MouseEnter);
+            this.r_r_ck.MouseLeave += new System.EventHandler(this.R_R_MouseLeave);
             // 
             // r_g_ck
             // 
@@ -5292,6 +5412,9 @@ namespace plt0_gui
             this.r_g_ck.Size = new System.Drawing.Size(64, 64);
             this.r_g_ck.TabIndex = 344;
             this.r_g_ck.TabStop = false;
+            this.r_g_ck.Click += new System.EventHandler(this.R_G_Click);
+            this.r_g_ck.MouseEnter += new System.EventHandler(this.R_G_MouseEnter);
+            this.r_g_ck.MouseLeave += new System.EventHandler(this.R_G_MouseLeave);
             // 
             // g_r_ck
             // 
@@ -5305,6 +5428,9 @@ namespace plt0_gui
             this.g_r_ck.Size = new System.Drawing.Size(64, 64);
             this.g_r_ck.TabIndex = 345;
             this.g_r_ck.TabStop = false;
+            this.g_r_ck.Click += new System.EventHandler(this.G_R_Click);
+            this.g_r_ck.MouseEnter += new System.EventHandler(this.G_R_MouseEnter);
+            this.g_r_ck.MouseLeave += new System.EventHandler(this.G_R_MouseLeave);
             // 
             // g_g_ck
             // 
@@ -5318,6 +5444,9 @@ namespace plt0_gui
             this.g_g_ck.Size = new System.Drawing.Size(64, 64);
             this.g_g_ck.TabIndex = 346;
             this.g_g_ck.TabStop = false;
+            this.g_g_ck.Click += new System.EventHandler(this.G_G_Click);
+            this.g_g_ck.MouseEnter += new System.EventHandler(this.G_G_MouseEnter);
+            this.g_g_ck.MouseLeave += new System.EventHandler(this.G_G_MouseLeave);
             // 
             // a_g_ck
             // 
@@ -5331,6 +5460,9 @@ namespace plt0_gui
             this.a_g_ck.Size = new System.Drawing.Size(64, 64);
             this.a_g_ck.TabIndex = 350;
             this.a_g_ck.TabStop = false;
+            this.a_g_ck.Click += new System.EventHandler(this.A_G_Click);
+            this.a_g_ck.MouseEnter += new System.EventHandler(this.A_G_MouseEnter);
+            this.a_g_ck.MouseLeave += new System.EventHandler(this.A_G_MouseLeave);
             // 
             // a_r_ck
             // 
@@ -5344,6 +5476,9 @@ namespace plt0_gui
             this.a_r_ck.Size = new System.Drawing.Size(64, 64);
             this.a_r_ck.TabIndex = 349;
             this.a_r_ck.TabStop = false;
+            this.a_r_ck.Click += new System.EventHandler(this.A_R_Click);
+            this.a_r_ck.MouseEnter += new System.EventHandler(this.A_R_MouseEnter);
+            this.a_r_ck.MouseLeave += new System.EventHandler(this.A_R_MouseLeave);
             // 
             // b_g_ck
             // 
@@ -5357,6 +5492,9 @@ namespace plt0_gui
             this.b_g_ck.Size = new System.Drawing.Size(64, 64);
             this.b_g_ck.TabIndex = 348;
             this.b_g_ck.TabStop = false;
+            this.b_g_ck.Click += new System.EventHandler(this.B_G_Click);
+            this.b_g_ck.MouseEnter += new System.EventHandler(this.B_G_MouseEnter);
+            this.b_g_ck.MouseLeave += new System.EventHandler(this.B_G_MouseLeave);
             // 
             // b_r_ck
             // 
@@ -5370,6 +5508,9 @@ namespace plt0_gui
             this.b_r_ck.Size = new System.Drawing.Size(64, 64);
             this.b_r_ck.TabIndex = 347;
             this.b_r_ck.TabStop = false;
+            this.b_r_ck.Click += new System.EventHandler(this.B_R_Click);
+            this.b_r_ck.MouseEnter += new System.EventHandler(this.B_R_MouseEnter);
+            this.b_r_ck.MouseLeave += new System.EventHandler(this.B_R_MouseLeave);
             // 
             // g_a_ck
             // 
@@ -5383,6 +5524,9 @@ namespace plt0_gui
             this.g_a_ck.Size = new System.Drawing.Size(64, 64);
             this.g_a_ck.TabIndex = 354;
             this.g_a_ck.TabStop = false;
+            this.g_a_ck.Click += new System.EventHandler(this.G_A_Click);
+            this.g_a_ck.MouseEnter += new System.EventHandler(this.G_A_MouseEnter);
+            this.g_a_ck.MouseLeave += new System.EventHandler(this.G_A_MouseLeave);
             // 
             // g_b_ck
             // 
@@ -5396,6 +5540,9 @@ namespace plt0_gui
             this.g_b_ck.Size = new System.Drawing.Size(64, 64);
             this.g_b_ck.TabIndex = 353;
             this.g_b_ck.TabStop = false;
+            this.g_b_ck.Click += new System.EventHandler(this.G_B_Click);
+            this.g_b_ck.MouseEnter += new System.EventHandler(this.G_B_MouseEnter);
+            this.g_b_ck.MouseLeave += new System.EventHandler(this.G_B_MouseLeave);
             // 
             // r_a_ck
             // 
@@ -5409,6 +5556,9 @@ namespace plt0_gui
             this.r_a_ck.Size = new System.Drawing.Size(64, 64);
             this.r_a_ck.TabIndex = 352;
             this.r_a_ck.TabStop = false;
+            this.r_a_ck.Click += new System.EventHandler(this.R_A_Click);
+            this.r_a_ck.MouseEnter += new System.EventHandler(this.R_A_MouseEnter);
+            this.r_a_ck.MouseLeave += new System.EventHandler(this.R_A_MouseLeave);
             // 
             // r_b_ck
             // 
@@ -5422,6 +5572,9 @@ namespace plt0_gui
             this.r_b_ck.Size = new System.Drawing.Size(64, 64);
             this.r_b_ck.TabIndex = 351;
             this.r_b_ck.TabStop = false;
+            this.r_b_ck.Click += new System.EventHandler(this.R_B_Click);
+            this.r_b_ck.MouseEnter += new System.EventHandler(this.R_B_MouseEnter);
+            this.r_b_ck.MouseLeave += new System.EventHandler(this.R_B_MouseLeave);
             // 
             // a_a_ck
             // 
@@ -5435,6 +5588,9 @@ namespace plt0_gui
             this.a_a_ck.Size = new System.Drawing.Size(64, 64);
             this.a_a_ck.TabIndex = 358;
             this.a_a_ck.TabStop = false;
+            this.a_a_ck.Click += new System.EventHandler(this.A_A_Click);
+            this.a_a_ck.MouseEnter += new System.EventHandler(this.A_A_MouseEnter);
+            this.a_a_ck.MouseLeave += new System.EventHandler(this.A_A_MouseLeave);
             // 
             // a_b_ck
             // 
@@ -5448,6 +5604,9 @@ namespace plt0_gui
             this.a_b_ck.Size = new System.Drawing.Size(64, 64);
             this.a_b_ck.TabIndex = 357;
             this.a_b_ck.TabStop = false;
+            this.a_b_ck.Click += new System.EventHandler(this.A_B_Click);
+            this.a_b_ck.MouseEnter += new System.EventHandler(this.A_B_MouseEnter);
+            this.a_b_ck.MouseLeave += new System.EventHandler(this.A_B_MouseLeave);
             // 
             // b_a_ck
             // 
@@ -5461,6 +5620,9 @@ namespace plt0_gui
             this.b_a_ck.Size = new System.Drawing.Size(64, 64);
             this.b_a_ck.TabIndex = 356;
             this.b_a_ck.TabStop = false;
+            this.b_a_ck.Click += new System.EventHandler(this.B_A_Click);
+            this.b_a_ck.MouseEnter += new System.EventHandler(this.B_A_MouseEnter);
+            this.b_a_ck.MouseLeave += new System.EventHandler(this.B_A_MouseLeave);
             // 
             // b_b_ck
             // 
@@ -5474,6 +5636,9 @@ namespace plt0_gui
             this.b_b_ck.Size = new System.Drawing.Size(64, 64);
             this.b_b_ck.TabIndex = 355;
             this.b_b_ck.TabStop = false;
+            this.b_b_ck.Click += new System.EventHandler(this.B_B_Click);
+            this.b_b_ck.MouseEnter += new System.EventHandler(this.B_B_MouseEnter);
+            this.b_b_ck.MouseLeave += new System.EventHandler(this.B_B_MouseLeave);
             // 
             // colour_channels_label
             // 
@@ -5501,6 +5666,9 @@ namespace plt0_gui
             this.view_alpha_ck.TabIndex = 378;
             this.view_alpha_ck.TabStop = false;
             this.view_alpha_ck.Visible = false;
+            this.view_alpha_ck.Click += new System.EventHandler(this.view_alpha_Click);
+            this.view_alpha_ck.MouseEnter += new System.EventHandler(this.view_alpha_MouseEnter);
+            this.view_alpha_ck.MouseLeave += new System.EventHandler(this.view_alpha_MouseLeave);
             // 
             // view_alpha_label
             // 
@@ -5534,6 +5702,9 @@ namespace plt0_gui
             this.view_algorithm_ck.TabIndex = 381;
             this.view_algorithm_ck.TabStop = false;
             this.view_algorithm_ck.Visible = false;
+            this.view_algorithm_ck.Click += new System.EventHandler(this.view_algorithm_Click);
+            this.view_algorithm_ck.MouseEnter += new System.EventHandler(this.view_algorithm_MouseEnter);
+            this.view_algorithm_ck.MouseLeave += new System.EventHandler(this.view_algorithm_MouseLeave);
             // 
             // view_algorithm_label
             // 
@@ -5567,6 +5738,9 @@ namespace plt0_gui
             this.view_WrapS_ck.TabIndex = 384;
             this.view_WrapS_ck.TabStop = false;
             this.view_WrapS_ck.Visible = false;
+            this.view_WrapS_ck.Click += new System.EventHandler(this.view_WrapS_Click);
+            this.view_WrapS_ck.MouseEnter += new System.EventHandler(this.view_WrapS_MouseEnter);
+            this.view_WrapS_ck.MouseLeave += new System.EventHandler(this.view_WrapS_MouseLeave);
             // 
             // view_WrapS_label
             // 
@@ -5600,6 +5774,9 @@ namespace plt0_gui
             this.view_WrapT_ck.TabIndex = 387;
             this.view_WrapT_ck.TabStop = false;
             this.view_WrapT_ck.Visible = false;
+            this.view_WrapT_ck.Click += new System.EventHandler(this.view_WrapT_Click);
+            this.view_WrapT_ck.MouseEnter += new System.EventHandler(this.view_WrapT_MouseEnter);
+            this.view_WrapT_ck.MouseLeave += new System.EventHandler(this.view_WrapT_MouseLeave);
             // 
             // view_WrapT_label
             // 
@@ -5633,6 +5810,9 @@ namespace plt0_gui
             this.view_mag_ck.TabIndex = 393;
             this.view_mag_ck.TabStop = false;
             this.view_mag_ck.Visible = false;
+            this.view_mag_ck.Click += new System.EventHandler(this.view_mag_Click);
+            this.view_mag_ck.MouseEnter += new System.EventHandler(this.view_mag_MouseEnter);
+            this.view_mag_ck.MouseLeave += new System.EventHandler(this.view_mag_MouseLeave);
             // 
             // view_mag_label
             // 
@@ -5666,6 +5846,9 @@ namespace plt0_gui
             this.view_min_ck.TabIndex = 390;
             this.view_min_ck.TabStop = false;
             this.view_min_ck.Visible = false;
+            this.view_min_ck.Click += new System.EventHandler(this.view_min_Click);
+            this.view_min_ck.MouseEnter += new System.EventHandler(this.view_min_MouseEnter);
+            this.view_min_ck.MouseLeave += new System.EventHandler(this.view_min_MouseLeave);
             // 
             // view_min_label
             // 
@@ -5712,6 +5895,9 @@ namespace plt0_gui
             this.all_ck.Size = new System.Drawing.Size(32, 32);
             this.all_ck.TabIndex = 399;
             this.all_ck.TabStop = false;
+            this.all_ck.Click += new System.EventHandler(this.All_Click);
+            this.all_ck.MouseEnter += new System.EventHandler(this.All_MouseEnter);
+            this.all_ck.MouseLeave += new System.EventHandler(this.All_MouseLeave);
             // 
             // preview_ck
             // 
@@ -5726,6 +5912,9 @@ namespace plt0_gui
             this.preview_ck.Size = new System.Drawing.Size(96, 32);
             this.preview_ck.TabIndex = 400;
             this.preview_ck.TabStop = false;
+            this.preview_ck.Click += new System.EventHandler(this.Preview_Click);
+            this.preview_ck.MouseEnter += new System.EventHandler(this.Preview_MouseEnter);
+            this.preview_ck.MouseLeave += new System.EventHandler(this.Preview_MouseLeave);
             // 
             // auto_ck
             // 
@@ -5740,6 +5929,9 @@ namespace plt0_gui
             this.auto_ck.Size = new System.Drawing.Size(96, 32);
             this.auto_ck.TabIndex = 401;
             this.auto_ck.TabStop = false;
+            this.auto_ck.Click += new System.EventHandler(this.Auto_Click);
+            this.auto_ck.MouseEnter += new System.EventHandler(this.Auto_MouseEnter);
+            this.auto_ck.MouseLeave += new System.EventHandler(this.Auto_MouseLeave);
             // 
             // paint_ck
             // 
@@ -5754,6 +5946,9 @@ namespace plt0_gui
             this.paint_ck.Size = new System.Drawing.Size(96, 32);
             this.paint_ck.TabIndex = 402;
             this.paint_ck.TabStop = false;
+            this.paint_ck.Click += new System.EventHandler(this.Paint_Click);
+            this.paint_ck.MouseEnter += new System.EventHandler(this.Paint_MouseEnter);
+            this.paint_ck.MouseLeave += new System.EventHandler(this.Paint_MouseLeave);
             // 
             // banner_x_ck
             // 
@@ -5767,6 +5962,9 @@ namespace plt0_gui
             this.banner_x_ck.Size = new System.Drawing.Size(32, 32);
             this.banner_x_ck.TabIndex = 404;
             this.banner_x_ck.TabStop = false;
+            this.banner_x_ck.Click += new System.EventHandler(this.Close_Click);
+            this.banner_x_ck.MouseEnter += new System.EventHandler(this.Close_MouseEnter);
+            this.banner_x_ck.MouseLeave += new System.EventHandler(this.Close_MouseLeave);
             // 
             // banner_5_ck
             // 
@@ -5780,6 +5978,9 @@ namespace plt0_gui
             this.banner_5_ck.Size = new System.Drawing.Size(32, 32);
             this.banner_5_ck.TabIndex = 406;
             this.banner_5_ck.TabStop = false;
+            this.banner_5_ck.Click += new System.EventHandler(this.Maximized_Click);
+            this.banner_5_ck.MouseEnter += new System.EventHandler(this.Maximized_MouseEnter);
+            this.banner_5_ck.MouseLeave += new System.EventHandler(this.Maximized_MouseLeave);
             // 
             // banner_minus_ck
             // 
@@ -5793,6 +5994,9 @@ namespace plt0_gui
             this.banner_minus_ck.Size = new System.Drawing.Size(32, 32);
             this.banner_minus_ck.TabIndex = 408;
             this.banner_minus_ck.TabStop = false;
+            this.banner_minus_ck.Click += new System.EventHandler(this.Minimized_Click);
+            this.banner_minus_ck.MouseEnter += new System.EventHandler(this.Minimized_MouseEnter);
+            this.banner_minus_ck.MouseLeave += new System.EventHandler(this.Minimized_MouseLeave);
             // 
             // banner_9_ck
             // 
@@ -5807,6 +6011,9 @@ namespace plt0_gui
             this.banner_9_ck.Size = new System.Drawing.Size(32, 32);
             this.banner_9_ck.TabIndex = 412;
             this.banner_9_ck.TabStop = false;
+            this.banner_9_ck.Click += new System.EventHandler(this.Top_right_Click);
+            this.banner_9_ck.MouseEnter += new System.EventHandler(this.Top_right_MouseEnter);
+            this.banner_9_ck.MouseLeave += new System.EventHandler(this.Top_right_MouseLeave);
             // 
             // banner_8_ck
             // 
@@ -5821,6 +6028,9 @@ namespace plt0_gui
             this.banner_8_ck.Size = new System.Drawing.Size(32, 32);
             this.banner_8_ck.TabIndex = 414;
             this.banner_8_ck.TabStop = false;
+            this.banner_8_ck.Click += new System.EventHandler(this.Top_Click);
+            this.banner_8_ck.MouseEnter += new System.EventHandler(this.Top_MouseEnter);
+            this.banner_8_ck.MouseLeave += new System.EventHandler(this.Top_MouseLeave);
             // 
             // banner_7_ck
             // 
@@ -5835,6 +6045,9 @@ namespace plt0_gui
             this.banner_7_ck.Size = new System.Drawing.Size(32, 32);
             this.banner_7_ck.TabIndex = 416;
             this.banner_7_ck.TabStop = false;
+            this.banner_7_ck.Click += new System.EventHandler(this.Top_left_Click);
+            this.banner_7_ck.MouseEnter += new System.EventHandler(this.Top_left_MouseEnter);
+            this.banner_7_ck.MouseLeave += new System.EventHandler(this.Top_left_MouseLeave);
             // 
             // banner_6_ck
             // 
@@ -5849,6 +6062,9 @@ namespace plt0_gui
             this.banner_6_ck.Size = new System.Drawing.Size(32, 32);
             this.banner_6_ck.TabIndex = 418;
             this.banner_6_ck.TabStop = false;
+            this.banner_6_ck.Click += new System.EventHandler(this.Right_Click);
+            this.banner_6_ck.MouseEnter += new System.EventHandler(this.Right_MouseEnter);
+            this.banner_6_ck.MouseLeave += new System.EventHandler(this.Right_MouseLeave);
             // 
             // banner_4_ck
             // 
@@ -5863,6 +6079,9 @@ namespace plt0_gui
             this.banner_4_ck.Size = new System.Drawing.Size(32, 32);
             this.banner_4_ck.TabIndex = 420;
             this.banner_4_ck.TabStop = false;
+            this.banner_4_ck.Click += new System.EventHandler(this.Left_Click);
+            this.banner_4_ck.MouseEnter += new System.EventHandler(this.Left_MouseEnter);
+            this.banner_4_ck.MouseLeave += new System.EventHandler(this.Left_MouseLeave);
             // 
             // banner_3_ck
             // 
@@ -5877,6 +6096,9 @@ namespace plt0_gui
             this.banner_3_ck.Size = new System.Drawing.Size(32, 32);
             this.banner_3_ck.TabIndex = 422;
             this.banner_3_ck.TabStop = false;
+            this.banner_3_ck.Click += new System.EventHandler(this.Bottom_right_Click);
+            this.banner_3_ck.MouseEnter += new System.EventHandler(this.Bottom_right_MouseEnter);
+            this.banner_3_ck.MouseLeave += new System.EventHandler(this.Bottom_right_MouseLeave);
             // 
             // banner_2_ck
             // 
@@ -5891,6 +6113,9 @@ namespace plt0_gui
             this.banner_2_ck.Size = new System.Drawing.Size(32, 32);
             this.banner_2_ck.TabIndex = 424;
             this.banner_2_ck.TabStop = false;
+            this.banner_2_ck.Click += new System.EventHandler(this.Bottom_Click);
+            this.banner_2_ck.MouseEnter += new System.EventHandler(this.Bottom_MouseEnter);
+            this.banner_2_ck.MouseLeave += new System.EventHandler(this.Bottom_MouseLeave);
             // 
             // banner_1_ck
             // 
@@ -5905,6 +6130,9 @@ namespace plt0_gui
             this.banner_1_ck.Size = new System.Drawing.Size(32, 32);
             this.banner_1_ck.TabIndex = 426;
             this.banner_1_ck.TabStop = false;
+            this.banner_1_ck.Click += new System.EventHandler(this.Bottom_left_Click);
+            this.banner_1_ck.MouseEnter += new System.EventHandler(this.Bottom_left_MouseEnter);
+            this.banner_1_ck.MouseLeave += new System.EventHandler(this.Bottom_left_MouseLeave);
             // 
             // cli_textbox_ck
             // 
@@ -5920,6 +6148,8 @@ namespace plt0_gui
             this.cli_textbox_ck.Size = new System.Drawing.Size(1472, 64);
             this.cli_textbox_ck.TabIndex = 427;
             this.cli_textbox_ck.TabStop = false;
+            this.cli_textbox_ck.MouseEnter += new System.EventHandler(this.cli_textbox_MouseEnter);
+            this.cli_textbox_ck.MouseLeave += new System.EventHandler(this.cli_textbox_MouseLeave);
             // 
             // run_ck
             // 
@@ -5933,6 +6163,9 @@ namespace plt0_gui
             this.run_ck.Size = new System.Drawing.Size(128, 64);
             this.run_ck.TabIndex = 428;
             this.run_ck.TabStop = false;
+            this.run_ck.Click += new System.EventHandler(this.Run_Click);
+            this.run_ck.MouseEnter += new System.EventHandler(this.run_MouseEnter);
+            this.run_ck.MouseLeave += new System.EventHandler(this.run_MouseLeave);
             // 
             // input_file_txt
             // 
@@ -6610,6 +6843,9 @@ namespace plt0_gui
             this.palette_rgb5a3_ck.Size = new System.Drawing.Size(64, 64);
             this.palette_rgb5a3_ck.TabIndex = 482;
             this.palette_rgb5a3_ck.TabStop = false;
+            this.palette_rgb5a3_ck.Click += new System.EventHandler(this.palette_RGB5A3_Click);
+            this.palette_rgb5a3_ck.MouseEnter += new System.EventHandler(this.palette_RGB5A3_MouseEnter);
+            this.palette_rgb5a3_ck.MouseLeave += new System.EventHandler(this.palette_RGB5A3_MouseLeave);
             // 
             // palette_rgb5a3_label
             // 
@@ -6640,6 +6876,9 @@ namespace plt0_gui
             this.palette_rgb565_ck.Size = new System.Drawing.Size(64, 64);
             this.palette_rgb565_ck.TabIndex = 479;
             this.palette_rgb565_ck.TabStop = false;
+            this.palette_rgb565_ck.Click += new System.EventHandler(this.palette_RGB565_Click);
+            this.palette_rgb565_ck.MouseEnter += new System.EventHandler(this.palette_RGB565_MouseEnter);
+            this.palette_rgb565_ck.MouseLeave += new System.EventHandler(this.palette_RGB565_MouseLeave);
             // 
             // palette_rgb565_label
             // 
@@ -6670,6 +6909,9 @@ namespace plt0_gui
             this.palette_ai8_ck.Size = new System.Drawing.Size(64, 64);
             this.palette_ai8_ck.TabIndex = 476;
             this.palette_ai8_ck.TabStop = false;
+            this.palette_ai8_ck.Click += new System.EventHandler(this.palette_AI8_Click);
+            this.palette_ai8_ck.MouseEnter += new System.EventHandler(this.palette_AI8_MouseEnter);
+            this.palette_ai8_ck.MouseLeave += new System.EventHandler(this.palette_AI8_MouseLeave);
             // 
             // palette_ai8_label
             // 
@@ -6713,6 +6955,9 @@ namespace plt0_gui
             this.github_ck.Size = new System.Drawing.Size(32, 32);
             this.github_ck.TabIndex = 484;
             this.github_ck.TabStop = false;
+            this.github_ck.Click += new System.EventHandler(this.github_Click);
+            this.github_ck.MouseEnter += new System.EventHandler(this.github_MouseEnter);
+            this.github_ck.MouseLeave += new System.EventHandler(this.github_MouseLeave);
             // 
             // youtube_ck
             // 
@@ -6726,6 +6971,9 @@ namespace plt0_gui
             this.youtube_ck.Size = new System.Drawing.Size(32, 32);
             this.youtube_ck.TabIndex = 486;
             this.youtube_ck.TabStop = false;
+            this.youtube_ck.Click += new System.EventHandler(this.youtube_Click);
+            this.youtube_ck.MouseEnter += new System.EventHandler(this.youtube_MouseEnter);
+            this.youtube_ck.MouseLeave += new System.EventHandler(this.youtube_MouseLeave);
             // 
             // discord_ck
             // 
@@ -6739,6 +6987,9 @@ namespace plt0_gui
             this.discord_ck.Size = new System.Drawing.Size(32, 32);
             this.discord_ck.TabIndex = 488;
             this.discord_ck.TabStop = false;
+            this.discord_ck.Click += new System.EventHandler(this.discord_Click);
+            this.discord_ck.MouseEnter += new System.EventHandler(this.discord_MouseEnter);
+            this.discord_ck.MouseLeave += new System.EventHandler(this.discord_MouseLeave);
             // 
             // desc2
             // 
@@ -6893,6 +7144,8 @@ namespace plt0_gui
             this.version_ck.Size = new System.Drawing.Size(64, 32);
             this.version_ck.TabIndex = 543;
             this.version_ck.TabStop = false;
+            this.version_ck.MouseEnter += new System.EventHandler(this.version_MouseEnter);
+            this.version_ck.MouseLeave += new System.EventHandler(this.version_MouseLeave);
             // 
             // cli_textbox_label
             // 
@@ -6922,6 +7175,9 @@ namespace plt0_gui
             this.view_rgba_ck.TabIndex = 547;
             this.view_rgba_ck.TabStop = false;
             this.view_rgba_ck.Visible = false;
+            this.view_rgba_ck.Click += new System.EventHandler(this.view_rgba_Click);
+            this.view_rgba_ck.MouseEnter += new System.EventHandler(this.view_rgba_MouseEnter);
+            this.view_rgba_ck.MouseLeave += new System.EventHandler(this.view_rgba_MouseLeave);
             // 
             // view_rgba_label
             // 
@@ -6955,6 +7211,9 @@ namespace plt0_gui
             this.view_palette_ck.TabIndex = 550;
             this.view_palette_ck.TabStop = false;
             this.view_palette_ck.Visible = false;
+            this.view_palette_ck.Click += new System.EventHandler(this.view_palette_Click);
+            this.view_palette_ck.MouseEnter += new System.EventHandler(this.view_palette_MouseEnter);
+            this.view_palette_ck.MouseLeave += new System.EventHandler(this.view_palette_MouseLeave);
             // 
             // view_palette_label
             // 
@@ -6987,6 +7246,9 @@ namespace plt0_gui
             this.view_cmpr_ck.Size = new System.Drawing.Size(64, 64);
             this.view_cmpr_ck.TabIndex = 583;
             this.view_cmpr_ck.TabStop = false;
+            this.view_cmpr_ck.Click += new System.EventHandler(this.view_cmpr_Click);
+            this.view_cmpr_ck.MouseEnter += new System.EventHandler(this.view_cmpr_MouseEnter);
+            this.view_cmpr_ck.MouseLeave += new System.EventHandler(this.view_cmpr_MouseLeave);
             // 
             // view_cmpr_label
             // 
@@ -7018,6 +7280,9 @@ namespace plt0_gui
             this.view_options_ck.Size = new System.Drawing.Size(64, 64);
             this.view_options_ck.TabIndex = 586;
             this.view_options_ck.TabStop = false;
+            this.view_options_ck.Click += new System.EventHandler(this.view_options_Click);
+            this.view_options_ck.MouseEnter += new System.EventHandler(this.view_options_MouseEnter);
+            this.view_options_ck.MouseLeave += new System.EventHandler(this.view_options_MouseLeave);
             // 
             // view_options_label
             // 
@@ -7067,6 +7332,9 @@ namespace plt0_gui
             this.textchange_ck.Size = new System.Drawing.Size(64, 64);
             this.textchange_ck.TabIndex = 590;
             this.textchange_ck.TabStop = false;
+            this.textchange_ck.Click += new System.EventHandler(this.textchange_Click);
+            this.textchange_ck.MouseEnter += new System.EventHandler(this.textchange_MouseEnter);
+            this.textchange_ck.MouseLeave += new System.EventHandler(this.textchange_MouseLeave);
             // 
             // textchange_label
             // 
@@ -7097,6 +7365,9 @@ namespace plt0_gui
             this.auto_update_ck.Size = new System.Drawing.Size(64, 64);
             this.auto_update_ck.TabIndex = 593;
             this.auto_update_ck.TabStop = false;
+            this.auto_update_ck.Click += new System.EventHandler(this.auto_update_Click);
+            this.auto_update_ck.MouseEnter += new System.EventHandler(this.auto_update_MouseEnter);
+            this.auto_update_ck.MouseLeave += new System.EventHandler(this.auto_update_MouseLeave);
             // 
             // auto_update_label
             // 
@@ -7143,6 +7414,9 @@ namespace plt0_gui
             this.upscale_ck.Size = new System.Drawing.Size(64, 64);
             this.upscale_ck.TabIndex = 599;
             this.upscale_ck.TabStop = false;
+            this.upscale_ck.Click += new System.EventHandler(this.upscale_Click);
+            this.upscale_ck.MouseEnter += new System.EventHandler(this.upscale_MouseEnter);
+            this.upscale_ck.MouseLeave += new System.EventHandler(this.upscale_MouseLeave);
             // 
             // upscale_label
             // 
@@ -7222,6 +7496,9 @@ namespace plt0_gui
             this.reversex_ck.Size = new System.Drawing.Size(64, 64);
             this.reversex_ck.TabIndex = 607;
             this.reversex_ck.TabStop = false;
+            this.reversex_ck.Click += new System.EventHandler(this.reversex_Click);
+            this.reversex_ck.MouseEnter += new System.EventHandler(this.reversex_MouseEnter);
+            this.reversex_ck.MouseLeave += new System.EventHandler(this.reversex_MouseLeave);
             // 
             // reversex_label
             // 
@@ -7284,6 +7561,8 @@ namespace plt0_gui
             this.cmpr_c1.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
             this.cmpr_c1.Size = new System.Drawing.Size(64, 64);
             this.cmpr_c1.TabIndex = 612;
+            this.cmpr_c1.MouseHover += new System.EventHandler(this.cmpr_c1_MouseEnter);
+            this.cmpr_c1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.cmpr_c1_MouseLeave);
             // 
             // cmpr_c2
             // 
@@ -7297,6 +7576,8 @@ namespace plt0_gui
             this.cmpr_c2.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
             this.cmpr_c2.Size = new System.Drawing.Size(64, 64);
             this.cmpr_c2.TabIndex = 616;
+            this.cmpr_c2.MouseHover += new System.EventHandler(this.cmpr_c2_MouseEnter);
+            this.cmpr_c2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.cmpr_c2_MouseLeave);
             // 
             // cmpr_c2_label
             // 
@@ -7342,6 +7623,8 @@ namespace plt0_gui
             this.cmpr_c3.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
             this.cmpr_c3.Size = new System.Drawing.Size(64, 64);
             this.cmpr_c3.TabIndex = 620;
+            this.cmpr_c3.MouseHover += new System.EventHandler(this.cmpr_c3_MouseEnter);
+            this.cmpr_c3.MouseMove += new System.Windows.Forms.MouseEventHandler(this.cmpr_c3_MouseLeave);
             // 
             // cmpr_c3_label
             // 
@@ -7385,6 +7668,8 @@ namespace plt0_gui
             this.cmpr_c4.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
             this.cmpr_c4.Size = new System.Drawing.Size(64, 64);
             this.cmpr_c4.TabIndex = 624;
+            this.cmpr_c4.MouseHover += new System.EventHandler(this.cmpr_c4_MouseEnter);
+            this.cmpr_c4.MouseMove += new System.Windows.Forms.MouseEventHandler(this.cmpr_c4_MouseLeave);
             // 
             // cmpr_c4_label
             // 
@@ -7428,6 +7713,9 @@ namespace plt0_gui
             this.cmpr_swap_ck.Size = new System.Drawing.Size(64, 64);
             this.cmpr_swap_ck.TabIndex = 626;
             this.cmpr_swap_ck.TabStop = false;
+            this.cmpr_swap_ck.Click += new System.EventHandler(this.Swap_Colours_Click);
+            this.cmpr_swap_ck.MouseEnter += new System.EventHandler(this.cmpr_swap_MouseEnter);
+            this.cmpr_swap_ck.MouseLeave += new System.EventHandler(this.cmpr_swap_MouseLeave);
             // 
             // cmpr_swap_label
             // 
@@ -7699,6 +7987,9 @@ namespace plt0_gui
             this.cmpr_block_paint_ck.TabIndex = 665;
             this.cmpr_block_paint_ck.TabStop = false;
             this.cmpr_block_paint_ck.Visible = false;
+            this.cmpr_block_paint_ck.Click += new System.EventHandler(this.cmpr_block_paint_Click);
+            this.cmpr_block_paint_ck.MouseEnter += new System.EventHandler(this.cmpr_block_paint_MouseEnter);
+            this.cmpr_block_paint_ck.MouseLeave += new System.EventHandler(this.cmpr_block_paint_MouseLeave);
             // 
             // cmpr_block_paint_label
             // 
@@ -7731,6 +8022,9 @@ namespace plt0_gui
             this.cmpr_block_selection_ck.TabIndex = 662;
             this.cmpr_block_selection_ck.TabStop = false;
             this.cmpr_block_selection_ck.Visible = false;
+            this.cmpr_block_selection_ck.Click += new System.EventHandler(this.cmpr_block_selection_Click);
+            this.cmpr_block_selection_ck.MouseEnter += new System.EventHandler(this.cmpr_block_selection_MouseEnter);
+            this.cmpr_block_selection_ck.MouseLeave += new System.EventHandler(this.cmpr_block_selection_MouseLeave);
             // 
             // cmpr_block_selection_label
             // 
@@ -7788,6 +8082,8 @@ namespace plt0_gui
             this.cmpr_save_ck.Size = new System.Drawing.Size(128, 64);
             this.cmpr_save_ck.TabIndex = 669;
             this.cmpr_save_ck.TabStop = false;
+            this.cmpr_save_ck.MouseEnter += new System.EventHandler(this.cmpr_save_MouseEnter);
+            this.cmpr_save_ck.MouseLeave += new System.EventHandler(this.cmpr_save_MouseLeave);
             // 
             // cmpr_save_as_ck
             // 
@@ -7801,6 +8097,8 @@ namespace plt0_gui
             this.cmpr_save_as_ck.Size = new System.Drawing.Size(128, 64);
             this.cmpr_save_as_ck.TabIndex = 671;
             this.cmpr_save_as_ck.TabStop = false;
+            this.cmpr_save_as_ck.MouseEnter += new System.EventHandler(this.cmpr_save_as_MouseEnter);
+            this.cmpr_save_as_ck.MouseLeave += new System.EventHandler(this.cmpr_save_as_MouseLeave);
             // 
             // cmpr_warning
             // 
@@ -7967,6 +8265,22 @@ namespace plt0_gui
             this.image_ck.TabIndex = 602;
             this.image_ck.TabStop = false;
             this.image_ck.Visible = false;
+            // 
+            // bmd_ck
+            // 
+            this.bmd_ck.BackColor = System.Drawing.Color.Transparent;
+            this.bmd_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.bmd_ck.ErrorImage = null;
+            this.bmd_ck.InitialImage = null;
+            this.bmd_ck.Location = new System.Drawing.Point(40, 128);
+            this.bmd_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.bmd_ck.Name = "bmd_ck";
+            this.bmd_ck.Size = new System.Drawing.Size(64, 64);
+            this.bmd_ck.TabIndex = 126;
+            this.bmd_ck.TabStop = false;
+            this.bmd_ck.Click += new System.EventHandler(this.bmd_Click);
+            this.bmd_ck.MouseEnter += new System.EventHandler(this.bmd_MouseEnter);
+            this.bmd_ck.MouseLeave += new System.EventHandler(this.bmd_MouseLeave);
             // 
             // plt0_gui
             // 
@@ -8286,6 +8600,7 @@ namespace plt0_gui
             this.Font = new System.Drawing.Font("Segoe UI", 15F);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
             this.MaximumSize = new System.Drawing.Size(99999, 99999);
             this.Name = "plt0_gui";
@@ -8295,7 +8610,6 @@ namespace plt0_gui
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.plt0_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.plt0_DragEnter);
-            ((System.ComponentModel.ISupportInitialize)(this.bmd_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tpl_ck)).EndInit();
@@ -8419,6 +8733,7 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_save_as_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.image_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bmd_ck)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

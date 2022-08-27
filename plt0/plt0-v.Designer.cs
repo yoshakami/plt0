@@ -5,7 +5,6 @@
         private System.Windows.Forms.Label output_file_type_label;
         private System.Windows.Forms.Label mandatory_settings_label;
         private System.Windows.Forms.Label bmd_label;
-        private System.Windows.Forms.PictureBox bmd_ck;
         private System.Windows.Forms.PictureBox bti_ck;
         private System.Windows.Forms.Label bti_label;
         private System.Windows.Forms.PictureBox tex0_ck;
@@ -309,6 +308,7 @@
         private System.Windows.Forms.Label cmpr_mouse3_label;
         private System.Windows.Forms.Label cmpr_mouse5_label;
         private System.Windows.Forms.Label cmpr_sel;
+        private System.Windows.Forms.PictureBox bmd_ck;
         /*
 /// <summary>
 /// Required designer variable.
