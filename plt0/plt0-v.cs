@@ -3034,7 +3034,6 @@ namespace plt0_gui
             this.reversex_ck = new System.Windows.Forms.PictureBox();
             this.reversex_label = new System.Windows.Forms.Label();
             this.reversex_hitbox = new System.Windows.Forms.Label();
-            this.image_ck = new PictureBoxWithInterpolationMode();
             this.cmpr_c1_label = new System.Windows.Forms.Label();
             this.cmpr_c1_txt = new System.Windows.Forms.TextBox();
             this.cmpr_c1_hitbox = new System.Windows.Forms.Label();
@@ -3076,9 +3075,18 @@ namespace plt0_gui
             this.cmpr_block_selection_ck = new System.Windows.Forms.PictureBox();
             this.cmpr_block_selection_label = new System.Windows.Forms.Label();
             this.cmpr_block_selection_hitbox = new System.Windows.Forms.Label();
-            this.cmpr_preview_ck = new PictureBoxWithInterpolationMode();
             this.cmpr_picture_tooltip_label = new System.Windows.Forms.Label();
             this.cmpr_selected_block_label = new System.Windows.Forms.Label();
+            this.cmpr_save_ck = new System.Windows.Forms.PictureBox();
+            this.cmpr_save_hitbox = new System.Windows.Forms.Label();
+            this.cmpr_save_as_ck = new System.Windows.Forms.PictureBox();
+            this.cmpr_save_as_hitbox = new System.Windows.Forms.Label();
+            this.cmpr_warning_label = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.cmpr_preview_ck = new PictureBoxWithInterpolationMode();
+            this.image_ck = new PictureBoxWithInterpolationMode();
             ((System.ComponentModel.ISupportInitialize)(this.bmd_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
@@ -3196,11 +3204,14 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.upscale_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.preview4k_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.reversex_ck)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.image_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_swap_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_block_paint_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_block_selection_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmpr_save_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmpr_save_as_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.image_ck)).BeginInit();
             this.SuspendLayout();
             // 
             // output_file_type_label
@@ -9243,25 +9254,6 @@ namespace plt0_gui
             this.reversex_hitbox.MouseEnter += new System.EventHandler(this.reversex_MouseEnter);
             this.reversex_hitbox.MouseLeave += new System.EventHandler(this.reversex_MouseLeave);
             // 
-            // image_ck
-            // 
-            this.image_ck.BackColor = System.Drawing.Color.Transparent;
-            this.image_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.image_ck.Enabled = false;
-            this.image_ck.ErrorImage = null;
-            this.image_ck.InitialImage = null;
-            this.image_ck.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-            this.image_ck.Location = new System.Drawing.Point(815, 1596);
-            this.image_ck.Margin = new System.Windows.Forms.Padding(0);
-            this.image_ck.MaximumSize = new System.Drawing.Size(768, 768);
-            this.image_ck.MinimumSize = new System.Drawing.Size(768, 768);
-            this.image_ck.Name = "image_ck";
-            this.image_ck.Size = new System.Drawing.Size(768, 768);
-            this.image_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.image_ck.TabIndex = 602;
-            this.image_ck.TabStop = false;
-            this.image_ck.Visible = false;
-            // 
             // cmpr_c1_label
             // 
             this.cmpr_c1_label.AutoSize = true;
@@ -9287,7 +9279,6 @@ namespace plt0_gui
             this.cmpr_c1_txt.Size = new System.Drawing.Size(141, 21);
             this.cmpr_c1_txt.TabIndex = 609;
             this.cmpr_c1_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.cmpr_c1_txt.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // cmpr_c1_hitbox
             // 
@@ -9524,6 +9515,7 @@ namespace plt0_gui
             this.cmpr_block1.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_block1.Size = new System.Drawing.Size(64, 64);
             this.cmpr_block1.TabIndex = 644;
+            this.cmpr_block1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             // 
             // cmpr_block2
             // 
@@ -9537,6 +9529,7 @@ namespace plt0_gui
             this.cmpr_block2.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_block2.Size = new System.Drawing.Size(64, 64);
             this.cmpr_block2.TabIndex = 645;
+            this.cmpr_block2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             // 
             // cmpr_block3
             // 
@@ -9550,6 +9543,7 @@ namespace plt0_gui
             this.cmpr_block3.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_block3.Size = new System.Drawing.Size(64, 64);
             this.cmpr_block3.TabIndex = 647;
+            this.cmpr_block3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             // 
             // cmpr_blockB
             // 
@@ -9563,6 +9557,7 @@ namespace plt0_gui
             this.cmpr_blockB.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_blockB.Size = new System.Drawing.Size(64, 64);
             this.cmpr_blockB.TabIndex = 649;
+            this.cmpr_blockB.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             // 
             // cmpr_block9
             // 
@@ -9576,6 +9571,7 @@ namespace plt0_gui
             this.cmpr_block9.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_block9.Size = new System.Drawing.Size(64, 64);
             this.cmpr_block9.TabIndex = 648;
+            this.cmpr_block9.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             // 
             // cmpr_block4
             // 
@@ -9589,6 +9585,7 @@ namespace plt0_gui
             this.cmpr_block4.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_block4.Size = new System.Drawing.Size(64, 64);
             this.cmpr_block4.TabIndex = 650;
+            this.cmpr_block4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             // 
             // cmpr_blockA
             // 
@@ -9602,6 +9599,7 @@ namespace plt0_gui
             this.cmpr_blockA.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_blockA.Size = new System.Drawing.Size(64, 64);
             this.cmpr_blockA.TabIndex = 651;
+            this.cmpr_blockA.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             // 
             // cmpr_blockC
             // 
@@ -9615,6 +9613,7 @@ namespace plt0_gui
             this.cmpr_blockC.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_blockC.Size = new System.Drawing.Size(64, 64);
             this.cmpr_blockC.TabIndex = 652;
+            this.cmpr_blockC.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             // 
             // cmpr_block5
             // 
@@ -9628,6 +9627,7 @@ namespace plt0_gui
             this.cmpr_block5.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_block5.Size = new System.Drawing.Size(64, 64);
             this.cmpr_block5.TabIndex = 653;
+            this.cmpr_block5.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             // 
             // cmpr_block7
             // 
@@ -9641,6 +9641,7 @@ namespace plt0_gui
             this.cmpr_block7.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_block7.Size = new System.Drawing.Size(64, 64);
             this.cmpr_block7.TabIndex = 654;
+            this.cmpr_block7.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             // 
             // cmpr_blockD
             // 
@@ -9654,6 +9655,7 @@ namespace plt0_gui
             this.cmpr_blockD.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_blockD.Size = new System.Drawing.Size(64, 64);
             this.cmpr_blockD.TabIndex = 655;
+            this.cmpr_blockD.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             // 
             // cmpr_blockF
             // 
@@ -9667,6 +9669,7 @@ namespace plt0_gui
             this.cmpr_blockF.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_blockF.Size = new System.Drawing.Size(64, 64);
             this.cmpr_blockF.TabIndex = 656;
+            this.cmpr_blockF.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             // 
             // cmpr_block6
             // 
@@ -9680,6 +9683,7 @@ namespace plt0_gui
             this.cmpr_block6.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_block6.Size = new System.Drawing.Size(64, 64);
             this.cmpr_block6.TabIndex = 657;
+            this.cmpr_block6.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             // 
             // cmpr_block8
             // 
@@ -9693,6 +9697,7 @@ namespace plt0_gui
             this.cmpr_block8.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_block8.Size = new System.Drawing.Size(64, 64);
             this.cmpr_block8.TabIndex = 658;
+            this.cmpr_block8.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             // 
             // cmpr_blockE
             // 
@@ -9706,6 +9711,7 @@ namespace plt0_gui
             this.cmpr_blockE.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_blockE.Size = new System.Drawing.Size(64, 64);
             this.cmpr_blockE.TabIndex = 659;
+            this.cmpr_blockE.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             // 
             // cmpr_blockG
             // 
@@ -9719,6 +9725,7 @@ namespace plt0_gui
             this.cmpr_blockG.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_blockG.Size = new System.Drawing.Size(64, 64);
             this.cmpr_blockG.TabIndex = 646;
+            this.cmpr_blockG.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             // 
             // cmpr_block_paint_ck
             // 
@@ -9808,25 +9815,6 @@ namespace plt0_gui
             this.cmpr_block_selection_hitbox.TabIndex = 661;
             this.cmpr_block_selection_hitbox.Visible = false;
             // 
-            // cmpr_preview_ck
-            // 
-            this.cmpr_preview_ck.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_preview_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.cmpr_preview_ck.Enabled = false;
-            this.cmpr_preview_ck.ErrorImage = null;
-            this.cmpr_preview_ck.InitialImage = null;
-            this.cmpr_preview_ck.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-            this.cmpr_preview_ck.Location = new System.Drawing.Point(2816, 44);
-            this.cmpr_preview_ck.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_preview_ck.MaximumSize = new System.Drawing.Size(1024, 1024);
-            this.cmpr_preview_ck.MinimumSize = new System.Drawing.Size(1024, 1024);
-            this.cmpr_preview_ck.Name = "cmpr_preview_ck";
-            this.cmpr_preview_ck.Size = new System.Drawing.Size(1024, 1024);
-            this.cmpr_preview_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.cmpr_preview_ck.TabIndex = 666;
-            this.cmpr_preview_ck.TabStop = false;
-            this.cmpr_preview_ck.Visible = false;
-            // 
             // cmpr_picture_tooltip_label
             // 
             this.cmpr_picture_tooltip_label.AutoSize = true;
@@ -9853,6 +9841,153 @@ namespace plt0_gui
             this.cmpr_selected_block_label.TabIndex = 668;
             this.cmpr_selected_block_label.Text = "Selected Block";
             // 
+            // cmpr_save_ck
+            // 
+            this.cmpr_save_ck.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_save_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.cmpr_save_ck.Enabled = false;
+            this.cmpr_save_ck.ErrorImage = null;
+            this.cmpr_save_ck.InitialImage = null;
+            this.cmpr_save_ck.Location = new System.Drawing.Point(1982, 1005);
+            this.cmpr_save_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_save_ck.Name = "cmpr_save_ck";
+            this.cmpr_save_ck.Size = new System.Drawing.Size(128, 64);
+            this.cmpr_save_ck.TabIndex = 669;
+            this.cmpr_save_ck.TabStop = false;
+            // 
+            // cmpr_save_hitbox
+            // 
+            this.cmpr_save_hitbox.AutoSize = true;
+            this.cmpr_save_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_save_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.cmpr_save_hitbox.ForeColor = System.Drawing.SystemColors.Window;
+            this.cmpr_save_hitbox.Location = new System.Drawing.Point(1982, 1005);
+            this.cmpr_save_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_save_hitbox.Name = "cmpr_save_hitbox";
+            this.cmpr_save_hitbox.Padding = new System.Windows.Forms.Padding(128, 44, 0, 0);
+            this.cmpr_save_hitbox.Size = new System.Drawing.Size(128, 64);
+            this.cmpr_save_hitbox.TabIndex = 670;
+            // 
+            // cmpr_save_as_ck
+            // 
+            this.cmpr_save_as_ck.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_save_as_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.cmpr_save_as_ck.Enabled = false;
+            this.cmpr_save_as_ck.ErrorImage = null;
+            this.cmpr_save_as_ck.InitialImage = null;
+            this.cmpr_save_as_ck.Location = new System.Drawing.Point(2127, 1005);
+            this.cmpr_save_as_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_save_as_ck.Name = "cmpr_save_as_ck";
+            this.cmpr_save_as_ck.Size = new System.Drawing.Size(128, 64);
+            this.cmpr_save_as_ck.TabIndex = 671;
+            this.cmpr_save_as_ck.TabStop = false;
+            // 
+            // cmpr_save_as_hitbox
+            // 
+            this.cmpr_save_as_hitbox.AutoSize = true;
+            this.cmpr_save_as_hitbox.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_save_as_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.cmpr_save_as_hitbox.ForeColor = System.Drawing.SystemColors.Window;
+            this.cmpr_save_as_hitbox.Location = new System.Drawing.Point(2127, 1005);
+            this.cmpr_save_as_hitbox.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_save_as_hitbox.Name = "cmpr_save_as_hitbox";
+            this.cmpr_save_as_hitbox.Padding = new System.Windows.Forms.Padding(128, 44, 0, 0);
+            this.cmpr_save_as_hitbox.Size = new System.Drawing.Size(128, 64);
+            this.cmpr_save_as_hitbox.TabIndex = 672;
+            // 
+            // cmpr_warning_label
+            // 
+            this.cmpr_warning_label.AutoSize = true;
+            this.cmpr_warning_label.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_warning_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.cmpr_warning_label.ForeColor = System.Drawing.Color.Red;
+            this.cmpr_warning_label.Location = new System.Drawing.Point(2292, 288);
+            this.cmpr_warning_label.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_warning_label.Name = "cmpr_warning_label";
+            this.cmpr_warning_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.cmpr_warning_label.Size = new System.Drawing.Size(374, 64);
+            this.cmpr_warning_label.TabIndex = 673;
+            this.cmpr_warning_label.Text = "Input file is not a cmpr texture";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pictureBox1.Enabled = false;
+            this.pictureBox1.ErrorImage = null;
+            this.pictureBox1.InitialImage = null;
+            this.pictureBox1.Location = new System.Drawing.Point(2555, 448);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(64, 64);
+            this.pictureBox1.TabIndex = 675;
+            this.pictureBox1.TabStop = false;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.label1.ForeColor = System.Drawing.Color.Wheat;
+            this.label1.Location = new System.Drawing.Point(2328, 448);
+            this.label1.Margin = new System.Windows.Forms.Padding(0);
+            this.label1.Name = "label1";
+            this.label1.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.label1.Size = new System.Drawing.Size(227, 64);
+            this.label1.TabIndex = 674;
+            this.label1.Text = "Selected Colour ->";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.label2.ForeColor = System.Drawing.SystemColors.Control;
+            this.label2.Location = new System.Drawing.Point(2339, 449);
+            this.label2.Margin = new System.Windows.Forms.Padding(0);
+            this.label2.Name = "label2";
+            this.label2.Padding = new System.Windows.Forms.Padding(280, 44, 0, 0);
+            this.label2.Size = new System.Drawing.Size(280, 64);
+            this.label2.TabIndex = 676;
+            // 
+            // cmpr_preview_ck
+            // 
+            this.cmpr_preview_ck.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_preview_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.cmpr_preview_ck.Enabled = false;
+            this.cmpr_preview_ck.ErrorImage = null;
+            this.cmpr_preview_ck.InitialImage = null;
+            this.cmpr_preview_ck.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+            this.cmpr_preview_ck.Location = new System.Drawing.Point(2816, 44);
+            this.cmpr_preview_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_preview_ck.MaximumSize = new System.Drawing.Size(1024, 1024);
+            this.cmpr_preview_ck.MinimumSize = new System.Drawing.Size(1024, 1024);
+            this.cmpr_preview_ck.Name = "cmpr_preview_ck";
+            this.cmpr_preview_ck.Size = new System.Drawing.Size(1024, 1024);
+            this.cmpr_preview_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.cmpr_preview_ck.TabIndex = 666;
+            this.cmpr_preview_ck.TabStop = false;
+            this.cmpr_preview_ck.Visible = false;
+            // 
+            // image_ck
+            // 
+            this.image_ck.BackColor = System.Drawing.Color.Transparent;
+            this.image_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.image_ck.Enabled = false;
+            this.image_ck.ErrorImage = null;
+            this.image_ck.InitialImage = null;
+            this.image_ck.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+            this.image_ck.Location = new System.Drawing.Point(815, 1596);
+            this.image_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.image_ck.MaximumSize = new System.Drawing.Size(768, 768);
+            this.image_ck.MinimumSize = new System.Drawing.Size(768, 768);
+            this.image_ck.Name = "image_ck";
+            this.image_ck.Size = new System.Drawing.Size(768, 768);
+            this.image_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.image_ck.TabIndex = 602;
+            this.image_ck.TabStop = false;
+            this.image_ck.Visible = false;
+            // 
             // plt0_gui
             // 
             this.AllowDrop = true;
@@ -9860,7 +9995,15 @@ namespace plt0_gui
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(3755, 2044);
+            this.ClientSize = new System.Drawing.Size(3817, 1720);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.cmpr_warning_label);
+            this.Controls.Add(this.cmpr_save_as_ck);
+            this.Controls.Add(this.cmpr_save_as_hitbox);
+            this.Controls.Add(this.cmpr_save_ck);
+            this.Controls.Add(this.cmpr_save_hitbox);
             this.Controls.Add(this.cmpr_selected_block_label);
             this.Controls.Add(this.cmpr_picture_tooltip_label);
             this.Controls.Add(this.cmpr_preview_ck);
@@ -10426,11 +10569,14 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.upscale_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.preview4k_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.reversex_ck)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.image_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_swap_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_block_paint_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_block_selection_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmpr_save_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmpr_save_as_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.image_ck)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -14895,9 +15041,9 @@ namespace plt0_gui
             Preview(false);
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void Block_MouseDown(object sender, MouseEventArgs e)
         {
-
+            mouse_down = true;
         }
     }
 }

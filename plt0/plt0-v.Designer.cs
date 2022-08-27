@@ -438,6 +438,14 @@
         private PictureBoxWithInterpolationMode cmpr_preview_ck;
         private System.Windows.Forms.Label cmpr_picture_tooltip_label;
         private System.Windows.Forms.Label cmpr_selected_block_label;
+        private System.Windows.Forms.PictureBox cmpr_save_ck;
+        private System.Windows.Forms.Label cmpr_save_hitbox;
+        private System.Windows.Forms.PictureBox cmpr_save_as_ck;
+        private System.Windows.Forms.Label cmpr_save_as_hitbox;
+        private System.Windows.Forms.Label cmpr_warning_label;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
         /*
 /// <summary>
 /// Required designer variable.
