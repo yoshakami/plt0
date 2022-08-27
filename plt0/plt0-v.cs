@@ -7236,6 +7236,8 @@ namespace plt0_gui
             this.cli_textbox_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
             this.cli_textbox_label.Size = new System.Drawing.Size(0, 64);
             this.cli_textbox_label.TabIndex = 544;
+            this.cli_textbox_label.MouseEnter += new System.EventHandler(this.cli_textbox_MouseEnter);
+            this.cli_textbox_label.MouseLeave += new System.EventHandler(this.cli_textbox_MouseLeave);
             // 
             // view_rgba_ck
             // 
