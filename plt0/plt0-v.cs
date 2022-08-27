@@ -2107,11 +2107,82 @@ namespace plt0_gui
         }
         private void Disable_Paint_Layout()
         {
+            i4_ck.Visible = true;
+            i8_ck.Visible = true;
+            a_a_ck.Visible = true;
+            a_b_ck.Visible = true;
+            a_g_ck.Visible = true;
+            a_r_ck.Visible = true;
+            ai4_ck.Visible = true;
+            ai8_ck.Visible = true;
+            b_a_ck.Visible = true;
+            b_b_ck.Visible = true;
+            b_g_ck.Visible = true;
+            b_r_ck.Visible = true;
+            bmd_ck.Visible = true;
+            bmp_ck.Visible = true;
+            bti_ck.Visible = true;
+            ci4_ck.Visible = true;
+            ci8_ck.Visible = true;
+            g_a_ck.Visible = true;
+            g_b_ck.Visible = true;
+            g_g_ck.Visible = true;
+            g_r_ck.Visible = true;
+            gif_ck.Visible = true;
+            ico_ck.Visible = true;
+            jpg_ck.Visible = true;
+            png_ck.Visible = true;
+            r_a_ck.Visible = true;
+            r_b_ck.Visible = true;
+            r_g_ck.Visible = true;
+            r_r_ck.Visible = true;
+            run_ck.Visible = true;
+            tif_ck.Visible = true;
+            tpl_ck.Visible = true;
+            cmpr_ck.Visible = true;
+            jpeg_ck.Visible = true;
+            tex0_ck.Visible = true;
+            tiff_ck.Visible = true;
             cmpr_c1.Visible = false;
             cmpr_c2.Visible = false;
             cmpr_c3.Visible = false;
             cmpr_c4.Visible = false;
+            funky_ck.Visible = true;
+            i4_label.Visible = true;
+            i8_label.Visible = true;
             cmpr_sel.Visible = false;
+            ai4_label.Visible = true;
+            ai8_label.Visible = true;
+            bmd_label.Visible = true;
+            bmp_32_ck.Visible = true;
+            bmp_label.Visible = true;
+            bti_label.Visible = true;
+            ci4_label.Visible = true;
+            ci8_label.Visible = true;
+            ci14x2_ck.Visible = true;
+            custom_ck.Visible = true;
+            gif_label.Visible = true;
+            ico_label.Visible = true;
+            jpg_label.Visible = true;
+            png_label.Visible = true;
+            random_ck.Visible = true;
+            rgb5a3_ck.Visible = true;
+            rgb565_ck.Visible = true;
+            rgba32_ck.Visible = true;
+            tif_label.Visible = true;
+            tpl_label.Visible = true;
+            cie_601_ck.Visible = true;
+            cmpr_label.Visible = true;
+            jpeg_label.Visible = true;
+            tex0_label.Visible = true;
+            tiff_label.Visible = true;
+            funky_label.Visible = true;
+            reversex_ck.Visible = true;
+            reversey_ck.Visible = true;
+            cmpr_c1_txt.Visible = false;
+            cmpr_c2_txt.Visible = false;
+            cmpr_c3_txt.Visible = false;
+            cmpr_c4_txt.Visible = false;
             cmpr_block1.Visible = false;
             cmpr_block2.Visible = false;
             cmpr_block3.Visible = false;
@@ -2128,32 +2199,49 @@ namespace plt0_gui
             cmpr_blockE.Visible = false;
             cmpr_blockF.Visible = false;
             cmpr_blockG.Visible = false;
-            cmpr_c1_txt.Visible = false;
-            cmpr_c2_txt.Visible = false;
-            cmpr_c3_txt.Visible = false;
-            cmpr_c4_txt.Visible = false;
-            cmpr_swap_ck.Visible = false;
+            bmp_32_label.Visible = true;
+            ci14x2_label.Visible = true;
+            custom_label.Visible = true;
+            random_label.Visible = true;
+            rgb5a3_label.Visible = true;
+            rgb565_label.Visible = true;
+            rgba32_label.Visible = true;
             cmpr_save_ck.Visible = false;
+            cmpr_swap_ck.Visible = false;
             cmpr_warning.Visible = false;
+            cie_601_label.Visible = true;
+            options_label.Visible = true;
             cmpr_c1_label.Visible = false;
             cmpr_c2_label.Visible = false;
             cmpr_c3_label.Visible = false;
             cmpr_c4_label.Visible = false;
-            cmpr_sel_label.Visible = false;
+            cli_textbox_ck.Visible = true;
+            encoding_label.Visible = true;
+            reversex_label.Visible = true;
+            reversey_label.Visible = true;
+            surrounding_ck.Visible = true;
             cmpr_layout_is_enabled = false;
-            cmpr_swap_label.Visible = false;
+            cmpr_sel_label.Visible = false;
+            algorithm_label.Visible = true;
+            input_file2_txt.Visible = true;
             cmpr_save_as_ck.Visible = false;
+            cmpr_swap_label.Visible = false;
+            cli_textbox_label.Visible = true;
+            input_file2_label.Visible = true;
             cmpr_mouse1_label.Visible = false;
             cmpr_mouse2_label.Visible = false;
             cmpr_mouse3_label.Visible = false;
             cmpr_mouse4_label.Visible = false;
             cmpr_mouse5_label.Visible = false;
             cmpr_block_paint_ck.Visible = false;
+            colour_channels_label.Visible = true;
+            output_file_type_label.Visible = true;
             cmpr_block_paint_label.Visible = false;
             cmpr_block_selection_ck.Visible = false;
+            mandatory_settings_label.Visible = true;
             cmpr_selected_block_label.Visible = false;
-            cmpr_picture_tooltip_label.Visible = false;
             cmpr_block_selection_label.Visible = false;
+            cmpr_picture_tooltip_label.Visible = false;
         }
         private void Layout_Paint()
         {
@@ -2360,6 +2448,7 @@ namespace plt0_gui
                 mandatory_settings_label.Visible = false;
                 cmpr_block_selection_label.Visible = true;
                 cmpr_picture_tooltip_label.Visible = true;
+                layout = 3;
             }
         }
         private void View_alpha()
@@ -3218,9 +3307,9 @@ namespace plt0_gui
             this.cmpr_mouse3_label = new System.Windows.Forms.Label();
             this.cmpr_mouse5_label = new System.Windows.Forms.Label();
             this.cmpr_sel = new System.Windows.Forms.Label();
+            this.bmd_ck = new System.Windows.Forms.PictureBox();
             this.cmpr_preview_ck = new PictureBoxWithInterpolationMode();
             this.image_ck = new PictureBoxWithInterpolationMode();
-            this.bmd_ck = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tpl_ck)).BeginInit();
@@ -3342,9 +3431,9 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_block_selection_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_save_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_save_as_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bmd_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.image_ck)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bmd_ck)).BeginInit();
             this.SuspendLayout();
             // 
             // output_file_type_label
@@ -3381,8 +3470,8 @@ namespace plt0_gui
             this.bmd_label.Location = new System.Drawing.Point(108, 128);
             this.bmd_label.Margin = new System.Windows.Forms.Padding(0);
             this.bmd_label.Name = "bmd_label";
-            this.bmd_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.bmd_label.Size = new System.Drawing.Size(57, 64);
+            this.bmd_label.Padding = new System.Windows.Forms.Padding(0, 22, 20, 22);
+            this.bmd_label.Size = new System.Drawing.Size(77, 64);
             this.bmd_label.TabIndex = 124;
             this.bmd_label.Text = "bmd";
             this.bmd_label.Click += new System.EventHandler(this.bmd_Click);
@@ -3414,8 +3503,8 @@ namespace plt0_gui
             this.bti_label.Location = new System.Drawing.Point(108, 192);
             this.bti_label.Margin = new System.Windows.Forms.Padding(0);
             this.bti_label.Name = "bti_label";
-            this.bti_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.bti_label.Size = new System.Drawing.Size(38, 64);
+            this.bti_label.Padding = new System.Windows.Forms.Padding(0, 22, 40, 22);
+            this.bti_label.Size = new System.Drawing.Size(78, 64);
             this.bti_label.TabIndex = 127;
             this.bti_label.Text = "bti";
             this.bti_label.Click += new System.EventHandler(this.bti_Click);
@@ -3447,8 +3536,8 @@ namespace plt0_gui
             this.tex0_label.Location = new System.Drawing.Point(108, 257);
             this.tex0_label.Margin = new System.Windows.Forms.Padding(0);
             this.tex0_label.Name = "tex0_label";
-            this.tex0_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.tex0_label.Size = new System.Drawing.Size(62, 64);
+            this.tex0_label.Padding = new System.Windows.Forms.Padding(0, 22, 20, 22);
+            this.tex0_label.Size = new System.Drawing.Size(82, 64);
             this.tex0_label.TabIndex = 130;
             this.tex0_label.Text = "tex0";
             this.tex0_label.Click += new System.EventHandler(this.tex0_Click);
@@ -3480,8 +3569,8 @@ namespace plt0_gui
             this.tpl_label.Location = new System.Drawing.Point(108, 321);
             this.tpl_label.Margin = new System.Windows.Forms.Padding(0);
             this.tpl_label.Name = "tpl_label";
-            this.tpl_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.tpl_label.Size = new System.Drawing.Size(39, 64);
+            this.tpl_label.Padding = new System.Windows.Forms.Padding(0, 22, 40, 22);
+            this.tpl_label.Size = new System.Drawing.Size(79, 64);
             this.tpl_label.TabIndex = 133;
             this.tpl_label.Text = "tpl";
             this.tpl_label.Click += new System.EventHandler(this.tpl_Click);
@@ -3513,8 +3602,8 @@ namespace plt0_gui
             this.bmp_label.Location = new System.Drawing.Point(108, 384);
             this.bmp_label.Margin = new System.Windows.Forms.Padding(0);
             this.bmp_label.Name = "bmp_label";
-            this.bmp_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.bmp_label.Size = new System.Drawing.Size(57, 64);
+            this.bmp_label.Padding = new System.Windows.Forms.Padding(0, 22, 30, 22);
+            this.bmp_label.Size = new System.Drawing.Size(87, 64);
             this.bmp_label.TabIndex = 136;
             this.bmp_label.Text = "bmp";
             this.bmp_label.Click += new System.EventHandler(this.bmp_Click);
@@ -3546,8 +3635,8 @@ namespace plt0_gui
             this.png_label.Location = new System.Drawing.Point(108, 449);
             this.png_label.Margin = new System.Windows.Forms.Padding(0);
             this.png_label.Name = "png_label";
-            this.png_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.png_label.Size = new System.Drawing.Size(51, 64);
+            this.png_label.Padding = new System.Windows.Forms.Padding(0, 22, 30, 22);
+            this.png_label.Size = new System.Drawing.Size(81, 64);
             this.png_label.TabIndex = 139;
             this.png_label.Text = "png";
             this.png_label.Click += new System.EventHandler(this.png_Click);
@@ -3579,8 +3668,8 @@ namespace plt0_gui
             this.jpg_label.Location = new System.Drawing.Point(108, 513);
             this.jpg_label.Margin = new System.Windows.Forms.Padding(0);
             this.jpg_label.Name = "jpg_label";
-            this.jpg_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.jpg_label.Size = new System.Drawing.Size(44, 64);
+            this.jpg_label.Padding = new System.Windows.Forms.Padding(0, 22, 30, 22);
+            this.jpg_label.Size = new System.Drawing.Size(74, 64);
             this.jpg_label.TabIndex = 142;
             this.jpg_label.Text = "jpg";
             this.jpg_label.Click += new System.EventHandler(this.jpg_Click);
@@ -3612,8 +3701,8 @@ namespace plt0_gui
             this.tiff_label.Location = new System.Drawing.Point(108, 834);
             this.tiff_label.Margin = new System.Windows.Forms.Padding(0);
             this.tiff_label.Name = "tiff_label";
-            this.tiff_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.tiff_label.Size = new System.Drawing.Size(42, 64);
+            this.tiff_label.Padding = new System.Windows.Forms.Padding(0, 22, 30, 22);
+            this.tiff_label.Size = new System.Drawing.Size(72, 64);
             this.tiff_label.TabIndex = 157;
             this.tiff_label.Text = "tiff";
             this.tiff_label.Click += new System.EventHandler(this.tiff_Click);
@@ -3645,8 +3734,8 @@ namespace plt0_gui
             this.tif_label.Location = new System.Drawing.Point(108, 770);
             this.tif_label.Margin = new System.Windows.Forms.Padding(0);
             this.tif_label.Name = "tif_label";
-            this.tif_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.tif_label.Size = new System.Drawing.Size(33, 64);
+            this.tif_label.Padding = new System.Windows.Forms.Padding(0, 22, 40, 22);
+            this.tif_label.Size = new System.Drawing.Size(73, 64);
             this.tif_label.TabIndex = 154;
             this.tif_label.Text = "tif";
             this.tif_label.Click += new System.EventHandler(this.tif_Click);
@@ -3678,8 +3767,8 @@ namespace plt0_gui
             this.ico_label.Location = new System.Drawing.Point(108, 705);
             this.ico_label.Margin = new System.Windows.Forms.Padding(0);
             this.ico_label.Name = "ico_label";
-            this.ico_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.ico_label.Size = new System.Drawing.Size(42, 64);
+            this.ico_label.Padding = new System.Windows.Forms.Padding(0, 22, 40, 22);
+            this.ico_label.Size = new System.Drawing.Size(82, 64);
             this.ico_label.TabIndex = 151;
             this.ico_label.Text = "ico";
             this.ico_label.Click += new System.EventHandler(this.ico_Click);
@@ -3711,8 +3800,8 @@ namespace plt0_gui
             this.gif_label.Location = new System.Drawing.Point(108, 642);
             this.gif_label.Margin = new System.Windows.Forms.Padding(0);
             this.gif_label.Name = "gif_label";
-            this.gif_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.gif_label.Size = new System.Drawing.Size(37, 64);
+            this.gif_label.Padding = new System.Windows.Forms.Padding(0, 22, 40, 22);
+            this.gif_label.Size = new System.Drawing.Size(77, 64);
             this.gif_label.TabIndex = 148;
             this.gif_label.Text = "gif";
             this.gif_label.Click += new System.EventHandler(this.gif_Click);
@@ -3744,8 +3833,8 @@ namespace plt0_gui
             this.jpeg_label.Location = new System.Drawing.Point(108, 578);
             this.jpeg_label.Margin = new System.Windows.Forms.Padding(0);
             this.jpeg_label.Name = "jpeg_label";
-            this.jpeg_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.jpeg_label.Size = new System.Drawing.Size(58, 64);
+            this.jpeg_label.Padding = new System.Windows.Forms.Padding(0, 22, 20, 22);
+            this.jpeg_label.Size = new System.Drawing.Size(78, 64);
             this.jpeg_label.TabIndex = 145;
             this.jpeg_label.Text = "jpeg";
             this.jpeg_label.Click += new System.EventHandler(this.jpeg_Click);
@@ -3790,8 +3879,8 @@ namespace plt0_gui
             this.warn_label.Location = new System.Drawing.Point(1716, 704);
             this.warn_label.Margin = new System.Windows.Forms.Padding(0);
             this.warn_label.Name = "warn_label";
-            this.warn_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.warn_label.Size = new System.Drawing.Size(65, 64);
+            this.warn_label.Padding = new System.Windows.Forms.Padding(0, 22, 120, 22);
+            this.warn_label.Size = new System.Drawing.Size(185, 64);
             this.warn_label.TabIndex = 188;
             this.warn_label.Text = "warn";
             this.warn_label.Click += new System.EventHandler(this.warn_Click);
@@ -3823,8 +3912,8 @@ namespace plt0_gui
             this.stfu_label.Location = new System.Drawing.Point(1716, 640);
             this.stfu_label.Margin = new System.Windows.Forms.Padding(0);
             this.stfu_label.Name = "stfu_label";
-            this.stfu_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.stfu_label.Size = new System.Drawing.Size(55, 64);
+            this.stfu_label.Padding = new System.Windows.Forms.Padding(0, 22, 130, 22);
+            this.stfu_label.Size = new System.Drawing.Size(185, 64);
             this.stfu_label.TabIndex = 185;
             this.stfu_label.Text = "stfu";
             this.stfu_label.Click += new System.EventHandler(this.stfu_Click);
@@ -3856,8 +3945,8 @@ namespace plt0_gui
             this.safe_mode_label.Location = new System.Drawing.Point(1716, 576);
             this.safe_mode_label.Margin = new System.Windows.Forms.Padding(0);
             this.safe_mode_label.Name = "safe_mode_label";
-            this.safe_mode_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.safe_mode_label.Size = new System.Drawing.Size(131, 64);
+            this.safe_mode_label.Padding = new System.Windows.Forms.Padding(0, 22, 50, 22);
+            this.safe_mode_label.Size = new System.Drawing.Size(181, 64);
             this.safe_mode_label.TabIndex = 182;
             this.safe_mode_label.Text = "safe mode";
             this.safe_mode_label.Click += new System.EventHandler(this.safe_mode_Click);
@@ -3889,8 +3978,8 @@ namespace plt0_gui
             this.reversey_label.Location = new System.Drawing.Point(1716, 512);
             this.reversey_label.Margin = new System.Windows.Forms.Padding(0);
             this.reversey_label.Name = "reversey_label";
-            this.reversey_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.reversey_label.Size = new System.Drawing.Size(174, 64);
+            this.reversey_label.Padding = new System.Windows.Forms.Padding(0, 22, 10, 22);
+            this.reversey_label.Size = new System.Drawing.Size(184, 64);
             this.reversey_label.TabIndex = 179;
             this.reversey_label.Text = "reverse y-axis";
             this.reversey_label.Click += new System.EventHandler(this.reversey_Click);
@@ -3955,8 +4044,8 @@ namespace plt0_gui
             this.no_warning_label.Location = new System.Drawing.Point(1716, 320);
             this.no_warning_label.Margin = new System.Windows.Forms.Padding(0);
             this.no_warning_label.Name = "no_warning_label";
-            this.no_warning_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.no_warning_label.Size = new System.Drawing.Size(136, 64);
+            this.no_warning_label.Padding = new System.Windows.Forms.Padding(0, 22, 50, 22);
+            this.no_warning_label.Size = new System.Drawing.Size(186, 64);
             this.no_warning_label.TabIndex = 173;
             this.no_warning_label.Text = "no warning";
             this.no_warning_label.Click += new System.EventHandler(this.no_warning_Click);
@@ -3988,8 +4077,8 @@ namespace plt0_gui
             this.funky_label.Location = new System.Drawing.Point(1716, 256);
             this.funky_label.Margin = new System.Windows.Forms.Padding(0);
             this.funky_label.Name = "funky_label";
-            this.funky_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.funky_label.Size = new System.Drawing.Size(72, 64);
+            this.funky_label.Padding = new System.Windows.Forms.Padding(0, 22, 110, 22);
+            this.funky_label.Size = new System.Drawing.Size(182, 64);
             this.funky_label.TabIndex = 170;
             this.funky_label.Text = "funky";
             this.funky_label.Click += new System.EventHandler(this.funky_Click);
@@ -4054,8 +4143,8 @@ namespace plt0_gui
             this.bmp_32_label.Location = new System.Drawing.Point(1716, 128);
             this.bmp_32_label.Margin = new System.Windows.Forms.Padding(0);
             this.bmp_32_label.Name = "bmp_32_label";
-            this.bmp_32_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.bmp_32_label.Size = new System.Drawing.Size(137, 64);
+            this.bmp_32_label.Padding = new System.Windows.Forms.Padding(0, 22, 50, 22);
+            this.bmp_32_label.Size = new System.Drawing.Size(187, 64);
             this.bmp_32_label.TabIndex = 164;
             this.bmp_32_label.Text = "32-bit bmp";
             this.bmp_32_label.Click += new System.EventHandler(this.bmp_32_Click);
@@ -4088,8 +4177,8 @@ namespace plt0_gui
             this.ask_exit_label.Location = new System.Drawing.Point(1716, 64);
             this.ask_exit_label.Margin = new System.Windows.Forms.Padding(0);
             this.ask_exit_label.Name = "ask_exit_label";
-            this.ask_exit_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.ask_exit_label.Size = new System.Drawing.Size(101, 64);
+            this.ask_exit_label.Padding = new System.Windows.Forms.Padding(0, 22, 80, 22);
+            this.ask_exit_label.Size = new System.Drawing.Size(181, 64);
             this.ask_exit_label.TabIndex = 161;
             this.ask_exit_label.Text = "ask exit";
             this.ask_exit_label.Visible = false;
@@ -4122,8 +4211,8 @@ namespace plt0_gui
             this.cmpr_label.Location = new System.Drawing.Point(323, 770);
             this.cmpr_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_label.Name = "cmpr_label";
-            this.cmpr_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.cmpr_label.Size = new System.Drawing.Size(79, 64);
+            this.cmpr_label.Padding = new System.Windows.Forms.Padding(0, 22, 30, 22);
+            this.cmpr_label.Size = new System.Drawing.Size(109, 64);
             this.cmpr_label.TabIndex = 231;
             this.cmpr_label.Text = "CMPR";
             this.cmpr_label.Click += new System.EventHandler(this.CMPR_Click);
@@ -4155,8 +4244,8 @@ namespace plt0_gui
             this.ci14x2_label.Location = new System.Drawing.Point(323, 705);
             this.ci14x2_label.Margin = new System.Windows.Forms.Padding(0);
             this.ci14x2_label.Name = "ci14x2_label";
-            this.ci14x2_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.ci14x2_label.Size = new System.Drawing.Size(93, 64);
+            this.ci14x2_label.Padding = new System.Windows.Forms.Padding(0, 22, 20, 22);
+            this.ci14x2_label.Size = new System.Drawing.Size(113, 64);
             this.ci14x2_label.TabIndex = 228;
             this.ci14x2_label.Text = "CI14x2";
             this.ci14x2_label.Click += new System.EventHandler(this.CI14X2_Click);
@@ -4188,8 +4277,8 @@ namespace plt0_gui
             this.ci8_label.Location = new System.Drawing.Point(323, 642);
             this.ci8_label.Margin = new System.Windows.Forms.Padding(0);
             this.ci8_label.Name = "ci8_label";
-            this.ci8_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.ci8_label.Size = new System.Drawing.Size(48, 64);
+            this.ci8_label.Padding = new System.Windows.Forms.Padding(0, 22, 60, 22);
+            this.ci8_label.Size = new System.Drawing.Size(108, 64);
             this.ci8_label.TabIndex = 225;
             this.ci8_label.Text = "CI8";
             this.ci8_label.Click += new System.EventHandler(this.CI8_Click);
@@ -4221,8 +4310,8 @@ namespace plt0_gui
             this.ci4_label.Location = new System.Drawing.Point(323, 578);
             this.ci4_label.Margin = new System.Windows.Forms.Padding(0);
             this.ci4_label.Name = "ci4_label";
-            this.ci4_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.ci4_label.Size = new System.Drawing.Size(48, 64);
+            this.ci4_label.Padding = new System.Windows.Forms.Padding(0, 22, 60, 22);
+            this.ci4_label.Size = new System.Drawing.Size(108, 64);
             this.ci4_label.TabIndex = 222;
             this.ci4_label.Text = "CI4";
             this.ci4_label.Click += new System.EventHandler(this.CI4_Click);
@@ -4353,8 +4442,8 @@ namespace plt0_gui
             this.ai8_label.Location = new System.Drawing.Point(323, 321);
             this.ai8_label.Margin = new System.Windows.Forms.Padding(0);
             this.ai8_label.Name = "ai8_label";
-            this.ai8_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.ai8_label.Size = new System.Drawing.Size(48, 64);
+            this.ai8_label.Padding = new System.Windows.Forms.Padding(0, 22, 60, 22);
+            this.ai8_label.Size = new System.Drawing.Size(108, 64);
             this.ai8_label.TabIndex = 210;
             this.ai8_label.Text = "AI8";
             this.ai8_label.Click += new System.EventHandler(this.AI8_Click);
@@ -4386,8 +4475,8 @@ namespace plt0_gui
             this.ai4_label.Location = new System.Drawing.Point(323, 257);
             this.ai4_label.Margin = new System.Windows.Forms.Padding(0);
             this.ai4_label.Name = "ai4_label";
-            this.ai4_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.ai4_label.Size = new System.Drawing.Size(48, 64);
+            this.ai4_label.Padding = new System.Windows.Forms.Padding(0, 22, 60, 22);
+            this.ai4_label.Size = new System.Drawing.Size(108, 64);
             this.ai4_label.TabIndex = 207;
             this.ai4_label.Text = "AI4";
             this.ai4_label.Click += new System.EventHandler(this.AI4_Click);
@@ -4419,8 +4508,8 @@ namespace plt0_gui
             this.i8_label.Location = new System.Drawing.Point(323, 192);
             this.i8_label.Margin = new System.Windows.Forms.Padding(0);
             this.i8_label.Name = "i8_label";
-            this.i8_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.i8_label.Size = new System.Drawing.Size(31, 64);
+            this.i8_label.Padding = new System.Windows.Forms.Padding(0, 22, 80, 22);
+            this.i8_label.Size = new System.Drawing.Size(111, 64);
             this.i8_label.TabIndex = 204;
             this.i8_label.Text = "I8";
             this.i8_label.Click += new System.EventHandler(this.I8_Click);
@@ -4452,8 +4541,8 @@ namespace plt0_gui
             this.i4_label.Location = new System.Drawing.Point(323, 128);
             this.i4_label.Margin = new System.Windows.Forms.Padding(0);
             this.i4_label.Name = "i4_label";
-            this.i4_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.i4_label.Size = new System.Drawing.Size(31, 64);
+            this.i4_label.Padding = new System.Windows.Forms.Padding(0, 22, 80, 22);
+            this.i4_label.Size = new System.Drawing.Size(111, 64);
             this.i4_label.TabIndex = 201;
             this.i4_label.Text = "I4";
             this.i4_label.Click += new System.EventHandler(this.I4_Click);
@@ -4577,8 +4666,8 @@ namespace plt0_gui
             this.cie_709_label.Location = new System.Drawing.Point(571, 192);
             this.cie_709_label.Margin = new System.Windows.Forms.Padding(0);
             this.cie_709_label.Name = "cie_709_label";
-            this.cie_709_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.cie_709_label.Size = new System.Drawing.Size(105, 64);
+            this.cie_709_label.Padding = new System.Windows.Forms.Padding(0, 22, 50, 22);
+            this.cie_709_label.Size = new System.Drawing.Size(155, 64);
             this.cie_709_label.TabIndex = 239;
             this.cie_709_label.Text = "CIE 709";
             this.cie_709_label.Click += new System.EventHandler(this.Cie_709_Click);
@@ -4610,8 +4699,8 @@ namespace plt0_gui
             this.cie_601_label.Location = new System.Drawing.Point(571, 128);
             this.cie_601_label.Margin = new System.Windows.Forms.Padding(0);
             this.cie_601_label.Name = "cie_601_label";
-            this.cie_601_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.cie_601_label.Size = new System.Drawing.Size(105, 64);
+            this.cie_601_label.Padding = new System.Windows.Forms.Padding(0, 22, 50, 22);
+            this.cie_601_label.Size = new System.Drawing.Size(155, 64);
             this.cie_601_label.TabIndex = 236;
             this.cie_601_label.Text = "CIE 601";
             this.cie_601_label.Click += new System.EventHandler(this.Cie_601_Click);
@@ -4655,8 +4744,8 @@ namespace plt0_gui
             this.mix_label.Location = new System.Drawing.Point(571, 557);
             this.mix_label.Margin = new System.Windows.Forms.Padding(0);
             this.mix_label.Name = "mix_label";
-            this.mix_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.mix_label.Size = new System.Drawing.Size(47, 64);
+            this.mix_label.Padding = new System.Windows.Forms.Padding(0, 22, 60, 22);
+            this.mix_label.Size = new System.Drawing.Size(107, 64);
             this.mix_label.TabIndex = 255;
             this.mix_label.Text = "Mix";
             this.mix_label.Click += new System.EventHandler(this.Mix_Click);
@@ -4688,8 +4777,8 @@ namespace plt0_gui
             this.alpha_label.Location = new System.Drawing.Point(571, 493);
             this.alpha_label.Margin = new System.Windows.Forms.Padding(0);
             this.alpha_label.Name = "alpha_label";
-            this.alpha_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.alpha_label.Size = new System.Drawing.Size(74, 64);
+            this.alpha_label.Padding = new System.Windows.Forms.Padding(0, 22, 40, 22);
+            this.alpha_label.Size = new System.Drawing.Size(114, 64);
             this.alpha_label.TabIndex = 252;
             this.alpha_label.Text = "Alpha";
             this.alpha_label.Click += new System.EventHandler(this.Alpha_Click);
@@ -5145,8 +5234,8 @@ namespace plt0_gui
             this.min_linear_label.Location = new System.Drawing.Point(893, 192);
             this.min_linear_label.Margin = new System.Windows.Forms.Padding(0);
             this.min_linear_label.Name = "min_linear_label";
-            this.min_linear_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.min_linear_label.Size = new System.Drawing.Size(81, 64);
+            this.min_linear_label.Padding = new System.Windows.Forms.Padding(0, 22, 200, 22);
+            this.min_linear_label.Size = new System.Drawing.Size(281, 64);
             this.min_linear_label.TabIndex = 310;
             this.min_linear_label.Text = "Linear";
             this.min_linear_label.Click += new System.EventHandler(this.Minification_Linear_Click);
@@ -5178,8 +5267,8 @@ namespace plt0_gui
             this.min_nearest_neighbour_label.Location = new System.Drawing.Point(893, 128);
             this.min_nearest_neighbour_label.Margin = new System.Windows.Forms.Padding(0);
             this.min_nearest_neighbour_label.Name = "min_nearest_neighbour_label";
-            this.min_nearest_neighbour_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.min_nearest_neighbour_label.Size = new System.Drawing.Size(227, 64);
+            this.min_nearest_neighbour_label.Padding = new System.Windows.Forms.Padding(0, 22, 60, 22);
+            this.min_nearest_neighbour_label.Size = new System.Drawing.Size(287, 64);
             this.min_nearest_neighbour_label.TabIndex = 307;
             this.min_nearest_neighbour_label.Text = "Nearest Neighbour";
             this.min_nearest_neighbour_label.Click += new System.EventHandler(this.Minification_Nearest_Neighbour_Click);
@@ -5343,8 +5432,8 @@ namespace plt0_gui
             this.mag_linear_label.Location = new System.Drawing.Point(1293, 192);
             this.mag_linear_label.Margin = new System.Windows.Forms.Padding(0);
             this.mag_linear_label.Name = "mag_linear_label";
-            this.mag_linear_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.mag_linear_label.Size = new System.Drawing.Size(81, 64);
+            this.mag_linear_label.Padding = new System.Windows.Forms.Padding(0, 22, 200, 22);
+            this.mag_linear_label.Size = new System.Drawing.Size(281, 64);
             this.mag_linear_label.TabIndex = 328;
             this.mag_linear_label.Text = "Linear";
             this.mag_linear_label.Click += new System.EventHandler(this.Magnification_Linear_Click);
@@ -5376,8 +5465,8 @@ namespace plt0_gui
             this.mag_nearest_neighbour_label.Location = new System.Drawing.Point(1293, 128);
             this.mag_nearest_neighbour_label.Margin = new System.Windows.Forms.Padding(0);
             this.mag_nearest_neighbour_label.Name = "mag_nearest_neighbour_label";
-            this.mag_nearest_neighbour_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.mag_nearest_neighbour_label.Size = new System.Drawing.Size(227, 64);
+            this.mag_nearest_neighbour_label.Padding = new System.Windows.Forms.Padding(0, 22, 60, 22);
+            this.mag_nearest_neighbour_label.Size = new System.Drawing.Size(287, 64);
             this.mag_nearest_neighbour_label.TabIndex = 325;
             this.mag_nearest_neighbour_label.Text = "Nearest Neighbour";
             this.mag_nearest_neighbour_label.Click += new System.EventHandler(this.Magnification_Nearest_Neighbour_Click);
@@ -5886,7 +5975,6 @@ namespace plt0_gui
             // 
             this.all_ck.BackColor = System.Drawing.Color.Transparent;
             this.all_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.all_ck.Enabled = false;
             this.all_ck.ErrorImage = null;
             this.all_ck.InitialImage = null;
             this.all_ck.Location = new System.Drawing.Point(48, 0);
@@ -5903,7 +5991,6 @@ namespace plt0_gui
             // 
             this.preview_ck.BackColor = System.Drawing.Color.Transparent;
             this.preview_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.preview_ck.Enabled = false;
             this.preview_ck.ErrorImage = null;
             this.preview_ck.InitialImage = null;
             this.preview_ck.Location = new System.Drawing.Point(176, 0);
@@ -5920,7 +6007,6 @@ namespace plt0_gui
             // 
             this.auto_ck.BackColor = System.Drawing.Color.Transparent;
             this.auto_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.auto_ck.Enabled = false;
             this.auto_ck.ErrorImage = null;
             this.auto_ck.InitialImage = null;
             this.auto_ck.Location = new System.Drawing.Point(80, 0);
@@ -5937,7 +6023,6 @@ namespace plt0_gui
             // 
             this.paint_ck.BackColor = System.Drawing.Color.Transparent;
             this.paint_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.paint_ck.Enabled = false;
             this.paint_ck.ErrorImage = null;
             this.paint_ck.InitialImage = null;
             this.paint_ck.Location = new System.Drawing.Point(272, 0);
@@ -6002,7 +6087,6 @@ namespace plt0_gui
             // 
             this.banner_9_ck.BackColor = System.Drawing.Color.Transparent;
             this.banner_9_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.banner_9_ck.Enabled = false;
             this.banner_9_ck.ErrorImage = null;
             this.banner_9_ck.InitialImage = null;
             this.banner_9_ck.Location = new System.Drawing.Point(480, 0);
@@ -6019,7 +6103,6 @@ namespace plt0_gui
             // 
             this.banner_8_ck.BackColor = System.Drawing.Color.Transparent;
             this.banner_8_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.banner_8_ck.Enabled = false;
             this.banner_8_ck.ErrorImage = null;
             this.banner_8_ck.InitialImage = null;
             this.banner_8_ck.Location = new System.Drawing.Point(448, 0);
@@ -6036,7 +6119,6 @@ namespace plt0_gui
             // 
             this.banner_7_ck.BackColor = System.Drawing.Color.Transparent;
             this.banner_7_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.banner_7_ck.Enabled = false;
             this.banner_7_ck.ErrorImage = null;
             this.banner_7_ck.InitialImage = null;
             this.banner_7_ck.Location = new System.Drawing.Point(416, 0);
@@ -6053,7 +6135,6 @@ namespace plt0_gui
             // 
             this.banner_6_ck.BackColor = System.Drawing.Color.Transparent;
             this.banner_6_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.banner_6_ck.Enabled = false;
             this.banner_6_ck.ErrorImage = null;
             this.banner_6_ck.InitialImage = null;
             this.banner_6_ck.Location = new System.Drawing.Point(512, 0);
@@ -6070,7 +6151,6 @@ namespace plt0_gui
             // 
             this.banner_4_ck.BackColor = System.Drawing.Color.Transparent;
             this.banner_4_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.banner_4_ck.Enabled = false;
             this.banner_4_ck.ErrorImage = null;
             this.banner_4_ck.InitialImage = null;
             this.banner_4_ck.Location = new System.Drawing.Point(384, 0);
@@ -6087,7 +6167,6 @@ namespace plt0_gui
             // 
             this.banner_3_ck.BackColor = System.Drawing.Color.Transparent;
             this.banner_3_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.banner_3_ck.Enabled = false;
             this.banner_3_ck.ErrorImage = null;
             this.banner_3_ck.InitialImage = null;
             this.banner_3_ck.Location = new System.Drawing.Point(544, 0);
@@ -6104,7 +6183,6 @@ namespace plt0_gui
             // 
             this.banner_2_ck.BackColor = System.Drawing.Color.Transparent;
             this.banner_2_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.banner_2_ck.Enabled = false;
             this.banner_2_ck.ErrorImage = null;
             this.banner_2_ck.InitialImage = null;
             this.banner_2_ck.Location = new System.Drawing.Point(576, 0);
@@ -6121,7 +6199,6 @@ namespace plt0_gui
             // 
             this.banner_1_ck.BackColor = System.Drawing.Color.Transparent;
             this.banner_1_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.banner_1_ck.Enabled = false;
             this.banner_1_ck.ErrorImage = null;
             this.banner_1_ck.InitialImage = null;
             this.banner_1_ck.Location = new System.Drawing.Point(608, 0);
@@ -6922,8 +6999,8 @@ namespace plt0_gui
             this.palette_ai8_label.Location = new System.Drawing.Point(571, 672);
             this.palette_ai8_label.Margin = new System.Windows.Forms.Padding(0);
             this.palette_ai8_label.Name = "palette_ai8_label";
-            this.palette_ai8_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.palette_ai8_label.Size = new System.Drawing.Size(48, 64);
+            this.palette_ai8_label.Padding = new System.Windows.Forms.Padding(0, 22, 60, 22);
+            this.palette_ai8_label.Size = new System.Drawing.Size(108, 64);
             this.palette_ai8_label.TabIndex = 474;
             this.palette_ai8_label.Text = "AI8";
             this.palette_ai8_label.Click += new System.EventHandler(this.palette_AI8_Click);
@@ -7135,7 +7212,6 @@ namespace plt0_gui
             // 
             this.version_ck.BackColor = System.Drawing.Color.Transparent;
             this.version_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.version_ck.Enabled = false;
             this.version_ck.ErrorImage = null;
             this.version_ck.InitialImage = null;
             this.version_ck.Location = new System.Drawing.Point(674, 0);
@@ -7509,8 +7585,8 @@ namespace plt0_gui
             this.reversex_label.Location = new System.Drawing.Point(1716, 448);
             this.reversex_label.Margin = new System.Windows.Forms.Padding(0);
             this.reversex_label.Name = "reversex_label";
-            this.reversex_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.reversex_label.Size = new System.Drawing.Size(174, 64);
+            this.reversex_label.Padding = new System.Windows.Forms.Padding(0, 22, 10, 22);
+            this.reversex_label.Size = new System.Drawing.Size(184, 64);
             this.reversex_label.TabIndex = 606;
             this.reversex_label.Text = "reverse x-axis";
             this.reversex_label.Click += new System.EventHandler(this.reversex_Click);
@@ -7523,10 +7599,11 @@ namespace plt0_gui
             this.cmpr_c1_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_c1_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_c1_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_c1_label.Location = new System.Drawing.Point(2077, 41);
+            this.cmpr_c1_label.Location = new System.Drawing.Point(2060, 29);
             this.cmpr_c1_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_c1_label.Name = "cmpr_c1_label";
-            this.cmpr_c1_label.Size = new System.Drawing.Size(110, 20);
+            this.cmpr_c1_label.Padding = new System.Windows.Forms.Padding(15, 15, 15, 10);
+            this.cmpr_c1_label.Size = new System.Drawing.Size(140, 45);
             this.cmpr_c1_label.TabIndex = 610;
             this.cmpr_c1_label.Text = "Colour 1";
             this.cmpr_c1_label.MouseEnter += new System.EventHandler(this.cmpr_c1_MouseEnter);
@@ -7585,10 +7662,11 @@ namespace plt0_gui
             this.cmpr_c2_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_c2_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_c2_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_c2_label.Location = new System.Drawing.Point(2077, 137);
+            this.cmpr_c2_label.Location = new System.Drawing.Point(2060, 124);
             this.cmpr_c2_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_c2_label.Name = "cmpr_c2_label";
-            this.cmpr_c2_label.Size = new System.Drawing.Size(110, 20);
+            this.cmpr_c2_label.Padding = new System.Windows.Forms.Padding(15, 15, 15, 10);
+            this.cmpr_c2_label.Size = new System.Drawing.Size(140, 45);
             this.cmpr_c2_label.TabIndex = 614;
             this.cmpr_c2_label.Text = "Colour 2";
             this.cmpr_c2_label.MouseEnter += new System.EventHandler(this.cmpr_c2_MouseEnter);
@@ -7632,10 +7710,11 @@ namespace plt0_gui
             this.cmpr_c3_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_c3_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_c3_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_c3_label.Location = new System.Drawing.Point(2077, 235);
+            this.cmpr_c3_label.Location = new System.Drawing.Point(2060, 222);
             this.cmpr_c3_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_c3_label.Name = "cmpr_c3_label";
-            this.cmpr_c3_label.Size = new System.Drawing.Size(110, 20);
+            this.cmpr_c3_label.Padding = new System.Windows.Forms.Padding(15, 15, 15, 10);
+            this.cmpr_c3_label.Size = new System.Drawing.Size(140, 45);
             this.cmpr_c3_label.TabIndex = 618;
             this.cmpr_c3_label.Text = "Colour 3";
             this.cmpr_c3_label.MouseEnter += new System.EventHandler(this.cmpr_c3_MouseEnter);
@@ -7677,10 +7756,11 @@ namespace plt0_gui
             this.cmpr_c4_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_c4_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_c4_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_c4_label.Location = new System.Drawing.Point(2077, 332);
+            this.cmpr_c4_label.Location = new System.Drawing.Point(2060, 319);
             this.cmpr_c4_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_c4_label.Name = "cmpr_c4_label";
-            this.cmpr_c4_label.Size = new System.Drawing.Size(110, 20);
+            this.cmpr_c4_label.Padding = new System.Windows.Forms.Padding(15, 15, 15, 10);
+            this.cmpr_c4_label.Size = new System.Drawing.Size(140, 45);
             this.cmpr_c4_label.TabIndex = 622;
             this.cmpr_c4_label.Text = "Colour 4";
             this.cmpr_c4_label.MouseEnter += new System.EventHandler(this.cmpr_c4_MouseEnter);
@@ -8123,11 +8203,11 @@ namespace plt0_gui
             this.cmpr_sel_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_sel_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_sel_label.ForeColor = System.Drawing.Color.Wheat;
-            this.cmpr_sel_label.Location = new System.Drawing.Point(1983, 419);
+            this.cmpr_sel_label.Location = new System.Drawing.Point(1989, 419);
             this.cmpr_sel_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_sel_label.Name = "cmpr_sel_label";
-            this.cmpr_sel_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.cmpr_sel_label.Size = new System.Drawing.Size(127, 64);
+            this.cmpr_sel_label.Padding = new System.Windows.Forms.Padding(0, 22, 20, 22);
+            this.cmpr_sel_label.Size = new System.Drawing.Size(147, 64);
             this.cmpr_sel_label.TabIndex = 674;
             this.cmpr_sel_label.Text = "Selected :";
             this.cmpr_sel_label.MouseEnter += new System.EventHandler(this.cmpr_sel_MouseEnter);
@@ -8228,6 +8308,22 @@ namespace plt0_gui
             this.cmpr_sel.MouseEnter += new System.EventHandler(this.cmpr_sel_MouseEnter);
             this.cmpr_sel.MouseLeave += new System.EventHandler(this.cmpr_sel_MouseLeave);
             // 
+            // bmd_ck
+            // 
+            this.bmd_ck.BackColor = System.Drawing.Color.Transparent;
+            this.bmd_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.bmd_ck.ErrorImage = null;
+            this.bmd_ck.InitialImage = null;
+            this.bmd_ck.Location = new System.Drawing.Point(40, 128);
+            this.bmd_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.bmd_ck.Name = "bmd_ck";
+            this.bmd_ck.Size = new System.Drawing.Size(64, 64);
+            this.bmd_ck.TabIndex = 126;
+            this.bmd_ck.TabStop = false;
+            this.bmd_ck.Click += new System.EventHandler(this.bmd_Click);
+            this.bmd_ck.MouseEnter += new System.EventHandler(this.bmd_MouseEnter);
+            this.bmd_ck.MouseLeave += new System.EventHandler(this.bmd_MouseLeave);
+            // 
             // cmpr_preview_ck
             // 
             this.cmpr_preview_ck.BackColor = System.Drawing.Color.Transparent;
@@ -8265,22 +8361,6 @@ namespace plt0_gui
             this.image_ck.TabIndex = 602;
             this.image_ck.TabStop = false;
             this.image_ck.Visible = false;
-            // 
-            // bmd_ck
-            // 
-            this.bmd_ck.BackColor = System.Drawing.Color.Transparent;
-            this.bmd_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.bmd_ck.ErrorImage = null;
-            this.bmd_ck.InitialImage = null;
-            this.bmd_ck.Location = new System.Drawing.Point(40, 128);
-            this.bmd_ck.Margin = new System.Windows.Forms.Padding(0);
-            this.bmd_ck.Name = "bmd_ck";
-            this.bmd_ck.Size = new System.Drawing.Size(64, 64);
-            this.bmd_ck.TabIndex = 126;
-            this.bmd_ck.TabStop = false;
-            this.bmd_ck.Click += new System.EventHandler(this.bmd_Click);
-            this.bmd_ck.MouseEnter += new System.EventHandler(this.bmd_MouseEnter);
-            this.bmd_ck.MouseLeave += new System.EventHandler(this.bmd_MouseLeave);
             // 
             // plt0_gui
             // 
@@ -8731,9 +8811,9 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_block_selection_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_save_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_save_as_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bmd_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.image_ck)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bmd_ck)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
