@@ -9782,6 +9782,8 @@ namespace plt0_gui
             this.cmpr_c1_label.Size = new System.Drawing.Size(110, 20);
             this.cmpr_c1_label.TabIndex = 610;
             this.cmpr_c1_label.Text = "Colour 1";
+            this.cmpr_c1_label.MouseEnter += new System.EventHandler(this.cmpr_c1_MouseEnter);
+            this.cmpr_c1_label.MouseLeave += new System.EventHandler(this.cmpr_c1_MouseLeave);
             // 
             // cmpr_c1_txt
             // 
@@ -9795,6 +9797,8 @@ namespace plt0_gui
             this.cmpr_c1_txt.Size = new System.Drawing.Size(141, 21);
             this.cmpr_c1_txt.TabIndex = 609;
             this.cmpr_c1_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.cmpr_c1_txt.MouseEnter += new System.EventHandler(this.cmpr_c1_MouseEnter);
+            this.cmpr_c1_txt.MouseLeave += new System.EventHandler(this.cmpr_c1_MouseLeave);
             // 
             // cmpr_c1_hitbox
             // 
@@ -9808,6 +9812,8 @@ namespace plt0_gui
             this.cmpr_c1_hitbox.Padding = new System.Windows.Forms.Padding(150, 44, 0, 0);
             this.cmpr_c1_hitbox.Size = new System.Drawing.Size(150, 64);
             this.cmpr_c1_hitbox.TabIndex = 611;
+            this.cmpr_c1_hitbox.MouseEnter += new System.EventHandler(this.cmpr_c1_MouseEnter);
+            this.cmpr_c1_hitbox.MouseLeave += new System.EventHandler(this.cmpr_c1_MouseLeave);
             // 
             // cmpr_c1
             // 
@@ -9847,6 +9853,8 @@ namespace plt0_gui
             this.cmpr_c2_label.Size = new System.Drawing.Size(110, 20);
             this.cmpr_c2_label.TabIndex = 614;
             this.cmpr_c2_label.Text = "Colour 2";
+            this.cmpr_c2_label.MouseEnter += new System.EventHandler(this.cmpr_c2_MouseEnter);
+            this.cmpr_c2_label.MouseLeave += new System.EventHandler(this.cmpr_c2_MouseLeave);
             // 
             // cmpr_c2_txt
             // 
@@ -9860,6 +9868,8 @@ namespace plt0_gui
             this.cmpr_c2_txt.Size = new System.Drawing.Size(141, 21);
             this.cmpr_c2_txt.TabIndex = 613;
             this.cmpr_c2_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.cmpr_c2_txt.MouseEnter += new System.EventHandler(this.cmpr_c2_MouseEnter);
+            this.cmpr_c2_txt.MouseLeave += new System.EventHandler(this.cmpr_c2_MouseLeave);
             // 
             // cmpr_c2_hitbox
             // 
@@ -9873,6 +9883,8 @@ namespace plt0_gui
             this.cmpr_c2_hitbox.Padding = new System.Windows.Forms.Padding(150, 44, 0, 0);
             this.cmpr_c2_hitbox.Size = new System.Drawing.Size(150, 64);
             this.cmpr_c2_hitbox.TabIndex = 615;
+            this.cmpr_c2_hitbox.MouseEnter += new System.EventHandler(this.cmpr_c2_MouseEnter);
+            this.cmpr_c2_hitbox.MouseLeave += new System.EventHandler(this.cmpr_c2_MouseLeave);
             // 
             // cmpr_c3
             // 
@@ -9899,6 +9911,8 @@ namespace plt0_gui
             this.cmpr_c3_label.Size = new System.Drawing.Size(110, 20);
             this.cmpr_c3_label.TabIndex = 618;
             this.cmpr_c3_label.Text = "Colour 3";
+            this.cmpr_c3_label.MouseEnter += new System.EventHandler(this.cmpr_c3_MouseEnter);
+            this.cmpr_c3_label.MouseLeave += new System.EventHandler(this.cmpr_c3_MouseLeave);
             // 
             // cmpr_c3_txt
             // 
@@ -9912,6 +9926,8 @@ namespace plt0_gui
             this.cmpr_c3_txt.Size = new System.Drawing.Size(141, 21);
             this.cmpr_c3_txt.TabIndex = 617;
             this.cmpr_c3_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.cmpr_c3_txt.MouseEnter += new System.EventHandler(this.cmpr_c3_MouseEnter);
+            this.cmpr_c3_txt.MouseLeave += new System.EventHandler(this.cmpr_c3_MouseLeave);
             // 
             // cmpr_c3_hitbox
             // 
@@ -9925,6 +9941,8 @@ namespace plt0_gui
             this.cmpr_c3_hitbox.Padding = new System.Windows.Forms.Padding(150, 44, 0, 0);
             this.cmpr_c3_hitbox.Size = new System.Drawing.Size(150, 64);
             this.cmpr_c3_hitbox.TabIndex = 619;
+            this.cmpr_c3_hitbox.MouseEnter += new System.EventHandler(this.cmpr_c3_MouseEnter);
+            this.cmpr_c3_hitbox.MouseLeave += new System.EventHandler(this.cmpr_c3_MouseLeave);
             // 
             // cmpr_c4
             // 
@@ -9951,6 +9969,8 @@ namespace plt0_gui
             this.cmpr_c4_label.Size = new System.Drawing.Size(110, 20);
             this.cmpr_c4_label.TabIndex = 622;
             this.cmpr_c4_label.Text = "Colour 4";
+            this.cmpr_c4_label.MouseEnter += new System.EventHandler(this.cmpr_c4_MouseEnter);
+            this.cmpr_c4_label.MouseLeave += new System.EventHandler(this.cmpr_c4_MouseLeave);
             // 
             // cmpr_c4_txt
             // 
@@ -9964,6 +9984,8 @@ namespace plt0_gui
             this.cmpr_c4_txt.Size = new System.Drawing.Size(141, 21);
             this.cmpr_c4_txt.TabIndex = 621;
             this.cmpr_c4_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.cmpr_c4_txt.MouseEnter += new System.EventHandler(this.cmpr_c4_MouseEnter);
+            this.cmpr_c4_txt.MouseLeave += new System.EventHandler(this.cmpr_c4_MouseLeave);
             // 
             // cmpr_c4_hitbox
             // 
@@ -9977,6 +9999,8 @@ namespace plt0_gui
             this.cmpr_c4_hitbox.Padding = new System.Windows.Forms.Padding(150, 44, 0, 0);
             this.cmpr_c4_hitbox.Size = new System.Drawing.Size(150, 64);
             this.cmpr_c4_hitbox.TabIndex = 623;
+            this.cmpr_c4_hitbox.MouseEnter += new System.EventHandler(this.cmpr_c4_MouseEnter);
+            this.cmpr_c4_hitbox.MouseLeave += new System.EventHandler(this.cmpr_c4_MouseLeave);
             // 
             // cmpr_swap_ck
             // 
@@ -10005,6 +10029,8 @@ namespace plt0_gui
             this.cmpr_swap_label.Size = new System.Drawing.Size(169, 64);
             this.cmpr_swap_label.TabIndex = 625;
             this.cmpr_swap_label.Text = "Swap Colours";
+            this.cmpr_swap_label.MouseEnter += new System.EventHandler(this.cmpr_swap_MouseEnter);
+            this.cmpr_swap_label.MouseLeave += new System.EventHandler(this.cmpr_swap_MouseLeave);
             // 
             // cmpr_swap_hitbox
             // 
@@ -10018,6 +10044,8 @@ namespace plt0_gui
             this.cmpr_swap_hitbox.Padding = new System.Windows.Forms.Padding(280, 44, 0, 0);
             this.cmpr_swap_hitbox.Size = new System.Drawing.Size(280, 64);
             this.cmpr_swap_hitbox.TabIndex = 627;
+            this.cmpr_swap_hitbox.MouseEnter += new System.EventHandler(this.cmpr_swap_MouseEnter);
+            this.cmpr_swap_hitbox.MouseLeave += new System.EventHandler(this.cmpr_swap_MouseLeave);
             // 
             // cmpr_block1
             // 
@@ -10288,6 +10316,9 @@ namespace plt0_gui
             this.cmpr_block_paint_label.TabIndex = 663;
             this.cmpr_block_paint_label.Text = "Paint Pixels";
             this.cmpr_block_paint_label.Visible = false;
+            this.cmpr_block_paint_label.Click += new System.EventHandler(this.cmpr_block_paint_Click);
+            this.cmpr_block_paint_label.MouseEnter += new System.EventHandler(this.cmpr_block_paint_MouseEnter);
+            this.cmpr_block_paint_label.MouseLeave += new System.EventHandler(this.cmpr_block_paint_MouseLeave);
             // 
             // cmpr_block_paint_hitbox
             // 
@@ -10302,6 +10333,9 @@ namespace plt0_gui
             this.cmpr_block_paint_hitbox.Size = new System.Drawing.Size(190, 64);
             this.cmpr_block_paint_hitbox.TabIndex = 664;
             this.cmpr_block_paint_hitbox.Visible = false;
+            this.cmpr_block_paint_hitbox.Click += new System.EventHandler(this.cmpr_block_paint_Click);
+            this.cmpr_block_paint_hitbox.MouseEnter += new System.EventHandler(this.cmpr_block_paint_MouseEnter);
+            this.cmpr_block_paint_hitbox.MouseLeave += new System.EventHandler(this.cmpr_block_paint_MouseLeave);
             // 
             // cmpr_block_selection_ck
             // 
@@ -10332,6 +10366,9 @@ namespace plt0_gui
             this.cmpr_block_selection_label.TabIndex = 660;
             this.cmpr_block_selection_label.Text = "Select Block";
             this.cmpr_block_selection_label.Visible = false;
+            this.cmpr_block_selection_label.Click += new System.EventHandler(this.cmpr_block_selection_Click);
+            this.cmpr_block_selection_label.MouseEnter += new System.EventHandler(this.cmpr_block_selection_MouseEnter);
+            this.cmpr_block_selection_label.MouseLeave += new System.EventHandler(this.cmpr_block_selection_MouseLeave);
             // 
             // cmpr_block_selection_hitbox
             // 
@@ -10346,6 +10383,9 @@ namespace plt0_gui
             this.cmpr_block_selection_hitbox.Size = new System.Drawing.Size(190, 64);
             this.cmpr_block_selection_hitbox.TabIndex = 661;
             this.cmpr_block_selection_hitbox.Visible = false;
+            this.cmpr_block_selection_hitbox.Click += new System.EventHandler(this.cmpr_block_selection_Click);
+            this.cmpr_block_selection_hitbox.MouseEnter += new System.EventHandler(this.cmpr_block_selection_MouseEnter);
+            this.cmpr_block_selection_hitbox.MouseLeave += new System.EventHandler(this.cmpr_block_selection_MouseLeave);
             // 
             // cmpr_picture_tooltip_label
             // 
@@ -10399,6 +10439,8 @@ namespace plt0_gui
             this.cmpr_save_hitbox.Padding = new System.Windows.Forms.Padding(128, 44, 0, 0);
             this.cmpr_save_hitbox.Size = new System.Drawing.Size(128, 64);
             this.cmpr_save_hitbox.TabIndex = 670;
+            this.cmpr_save_hitbox.MouseEnter += new System.EventHandler(this.cmpr_save_MouseEnter);
+            this.cmpr_save_hitbox.MouseLeave += new System.EventHandler(this.cmpr_save_MouseLeave);
             // 
             // cmpr_save_as_ck
             // 
@@ -10426,6 +10468,8 @@ namespace plt0_gui
             this.cmpr_save_as_hitbox.Padding = new System.Windows.Forms.Padding(128, 44, 0, 0);
             this.cmpr_save_as_hitbox.Size = new System.Drawing.Size(128, 64);
             this.cmpr_save_as_hitbox.TabIndex = 672;
+            this.cmpr_save_as_hitbox.MouseEnter += new System.EventHandler(this.cmpr_save_as_MouseEnter);
+            this.cmpr_save_as_hitbox.MouseLeave += new System.EventHandler(this.cmpr_save_as_MouseLeave);
             // 
             // cmpr_warning
             // 
@@ -10457,6 +10501,8 @@ namespace plt0_gui
             this.cmpr_sel_label.Size = new System.Drawing.Size(127, 64);
             this.cmpr_sel_label.TabIndex = 674;
             this.cmpr_sel_label.Text = "Selected :";
+            this.cmpr_sel_label.MouseEnter += new System.EventHandler(this.cmpr_sel_MouseEnter);
+            this.cmpr_sel_label.MouseLeave += new System.EventHandler(this.cmpr_sel_MouseLeave);
             // 
             // cmpr_sel_hitbox
             // 
@@ -10470,6 +10516,8 @@ namespace plt0_gui
             this.cmpr_sel_hitbox.Padding = new System.Windows.Forms.Padding(200, 44, 0, 0);
             this.cmpr_sel_hitbox.Size = new System.Drawing.Size(200, 64);
             this.cmpr_sel_hitbox.TabIndex = 676;
+            this.cmpr_sel_hitbox.MouseEnter += new System.EventHandler(this.cmpr_sel_MouseEnter);
+            this.cmpr_sel_hitbox.MouseLeave += new System.EventHandler(this.cmpr_sel_MouseLeave);
             // 
             // cmpr_mouse1_label
             // 
@@ -10484,6 +10532,8 @@ namespace plt0_gui
             this.cmpr_mouse1_label.Size = new System.Drawing.Size(153, 64);
             this.cmpr_mouse1_label.TabIndex = 677;
             this.cmpr_mouse1_label.Text = "-> Left Click";
+            this.cmpr_mouse1_label.MouseEnter += new System.EventHandler(this.cmpr_mouse1_MouseEnter);
+            this.cmpr_mouse1_label.MouseLeave += new System.EventHandler(this.cmpr_mouse1_MouseLeave);
             // 
             // cmpr_mouse2_label
             // 
@@ -10498,6 +10548,8 @@ namespace plt0_gui
             this.cmpr_mouse2_label.Size = new System.Drawing.Size(153, 64);
             this.cmpr_mouse2_label.TabIndex = 678;
             this.cmpr_mouse2_label.Text = "-> Left Click";
+            this.cmpr_mouse2_label.MouseEnter += new System.EventHandler(this.cmpr_mouse2_MouseEnter);
+            this.cmpr_mouse2_label.MouseLeave += new System.EventHandler(this.cmpr_mouse2_MouseLeave);
             // 
             // cmpr_mouse4_label
             // 
@@ -10512,6 +10564,8 @@ namespace plt0_gui
             this.cmpr_mouse4_label.Size = new System.Drawing.Size(153, 64);
             this.cmpr_mouse4_label.TabIndex = 680;
             this.cmpr_mouse4_label.Text = "-> Left Click";
+            this.cmpr_mouse4_label.MouseEnter += new System.EventHandler(this.cmpr_mouse4_MouseEnter);
+            this.cmpr_mouse4_label.MouseLeave += new System.EventHandler(this.cmpr_mouse4_MouseLeave);
             // 
             // cmpr_mouse3_label
             // 
@@ -10526,6 +10580,8 @@ namespace plt0_gui
             this.cmpr_mouse3_label.Size = new System.Drawing.Size(153, 64);
             this.cmpr_mouse3_label.TabIndex = 679;
             this.cmpr_mouse3_label.Text = "-> Left Click";
+            this.cmpr_mouse3_label.MouseEnter += new System.EventHandler(this.cmpr_mouse3_MouseEnter);
+            this.cmpr_mouse3_label.MouseLeave += new System.EventHandler(this.cmpr_mouse3_MouseLeave);
             // 
             // cmpr_mouse5_label
             // 
@@ -10540,6 +10596,8 @@ namespace plt0_gui
             this.cmpr_mouse5_label.Size = new System.Drawing.Size(153, 64);
             this.cmpr_mouse5_label.TabIndex = 681;
             this.cmpr_mouse5_label.Text = "-> Left Click";
+            this.cmpr_mouse5_label.MouseEnter += new System.EventHandler(this.cmpr_mouse5_MouseEnter);
+            this.cmpr_mouse5_label.MouseLeave += new System.EventHandler(this.cmpr_mouse5_MouseLeave);
             // 
             // cmpr_sel
             // 
@@ -10553,6 +10611,8 @@ namespace plt0_gui
             this.cmpr_sel.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
             this.cmpr_sel.Size = new System.Drawing.Size(64, 64);
             this.cmpr_sel.TabIndex = 682;
+            this.cmpr_sel.MouseEnter += new System.EventHandler(this.cmpr_sel_MouseEnter);
+            this.cmpr_sel.MouseLeave += new System.EventHandler(this.cmpr_sel_MouseLeave);
             // 
             // cmpr_preview_ck
             // 
@@ -11699,6 +11759,30 @@ namespace plt0_gui
             if (File.Exists(execPath + "images/sync_preview_selected.png"))
             {
                 sync_preview_selected = Image.FromFile(execPath + "images/sync_preview_selected.png");
+            }
+            if (File.Exists(execPath + "images/cmpr_save.png"))
+            {
+                cmpr_save = Image.FromFile(execPath + "images/cmpr_save.png");
+            }
+            if (File.Exists(execPath + "images/cmpr_save_hover.png"))
+            {
+                cmpr_save_hover = Image.FromFile(execPath + "images/cmpr_save_hover.png");
+            }
+            if (File.Exists(execPath + "images/cmpr_save_as_hover.png"))
+            {
+                cmpr_save_as_hover = Image.FromFile(execPath + "images/cmpr_save_as_hover.png");
+            }
+            if (File.Exists(execPath + "images/cmpr_save_as.png"))
+            {
+                cmpr_save_as = Image.FromFile(execPath + "images/cmpr_save_as.png");
+            }
+            if (File.Exists(execPath + "images/cmpr_swap_hover.png"))
+            {
+                cmpr_swap_hover = Image.FromFile(execPath + "images/cmpr_swap_hover.png");
+            }
+            if (File.Exists(execPath + "images/cmpr_swap.png"))
+            {
+                cmpr_swap = Image.FromFile(execPath + "images/cmpr_swap.png");
             }
         }
         private void bmd_Click(object sender, EventArgs e)
@@ -15293,17 +15377,9 @@ namespace plt0_gui
         {
             Hide_description();
         }
-        private void cmpr_block_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[177]);
-        }
-        private void cmpr_block_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-        }
         private void cmpr_sel_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[178]);
+            Parse_Markdown(lines[177]);
         }
         private void cmpr_sel_MouseLeave(object sender, EventArgs e)
         {
@@ -15311,7 +15387,7 @@ namespace plt0_gui
         }
         private void cmpr_c1_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[179]);
+            Parse_Markdown(lines[178]);
         }
         private void cmpr_c1_MouseLeave(object sender, EventArgs e)
         {
@@ -15319,7 +15395,7 @@ namespace plt0_gui
         }
         private void cmpr_c2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[180]);
+            Parse_Markdown(lines[179]);
         }
         private void cmpr_c2_MouseLeave(object sender, EventArgs e)
         {
@@ -15327,7 +15403,7 @@ namespace plt0_gui
         }
         private void cmpr_c3_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[181]);
+            Parse_Markdown(lines[180]);
         }
         private void cmpr_c3_MouseLeave(object sender, EventArgs e)
         {
@@ -15335,7 +15411,7 @@ namespace plt0_gui
         }
         private void cmpr_c4_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[182]);
+            Parse_Markdown(lines[181]);
         }
         private void cmpr_c4_MouseLeave(object sender, EventArgs e)
         {
@@ -15393,7 +15469,7 @@ namespace plt0_gui
         }
         private void view_alpha_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[183]);
+            Parse_Markdown(lines[182]);
             if (view_alpha)
                 Category_selected(view_alpha_ck);
             else
@@ -15422,7 +15498,7 @@ namespace plt0_gui
         }
         private void view_algorithm_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[184]);
+            Parse_Markdown(lines[183]);
             if (view_algorithm)
                 Category_selected(view_algorithm_ck);
             else
@@ -15451,7 +15527,7 @@ namespace plt0_gui
         }
         private void view_WrapS_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[185]);
+            Parse_Markdown(lines[184]);
             if (view_WrapS)
                 Category_selected(view_WrapS_ck);
             else
@@ -15480,7 +15556,7 @@ namespace plt0_gui
         }
         private void view_WrapT_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[186]);
+            Parse_Markdown(lines[185]);
             if (view_WrapT)
                 Category_selected(view_WrapT_ck);
             else
@@ -15509,7 +15585,7 @@ namespace plt0_gui
         }
         private void view_min_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[187]);
+            Parse_Markdown(lines[186]);
             if (view_min)
                 Category_selected(view_min_ck);
             else
@@ -15538,7 +15614,7 @@ namespace plt0_gui
         }
         private void view_mag_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[188]);
+            Parse_Markdown(lines[187]);
             if (view_mag)
                 Category_selected(view_mag_ck);
             else
@@ -15567,7 +15643,7 @@ namespace plt0_gui
         }
         private void view_rgba_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[189]);
+            Parse_Markdown(lines[188]);
             if (view_rgba)
                 Category_selected(view_rgba_ck);
             else
@@ -15596,7 +15672,7 @@ namespace plt0_gui
         }
         private void view_palette_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[190]);
+            Parse_Markdown(lines[189]);
             if (view_palette)
                 Category_selected(view_palette_ck);
             else
@@ -15625,7 +15701,7 @@ namespace plt0_gui
         }
         private void view_cmpr_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[191]);
+            Parse_Markdown(lines[190]);
             if (view_cmpr)
                 Category_selected(view_cmpr_ck);
             else
@@ -15654,7 +15730,7 @@ namespace plt0_gui
         }
         private void view_options_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[192]);
+            Parse_Markdown(lines[191]);
             if (view_options)
                 Category_selected(view_options_ck);
             else
@@ -15782,7 +15858,7 @@ namespace plt0_gui
         }
         private void cmpr_block_paint_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[192]);
+            Parse_Markdown(lines[193]);
             if (tooltip == 1)
                 selected_tooltip(cmpr_block_paint_ck);
             else
@@ -15854,17 +15930,17 @@ namespace plt0_gui
                 cmpr_warning.Text = "";
             else
             {
-                Parse_Markdown(lines[193], cmpr_warning);
+                Parse_Markdown(lines[194], cmpr_warning);
             }
         }
         private void Put_that_damn_cmpr_layout_in_place()
         {
             Check_Paint();
-            Parse_Markdown(lines[194], cmpr_mouse0_label);
-            Parse_Markdown(lines[195], cmpr_mouse1_label);
-            Parse_Markdown(lines[196], cmpr_mouse2_label);
-            Parse_Markdown(lines[197], cmpr_mouse3_label);
-            Parse_Markdown(lines[198], cmpr_mouse4_label);
+            Parse_Markdown(lines[196], cmpr_mouse1_label);
+            Parse_Markdown(lines[197], cmpr_mouse2_label);
+            Parse_Markdown(lines[198], cmpr_mouse3_label);
+            Parse_Markdown(lines[199], cmpr_mouse4_label);
+            Parse_Markdown(lines[200], cmpr_mouse5_label);
         }
         private void Run_Click(object sender, EventArgs e)
         {

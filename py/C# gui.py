@@ -617,41 +617,6 @@ for r in range(3):
             Hide_description();
             """ + banner_icon[r] + "_ck.BackgroundImage = " + banner_icon[r] + """;
         }"""
-text_icon = ["version", "cli_textbox", "run", "Output_label", "banner_move", "banner_resize", "sync_preview", "cmpr_save", "cmpr_save_as", "cmpr_swap", "cmpr_mouse1", "cmpr_mouse2", "cmpr_mouse3", "cmpr_mouse4", "cmpr_mouse5", "cmpr_block", "cmpr_sel", "cmpr_c1", "cmpr_c2", "cmpr_c3", "cmpr_c4"]
-for s in range(len(text_icon)):
-    line2 = ["\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;", "\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;\n            this.cli_textbox_label.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(4)))), ((int)(((byte)(0)))));", "\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;","", "", "", "\n            if (preview_changed)\n                " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;\n            else\n                " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_selected;"] + ["\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;"] * 3 + [""] * 15
-    line3 = ["\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + ";", "\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + ";\n            this.cli_textbox_label.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(20)))), ((int)(((byte)(0)))), ((int)(((byte)(49)))));","\n            Check_run();", "", "", "", "\n            if (preview_changed)\n                " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_off;\n            else\n                " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_on;"] + ["\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + ";"] * 3 + [""] * 15
-    x += 1
-    output += """
-        private void """ + text_icon[s] + """_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[""" + str(x) + """]);""" + line2[s] + """
-        }
-        private void """ + text_icon[s] + """_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();""" + line3[s] + """
-        }"""
-line4 = [''] * 5 + ["\n                this.Size = new Size(this.Size.Width + mouse_x - e.X, this.Size.Height + mouse_y - e.Y);"]
-for t in range(4, 6):
-    output += """
-        private void """ + text_icon[t] + """_MouseDown(object sender, MouseEventArgs e)
-        {
-            // e.Button;
-            mouse_x = e.X;
-            mouse_y = e.Y;
-            mouse_down = true;
-        }
-        private void """ + text_icon[t] + """_MouseUp(object sender, MouseEventArgs e)
-        {
-            mouse_down = false;
-        }
-        private void """ + text_icon[t] + """_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (mouse_down)
-            {
-                this.Location = new Point(this.Location.X + e.X - mouse_x, this.Location.Y + e.Y - mouse_y);""" + line4[t] + """
-            }
-        }"""
 view = ["view_alpha", "view_algorithm", "view_WrapS", "view_WrapT", "view_min", "view_mag", "view_rgba", "view_palette", "view_cmpr", "view_options"]
 # ck_name = ["alpha_ck_array", "algorithm_ck", "WrapS_ck", "WrapT_ck", "minification_ck", "magnification_ck"]
 for j in range(len(view)):
@@ -687,6 +652,41 @@ for j in range(len(view)):
             else
                 Category_unchecked(""" + view[j] + """_ck);
         }"""
+text_icon = ["version", "cli_textbox", "run", "Output_label", "banner_move", "banner_resize", "sync_preview", "cmpr_save", "cmpr_save_as", "cmpr_swap", "cmpr_mouse1", "cmpr_mouse2", "cmpr_mouse3", "cmpr_mouse4", "cmpr_mouse5", "cmpr_sel", "cmpr_c1", "cmpr_c2", "cmpr_c3", "cmpr_c4"]
+for s in range(len(text_icon)):
+    line2 = ["\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;", "\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;\n            this.cli_textbox_label.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(4)))), ((int)(((byte)(0)))));", "\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;","", "", "", "\n            if (preview_changed)\n                " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;\n            else\n                " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_selected;"] + ["\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;"] * 3 + [""] * 15
+    line3 = ["\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + ";", "\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + ";\n            this.cli_textbox_label.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(20)))), ((int)(((byte)(0)))), ((int)(((byte)(49)))));","\n            Check_run();", "", "", "", "\n            if (preview_changed)\n                " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_off;\n            else\n                " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_on;"] + ["\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + ";"] * 3 + [""] * 15
+    x += 1
+    output += """
+        private void """ + text_icon[s] + """_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[""" + str(x) + """]);""" + line2[s] + """
+        }
+        private void """ + text_icon[s] + """_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();""" + line3[s] + """
+        }"""
+line4 = [''] * 5 + ["\n                this.Size = new Size(this.Size.Width + mouse_x - e.X, this.Size.Height + mouse_y - e.Y);"]
+for t in range(4, 6):
+    output += """
+        private void """ + text_icon[t] + """_MouseDown(object sender, MouseEventArgs e)
+        {
+            // e.Button;
+            mouse_x = e.X;
+            mouse_y = e.Y;
+            mouse_down = true;
+        }
+        private void """ + text_icon[t] + """_MouseUp(object sender, MouseEventArgs e)
+        {
+            mouse_down = false;
+        }
+        private void """ + text_icon[t] + """_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (mouse_down)
+            {
+                this.Location = new Point(this.Location.X + e.X - mouse_x, this.Location.Y + e.Y - mouse_y);""" + line4[t] + """
+            }
+        }"""
 checkbox = ["textchange", "auto_update", "upscale"]
 for u in checkbox:
     output += """
@@ -720,6 +720,7 @@ for u in checkbox:
         }"""
 tooltip = ["cmpr_block_selection", "cmpr_block_paint", "cmpr_block_selection"]
 for v in range(2):
+    x += 1
     output += """
         private void """ + tooltip[v] + """_Click(object sender, EventArgs e)
         {
@@ -773,7 +774,7 @@ for w in range(2):
                     break;
             }
         }"""
-x += 1
+x += 1  # insert rgb565 colour check here with the warning text
 output += """
         private void Check_Paint()
         {
@@ -787,6 +788,7 @@ output += """
         private void Put_that_damn_cmpr_layout_in_place()
         {
             Check_Paint();"""
+x += 1
 for y in range(5):
     x += 1
     output += """
