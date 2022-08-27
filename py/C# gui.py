@@ -774,7 +774,7 @@ for w in range(2):
                     break;
             }
         }"""
-x += 1  # insert rgb565 colour check here with the warning text
+x += 1
 output += """
         private void Check_Paint()
         {
@@ -785,6 +785,10 @@ output += """
                 Parse_Markdown(lines[""" + str(x) + """], cmpr_warning);
             }
         }
+        private void Warn_rgb565_colour_trim()
+        {
+            Parse_Markdown(lines[""" + str(x + 1) + """], cmpr_warning);
+        }
         private void Put_that_damn_cmpr_layout_in_place()
         {
             Check_Paint();"""
@@ -794,6 +798,8 @@ for y in range(5):
     output += """
             Parse_Markdown(lines[""" + str(x) + "], cmpr_mouse" + str(y + 1) + "_label);"
 output += """
+            checked_tooltip(cmpr_block_selection_ck);
+            unchecked_tooltip(cmpr_block_paint_ck);
         }
         private void Run_Click(object sender, EventArgs e)
         {

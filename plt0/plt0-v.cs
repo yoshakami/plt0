@@ -17,6 +17,9 @@ namespace plt0_gui
         static string args;
         string[] lines = new string[255];
         string[] layout_name = { "All", "Auto", "Preview", "Paint" };
+        byte[] cmpr_colours_argb = new byte[16];
+        byte[] cmpr_colour = new byte[4];
+        byte[] cmpr_index = new byte[16];
         byte[] block_width_array = { 8, 8, 8, 4, 4, 4, 4, 255, 8, 8, 4, 255, 255, 255, 8 }; // real one to calculate canvas size.
         //byte[] block_width_array = { 4, 8, 8, 8, 8, 8, 16, 255, 4, 8, 8, 255, 255, 255, 4 }; // altered to match bit-per pixel size.
         byte[] block_height_array = { 8, 4, 4, 4, 4, 4, 4, 255, 8, 4, 4, 255, 255, 255, 8 }; // 255 = unused image format
@@ -40,6 +43,13 @@ namespace plt0_gui
         //string backslash_n;
         byte GdiCharSet;
         byte run_count;
+        byte red;
+        byte green;
+        byte blue;
+        ushort colour1;
+        ushort colour2;
+        ushort colour3;
+        ushort colour4;
         //byte jump_line;
         float size_font;
         System.Drawing.GraphicsUnit unit_font;
@@ -818,147 +828,147 @@ namespace plt0_gui
             else
                 txt = txt.Replace("\\d", "");
             // implement b, c, f, g, i, j, k, q, s, u, v, x
-                font_colour = lines[10];  // default colour
-                font_name = lines[12]; // default font name
-                font_style = 0;
-                font_unit = "point";
-                size_font = 15F;
-                font_encoding = "128";
-                font_size = "15";
-                byte.TryParse(lines[14], out GdiCharSet);
-                if (txt.Contains("\\b"))
-                {
-                    font_style += 1;
-                }
-                if (txt.Contains("\\i"))
-                {
-                    font_style += 2;
-                }
-                if (txt.Contains("\\k"))
-                {
-                    font_style += 4;
-                }
-                if (txt.Contains("\\u"))
-                {
-                    font_style += 8;
-                }
-                if (txt.Contains("\\v"))
-                {
-                    vertical = false;
-                }
-                txt = Parse_Special_Markdown(txt.LastIndexOf("\\f"), txt, 0);
-                txt = Parse_Special_Markdown(txt.LastIndexOf("\\c"), txt, 1);
-                txt = Parse_Special_Markdown(txt.LastIndexOf("\\q"), txt, 2);
-                txt = Parse_Special_Markdown(txt.LastIndexOf("\\g"), txt, 3);
-                txt = Parse_Special_Markdown(txt.LastIndexOf("\\s"), txt, 4);
-                if (markdown[0] != "")
-                    font_name = markdown[0];
-                if (markdown[1] != "")
-                    font_colour = markdown[1];
-                if (markdown[2] != "")
-                    font_unit = markdown[2];
-                if (markdown[3] != "")
-                    font_encoding = markdown[3];
-                if (markdown[4] != "")
-                    font_size = markdown[4];
-                if (font_encoding != "")
-                    byte.TryParse(font_encoding, out GdiCharSet);
-                if (font_size != "")
-                    float.TryParse(font_size, out size_font);
-                if (size_font == 0F)
-                    size_font = 0.000001F;
-                switch (font_unit.ToLower())
-                {
-                    case "world":
-                        unit_font = GraphicsUnit.World;
-                        break;
-                    case "pixel":
-                        unit_font = GraphicsUnit.Pixel;
-                        break;
-                    case "point":
-                        unit_font = GraphicsUnit.Point;
-                        break;
-                    case "inch":
-                        unit_font = GraphicsUnit.Inch;
-                        break;
-                    case "document":
-                        unit_font = GraphicsUnit.Document;
-                        break;
-                    case "display":
-                        unit_font = GraphicsUnit.Display;
-                        break;
-                    case "milimeter":
-                        unit_font = GraphicsUnit.Display;
-                        break;
-                    default:  // I were to always suppose the setting file's markdown would never have errors so I haven't made any hard check. It's not worth securing everything since it's just visual and I'm doing this for free.
-                        unit_font = GraphicsUnit.Point;
-                        break;
+            font_colour = lines[10];  // default colour
+            font_name = lines[12]; // default font name
+            font_style = 0;
+            font_unit = "point";
+            size_font = 15F;
+            font_encoding = "128";
+            font_size = "15";
+            byte.TryParse(lines[14], out GdiCharSet);
+            if (txt.Contains("\\b"))
+            {
+                font_style += 1;
+            }
+            if (txt.Contains("\\i"))
+            {
+                font_style += 2;
+            }
+            if (txt.Contains("\\k"))
+            {
+                font_style += 4;
+            }
+            if (txt.Contains("\\u"))
+            {
+                font_style += 8;
+            }
+            if (txt.Contains("\\v"))
+            {
+                vertical = false;
+            }
+            txt = Parse_Special_Markdown(txt.LastIndexOf("\\f"), txt, 0);
+            txt = Parse_Special_Markdown(txt.LastIndexOf("\\c"), txt, 1);
+            txt = Parse_Special_Markdown(txt.LastIndexOf("\\q"), txt, 2);
+            txt = Parse_Special_Markdown(txt.LastIndexOf("\\g"), txt, 3);
+            txt = Parse_Special_Markdown(txt.LastIndexOf("\\s"), txt, 4);
+            if (markdown[0] != "")
+                font_name = markdown[0];
+            if (markdown[1] != "")
+                font_colour = markdown[1];
+            if (markdown[2] != "")
+                font_unit = markdown[2];
+            if (markdown[3] != "")
+                font_encoding = markdown[3];
+            if (markdown[4] != "")
+                font_size = markdown[4];
+            if (font_encoding != "")
+                byte.TryParse(font_encoding, out GdiCharSet);
+            if (font_size != "")
+                float.TryParse(font_size, out size_font);
+            if (size_font == 0F)
+                size_font = 0.000001F;
+            switch (font_unit.ToLower())
+            {
+                case "world":
+                    unit_font = GraphicsUnit.World;
+                    break;
+                case "pixel":
+                    unit_font = GraphicsUnit.Pixel;
+                    break;
+                case "point":
+                    unit_font = GraphicsUnit.Point;
+                    break;
+                case "inch":
+                    unit_font = GraphicsUnit.Inch;
+                    break;
+                case "document":
+                    unit_font = GraphicsUnit.Document;
+                    break;
+                case "display":
+                    unit_font = GraphicsUnit.Display;
+                    break;
+                case "milimeter":
+                    unit_font = GraphicsUnit.Display;
+                    break;
+                default:  // I were to always suppose the setting file's markdown would never have errors so I haven't made any hard check. It's not worth securing everything since it's just visual and I'm doing this for free.
+                    unit_font = GraphicsUnit.Point;
+                    break;
 
-                }
-                // txt = Parse_Special_Markdown(txt.LastIndexOf("\\j"), txt, backslash_j);  OH GOSH I AM IDIOT - that happens when you leave your code for one day lol
-                y = 0;
+            }
+            // txt = Parse_Special_Markdown(txt.LastIndexOf("\\j"), txt, backslash_j);  OH GOSH I AM IDIOT - that happens when you leave your code for one day lol
+            y = 0;
+            y = txt.IndexOf("\\x");
+            while (y != -1)
+            {
+                byte.TryParse(txt.Substring(y + 2, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out byte_text);
+                txt = txt.Substring(0, y) + System.Text.Encoding.Unicode.GetString(new[] { byte_text }) + txt.Substring(y + 4);
                 y = txt.IndexOf("\\x");
-                while (y != -1)
-                {
-                    byte.TryParse(txt.Substring(y + 2, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out byte_text);
-                    txt = txt.Substring(0, y) + System.Text.Encoding.Unicode.GetString(new[] { byte_text }) + txt.Substring(y + 4);
-                    y = txt.IndexOf("\\x");
-                }
-                txt = txt.Replace("\\b", "").Replace("\\i", "").Replace("\\k", "").Replace("\\u", "").Replace("\\v", "");
-                // lab.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, ((System.Drawing.FontStyle)((((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic) | System.Drawing.FontStyle.Underline) | System.Drawing.FontStyle.Strikeout))), System.Drawing.GraphicsUnit.World, ((byte)(0)), true);
-                switch (font_style)
-                {
-                    case 0:
-                        lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Regular, unit_font, GdiCharSet, vertical);
-                        break;
-                    case 1:
-                        lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Bold, unit_font, GdiCharSet, vertical);
-                        break;
-                    case 2:
-                        lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Italic, unit_font, GdiCharSet, vertical);
-                        break;
-                    case 3:
-                        lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Bold | FontStyle.Italic, unit_font, GdiCharSet, vertical);
-                        break;
-                    case 4:
-                        lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Strikeout, unit_font, GdiCharSet, vertical);
-                        break;
-                    case 5:
-                        lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Strikeout | FontStyle.Bold, unit_font, GdiCharSet, vertical);
-                        break;
-                    case 6:
-                        lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Strikeout | FontStyle.Italic, unit_font, GdiCharSet, vertical);
-                        break;
-                    case 7:
-                        lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Strikeout | FontStyle.Italic | FontStyle.Bold, unit_font, GdiCharSet, vertical);
-                        break;
-                    case 8:
-                        lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Underline, unit_font, GdiCharSet, vertical);
-                        break;
-                    case 9:
-                        lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Underline | FontStyle.Bold, unit_font, GdiCharSet, vertical);
-                        break;
-                    case 10:
-                        lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Underline | FontStyle.Italic, unit_font, GdiCharSet, vertical);
-                        break;
-                    case 11:
-                        lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Underline | FontStyle.Bold | FontStyle.Italic, unit_font, GdiCharSet, vertical);
-                        break;
-                    case 12:
-                        lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Underline | FontStyle.Strikeout, unit_font, GdiCharSet, vertical);
-                        break;
-                    case 13:
-                        lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Underline | FontStyle.Strikeout | FontStyle.Bold, unit_font, GdiCharSet, vertical);
-                        break;
-                    case 14:
-                        lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Underline | FontStyle.Strikeout | FontStyle.Italic, unit_font, GdiCharSet, vertical);
-                        break;
-                    case 15:
-                        lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Underline | FontStyle.Strikeout | FontStyle.Italic | FontStyle.Bold, unit_font, GdiCharSet, vertical);
-                        break;
-                }
-                lab.ForeColor = Color.FromName(font_colour);
-                lab.Text = txt;
+            }
+            txt = txt.Replace("\\b", "").Replace("\\i", "").Replace("\\k", "").Replace("\\u", "").Replace("\\v", "");
+            // lab.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, ((System.Drawing.FontStyle)((((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic) | System.Drawing.FontStyle.Underline) | System.Drawing.FontStyle.Strikeout))), System.Drawing.GraphicsUnit.World, ((byte)(0)), true);
+            switch (font_style)
+            {
+                case 0:
+                    lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Regular, unit_font, GdiCharSet, vertical);
+                    break;
+                case 1:
+                    lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Bold, unit_font, GdiCharSet, vertical);
+                    break;
+                case 2:
+                    lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Italic, unit_font, GdiCharSet, vertical);
+                    break;
+                case 3:
+                    lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Bold | FontStyle.Italic, unit_font, GdiCharSet, vertical);
+                    break;
+                case 4:
+                    lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Strikeout, unit_font, GdiCharSet, vertical);
+                    break;
+                case 5:
+                    lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Strikeout | FontStyle.Bold, unit_font, GdiCharSet, vertical);
+                    break;
+                case 6:
+                    lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Strikeout | FontStyle.Italic, unit_font, GdiCharSet, vertical);
+                    break;
+                case 7:
+                    lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Strikeout | FontStyle.Italic | FontStyle.Bold, unit_font, GdiCharSet, vertical);
+                    break;
+                case 8:
+                    lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Underline, unit_font, GdiCharSet, vertical);
+                    break;
+                case 9:
+                    lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Underline | FontStyle.Bold, unit_font, GdiCharSet, vertical);
+                    break;
+                case 10:
+                    lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Underline | FontStyle.Italic, unit_font, GdiCharSet, vertical);
+                    break;
+                case 11:
+                    lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Underline | FontStyle.Bold | FontStyle.Italic, unit_font, GdiCharSet, vertical);
+                    break;
+                case 12:
+                    lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Underline | FontStyle.Strikeout, unit_font, GdiCharSet, vertical);
+                    break;
+                case 13:
+                    lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Underline | FontStyle.Strikeout | FontStyle.Bold, unit_font, GdiCharSet, vertical);
+                    break;
+                case 14:
+                    lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Underline | FontStyle.Strikeout | FontStyle.Italic, unit_font, GdiCharSet, vertical);
+                    break;
+                case 15:
+                    lab.Font = new System.Drawing.Font(font_name, size_font, FontStyle.Underline | FontStyle.Strikeout | FontStyle.Italic | FontStyle.Bold, unit_font, GdiCharSet, vertical);
+                    break;
+            }
+            lab.ForeColor = Color.FromName(font_colour);
+            lab.Text = txt;
         }
         private void Parse_Markdown(string txt)
         {
@@ -9797,6 +9807,7 @@ namespace plt0_gui
             this.cmpr_c1_txt.Size = new System.Drawing.Size(141, 21);
             this.cmpr_c1_txt.TabIndex = 609;
             this.cmpr_c1_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.cmpr_c1_txt.TextChanged += new System.EventHandler(this.cmpr_c1_TextChanged);
             this.cmpr_c1_txt.MouseEnter += new System.EventHandler(this.cmpr_c1_MouseEnter);
             this.cmpr_c1_txt.MouseLeave += new System.EventHandler(this.cmpr_c1_MouseLeave);
             // 
@@ -9868,6 +9879,7 @@ namespace plt0_gui
             this.cmpr_c2_txt.Size = new System.Drawing.Size(141, 21);
             this.cmpr_c2_txt.TabIndex = 613;
             this.cmpr_c2_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.cmpr_c2_txt.TextChanged += new System.EventHandler(this.cmpr_c2_TextChanged);
             this.cmpr_c2_txt.MouseEnter += new System.EventHandler(this.cmpr_c2_MouseEnter);
             this.cmpr_c2_txt.MouseLeave += new System.EventHandler(this.cmpr_c2_MouseLeave);
             // 
@@ -15941,6 +15953,8 @@ namespace plt0_gui
             Parse_Markdown(lines[198], cmpr_mouse3_label);
             Parse_Markdown(lines[199], cmpr_mouse4_label);
             Parse_Markdown(lines[200], cmpr_mouse5_label);
+            checked_tooltip(cmpr_block_selection_ck);
+            unchecked_tooltip(cmpr_block_paint_ck);
         }
         private void Run_Click(object sender, EventArgs e)
         {
@@ -15955,6 +15969,152 @@ namespace plt0_gui
         private void sync_preview_Click(object sender, EventArgs e)
         {
             Preview(false);
+        }
+        private void parse_rgb565(Label lab, TextBox txt, byte j, out ushort out_colour)
+        {
+            success = false;
+            len = txt.Text.Length;
+            for (byte i = 1; i < len; i++)
+            {
+                if (!IsInputChar(txt.Text[i]))
+                    txt.Text = txt.Text.Substring(0, i);
+            }
+            if (len > 0)
+                if (!IsInputChar(txt.Text[0]) && txt.Text[0] != '#')
+                    txt.Text = "";
+            if (len < 3)
+                return;
+            if (txt.Text[0] == '#' && len > 3)
+            {
+                if (len == 4)
+                {
+                    byte.TryParse(txt.Text.Substring(1, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
+                    byte.TryParse(txt.Text.Substring(2, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
+                    byte.TryParse(txt.Text.Substring(3, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
+                    red <<= 4;
+                    green <<= 4;
+                    blue <<= 4;
+                    success = true;
+                }
+                else if (len == 7)
+                {
+                    byte.TryParse(txt.Text.Substring(1, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
+                    byte.TryParse(txt.Text.Substring(3, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
+                    byte.TryParse(txt.Text.Substring(5, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
+                    if ((red & 7) != 0)
+                    {
+                        red &= 0xf8;
+                        Warn_rgb565_colour_trim();
+                    }
+                    if ((green & 3) != 0)
+                    {
+                        green &= 0xfc;
+                        Warn_rgb565_colour_trim();
+                    }
+                    if ((blue & 7) != 0)
+                    {
+                        blue &= 0xf8;
+                        Warn_rgb565_colour_trim();
+                    }
+                    success = true;
+                }
+            }
+            else
+            {
+                if (len == 3)
+                {
+                    byte.TryParse(txt.Text.Substring(0, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
+                    byte.TryParse(txt.Text.Substring(1, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
+                    byte.TryParse(txt.Text.Substring(2, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
+                    red <<= 4;
+                    green <<= 4;
+                    blue <<= 4;
+                    success = true;
+                }
+                else if (len == 6)
+                {
+                    byte.TryParse(txt.Text.Substring(0, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
+                    byte.TryParse(txt.Text.Substring(2, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
+                    byte.TryParse(txt.Text.Substring(4, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
+                    if ((red & 7) != 0)
+                    {
+                        red &= 0xf8;
+                        Warn_rgb565_colour_trim();
+                    }
+                    if ((green & 3) != 0)
+                    {
+                        green &= 0xfc;
+                        Warn_rgb565_colour_trim();
+                    }
+                    if ((blue & 7) != 0)
+                    {
+                        blue &= 0xf8;
+                        Warn_rgb565_colour_trim();
+                    }
+                    success = true;
+                }
+            }
+            if (success)
+            {
+                cmpr_colour[j] = (byte)((red & 0xf8) + (green >> 5));
+                cmpr_colour[j + 1] = (byte)(((green << 3) & 224) + (blue >> 3));
+                lab.BackColor = Color.FromArgb(255, red, green, blue);
+                cmpr_colours_argb[(j << 1)] = 255;
+                cmpr_colours_argb[(j << 1) + 1] = red;
+                cmpr_colours_argb[(j << 1) + 2] = green;
+                cmpr_colours_argb[(j << 1) + 3] = blue;
+                out_colour = (ushort)((cmpr_colour[j] << 8) | (cmpr_colour[j + 1]));
+                Update_Colours();
+            }
+        }
+        private void Update_Colours()
+        {
+            if (colour1 > colour2)
+            {
+                /*red = cmpr_colours_argb[1];
+                green = cmpr_colours_argb[2];
+                blue = cmpr_colours_argb[3];
+
+                red2 = cmpr_colours_argb[5];
+                green2 = cmpr_colours_argb[6];
+                blue2 = cmpr_colours_argb[7];*/
+
+                cmpr_colours_argb[9] = (byte)((cmpr_colours_argb[1] * 2 / 3) + (cmpr_colours_argb[5] / 3));
+                cmpr_colours_argb[10] = (byte)((cmpr_colours_argb[2] * 2 / 3) + (cmpr_colours_argb[6] / 3));
+                cmpr_colours_argb[11] = (byte)((cmpr_colours_argb[3] * 2 / 3) + (cmpr_colours_argb[7] / 3));
+                //colour3 = (ushort)((((cmpr_colours_argb[9]) >> 3) << 11) + ((cmpr_colours_argb[10] >> 2) << 5) + (cmpr_colours_argb[11] >> 3)); // the RGB565 third colour
+                cmpr_c3.BackColor = Color.FromArgb(255, cmpr_colours_argb[9], cmpr_colours_argb[10], cmpr_colours_argb[11]);
+                cmpr_colours_argb[13] = (byte)((cmpr_colours_argb[1] / 3) + (cmpr_colours_argb[5] * 2 / 3));
+                cmpr_colours_argb[14] = (byte)((cmpr_colours_argb[2] / 3) + (cmpr_colours_argb[6] * 2 / 3));
+                cmpr_colours_argb[15] = (byte)((cmpr_colours_argb[3] / 3) + (cmpr_colours_argb[7] * 2 / 3));
+                //colour4 = (ushort)((((cmpr_colours_argb[13]) >> 3) << 11) + ((cmpr_colours_argb[14] >> 2) << 5) + (cmpr_colours_argb[15] >> 3)); // the RGB565 fourth colour
+                cmpr_c4.BackColor = Color.FromArgb(255, cmpr_colours_argb[13], cmpr_colours_argb[14], cmpr_colours_argb[15]);
+            }
+            else
+            {
+                // of course, that's the exact opposite! - not quite lol
+                cmpr_colours_argb[9] = (byte)((cmpr_colours_argb[1] / 2) + (cmpr_colours_argb[5] / 2));
+                cmpr_colours_argb[10] = (byte)((cmpr_colours_argb[2] / 2) + (cmpr_colours_argb[6] / 2));
+                cmpr_colours_argb[11] = (byte)((cmpr_colours_argb[3] / 2) + (cmpr_colours_argb[7] / 2));
+                //colour3 = (ushort)((((cmpr_colours_argb[9]) >> 3) << 11) + ((cmpr_colours_argb[10] >> 2) << 5) + (cmpr_colours_argb[11] >> 3)); // the RGB565 third colour
+                cmpr_c3.BackColor = Color.FromArgb(255, cmpr_colours_argb[9], cmpr_colours_argb[10], cmpr_colours_argb[11]);
+                cmpr_colours_argb[12] = 0;
+                cmpr_c4.BackColor = Color.FromArgb(0, 0, 0, 0); // fourth colour is fully transparent
+                // last colour isn't in the palette, it's in _plt0.alpha_bitfield
+            }
+        }
+        private void Warn_rgb565_colour_trim()
+        {
+
+        }
+        private void cmpr_c2_TextChanged(object sender, EventArgs e)
+        {
+            parse_rgb565(cmpr_c2, cmpr_c2_txt, 2, out colour2);
+        }
+
+        private void cmpr_c1_TextChanged(object sender, EventArgs e)
+        {
+            parse_rgb565(cmpr_c1, cmpr_c1_txt, 0, out colour1);
         }
     }
 }
