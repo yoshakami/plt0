@@ -1,6 +1,6 @@
 plt0 config v1.0
 Layout (change next line with one of these: "All", "Auto", "Preview", "Paint")
-Preview
+Paint
 Window Location ("Normal", "Maximized", "Bottom_left", "Left", "Top_left", "Top", "Top_right", "Right", "Bottom_right", "Bottom")
 Maximized
 Textboxes text color (System.Drawing.Color)
@@ -11,9 +11,8 @@ Description color
 Cyan
 Font name (it must be installed on your system)
 NintendoP-NewRodin DB
-Encoding number (internally named GdiCharSetsee https://docs.microsoft.com/en-us/dotnet/api/system.drawing.font.gdicharset?view=dotnet-plat-ext-6.0)
+Encoding number (internally named GdiCharSet, see https://docs.microsoft.com/en-us/dotnet/api/system.drawing.font.gdicharset?view=dotnet-plat-ext-6.0)
 128
-
 
 
 
@@ -45,6 +44,7 @@ yeah, I decided to implement my own markdown again.
 "\y" = y-axis block height of selected encoding
 "\z" = z-axis block depth of selected encoding
 "\0" = 0utputs the x-axis block width of selected encoding
+
 notes: 
 colour names are all the ones allowed in System.Drawing.Color
 \v (GdiVerticalFont = true by default) see https://docs.microsoft.com/en-us/dotnet/api/system.drawing.font.gdiverticalfont?view=dotnet-plat-ext-6.0
@@ -70,12 +70,13 @@ writes the texture in a ico image \j \c red (max dimensions of the image are 256
 writes the texture in a tif image
 writes the texture in a tiff image
 option asking you to press enter before the console window disappears in cli mode
-when decoding, the program will write a 32-bit bmp in any case (else I've optimized bit depth to make file size smaller depending while keeping all image data intact)
-force your alpha value to be applied even if the input image isn't a 32-bit RGBA image (will output a fully transparent image in most cases)
-when decoding, will write raw data, making a funky result
+when decoding, the program will write a 32-bit bmp in any case \n\n(else I've optimized bit depth to make file size smaller depending while keeping all image data intact)
+force your alpha value to be applied even if the input image isn't a 32-bit RGBA image\j\j\c Red(will output a fully transparent image in most cases)
+when decoding, will write raw/random data, making a funky result
 won't inform the user that he made mistakes
 fill the colour palette with random values for CI4, CI8, and CI14x2 formats
-I have nothing more to describe here, output will be vertically and horizontally reversed
+output will be horizontally reversed
+reverse output vertically
 makes the program to never throw any exception (useful when using subprocess.checkoutput in python)
 silent mode (with a cool small internal name)
 verbose mode (prints the internal variables content and some other text in the console)
@@ -88,7 +89,7 @@ color, 16 bits per pixel - smart alpha (1RRR RRGG GGGB BBBB - or - 0AAA RRRR GGG
 color, 32 bits per pixel - alpha (this encoding is the only one that isn't lossy)
 palette, 4 bits per pixel (CI4 palette has a capacity of 16 colours)
 palette, 8 bits per pixel (CI8 palette has a capacity of 256 colours)
-palette, 14 bits per pixel (CI14x2 palette has a capacity of 16384 colours)
+palette, 14 bits per pixel (CI14x2\j palette has a capacity of\j 16384 colours)\n\j\j\j\c Red slow to encode, the gui may freeze.
 color, 2 RGB565 colours per 4x4 block + 2 interpolated colours\n (which results in a "4-bit per pixel") - use the Paint layout to edit CMPR textures - default algorithm cares about CMPR Max colours in each 4x4 block and every pixel with alpha < CMPR Min alpha will be zero, else it's 255
 An algorithm to convert 24-bit RGB to 8-bit grey.
 An algorithm to convert 24-bit RGB to 8-bit grey.
@@ -159,42 +160,46 @@ Coloured palette with smart alpha, 16 bits per colour
 Mario Sports Mix Community\n discord server
 Github Releases Tab
 Yosh's Youtube Channel
-The version of this tool
-full command if you wanted to run the app with the current parameters from a command line
-Launch the application
-The output text after you click on >Run
-Move this window
-Resize this window
 Toogle the Alpha Category
 Toogle the Algorithm Category
 Toogle the WrapS Category
 Toogle the WrapT Category
 Toogle the Minification Filter Category
 Toogle the Magnification Filter Category
-this is padding data to alignment.
-this is padding data to alignment.
-this is padding data to alignment.
-this is padding data to alignment.
-this is padding data to alignment.
-this is padding data to alignment.
-this is padding data to alignment.
-this is padding data to alignment.
-this is padding data to alignment.
-this is padding data to alignment.
-this is padding data to alignment.
-this is padding data to alignment.
-this is padding data to alignment.
-this is padding data to alignment.
-this is padding data to alignment.
-this is padding data to alignment.
-this is padding data to alignment.
-this is padding data to alignment.
-this is padding data to alignment.
-this is padding data to alignment.
-this is padding data to alignment.
-this is padding data to alignment.
-this is padding data to alignment.
-this is padding data to alignment.
+Toogle the RGBA Channel Category
+Toogle the Palette Category
+Toogle the CMPR Category
+Toogle the Options Category
+The version of this tool
+full command if you wanted to run the app with the current parameters from a command line
+Launch the application
+The output text after you click on >Run
+Move this window
+Resize this window
+Refresh the preview (you can't see this text though)
+Save the texture to what you've written in output name
+Open a save prompt (with the file explorer)
+Swap Colour1 and Colour2 \j\c MediumVioletRed (toogle transparency)
+hold Mouse wheel down on any pixel of the Selected Block to assign it to Colour 1
+hold Right Click down on any pixel of the Selected Block to assign it to Colour 2
+hold Forward Button \j\c DarkTurquoise (located on the side of gaming mouses)\j\c Coral down on any pixel of the Selected Block to assign it to Colour 3
+hold Backward Button \j\c DarkTurquoise (located on the side of gaming mouses)\j\c MediumAquamarine down on any pixel of the Selected Block to assign it to Colour 4
+hold Left Click down on any pixel of\jthe Selected Block to assign it to the\jcolour you see \j\j\c Orange (the one you've selected)
+Click on any of the 4 colours to Select it.\n\n(this will bind left click to this colour when you click on any pixel of the Selected Block)
+the first rgb565 colour of the selected 4x4 block
+the second rgb565 colour of the selected 4x4 block
+third colour \j\j\c red it is interpolated,\j\c red you can't edit it directly
+fourth colour \j\j\c red it is interpolated,\j\c red you can't edit it directly
+will select a 4x4 block\nwhen you click on the preview picture
+will paint pixels\nwhen you click on the preview picture
+\c red Input file is not a CMPR texture
+\c orange colour1 trimmed to RGB565
+\c green -> Mouse Wheel Click
+\c green -> Right Click
+\c green -> Forward Button
+\c green -> Backward Button
+\c green -> Left Click
 color, 16 bits per pixel - no alpha \j\c red 5 bits red\j\c green 6 bits green\j\c blue 5 bits blue\j\c Violet  test\j\c pink test2\j\c orange text\j\c purple purple\j\c chartreuse chartreuse\c yellow yellow
 Hello \u ! you found an easter egg lol \n\ndid you know most apps have a folder in \a ?\j\j\j\n\n\c Red this one doesn't though. I prefer using local files.
 this is padding data to alignment. (meme)
+this is padding data to alignment.
