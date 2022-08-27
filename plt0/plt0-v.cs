@@ -3320,10 +3320,6 @@ namespace plt0_gui
             this.view_min_ck = new System.Windows.Forms.PictureBox();
             this.view_min_label = new System.Windows.Forms.Label();
             this.banner_ck = new System.Windows.Forms.PictureBox();
-            this.all_hitbox = new System.Windows.Forms.Label();
-            this.preview_hitbox = new System.Windows.Forms.Label();
-            this.paint_hitbox = new System.Windows.Forms.Label();
-            this.auto_hitbox = new System.Windows.Forms.Label();
             this.all_ck = new System.Windows.Forms.PictureBox();
             this.preview_ck = new System.Windows.Forms.PictureBox();
             this.auto_ck = new System.Windows.Forms.PictureBox();
@@ -3335,21 +3331,13 @@ namespace plt0_gui
             this.banner_minus_ck = new System.Windows.Forms.PictureBox();
             this.banner_minus_hitbox = new System.Windows.Forms.Label();
             this.banner_9_ck = new System.Windows.Forms.PictureBox();
-            this.banner_9_hitbox = new System.Windows.Forms.Label();
             this.banner_8_ck = new System.Windows.Forms.PictureBox();
-            this.banner_8_hitbox = new System.Windows.Forms.Label();
             this.banner_7_ck = new System.Windows.Forms.PictureBox();
-            this.banner_7_hitbox = new System.Windows.Forms.Label();
             this.banner_6_ck = new System.Windows.Forms.PictureBox();
-            this.banner_6_hitbox = new System.Windows.Forms.Label();
             this.banner_4_ck = new System.Windows.Forms.PictureBox();
-            this.banner_4_hitbox = new System.Windows.Forms.Label();
             this.banner_3_ck = new System.Windows.Forms.PictureBox();
-            this.banner_3_hitbox = new System.Windows.Forms.Label();
             this.banner_2_ck = new System.Windows.Forms.PictureBox();
-            this.banner_2_hitbox = new System.Windows.Forms.Label();
             this.banner_1_ck = new System.Windows.Forms.PictureBox();
-            this.banner_1_hitbox = new System.Windows.Forms.Label();
             this.cli_textbox_ck = new System.Windows.Forms.PictureBox();
             this.run_ck = new System.Windows.Forms.PictureBox();
             this.run_hitbox = new System.Windows.Forms.Label();
@@ -3409,25 +3397,6 @@ namespace plt0_gui
             this.youtube_hitbox = new System.Windows.Forms.Label();
             this.discord_ck = new System.Windows.Forms.PictureBox();
             this.discord_hitbox = new System.Windows.Forms.Label();
-            this.input_file_hitbox = new System.Windows.Forms.Label();
-            this.input_file2_hitbox = new System.Windows.Forms.Label();
-            this.custom_r_hitbox = new System.Windows.Forms.Label();
-            this.num_colours_hitbox = new System.Windows.Forms.Label();
-            this.diversity_hitbox = new System.Windows.Forms.Label();
-            this.round3_hitbox = new System.Windows.Forms.Label();
-            this.cmpr_min_alpha_hitbox = new System.Windows.Forms.Label();
-            this.cmpr_max_hitbox = new System.Windows.Forms.Label();
-            this.mipmaps_hitbox = new System.Windows.Forms.Label();
-            this.output_name_hitbox = new System.Windows.Forms.Label();
-            this.round4_hitbox = new System.Windows.Forms.Label();
-            this.round5_hitbox = new System.Windows.Forms.Label();
-            this.round6_hitbox = new System.Windows.Forms.Label();
-            this.diversity2_hitbox = new System.Windows.Forms.Label();
-            this.percentage_hitbox = new System.Windows.Forms.Label();
-            this.percentage2_hitbox = new System.Windows.Forms.Label();
-            this.custom_g_hitbox = new System.Windows.Forms.Label();
-            this.custom_b_hitbox = new System.Windows.Forms.Label();
-            this.custom_a_hitbox = new System.Windows.Forms.Label();
             this.desc2 = new System.Windows.Forms.Label();
             this.desc3 = new System.Windows.Forms.Label();
             this.desc4 = new System.Windows.Forms.Label();
@@ -3436,7 +3405,6 @@ namespace plt0_gui
             this.desc7 = new System.Windows.Forms.Label();
             this.desc8 = new System.Windows.Forms.Label();
             this.desc9 = new System.Windows.Forms.Label();
-            this.version_hitbox = new System.Windows.Forms.Label();
             this.output_label = new System.Windows.Forms.Label();
             this.version_ck = new System.Windows.Forms.PictureBox();
             this.cli_textbox_label = new System.Windows.Forms.Label();
@@ -3463,20 +3431,16 @@ namespace plt0_gui
             this.reversex_label = new System.Windows.Forms.Label();
             this.cmpr_c1_label = new System.Windows.Forms.Label();
             this.cmpr_c1_txt = new System.Windows.Forms.TextBox();
-            this.cmpr_c1_hitbox = new System.Windows.Forms.Label();
             this.cmpr_c1 = new System.Windows.Forms.Label();
             this.cmpr_c2 = new System.Windows.Forms.Label();
             this.cmpr_c2_label = new System.Windows.Forms.Label();
             this.cmpr_c2_txt = new System.Windows.Forms.TextBox();
-            this.cmpr_c2_hitbox = new System.Windows.Forms.Label();
             this.cmpr_c3 = new System.Windows.Forms.Label();
             this.cmpr_c3_label = new System.Windows.Forms.Label();
             this.cmpr_c3_txt = new System.Windows.Forms.TextBox();
-            this.cmpr_c3_hitbox = new System.Windows.Forms.Label();
             this.cmpr_c4 = new System.Windows.Forms.Label();
             this.cmpr_c4_label = new System.Windows.Forms.Label();
             this.cmpr_c4_txt = new System.Windows.Forms.TextBox();
-            this.cmpr_c4_hitbox = new System.Windows.Forms.Label();
             this.cmpr_swap_ck = new System.Windows.Forms.PictureBox();
             this.cmpr_swap_label = new System.Windows.Forms.Label();
             this.cmpr_block1 = new System.Windows.Forms.Label();
@@ -3687,7 +3651,6 @@ namespace plt0_gui
             // 
             this.bmd_ck.BackColor = System.Drawing.Color.Transparent;
             this.bmd_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.bmd_ck.Enabled = false;
             this.bmd_ck.ErrorImage = null;
             this.bmd_ck.InitialImage = null;
             this.bmd_ck.Location = new System.Drawing.Point(40, 128);
@@ -3701,7 +3664,6 @@ namespace plt0_gui
             // 
             this.bti_ck.BackColor = System.Drawing.Color.Transparent;
             this.bti_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.bti_ck.Enabled = false;
             this.bti_ck.ErrorImage = null;
             this.bti_ck.InitialImage = null;
             this.bti_ck.Location = new System.Drawing.Point(40, 192);
@@ -3732,7 +3694,6 @@ namespace plt0_gui
             // 
             this.tex0_ck.BackColor = System.Drawing.Color.Transparent;
             this.tex0_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.tex0_ck.Enabled = false;
             this.tex0_ck.ErrorImage = null;
             this.tex0_ck.InitialImage = null;
             this.tex0_ck.Location = new System.Drawing.Point(40, 256);
@@ -3763,7 +3724,6 @@ namespace plt0_gui
             // 
             this.tpl_ck.BackColor = System.Drawing.Color.Transparent;
             this.tpl_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.tpl_ck.Enabled = false;
             this.tpl_ck.ErrorImage = null;
             this.tpl_ck.InitialImage = null;
             this.tpl_ck.Location = new System.Drawing.Point(40, 320);
@@ -3794,7 +3754,6 @@ namespace plt0_gui
             // 
             this.bmp_ck.BackColor = System.Drawing.Color.Transparent;
             this.bmp_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.bmp_ck.Enabled = false;
             this.bmp_ck.ErrorImage = null;
             this.bmp_ck.InitialImage = null;
             this.bmp_ck.Location = new System.Drawing.Point(40, 384);
@@ -3825,7 +3784,6 @@ namespace plt0_gui
             // 
             this.png_ck.BackColor = System.Drawing.Color.Transparent;
             this.png_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.png_ck.Enabled = false;
             this.png_ck.ErrorImage = null;
             this.png_ck.InitialImage = null;
             this.png_ck.Location = new System.Drawing.Point(40, 448);
@@ -3856,7 +3814,6 @@ namespace plt0_gui
             // 
             this.jpg_ck.BackColor = System.Drawing.Color.Transparent;
             this.jpg_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.jpg_ck.Enabled = false;
             this.jpg_ck.ErrorImage = null;
             this.jpg_ck.InitialImage = null;
             this.jpg_ck.Location = new System.Drawing.Point(40, 512);
@@ -3887,7 +3844,6 @@ namespace plt0_gui
             // 
             this.tiff_ck.BackColor = System.Drawing.Color.Transparent;
             this.tiff_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.tiff_ck.Enabled = false;
             this.tiff_ck.ErrorImage = null;
             this.tiff_ck.InitialImage = null;
             this.tiff_ck.Location = new System.Drawing.Point(40, 833);
@@ -3918,7 +3874,6 @@ namespace plt0_gui
             // 
             this.tif_ck.BackColor = System.Drawing.Color.Transparent;
             this.tif_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.tif_ck.Enabled = false;
             this.tif_ck.ErrorImage = null;
             this.tif_ck.InitialImage = null;
             this.tif_ck.Location = new System.Drawing.Point(40, 769);
@@ -3949,7 +3904,6 @@ namespace plt0_gui
             // 
             this.ico_ck.BackColor = System.Drawing.Color.Transparent;
             this.ico_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ico_ck.Enabled = false;
             this.ico_ck.ErrorImage = null;
             this.ico_ck.InitialImage = null;
             this.ico_ck.Location = new System.Drawing.Point(40, 705);
@@ -3980,7 +3934,6 @@ namespace plt0_gui
             // 
             this.gif_ck.BackColor = System.Drawing.Color.Transparent;
             this.gif_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.gif_ck.Enabled = false;
             this.gif_ck.ErrorImage = null;
             this.gif_ck.InitialImage = null;
             this.gif_ck.Location = new System.Drawing.Point(40, 641);
@@ -4011,7 +3964,6 @@ namespace plt0_gui
             // 
             this.jpeg_ck.BackColor = System.Drawing.Color.Transparent;
             this.jpeg_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.jpeg_ck.Enabled = false;
             this.jpeg_ck.ErrorImage = null;
             this.jpeg_ck.InitialImage = null;
             this.jpeg_ck.Location = new System.Drawing.Point(40, 577);
@@ -4055,7 +4007,6 @@ namespace plt0_gui
             // 
             this.warn_ck.BackColor = System.Drawing.Color.Transparent;
             this.warn_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.warn_ck.Enabled = false;
             this.warn_ck.ErrorImage = null;
             this.warn_ck.InitialImage = null;
             this.warn_ck.Location = new System.Drawing.Point(1647, 704);
@@ -4086,7 +4037,6 @@ namespace plt0_gui
             // 
             this.stfu_ck.BackColor = System.Drawing.Color.Transparent;
             this.stfu_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.stfu_ck.Enabled = false;
             this.stfu_ck.ErrorImage = null;
             this.stfu_ck.InitialImage = null;
             this.stfu_ck.Location = new System.Drawing.Point(1647, 640);
@@ -4117,7 +4067,6 @@ namespace plt0_gui
             // 
             this.safe_mode_ck.BackColor = System.Drawing.Color.Transparent;
             this.safe_mode_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.safe_mode_ck.Enabled = false;
             this.safe_mode_ck.ErrorImage = null;
             this.safe_mode_ck.InitialImage = null;
             this.safe_mode_ck.Location = new System.Drawing.Point(1647, 576);
@@ -4148,7 +4097,6 @@ namespace plt0_gui
             // 
             this.reversey_ck.BackColor = System.Drawing.Color.Transparent;
             this.reversey_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.reversey_ck.Enabled = false;
             this.reversey_ck.ErrorImage = null;
             this.reversey_ck.InitialImage = null;
             this.reversey_ck.Location = new System.Drawing.Point(1647, 512);
@@ -4179,7 +4127,6 @@ namespace plt0_gui
             // 
             this.random_ck.BackColor = System.Drawing.Color.Transparent;
             this.random_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.random_ck.Enabled = false;
             this.random_ck.ErrorImage = null;
             this.random_ck.InitialImage = null;
             this.random_ck.Location = new System.Drawing.Point(1647, 384);
@@ -4210,7 +4157,6 @@ namespace plt0_gui
             // 
             this.no_warning_ck.BackColor = System.Drawing.Color.Transparent;
             this.no_warning_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.no_warning_ck.Enabled = false;
             this.no_warning_ck.ErrorImage = null;
             this.no_warning_ck.InitialImage = null;
             this.no_warning_ck.Location = new System.Drawing.Point(1647, 320);
@@ -4241,7 +4187,6 @@ namespace plt0_gui
             // 
             this.funky_ck.BackColor = System.Drawing.Color.Transparent;
             this.funky_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.funky_ck.Enabled = false;
             this.funky_ck.ErrorImage = null;
             this.funky_ck.InitialImage = null;
             this.funky_ck.Location = new System.Drawing.Point(1647, 256);
@@ -4272,7 +4217,6 @@ namespace plt0_gui
             // 
             this.FORCE_ALPHA_ck.BackColor = System.Drawing.Color.Transparent;
             this.FORCE_ALPHA_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.FORCE_ALPHA_ck.Enabled = false;
             this.FORCE_ALPHA_ck.ErrorImage = null;
             this.FORCE_ALPHA_ck.InitialImage = null;
             this.FORCE_ALPHA_ck.Location = new System.Drawing.Point(1647, 192);
@@ -4303,7 +4247,6 @@ namespace plt0_gui
             // 
             this.bmp_32_ck.BackColor = System.Drawing.Color.Transparent;
             this.bmp_32_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.bmp_32_ck.Enabled = false;
             this.bmp_32_ck.ErrorImage = null;
             this.bmp_32_ck.InitialImage = null;
             this.bmp_32_ck.Location = new System.Drawing.Point(1647, 128);
@@ -4334,7 +4277,6 @@ namespace plt0_gui
             // 
             this.ask_exit_ck.BackColor = System.Drawing.Color.Transparent;
             this.ask_exit_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ask_exit_ck.Enabled = false;
             this.ask_exit_ck.ErrorImage = null;
             this.ask_exit_ck.InitialImage = null;
             this.ask_exit_ck.Location = new System.Drawing.Point(1647, 64);
@@ -4367,7 +4309,6 @@ namespace plt0_gui
             // 
             this.cmpr_ck.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.cmpr_ck.Enabled = false;
             this.cmpr_ck.ErrorImage = null;
             this.cmpr_ck.InitialImage = null;
             this.cmpr_ck.Location = new System.Drawing.Point(255, 769);
@@ -4398,7 +4339,6 @@ namespace plt0_gui
             // 
             this.ci14x2_ck.BackColor = System.Drawing.Color.Transparent;
             this.ci14x2_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ci14x2_ck.Enabled = false;
             this.ci14x2_ck.ErrorImage = null;
             this.ci14x2_ck.InitialImage = null;
             this.ci14x2_ck.Location = new System.Drawing.Point(255, 705);
@@ -4429,7 +4369,6 @@ namespace plt0_gui
             // 
             this.ci8_ck.BackColor = System.Drawing.Color.Transparent;
             this.ci8_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ci8_ck.Enabled = false;
             this.ci8_ck.ErrorImage = null;
             this.ci8_ck.InitialImage = null;
             this.ci8_ck.Location = new System.Drawing.Point(255, 641);
@@ -4460,7 +4399,6 @@ namespace plt0_gui
             // 
             this.ci4_ck.BackColor = System.Drawing.Color.Transparent;
             this.ci4_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ci4_ck.Enabled = false;
             this.ci4_ck.ErrorImage = null;
             this.ci4_ck.InitialImage = null;
             this.ci4_ck.Location = new System.Drawing.Point(255, 577);
@@ -4491,7 +4429,6 @@ namespace plt0_gui
             // 
             this.rgba32_ck.BackColor = System.Drawing.Color.Transparent;
             this.rgba32_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.rgba32_ck.Enabled = false;
             this.rgba32_ck.ErrorImage = null;
             this.rgba32_ck.InitialImage = null;
             this.rgba32_ck.Location = new System.Drawing.Point(255, 512);
@@ -4522,7 +4459,6 @@ namespace plt0_gui
             // 
             this.rgb5a3_ck.BackColor = System.Drawing.Color.Transparent;
             this.rgb5a3_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.rgb5a3_ck.Enabled = false;
             this.rgb5a3_ck.ErrorImage = null;
             this.rgb5a3_ck.InitialImage = null;
             this.rgb5a3_ck.Location = new System.Drawing.Point(255, 448);
@@ -4553,7 +4489,6 @@ namespace plt0_gui
             // 
             this.rgb565_ck.BackColor = System.Drawing.Color.Transparent;
             this.rgb565_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.rgb565_ck.Enabled = false;
             this.rgb565_ck.ErrorImage = null;
             this.rgb565_ck.InitialImage = null;
             this.rgb565_ck.Location = new System.Drawing.Point(255, 384);
@@ -4584,7 +4519,6 @@ namespace plt0_gui
             // 
             this.ai8_ck.BackColor = System.Drawing.Color.Transparent;
             this.ai8_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ai8_ck.Enabled = false;
             this.ai8_ck.ErrorImage = null;
             this.ai8_ck.InitialImage = null;
             this.ai8_ck.Location = new System.Drawing.Point(255, 320);
@@ -4615,7 +4549,6 @@ namespace plt0_gui
             // 
             this.ai4_ck.BackColor = System.Drawing.Color.Transparent;
             this.ai4_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ai4_ck.Enabled = false;
             this.ai4_ck.ErrorImage = null;
             this.ai4_ck.InitialImage = null;
             this.ai4_ck.Location = new System.Drawing.Point(255, 256);
@@ -4646,7 +4579,6 @@ namespace plt0_gui
             // 
             this.i8_ck.BackColor = System.Drawing.Color.Transparent;
             this.i8_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.i8_ck.Enabled = false;
             this.i8_ck.ErrorImage = null;
             this.i8_ck.InitialImage = null;
             this.i8_ck.Location = new System.Drawing.Point(255, 192);
@@ -4677,7 +4609,6 @@ namespace plt0_gui
             // 
             this.i4_ck.BackColor = System.Drawing.Color.Transparent;
             this.i4_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.i4_ck.Enabled = false;
             this.i4_ck.ErrorImage = null;
             this.i4_ck.InitialImage = null;
             this.i4_ck.Location = new System.Drawing.Point(255, 128);
@@ -4734,7 +4665,6 @@ namespace plt0_gui
             // 
             this.no_gradient_ck.BackColor = System.Drawing.Color.Transparent;
             this.no_gradient_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.no_gradient_ck.Enabled = false;
             this.no_gradient_ck.ErrorImage = null;
             this.no_gradient_ck.InitialImage = null;
             this.no_gradient_ck.Location = new System.Drawing.Point(503, 320);
@@ -4765,7 +4695,6 @@ namespace plt0_gui
             // 
             this.custom_ck.BackColor = System.Drawing.Color.Transparent;
             this.custom_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.custom_ck.Enabled = false;
             this.custom_ck.ErrorImage = null;
             this.custom_ck.InitialImage = null;
             this.custom_ck.Location = new System.Drawing.Point(503, 256);
@@ -4796,7 +4725,6 @@ namespace plt0_gui
             // 
             this.cie_709_ck.BackColor = System.Drawing.Color.Transparent;
             this.cie_709_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.cie_709_ck.Enabled = false;
             this.cie_709_ck.ErrorImage = null;
             this.cie_709_ck.InitialImage = null;
             this.cie_709_ck.Location = new System.Drawing.Point(503, 192);
@@ -4827,7 +4755,6 @@ namespace plt0_gui
             // 
             this.cie_601_ck.BackColor = System.Drawing.Color.Transparent;
             this.cie_601_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.cie_601_ck.Enabled = false;
             this.cie_601_ck.ErrorImage = null;
             this.cie_601_ck.InitialImage = null;
             this.cie_601_ck.Location = new System.Drawing.Point(503, 128);
@@ -4870,7 +4797,6 @@ namespace plt0_gui
             // 
             this.mix_ck.BackColor = System.Drawing.Color.Transparent;
             this.mix_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.mix_ck.Enabled = false;
             this.mix_ck.ErrorImage = null;
             this.mix_ck.InitialImage = null;
             this.mix_ck.Location = new System.Drawing.Point(503, 557);
@@ -4901,7 +4827,6 @@ namespace plt0_gui
             // 
             this.alpha_ck.BackColor = System.Drawing.Color.Transparent;
             this.alpha_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.alpha_ck.Enabled = false;
             this.alpha_ck.ErrorImage = null;
             this.alpha_ck.InitialImage = null;
             this.alpha_ck.Location = new System.Drawing.Point(503, 493);
@@ -4978,7 +4903,6 @@ namespace plt0_gui
             // 
             this.Tmirror_ck.BackColor = System.Drawing.Color.Transparent;
             this.Tmirror_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.Tmirror_ck.Enabled = false;
             this.Tmirror_ck.ErrorImage = null;
             this.Tmirror_ck.InitialImage = null;
             this.Tmirror_ck.Location = new System.Drawing.Point(1440, 704);
@@ -5009,7 +4933,6 @@ namespace plt0_gui
             // 
             this.Trepeat_ck.BackColor = System.Drawing.Color.Transparent;
             this.Trepeat_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.Trepeat_ck.Enabled = false;
             this.Trepeat_ck.ErrorImage = null;
             this.Trepeat_ck.InitialImage = null;
             this.Trepeat_ck.Location = new System.Drawing.Point(1440, 640);
@@ -5040,7 +4963,6 @@ namespace plt0_gui
             // 
             this.Tclamp_ck.BackColor = System.Drawing.Color.Transparent;
             this.Tclamp_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.Tclamp_ck.Enabled = false;
             this.Tclamp_ck.ErrorImage = null;
             this.Tclamp_ck.InitialImage = null;
             this.Tclamp_ck.Location = new System.Drawing.Point(1440, 576);
@@ -5083,7 +5005,6 @@ namespace plt0_gui
             // 
             this.Smirror_ck.BackColor = System.Drawing.Color.Transparent;
             this.Smirror_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.Smirror_ck.Enabled = false;
             this.Smirror_ck.ErrorImage = null;
             this.Smirror_ck.InitialImage = null;
             this.Smirror_ck.Location = new System.Drawing.Point(1225, 704);
@@ -5114,7 +5035,6 @@ namespace plt0_gui
             // 
             this.Srepeat_ck.BackColor = System.Drawing.Color.Transparent;
             this.Srepeat_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.Srepeat_ck.Enabled = false;
             this.Srepeat_ck.ErrorImage = null;
             this.Srepeat_ck.InitialImage = null;
             this.Srepeat_ck.Location = new System.Drawing.Point(1225, 640);
@@ -5145,7 +5065,6 @@ namespace plt0_gui
             // 
             this.Sclamp_ck.BackColor = System.Drawing.Color.Transparent;
             this.Sclamp_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.Sclamp_ck.Enabled = false;
             this.Sclamp_ck.ErrorImage = null;
             this.Sclamp_ck.InitialImage = null;
             this.Sclamp_ck.Location = new System.Drawing.Point(1225, 576);
@@ -5212,7 +5131,6 @@ namespace plt0_gui
             // 
             this.min_linearmipmaplinear_ck.BackColor = System.Drawing.Color.Transparent;
             this.min_linearmipmaplinear_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.min_linearmipmaplinear_ck.Enabled = false;
             this.min_linearmipmaplinear_ck.ErrorImage = null;
             this.min_linearmipmaplinear_ck.InitialImage = null;
             this.min_linearmipmaplinear_ck.Location = new System.Drawing.Point(825, 448);
@@ -5243,7 +5161,6 @@ namespace plt0_gui
             // 
             this.min_linearmipmapnearest_ck.BackColor = System.Drawing.Color.Transparent;
             this.min_linearmipmapnearest_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.min_linearmipmapnearest_ck.Enabled = false;
             this.min_linearmipmapnearest_ck.ErrorImage = null;
             this.min_linearmipmapnearest_ck.InitialImage = null;
             this.min_linearmipmapnearest_ck.Location = new System.Drawing.Point(825, 384);
@@ -5274,7 +5191,6 @@ namespace plt0_gui
             // 
             this.min_nearestmipmaplinear_ck.BackColor = System.Drawing.Color.Transparent;
             this.min_nearestmipmaplinear_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.min_nearestmipmaplinear_ck.Enabled = false;
             this.min_nearestmipmaplinear_ck.ErrorImage = null;
             this.min_nearestmipmaplinear_ck.InitialImage = null;
             this.min_nearestmipmaplinear_ck.Location = new System.Drawing.Point(825, 320);
@@ -5305,7 +5221,6 @@ namespace plt0_gui
             // 
             this.min_nearestmipmapnearest_ck.BackColor = System.Drawing.Color.Transparent;
             this.min_nearestmipmapnearest_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.min_nearestmipmapnearest_ck.Enabled = false;
             this.min_nearestmipmapnearest_ck.ErrorImage = null;
             this.min_nearestmipmapnearest_ck.InitialImage = null;
             this.min_nearestmipmapnearest_ck.Location = new System.Drawing.Point(825, 256);
@@ -5336,7 +5251,6 @@ namespace plt0_gui
             // 
             this.min_linear_ck.BackColor = System.Drawing.Color.Transparent;
             this.min_linear_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.min_linear_ck.Enabled = false;
             this.min_linear_ck.ErrorImage = null;
             this.min_linear_ck.InitialImage = null;
             this.min_linear_ck.Location = new System.Drawing.Point(825, 192);
@@ -5367,7 +5281,6 @@ namespace plt0_gui
             // 
             this.min_nearest_neighbour_ck.BackColor = System.Drawing.Color.Transparent;
             this.min_nearest_neighbour_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.min_nearest_neighbour_ck.Enabled = false;
             this.min_nearest_neighbour_ck.ErrorImage = null;
             this.min_nearest_neighbour_ck.InitialImage = null;
             this.min_nearest_neighbour_ck.Location = new System.Drawing.Point(825, 128);
@@ -5398,7 +5311,6 @@ namespace plt0_gui
             // 
             this.mag_linearmipmaplinear_ck.BackColor = System.Drawing.Color.Transparent;
             this.mag_linearmipmaplinear_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.mag_linearmipmaplinear_ck.Enabled = false;
             this.mag_linearmipmaplinear_ck.ErrorImage = null;
             this.mag_linearmipmaplinear_ck.InitialImage = null;
             this.mag_linearmipmaplinear_ck.Location = new System.Drawing.Point(1225, 448);
@@ -5429,7 +5341,6 @@ namespace plt0_gui
             // 
             this.mag_linearmipmapnearest_ck.BackColor = System.Drawing.Color.Transparent;
             this.mag_linearmipmapnearest_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.mag_linearmipmapnearest_ck.Enabled = false;
             this.mag_linearmipmapnearest_ck.ErrorImage = null;
             this.mag_linearmipmapnearest_ck.InitialImage = null;
             this.mag_linearmipmapnearest_ck.Location = new System.Drawing.Point(1225, 384);
@@ -5460,7 +5371,6 @@ namespace plt0_gui
             // 
             this.mag_nearestmipmaplinear_ck.BackColor = System.Drawing.Color.Transparent;
             this.mag_nearestmipmaplinear_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.mag_nearestmipmaplinear_ck.Enabled = false;
             this.mag_nearestmipmaplinear_ck.ErrorImage = null;
             this.mag_nearestmipmaplinear_ck.InitialImage = null;
             this.mag_nearestmipmaplinear_ck.Location = new System.Drawing.Point(1225, 320);
@@ -5491,7 +5401,6 @@ namespace plt0_gui
             // 
             this.mag_nearestmipmapnearest_ck.BackColor = System.Drawing.Color.Transparent;
             this.mag_nearestmipmapnearest_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.mag_nearestmipmapnearest_ck.Enabled = false;
             this.mag_nearestmipmapnearest_ck.ErrorImage = null;
             this.mag_nearestmipmapnearest_ck.InitialImage = null;
             this.mag_nearestmipmapnearest_ck.Location = new System.Drawing.Point(1225, 256);
@@ -5522,7 +5431,6 @@ namespace plt0_gui
             // 
             this.mag_linear_ck.BackColor = System.Drawing.Color.Transparent;
             this.mag_linear_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.mag_linear_ck.Enabled = false;
             this.mag_linear_ck.ErrorImage = null;
             this.mag_linear_ck.InitialImage = null;
             this.mag_linear_ck.Location = new System.Drawing.Point(1225, 192);
@@ -5553,7 +5461,6 @@ namespace plt0_gui
             // 
             this.mag_nearest_neighbour_ck.BackColor = System.Drawing.Color.Transparent;
             this.mag_nearest_neighbour_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.mag_nearest_neighbour_ck.Enabled = false;
             this.mag_nearest_neighbour_ck.ErrorImage = null;
             this.mag_nearest_neighbour_ck.InitialImage = null;
             this.mag_nearest_neighbour_ck.Location = new System.Drawing.Point(1225, 128);
@@ -5584,7 +5491,6 @@ namespace plt0_gui
             // 
             this.r_r_ck.BackColor = System.Drawing.Color.Transparent;
             this.r_r_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.r_r_ck.Enabled = false;
             this.r_r_ck.ErrorImage = null;
             this.r_r_ck.InitialImage = null;
             this.r_r_ck.Location = new System.Drawing.Point(1647, 813);
@@ -5598,7 +5504,6 @@ namespace plt0_gui
             // 
             this.r_g_ck.BackColor = System.Drawing.Color.Transparent;
             this.r_g_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.r_g_ck.Enabled = false;
             this.r_g_ck.ErrorImage = null;
             this.r_g_ck.InitialImage = null;
             this.r_g_ck.Location = new System.Drawing.Point(1647, 877);
@@ -5612,7 +5517,6 @@ namespace plt0_gui
             // 
             this.g_r_ck.BackColor = System.Drawing.Color.Transparent;
             this.g_r_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.g_r_ck.Enabled = false;
             this.g_r_ck.ErrorImage = null;
             this.g_r_ck.InitialImage = null;
             this.g_r_ck.Location = new System.Drawing.Point(1711, 813);
@@ -5626,7 +5530,6 @@ namespace plt0_gui
             // 
             this.g_g_ck.BackColor = System.Drawing.Color.Transparent;
             this.g_g_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.g_g_ck.Enabled = false;
             this.g_g_ck.ErrorImage = null;
             this.g_g_ck.InitialImage = null;
             this.g_g_ck.Location = new System.Drawing.Point(1711, 877);
@@ -5640,7 +5543,6 @@ namespace plt0_gui
             // 
             this.a_g_ck.BackColor = System.Drawing.Color.Transparent;
             this.a_g_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.a_g_ck.Enabled = false;
             this.a_g_ck.ErrorImage = null;
             this.a_g_ck.InitialImage = null;
             this.a_g_ck.Location = new System.Drawing.Point(1839, 877);
@@ -5654,7 +5556,6 @@ namespace plt0_gui
             // 
             this.a_r_ck.BackColor = System.Drawing.Color.Transparent;
             this.a_r_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.a_r_ck.Enabled = false;
             this.a_r_ck.ErrorImage = null;
             this.a_r_ck.InitialImage = null;
             this.a_r_ck.Location = new System.Drawing.Point(1839, 813);
@@ -5668,7 +5569,6 @@ namespace plt0_gui
             // 
             this.b_g_ck.BackColor = System.Drawing.Color.Transparent;
             this.b_g_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.b_g_ck.Enabled = false;
             this.b_g_ck.ErrorImage = null;
             this.b_g_ck.InitialImage = null;
             this.b_g_ck.Location = new System.Drawing.Point(1775, 877);
@@ -5682,7 +5582,6 @@ namespace plt0_gui
             // 
             this.b_r_ck.BackColor = System.Drawing.Color.Transparent;
             this.b_r_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.b_r_ck.Enabled = false;
             this.b_r_ck.ErrorImage = null;
             this.b_r_ck.InitialImage = null;
             this.b_r_ck.Location = new System.Drawing.Point(1775, 813);
@@ -5696,7 +5595,6 @@ namespace plt0_gui
             // 
             this.g_a_ck.BackColor = System.Drawing.Color.Transparent;
             this.g_a_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.g_a_ck.Enabled = false;
             this.g_a_ck.ErrorImage = null;
             this.g_a_ck.InitialImage = null;
             this.g_a_ck.Location = new System.Drawing.Point(1711, 1005);
@@ -5710,7 +5608,6 @@ namespace plt0_gui
             // 
             this.g_b_ck.BackColor = System.Drawing.Color.Transparent;
             this.g_b_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.g_b_ck.Enabled = false;
             this.g_b_ck.ErrorImage = null;
             this.g_b_ck.InitialImage = null;
             this.g_b_ck.Location = new System.Drawing.Point(1711, 941);
@@ -5724,7 +5621,6 @@ namespace plt0_gui
             // 
             this.r_a_ck.BackColor = System.Drawing.Color.Transparent;
             this.r_a_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.r_a_ck.Enabled = false;
             this.r_a_ck.ErrorImage = null;
             this.r_a_ck.InitialImage = null;
             this.r_a_ck.Location = new System.Drawing.Point(1647, 1005);
@@ -5738,7 +5634,6 @@ namespace plt0_gui
             // 
             this.r_b_ck.BackColor = System.Drawing.Color.Transparent;
             this.r_b_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.r_b_ck.Enabled = false;
             this.r_b_ck.ErrorImage = null;
             this.r_b_ck.InitialImage = null;
             this.r_b_ck.Location = new System.Drawing.Point(1647, 941);
@@ -5752,7 +5647,6 @@ namespace plt0_gui
             // 
             this.a_a_ck.BackColor = System.Drawing.Color.Transparent;
             this.a_a_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.a_a_ck.Enabled = false;
             this.a_a_ck.ErrorImage = null;
             this.a_a_ck.InitialImage = null;
             this.a_a_ck.Location = new System.Drawing.Point(1839, 1005);
@@ -5766,7 +5660,6 @@ namespace plt0_gui
             // 
             this.a_b_ck.BackColor = System.Drawing.Color.Transparent;
             this.a_b_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.a_b_ck.Enabled = false;
             this.a_b_ck.ErrorImage = null;
             this.a_b_ck.InitialImage = null;
             this.a_b_ck.Location = new System.Drawing.Point(1839, 941);
@@ -5780,7 +5673,6 @@ namespace plt0_gui
             // 
             this.b_a_ck.BackColor = System.Drawing.Color.Transparent;
             this.b_a_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.b_a_ck.Enabled = false;
             this.b_a_ck.ErrorImage = null;
             this.b_a_ck.InitialImage = null;
             this.b_a_ck.Location = new System.Drawing.Point(1775, 1005);
@@ -5794,7 +5686,6 @@ namespace plt0_gui
             // 
             this.b_b_ck.BackColor = System.Drawing.Color.Transparent;
             this.b_b_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.b_b_ck.Enabled = false;
             this.b_b_ck.ErrorImage = null;
             this.b_b_ck.InitialImage = null;
             this.b_b_ck.Location = new System.Drawing.Point(1775, 941);
@@ -6028,70 +5919,6 @@ namespace plt0_gui
             this.banner_ck.TabIndex = 394;
             this.banner_ck.TabStop = false;
             // 
-            // all_hitbox
-            // 
-            this.all_hitbox.AutoSize = true;
-            this.all_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.all_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.all_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.all_hitbox.Location = new System.Drawing.Point(48, 0);
-            this.all_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.all_hitbox.Name = "all_hitbox";
-            this.all_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
-            this.all_hitbox.Size = new System.Drawing.Size(32, 32);
-            this.all_hitbox.TabIndex = 395;
-            this.all_hitbox.Click += new System.EventHandler(this.All_Click);
-            this.all_hitbox.MouseEnter += new System.EventHandler(this.All_MouseEnter);
-            this.all_hitbox.MouseLeave += new System.EventHandler(this.All_MouseLeave);
-            // 
-            // preview_hitbox
-            // 
-            this.preview_hitbox.AutoSize = true;
-            this.preview_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.preview_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.preview_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.preview_hitbox.Location = new System.Drawing.Point(176, 0);
-            this.preview_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.preview_hitbox.Name = "preview_hitbox";
-            this.preview_hitbox.Padding = new System.Windows.Forms.Padding(96, 6, 0, 6);
-            this.preview_hitbox.Size = new System.Drawing.Size(96, 32);
-            this.preview_hitbox.TabIndex = 396;
-            this.preview_hitbox.Click += new System.EventHandler(this.Preview_Click);
-            this.preview_hitbox.MouseEnter += new System.EventHandler(this.Preview_MouseEnter);
-            this.preview_hitbox.MouseLeave += new System.EventHandler(this.Preview_MouseLeave);
-            // 
-            // paint_hitbox
-            // 
-            this.paint_hitbox.AutoSize = true;
-            this.paint_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.paint_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.paint_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.paint_hitbox.Location = new System.Drawing.Point(272, 0);
-            this.paint_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.paint_hitbox.Name = "paint_hitbox";
-            this.paint_hitbox.Padding = new System.Windows.Forms.Padding(96, 6, 0, 6);
-            this.paint_hitbox.Size = new System.Drawing.Size(96, 32);
-            this.paint_hitbox.TabIndex = 397;
-            this.paint_hitbox.Click += new System.EventHandler(this.Paint_Click);
-            this.paint_hitbox.MouseEnter += new System.EventHandler(this.Paint_MouseEnter);
-            this.paint_hitbox.MouseLeave += new System.EventHandler(this.Paint_MouseLeave);
-            // 
-            // auto_hitbox
-            // 
-            this.auto_hitbox.AutoSize = true;
-            this.auto_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.auto_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.auto_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.auto_hitbox.Location = new System.Drawing.Point(80, 0);
-            this.auto_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.auto_hitbox.Name = "auto_hitbox";
-            this.auto_hitbox.Padding = new System.Windows.Forms.Padding(96, 6, 0, 6);
-            this.auto_hitbox.Size = new System.Drawing.Size(96, 32);
-            this.auto_hitbox.TabIndex = 398;
-            this.auto_hitbox.Click += new System.EventHandler(this.Auto_Click);
-            this.auto_hitbox.MouseEnter += new System.EventHandler(this.Auto_MouseEnter);
-            this.auto_hitbox.MouseLeave += new System.EventHandler(this.Auto_MouseLeave);
-            // 
             // all_ck
             // 
             this.all_ck.BackColor = System.Drawing.Color.Transparent;
@@ -6152,7 +5979,6 @@ namespace plt0_gui
             // 
             this.banner_x_ck.BackColor = System.Drawing.Color.Transparent;
             this.banner_x_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.banner_x_ck.Enabled = false;
             this.banner_x_ck.ErrorImage = null;
             this.banner_x_ck.InitialImage = null;
             this.banner_x_ck.Location = new System.Drawing.Point(1888, 0);
@@ -6182,7 +6008,6 @@ namespace plt0_gui
             // 
             this.banner_5_ck.BackColor = System.Drawing.Color.Transparent;
             this.banner_5_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.banner_5_ck.Enabled = false;
             this.banner_5_ck.ErrorImage = null;
             this.banner_5_ck.InitialImage = null;
             this.banner_5_ck.Location = new System.Drawing.Point(1856, 0);
@@ -6212,7 +6037,6 @@ namespace plt0_gui
             // 
             this.banner_minus_ck.BackColor = System.Drawing.Color.Transparent;
             this.banner_minus_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.banner_minus_ck.Enabled = false;
             this.banner_minus_ck.ErrorImage = null;
             this.banner_minus_ck.InitialImage = null;
             this.banner_minus_ck.Location = new System.Drawing.Point(1824, 0);
@@ -6252,22 +6076,6 @@ namespace plt0_gui
             this.banner_9_ck.TabIndex = 412;
             this.banner_9_ck.TabStop = false;
             // 
-            // banner_9_hitbox
-            // 
-            this.banner_9_hitbox.AutoSize = true;
-            this.banner_9_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.banner_9_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.banner_9_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.banner_9_hitbox.Location = new System.Drawing.Point(480, 0);
-            this.banner_9_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.banner_9_hitbox.Name = "banner_9_hitbox";
-            this.banner_9_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
-            this.banner_9_hitbox.Size = new System.Drawing.Size(32, 32);
-            this.banner_9_hitbox.TabIndex = 411;
-            this.banner_9_hitbox.Click += new System.EventHandler(this.Top_right_Click);
-            this.banner_9_hitbox.MouseEnter += new System.EventHandler(this.Top_right_MouseEnter);
-            this.banner_9_hitbox.MouseLeave += new System.EventHandler(this.Top_right_MouseLeave);
-            // 
             // banner_8_ck
             // 
             this.banner_8_ck.BackColor = System.Drawing.Color.Transparent;
@@ -6281,22 +6089,6 @@ namespace plt0_gui
             this.banner_8_ck.Size = new System.Drawing.Size(32, 32);
             this.banner_8_ck.TabIndex = 414;
             this.banner_8_ck.TabStop = false;
-            // 
-            // banner_8_hitbox
-            // 
-            this.banner_8_hitbox.AutoSize = true;
-            this.banner_8_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.banner_8_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.banner_8_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.banner_8_hitbox.Location = new System.Drawing.Point(448, 0);
-            this.banner_8_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.banner_8_hitbox.Name = "banner_8_hitbox";
-            this.banner_8_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
-            this.banner_8_hitbox.Size = new System.Drawing.Size(32, 32);
-            this.banner_8_hitbox.TabIndex = 413;
-            this.banner_8_hitbox.Click += new System.EventHandler(this.Top_Click);
-            this.banner_8_hitbox.MouseEnter += new System.EventHandler(this.Top_MouseEnter);
-            this.banner_8_hitbox.MouseLeave += new System.EventHandler(this.Top_MouseLeave);
             // 
             // banner_7_ck
             // 
@@ -6312,22 +6104,6 @@ namespace plt0_gui
             this.banner_7_ck.TabIndex = 416;
             this.banner_7_ck.TabStop = false;
             // 
-            // banner_7_hitbox
-            // 
-            this.banner_7_hitbox.AutoSize = true;
-            this.banner_7_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.banner_7_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.banner_7_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.banner_7_hitbox.Location = new System.Drawing.Point(416, 0);
-            this.banner_7_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.banner_7_hitbox.Name = "banner_7_hitbox";
-            this.banner_7_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
-            this.banner_7_hitbox.Size = new System.Drawing.Size(32, 32);
-            this.banner_7_hitbox.TabIndex = 415;
-            this.banner_7_hitbox.Click += new System.EventHandler(this.Top_left_Click);
-            this.banner_7_hitbox.MouseEnter += new System.EventHandler(this.Top_left_MouseEnter);
-            this.banner_7_hitbox.MouseLeave += new System.EventHandler(this.Top_left_MouseLeave);
-            // 
             // banner_6_ck
             // 
             this.banner_6_ck.BackColor = System.Drawing.Color.Transparent;
@@ -6341,22 +6117,6 @@ namespace plt0_gui
             this.banner_6_ck.Size = new System.Drawing.Size(32, 32);
             this.banner_6_ck.TabIndex = 418;
             this.banner_6_ck.TabStop = false;
-            // 
-            // banner_6_hitbox
-            // 
-            this.banner_6_hitbox.AutoSize = true;
-            this.banner_6_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.banner_6_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.banner_6_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.banner_6_hitbox.Location = new System.Drawing.Point(512, 0);
-            this.banner_6_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.banner_6_hitbox.Name = "banner_6_hitbox";
-            this.banner_6_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
-            this.banner_6_hitbox.Size = new System.Drawing.Size(32, 32);
-            this.banner_6_hitbox.TabIndex = 417;
-            this.banner_6_hitbox.Click += new System.EventHandler(this.Right_Click);
-            this.banner_6_hitbox.MouseEnter += new System.EventHandler(this.Right_MouseEnter);
-            this.banner_6_hitbox.MouseLeave += new System.EventHandler(this.Right_MouseLeave);
             // 
             // banner_4_ck
             // 
@@ -6372,22 +6132,6 @@ namespace plt0_gui
             this.banner_4_ck.TabIndex = 420;
             this.banner_4_ck.TabStop = false;
             // 
-            // banner_4_hitbox
-            // 
-            this.banner_4_hitbox.AutoSize = true;
-            this.banner_4_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.banner_4_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.banner_4_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.banner_4_hitbox.Location = new System.Drawing.Point(384, 0);
-            this.banner_4_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.banner_4_hitbox.Name = "banner_4_hitbox";
-            this.banner_4_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
-            this.banner_4_hitbox.Size = new System.Drawing.Size(32, 32);
-            this.banner_4_hitbox.TabIndex = 419;
-            this.banner_4_hitbox.Click += new System.EventHandler(this.Left_Click);
-            this.banner_4_hitbox.MouseEnter += new System.EventHandler(this.Left_MouseEnter);
-            this.banner_4_hitbox.MouseLeave += new System.EventHandler(this.Left_MouseLeave);
-            // 
             // banner_3_ck
             // 
             this.banner_3_ck.BackColor = System.Drawing.Color.Transparent;
@@ -6401,22 +6145,6 @@ namespace plt0_gui
             this.banner_3_ck.Size = new System.Drawing.Size(32, 32);
             this.banner_3_ck.TabIndex = 422;
             this.banner_3_ck.TabStop = false;
-            // 
-            // banner_3_hitbox
-            // 
-            this.banner_3_hitbox.AutoSize = true;
-            this.banner_3_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.banner_3_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.banner_3_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.banner_3_hitbox.Location = new System.Drawing.Point(544, 0);
-            this.banner_3_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.banner_3_hitbox.Name = "banner_3_hitbox";
-            this.banner_3_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
-            this.banner_3_hitbox.Size = new System.Drawing.Size(32, 32);
-            this.banner_3_hitbox.TabIndex = 421;
-            this.banner_3_hitbox.Click += new System.EventHandler(this.Bottom_right_Click);
-            this.banner_3_hitbox.MouseEnter += new System.EventHandler(this.Bottom_right_MouseEnter);
-            this.banner_3_hitbox.MouseLeave += new System.EventHandler(this.Bottom_right_MouseLeave);
             // 
             // banner_2_ck
             // 
@@ -6432,22 +6160,6 @@ namespace plt0_gui
             this.banner_2_ck.TabIndex = 424;
             this.banner_2_ck.TabStop = false;
             // 
-            // banner_2_hitbox
-            // 
-            this.banner_2_hitbox.AutoSize = true;
-            this.banner_2_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.banner_2_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.banner_2_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.banner_2_hitbox.Location = new System.Drawing.Point(576, 0);
-            this.banner_2_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.banner_2_hitbox.Name = "banner_2_hitbox";
-            this.banner_2_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
-            this.banner_2_hitbox.Size = new System.Drawing.Size(32, 32);
-            this.banner_2_hitbox.TabIndex = 423;
-            this.banner_2_hitbox.Click += new System.EventHandler(this.Bottom_Click);
-            this.banner_2_hitbox.MouseEnter += new System.EventHandler(this.Bottom_MouseEnter);
-            this.banner_2_hitbox.MouseLeave += new System.EventHandler(this.Bottom_MouseLeave);
-            // 
             // banner_1_ck
             // 
             this.banner_1_ck.BackColor = System.Drawing.Color.Transparent;
@@ -6462,27 +6174,10 @@ namespace plt0_gui
             this.banner_1_ck.TabIndex = 426;
             this.banner_1_ck.TabStop = false;
             // 
-            // banner_1_hitbox
-            // 
-            this.banner_1_hitbox.AutoSize = true;
-            this.banner_1_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.banner_1_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.banner_1_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.banner_1_hitbox.Location = new System.Drawing.Point(608, 0);
-            this.banner_1_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.banner_1_hitbox.Name = "banner_1_hitbox";
-            this.banner_1_hitbox.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
-            this.banner_1_hitbox.Size = new System.Drawing.Size(32, 32);
-            this.banner_1_hitbox.TabIndex = 425;
-            this.banner_1_hitbox.Click += new System.EventHandler(this.Bottom_left_Click);
-            this.banner_1_hitbox.MouseEnter += new System.EventHandler(this.Bottom_left_MouseEnter);
-            this.banner_1_hitbox.MouseLeave += new System.EventHandler(this.Bottom_left_MouseLeave);
-            // 
             // cli_textbox_ck
             // 
             this.cli_textbox_ck.BackColor = System.Drawing.Color.Transparent;
             this.cli_textbox_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.cli_textbox_ck.Enabled = false;
             this.cli_textbox_ck.ErrorImage = null;
             this.cli_textbox_ck.InitialImage = null;
             this.cli_textbox_ck.Location = new System.Drawing.Point(9, 1005);
@@ -6498,7 +6193,6 @@ namespace plt0_gui
             // 
             this.run_ck.BackColor = System.Drawing.Color.Transparent;
             this.run_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.run_ck.Enabled = false;
             this.run_ck.ErrorImage = null;
             this.run_ck.InitialImage = null;
             this.run_ck.Location = new System.Drawing.Point(1500, 1005);
@@ -6561,10 +6255,11 @@ namespace plt0_gui
             this.input_file_label.BackColor = System.Drawing.Color.Transparent;
             this.input_file_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.input_file_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.input_file_label.Location = new System.Drawing.Point(21, 941);
+            this.input_file_label.Location = new System.Drawing.Point(21, 929);
             this.input_file_label.Margin = new System.Windows.Forms.Padding(0);
             this.input_file_label.Name = "input_file_label";
-            this.input_file_label.Size = new System.Drawing.Size(111, 20);
+            this.input_file_label.Padding = new System.Windows.Forms.Padding(0, 10, 0, 10);
+            this.input_file_label.Size = new System.Drawing.Size(111, 40);
             this.input_file_label.TabIndex = 432;
             this.input_file_label.Text = "Input file";
             this.input_file_label.DoubleClick += new System.EventHandler(this.input_file_Click);
@@ -7206,7 +6901,6 @@ namespace plt0_gui
             // 
             this.palette_rgb5a3_ck.BackColor = System.Drawing.Color.Transparent;
             this.palette_rgb5a3_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.palette_rgb5a3_ck.Enabled = false;
             this.palette_rgb5a3_ck.ErrorImage = null;
             this.palette_rgb5a3_ck.InitialImage = null;
             this.palette_rgb5a3_ck.Location = new System.Drawing.Point(503, 800);
@@ -7237,7 +6931,6 @@ namespace plt0_gui
             // 
             this.palette_rgb565_ck.BackColor = System.Drawing.Color.Transparent;
             this.palette_rgb565_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.palette_rgb565_ck.Enabled = false;
             this.palette_rgb565_ck.ErrorImage = null;
             this.palette_rgb565_ck.InitialImage = null;
             this.palette_rgb565_ck.Location = new System.Drawing.Point(503, 736);
@@ -7268,7 +6961,6 @@ namespace plt0_gui
             // 
             this.palette_ai8_ck.BackColor = System.Drawing.Color.Transparent;
             this.palette_ai8_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.palette_ai8_ck.Enabled = false;
             this.palette_ai8_ck.ErrorImage = null;
             this.palette_ai8_ck.InitialImage = null;
             this.palette_ai8_ck.Location = new System.Drawing.Point(503, 672);
@@ -7312,7 +7004,6 @@ namespace plt0_gui
             // 
             this.github_ck.BackColor = System.Drawing.Color.Transparent;
             this.github_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.github_ck.Enabled = false;
             this.github_ck.ErrorImage = null;
             this.github_ck.InitialImage = null;
             this.github_ck.Location = new System.Drawing.Point(1711, 0);
@@ -7342,7 +7033,6 @@ namespace plt0_gui
             // 
             this.youtube_ck.BackColor = System.Drawing.Color.Transparent;
             this.youtube_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.youtube_ck.Enabled = false;
             this.youtube_ck.ErrorImage = null;
             this.youtube_ck.InitialImage = null;
             this.youtube_ck.Location = new System.Drawing.Point(1765, 0);
@@ -7372,7 +7062,6 @@ namespace plt0_gui
             // 
             this.discord_ck.BackColor = System.Drawing.Color.Transparent;
             this.discord_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.discord_ck.Enabled = false;
             this.discord_ck.ErrorImage = null;
             this.discord_ck.InitialImage = null;
             this.discord_ck.Location = new System.Drawing.Point(1661, 0);
@@ -7397,293 +7086,6 @@ namespace plt0_gui
             this.discord_hitbox.Click += new System.EventHandler(this.discord_Click);
             this.discord_hitbox.MouseEnter += new System.EventHandler(this.discord_MouseEnter);
             this.discord_hitbox.MouseLeave += new System.EventHandler(this.discord_MouseLeave);
-            // 
-            // input_file_hitbox
-            // 
-            this.input_file_hitbox.AutoSize = true;
-            this.input_file_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.input_file_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.input_file_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.input_file_hitbox.Location = new System.Drawing.Point(12, 929);
-            this.input_file_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.input_file_hitbox.Name = "input_file_hitbox";
-            this.input_file_hitbox.Padding = new System.Windows.Forms.Padding(122, 44, 0, 0);
-            this.input_file_hitbox.Size = new System.Drawing.Size(122, 64);
-            this.input_file_hitbox.TabIndex = 489;
-            this.input_file_hitbox.DoubleClick += new System.EventHandler(this.input_file_Click);
-            this.input_file_hitbox.MouseEnter += new System.EventHandler(this.input_file_MouseEnter);
-            this.input_file_hitbox.MouseLeave += new System.EventHandler(this.input_file_MouseLeave);
-            // 
-            // input_file2_hitbox
-            // 
-            this.input_file2_hitbox.AutoSize = true;
-            this.input_file2_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.input_file2_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.input_file2_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.input_file2_hitbox.Location = new System.Drawing.Point(150, 929);
-            this.input_file2_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.input_file2_hitbox.Name = "input_file2_hitbox";
-            this.input_file2_hitbox.Padding = new System.Windows.Forms.Padding(137, 44, 0, 0);
-            this.input_file2_hitbox.Size = new System.Drawing.Size(137, 64);
-            this.input_file2_hitbox.TabIndex = 490;
-            this.input_file2_hitbox.DoubleClick += new System.EventHandler(this.input_file2_Click);
-            this.input_file2_hitbox.MouseEnter += new System.EventHandler(this.input_file2_MouseEnter);
-            this.input_file2_hitbox.MouseLeave += new System.EventHandler(this.input_file2_MouseLeave);
-            // 
-            // custom_r_hitbox
-            // 
-            this.custom_r_hitbox.AutoSize = true;
-            this.custom_r_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.custom_r_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.custom_r_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.custom_r_hitbox.Location = new System.Drawing.Point(1289, 877);
-            this.custom_r_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.custom_r_hitbox.Name = "custom_r_hitbox";
-            this.custom_r_hitbox.Padding = new System.Windows.Forms.Padding(70, 34, 0, 0);
-            this.custom_r_hitbox.Size = new System.Drawing.Size(70, 54);
-            this.custom_r_hitbox.TabIndex = 493;
-            this.custom_r_hitbox.MouseEnter += new System.EventHandler(this.custom_r_MouseEnter);
-            this.custom_r_hitbox.MouseLeave += new System.EventHandler(this.custom_r_MouseLeave);
-            // 
-            // num_colours_hitbox
-            // 
-            this.num_colours_hitbox.AutoSize = true;
-            this.num_colours_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.num_colours_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.num_colours_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.num_colours_hitbox.Location = new System.Drawing.Point(975, 941);
-            this.num_colours_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.num_colours_hitbox.Name = "num_colours_hitbox";
-            this.num_colours_hitbox.Padding = new System.Windows.Forms.Padding(150, 34, 0, 0);
-            this.num_colours_hitbox.Size = new System.Drawing.Size(150, 54);
-            this.num_colours_hitbox.TabIndex = 497;
-            this.num_colours_hitbox.MouseEnter += new System.EventHandler(this.num_colours_MouseEnter);
-            this.num_colours_hitbox.MouseLeave += new System.EventHandler(this.num_colours_MouseLeave);
-            // 
-            // diversity_hitbox
-            // 
-            this.diversity_hitbox.AutoSize = true;
-            this.diversity_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.diversity_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.diversity_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.diversity_hitbox.Location = new System.Drawing.Point(498, 878);
-            this.diversity_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.diversity_hitbox.Name = "diversity_hitbox";
-            this.diversity_hitbox.Padding = new System.Windows.Forms.Padding(107, 34, 0, 0);
-            this.diversity_hitbox.Size = new System.Drawing.Size(107, 54);
-            this.diversity_hitbox.TabIndex = 498;
-            this.diversity_hitbox.MouseEnter += new System.EventHandler(this.diversity_MouseEnter);
-            this.diversity_hitbox.MouseLeave += new System.EventHandler(this.diversity_MouseLeave);
-            // 
-            // round3_hitbox
-            // 
-            this.round3_hitbox.AutoSize = true;
-            this.round3_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.round3_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.round3_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.round3_hitbox.Location = new System.Drawing.Point(1149, 941);
-            this.round3_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.round3_hitbox.Name = "round3_hitbox";
-            this.round3_hitbox.Padding = new System.Windows.Forms.Padding(107, 34, 0, 0);
-            this.round3_hitbox.Size = new System.Drawing.Size(107, 54);
-            this.round3_hitbox.TabIndex = 500;
-            this.round3_hitbox.MouseEnter += new System.EventHandler(this.round3_MouseEnter);
-            this.round3_hitbox.MouseLeave += new System.EventHandler(this.round3_MouseLeave);
-            // 
-            // cmpr_min_alpha_hitbox
-            // 
-            this.cmpr_min_alpha_hitbox.AutoSize = true;
-            this.cmpr_min_alpha_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_min_alpha_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.cmpr_min_alpha_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_min_alpha_hitbox.Location = new System.Drawing.Point(762, 941);
-            this.cmpr_min_alpha_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_min_alpha_hitbox.Name = "cmpr_min_alpha_hitbox";
-            this.cmpr_min_alpha_hitbox.Padding = new System.Windows.Forms.Padding(200, 34, 0, 0);
-            this.cmpr_min_alpha_hitbox.Size = new System.Drawing.Size(200, 54);
-            this.cmpr_min_alpha_hitbox.TabIndex = 501;
-            this.cmpr_min_alpha_hitbox.MouseEnter += new System.EventHandler(this.cmpr_min_alpha_MouseEnter);
-            this.cmpr_min_alpha_hitbox.MouseLeave += new System.EventHandler(this.cmpr_min_alpha_MouseLeave);
-            // 
-            // cmpr_max_hitbox
-            // 
-            this.cmpr_max_hitbox.AutoSize = true;
-            this.cmpr_max_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_max_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.cmpr_max_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_max_hitbox.Location = new System.Drawing.Point(617, 941);
-            this.cmpr_max_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_max_hitbox.Name = "cmpr_max_hitbox";
-            this.cmpr_max_hitbox.Padding = new System.Windows.Forms.Padding(137, 34, 0, 0);
-            this.cmpr_max_hitbox.Size = new System.Drawing.Size(137, 54);
-            this.cmpr_max_hitbox.TabIndex = 502;
-            this.cmpr_max_hitbox.MouseEnter += new System.EventHandler(this.cmpr_max_MouseEnter);
-            this.cmpr_max_hitbox.MouseLeave += new System.EventHandler(this.cmpr_max_MouseLeave);
-            // 
-            // mipmaps_hitbox
-            // 
-            this.mipmaps_hitbox.AutoSize = true;
-            this.mipmaps_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.mipmaps_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.mipmaps_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.mipmaps_hitbox.Location = new System.Drawing.Point(498, 941);
-            this.mipmaps_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.mipmaps_hitbox.Name = "mipmaps_hitbox";
-            this.mipmaps_hitbox.Padding = new System.Windows.Forms.Padding(107, 34, 0, 0);
-            this.mipmaps_hitbox.Size = new System.Drawing.Size(107, 54);
-            this.mipmaps_hitbox.TabIndex = 503;
-            this.mipmaps_hitbox.MouseEnter += new System.EventHandler(this.mipmaps_MouseEnter);
-            this.mipmaps_hitbox.MouseLeave += new System.EventHandler(this.mipmaps_MouseLeave);
-            // 
-            // output_name_hitbox
-            // 
-            this.output_name_hitbox.AutoSize = true;
-            this.output_name_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.output_name_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.output_name_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.output_name_hitbox.Location = new System.Drawing.Point(299, 929);
-            this.output_name_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.output_name_hitbox.Name = "output_name_hitbox";
-            this.output_name_hitbox.Padding = new System.Windows.Forms.Padding(185, 44, 0, 0);
-            this.output_name_hitbox.Size = new System.Drawing.Size(185, 64);
-            this.output_name_hitbox.TabIndex = 504;
-            this.output_name_hitbox.MouseEnter += new System.EventHandler(this.output_name_MouseEnter);
-            this.output_name_hitbox.MouseLeave += new System.EventHandler(this.output_name_MouseLeave);
-            // 
-            // round4_hitbox
-            // 
-            this.round4_hitbox.AutoSize = true;
-            this.round4_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.round4_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.round4_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.round4_hitbox.Location = new System.Drawing.Point(1270, 941);
-            this.round4_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.round4_hitbox.Name = "round4_hitbox";
-            this.round4_hitbox.Padding = new System.Windows.Forms.Padding(107, 34, 0, 0);
-            this.round4_hitbox.Size = new System.Drawing.Size(107, 54);
-            this.round4_hitbox.TabIndex = 505;
-            this.round4_hitbox.MouseEnter += new System.EventHandler(this.round4_MouseEnter);
-            this.round4_hitbox.MouseLeave += new System.EventHandler(this.round4_MouseLeave);
-            // 
-            // round5_hitbox
-            // 
-            this.round5_hitbox.AutoSize = true;
-            this.round5_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.round5_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.round5_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.round5_hitbox.Location = new System.Drawing.Point(1387, 941);
-            this.round5_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.round5_hitbox.Name = "round5_hitbox";
-            this.round5_hitbox.Padding = new System.Windows.Forms.Padding(107, 34, 0, 0);
-            this.round5_hitbox.Size = new System.Drawing.Size(107, 54);
-            this.round5_hitbox.TabIndex = 506;
-            this.round5_hitbox.MouseEnter += new System.EventHandler(this.round5_MouseEnter);
-            this.round5_hitbox.MouseLeave += new System.EventHandler(this.round5_MouseLeave);
-            // 
-            // round6_hitbox
-            // 
-            this.round6_hitbox.AutoSize = true;
-            this.round6_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.round6_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.round6_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.round6_hitbox.Location = new System.Drawing.Point(1500, 941);
-            this.round6_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.round6_hitbox.Name = "round6_hitbox";
-            this.round6_hitbox.Padding = new System.Windows.Forms.Padding(107, 34, 0, 0);
-            this.round6_hitbox.Size = new System.Drawing.Size(107, 54);
-            this.round6_hitbox.TabIndex = 507;
-            this.round6_hitbox.MouseEnter += new System.EventHandler(this.round6_MouseEnter);
-            this.round6_hitbox.MouseLeave += new System.EventHandler(this.round6_MouseLeave);
-            // 
-            // diversity2_hitbox
-            // 
-            this.diversity2_hitbox.AutoSize = true;
-            this.diversity2_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.diversity2_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.diversity2_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.diversity2_hitbox.Location = new System.Drawing.Point(619, 878);
-            this.diversity2_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.diversity2_hitbox.Name = "diversity2_hitbox";
-            this.diversity2_hitbox.Padding = new System.Windows.Forms.Padding(124, 34, 0, 0);
-            this.diversity2_hitbox.Size = new System.Drawing.Size(124, 54);
-            this.diversity2_hitbox.TabIndex = 508;
-            this.diversity2_hitbox.MouseEnter += new System.EventHandler(this.diversity2_MouseEnter);
-            this.diversity2_hitbox.MouseLeave += new System.EventHandler(this.diversity2_MouseLeave);
-            // 
-            // percentage_hitbox
-            // 
-            this.percentage_hitbox.AutoSize = true;
-            this.percentage_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.percentage_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.percentage_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.percentage_hitbox.Location = new System.Drawing.Point(753, 878);
-            this.percentage_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.percentage_hitbox.Name = "percentage_hitbox";
-            this.percentage_hitbox.Padding = new System.Windows.Forms.Padding(138, 34, 0, 0);
-            this.percentage_hitbox.Size = new System.Drawing.Size(138, 54);
-            this.percentage_hitbox.TabIndex = 509;
-            this.percentage_hitbox.MouseEnter += new System.EventHandler(this.percentage_MouseEnter);
-            this.percentage_hitbox.MouseLeave += new System.EventHandler(this.percentage_MouseLeave);
-            // 
-            // percentage2_hitbox
-            // 
-            this.percentage2_hitbox.AutoSize = true;
-            this.percentage2_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.percentage2_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.percentage2_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.percentage2_hitbox.Location = new System.Drawing.Point(900, 878);
-            this.percentage2_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.percentage2_hitbox.Name = "percentage2_hitbox";
-            this.percentage2_hitbox.Padding = new System.Windows.Forms.Padding(150, 34, 0, 0);
-            this.percentage2_hitbox.Size = new System.Drawing.Size(150, 54);
-            this.percentage2_hitbox.TabIndex = 510;
-            this.percentage2_hitbox.MouseEnter += new System.EventHandler(this.percentage2_MouseEnter);
-            this.percentage2_hitbox.MouseLeave += new System.EventHandler(this.percentage2_MouseLeave);
-            // 
-            // custom_g_hitbox
-            // 
-            this.custom_g_hitbox.AutoSize = true;
-            this.custom_g_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.custom_g_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.custom_g_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.custom_g_hitbox.Location = new System.Drawing.Point(1369, 877);
-            this.custom_g_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.custom_g_hitbox.Name = "custom_g_hitbox";
-            this.custom_g_hitbox.Padding = new System.Windows.Forms.Padding(70, 34, 0, 0);
-            this.custom_g_hitbox.Size = new System.Drawing.Size(70, 54);
-            this.custom_g_hitbox.TabIndex = 511;
-            this.custom_g_hitbox.MouseEnter += new System.EventHandler(this.custom_g_MouseEnter);
-            this.custom_g_hitbox.MouseLeave += new System.EventHandler(this.custom_g_MouseLeave);
-            // 
-            // custom_b_hitbox
-            // 
-            this.custom_b_hitbox.AutoSize = true;
-            this.custom_b_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.custom_b_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.custom_b_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.custom_b_hitbox.Location = new System.Drawing.Point(1453, 878);
-            this.custom_b_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.custom_b_hitbox.Name = "custom_b_hitbox";
-            this.custom_b_hitbox.Padding = new System.Windows.Forms.Padding(70, 34, 0, 0);
-            this.custom_b_hitbox.Size = new System.Drawing.Size(70, 54);
-            this.custom_b_hitbox.TabIndex = 512;
-            this.custom_b_hitbox.MouseEnter += new System.EventHandler(this.custom_b_MouseEnter);
-            this.custom_b_hitbox.MouseLeave += new System.EventHandler(this.custom_b_MouseLeave);
-            // 
-            // custom_a_hitbox
-            // 
-            this.custom_a_hitbox.AutoSize = true;
-            this.custom_a_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.custom_a_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.custom_a_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.custom_a_hitbox.Location = new System.Drawing.Point(1537, 878);
-            this.custom_a_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.custom_a_hitbox.Name = "custom_a_hitbox";
-            this.custom_a_hitbox.Padding = new System.Windows.Forms.Padding(70, 34, 0, 0);
-            this.custom_a_hitbox.Size = new System.Drawing.Size(70, 54);
-            this.custom_a_hitbox.TabIndex = 513;
-            this.custom_a_hitbox.MouseEnter += new System.EventHandler(this.custom_a_MouseEnter);
-            this.custom_a_hitbox.MouseLeave += new System.EventHandler(this.custom_a_MouseLeave);
             // 
             // desc2
             // 
@@ -7806,21 +7208,6 @@ namespace plt0_gui
             this.desc9.Size = new System.Drawing.Size(480, 25);
             this.desc9.TabIndex = 540;
             this.desc9.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // version_hitbox
-            // 
-            this.version_hitbox.AutoSize = true;
-            this.version_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.version_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.version_hitbox.ForeColor = System.Drawing.Color.Gray;
-            this.version_hitbox.Location = new System.Drawing.Point(674, 0);
-            this.version_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.version_hitbox.Name = "version_hitbox";
-            this.version_hitbox.Padding = new System.Windows.Forms.Padding(64, 6, 0, 6);
-            this.version_hitbox.Size = new System.Drawing.Size(64, 32);
-            this.version_hitbox.TabIndex = 541;
-            this.version_hitbox.MouseEnter += new System.EventHandler(this.version_MouseEnter);
-            this.version_hitbox.MouseLeave += new System.EventHandler(this.version_MouseLeave);
             // 
             // output_label
             // 
@@ -8019,7 +7406,6 @@ namespace plt0_gui
             // 
             this.textchange_ck.BackColor = System.Drawing.Color.Transparent;
             this.textchange_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.textchange_ck.Enabled = false;
             this.textchange_ck.ErrorImage = null;
             this.textchange_ck.InitialImage = null;
             this.textchange_ck.Location = new System.Drawing.Point(503, 32);
@@ -8050,7 +7436,6 @@ namespace plt0_gui
             // 
             this.auto_update_ck.BackColor = System.Drawing.Color.Transparent;
             this.auto_update_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.auto_update_ck.Enabled = false;
             this.auto_update_ck.ErrorImage = null;
             this.auto_update_ck.InitialImage = null;
             this.auto_update_ck.Location = new System.Drawing.Point(968, 32);
@@ -8097,7 +7482,6 @@ namespace plt0_gui
             // 
             this.upscale_ck.BackColor = System.Drawing.Color.Transparent;
             this.upscale_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.upscale_ck.Enabled = false;
             this.upscale_ck.ErrorImage = null;
             this.upscale_ck.InitialImage = null;
             this.upscale_ck.Location = new System.Drawing.Point(1321, 32);
@@ -8177,7 +7561,6 @@ namespace plt0_gui
             // 
             this.reversex_ck.BackColor = System.Drawing.Color.Transparent;
             this.reversex_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.reversex_ck.Enabled = false;
             this.reversex_ck.ErrorImage = null;
             this.reversex_ck.InitialImage = null;
             this.reversex_ck.Location = new System.Drawing.Point(1647, 448);
@@ -8235,21 +7618,6 @@ namespace plt0_gui
             this.cmpr_c1_txt.TextChanged += new System.EventHandler(this.cmpr_c1_TextChanged);
             this.cmpr_c1_txt.MouseEnter += new System.EventHandler(this.cmpr_c1_MouseEnter);
             this.cmpr_c1_txt.MouseLeave += new System.EventHandler(this.cmpr_c1_MouseLeave);
-            // 
-            // cmpr_c1_hitbox
-            // 
-            this.cmpr_c1_hitbox.AutoSize = true;
-            this.cmpr_c1_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_c1_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.cmpr_c1_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_c1_hitbox.Location = new System.Drawing.Point(2050, 32);
-            this.cmpr_c1_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_c1_hitbox.Name = "cmpr_c1_hitbox";
-            this.cmpr_c1_hitbox.Padding = new System.Windows.Forms.Padding(150, 44, 0, 0);
-            this.cmpr_c1_hitbox.Size = new System.Drawing.Size(150, 64);
-            this.cmpr_c1_hitbox.TabIndex = 611;
-            this.cmpr_c1_hitbox.MouseEnter += new System.EventHandler(this.cmpr_c1_MouseEnter);
-            this.cmpr_c1_hitbox.MouseLeave += new System.EventHandler(this.cmpr_c1_MouseLeave);
             // 
             // cmpr_c1
             // 
@@ -8309,21 +7677,6 @@ namespace plt0_gui
             this.cmpr_c2_txt.MouseEnter += new System.EventHandler(this.cmpr_c2_MouseEnter);
             this.cmpr_c2_txt.MouseLeave += new System.EventHandler(this.cmpr_c2_MouseLeave);
             // 
-            // cmpr_c2_hitbox
-            // 
-            this.cmpr_c2_hitbox.AutoSize = true;
-            this.cmpr_c2_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_c2_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.cmpr_c2_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_c2_hitbox.Location = new System.Drawing.Point(2050, 128);
-            this.cmpr_c2_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_c2_hitbox.Name = "cmpr_c2_hitbox";
-            this.cmpr_c2_hitbox.Padding = new System.Windows.Forms.Padding(150, 44, 0, 0);
-            this.cmpr_c2_hitbox.Size = new System.Drawing.Size(150, 64);
-            this.cmpr_c2_hitbox.TabIndex = 615;
-            this.cmpr_c2_hitbox.MouseEnter += new System.EventHandler(this.cmpr_c2_MouseEnter);
-            this.cmpr_c2_hitbox.MouseLeave += new System.EventHandler(this.cmpr_c2_MouseLeave);
-            // 
             // cmpr_c3
             // 
             this.cmpr_c3.AutoSize = true;
@@ -8366,21 +7719,6 @@ namespace plt0_gui
             this.cmpr_c3_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.cmpr_c3_txt.MouseEnter += new System.EventHandler(this.cmpr_c3_MouseEnter);
             this.cmpr_c3_txt.MouseLeave += new System.EventHandler(this.cmpr_c3_MouseLeave);
-            // 
-            // cmpr_c3_hitbox
-            // 
-            this.cmpr_c3_hitbox.AutoSize = true;
-            this.cmpr_c3_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_c3_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.cmpr_c3_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_c3_hitbox.Location = new System.Drawing.Point(2050, 226);
-            this.cmpr_c3_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_c3_hitbox.Name = "cmpr_c3_hitbox";
-            this.cmpr_c3_hitbox.Padding = new System.Windows.Forms.Padding(150, 44, 0, 0);
-            this.cmpr_c3_hitbox.Size = new System.Drawing.Size(150, 64);
-            this.cmpr_c3_hitbox.TabIndex = 619;
-            this.cmpr_c3_hitbox.MouseEnter += new System.EventHandler(this.cmpr_c3_MouseEnter);
-            this.cmpr_c3_hitbox.MouseLeave += new System.EventHandler(this.cmpr_c3_MouseLeave);
             // 
             // cmpr_c4
             // 
@@ -8425,26 +7763,10 @@ namespace plt0_gui
             this.cmpr_c4_txt.MouseEnter += new System.EventHandler(this.cmpr_c4_MouseEnter);
             this.cmpr_c4_txt.MouseLeave += new System.EventHandler(this.cmpr_c4_MouseLeave);
             // 
-            // cmpr_c4_hitbox
-            // 
-            this.cmpr_c4_hitbox.AutoSize = true;
-            this.cmpr_c4_hitbox.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_c4_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.cmpr_c4_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_c4_hitbox.Location = new System.Drawing.Point(2050, 323);
-            this.cmpr_c4_hitbox.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_c4_hitbox.Name = "cmpr_c4_hitbox";
-            this.cmpr_c4_hitbox.Padding = new System.Windows.Forms.Padding(150, 44, 0, 0);
-            this.cmpr_c4_hitbox.Size = new System.Drawing.Size(150, 64);
-            this.cmpr_c4_hitbox.TabIndex = 623;
-            this.cmpr_c4_hitbox.MouseEnter += new System.EventHandler(this.cmpr_c4_MouseEnter);
-            this.cmpr_c4_hitbox.MouseLeave += new System.EventHandler(this.cmpr_c4_MouseLeave);
-            // 
             // cmpr_swap_ck
             // 
             this.cmpr_swap_ck.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_swap_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.cmpr_swap_ck.Enabled = false;
             this.cmpr_swap_ck.ErrorImage = null;
             this.cmpr_swap_ck.InitialImage = null;
             this.cmpr_swap_ck.Location = new System.Drawing.Point(1982, 502);
@@ -8715,7 +8037,6 @@ namespace plt0_gui
             // 
             this.cmpr_block_paint_ck.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_block_paint_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.cmpr_block_paint_ck.Enabled = false;
             this.cmpr_block_paint_ck.ErrorImage = null;
             this.cmpr_block_paint_ck.InitialImage = null;
             this.cmpr_block_paint_ck.Location = new System.Drawing.Point(2532, 162);
@@ -8748,7 +8069,6 @@ namespace plt0_gui
             // 
             this.cmpr_block_selection_ck.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_block_selection_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.cmpr_block_selection_ck.Enabled = false;
             this.cmpr_block_selection_ck.ErrorImage = null;
             this.cmpr_block_selection_ck.InitialImage = null;
             this.cmpr_block_selection_ck.Location = new System.Drawing.Point(2533, 97);
@@ -8807,7 +8127,6 @@ namespace plt0_gui
             // 
             this.cmpr_save_ck.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_save_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.cmpr_save_ck.Enabled = false;
             this.cmpr_save_ck.ErrorImage = null;
             this.cmpr_save_ck.InitialImage = null;
             this.cmpr_save_ck.Location = new System.Drawing.Point(1982, 1005);
@@ -8836,7 +8155,6 @@ namespace plt0_gui
             // 
             this.cmpr_save_as_ck.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_save_as_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.cmpr_save_as_ck.Enabled = false;
             this.cmpr_save_as_ck.ErrorImage = null;
             this.cmpr_save_as_ck.InitialImage = null;
             this.cmpr_save_as_ck.Location = new System.Drawing.Point(2127, 1005);
@@ -9075,19 +8393,15 @@ namespace plt0_gui
             this.Controls.Add(this.cmpr_c4);
             this.Controls.Add(this.cmpr_c4_label);
             this.Controls.Add(this.cmpr_c4_txt);
-            this.Controls.Add(this.cmpr_c4_hitbox);
             this.Controls.Add(this.cmpr_c3);
             this.Controls.Add(this.cmpr_c3_label);
             this.Controls.Add(this.cmpr_c3_txt);
-            this.Controls.Add(this.cmpr_c3_hitbox);
             this.Controls.Add(this.cmpr_c2);
             this.Controls.Add(this.cmpr_c2_label);
             this.Controls.Add(this.cmpr_c2_txt);
-            this.Controls.Add(this.cmpr_c2_hitbox);
             this.Controls.Add(this.cmpr_c1);
             this.Controls.Add(this.cmpr_c1_label);
             this.Controls.Add(this.cmpr_c1_txt);
-            this.Controls.Add(this.cmpr_c1_hitbox);
             this.Controls.Add(this.reversex_ck);
             this.Controls.Add(this.reversex_label);
             this.Controls.Add(this.preview4k_label);
@@ -9141,7 +8455,6 @@ namespace plt0_gui
             this.Controls.Add(this.cli_textbox_label);
             this.Controls.Add(this.version_ck);
             this.Controls.Add(this.output_label);
-            this.Controls.Add(this.version_hitbox);
             this.Controls.Add(this.desc9);
             this.Controls.Add(this.desc8);
             this.Controls.Add(this.desc7);
@@ -9202,21 +8515,13 @@ namespace plt0_gui
             this.Controls.Add(this.run_ck);
             this.Controls.Add(this.cli_textbox_ck);
             this.Controls.Add(this.banner_1_ck);
-            this.Controls.Add(this.banner_1_hitbox);
             this.Controls.Add(this.banner_2_ck);
-            this.Controls.Add(this.banner_2_hitbox);
             this.Controls.Add(this.banner_3_ck);
-            this.Controls.Add(this.banner_3_hitbox);
             this.Controls.Add(this.banner_4_ck);
-            this.Controls.Add(this.banner_4_hitbox);
             this.Controls.Add(this.banner_6_ck);
-            this.Controls.Add(this.banner_6_hitbox);
             this.Controls.Add(this.banner_7_ck);
-            this.Controls.Add(this.banner_7_hitbox);
             this.Controls.Add(this.banner_8_ck);
-            this.Controls.Add(this.banner_8_hitbox);
             this.Controls.Add(this.banner_9_ck);
-            this.Controls.Add(this.banner_9_hitbox);
             this.Controls.Add(this.banner_minus_ck);
             this.Controls.Add(this.banner_minus_hitbox);
             this.Controls.Add(this.banner_5_ck);
@@ -9227,10 +8532,6 @@ namespace plt0_gui
             this.Controls.Add(this.auto_ck);
             this.Controls.Add(this.preview_ck);
             this.Controls.Add(this.all_ck);
-            this.Controls.Add(this.auto_hitbox);
-            this.Controls.Add(this.paint_hitbox);
-            this.Controls.Add(this.preview_hitbox);
-            this.Controls.Add(this.all_hitbox);
             this.Controls.Add(this.banner_ck);
             this.Controls.Add(this.view_mag_ck);
             this.Controls.Add(this.view_mag_label);
@@ -9362,26 +8663,7 @@ namespace plt0_gui
             this.Controls.Add(this.surrounding_ck);
             this.Controls.Add(this.run_hitbox);
             this.Controls.Add(this.cli_textbox_hitbox);
-            this.Controls.Add(this.input_file_hitbox);
-            this.Controls.Add(this.input_file2_hitbox);
-            this.Controls.Add(this.output_name_hitbox);
-            this.Controls.Add(this.mipmaps_hitbox);
-            this.Controls.Add(this.cmpr_max_hitbox);
-            this.Controls.Add(this.cmpr_min_alpha_hitbox);
-            this.Controls.Add(this.num_colours_hitbox);
-            this.Controls.Add(this.round3_hitbox);
-            this.Controls.Add(this.round4_hitbox);
-            this.Controls.Add(this.round5_hitbox);
-            this.Controls.Add(this.round6_hitbox);
-            this.Controls.Add(this.diversity_hitbox);
-            this.Controls.Add(this.diversity2_hitbox);
-            this.Controls.Add(this.percentage_hitbox);
-            this.Controls.Add(this.percentage2_hitbox);
             this.Controls.Add(this.view_min_label);
-            this.Controls.Add(this.custom_g_hitbox);
-            this.Controls.Add(this.custom_b_hitbox);
-            this.Controls.Add(this.custom_a_hitbox);
-            this.Controls.Add(this.custom_r_hitbox);
             this.Controls.Add(this.desc2);
             this.Controls.Add(this.description);
             this.Controls.Add(this.description_surrounding);
