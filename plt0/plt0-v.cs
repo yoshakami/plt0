@@ -1987,10 +1987,8 @@ namespace plt0_gui
             View_WrapT();
             View_options();
             View_rgba();
-            round3_hitbox.Visible = true;
             round3_label.Visible = true;
             round3_txt.Visible = true;
-            round4_hitbox.Visible = true;
             round4_label.Visible = true;
             round4_txt.Visible = true;
             if (preview_layout_is_enabled)
@@ -2000,7 +1998,6 @@ namespace plt0_gui
             all_layout_is_enabled = true;
             options_label.Location = new Point(1674, 40);
             ask_exit_ck.Visible = true;
-            ask_exit_hitbox.Visible = true;
             ask_exit_label.Visible = true;
             layout = 0;
 
@@ -2089,10 +2086,8 @@ namespace plt0_gui
             Hide_WrapT();
             View_options();
             View_rgba();
-            round3_hitbox.Visible = true;
             round3_label.Visible = true;
             round3_txt.Visible = true;
-            round4_hitbox.Visible = true;
             round4_label.Visible = true;
             round4_txt.Visible = true;
             if (!preview_layout_is_enabled)
@@ -2102,13 +2097,10 @@ namespace plt0_gui
             if (cmpr_layout_is_enabled)
                 Disable_Paint_Layout();
             auto_update_ck.Visible = true;
-            auto_update_hitbox.Visible = true;
             auto_update_label.Visible = true;
             upscale_ck.Visible = true;
-            upscale_hitbox.Visible = true;
             upscale_label.Visible = true;
             textchange_ck.Visible = true;
-            textchange_hitbox.Visible = true;
             textchange_label.Visible = true;
             sync_preview_ck.Visible = true;
             image_ck.Visible = true;
@@ -2128,13 +2120,10 @@ namespace plt0_gui
         private void Disable_Preview_Layout()
         {
             auto_update_ck.Visible = false;
-            auto_update_hitbox.Visible = false;
             auto_update_label.Visible = false;
             upscale_ck.Visible = false;
-            upscale_hitbox.Visible = false;
             upscale_label.Visible = false;
             textchange_ck.Visible = false;
-            textchange_hitbox.Visible = false;
             textchange_label.Visible = false;
             sync_preview_ck.Visible = false;
             image_ck.Visible = false;
@@ -2151,7 +2140,6 @@ namespace plt0_gui
         private void Disable_All_Layout()
         {
             ask_exit_ck.Visible = false;
-            ask_exit_hitbox.Visible = false;
             ask_exit_label.Visible = false;
             options_label.Location = new Point(1674, 96);
             all_layout_is_enabled = false;
@@ -2190,31 +2178,21 @@ namespace plt0_gui
             cmpr_c2_label.Visible = false;
             cmpr_c3_label.Visible = false;
             cmpr_c4_label.Visible = false;
-            cmpr_c1_hitbox.Visible = false;
-            cmpr_c2_hitbox.Visible = false;
-            cmpr_c3_hitbox.Visible = false;
-            cmpr_c4_hitbox.Visible = false;
             cmpr_sel_label.Visible = false;
             cmpr_layout_is_enabled = false;
-            cmpr_sel_hitbox.Visible = false;
             cmpr_swap_label.Visible = false;
             cmpr_save_as_ck.Visible = false;
-            cmpr_swap_hitbox.Visible = false;
-            cmpr_save_hitbox.Visible = false;
             cmpr_mouse1_label.Visible = false;
             cmpr_mouse2_label.Visible = false;
             cmpr_mouse3_label.Visible = false;
             cmpr_mouse4_label.Visible = false;
             cmpr_mouse5_label.Visible = false;
             cmpr_block_paint_ck.Visible = false;
-            cmpr_save_as_hitbox.Visible = false;
             cmpr_block_paint_label.Visible = false;
             cmpr_block_selection_ck.Visible = false;
-            cmpr_block_paint_hitbox.Visible = false;
             cmpr_selected_block_label.Visible = false;
             cmpr_picture_tooltip_label.Visible = false;
             cmpr_block_selection_label.Visible = false;
-            cmpr_block_selection_hitbox.Visible = false;
         }
         private void Layout_Paint()
         {
@@ -2225,25 +2203,19 @@ namespace plt0_gui
                 cmpr_c1.Location = new Point(cmpr_c1.Location.X - 1920, cmpr_c1.Location.Y);
                 cmpr_c1_txt.Location = new Point(cmpr_c1_txt.Location.X - 1920, cmpr_c1_txt.Location.Y);
                 cmpr_c1_label.Location = new Point(cmpr_c1_label.Location.X - 1920, cmpr_c1_label.Location.Y);
-                cmpr_c1_hitbox.Location = new Point(cmpr_c1_hitbox.Location.X - 1920, cmpr_c1_hitbox.Location.Y);
                 cmpr_c2.Location = new Point(cmpr_c2.Location.X - 1920, cmpr_c2.Location.Y);
                 cmpr_c2_txt.Location = new Point(cmpr_c2_txt.Location.X - 1920, cmpr_c2_txt.Location.Y);
                 cmpr_c2_label.Location = new Point(cmpr_c2_label.Location.X - 1920, cmpr_c2_label.Location.Y);
-                cmpr_c2_hitbox.Location = new Point(cmpr_c2_hitbox.Location.X - 1920, cmpr_c2_hitbox.Location.Y);
                 cmpr_c3.Location = new Point(cmpr_c3.Location.X - 1920, cmpr_c3.Location.Y);
                 cmpr_c3_txt.Location = new Point(cmpr_c3_txt.Location.X - 1920, cmpr_c3_txt.Location.Y);
                 cmpr_c3_label.Location = new Point(cmpr_c3_label.Location.X - 1920, cmpr_c3_label.Location.Y);
-                cmpr_c3_hitbox.Location = new Point(cmpr_c3_hitbox.Location.X - 1920, cmpr_c3_hitbox.Location.Y);
                 cmpr_c4.Location = new Point(cmpr_c4.Location.X - 1920, cmpr_c4.Location.Y);
                 cmpr_c4_txt.Location = new Point(cmpr_c4_txt.Location.X - 1920, cmpr_c4_txt.Location.Y);
                 cmpr_c4_label.Location = new Point(cmpr_c4_label.Location.X - 1920, cmpr_c4_label.Location.Y);
-                cmpr_c4_hitbox.Location = new Point(cmpr_c4_hitbox.Location.X - 1920, cmpr_c4_hitbox.Location.Y);
                 cmpr_sel.Location = new Point(cmpr_sel.Location.X - 1920, cmpr_sel.Location.Y);
                 cmpr_sel_label.Location = new Point(cmpr_sel_label.Location.X - 1920, cmpr_sel_label.Location.Y);
-                cmpr_sel_hitbox.Location = new Point(cmpr_sel_hitbox.Location.X - 1920, cmpr_sel_hitbox.Location.Y);
                 cmpr_swap_ck.Location = new Point(cmpr_swap_ck.Location.X - 1920, cmpr_swap_ck.Location.Y);
                 cmpr_swap_label.Location = new Point(cmpr_swap_label.Location.X - 1920, cmpr_swap_label.Location.Y);
-                cmpr_swap_hitbox.Location = new Point(cmpr_swap_hitbox.Location.X - 1920, cmpr_swap_hitbox.Location.Y);
                 cmpr_selected_block_label.Location = new Point(cmpr_selected_block_label.Location.X - 1920, cmpr_selected_block_label.Location.Y);
                 cmpr_picture_tooltip_label.Location = new Point(cmpr_picture_tooltip_label.Location.X - 1920, cmpr_picture_tooltip_label.Location.Y);
                 cmpr_block1.Location = new Point(cmpr_block1.Location.X - 1920, cmpr_block1.Location.Y);
@@ -2264,14 +2236,10 @@ namespace plt0_gui
                 cmpr_blockG.Location = new Point(cmpr_blockG.Location.X - 1920, cmpr_blockG.Location.Y);
                 cmpr_block_selection_ck.Location = new Point(cmpr_block_selection_ck.Location.X - 1920, cmpr_block_selection_ck.Location.Y);
                 cmpr_block_selection_label.Location = new Point(cmpr_block_selection_label.Location.X - 1920, cmpr_block_selection_label.Location.Y);
-                cmpr_block_selection_hitbox.Location = new Point(cmpr_block_selection_hitbox.Location.X - 1920, cmpr_block_selection_hitbox.Location.Y);
                 cmpr_block_paint_ck.Location = new Point(cmpr_block_paint_ck.Location.X - 1920, cmpr_block_paint_ck.Location.Y);
                 cmpr_block_paint_label.Location = new Point(cmpr_block_paint_label.Location.X - 1920, cmpr_block_paint_label.Location.Y);
-                cmpr_block_paint_hitbox.Location = new Point(cmpr_block_paint_hitbox.Location.X - 1920, cmpr_block_paint_hitbox.Location.Y);
                 cmpr_save_ck.Location = new Point(cmpr_save_ck.Location.X - 1920, cmpr_save_ck.Location.Y);
                 cmpr_save_as_ck.Location = new Point(cmpr_save_as_ck.Location.X - 1920, cmpr_save_as_ck.Location.Y);
-                cmpr_save_hitbox.Location = new Point(cmpr_save_hitbox.Location.X - 1920, cmpr_save_hitbox.Location.Y);
-                cmpr_save_as_hitbox.Location = new Point(cmpr_save_as_hitbox.Location.X - 1920, cmpr_save_as_hitbox.Location.Y);
                 cmpr_warning.Location = new Point(cmpr_warning.Location.X - 1920, cmpr_warning.Location.Y);
                 cmpr_mouse1_label.Location = new Point(cmpr_mouse1_label.Location.X - 1920, cmpr_mouse1_label.Location.Y);
                 cmpr_mouse2_label.Location = new Point(cmpr_mouse2_label.Location.X - 1920, cmpr_mouse2_label.Location.Y);
@@ -2351,8 +2319,6 @@ namespace plt0_gui
                 ci14x2_ck.Visible = false;
                 custom_ck.Visible = false;
                 gif_label.Visible = false;
-                i4_hitbox.Visible = false;
-                i8_hitbox.Visible = false;
                 ico_label.Visible = false;
                 jpg_label.Visible = false;
                 png_label.Visible = false;
@@ -2366,13 +2332,6 @@ namespace plt0_gui
                 cmpr_c2_txt.Visible = true;
                 cmpr_c3_txt.Visible = true;
                 cmpr_c4_txt.Visible = true;
-                ai4_hitbox.Visible = false;
-                ai8_hitbox.Visible = false;
-                bmd_hitbox.Visible = false;
-                bmp_hitbox.Visible = false;
-                bti_hitbox.Visible = false;
-                ci4_hitbox.Visible = false;
-                ci8_hitbox.Visible = false;
                 cie_601_ck.Visible = false;
                 cmpr_block1.Visible = true;
                 cmpr_block2.Visible = true;
@@ -2391,25 +2350,14 @@ namespace plt0_gui
                 cmpr_blockF.Visible = true;
                 cmpr_blockG.Visible = true;
                 cmpr_label.Visible = false;
-                gif_hitbox.Visible = false;
-                ico_hitbox.Visible = false;
                 jpeg_label.Visible = false;
-                jpg_hitbox.Visible = false;
-                png_hitbox.Visible = false;
-                run_hitbox.Visible = false;
                 tex0_label.Visible = false;
-                tif_hitbox.Visible = false;
                 tiff_label.Visible = false;
-                tpl_hitbox.Visible = false;
-                cmpr_hitbox.Visible = false;
                 cmpr_save_ck.Visible = true;
                 cmpr_swap_ck.Visible = true;
                 funky_label.Visible = false;
-                jpeg_hitbox.Visible = false;
                 reversex_ck.Visible = false;
                 reversey_ck.Visible = false;
-                tex0_hitbox.Visible = false;
-                tiff_hitbox.Visible = false;
                 cmpr_warning.Visible = true;
                 bmp_32_label.Visible = false;
                 ci14x2_label.Visible = false;
@@ -2418,57 +2366,23 @@ namespace plt0_gui
                 cmpr_c3_label.Visible = true;
                 cmpr_c4_label.Visible = true;
                 custom_label.Visible = false;
-                funky_hitbox.Visible = false;
                 random_label.Visible = false;
                 rgb5a3_label.Visible = false;
                 rgb565_label.Visible = false;
                 rgba32_label.Visible = false;
-                a_a_ck_hitbox.Visible = false;
-                a_b_ck_hitbox.Visible = false;
-                a_g_ck_hitbox.Visible = false;
-                a_r_ck_hitbox.Visible = false;
-                b_a_ck_hitbox.Visible = false;
-                b_b_ck_hitbox.Visible = false;
-                b_g_ck_hitbox.Visible = false;
-                b_r_ck_hitbox.Visible = false;
-                bmp_32_hitbox.Visible = false;
-                ci14x2_hitbox.Visible = false;
                 cie_601_label.Visible = false;
-                cmpr_c1_hitbox.Visible = true;
-                cmpr_c2_hitbox.Visible = true;
-                cmpr_c3_hitbox.Visible = true;
-                cmpr_c4_hitbox.Visible = true;
                 cmpr_layout_is_enabled = true;
                 cmpr_sel_label.Visible = true;
-                custom_hitbox.Visible = false;
-                g_a_ck_hitbox.Visible = false;
-                g_b_ck_hitbox.Visible = false;
-                g_g_ck_hitbox.Visible = false;
-                g_r_ck_hitbox.Visible = false;
                 options_label.Visible = false;
-                r_a_ck_hitbox.Visible = false;
-                r_b_ck_hitbox.Visible = false;
-                r_g_ck_hitbox.Visible = false;
-                r_r_ck_hitbox.Visible = false;
-                random_hitbox.Visible = false;
-                rgb5a3_hitbox.Visible = false;
-                rgb565_hitbox.Visible = false;
-                rgba32_hitbox.Visible = false;
-                cie_601_hitbox.Visible = false;
                 cli_textbox_ck.Visible = false;
                 cmpr_save_as_ck.Visible = true;
-                cmpr_sel_hitbox.Visible = true;
                 cmpr_swap_label.Visible = true;
                 encoding_label.Visible = false;
                 reversex_label.Visible = false;
                 reversey_label.Visible = false;
                 surrounding_ck.Visible = false;
                 algorithm_label.Visible = false;
-                cmpr_save_hitbox.Visible = true;
-                cmpr_swap_hitbox.Visible = true;
                 input_file2_txt.Visible = false;
-                reversex_hitbox.Visible = false;
-                reversey_hitbox.Visible = false;
                 cmpr_mouse1_label.Visible = true;
                 cmpr_mouse2_label.Visible = true;
                 cmpr_mouse3_label.Visible = true;
@@ -2476,20 +2390,15 @@ namespace plt0_gui
                 cmpr_mouse5_label.Visible = true;
                 cli_textbox_label.Visible = false;
                 input_file2_label.Visible = false;
-                cli_textbox_hitbox.Visible = false;
                 cmpr_block_paint_ck.Visible = true;
-                cmpr_save_as_hitbox.Visible = true;
-                input_file2_hitbox.Visible = false;
                 cmpr_block_paint_label.Visible = true;
                 colour_channels_label.Visible = false;
-                cmpr_block_paint_hitbox.Visible = true;
                 cmpr_block_selection_ck.Visible = true;
                 output_file_type_label.Visible = false;
                 cmpr_selected_block_label.Visible = true;
                 mandatory_settings_label.Visible = false;
                 cmpr_block_selection_label.Visible = true;
                 cmpr_picture_tooltip_label.Visible = true;
-                cmpr_block_selection_hitbox.Visible = true;
             }
         }
         private void View_alpha()
@@ -2500,12 +2409,9 @@ namespace plt0_gui
             {
                 alpha_ck_array[i].Visible = true;
             }
-            no_alpha_hitbox.Visible = true;
             no_alpha_label.Visible = true;
-            alpha_hitbox.Visible = true;
             alpha_label.Visible = true;
             alpha_title.Visible = true;
-            mix_hitbox.Visible = true;
             mix_label.Visible = true;
             view_alpha = true;
         }
@@ -2519,9 +2425,6 @@ namespace plt0_gui
             {
                 alpha_ck_array[i].Visible = false;
             }
-            no_alpha_hitbox.Visible = false;
-            alpha_hitbox.Visible = false;
-            mix_hitbox.Visible = false;
             alpha_label.Visible = false;
             no_alpha_label.Visible = false;
             alpha_title.Visible = false;
@@ -2558,10 +2461,6 @@ namespace plt0_gui
                 {
                     algorithm_ck[i].Visible = true;
                 }
-                cie_601_hitbox.Visible = true;
-                cie_709_hitbox.Visible = true;
-                custom_hitbox.Visible = true;
-                no_gradient_hitbox.Visible = true;
                 no_gradient_label.Visible = true;
                 algorithm_label.Visible = true;
                 cie_601_label.Visible = true;
@@ -2580,10 +2479,8 @@ namespace plt0_gui
             }
             else if (algorithm == 3)
             {
-                cmpr_max_hitbox.Visible = true;
                 cmpr_max_label.Visible = true;
                 cmpr_max_txt.Visible = true;
-                cmpr_min_alpha_hitbox.Visible = true;
                 cmpr_min_alpha_label.Visible = true;
                 cmpr_min_alpha_txt.Visible = true;
             }
@@ -2593,10 +2490,6 @@ namespace plt0_gui
                 {
                     algorithm_ck[i].Visible = true;
                 }
-                cie_601_hitbox.Visible = false;
-                cie_709_hitbox.Visible = false;
-                custom_hitbox.Visible = false;
-                no_gradient_hitbox.Visible = false;
                 no_gradient_label.Visible = false;
                 algorithm_label.Visible = false;
                 cie_601_label.Visible = false;
@@ -2609,11 +2502,6 @@ namespace plt0_gui
         {
             if (layout != 1)
                 return;
-            warn_hitbox.Visible = true;
-            FORCE_ALPHA_hitbox.Visible = true;
-            no_warning_hitbox.Visible = true;
-            stfu_hitbox.Visible = true;
-            safe_mode_hitbox.Visible = true;
             warn_label.Visible = true;
             FORCE_ALPHA_label.Visible = true;
             no_warning_label.Visible = true;
@@ -2630,11 +2518,6 @@ namespace plt0_gui
         {
             if (layout != 1)
                 return;
-            warn_hitbox.Visible = false;
-            FORCE_ALPHA_hitbox.Visible = false;
-            no_warning_hitbox.Visible = false;
-            stfu_hitbox.Visible = false;
-            safe_mode_hitbox.Visible = false;
             warn_label.Visible = false;
             FORCE_ALPHA_label.Visible = false;
             no_warning_label.Visible = false;
@@ -2655,9 +2538,6 @@ namespace plt0_gui
             {
                 WrapS_ck[i].Visible = true;
             }
-            Sclamp_hitbox.Visible = true;
-            Srepeat_hitbox.Visible = true;
-            Smirror_hitbox.Visible = true;
             Sclamp_label.Visible = true;
             Srepeat_label.Visible = true;
             Smirror_label.Visible = true;
@@ -2672,9 +2552,6 @@ namespace plt0_gui
             {
                 WrapS_ck[i].Visible = false;
             }
-            Sclamp_hitbox.Visible = false;
-            Srepeat_hitbox.Visible = false;
-            Smirror_hitbox.Visible = false;
             Sclamp_label.Visible = false;
             Srepeat_label.Visible = false;
             Smirror_label.Visible = false;
@@ -2689,9 +2566,6 @@ namespace plt0_gui
             {
                 WrapT_ck[i].Visible = true;
             }
-            Tclamp_hitbox.Visible = true;
-            Trepeat_hitbox.Visible = true;
-            Tmirror_hitbox.Visible = true;
             Tclamp_label.Visible = true;
             Trepeat_label.Visible = true;
             Tmirror_label.Visible = true;
@@ -2706,9 +2580,6 @@ namespace plt0_gui
             {
                 WrapT_ck[i].Visible = false;
             }
-            Tclamp_hitbox.Visible = false;
-            Trepeat_hitbox.Visible = false;
-            Tmirror_hitbox.Visible = false;
             Tclamp_label.Visible = false;
             Trepeat_label.Visible = false;
             Tmirror_label.Visible = false;
@@ -2723,12 +2594,6 @@ namespace plt0_gui
             {
                 minification_ck[i].Visible = true;
             }
-            min_linearmipmaplinear_hitbox.Visible = true;
-            min_linearmipmapnearest_hitbox.Visible = true;
-            min_linear_hitbox.Visible = true;
-            min_nearestmipmaplinear_hitbox.Visible = true;
-            min_nearestmipmapnearest_hitbox.Visible = true;
-            min_nearest_neighbour_hitbox.Visible = true;
             min_linearmipmaplinear_label.Visible = true;
             min_linearmipmapnearest_label.Visible = true;
             min_linear_label.Visible = true;
@@ -2746,12 +2611,6 @@ namespace plt0_gui
             {
                 minification_ck[i].Visible = false;
             }
-            min_linearmipmaplinear_hitbox.Visible = false;
-            min_linearmipmapnearest_hitbox.Visible = false;
-            min_linear_hitbox.Visible = false;
-            min_nearestmipmaplinear_hitbox.Visible = false;
-            min_nearestmipmapnearest_hitbox.Visible = false;
-            min_nearest_neighbour_hitbox.Visible = false;
             min_linearmipmaplinear_label.Visible = false;
             min_linearmipmapnearest_label.Visible = false;
             min_linear_label.Visible = false;
@@ -2769,12 +2628,6 @@ namespace plt0_gui
             {
                 magnification_ck[i].Visible = true;
             }
-            mag_linearmipmaplinear_hitbox.Visible = true;
-            mag_linearmipmapnearest_hitbox.Visible = true;
-            mag_linear_hitbox.Visible = true;
-            mag_nearestmipmaplinear_hitbox.Visible = true;
-            mag_nearestmipmapnearest_hitbox.Visible = true;
-            mag_nearest_neighbour_hitbox.Visible = true;
             mag_linearmipmaplinear_label.Visible = true;
             mag_linearmipmapnearest_label.Visible = true;
             mag_linear_label.Visible = true;
@@ -2793,12 +2646,6 @@ namespace plt0_gui
             {
                 magnification_ck[i].Visible = false;
             }
-            mag_linearmipmaplinear_hitbox.Visible = false;
-            mag_linearmipmapnearest_hitbox.Visible = false;
-            mag_linear_hitbox.Visible = false;
-            mag_nearestmipmaplinear_hitbox.Visible = false;
-            mag_nearestmipmapnearest_hitbox.Visible = false;
-            mag_nearest_neighbour_hitbox.Visible = false;
             mag_linearmipmaplinear_label.Visible = false;
             mag_linearmipmapnearest_label.Visible = false;
             mag_linear_label.Visible = false;
@@ -2810,31 +2657,23 @@ namespace plt0_gui
         }
         private void View_diversity()
         {
-            diversity_hitbox.Visible = true;
             diversity_label.Visible = true;
             diversity_txt.Visible = true;
-            diversity2_hitbox.Visible = true;
             diversity2_label.Visible = true;
             diversity2_txt.Visible = true;
-            percentage2_hitbox.Visible = true;
             percentage2_label.Visible = true;
             percentage2_txt.Visible = true;
-            percentage_hitbox.Visible = true;
             percentage_label.Visible = true;
             percentage_txt.Visible = true;
         }
         private void Hide_diversity()
         {
-            diversity_hitbox.Visible = false;
             diversity_label.Visible = false;
             diversity_txt.Visible = false;
-            diversity2_hitbox.Visible = false;
             diversity2_label.Visible = false;
             diversity2_txt.Visible = false;
-            percentage2_hitbox.Visible = false;
             percentage2_label.Visible = false;
             percentage2_txt.Visible = false;
-            percentage_hitbox.Visible = false;
             percentage_label.Visible = false;
             percentage_txt.Visible = false;
         }
@@ -2845,18 +2684,13 @@ namespace plt0_gui
             View_diversity();
             cie_601_label.Text = "Default";
             no_gradient_ck.Visible = true;
-            no_gradient_hitbox.Visible = true;
             no_gradient_label.Visible = true;
-            cmpr_max_hitbox.Visible = true;
             cmpr_max_label.Visible = true;
             cmpr_max_txt.Visible = true;
-            cmpr_min_alpha_hitbox.Visible = true;
             cmpr_min_alpha_label.Visible = true;
             cmpr_min_alpha_txt.Visible = true;
-            round5_hitbox.Visible = true;
             round5_label.Visible = true;
             round5_txt.Visible = true;
-            round6_hitbox.Visible = true;
             round6_label.Visible = true;
             round6_txt.Visible = true;
             view_cmpr = true;
@@ -2867,18 +2701,13 @@ namespace plt0_gui
                 return;
             Hide_diversity();
             no_gradient_ck.Visible = false;
-            no_gradient_hitbox.Visible = false;
             no_gradient_label.Visible = false;
-            cmpr_max_hitbox.Visible = false;
             cmpr_max_label.Visible = false;
             cmpr_max_txt.Visible = false;
-            cmpr_min_alpha_hitbox.Visible = false;
             cmpr_min_alpha_label.Visible = false;
             cmpr_min_alpha_txt.Visible = false;
-            round5_hitbox.Visible = false;
             round5_label.Visible = false;
             round5_txt.Visible = false;
-            round6_hitbox.Visible = false;
             round6_label.Visible = false;
             round6_txt.Visible = false;
             view_cmpr = false;
@@ -2889,16 +2718,12 @@ namespace plt0_gui
                 return;
             View_diversity();
             palette_label.Visible = true;
-            palette_ai8_hitbox.Visible = true;
             palette_ai8_label.Visible = true;
             palette_ai8_ck.Visible = true;
             palette_rgb565_ck.Visible = true;
-            palette_rgb565_hitbox.Visible = true;
             palette_rgb565_label.Visible = true;
             palette_rgb5a3_ck.Visible = true;
             palette_rgb5a3_label.Visible = true;
-            palette_rgb5a3_hitbox.Visible = true;
-            num_colours_hitbox.Visible = true;
             num_colours_label.Visible = true;
             num_colours_txt.Visible = true;
             view_palette = true;
@@ -2909,16 +2734,12 @@ namespace plt0_gui
                 return;
             Hide_diversity();
             palette_label.Visible = false;
-            palette_ai8_hitbox.Visible = false;
             palette_ai8_label.Visible = false;
             palette_ai8_ck.Visible = false;
             palette_rgb565_ck.Visible = false;
-            palette_rgb565_hitbox.Visible = false;
             palette_rgb565_label.Visible = false;
             palette_rgb5a3_ck.Visible = false;
             palette_rgb5a3_label.Visible = false;
-            palette_rgb5a3_hitbox.Visible = false;
-            num_colours_hitbox.Visible = false;
             num_colours_label.Visible = false;
             num_colours_txt.Visible = false;
             view_palette = false;
@@ -2927,10 +2748,8 @@ namespace plt0_gui
         {
             if (layout != 1)
                 return;
-            cmpr_max_hitbox.Visible = false;
             cmpr_max_label.Visible = false;
             cmpr_max_txt.Visible = false;
-            cmpr_min_alpha_hitbox.Visible = false;
             cmpr_min_alpha_label.Visible = false;
             cmpr_min_alpha_txt.Visible = false;
         }
@@ -2939,17 +2758,13 @@ namespace plt0_gui
             if (layout != 1)
                 return;
             custom_rgba_label.Visible = true;
-            custom_r_hitbox.Visible = true;
             custom_r_label.Visible = true;
             custom_r_txt.Visible = true;
             custom_g_label.Visible = true;
-            custom_g_hitbox.Visible = true;
             custom_g_txt.Visible = true;
             custom_b_txt.Visible = true;
-            custom_b_hitbox.Visible = true;
             custom_b_label.Visible = true;
             custom_a_txt.Visible = true;
-            custom_a_hitbox.Visible = true;
             custom_a_label.Visible = true;
             view_rgba = true;
         }
@@ -2958,17 +2773,13 @@ namespace plt0_gui
             if (layout != 1)
                 return;
             custom_rgba_label.Visible = false;
-            custom_r_hitbox.Visible = false;
             custom_r_label.Visible = false;
             custom_r_txt.Visible = false;
             custom_g_label.Visible = false;
-            custom_g_hitbox.Visible = false;
             custom_g_txt.Visible = false;
             custom_b_txt.Visible = false;
-            custom_b_hitbox.Visible = false;
             custom_b_label.Visible = false;
             custom_a_txt.Visible = false;
-            custom_a_hitbox.Visible = false;
             custom_a_label.Visible = false;
             view_rgba = false;
         }
@@ -2978,9 +2789,7 @@ namespace plt0_gui
                 return;
             cie_601_label.Text = "CIE 601";
             cie_709_ck.Visible = true;
-            cie_709_hitbox.Visible = true;
             cie_709_label.Visible = true;
-            round4_hitbox.Visible = true;
             round4_label.Visible = true;
             round4_txt.Visible = true;
             //view_rgba = true;
@@ -2991,7 +2800,6 @@ namespace plt0_gui
                 return;
             cie_601_label.Text = "CIE 601";
             cie_709_ck.Visible = true;
-            cie_709_hitbox.Visible = true;
             cie_709_label.Visible = true;
             //view_rgba = true;
         }
@@ -3001,9 +2809,7 @@ namespace plt0_gui
                 return;
             cie_601_label.Text = "CIE 601";
             cie_709_ck.Visible = true;
-            cie_709_hitbox.Visible = true;
             cie_709_label.Visible = true;
-            round4_hitbox.Visible = true;
             round4_label.Visible = true;
             round4_txt.Visible = true;
             //view_rgba = true;
@@ -3014,7 +2820,6 @@ namespace plt0_gui
                 return;
             cie_601_label.Text = "CIE 601";
             cie_709_ck.Visible = true;
-            cie_709_hitbox.Visible = true;
             cie_709_label.Visible = true;
             //view_rgba = true;
         }
@@ -3023,10 +2828,8 @@ namespace plt0_gui
             if (layout != 1)
                 return;
             cie_601_label.Text = "Default";
-            round5_hitbox.Visible = true;
             round5_label.Visible = true;
             round5_txt.Visible = true;
-            round6_hitbox.Visible = true;
             round6_label.Visible = true;
             round6_txt.Visible = true;
             //view_rgba = true;
@@ -3037,16 +2840,12 @@ namespace plt0_gui
                 return;
             View_alpha();
             cie_601_label.Text = "Default";
-            round3_hitbox.Visible = true;
             round3_label.Visible = true;
             round3_txt.Visible = true;
-            round4_hitbox.Visible = true;
             round4_label.Visible = true;
             round4_txt.Visible = true;
-            round5_hitbox.Visible = true;
             round5_label.Visible = true;
             round5_txt.Visible = true;
-            round6_hitbox.Visible = true;
             round6_label.Visible = true;
             round6_txt.Visible = true;
             //view_rgba = true;
@@ -3091,38 +2890,29 @@ namespace plt0_gui
                 case 0:
                 case 2:
                     cie_709_ck.Visible = false;
-                    cie_709_hitbox.Visible = false;
                     cie_709_label.Visible = false;
-                    round4_hitbox.Visible = false;
                     round4_label.Visible = false;
                     round4_txt.Visible = false;
                     break;
                 case 1:
                 case 3:
                     cie_709_ck.Visible = false;
-                    cie_709_hitbox.Visible = false;
                     cie_709_label.Visible = false;
                     break;
                 case 4:
-                    round5_hitbox.Visible = false;
                     round5_label.Visible = false;
                     round5_txt.Visible = false;
-                    round6_hitbox.Visible = false;
                     round6_label.Visible = false;
                     round6_txt.Visible = false;
                     break;
                 case 5:
                     Hide_alpha();
-                    round3_hitbox.Visible = false;
                     round3_label.Visible = false;
                     round3_txt.Visible = false;
-                    round4_hitbox.Visible = false;
                     round4_label.Visible = false;
                     round4_txt.Visible = false;
-                    round5_hitbox.Visible = false;
                     round5_label.Visible = false;
                     round5_txt.Visible = false;
-                    round6_hitbox.Visible = false;
                     round6_label.Visible = false;
                     round6_txt.Visible = false;
                     break;
@@ -7934,7 +7724,7 @@ namespace plt0_gui
             this.cmpr_block_selection_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.cmpr_block_selection_ck.ErrorImage = null;
             this.cmpr_block_selection_ck.InitialImage = null;
-            this.cmpr_block_selection_ck.Location = new System.Drawing.Point(2533, 97);
+            this.cmpr_block_selection_ck.Location = new System.Drawing.Point(2532, 98);
             this.cmpr_block_selection_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_block_selection_ck.Name = "cmpr_block_selection_ck";
             this.cmpr_block_selection_ck.Size = new System.Drawing.Size(64, 64);
