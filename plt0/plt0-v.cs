@@ -49,7 +49,7 @@ namespace plt0_gui
         ushort colour1;
         ushort colour2;
         ushort colour3;
-        ushort colour4;
+        string seal;
         //byte jump_line;
         float size_font;
         System.Drawing.GraphicsUnit unit_font;
@@ -1634,45 +1634,42 @@ namespace plt0_gui
             {
                 //Output.Text += e.Data.GetData(DataFormats.Text) + "\n";
             }
-        }/*
-        private bool ishexbyte(string txt)
+        }
+        private bool ishex(char txt)
         {
-            if (txt.Length > 2)
-                return false;
-            for (byte i = 0; i < txt.Length; i++)
+            switch (txt)
             {
-                switch (txt[i])
-                {
-                    case '0':
-                    case '1':
-                    case '2':
-                    case '3':
-                    case '4':
-                    case '5':
-                    case '6':
-                    case '7':
-                    case '8':
-                    case '9':
-                    case 'a':
-                    case 'b':
-                    case 'c':
-                    case 'd':
-                    case 'e':
-                    case 'f':
-                    case 'A':
-                    case 'B':
-                    case 'C':
-                    case 'D':
-                    case 'E':
-                    case 'F':
-                        // that's a correct hex char
-                        break;
-                    default:
-                        return false;
-                }
+                case '0':
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
+                case 'a':
+                case 'b':
+                case 'c':
+                case 'd':
+                case 'e':
+                case 'f':
+                case 'A':
+                case 'B':
+                case 'C':
+                case 'D':
+                case 'E':
+                case 'F':
+                    // that's a correct hex char
+                    break;
+                default:
+                    return false;
             }
+
             return true;
         }
+        /*
         private bool ishexdouble(string txt)
         {
             if (txt.Length > 8)
@@ -9806,6 +9803,7 @@ namespace plt0_gui
             this.cmpr_c1_txt.Name = "cmpr_c1_txt";
             this.cmpr_c1_txt.Size = new System.Drawing.Size(141, 21);
             this.cmpr_c1_txt.TabIndex = 609;
+            this.cmpr_c1_txt.Text = "#000000";
             this.cmpr_c1_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.cmpr_c1_txt.TextChanged += new System.EventHandler(this.cmpr_c1_TextChanged);
             this.cmpr_c1_txt.MouseEnter += new System.EventHandler(this.cmpr_c1_MouseEnter);
@@ -9878,6 +9876,7 @@ namespace plt0_gui
             this.cmpr_c2_txt.Name = "cmpr_c2_txt";
             this.cmpr_c2_txt.Size = new System.Drawing.Size(141, 21);
             this.cmpr_c2_txt.TabIndex = 613;
+            this.cmpr_c2_txt.Text = "#000000";
             this.cmpr_c2_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.cmpr_c2_txt.TextChanged += new System.EventHandler(this.cmpr_c2_TextChanged);
             this.cmpr_c2_txt.MouseEnter += new System.EventHandler(this.cmpr_c2_MouseEnter);
@@ -15978,12 +15977,16 @@ namespace plt0_gui
             len = txt.Text.Length;
             for (byte i = 1; i < len; i++)
             {
-                if (!IsInputChar(txt.Text[i]))
+                if (!ishex(txt.Text[i]))
                     txt.Text = txt.Text.Substring(0, i);
             }
             if (len > 0)
-                if (!IsInputChar(txt.Text[0]) && txt.Text[0] != '#')
+                if (!ishex(txt.Text[0]) && txt.Text[0] != '#')
                     txt.Text = "";
+            if (len > 7)
+            {
+                txt.Text = txt.Text.Substring(0, 7);
+            }
             if (len < 3)
             {
                 out_colour = default_colour;
@@ -16072,7 +16075,7 @@ namespace plt0_gui
                 Update_Colours();
             }
             else
-            out_colour = default_colour;
+                out_colour = default_colour;
 
         }
         private void Update_Colours()
@@ -16127,6 +16130,9 @@ namespace plt0_gui
 
         private void Swap_Colours_Click(object sender, EventArgs e)
         {
+            seal = cmpr_c1_txt.Text;
+            cmpr_c1_txt.Text = cmpr_c2_txt.Text;
+            cmpr_c2_txt.Text = seal;
             colour3 = colour1;
             colour1 = colour2;
             colour2 = colour3;
