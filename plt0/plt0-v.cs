@@ -48,6 +48,11 @@ namespace plt0_gui
         int y;
         byte byte_text;
         bool success;
+        bool Left_down = false;
+        bool Right_down = false;
+        bool Middle_down = false;
+        bool XButton1_down = false;
+        bool XButton2_down = false;
         /* bool bold;
         bool italic;
         bool underline;
@@ -311,7 +316,7 @@ namespace plt0_gui
             if (Directory.Exists(execPath + "images/preview"))
             {
                 string[] files = Directory.GetFiles(execPath + "images/preview");
-                for (int i = 0; i < files.Length;i++)
+                for (int i = 0; i < files.Length; i++)
                     File.Delete(files[i]);
                 Directory.Delete(execPath + "images/preview");
             }
@@ -3087,6 +3092,11 @@ namespace plt0_gui
             this.label2 = new System.Windows.Forms.Label();
             this.cmpr_preview_ck = new PictureBoxWithInterpolationMode();
             this.image_ck = new PictureBoxWithInterpolationMode();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.bmd_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
@@ -9509,13 +9519,14 @@ namespace plt0_gui
             this.cmpr_block1.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_block1.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_block1.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_block1.Location = new System.Drawing.Point(1982, 641);
+            this.cmpr_block1.Location = new System.Drawing.Point(1964, 664);
             this.cmpr_block1.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_block1.Name = "cmpr_block1";
             this.cmpr_block1.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_block1.Size = new System.Drawing.Size(64, 64);
             this.cmpr_block1.TabIndex = 644;
             this.cmpr_block1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_block1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_block2
             // 
@@ -9523,13 +9534,14 @@ namespace plt0_gui
             this.cmpr_block2.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_block2.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_block2.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_block2.Location = new System.Drawing.Point(2046, 641);
+            this.cmpr_block2.Location = new System.Drawing.Point(2028, 664);
             this.cmpr_block2.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_block2.Name = "cmpr_block2";
             this.cmpr_block2.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_block2.Size = new System.Drawing.Size(64, 64);
             this.cmpr_block2.TabIndex = 645;
             this.cmpr_block2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_block2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_block3
             // 
@@ -9537,13 +9549,14 @@ namespace plt0_gui
             this.cmpr_block3.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_block3.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_block3.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_block3.Location = new System.Drawing.Point(1982, 705);
+            this.cmpr_block3.Location = new System.Drawing.Point(1964, 728);
             this.cmpr_block3.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_block3.Name = "cmpr_block3";
             this.cmpr_block3.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_block3.Size = new System.Drawing.Size(64, 64);
             this.cmpr_block3.TabIndex = 647;
             this.cmpr_block3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_block3.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_blockB
             // 
@@ -9551,13 +9564,14 @@ namespace plt0_gui
             this.cmpr_blockB.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_blockB.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_blockB.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_blockB.Location = new System.Drawing.Point(1982, 835);
+            this.cmpr_blockB.Location = new System.Drawing.Point(1964, 856);
             this.cmpr_blockB.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_blockB.Name = "cmpr_blockB";
             this.cmpr_blockB.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_blockB.Size = new System.Drawing.Size(64, 64);
             this.cmpr_blockB.TabIndex = 649;
             this.cmpr_blockB.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_blockB.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_block9
             // 
@@ -9565,13 +9579,14 @@ namespace plt0_gui
             this.cmpr_block9.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_block9.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_block9.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_block9.Location = new System.Drawing.Point(1982, 769);
+            this.cmpr_block9.Location = new System.Drawing.Point(1964, 792);
             this.cmpr_block9.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_block9.Name = "cmpr_block9";
             this.cmpr_block9.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_block9.Size = new System.Drawing.Size(64, 64);
             this.cmpr_block9.TabIndex = 648;
             this.cmpr_block9.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_block9.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_block4
             // 
@@ -9579,13 +9594,14 @@ namespace plt0_gui
             this.cmpr_block4.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_block4.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_block4.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_block4.Location = new System.Drawing.Point(2046, 705);
+            this.cmpr_block4.Location = new System.Drawing.Point(2028, 728);
             this.cmpr_block4.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_block4.Name = "cmpr_block4";
             this.cmpr_block4.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_block4.Size = new System.Drawing.Size(64, 64);
             this.cmpr_block4.TabIndex = 650;
             this.cmpr_block4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_block4.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_blockA
             // 
@@ -9593,13 +9609,14 @@ namespace plt0_gui
             this.cmpr_blockA.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_blockA.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_blockA.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_blockA.Location = new System.Drawing.Point(2046, 769);
+            this.cmpr_blockA.Location = new System.Drawing.Point(2028, 792);
             this.cmpr_blockA.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_blockA.Name = "cmpr_blockA";
             this.cmpr_blockA.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_blockA.Size = new System.Drawing.Size(64, 64);
             this.cmpr_blockA.TabIndex = 651;
             this.cmpr_blockA.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_blockA.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_blockC
             // 
@@ -9607,13 +9624,14 @@ namespace plt0_gui
             this.cmpr_blockC.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_blockC.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_blockC.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_blockC.Location = new System.Drawing.Point(2046, 833);
+            this.cmpr_blockC.Location = new System.Drawing.Point(2028, 856);
             this.cmpr_blockC.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_blockC.Name = "cmpr_blockC";
             this.cmpr_blockC.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_blockC.Size = new System.Drawing.Size(64, 64);
             this.cmpr_blockC.TabIndex = 652;
             this.cmpr_blockC.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_blockC.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_block5
             // 
@@ -9621,13 +9639,14 @@ namespace plt0_gui
             this.cmpr_block5.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_block5.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_block5.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_block5.Location = new System.Drawing.Point(2110, 641);
+            this.cmpr_block5.Location = new System.Drawing.Point(2092, 664);
             this.cmpr_block5.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_block5.Name = "cmpr_block5";
             this.cmpr_block5.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_block5.Size = new System.Drawing.Size(64, 64);
             this.cmpr_block5.TabIndex = 653;
             this.cmpr_block5.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_block5.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_block7
             // 
@@ -9635,13 +9654,14 @@ namespace plt0_gui
             this.cmpr_block7.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_block7.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_block7.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_block7.Location = new System.Drawing.Point(2110, 705);
+            this.cmpr_block7.Location = new System.Drawing.Point(2092, 728);
             this.cmpr_block7.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_block7.Name = "cmpr_block7";
             this.cmpr_block7.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_block7.Size = new System.Drawing.Size(64, 64);
             this.cmpr_block7.TabIndex = 654;
             this.cmpr_block7.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_block7.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_blockD
             // 
@@ -9649,13 +9669,14 @@ namespace plt0_gui
             this.cmpr_blockD.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_blockD.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_blockD.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_blockD.Location = new System.Drawing.Point(2110, 769);
+            this.cmpr_blockD.Location = new System.Drawing.Point(2092, 792);
             this.cmpr_blockD.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_blockD.Name = "cmpr_blockD";
             this.cmpr_blockD.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_blockD.Size = new System.Drawing.Size(64, 64);
             this.cmpr_blockD.TabIndex = 655;
             this.cmpr_blockD.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_blockD.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_blockF
             // 
@@ -9663,13 +9684,14 @@ namespace plt0_gui
             this.cmpr_blockF.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_blockF.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_blockF.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_blockF.Location = new System.Drawing.Point(2110, 833);
+            this.cmpr_blockF.Location = new System.Drawing.Point(2092, 856);
             this.cmpr_blockF.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_blockF.Name = "cmpr_blockF";
             this.cmpr_blockF.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_blockF.Size = new System.Drawing.Size(64, 64);
             this.cmpr_blockF.TabIndex = 656;
             this.cmpr_blockF.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_blockF.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_block6
             // 
@@ -9677,13 +9699,14 @@ namespace plt0_gui
             this.cmpr_block6.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_block6.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_block6.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_block6.Location = new System.Drawing.Point(2174, 641);
+            this.cmpr_block6.Location = new System.Drawing.Point(2156, 664);
             this.cmpr_block6.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_block6.Name = "cmpr_block6";
             this.cmpr_block6.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_block6.Size = new System.Drawing.Size(64, 64);
             this.cmpr_block6.TabIndex = 657;
             this.cmpr_block6.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_block6.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_block8
             // 
@@ -9691,13 +9714,14 @@ namespace plt0_gui
             this.cmpr_block8.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_block8.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_block8.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_block8.Location = new System.Drawing.Point(2174, 705);
+            this.cmpr_block8.Location = new System.Drawing.Point(2156, 728);
             this.cmpr_block8.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_block8.Name = "cmpr_block8";
             this.cmpr_block8.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_block8.Size = new System.Drawing.Size(64, 64);
             this.cmpr_block8.TabIndex = 658;
             this.cmpr_block8.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_block8.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_blockE
             // 
@@ -9705,13 +9729,14 @@ namespace plt0_gui
             this.cmpr_blockE.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_blockE.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_blockE.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_blockE.Location = new System.Drawing.Point(2174, 769);
+            this.cmpr_blockE.Location = new System.Drawing.Point(2156, 792);
             this.cmpr_blockE.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_blockE.Name = "cmpr_blockE";
             this.cmpr_blockE.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_blockE.Size = new System.Drawing.Size(64, 64);
             this.cmpr_blockE.TabIndex = 659;
             this.cmpr_blockE.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_blockE.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_blockG
             // 
@@ -9719,13 +9744,14 @@ namespace plt0_gui
             this.cmpr_blockG.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_blockG.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_blockG.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_blockG.Location = new System.Drawing.Point(2174, 835);
+            this.cmpr_blockG.Location = new System.Drawing.Point(2156, 856);
             this.cmpr_blockG.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_blockG.Name = "cmpr_blockG";
             this.cmpr_blockG.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_blockG.Size = new System.Drawing.Size(64, 64);
             this.cmpr_blockG.TabIndex = 646;
             this.cmpr_blockG.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_blockG.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_block_paint_ck
             // 
@@ -9734,7 +9760,7 @@ namespace plt0_gui
             this.cmpr_block_paint_ck.Enabled = false;
             this.cmpr_block_paint_ck.ErrorImage = null;
             this.cmpr_block_paint_ck.InitialImage = null;
-            this.cmpr_block_paint_ck.Location = new System.Drawing.Point(2296, 138);
+            this.cmpr_block_paint_ck.Location = new System.Drawing.Point(2333, 141);
             this.cmpr_block_paint_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_block_paint_ck.Name = "cmpr_block_paint_ck";
             this.cmpr_block_paint_ck.Size = new System.Drawing.Size(64, 64);
@@ -9748,7 +9774,7 @@ namespace plt0_gui
             this.cmpr_block_paint_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_block_paint_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_block_paint_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.cmpr_block_paint_label.Location = new System.Drawing.Point(2364, 138);
+            this.cmpr_block_paint_label.Location = new System.Drawing.Point(2401, 141);
             this.cmpr_block_paint_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_block_paint_label.Name = "cmpr_block_paint_label";
             this.cmpr_block_paint_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -9763,7 +9789,7 @@ namespace plt0_gui
             this.cmpr_block_paint_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_block_paint_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_block_paint_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_block_paint_hitbox.Location = new System.Drawing.Point(2293, 138);
+            this.cmpr_block_paint_hitbox.Location = new System.Drawing.Point(2330, 141);
             this.cmpr_block_paint_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_block_paint_hitbox.Name = "cmpr_block_paint_hitbox";
             this.cmpr_block_paint_hitbox.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
@@ -9778,7 +9804,7 @@ namespace plt0_gui
             this.cmpr_block_selection_ck.Enabled = false;
             this.cmpr_block_selection_ck.ErrorImage = null;
             this.cmpr_block_selection_ck.InitialImage = null;
-            this.cmpr_block_selection_ck.Location = new System.Drawing.Point(2297, 73);
+            this.cmpr_block_selection_ck.Location = new System.Drawing.Point(2334, 76);
             this.cmpr_block_selection_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_block_selection_ck.Name = "cmpr_block_selection_ck";
             this.cmpr_block_selection_ck.Size = new System.Drawing.Size(64, 64);
@@ -9792,7 +9818,7 @@ namespace plt0_gui
             this.cmpr_block_selection_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_block_selection_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_block_selection_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.cmpr_block_selection_label.Location = new System.Drawing.Point(2365, 73);
+            this.cmpr_block_selection_label.Location = new System.Drawing.Point(2402, 76);
             this.cmpr_block_selection_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_block_selection_label.Name = "cmpr_block_selection_label";
             this.cmpr_block_selection_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -9807,7 +9833,7 @@ namespace plt0_gui
             this.cmpr_block_selection_hitbox.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_block_selection_hitbox.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_block_selection_hitbox.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_block_selection_hitbox.Location = new System.Drawing.Point(2294, 73);
+            this.cmpr_block_selection_hitbox.Location = new System.Drawing.Point(2331, 76);
             this.cmpr_block_selection_hitbox.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_block_selection_hitbox.Name = "cmpr_block_selection_hitbox";
             this.cmpr_block_selection_hitbox.Padding = new System.Windows.Forms.Padding(190, 44, 0, 0);
@@ -9821,7 +9847,7 @@ namespace plt0_gui
             this.cmpr_picture_tooltip_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_picture_tooltip_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_picture_tooltip_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_picture_tooltip_label.Location = new System.Drawing.Point(2319, 32);
+            this.cmpr_picture_tooltip_label.Location = new System.Drawing.Point(2356, 35);
             this.cmpr_picture_tooltip_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_picture_tooltip_label.Name = "cmpr_picture_tooltip_label";
             this.cmpr_picture_tooltip_label.Size = new System.Drawing.Size(175, 20);
@@ -9834,7 +9860,7 @@ namespace plt0_gui
             this.cmpr_selected_block_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_selected_block_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_selected_block_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_selected_block_label.Location = new System.Drawing.Point(2025, 601);
+            this.cmpr_selected_block_label.Location = new System.Drawing.Point(2025, 617);
             this.cmpr_selected_block_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_selected_block_label.Name = "cmpr_selected_block_label";
             this.cmpr_selected_block_label.Size = new System.Drawing.Size(184, 20);
@@ -9901,7 +9927,7 @@ namespace plt0_gui
             this.cmpr_warning_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_warning_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_warning_label.ForeColor = System.Drawing.Color.Red;
-            this.cmpr_warning_label.Location = new System.Drawing.Point(2292, 288);
+            this.cmpr_warning_label.Location = new System.Drawing.Point(2329, 291);
             this.cmpr_warning_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_warning_label.Name = "cmpr_warning_label";
             this.cmpr_warning_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -9916,7 +9942,7 @@ namespace plt0_gui
             this.pictureBox1.Enabled = false;
             this.pictureBox1.ErrorImage = null;
             this.pictureBox1.InitialImage = null;
-            this.pictureBox1.Location = new System.Drawing.Point(2555, 448);
+            this.pictureBox1.Location = new System.Drawing.Point(2592, 451);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(64, 64);
@@ -9929,7 +9955,7 @@ namespace plt0_gui
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.label1.ForeColor = System.Drawing.Color.Wheat;
-            this.label1.Location = new System.Drawing.Point(2328, 448);
+            this.label1.Location = new System.Drawing.Point(2365, 451);
             this.label1.Margin = new System.Windows.Forms.Padding(0);
             this.label1.Name = "label1";
             this.label1.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -9943,7 +9969,7 @@ namespace plt0_gui
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.label2.ForeColor = System.Drawing.SystemColors.Control;
-            this.label2.Location = new System.Drawing.Point(2339, 449);
+            this.label2.Location = new System.Drawing.Point(2376, 452);
             this.label2.Margin = new System.Windows.Forms.Padding(0);
             this.label2.Name = "label2";
             this.label2.Padding = new System.Windows.Forms.Padding(280, 44, 0, 0);
@@ -9988,6 +10014,76 @@ namespace plt0_gui
             this.image_ck.TabStop = false;
             this.image_ck.Visible = false;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.label3.ForeColor = System.Drawing.Color.Red;
+            this.label3.Location = new System.Drawing.Point(2333, 600);
+            this.label3.Margin = new System.Windows.Forms.Padding(0);
+            this.label3.Name = "label3";
+            this.label3.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.label3.Size = new System.Drawing.Size(374, 64);
+            this.label3.TabIndex = 677;
+            this.label3.Text = "Input file is not a cmpr texture";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.BackColor = System.Drawing.Color.Transparent;
+            this.label4.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.label4.ForeColor = System.Drawing.Color.Red;
+            this.label4.Location = new System.Drawing.Point(2333, 664);
+            this.label4.Margin = new System.Windows.Forms.Padding(0);
+            this.label4.Name = "label4";
+            this.label4.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.label4.Size = new System.Drawing.Size(374, 64);
+            this.label4.TabIndex = 678;
+            this.label4.Text = "Input file is not a cmpr texture";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.BackColor = System.Drawing.Color.Transparent;
+            this.label5.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.label5.ForeColor = System.Drawing.Color.Red;
+            this.label5.Location = new System.Drawing.Point(2333, 792);
+            this.label5.Margin = new System.Windows.Forms.Padding(0);
+            this.label5.Name = "label5";
+            this.label5.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.label5.Size = new System.Drawing.Size(374, 64);
+            this.label5.TabIndex = 680;
+            this.label5.Text = "Input file is not a cmpr texture";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.Color.Transparent;
+            this.label6.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.label6.ForeColor = System.Drawing.Color.Red;
+            this.label6.Location = new System.Drawing.Point(2333, 728);
+            this.label6.Margin = new System.Windows.Forms.Padding(0);
+            this.label6.Name = "label6";
+            this.label6.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.label6.Size = new System.Drawing.Size(374, 64);
+            this.label6.TabIndex = 679;
+            this.label6.Text = "Input file is not a cmpr texture";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.BackColor = System.Drawing.Color.Transparent;
+            this.label7.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.label7.ForeColor = System.Drawing.Color.Red;
+            this.label7.Location = new System.Drawing.Point(2333, 856);
+            this.label7.Margin = new System.Windows.Forms.Padding(0);
+            this.label7.Name = "label7";
+            this.label7.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.label7.Size = new System.Drawing.Size(374, 64);
+            this.label7.TabIndex = 681;
+            this.label7.Text = "Input file is not a cmpr texture";
+            // 
             // plt0_gui
             // 
             this.AllowDrop = true;
@@ -9996,6 +10092,11 @@ namespace plt0_gui
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(3817, 1720);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label2);
@@ -15043,7 +15144,51 @@ namespace plt0_gui
 
         private void Block_MouseDown(object sender, MouseEventArgs e)
         {
-            mouse_down = true;
+            // back button = XButton1
+            // forward button = XButton2
+            // mouse wheel = Middle
+            // Left click = Left
+            // Right click = Right
+            switch (e.Button.ToString())
+            {
+                case "XButton1":
+                    XButton1_down = true;
+                    break;
+                case "XButton2":
+                    XButton2_down = true;
+                    break;
+                case "Middle":
+                    Middle_down = true;
+                    break;
+                case "Left":
+                    Left_down = true;
+                    break;
+                case "Right":
+                    Right_down = true;
+                    break;
+            }
+        }
+
+        private void Block_MouseUp(object sender, MouseEventArgs e)
+        {
+            switch (e.Button.ToString())
+            {
+                case "XButton1":
+                    XButton1_down = false;
+                    break;
+                case "XButton2":
+                    XButton2_down = false;
+                    break;
+                case "Middle":
+                    Middle_down = false;
+                    break;
+                case "Left":
+                    Left_down = false;
+                    break;
+                case "Right":
+                    Right_down = false;
+                    break;
+            }
         }
     }
 }
