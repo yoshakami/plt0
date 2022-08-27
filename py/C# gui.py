@@ -781,7 +781,7 @@ output += """
                 cmpr_warning.Text = "";
             else
             {
-                cmpr_warning.Text = Parse_Markdown(lines[""" + str(x) + """]);
+                Parse_Markdown(lines[""" + str(x) + """], cmpr_warning);
             }
         }
         private void Put_that_damn_cmpr_layout_in_place()
@@ -790,7 +790,7 @@ output += """
 for y in range(5):
     x += 1
     output += """
-            cmpr_mouse""" + str(y) + "_label.Text = Parse_Markdown(lines[" + str(x) + "]);"
+            Parse_Markdown(lines[""" + str(x) + "], cmpr_mouse" + str(y) + "_label);"
 output += """
         }
         private void Run_Click(object sender, EventArgs e)
