@@ -2934,7 +2934,7 @@ namespace plt0_gui
             this.ico_label = new System.Windows.Forms.Label();
             this.ico_hitbox = new System.Windows.Forms.Label();
             this.gif_ck = new System.Windows.Forms.PictureBox();
-            this.gib_label = new System.Windows.Forms.Label();
+            this.gif_label = new System.Windows.Forms.Label();
             this.gif_hitbox = new System.Windows.Forms.Label();
             this.jpeg_ck = new System.Windows.Forms.PictureBox();
             this.jpeg_label = new System.Windows.Forms.Label();
@@ -3341,14 +3341,14 @@ namespace plt0_gui
             this.cmpr_warning_label = new System.Windows.Forms.Label();
             this.cmpr_sel_label = new System.Windows.Forms.Label();
             this.cmpr_sel_hitbox = new System.Windows.Forms.Label();
-            this.cmpr_preview_ck = new PictureBoxWithInterpolationMode();
-            this.image_ck = new PictureBoxWithInterpolationMode();
             this.cmpr_mouse1_label = new System.Windows.Forms.Label();
             this.cmpr_mouse2_label = new System.Windows.Forms.Label();
             this.cmpr_mouse4_label = new System.Windows.Forms.Label();
             this.cmpr_mouse3_label = new System.Windows.Forms.Label();
             this.cmpr_mouse5_label = new System.Windows.Forms.Label();
             this.cmpr_sel = new System.Windows.Forms.Label();
+            this.cmpr_preview_ck = new PictureBoxWithInterpolationMode();
+            this.image_ck = new PictureBoxWithInterpolationMode();
             ((System.ComponentModel.ISupportInitialize)(this.bmd_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
@@ -3984,22 +3984,22 @@ namespace plt0_gui
             this.gif_ck.TabIndex = 150;
             this.gif_ck.TabStop = false;
             // 
-            // gib_label
+            // gif_label
             // 
-            this.gib_label.AutoSize = true;
-            this.gib_label.BackColor = System.Drawing.Color.Transparent;
-            this.gib_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.gib_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.gib_label.Location = new System.Drawing.Point(108, 642);
-            this.gib_label.Margin = new System.Windows.Forms.Padding(0);
-            this.gib_label.Name = "gib_label";
-            this.gib_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.gib_label.Size = new System.Drawing.Size(37, 64);
-            this.gib_label.TabIndex = 148;
-            this.gib_label.Text = "gif";
-            this.gib_label.Click += new System.EventHandler(this.gif_Click);
-            this.gib_label.MouseEnter += new System.EventHandler(this.gif_MouseEnter);
-            this.gib_label.MouseLeave += new System.EventHandler(this.gif_MouseLeave);
+            this.gif_label.AutoSize = true;
+            this.gif_label.BackColor = System.Drawing.Color.Transparent;
+            this.gif_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.gif_label.ForeColor = System.Drawing.SystemColors.Window;
+            this.gif_label.Location = new System.Drawing.Point(108, 642);
+            this.gif_label.Margin = new System.Windows.Forms.Padding(0);
+            this.gif_label.Name = "gif_label";
+            this.gif_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.gif_label.Size = new System.Drawing.Size(37, 64);
+            this.gif_label.TabIndex = 148;
+            this.gif_label.Text = "gif";
+            this.gif_label.Click += new System.EventHandler(this.gif_Click);
+            this.gif_label.MouseEnter += new System.EventHandler(this.gif_MouseEnter);
+            this.gif_label.MouseLeave += new System.EventHandler(this.gif_MouseLeave);
             // 
             // gif_hitbox
             // 
@@ -10216,44 +10216,6 @@ namespace plt0_gui
             this.cmpr_sel_hitbox.Size = new System.Drawing.Size(200, 64);
             this.cmpr_sel_hitbox.TabIndex = 676;
             // 
-            // cmpr_preview_ck
-            // 
-            this.cmpr_preview_ck.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_preview_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.cmpr_preview_ck.Enabled = false;
-            this.cmpr_preview_ck.ErrorImage = null;
-            this.cmpr_preview_ck.InitialImage = null;
-            this.cmpr_preview_ck.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-            this.cmpr_preview_ck.Location = new System.Drawing.Point(2816, 44);
-            this.cmpr_preview_ck.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_preview_ck.MaximumSize = new System.Drawing.Size(1024, 1024);
-            this.cmpr_preview_ck.MinimumSize = new System.Drawing.Size(1024, 1024);
-            this.cmpr_preview_ck.Name = "cmpr_preview_ck";
-            this.cmpr_preview_ck.Size = new System.Drawing.Size(1024, 1024);
-            this.cmpr_preview_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.cmpr_preview_ck.TabIndex = 666;
-            this.cmpr_preview_ck.TabStop = false;
-            this.cmpr_preview_ck.Visible = false;
-            // 
-            // image_ck
-            // 
-            this.image_ck.BackColor = System.Drawing.Color.Transparent;
-            this.image_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.image_ck.Enabled = false;
-            this.image_ck.ErrorImage = null;
-            this.image_ck.InitialImage = null;
-            this.image_ck.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-            this.image_ck.Location = new System.Drawing.Point(815, 1596);
-            this.image_ck.Margin = new System.Windows.Forms.Padding(0);
-            this.image_ck.MaximumSize = new System.Drawing.Size(768, 768);
-            this.image_ck.MinimumSize = new System.Drawing.Size(768, 768);
-            this.image_ck.Name = "image_ck";
-            this.image_ck.Size = new System.Drawing.Size(768, 768);
-            this.image_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.image_ck.TabIndex = 602;
-            this.image_ck.TabStop = false;
-            this.image_ck.Visible = false;
-            // 
             // cmpr_mouse1_label
             // 
             this.cmpr_mouse1_label.AutoSize = true;
@@ -10336,6 +10298,44 @@ namespace plt0_gui
             this.cmpr_sel.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
             this.cmpr_sel.Size = new System.Drawing.Size(64, 64);
             this.cmpr_sel.TabIndex = 682;
+            // 
+            // cmpr_preview_ck
+            // 
+            this.cmpr_preview_ck.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_preview_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.cmpr_preview_ck.Enabled = false;
+            this.cmpr_preview_ck.ErrorImage = null;
+            this.cmpr_preview_ck.InitialImage = null;
+            this.cmpr_preview_ck.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+            this.cmpr_preview_ck.Location = new System.Drawing.Point(2816, 44);
+            this.cmpr_preview_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_preview_ck.MaximumSize = new System.Drawing.Size(1024, 1024);
+            this.cmpr_preview_ck.MinimumSize = new System.Drawing.Size(1024, 1024);
+            this.cmpr_preview_ck.Name = "cmpr_preview_ck";
+            this.cmpr_preview_ck.Size = new System.Drawing.Size(1024, 1024);
+            this.cmpr_preview_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.cmpr_preview_ck.TabIndex = 666;
+            this.cmpr_preview_ck.TabStop = false;
+            this.cmpr_preview_ck.Visible = false;
+            // 
+            // image_ck
+            // 
+            this.image_ck.BackColor = System.Drawing.Color.Transparent;
+            this.image_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.image_ck.Enabled = false;
+            this.image_ck.ErrorImage = null;
+            this.image_ck.InitialImage = null;
+            this.image_ck.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+            this.image_ck.Location = new System.Drawing.Point(815, 1596);
+            this.image_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.image_ck.MaximumSize = new System.Drawing.Size(768, 768);
+            this.image_ck.MinimumSize = new System.Drawing.Size(768, 768);
+            this.image_ck.Name = "image_ck";
+            this.image_ck.Size = new System.Drawing.Size(768, 768);
+            this.image_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.image_ck.TabIndex = 602;
+            this.image_ck.TabStop = false;
+            this.image_ck.Visible = false;
             // 
             // plt0_gui
             // 
@@ -10708,7 +10708,7 @@ namespace plt0_gui
             this.Controls.Add(this.ico_label);
             this.Controls.Add(this.ico_hitbox);
             this.Controls.Add(this.gif_ck);
-            this.Controls.Add(this.gib_label);
+            this.Controls.Add(this.gif_label);
             this.Controls.Add(this.gif_hitbox);
             this.Controls.Add(this.jpeg_ck);
             this.Controls.Add(this.jpeg_label);

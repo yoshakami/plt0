@@ -35,7 +35,7 @@
         private System.Windows.Forms.Label ico_label;
         private System.Windows.Forms.Label ico_hitbox;
         private System.Windows.Forms.PictureBox gif_ck;
-        private System.Windows.Forms.Label gib_label;
+        private System.Windows.Forms.Label gif_label;
         private System.Windows.Forms.Label gif_hitbox;
         private System.Windows.Forms.PictureBox jpeg_ck;
         private System.Windows.Forms.Label jpeg_label;
