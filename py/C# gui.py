@@ -743,6 +743,36 @@ for v in range(2):
             else
                 unchecked_tooltip(""" + tooltip[v] + """_ck);
         }"""
+bool_value = ["true", "false"]
+func_name = ["Down", "Up"]
+for w in range(2):
+    output += """
+        private void Block_Mouse""" + func_name[w] + """(object sender, MouseEventArgs e)
+        {
+            // back button = XButton1
+            // forward button = XButton2
+            // mouse wheel = Middle
+            // Left click = Left
+            // Right click = Right
+            switch (e.Button.ToString())
+            {
+                case "XButton1":
+                    XButton1_down = """ + bool_value[w] + """;
+                    break;
+                case "XButton2":
+                    XButton2_down = """ + bool_value[w] + """;
+                    break;
+                case "Middle":
+                    Middle_down = """ + bool_value[w] + """;
+                    break;
+                case "Left":
+                    Left_down = """ + bool_value[w] + """;
+                    break;
+                case "Right":
+                    Right_down = """ + bool_value[w] + """;
+                    break;
+            }
+        }"""
 x += 1
 output += """
         private void Check_Paint()

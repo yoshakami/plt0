@@ -1979,25 +1979,10 @@ namespace plt0_gui
         private void Disable_Paint_Layout()
         {
             cmpr_c1.Visible = false;
-            cmpr_c1_label.Visible = false;
-            cmpr_c1_hitbox.Visible = false;
             cmpr_c2.Visible = false;
-            cmpr_c2_label.Visible = false;
-            cmpr_c2_hitbox.Visible = false;
             cmpr_c3.Visible = false;
-            cmpr_c3_label.Visible = false;
-            cmpr_c3_hitbox.Visible = false;
             cmpr_c4.Visible = false;
-            cmpr_c4_label.Visible = false;
-            cmpr_c4_hitbox.Visible = false;
             cmpr_sel.Visible = false;
-            cmpr_sel_label.Visible = false;
-            cmpr_sel_hitbox.Visible = false;
-            cmpr_swap_ck.Visible = false;
-            cmpr_swap_label.Visible = false;
-            cmpr_swap_hitbox.Visible = false;
-            cmpr_selected_block_label.Visible = false;
-            cmpr_picture_tooltip_label.Visible = false;
             cmpr_block1.Visible = false;
             cmpr_block2.Visible = false;
             cmpr_block3.Visible = false;
@@ -2014,34 +1999,63 @@ namespace plt0_gui
             cmpr_blockE.Visible = false;
             cmpr_blockF.Visible = false;
             cmpr_blockG.Visible = false;
+            cmpr_c1_txt.Visible = false;
+            cmpr_c2_txt.Visible = false;
+            cmpr_c3_txt.Visible = false;
+            cmpr_c4_txt.Visible = false;
+            cmpr_swap_ck.Visible = false;
+            cmpr_save_ck.Visible = false;
+            cmpr_warning.Visible = false;
+            cmpr_c1_label.Visible = false;
+            cmpr_c2_label.Visible = false;
+            cmpr_c3_label.Visible = false;
+            cmpr_c4_label.Visible = false;
+            cmpr_c1_hitbox.Visible = false;
+            cmpr_c2_hitbox.Visible = false;
+            cmpr_c3_hitbox.Visible = false;
+            cmpr_c4_hitbox.Visible = false;
+            cmpr_sel_label.Visible = false;
+            cmpr_layout_is_enabled = false;
+            cmpr_sel_hitbox.Visible = false;
+            cmpr_swap_label.Visible = false;
+            cmpr_save_as_ck.Visible = false;
+            cmpr_swap_hitbox.Visible = false;
+            cmpr_save_hitbox.Visible = false;
+            cmpr_mouse1_label.Visible = false;
+            cmpr_mouse2_label.Visible = false;
+            cmpr_mouse3_label.Visible = false;
+            cmpr_mouse4_label.Visible = false;
+            cmpr_mouse5_label.Visible = false;
+            cmpr_block_paint_ck.Visible = false;
+            cmpr_save_as_hitbox.Visible = false;
+            cmpr_block_paint_label.Visible = false;
             cmpr_block_selection_ck.Visible = false;
+            cmpr_block_paint_hitbox.Visible = false;
+            cmpr_selected_block_label.Visible = false;
+            cmpr_picture_tooltip_label.Visible = false;
             cmpr_block_selection_label.Visible = false;
             cmpr_block_selection_hitbox.Visible = false;
-            cmpr_block_paint_ck.Visible = false;
-            cmpr_block_paint_label.Visible = false;
-            cmpr_block_paint_hitbox.Visible = false;
-            cmpr_save_ck.Visible = false;
-            cmpr_save_as_ck.Visible = false;
-            cmpr_save_hitbox.Visible = false;
-            cmpr_save_as_hitbox.Visible = false;
-            cmpr_warning_label.Visible = false;
-            cmpr_layout_is_enabled = false;
         }
         private void Layout_Paint()
         {
             if (!cmpr_layout_is_in_place)
             {
+                Put_that_damn_cmpr_layout_in_place();
                 cmpr_layout_is_in_place = true;
                 cmpr_c1.Location = new Point(cmpr_c1.Location.X - 1920, cmpr_c1.Location.Y);
+                cmpr_c1_txt.Location = new Point(cmpr_c1_txt.Location.X - 1920, cmpr_c1_txt.Location.Y);
                 cmpr_c1_label.Location = new Point(cmpr_c1_label.Location.X - 1920, cmpr_c1_label.Location.Y);
                 cmpr_c1_hitbox.Location = new Point(cmpr_c1_hitbox.Location.X - 1920, cmpr_c1_hitbox.Location.Y);
                 cmpr_c2.Location = new Point(cmpr_c2.Location.X - 1920, cmpr_c2.Location.Y);
+                cmpr_c2_txt.Location = new Point(cmpr_c2_txt.Location.X - 1920, cmpr_c2_txt.Location.Y);
                 cmpr_c2_label.Location = new Point(cmpr_c2_label.Location.X - 1920, cmpr_c2_label.Location.Y);
                 cmpr_c2_hitbox.Location = new Point(cmpr_c2_hitbox.Location.X - 1920, cmpr_c2_hitbox.Location.Y);
                 cmpr_c3.Location = new Point(cmpr_c3.Location.X - 1920, cmpr_c3.Location.Y);
+                cmpr_c3_txt.Location = new Point(cmpr_c3_txt.Location.X - 1920, cmpr_c3_txt.Location.Y);
                 cmpr_c3_label.Location = new Point(cmpr_c3_label.Location.X - 1920, cmpr_c3_label.Location.Y);
                 cmpr_c3_hitbox.Location = new Point(cmpr_c3_hitbox.Location.X - 1920, cmpr_c3_hitbox.Location.Y);
                 cmpr_c4.Location = new Point(cmpr_c4.Location.X - 1920, cmpr_c4.Location.Y);
+                cmpr_c4_txt.Location = new Point(cmpr_c4_txt.Location.X - 1920, cmpr_c4_txt.Location.Y);
                 cmpr_c4_label.Location = new Point(cmpr_c4_label.Location.X - 1920, cmpr_c4_label.Location.Y);
                 cmpr_c4_hitbox.Location = new Point(cmpr_c4_hitbox.Location.X - 1920, cmpr_c4_hitbox.Location.Y);
                 cmpr_sel.Location = new Point(cmpr_sel.Location.X - 1920, cmpr_sel.Location.Y);
@@ -2078,7 +2092,12 @@ namespace plt0_gui
                 cmpr_save_as_ck.Location = new Point(cmpr_save_as_ck.Location.X - 1920, cmpr_save_as_ck.Location.Y);
                 cmpr_save_hitbox.Location = new Point(cmpr_save_hitbox.Location.X - 1920, cmpr_save_hitbox.Location.Y);
                 cmpr_save_as_hitbox.Location = new Point(cmpr_save_as_hitbox.Location.X - 1920, cmpr_save_as_hitbox.Location.Y);
-                cmpr_warning_label.Location = new Point(cmpr_warning_label.Location.X - 1920, cmpr_warning_label.Location.Y);
+                cmpr_warning.Location = new Point(cmpr_warning.Location.X - 1920, cmpr_warning.Location.Y);
+                cmpr_mouse1_label.Location = new Point(cmpr_mouse1_label.Location.X - 1920, cmpr_mouse1_label.Location.Y);
+                cmpr_mouse2_label.Location = new Point(cmpr_mouse2_label.Location.X - 1920, cmpr_mouse2_label.Location.Y);
+                cmpr_mouse3_label.Location = new Point(cmpr_mouse3_label.Location.X - 1920, cmpr_mouse3_label.Location.Y);
+                cmpr_mouse4_label.Location = new Point(cmpr_mouse4_label.Location.X - 1920, cmpr_mouse4_label.Location.Y);
+                cmpr_mouse5_label.Location = new Point(cmpr_mouse5_label.Location.X - 1920, cmpr_mouse5_label.Location.Y);
             }
             if (!cmpr_layout_is_enabled)
             {
@@ -2163,6 +2182,10 @@ namespace plt0_gui
                 rgba32_ck.Visible = false;
                 tif_label.Visible = false;
                 tpl_label.Visible = false;
+                cmpr_c1_txt.Visible = true;
+                cmpr_c2_txt.Visible = true;
+                cmpr_c3_txt.Visible = true;
+                cmpr_c4_txt.Visible = true;
                 ai4_hitbox.Visible = false;
                 ai8_hitbox.Visible = false;
                 bmd_hitbox.Visible = false;
@@ -2207,6 +2230,7 @@ namespace plt0_gui
                 reversey_ck.Visible = false;
                 tex0_hitbox.Visible = false;
                 tiff_hitbox.Visible = false;
+                cmpr_warning.Visible = true;
                 bmp_32_label.Visible = false;
                 ci14x2_label.Visible = false;
                 cmpr_c1_label.Visible = true;
@@ -2265,8 +2289,12 @@ namespace plt0_gui
                 input_file2_txt.Visible = false;
                 reversex_hitbox.Visible = false;
                 reversey_hitbox.Visible = false;
+                cmpr_mouse1_label.Visible = true;
+                cmpr_mouse2_label.Visible = true;
+                cmpr_mouse3_label.Visible = true;
+                cmpr_mouse4_label.Visible = true;
+                cmpr_mouse5_label.Visible = true;
                 cli_textbox_label.Visible = false;
-                cmpr_warning_label.Visible = true;
                 input_file2_label.Visible = false;
                 cli_textbox_hitbox.Visible = false;
                 cmpr_block_paint_ck.Visible = true;
@@ -3392,7 +3420,7 @@ namespace plt0_gui
             this.cmpr_save_hitbox = new System.Windows.Forms.Label();
             this.cmpr_save_as_ck = new System.Windows.Forms.PictureBox();
             this.cmpr_save_as_hitbox = new System.Windows.Forms.Label();
-            this.cmpr_warning_label = new System.Windows.Forms.Label();
+            this.cmpr_warning = new System.Windows.Forms.Label();
             this.cmpr_sel_label = new System.Windows.Forms.Label();
             this.cmpr_sel_hitbox = new System.Windows.Forms.Label();
             this.cmpr_mouse1_label = new System.Windows.Forms.Label();
@@ -10226,22 +10254,22 @@ namespace plt0_gui
             this.cmpr_save_as_hitbox.Size = new System.Drawing.Size(128, 64);
             this.cmpr_save_as_hitbox.TabIndex = 672;
             // 
-            // cmpr_warning_label
+            // cmpr_warning
             // 
-            this.cmpr_warning_label.AutoSize = true;
-            this.cmpr_warning_label.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_warning_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.cmpr_warning_label.ForeColor = System.Drawing.Color.Red;
-            this.cmpr_warning_label.Location = new System.Drawing.Point(2266, 856);
-            this.cmpr_warning_label.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_warning_label.MaximumSize = new System.Drawing.Size(540, 0);
-            this.cmpr_warning_label.MinimumSize = new System.Drawing.Size(540, 0);
-            this.cmpr_warning_label.Name = "cmpr_warning_label";
-            this.cmpr_warning_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.cmpr_warning_label.Size = new System.Drawing.Size(540, 64);
-            this.cmpr_warning_label.TabIndex = 673;
-            this.cmpr_warning_label.Text = "Input file is not a cmpr texture";
-            this.cmpr_warning_label.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.cmpr_warning.AutoSize = true;
+            this.cmpr_warning.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_warning.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.cmpr_warning.ForeColor = System.Drawing.Color.Red;
+            this.cmpr_warning.Location = new System.Drawing.Point(2266, 856);
+            this.cmpr_warning.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_warning.MaximumSize = new System.Drawing.Size(540, 0);
+            this.cmpr_warning.MinimumSize = new System.Drawing.Size(540, 0);
+            this.cmpr_warning.Name = "cmpr_warning";
+            this.cmpr_warning.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.cmpr_warning.Size = new System.Drawing.Size(540, 64);
+            this.cmpr_warning.TabIndex = 673;
+            this.cmpr_warning.Text = "Input file is not a cmpr texture";
+            this.cmpr_warning.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // cmpr_sel_label
             // 
@@ -10407,7 +10435,7 @@ namespace plt0_gui
             this.Controls.Add(this.cmpr_mouse1_label);
             this.Controls.Add(this.cmpr_sel_label);
             this.Controls.Add(this.cmpr_sel_hitbox);
-            this.Controls.Add(this.cmpr_warning_label);
+            this.Controls.Add(this.cmpr_warning);
             this.Controls.Add(this.cmpr_save_as_ck);
             this.Controls.Add(this.cmpr_save_as_hitbox);
             this.Controls.Add(this.cmpr_save_ck);

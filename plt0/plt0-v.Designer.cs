@@ -442,7 +442,7 @@
         private System.Windows.Forms.Label cmpr_save_hitbox;
         private System.Windows.Forms.PictureBox cmpr_save_as_ck;
         private System.Windows.Forms.Label cmpr_save_as_hitbox;
-        private System.Windows.Forms.Label cmpr_warning_label;
+        private System.Windows.Forms.Label cmpr_warning;
         private System.Windows.Forms.Label cmpr_sel_label;
         private System.Windows.Forms.Label cmpr_sel_hitbox;
         private System.Windows.Forms.Label cmpr_mouse1_label;
