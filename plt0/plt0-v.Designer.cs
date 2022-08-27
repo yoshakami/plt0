@@ -397,16 +397,16 @@
         private System.Windows.Forms.Label cmpr_c1_label;
         private System.Windows.Forms.TextBox cmpr_c1_txt;
         private System.Windows.Forms.Label cmpr_c1_hitbox;
-        private System.Windows.Forms.Label cmpr_c1_ck;
-        private System.Windows.Forms.Label cmpr_c2_ck;
+        private System.Windows.Forms.Label cmpr_c1;
+        private System.Windows.Forms.Label cmpr_c2;
         private System.Windows.Forms.Label cmpr_c2_label;
         private System.Windows.Forms.TextBox cmpr_c2_txt;
         private System.Windows.Forms.Label cmpr_c2_hitbox;
-        private System.Windows.Forms.Label cmpr_c3_ck;
+        private System.Windows.Forms.Label cmpr_c3;
         private System.Windows.Forms.Label cmpr_c3_label;
         private System.Windows.Forms.TextBox cmpr_c3_txt;
         private System.Windows.Forms.Label cmpr_c3_hitbox;
-        private System.Windows.Forms.Label cmpr_c4_ck;
+        private System.Windows.Forms.Label cmpr_c4;
         private System.Windows.Forms.Label cmpr_c4_label;
         private System.Windows.Forms.TextBox cmpr_c4_txt;
         private System.Windows.Forms.Label cmpr_c4_hitbox;
@@ -443,14 +443,14 @@
         private System.Windows.Forms.PictureBox cmpr_save_as_ck;
         private System.Windows.Forms.Label cmpr_save_as_hitbox;
         private System.Windows.Forms.Label cmpr_warning_label;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label cmpr_sel_label;
+        private System.Windows.Forms.Label cmpr_sel_hitbox;
+        private System.Windows.Forms.Label cmpr_mouse1_label;
+        private System.Windows.Forms.Label cmpr_mouse2_label;
+        private System.Windows.Forms.Label cmpr_mouse4_label;
+        private System.Windows.Forms.Label cmpr_mouse3_label;
+        private System.Windows.Forms.Label cmpr_mouse5_label;
+        private System.Windows.Forms.Label cmpr_sel;
         /*
 /// <summary>
 /// Required designer variable.
