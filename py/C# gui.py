@@ -671,6 +671,7 @@ for u in range(len(text_icon) - 4, len(text_icon)):
         private void """ + text_icon[u] + """_Click(object sender, EventArgs e)
         {
             cmpr_selected_colour = """ + str(u - len(text_icon) + 5) + """;
+            cmpr_sel.BackColor = System.Drawing.Color.FromArgb(cmpr_colours_argb[""" + str(((u - len(text_icon) + 5) << 2) - 4) + "], cmpr_colours_argb[" + str(((u - len(text_icon) + 5) << 2) - 3) + "], cmpr_colours_argb[" + str(((u - len(text_icon) + 5) << 2) - 2) + "], cmpr_colours_argb[" + str(((u - len(text_icon) + 5) << 2) - 1) + """];
         }"""
 line4 = [''] * 5 + ["\n                this.Size = new Size(this.Size.Width + mouse_x - e.X, this.Size.Height + mouse_y - e.Y);"]
 for t in range(4, 6):
@@ -811,19 +812,30 @@ block_name = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "
 for z in range(16):
     x += 1
     output += """
+        private void cmpr_block""" + block_name[z] + """_MouseClick(object sender, MouseEventArgs e)
+        {
+            switch (e.Button.ToString())
+            {
+                case "Left":
+                    Paint_Pixel(""" + str(z) + """, cmpr_selected_colour);
+                    break;
+                case "Middle":
+                    Paint_Pixel(""" + str(z) + """, 1);
+                    break;
+                case "Right":
+                    Paint_Pixel(""" + str(z) + """, 2);
+                    break;
+                case "XButton2":
+                    Paint_Pixel(""" + str(z) + """, 3);
+                    break;
+                case "XButton1":
+                    Paint_Pixel(""" + str(z) + """, 4);
+                    break;
+            }
+        }
         private void cmpr_block""" + block_name[z] + """_MouseEnter(object sender, EventArgs e)
         {
             Parse_Markdown(lines[""" + str(x) + """]);
-            if (Left_down)
-                Paint_Pixel(""" + str(z) + """, cmpr_selected_colour);
-            else if (Middle_down)
-                Paint_Pixel(""" + str(z) + """, 1);
-            else if (Right_down)
-                Paint_Pixel(""" + str(z) + """, 2);
-            else if (XButton2_down)
-                Paint_Pixel(""" + str(z) + """, 3);
-            else if (XButton1_down)
-                Paint_Pixel(""" + str(z) + """, 4);
         }
         private void cmpr_block""" + block_name[z] + """_MouseLeave(object sender, EventArgs e)
         {

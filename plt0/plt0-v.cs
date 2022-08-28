@@ -7798,10 +7798,8 @@ namespace plt0_gui
             this.cmpr_c1_label.Size = new System.Drawing.Size(140, 45);
             this.cmpr_c1_label.TabIndex = 610;
             this.cmpr_c1_label.Text = "Colour 1";
-            this.cmpr_c1_label.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_c1_label.MouseEnter += new System.EventHandler(this.cmpr_c1_MouseEnter);
             this.cmpr_c1_label.MouseLeave += new System.EventHandler(this.cmpr_c1_MouseLeave);
-            this.cmpr_c1_label.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_c1_txt
             // 
@@ -7817,10 +7815,8 @@ namespace plt0_gui
             this.cmpr_c1_txt.Text = "#000000";
             this.cmpr_c1_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.cmpr_c1_txt.TextChanged += new System.EventHandler(this.cmpr_c1_TextChanged);
-            this.cmpr_c1_txt.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_c1_txt.MouseEnter += new System.EventHandler(this.cmpr_c1_MouseEnter);
             this.cmpr_c1_txt.MouseLeave += new System.EventHandler(this.cmpr_c1_MouseLeave);
-            this.cmpr_c1_txt.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_c1
             // 
@@ -7834,10 +7830,8 @@ namespace plt0_gui
             this.cmpr_c1.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
             this.cmpr_c1.Size = new System.Drawing.Size(64, 64);
             this.cmpr_c1.TabIndex = 612;
-            this.cmpr_c1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_c1.MouseEnter += new System.EventHandler(this.cmpr_c1_MouseEnter);
             this.cmpr_c1.MouseLeave += new System.EventHandler(this.cmpr_c1_MouseLeave);
-            this.cmpr_c1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_c2
             // 
@@ -7851,10 +7845,8 @@ namespace plt0_gui
             this.cmpr_c2.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
             this.cmpr_c2.Size = new System.Drawing.Size(64, 64);
             this.cmpr_c2.TabIndex = 616;
-            this.cmpr_c2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_c2.MouseEnter += new System.EventHandler(this.cmpr_c2_MouseEnter);
             this.cmpr_c2.MouseLeave += new System.EventHandler(this.cmpr_c2_MouseLeave);
-            this.cmpr_c2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_c2_label
             // 
@@ -7869,10 +7861,8 @@ namespace plt0_gui
             this.cmpr_c2_label.Size = new System.Drawing.Size(140, 45);
             this.cmpr_c2_label.TabIndex = 614;
             this.cmpr_c2_label.Text = "Colour 2";
-            this.cmpr_c2_label.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_c2_label.MouseEnter += new System.EventHandler(this.cmpr_c2_MouseEnter);
             this.cmpr_c2_label.MouseLeave += new System.EventHandler(this.cmpr_c2_MouseLeave);
-            this.cmpr_c2_label.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_c2_txt
             // 
@@ -7888,10 +7878,8 @@ namespace plt0_gui
             this.cmpr_c2_txt.Text = "#000000";
             this.cmpr_c2_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.cmpr_c2_txt.TextChanged += new System.EventHandler(this.cmpr_c2_TextChanged);
-            this.cmpr_c2_txt.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_c2_txt.MouseEnter += new System.EventHandler(this.cmpr_c2_MouseEnter);
             this.cmpr_c2_txt.MouseLeave += new System.EventHandler(this.cmpr_c2_MouseLeave);
-            this.cmpr_c2_txt.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_c3
             // 
@@ -7905,10 +7893,8 @@ namespace plt0_gui
             this.cmpr_c3.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
             this.cmpr_c3.Size = new System.Drawing.Size(64, 64);
             this.cmpr_c3.TabIndex = 620;
-            this.cmpr_c3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_c3.MouseEnter += new System.EventHandler(this.cmpr_c3_MouseEnter);
             this.cmpr_c3.MouseLeave += new System.EventHandler(this.cmpr_c3_MouseLeave);
-            this.cmpr_c3.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_c3_label
             // 
@@ -7923,10 +7909,8 @@ namespace plt0_gui
             this.cmpr_c3_label.Size = new System.Drawing.Size(140, 45);
             this.cmpr_c3_label.TabIndex = 618;
             this.cmpr_c3_label.Text = "Colour 3";
-            this.cmpr_c3_label.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_c3_label.MouseEnter += new System.EventHandler(this.cmpr_c3_MouseEnter);
             this.cmpr_c3_label.MouseLeave += new System.EventHandler(this.cmpr_c3_MouseLeave);
-            this.cmpr_c3_label.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_c3_txt
             // 
@@ -7940,10 +7924,8 @@ namespace plt0_gui
             this.cmpr_c3_txt.Size = new System.Drawing.Size(141, 21);
             this.cmpr_c3_txt.TabIndex = 617;
             this.cmpr_c3_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.cmpr_c3_txt.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_c3_txt.MouseEnter += new System.EventHandler(this.cmpr_c3_MouseEnter);
             this.cmpr_c3_txt.MouseLeave += new System.EventHandler(this.cmpr_c3_MouseLeave);
-            this.cmpr_c3_txt.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_c4
             // 
@@ -7975,10 +7957,8 @@ namespace plt0_gui
             this.cmpr_c4_label.Size = new System.Drawing.Size(140, 45);
             this.cmpr_c4_label.TabIndex = 622;
             this.cmpr_c4_label.Text = "Colour 4";
-            this.cmpr_c4_label.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_c4_label.MouseEnter += new System.EventHandler(this.cmpr_c4_MouseEnter);
             this.cmpr_c4_label.MouseLeave += new System.EventHandler(this.cmpr_c4_MouseLeave);
-            this.cmpr_c4_label.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_c4_txt
             // 
@@ -7992,10 +7972,8 @@ namespace plt0_gui
             this.cmpr_c4_txt.Size = new System.Drawing.Size(141, 21);
             this.cmpr_c4_txt.TabIndex = 621;
             this.cmpr_c4_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.cmpr_c4_txt.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_c4_txt.MouseEnter += new System.EventHandler(this.cmpr_c4_MouseEnter);
             this.cmpr_c4_txt.MouseLeave += new System.EventHandler(this.cmpr_c4_MouseLeave);
-            this.cmpr_c4_txt.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_swap_ck
             // 
@@ -8010,10 +7988,8 @@ namespace plt0_gui
             this.cmpr_swap_ck.TabIndex = 626;
             this.cmpr_swap_ck.TabStop = false;
             this.cmpr_swap_ck.Click += new System.EventHandler(this.Swap_Colours_Click);
-            this.cmpr_swap_ck.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_swap_ck.MouseEnter += new System.EventHandler(this.cmpr_swap_MouseEnter);
             this.cmpr_swap_ck.MouseLeave += new System.EventHandler(this.cmpr_swap_MouseLeave);
-            this.cmpr_swap_ck.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_swap_label
             // 
@@ -8029,10 +8005,8 @@ namespace plt0_gui
             this.cmpr_swap_label.TabIndex = 625;
             this.cmpr_swap_label.Text = "Swap Colours";
             this.cmpr_swap_label.Click += new System.EventHandler(this.Swap_Colours_Click);
-            this.cmpr_swap_label.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_swap_label.MouseEnter += new System.EventHandler(this.cmpr_swap_MouseEnter);
             this.cmpr_swap_label.MouseLeave += new System.EventHandler(this.cmpr_swap_MouseLeave);
-            this.cmpr_swap_label.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_block1
             // 
@@ -8046,10 +8020,7 @@ namespace plt0_gui
             this.cmpr_block1.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_block1.Size = new System.Drawing.Size(64, 64);
             this.cmpr_block1.TabIndex = 644;
-            this.cmpr_block1.Click += new System.EventHandler(this.cmpr_block1_Click);
-            this.cmpr_block1.DragEnter += new System.Windows.Forms.DragEventHandler(this.Block_MouseDown4);
             this.cmpr_block1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cmpr_block1_MouseClick);
-            this.cmpr_block1.MouseCaptureChanged += new System.EventHandler(this.Block_MouseDown);
             this.cmpr_block1.MouseEnter += new System.EventHandler(this.cmpr_block1_MouseEnter);
             this.cmpr_block1.MouseLeave += new System.EventHandler(this.cmpr_block1_MouseLeave);
             // 
@@ -8065,11 +8036,9 @@ namespace plt0_gui
             this.cmpr_block2.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_block2.Size = new System.Drawing.Size(64, 64);
             this.cmpr_block2.TabIndex = 645;
-            this.cmpr_block2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_block2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cmpr_block2_MouseClick);
             this.cmpr_block2.MouseEnter += new System.EventHandler(this.cmpr_block2_MouseEnter);
             this.cmpr_block2.MouseLeave += new System.EventHandler(this.cmpr_block2_MouseLeave);
-            this.cmpr_block2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown3);
-            this.cmpr_block2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_block5
             // 
@@ -8083,10 +8052,9 @@ namespace plt0_gui
             this.cmpr_block5.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_block5.Size = new System.Drawing.Size(64, 64);
             this.cmpr_block5.TabIndex = 647;
-            this.cmpr_block5.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_block5.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cmpr_block5_MouseClick);
             this.cmpr_block5.MouseEnter += new System.EventHandler(this.cmpr_block5_MouseEnter);
             this.cmpr_block5.MouseLeave += new System.EventHandler(this.cmpr_block5_MouseLeave);
-            this.cmpr_block5.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_blockD
             // 
@@ -8100,10 +8068,9 @@ namespace plt0_gui
             this.cmpr_blockD.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_blockD.Size = new System.Drawing.Size(64, 64);
             this.cmpr_blockD.TabIndex = 649;
-            this.cmpr_blockD.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_blockD.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cmpr_blockD_MouseClick);
             this.cmpr_blockD.MouseEnter += new System.EventHandler(this.cmpr_blockD_MouseEnter);
             this.cmpr_blockD.MouseLeave += new System.EventHandler(this.cmpr_blockD_MouseLeave);
-            this.cmpr_blockD.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_block9
             // 
@@ -8117,10 +8084,9 @@ namespace plt0_gui
             this.cmpr_block9.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_block9.Size = new System.Drawing.Size(64, 64);
             this.cmpr_block9.TabIndex = 648;
-            this.cmpr_block9.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_block9.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cmpr_block9_MouseClick);
             this.cmpr_block9.MouseEnter += new System.EventHandler(this.cmpr_block9_MouseEnter);
             this.cmpr_block9.MouseLeave += new System.EventHandler(this.cmpr_block9_MouseLeave);
-            this.cmpr_block9.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_block6
             // 
@@ -8134,10 +8100,9 @@ namespace plt0_gui
             this.cmpr_block6.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_block6.Size = new System.Drawing.Size(64, 64);
             this.cmpr_block6.TabIndex = 650;
-            this.cmpr_block6.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_block6.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cmpr_block6_MouseClick);
             this.cmpr_block6.MouseEnter += new System.EventHandler(this.cmpr_block6_MouseEnter);
             this.cmpr_block6.MouseLeave += new System.EventHandler(this.cmpr_block6_MouseLeave);
-            this.cmpr_block6.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_blockA
             // 
@@ -8151,10 +8116,9 @@ namespace plt0_gui
             this.cmpr_blockA.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_blockA.Size = new System.Drawing.Size(64, 64);
             this.cmpr_blockA.TabIndex = 651;
-            this.cmpr_blockA.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_blockA.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cmpr_blockA_MouseClick);
             this.cmpr_blockA.MouseEnter += new System.EventHandler(this.cmpr_blockA_MouseEnter);
             this.cmpr_blockA.MouseLeave += new System.EventHandler(this.cmpr_blockA_MouseLeave);
-            this.cmpr_blockA.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_blockE
             // 
@@ -8168,10 +8132,9 @@ namespace plt0_gui
             this.cmpr_blockE.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_blockE.Size = new System.Drawing.Size(64, 64);
             this.cmpr_blockE.TabIndex = 652;
-            this.cmpr_blockE.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_blockE.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cmpr_blockE_MouseClick);
             this.cmpr_blockE.MouseEnter += new System.EventHandler(this.cmpr_blockE_MouseEnter);
             this.cmpr_blockE.MouseLeave += new System.EventHandler(this.cmpr_blockE_MouseLeave);
-            this.cmpr_blockE.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_block3
             // 
@@ -8185,10 +8148,9 @@ namespace plt0_gui
             this.cmpr_block3.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_block3.Size = new System.Drawing.Size(64, 64);
             this.cmpr_block3.TabIndex = 653;
-            this.cmpr_block3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_block3.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cmpr_block3_MouseClick);
             this.cmpr_block3.MouseEnter += new System.EventHandler(this.cmpr_block3_MouseEnter);
             this.cmpr_block3.MouseLeave += new System.EventHandler(this.cmpr_block3_MouseLeave);
-            this.cmpr_block3.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_block7
             // 
@@ -8202,10 +8164,9 @@ namespace plt0_gui
             this.cmpr_block7.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_block7.Size = new System.Drawing.Size(64, 64);
             this.cmpr_block7.TabIndex = 654;
-            this.cmpr_block7.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_block7.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cmpr_block7_MouseClick);
             this.cmpr_block7.MouseEnter += new System.EventHandler(this.cmpr_block7_MouseEnter);
             this.cmpr_block7.MouseLeave += new System.EventHandler(this.cmpr_block7_MouseLeave);
-            this.cmpr_block7.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_blockB
             // 
@@ -8219,10 +8180,9 @@ namespace plt0_gui
             this.cmpr_blockB.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_blockB.Size = new System.Drawing.Size(64, 64);
             this.cmpr_blockB.TabIndex = 655;
-            this.cmpr_blockB.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_blockB.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cmpr_blockB_MouseClick);
             this.cmpr_blockB.MouseEnter += new System.EventHandler(this.cmpr_blockB_MouseEnter);
             this.cmpr_blockB.MouseLeave += new System.EventHandler(this.cmpr_blockB_MouseLeave);
-            this.cmpr_blockB.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_blockF
             // 
@@ -8236,10 +8196,9 @@ namespace plt0_gui
             this.cmpr_blockF.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_blockF.Size = new System.Drawing.Size(64, 64);
             this.cmpr_blockF.TabIndex = 656;
-            this.cmpr_blockF.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_blockF.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cmpr_blockF_MouseClick);
             this.cmpr_blockF.MouseEnter += new System.EventHandler(this.cmpr_blockF_MouseEnter);
             this.cmpr_blockF.MouseLeave += new System.EventHandler(this.cmpr_blockF_MouseLeave);
-            this.cmpr_blockF.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_block4
             // 
@@ -8253,9 +8212,7 @@ namespace plt0_gui
             this.cmpr_block4.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_block4.Size = new System.Drawing.Size(64, 64);
             this.cmpr_block4.TabIndex = 657;
-            this.cmpr_block4.Click += new System.EventHandler(this.cmpr_block4_MouseEnter);
-            this.cmpr_block4.Paint += new System.Windows.Forms.PaintEventHandler(this.cmpr_block4_MouseEnter);
-            this.cmpr_block4.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cmpr_block4_MouseEnter);
+            this.cmpr_block4.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cmpr_block4_MouseClick);
             this.cmpr_block4.MouseEnter += new System.EventHandler(this.cmpr_block4_MouseEnter);
             this.cmpr_block4.MouseLeave += new System.EventHandler(this.cmpr_block4_MouseLeave);
             // 
@@ -8271,10 +8228,9 @@ namespace plt0_gui
             this.cmpr_block8.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_block8.Size = new System.Drawing.Size(64, 64);
             this.cmpr_block8.TabIndex = 658;
-            this.cmpr_block8.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_block8.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cmpr_block8_MouseClick);
             this.cmpr_block8.MouseEnter += new System.EventHandler(this.cmpr_block8_MouseEnter);
             this.cmpr_block8.MouseLeave += new System.EventHandler(this.cmpr_block8_MouseLeave);
-            this.cmpr_block8.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_blockC
             // 
@@ -8288,10 +8244,9 @@ namespace plt0_gui
             this.cmpr_blockC.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_blockC.Size = new System.Drawing.Size(64, 64);
             this.cmpr_blockC.TabIndex = 659;
-            this.cmpr_blockC.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_blockC.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cmpr_blockC_MouseClick);
             this.cmpr_blockC.MouseEnter += new System.EventHandler(this.cmpr_blockC_MouseEnter);
             this.cmpr_blockC.MouseLeave += new System.EventHandler(this.cmpr_blockC_MouseLeave);
-            this.cmpr_blockC.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_blockG
             // 
@@ -8305,10 +8260,9 @@ namespace plt0_gui
             this.cmpr_blockG.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_blockG.Size = new System.Drawing.Size(64, 64);
             this.cmpr_blockG.TabIndex = 646;
-            this.cmpr_blockG.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_blockG.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cmpr_blockG_MouseClick);
             this.cmpr_blockG.MouseEnter += new System.EventHandler(this.cmpr_blockG_MouseEnter);
             this.cmpr_blockG.MouseLeave += new System.EventHandler(this.cmpr_blockG_MouseLeave);
-            this.cmpr_blockG.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_block_paint_ck
             // 
@@ -8324,10 +8278,8 @@ namespace plt0_gui
             this.cmpr_block_paint_ck.TabStop = false;
             this.cmpr_block_paint_ck.Visible = false;
             this.cmpr_block_paint_ck.Click += new System.EventHandler(this.cmpr_block_paint_Click);
-            this.cmpr_block_paint_ck.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_block_paint_ck.MouseEnter += new System.EventHandler(this.cmpr_block_paint_MouseEnter);
             this.cmpr_block_paint_ck.MouseLeave += new System.EventHandler(this.cmpr_block_paint_MouseLeave);
-            this.cmpr_block_paint_ck.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_block_paint_label
             // 
@@ -8344,10 +8296,8 @@ namespace plt0_gui
             this.cmpr_block_paint_label.Text = "Paint Pixels";
             this.cmpr_block_paint_label.Visible = false;
             this.cmpr_block_paint_label.Click += new System.EventHandler(this.cmpr_block_paint_Click);
-            this.cmpr_block_paint_label.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_block_paint_label.MouseEnter += new System.EventHandler(this.cmpr_block_paint_MouseEnter);
             this.cmpr_block_paint_label.MouseLeave += new System.EventHandler(this.cmpr_block_paint_MouseLeave);
-            this.cmpr_block_paint_label.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_block_selection_ck
             // 
@@ -8363,10 +8313,8 @@ namespace plt0_gui
             this.cmpr_block_selection_ck.TabStop = false;
             this.cmpr_block_selection_ck.Visible = false;
             this.cmpr_block_selection_ck.Click += new System.EventHandler(this.cmpr_block_selection_Click);
-            this.cmpr_block_selection_ck.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_block_selection_ck.MouseEnter += new System.EventHandler(this.cmpr_block_selection_MouseEnter);
             this.cmpr_block_selection_ck.MouseLeave += new System.EventHandler(this.cmpr_block_selection_MouseLeave);
-            this.cmpr_block_selection_ck.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_block_selection_label
             // 
@@ -8383,10 +8331,8 @@ namespace plt0_gui
             this.cmpr_block_selection_label.Text = "Select Block";
             this.cmpr_block_selection_label.Visible = false;
             this.cmpr_block_selection_label.Click += new System.EventHandler(this.cmpr_block_selection_Click);
-            this.cmpr_block_selection_label.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_block_selection_label.MouseEnter += new System.EventHandler(this.cmpr_block_selection_MouseEnter);
             this.cmpr_block_selection_label.MouseLeave += new System.EventHandler(this.cmpr_block_selection_MouseLeave);
-            this.cmpr_block_selection_label.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_picture_tooltip_label
             // 
@@ -8400,8 +8346,6 @@ namespace plt0_gui
             this.cmpr_picture_tooltip_label.Size = new System.Drawing.Size(175, 20);
             this.cmpr_picture_tooltip_label.TabIndex = 667;
             this.cmpr_picture_tooltip_label.Text = "Picture tooltip";
-            this.cmpr_picture_tooltip_label.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
-            this.cmpr_picture_tooltip_label.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_selected_block_label
             // 
@@ -8415,8 +8359,6 @@ namespace plt0_gui
             this.cmpr_selected_block_label.Size = new System.Drawing.Size(184, 20);
             this.cmpr_selected_block_label.TabIndex = 668;
             this.cmpr_selected_block_label.Text = "Selected Block";
-            this.cmpr_selected_block_label.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
-            this.cmpr_selected_block_label.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_save_ck
             // 
@@ -8430,10 +8372,8 @@ namespace plt0_gui
             this.cmpr_save_ck.Size = new System.Drawing.Size(128, 64);
             this.cmpr_save_ck.TabIndex = 669;
             this.cmpr_save_ck.TabStop = false;
-            this.cmpr_save_ck.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_save_ck.MouseEnter += new System.EventHandler(this.cmpr_save_MouseEnter);
             this.cmpr_save_ck.MouseLeave += new System.EventHandler(this.cmpr_save_MouseLeave);
-            this.cmpr_save_ck.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_save_as_ck
             // 
@@ -8447,10 +8387,8 @@ namespace plt0_gui
             this.cmpr_save_as_ck.Size = new System.Drawing.Size(128, 64);
             this.cmpr_save_as_ck.TabIndex = 671;
             this.cmpr_save_as_ck.TabStop = false;
-            this.cmpr_save_as_ck.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_save_as_ck.MouseEnter += new System.EventHandler(this.cmpr_save_as_MouseEnter);
             this.cmpr_save_as_ck.MouseLeave += new System.EventHandler(this.cmpr_save_as_MouseLeave);
-            this.cmpr_save_as_ck.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_warning
             // 
@@ -8468,8 +8406,6 @@ namespace plt0_gui
             this.cmpr_warning.TabIndex = 673;
             this.cmpr_warning.Text = "Input file is not a cmpr texture";
             this.cmpr_warning.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.cmpr_warning.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
-            this.cmpr_warning.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_sel_label
             // 
@@ -8484,10 +8420,8 @@ namespace plt0_gui
             this.cmpr_sel_label.Size = new System.Drawing.Size(147, 64);
             this.cmpr_sel_label.TabIndex = 674;
             this.cmpr_sel_label.Text = "Selected :";
-            this.cmpr_sel_label.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_sel_label.MouseEnter += new System.EventHandler(this.cmpr_sel_MouseEnter);
             this.cmpr_sel_label.MouseLeave += new System.EventHandler(this.cmpr_sel_MouseLeave);
-            this.cmpr_sel_label.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_mouse1_label
             // 
@@ -8502,10 +8436,8 @@ namespace plt0_gui
             this.cmpr_mouse1_label.Size = new System.Drawing.Size(153, 64);
             this.cmpr_mouse1_label.TabIndex = 677;
             this.cmpr_mouse1_label.Text = "-> Left Click";
-            this.cmpr_mouse1_label.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_mouse1_label.MouseEnter += new System.EventHandler(this.cmpr_mouse1_MouseEnter);
             this.cmpr_mouse1_label.MouseLeave += new System.EventHandler(this.cmpr_mouse1_MouseLeave);
-            this.cmpr_mouse1_label.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_mouse2_label
             // 
@@ -8520,10 +8452,8 @@ namespace plt0_gui
             this.cmpr_mouse2_label.Size = new System.Drawing.Size(153, 64);
             this.cmpr_mouse2_label.TabIndex = 678;
             this.cmpr_mouse2_label.Text = "-> Left Click";
-            this.cmpr_mouse2_label.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_mouse2_label.MouseEnter += new System.EventHandler(this.cmpr_mouse2_MouseEnter);
             this.cmpr_mouse2_label.MouseLeave += new System.EventHandler(this.cmpr_mouse2_MouseLeave);
-            this.cmpr_mouse2_label.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_mouse4_label
             // 
@@ -8538,10 +8468,8 @@ namespace plt0_gui
             this.cmpr_mouse4_label.Size = new System.Drawing.Size(153, 64);
             this.cmpr_mouse4_label.TabIndex = 680;
             this.cmpr_mouse4_label.Text = "-> Left Click";
-            this.cmpr_mouse4_label.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_mouse4_label.MouseEnter += new System.EventHandler(this.cmpr_mouse4_MouseEnter);
             this.cmpr_mouse4_label.MouseLeave += new System.EventHandler(this.cmpr_mouse4_MouseLeave);
-            this.cmpr_mouse4_label.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_mouse3_label
             // 
@@ -8556,10 +8484,8 @@ namespace plt0_gui
             this.cmpr_mouse3_label.Size = new System.Drawing.Size(153, 64);
             this.cmpr_mouse3_label.TabIndex = 679;
             this.cmpr_mouse3_label.Text = "-> Left Click";
-            this.cmpr_mouse3_label.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_mouse3_label.MouseEnter += new System.EventHandler(this.cmpr_mouse3_MouseEnter);
             this.cmpr_mouse3_label.MouseLeave += new System.EventHandler(this.cmpr_mouse3_MouseLeave);
-            this.cmpr_mouse3_label.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_mouse5_label
             // 
@@ -8574,10 +8500,8 @@ namespace plt0_gui
             this.cmpr_mouse5_label.Size = new System.Drawing.Size(153, 64);
             this.cmpr_mouse5_label.TabIndex = 681;
             this.cmpr_mouse5_label.Text = "-> Left Click";
-            this.cmpr_mouse5_label.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_mouse5_label.MouseEnter += new System.EventHandler(this.cmpr_mouse5_MouseEnter);
             this.cmpr_mouse5_label.MouseLeave += new System.EventHandler(this.cmpr_mouse5_MouseLeave);
-            this.cmpr_mouse5_label.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_sel
             // 
@@ -8591,10 +8515,8 @@ namespace plt0_gui
             this.cmpr_sel.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
             this.cmpr_sel.Size = new System.Drawing.Size(64, 64);
             this.cmpr_sel.TabIndex = 682;
-            this.cmpr_sel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_sel.MouseEnter += new System.EventHandler(this.cmpr_sel_MouseEnter);
             this.cmpr_sel.MouseLeave += new System.EventHandler(this.cmpr_sel_MouseLeave);
-            this.cmpr_sel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // bmd_ck
             // 
@@ -8980,8 +8902,6 @@ namespace plt0_gui
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.plt0_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.plt0_DragEnter);
-            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
-            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tpl_ck)).EndInit();
@@ -13825,314 +13745,465 @@ namespace plt0_gui
             checked_tooltip(cmpr_block_selection_ck);
             unchecked_tooltip(cmpr_block_paint_ck);
         }
-        private void Block_MouseDown2(object sender, MouseEventArgs e)
+        private void cmpr_block1_MouseClick(object sender, MouseEventArgs e)
         {
-            if (Left_down)
-                Paint_Pixel(0, cmpr_selected_colour);
-            else if (Middle_down)
-                Paint_Pixel(0, 1);
-            else if (Right_down)
-                Paint_Pixel(0, 2);
-            else if (XButton2_down)
-                Paint_Pixel(0, 3);
-            else if (XButton1_down)
-                Paint_Pixel(0, 4);
+            switch (e.Button.ToString())
+            {
+                case "Left":
+                    Paint_Pixel(0, cmpr_selected_colour);
+                    break;
+                case "Middle":
+                    Paint_Pixel(0, 1);
+                    break;
+                case "Right":
+                    Paint_Pixel(0, 2);
+                    break;
+                case "XButton2":
+                    Paint_Pixel(0, 3);
+                    break;
+                case "XButton1":
+                    Paint_Pixel(0, 4);
+                    break;
+            }
         }
         private void cmpr_block1_MouseEnter(object sender, EventArgs e)
         {
             Parse_Markdown(lines[201]);
-            if (Left_down)
-                Paint_Pixel(0, cmpr_selected_colour);
-            else if (Middle_down)
-                Paint_Pixel(0, 1);
-            else if (Right_down)
-                Paint_Pixel(0, 2);
-            else if (XButton2_down)
-                Paint_Pixel(0, 3);
-            else if (XButton1_down)
-                Paint_Pixel(0, 4);
         }
         private void cmpr_block1_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
         }
-        private void Block_MouseDown3(object sender, MouseEventArgs e)
+        private void cmpr_block2_MouseClick(object sender, MouseEventArgs e)
         {
             switch (e.Button.ToString())
             {
-                case "XButton1":
-                    Paint_Pixel(1, 4);
-                    break;
-                case "XButton2":
-                    Paint_Pixel(1, 3);
+                case "Left":
+                    Paint_Pixel(1, cmpr_selected_colour);
                     break;
                 case "Middle":
                     Paint_Pixel(1, 1);
                     break;
-                case "Left":
-                    Paint_Pixel(1, cmpr_selected_colour);
-                    break;
                 case "Right":
                     Paint_Pixel(1, 2);
+                    break;
+                case "XButton2":
+                    Paint_Pixel(1, 3);
+                    break;
+                case "XButton1":
+                    Paint_Pixel(1, 4);
                     break;
             }
         }
         private void cmpr_block2_MouseEnter(object sender, EventArgs e)
         {
             Parse_Markdown(lines[202]);
-            if (Left_down)
-                Paint_Pixel(1, cmpr_selected_colour);
-            else if (Middle_down)
-                Paint_Pixel(1, 1);
-            else if (Right_down)
-                Paint_Pixel(1, 2);
-            else if (XButton2_down)
-                Paint_Pixel(1, 3);
-            else if (XButton1_down)
-                Paint_Pixel(1, 4);
         }
         private void cmpr_block2_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
         }
+        private void cmpr_block3_MouseClick(object sender, MouseEventArgs e)
+        {
+            switch (e.Button.ToString())
+            {
+                case "Left":
+                    Paint_Pixel(2, cmpr_selected_colour);
+                    break;
+                case "Middle":
+                    Paint_Pixel(2, 1);
+                    break;
+                case "Right":
+                    Paint_Pixel(2, 2);
+                    break;
+                case "XButton2":
+                    Paint_Pixel(2, 3);
+                    break;
+                case "XButton1":
+                    Paint_Pixel(2, 4);
+                    break;
+            }
+        }
         private void cmpr_block3_MouseEnter(object sender, EventArgs e)
         {
             Parse_Markdown(lines[203]);
-            if (Left_down)
-                Paint_Pixel(2, cmpr_selected_colour);
-            else if (Middle_down)
-                Paint_Pixel(2, 1);
-            else if (Right_down)
-                Paint_Pixel(2, 2);
-            else if (XButton2_down)
-                Paint_Pixel(2, 3);
-            else if (XButton1_down)
-                Paint_Pixel(2, 4);
         }
         private void cmpr_block3_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
         }
+        private void cmpr_block4_MouseClick(object sender, MouseEventArgs e)
+        {
+            switch (e.Button.ToString())
+            {
+                case "Left":
+                    Paint_Pixel(3, cmpr_selected_colour);
+                    break;
+                case "Middle":
+                    Paint_Pixel(3, 1);
+                    break;
+                case "Right":
+                    Paint_Pixel(3, 2);
+                    break;
+                case "XButton2":
+                    Paint_Pixel(3, 3);
+                    break;
+                case "XButton1":
+                    Paint_Pixel(3, 4);
+                    break;
+            }
+        }
         private void cmpr_block4_MouseEnter(object sender, EventArgs e)
         {
             Parse_Markdown(lines[204]);
-            if (Left_down)
-                Paint_Pixel(4, cmpr_selected_colour);
-            else if (Middle_down)
-                Paint_Pixel(4, 1);
-            else if (Right_down)
-                Paint_Pixel(4, 2);
-            else if (XButton2_down)
-                Paint_Pixel(4, 3);
-            else if (XButton1_down)
-                Paint_Pixel(4, 4);
-
         }
         private void cmpr_block4_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
         }
+        private void cmpr_block5_MouseClick(object sender, MouseEventArgs e)
+        {
+            switch (e.Button.ToString())
+            {
+                case "Left":
+                    Paint_Pixel(4, cmpr_selected_colour);
+                    break;
+                case "Middle":
+                    Paint_Pixel(4, 1);
+                    break;
+                case "Right":
+                    Paint_Pixel(4, 2);
+                    break;
+                case "XButton2":
+                    Paint_Pixel(4, 3);
+                    break;
+                case "XButton1":
+                    Paint_Pixel(4, 4);
+                    break;
+            }
+        }
         private void cmpr_block5_MouseEnter(object sender, EventArgs e)
         {
             Parse_Markdown(lines[205]);
-            if (Left_down)
-                Paint_Pixel(4, cmpr_selected_colour);
-            else if (Middle_down)
-                Paint_Pixel(4, 1);
-            else if (Right_down)
-                Paint_Pixel(4, 2);
-            else if (XButton2_down)
-                Paint_Pixel(4, 3);
-            else if (XButton1_down)
-                Paint_Pixel(4, 4);
         }
         private void cmpr_block5_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
         }
+        private void cmpr_block6_MouseClick(object sender, MouseEventArgs e)
+        {
+            switch (e.Button.ToString())
+            {
+                case "Left":
+                    Paint_Pixel(5, cmpr_selected_colour);
+                    break;
+                case "Middle":
+                    Paint_Pixel(5, 1);
+                    break;
+                case "Right":
+                    Paint_Pixel(5, 2);
+                    break;
+                case "XButton2":
+                    Paint_Pixel(5, 3);
+                    break;
+                case "XButton1":
+                    Paint_Pixel(5, 4);
+                    break;
+            }
+        }
         private void cmpr_block6_MouseEnter(object sender, EventArgs e)
         {
             Parse_Markdown(lines[206]);
-            if (Left_down)
-                Paint_Pixel(5, cmpr_selected_colour);
-            else if (Middle_down)
-                Paint_Pixel(5, 1);
-            else if (Right_down)
-                Paint_Pixel(5, 2);
-            else if (XButton2_down)
-                Paint_Pixel(5, 3);
-            else if (XButton1_down)
-                Paint_Pixel(5, 4);
         }
         private void cmpr_block6_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
         }
+        private void cmpr_block7_MouseClick(object sender, MouseEventArgs e)
+        {
+            switch (e.Button.ToString())
+            {
+                case "Left":
+                    Paint_Pixel(6, cmpr_selected_colour);
+                    break;
+                case "Middle":
+                    Paint_Pixel(6, 1);
+                    break;
+                case "Right":
+                    Paint_Pixel(6, 2);
+                    break;
+                case "XButton2":
+                    Paint_Pixel(6, 3);
+                    break;
+                case "XButton1":
+                    Paint_Pixel(6, 4);
+                    break;
+            }
+        }
         private void cmpr_block7_MouseEnter(object sender, EventArgs e)
         {
             Parse_Markdown(lines[207]);
-            if (Left_down)
-                Paint_Pixel(6, cmpr_selected_colour);
-            else if (Middle_down)
-                Paint_Pixel(6, 1);
-            else if (Right_down)
-                Paint_Pixel(6, 2);
-            else if (XButton2_down)
-                Paint_Pixel(6, 3);
-            else if (XButton1_down)
-                Paint_Pixel(6, 4);
         }
         private void cmpr_block7_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
         }
+        private void cmpr_block8_MouseClick(object sender, MouseEventArgs e)
+        {
+            switch (e.Button.ToString())
+            {
+                case "Left":
+                    Paint_Pixel(7, cmpr_selected_colour);
+                    break;
+                case "Middle":
+                    Paint_Pixel(7, 1);
+                    break;
+                case "Right":
+                    Paint_Pixel(7, 2);
+                    break;
+                case "XButton2":
+                    Paint_Pixel(7, 3);
+                    break;
+                case "XButton1":
+                    Paint_Pixel(7, 4);
+                    break;
+            }
+        }
         private void cmpr_block8_MouseEnter(object sender, EventArgs e)
         {
             Parse_Markdown(lines[208]);
-            if (Left_down)
-                Paint_Pixel(7, cmpr_selected_colour);
-            else if (Middle_down)
-                Paint_Pixel(7, 1);
-            else if (Right_down)
-                Paint_Pixel(7, 2);
-            else if (XButton2_down)
-                Paint_Pixel(7, 3);
-            else if (XButton1_down)
-                Paint_Pixel(7, 4);
         }
         private void cmpr_block8_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
         }
+        private void cmpr_block9_MouseClick(object sender, MouseEventArgs e)
+        {
+            switch (e.Button.ToString())
+            {
+                case "Left":
+                    Paint_Pixel(8, cmpr_selected_colour);
+                    break;
+                case "Middle":
+                    Paint_Pixel(8, 1);
+                    break;
+                case "Right":
+                    Paint_Pixel(8, 2);
+                    break;
+                case "XButton2":
+                    Paint_Pixel(8, 3);
+                    break;
+                case "XButton1":
+                    Paint_Pixel(8, 4);
+                    break;
+            }
+        }
         private void cmpr_block9_MouseEnter(object sender, EventArgs e)
         {
             Parse_Markdown(lines[209]);
-            if (Left_down)
-                Paint_Pixel(8, cmpr_selected_colour);
-            else if (Middle_down)
-                Paint_Pixel(8, 1);
-            else if (Right_down)
-                Paint_Pixel(8, 2);
-            else if (XButton2_down)
-                Paint_Pixel(8, 3);
-            else if (XButton1_down)
-                Paint_Pixel(8, 4);
         }
         private void cmpr_block9_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
         }
+        private void cmpr_blockA_MouseClick(object sender, MouseEventArgs e)
+        {
+            switch (e.Button.ToString())
+            {
+                case "Left":
+                    Paint_Pixel(9, cmpr_selected_colour);
+                    break;
+                case "Middle":
+                    Paint_Pixel(9, 1);
+                    break;
+                case "Right":
+                    Paint_Pixel(9, 2);
+                    break;
+                case "XButton2":
+                    Paint_Pixel(9, 3);
+                    break;
+                case "XButton1":
+                    Paint_Pixel(9, 4);
+                    break;
+            }
+        }
         private void cmpr_blockA_MouseEnter(object sender, EventArgs e)
         {
-
+            Parse_Markdown(lines[210]);
         }
         private void cmpr_blockA_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
         }
+        private void cmpr_blockB_MouseClick(object sender, MouseEventArgs e)
+        {
+            switch (e.Button.ToString())
+            {
+                case "Left":
+                    Paint_Pixel(10, cmpr_selected_colour);
+                    break;
+                case "Middle":
+                    Paint_Pixel(10, 1);
+                    break;
+                case "Right":
+                    Paint_Pixel(10, 2);
+                    break;
+                case "XButton2":
+                    Paint_Pixel(10, 3);
+                    break;
+                case "XButton1":
+                    Paint_Pixel(10, 4);
+                    break;
+            }
+        }
         private void cmpr_blockB_MouseEnter(object sender, EventArgs e)
         {
             Parse_Markdown(lines[211]);
-            if (Left_down)
-                Paint_Pixel(10, cmpr_selected_colour);
-            else if (Middle_down)
-                Paint_Pixel(10, 1);
-            else if (Right_down)
-                Paint_Pixel(10, 2);
-            else if (XButton2_down)
-                Paint_Pixel(10, 3);
-            else if (XButton1_down)
-                Paint_Pixel(10, 4);
         }
         private void cmpr_blockB_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
         }
+        private void cmpr_blockC_MouseClick(object sender, MouseEventArgs e)
+        {
+            switch (e.Button.ToString())
+            {
+                case "Left":
+                    Paint_Pixel(11, cmpr_selected_colour);
+                    break;
+                case "Middle":
+                    Paint_Pixel(11, 1);
+                    break;
+                case "Right":
+                    Paint_Pixel(11, 2);
+                    break;
+                case "XButton2":
+                    Paint_Pixel(11, 3);
+                    break;
+                case "XButton1":
+                    Paint_Pixel(11, 4);
+                    break;
+            }
+        }
         private void cmpr_blockC_MouseEnter(object sender, EventArgs e)
         {
             Parse_Markdown(lines[212]);
-            if (Left_down)
-                Paint_Pixel(11, cmpr_selected_colour);
-            else if (Middle_down)
-                Paint_Pixel(11, 1);
-            else if (Right_down)
-                Paint_Pixel(11, 2);
-            else if (XButton2_down)
-                Paint_Pixel(11, 3);
-            else if (XButton1_down)
-                Paint_Pixel(11, 4);
         }
         private void cmpr_blockC_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
         }
+        private void cmpr_blockD_MouseClick(object sender, MouseEventArgs e)
+        {
+            switch (e.Button.ToString())
+            {
+                case "Left":
+                    Paint_Pixel(12, cmpr_selected_colour);
+                    break;
+                case "Middle":
+                    Paint_Pixel(12, 1);
+                    break;
+                case "Right":
+                    Paint_Pixel(12, 2);
+                    break;
+                case "XButton2":
+                    Paint_Pixel(12, 3);
+                    break;
+                case "XButton1":
+                    Paint_Pixel(12, 4);
+                    break;
+            }
+        }
         private void cmpr_blockD_MouseEnter(object sender, EventArgs e)
         {
             Parse_Markdown(lines[213]);
-            if (Left_down)
-                Paint_Pixel(12, cmpr_selected_colour);
-            else if (Middle_down)
-                Paint_Pixel(12, 1);
-            else if (Right_down)
-                Paint_Pixel(12, 2);
-            else if (XButton2_down)
-                Paint_Pixel(12, 3);
-            else if (XButton1_down)
-                Paint_Pixel(12, 4);
         }
         private void cmpr_blockD_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
         }
+        private void cmpr_blockE_MouseClick(object sender, MouseEventArgs e)
+        {
+            switch (e.Button.ToString())
+            {
+                case "Left":
+                    Paint_Pixel(13, cmpr_selected_colour);
+                    break;
+                case "Middle":
+                    Paint_Pixel(13, 1);
+                    break;
+                case "Right":
+                    Paint_Pixel(13, 2);
+                    break;
+                case "XButton2":
+                    Paint_Pixel(13, 3);
+                    break;
+                case "XButton1":
+                    Paint_Pixel(13, 4);
+                    break;
+            }
+        }
         private void cmpr_blockE_MouseEnter(object sender, EventArgs e)
         {
             Parse_Markdown(lines[214]);
-            if (Left_down)
-                Paint_Pixel(13, cmpr_selected_colour);
-            else if (Middle_down)
-                Paint_Pixel(13, 1);
-            else if (Right_down)
-                Paint_Pixel(13, 2);
-            else if (XButton2_down)
-                Paint_Pixel(13, 3);
-            else if (XButton1_down)
-                Paint_Pixel(13, 4);
         }
         private void cmpr_blockE_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
         }
+        private void cmpr_blockF_MouseClick(object sender, MouseEventArgs e)
+        {
+            switch (e.Button.ToString())
+            {
+                case "Left":
+                    Paint_Pixel(14, cmpr_selected_colour);
+                    break;
+                case "Middle":
+                    Paint_Pixel(14, 1);
+                    break;
+                case "Right":
+                    Paint_Pixel(14, 2);
+                    break;
+                case "XButton2":
+                    Paint_Pixel(14, 3);
+                    break;
+                case "XButton1":
+                    Paint_Pixel(14, 4);
+                    break;
+            }
+        }
         private void cmpr_blockF_MouseEnter(object sender, EventArgs e)
         {
             Parse_Markdown(lines[215]);
-            if (Left_down)
-                Paint_Pixel(14, cmpr_selected_colour);
-            else if (Middle_down)
-                Paint_Pixel(14, 1);
-            else if (Right_down)
-                Paint_Pixel(14, 2);
-            else if (XButton2_down)
-                Paint_Pixel(14, 3);
-            else if (XButton1_down)
-                Paint_Pixel(14, 4);
         }
         private void cmpr_blockF_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
         }
+        private void cmpr_blockG_MouseClick(object sender, MouseEventArgs e)
+        {
+            switch (e.Button.ToString())
+            {
+                case "Left":
+                    Paint_Pixel(15, cmpr_selected_colour);
+                    break;
+                case "Middle":
+                    Paint_Pixel(15, 1);
+                    break;
+                case "Right":
+                    Paint_Pixel(15, 2);
+                    break;
+                case "XButton2":
+                    Paint_Pixel(15, 3);
+                    break;
+                case "XButton1":
+                    Paint_Pixel(15, 4);
+                    break;
+            }
+        }
         private void cmpr_blockG_MouseEnter(object sender, EventArgs e)
         {
             Parse_Markdown(lines[216]);
-            if (Left_down)
-                Paint_Pixel(15, cmpr_selected_colour);
-            else if (Middle_down)
-                Paint_Pixel(15, 1);
-            else if (Right_down)
-                Paint_Pixel(15, 2);
-            else if (XButton2_down)
-                Paint_Pixel(15, 3);
-            else if (XButton1_down)
-                Paint_Pixel(15, 4);
         }
         private void cmpr_blockG_MouseLeave(object sender, EventArgs e)
         {
@@ -14186,66 +14257,6 @@ namespace plt0_gui
         private void sync_preview_Click(object sender, EventArgs e)
         {
             Preview(false);
-        }
-
-        private void cmpr_block1_Click(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void cmpr_block1_MouseClick(object sender, MouseEventArgs e)
-        {
-            switch (e.Button.ToString())
-            {
-                case "XButton1":
-                    Paint_Pixel(1, 4);
-                    break;
-                case "XButton2":
-                    Paint_Pixel(1, 3);
-                    break;
-                case "Middle":
-                    Paint_Pixel(1, 1);
-                    break;
-                case "Left":
-                    Paint_Pixel(1, cmpr_selected_colour);
-                    break;
-                case "Right":
-                    Paint_Pixel(1, 2);
-                    break;
-            }
-        }
-
-        private void Block_MouseDown(object sender, EventArgs e)
-        {
-            XButton1_down = true;
-        }
-
-        private void Block_MouseDown3(object sender, DragEventArgs e)
-        {
-            
-    }
-
-        private void Block_MouseDown4(object sender, DragEventArgs e)
-        {
-
-            switch (e.KeyState.ToString())
-            {
-                case "XButton1":
-                    Paint_Pixel(0, 4);
-                    break;
-                case "XButton2":
-                    Paint_Pixel(0, 3);
-                    break;
-                case "Middle":
-                    Paint_Pixel(0, 1);
-                    break;
-                case "Left":
-                    Paint_Pixel(0, cmpr_selected_colour);
-                    break;
-                case "Right":
-                    Paint_Pixel(0, 2);
-                    break;
-            }
         }
     }
 }
