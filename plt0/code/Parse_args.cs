@@ -59,6 +59,7 @@ class Parse_args_class
     public byte round4 = 7;
     public byte round5 = 3;
     public byte round6 = 1;
+    public byte texture_format = 7;
     //byte r = 2;
     //byte g = 1;
     //byte b = 0;
@@ -250,6 +251,53 @@ class Parse_args_class
                         help = true;
                         break;
                     }
+                case "I":
+                    {
+                        if (args.Length > i + 1)
+                        {
+                            if (System.IO.File.Exists(args[i + 1]) && input_file == "")
+                            {
+                                input_file = args[i + 1];
+                                if (args[i + 1].Contains('.') && args[i + 1].Length > 1)
+                                {
+                                    input_fil = args[i + 1].Substring(0, args[i + 1].Length - args[i + 1].Split('.')[args[i + 1].Split('.').Length - 1].Length - 1);  // removes the text after the extension dot.
+                                    input_ext = args[i + 1].Substring(args[i + 1].Length - args[i + 1].Split('.')[args[i + 1].Split('.').Length - 1].Length - 1, args[i + 1].Length - input_fil.Length);  // removes the text before the extension dot.
+                                }
+                                else
+                                {
+                                    input_fil = args[i + 1];
+                                }
+                                pass = 1;
+                            }
+                        }
+                        break;
+                    }
+                case "I2":
+                case "J":
+                    {
+                        if (args.Length > i + 1)
+                        {
+                            if (System.IO.File.Exists(args[i + 1]) && input_file2 == "")
+                        {
+                            input_file2 = args[i + 1];
+                            pass = 1;
+                        } }
+                        break;
+                    }
+                case "O":
+                    {
+                        if (args.Length > i + 1)
+                        {
+                            if (args[i].Contains(".") && args[i + 1].Length > 1)
+                        {
+                            output_file = args[i].Substring(0, args[i].Length - args[i].Split('.')[args[i].Split('.').Length - 1].Length - 1);  // removes the text after the extension dot.
+                        }
+                        else
+                        {
+                            output_file = args[i];
+                        } }
+                        break;
+                    }
                 case "32-BIT":
                 case "32_BIT":
                 case "32BPP":
@@ -273,7 +321,7 @@ class Parse_args_class
                 case "CC":
                 case "CUSTOM_RGBA":
                     {
-                        if (args.Length > i + 5)
+                        if (args.Length > i + 4)
                         {
                             algorithm = 2;
                             double.TryParse(args[i + 1], out custom_rgba[0]);
@@ -1224,7 +1272,7 @@ class Parse_args_class
                     // get the palette file from the same directory or exit
                     if (System.IO.File.Exists(input_fil + ".plt0"))
                     {
-                        dec.Decode_texture(input_file, input_fil + ".plt0", output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, 0, bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
+                        texture_format = dec.Decode_texture(input_file, input_fil + ".plt0", output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, 0, bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
                     }
                     else
                     {
@@ -1255,12 +1303,12 @@ class Parse_args_class
                         // palette_format_int32[3] = data[0x1B];
                         //file_2.Read(colour_palette, 0x40, colour_number_x2);  // check if this is right. second parameter should always be ZERO
                         // user_palette = true;
-                        dec.Decode_texture(input_file, input_file2, output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, data[0x1B], bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
+                        texture_format = dec.Decode_texture(input_file, input_file2, output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, data[0x1B], bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
                     }
                     // get the palette file from the same directory or exit
                     else if (System.IO.File.Exists(input_fil + ".plt0"))
                     {
-                        dec.Decode_texture(input_file, input_fil + ".plt0", output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, 0, bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
+                        texture_format = dec.Decode_texture(input_file, input_fil + ".plt0", output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, 0, bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
                     }
                     else
                     {
@@ -1275,20 +1323,20 @@ class Parse_args_class
             else
             {
                 // decode the image
-                dec.Decode_texture(input_file, "", output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, 0, bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
+                texture_format = dec.Decode_texture(input_file, "", output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, 0, bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
             }
             correct = true;
             return;
         }
         else if (id[0] == 0 && id[1] == 32 && id[2] == 0xaf && id[3] == 48)  // tpl file header
         {
-            dec.Decode_texture(input_file, "", output_file, real_block_width_array, block_width_array, block_height_array, false, true, colour_palette, 0, bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
+            texture_format = dec.Decode_texture(input_file, "", output_file, real_block_width_array, block_width_array, block_height_array, false, true, colour_palette, 0, bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
             correct = true;
             return;
         }
         else if (id[0] < 15 && id[6] < 3 && id[7] < 3)  // rough bti check
         {
-            dec.Decode_texture(input_file, "", output_file, real_block_width_array, block_width_array, block_height_array, false, false, colour_palette, 0, bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
+            texture_format = dec.Decode_texture(input_file, "", output_file, real_block_width_array, block_width_array, block_height_array, false, false, colour_palette, 0, bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
             correct = true;
             return;
         }

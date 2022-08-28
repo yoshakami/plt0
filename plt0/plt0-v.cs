@@ -16,7 +16,7 @@ namespace plt0_gui
         static readonly string execName = System.AppDomain.CurrentDomain.FriendlyName.Replace("\\", "/");
         static readonly string appdata = Environment.GetEnvironmentVariable("appdata").Replace("\\", "/");
         static string args;
-        string[] cmpr_args = new string[] {"gui", "1", execPath + "images/preview/1"};
+        string[] cmpr_args = new string[] { "gui", "1", execPath + "images/preview/1" };
         string[] lines = new string[255];
         string[] layout_name = { "All", "Auto", "Preview", "Paint" };
         string cmpr_colours_hex;
@@ -3030,7 +3030,7 @@ namespace plt0_gui
                     txt.Text = "";
             if (len > 6)
             {
-                if(txt.Text[0] != '#')
+                if (txt.Text[0] != '#')
                     txt.Text = txt.Text.Substring(0, 6);
                 else if (len > 7)
                     txt.Text = txt.Text.Substring(0, 7);
@@ -13767,44 +13767,30 @@ namespace plt0_gui
                 return;
             if (File.Exists(input_file))
             {
-                success = true;
                 using (FileStream fs = File.OpenRead(input_file))
                 {
                     Array.Resize(ref cmpr_file, (int)fs.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
                     fs.Read(cmpr_file, 0, (int)fs.Length);
-                    if (cmpr_file.Length > 48)
-                    {
-                        if (cmpr_file[0x23] != 0xE)
-                        {
-                            Parse_Markdown(lines[194], cmpr_warning);
-                            success = false;
-                        }
-                    }
-                    else
-                    {
-                        Parse_Markdown(lines[194], cmpr_warning);
-                        success = false;
-                    }
                 }
-                if (success)
+                int num = 1;
+                while (File.Exists(execPath + "images/preview/" + num + ".bmp"))
                 {
-                    int num = 1;
-                    while (File.Exists(execPath + "images/preview/" + num + ".bmp"))
-                    {
-                        num++;
-                    }
-                    cmpr_args[1] = input_file;
-                    cmpr_args[2] = (execPath + "images/preview/" + num + ".bmp");  // even if there's an output file in the args, the last one is the output file :) that's how I made it
-                    Parse_args_class cli = new Parse_args_class();
-                    cli.Parse_args(cmpr_args);
-                    if (File.Exists(execPath + "images/preview/" + num + ".bmp"))
-                    {
-                        cmpr_preview_ck.Image = Image.FromFile(execPath + "images/preview/" + num + ".bmp");
-                        cmpr_warning.Text = "";
-                    }
-                    else
-                        cmpr_warning.Text = cli.Check_exit();
+                    num++;
                 }
+                cmpr_args[1] = input_file;
+                cmpr_args[2] = (execPath + "images/preview/" + num + ".bmp");  // even if there's an output file in the args, the last one is the output file :) that's how I made it
+                Parse_args_class cli = new Parse_args_class();
+                cli.Parse_args(cmpr_args);
+                if (cli.texture_format != 0xE)
+                    Parse_Markdown(lines[194], cmpr_warning);
+                else if (File.Exists(execPath + "images/preview/" + num + ".bmp"))
+                {
+                    cmpr_preview_ck.Image = Image.FromFile(execPath + "images/preview/" + num + ".bmp");
+                    cmpr_warning.Text = "";
+                }
+                else
+                    cmpr_warning.Text = cli.Check_exit();
+
             }
             else
             {
