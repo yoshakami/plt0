@@ -671,7 +671,7 @@ for u in range(len(text_icon) - 4, len(text_icon)):
         private void """ + text_icon[u] + """_Click(object sender, EventArgs e)
         {
             cmpr_selected_colour = """ + str(u - len(text_icon) + 5) + """;
-            cmpr_sel.BackColor = System.Drawing.Color.FromArgb(cmpr_colours_argb[""" + str(((u - len(text_icon) + 5) << 2) - 4) + "], cmpr_colours_argb[" + str(((u - len(text_icon) + 5) << 2) - 3) + "], cmpr_colours_argb[" + str(((u - len(text_icon) + 5) << 2) - 2) + "], cmpr_colours_argb[" + str(((u - len(text_icon) + 5) << 2) - 1) + """];
+            cmpr_sel.BackColor = System.Drawing.Color.FromArgb(cmpr_colours_argb[""" + str(((u - len(text_icon) + 5) << 2) - 4) + "], cmpr_colours_argb[" + str(((u - len(text_icon) + 5) << 2) - 3) + "], cmpr_colours_argb[" + str(((u - len(text_icon) + 5) << 2) - 2) + "], cmpr_colours_argb[" + str(((u - len(text_icon) + 5) << 2) - 1) + """]);
         }"""
 line4 = [''] * 5 + ["\n                this.Size = new Size(this.Size.Width + mouse_x - e.X, this.Size.Height + mouse_y - e.Y);"]
 for t in range(4, 6):

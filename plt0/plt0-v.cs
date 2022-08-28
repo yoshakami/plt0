@@ -7939,10 +7939,8 @@ namespace plt0_gui
             this.cmpr_c4.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
             this.cmpr_c4.Size = new System.Drawing.Size(64, 64);
             this.cmpr_c4.TabIndex = 624;
-            this.cmpr_c4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_c4.MouseEnter += new System.EventHandler(this.cmpr_c4_MouseEnter);
             this.cmpr_c4.MouseLeave += new System.EventHandler(this.cmpr_c4_MouseLeave);
-            this.cmpr_c4.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_c4_label
             // 
@@ -13491,18 +13489,22 @@ namespace plt0_gui
         private void cmpr_c1_Click(object sender, EventArgs e)
         {
             cmpr_selected_colour = 1;
+            cmpr_sel.BackColor = System.Drawing.Color.FromArgb(cmpr_colours_argb[0], cmpr_colours_argb[1], cmpr_colours_argb[2], cmpr_colours_argb[3];
         }
         private void cmpr_c2_Click(object sender, EventArgs e)
         {
             cmpr_selected_colour = 2;
+            cmpr_sel.BackColor = System.Drawing.Color.FromArgb(cmpr_colours_argb[4], cmpr_colours_argb[5], cmpr_colours_argb[6], cmpr_colours_argb[7];
         }
         private void cmpr_c3_Click(object sender, EventArgs e)
         {
             cmpr_selected_colour = 3;
+            cmpr_sel.BackColor = System.Drawing.Color.FromArgb(cmpr_colours_argb[8], cmpr_colours_argb[9], cmpr_colours_argb[10], cmpr_colours_argb[11];
         }
         private void cmpr_c4_Click(object sender, EventArgs e)
         {
             cmpr_selected_colour = 4;
+            cmpr_sel.BackColor = System.Drawing.Color.FromArgb(cmpr_colours_argb[12], cmpr_colours_argb[13], cmpr_colours_argb[14], cmpr_colours_argb[15];
         }
         private void banner_move_MouseDown(object sender, MouseEventArgs e)
         {
