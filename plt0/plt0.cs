@@ -197,11 +197,9 @@ namespace plt0
         static void Main()
         {
             string[] args = Environment.GetCommandLineArgs();
-            NativeMethods.AllocConsole();
             Parse_args_class main_class = new Parse_args_class();
             main_class.Parse_args(args);
             main_class.Check_exit();
-            NativeMethods.FreeConsole();
         }
     }
     internal static class NativeMethods

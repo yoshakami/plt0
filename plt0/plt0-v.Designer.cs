@@ -276,22 +276,6 @@
         private System.Windows.Forms.TextBox cmpr_c4_txt;
         private System.Windows.Forms.PictureBox cmpr_swap_ck;
         private System.Windows.Forms.Label cmpr_swap_label;
-        private System.Windows.Forms.Label cmpr_block1;
-        private System.Windows.Forms.Label cmpr_block2;
-        private System.Windows.Forms.Label cmpr_block5;
-        private System.Windows.Forms.Label cmpr_blockD;
-        private System.Windows.Forms.Label cmpr_block9;
-        private System.Windows.Forms.Label cmpr_block6;
-        private System.Windows.Forms.Label cmpr_blockA;
-        private System.Windows.Forms.Label cmpr_blockE;
-        private System.Windows.Forms.Label cmpr_block3;
-        private System.Windows.Forms.Label cmpr_block7;
-        private System.Windows.Forms.Label cmpr_blockB;
-        private System.Windows.Forms.Label cmpr_blockF;
-        private System.Windows.Forms.Label cmpr_block4;
-        private System.Windows.Forms.Label cmpr_block8;
-        private System.Windows.Forms.Label cmpr_blockC;
-        private System.Windows.Forms.Label cmpr_blockG;
         private System.Windows.Forms.PictureBox cmpr_block_paint_ck;
         private System.Windows.Forms.Label cmpr_block_paint_label;
         private System.Windows.Forms.PictureBox cmpr_block_selection_ck;
@@ -310,6 +294,7 @@
         private System.Windows.Forms.Label cmpr_mouse5_label;
         private System.Windows.Forms.Label cmpr_sel;
         private System.Windows.Forms.PictureBox bmd_ck;
+        private PictureBoxWithInterpolationMode cmpr_grid_ck;
         /*
 /// <summary>
 /// Required designer variable.

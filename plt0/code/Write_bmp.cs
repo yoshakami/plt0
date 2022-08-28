@@ -65,14 +65,16 @@ class Write_bmp_class
             case 0xE:  // CMPR
                 {
                     colour_number_x4 = 0;
-                    alpha_header_size = 0x44;
+                    if (alpha > 0)
+                        alpha_header_size = 0x44;
                     break;
                 }
         }
         if ((has_palette && alpha > 0) || bmp_32)  // AI8 Palette with alpha // RGB565 Palette with alpha // RGB5A3 Palette with alpha
         {
             colour_number_x4 = 0;
-            alpha_header_size = 0x44;
+            if (alpha > 0)
+                alpha_header_size = 0x44;
         }
         byte[] palette = new byte[colour_number_x4];
         // custom padding - the funni one  - it is mandatory to add these padding bytes, else paint.net won't open the picture. (it's fine with explorer.exe's preview) - these bytes can be whatever you want. so I've made it write some fun text 
@@ -1134,7 +1136,7 @@ class Write_bmp_class
                             {
                                 for (int j = 0; j < index_list[z].Count; j++)
                                 {
-                                    for (int k = 0; k < index_list[z][0].Length; k+=2, index += 4)
+                                    for (int k = 0; k < index_list[z][0].Length; k += 2, index += 4)
                                     {
                                         pixel_alpha = (byte)((index_list[z][j][k] << 1) & 0xe0);
                                         if (pixel_alpha == 0xe0)
