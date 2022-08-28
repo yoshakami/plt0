@@ -508,6 +508,7 @@ var_type = ["", "", "",
 max_value = [0,0,0,
 255, 16, 255, 65535, 32, 16, 8, 4,
 255, 255, 100.0, 100.0, 255.0, 255.0, 255.0, 255.0]
+check_paint = ["\n                Check_Paint()";, ""]
 name = ["Picture", "Palette"]
 name2 = ["Texture", "bmd or tpl"]
 filter = ["*.bmp;*.png;*.jfif;*.jpg;*.jpeg;*.jpg;*.ico;*.gif;*.tif;*.tiff;*.rle;*.dib", "*.plt0;*.bmp"]
@@ -528,7 +529,7 @@ for n in range(2):
             {
                 """ + textbox[n] + """.Text = dialog.FileName;
                 """ + textbox[n][:-4] + """ = dialog.FileName;
-                Check_run();
+                Check_run();""" + check_paint[n] + """
                 Organize_args();
             }
         }"""
@@ -786,7 +787,11 @@ output += """
         private void Check_Paint()
         {
             if (File.Exists(input_file))
+            {
                 cmpr_warning.Text = "";
+                Parse_args_class cli = new Parse_args_class();
+                cli.Parse_args(new byte[] input_arg = {input_file, output_name});
+            }
             else
             {
                 Parse_Markdown(lines[""" + str(x) + """], cmpr_warning);

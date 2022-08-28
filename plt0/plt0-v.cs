@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.IO;
 using System.Drawing.Drawing2D;
+using System.Reflection;
 //using System.Drawing.Text;
 //using System.Linq;
 
@@ -15,9 +16,11 @@ namespace plt0_gui
         static readonly string execName = System.AppDomain.CurrentDomain.FriendlyName.Replace("\\", "/");
         static readonly string appdata = Environment.GetEnvironmentVariable("appdata").Replace("\\", "/");
         static string args;
+        string[] cmpr_args = new string[] {"1", execPath + "images/preview/1"};
         string[] lines = new string[255];
         string[] layout_name = { "All", "Auto", "Preview", "Paint" };
         string cmpr_colours_hex;
+        byte[] cmpr_file;
         byte[] cmpr_colours_argb = new byte[16];
         byte[] cmpr_colour = new byte[4];
         byte[] cmpr_index = new byte[16];
@@ -2470,6 +2473,7 @@ namespace plt0_gui
                 cmpr_picture_tooltip_label.Visible = true;
                 layout = 3;
             }
+            Check_Paint();
         }
         private void View_alpha()
         {
@@ -3154,11 +3158,16 @@ namespace plt0_gui
                 cmpr_c4_txt.Text = "";
                 // last colour isn't in the palette, it's in _plt0.alpha_bitfield
             }
+            cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
+            for (byte i = 0; i < 16; i++)
+            {
+                Paint_Pixel(i, (byte)(cmpr_index[i] + 1));
+            }
         }
         private void Paint_Pixel(byte index, byte button)
         {
             cmpr_grid[index].BackColor = Color.FromArgb(cmpr_colours_argb[(button << 2) - 4], cmpr_colours_argb[(button << 2) - 3], cmpr_colours_argb[(button << 2) - 2], cmpr_colours_argb[(button << 2) - 1]);
-            cmpr_index[index] = button;
+            cmpr_index[index] = (byte)(button - 1);
         }
         /* public FontFamily GetFontFamilyByName(string name)
         {
@@ -7830,6 +7839,7 @@ namespace plt0_gui
             this.cmpr_c1.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
             this.cmpr_c1.Size = new System.Drawing.Size(64, 64);
             this.cmpr_c1.TabIndex = 612;
+            this.cmpr_c1.Click += new System.EventHandler(this.cmpr_c1_Click);
             this.cmpr_c1.MouseEnter += new System.EventHandler(this.cmpr_c1_MouseEnter);
             this.cmpr_c1.MouseLeave += new System.EventHandler(this.cmpr_c1_MouseLeave);
             // 
@@ -7845,6 +7855,7 @@ namespace plt0_gui
             this.cmpr_c2.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
             this.cmpr_c2.Size = new System.Drawing.Size(64, 64);
             this.cmpr_c2.TabIndex = 616;
+            this.cmpr_c2.Click += new System.EventHandler(this.cmpr_c2_Click);
             this.cmpr_c2.MouseEnter += new System.EventHandler(this.cmpr_c2_MouseEnter);
             this.cmpr_c2.MouseLeave += new System.EventHandler(this.cmpr_c2_MouseLeave);
             // 
@@ -7893,6 +7904,7 @@ namespace plt0_gui
             this.cmpr_c3.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
             this.cmpr_c3.Size = new System.Drawing.Size(64, 64);
             this.cmpr_c3.TabIndex = 620;
+            this.cmpr_c3.Click += new System.EventHandler(this.cmpr_c3_Click);
             this.cmpr_c3.MouseEnter += new System.EventHandler(this.cmpr_c3_MouseEnter);
             this.cmpr_c3.MouseLeave += new System.EventHandler(this.cmpr_c3_MouseLeave);
             // 
@@ -7939,6 +7951,7 @@ namespace plt0_gui
             this.cmpr_c4.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
             this.cmpr_c4.Size = new System.Drawing.Size(64, 64);
             this.cmpr_c4.TabIndex = 624;
+            this.cmpr_c4.Click += new System.EventHandler(this.cmpr_c4_Click);
             this.cmpr_c4.MouseEnter += new System.EventHandler(this.cmpr_c4_MouseEnter);
             this.cmpr_c4.MouseLeave += new System.EventHandler(this.cmpr_c4_MouseLeave);
             // 
@@ -13489,22 +13502,22 @@ namespace plt0_gui
         private void cmpr_c1_Click(object sender, EventArgs e)
         {
             cmpr_selected_colour = 1;
-            cmpr_sel.BackColor = System.Drawing.Color.FromArgb(cmpr_colours_argb[0], cmpr_colours_argb[1], cmpr_colours_argb[2], cmpr_colours_argb[3];
+            cmpr_sel.BackColor = System.Drawing.Color.FromArgb(cmpr_colours_argb[0], cmpr_colours_argb[1], cmpr_colours_argb[2], cmpr_colours_argb[3]);
         }
         private void cmpr_c2_Click(object sender, EventArgs e)
         {
             cmpr_selected_colour = 2;
-            cmpr_sel.BackColor = System.Drawing.Color.FromArgb(cmpr_colours_argb[4], cmpr_colours_argb[5], cmpr_colours_argb[6], cmpr_colours_argb[7];
+            cmpr_sel.BackColor = System.Drawing.Color.FromArgb(cmpr_colours_argb[4], cmpr_colours_argb[5], cmpr_colours_argb[6], cmpr_colours_argb[7]);
         }
         private void cmpr_c3_Click(object sender, EventArgs e)
         {
             cmpr_selected_colour = 3;
-            cmpr_sel.BackColor = System.Drawing.Color.FromArgb(cmpr_colours_argb[8], cmpr_colours_argb[9], cmpr_colours_argb[10], cmpr_colours_argb[11];
+            cmpr_sel.BackColor = System.Drawing.Color.FromArgb(cmpr_colours_argb[8], cmpr_colours_argb[9], cmpr_colours_argb[10], cmpr_colours_argb[11]);
         }
         private void cmpr_c4_Click(object sender, EventArgs e)
         {
             cmpr_selected_colour = 4;
-            cmpr_sel.BackColor = System.Drawing.Color.FromArgb(cmpr_colours_argb[12], cmpr_colours_argb[13], cmpr_colours_argb[14], cmpr_colours_argb[15];
+            cmpr_sel.BackColor = System.Drawing.Color.FromArgb(cmpr_colours_argb[12], cmpr_colours_argb[13], cmpr_colours_argb[14], cmpr_colours_argb[15]);
         }
         private void banner_move_MouseDown(object sender, MouseEventArgs e)
         {
@@ -13725,8 +13738,46 @@ namespace plt0_gui
         }
         private void Check_Paint()
         {
+            if (layout != 3)
+                return;
             if (File.Exists(input_file))
-                cmpr_warning.Text = "";
+            {
+                success = true;
+                using (FileStream fs = File.OpenRead(input_file))
+                {
+                    Array.Resize(ref cmpr_file, (int)fs.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
+                    fs.Read(cmpr_file, 0, (int)fs.Length);
+                    if (cmpr_file.Length > 48)
+                    {
+                        if (cmpr_file[0x23] != 0xE)
+                        {
+                            Parse_Markdown(lines[194], cmpr_warning);
+                            success = false;
+                        }
+                    }
+                    else
+                    {
+                        Parse_Markdown(lines[194], cmpr_warning);
+                        success = false;
+                    }
+                }
+                if (success)
+                {
+                    int num = 1;
+                    while (File.Exists(execPath + "images/preview/" + num + ".bmp"))
+                    {
+                        num++;
+                    }
+                    cmpr_args[0] = input_file;
+                    cmpr_args[1] = (execPath + "images/preview/" + num + ".bmp");  // even if there's an output file in the args, the last one is the output file :) that's how I made it
+                    Parse_args_class cli = new Parse_args_class();
+                    cli.Parse_args(cmpr_args);
+                    if (File.Exists(execPath + "images/preview/" + num + ".bmp"))
+                        cmpr_preview_ck.Image = Image.FromFile(execPath + "images/preview/" + num + ".bmp");
+                    else
+                        cmpr_warning.Text = cli.Check_exit();
+                }
+            }
             else
             {
                 Parse_Markdown(lines[194], cmpr_warning);
@@ -13738,7 +13789,6 @@ namespace plt0_gui
         }
         private void Put_that_damn_cmpr_layout_in_place()
         {
-            Check_Paint();
             Parse_Markdown(lines[196], cmpr_mouse1_label);
             Parse_Markdown(lines[197], cmpr_mouse2_label);
             Parse_Markdown(lines[198], cmpr_mouse3_label);

@@ -1135,7 +1135,10 @@ class Parse_args_class
         if (output_file == "")
         {
             overwrite = true;
-            output_file = input_file.Substring(0, input_file.Length - input_file.Split('.')[input_file.Split('.').Length - 1].Length - 1);
+            if (output_file.Contains('.'))
+                output_file = input_file.Substring(0, input_file.Length - input_file.Split('.')[input_file.Split('.').Length - 1].Length - 1);
+            else
+                output_file = input_file;
         }
         if (colour_number > max_colours && max_colours == 16)
         {
