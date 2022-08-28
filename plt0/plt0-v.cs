@@ -17,6 +17,7 @@ namespace plt0_gui
         static string args;
         string[] lines = new string[255];
         string[] layout_name = { "All", "Auto", "Preview", "Paint" };
+        string cmpr_colours_hex;
         byte[] cmpr_colours_argb = new byte[16];
         byte[] cmpr_colour = new byte[4];
         byte[] cmpr_index = new byte[16];
@@ -46,6 +47,7 @@ namespace plt0_gui
         byte red;
         byte green;
         byte blue;
+        byte cmpr_selected_colour = 1;
         ushort colour1;
         ushort colour2;
         ushort colour3;
@@ -76,7 +78,7 @@ namespace plt0_gui
         bool textchange = false;
         bool all_layout_is_enabled = true;
         bool cmpr_layout_is_in_place = false;
-        bool cmpr_layout_is_enabled = true;
+        bool cmpr_layout_is_enabled = false;
         // banner_move
         int mouse_x;
         int mouse_y;
@@ -154,6 +156,7 @@ namespace plt0_gui
         double custom_a = 1.0;
         List<string> arg_array = new List<string>();
         List<Label> desc = new List<Label>(); // duplicates of the description label (used to have more than 1 font colour, style, family, and encoding too)
+        List<Label> cmpr_grid = new List<Label>();
         List<PictureBox> encoding_ck = new List<PictureBox>();
         List<PictureBox> palette_ck = new List<PictureBox>();
         List<PictureBox> a_ck = new List<PictureBox>();
@@ -2185,18 +2188,18 @@ namespace plt0_gui
             cmpr_c4_txt.Visible = false;
             cmpr_block1.Visible = false;
             cmpr_block2.Visible = false;
-            cmpr_block3.Visible = false;
-            cmpr_block4.Visible = false;
             cmpr_block5.Visible = false;
             cmpr_block6.Visible = false;
+            cmpr_block3.Visible = false;
+            cmpr_block4.Visible = false;
             cmpr_block7.Visible = false;
             cmpr_block8.Visible = false;
             cmpr_block9.Visible = false;
             cmpr_blockA.Visible = false;
-            cmpr_blockB.Visible = false;
-            cmpr_blockC.Visible = false;
             cmpr_blockD.Visible = false;
             cmpr_blockE.Visible = false;
+            cmpr_blockB.Visible = false;
+            cmpr_blockC.Visible = false;
             cmpr_blockF.Visible = false;
             cmpr_blockG.Visible = false;
             bmp_32_label.Visible = true;
@@ -2269,18 +2272,18 @@ namespace plt0_gui
                 cmpr_picture_tooltip_label.Location = new Point(cmpr_picture_tooltip_label.Location.X - 1920, cmpr_picture_tooltip_label.Location.Y);
                 cmpr_block1.Location = new Point(cmpr_block1.Location.X - 1920, cmpr_block1.Location.Y);
                 cmpr_block2.Location = new Point(cmpr_block2.Location.X - 1920, cmpr_block2.Location.Y);
-                cmpr_block3.Location = new Point(cmpr_block3.Location.X - 1920, cmpr_block3.Location.Y);
-                cmpr_block4.Location = new Point(cmpr_block4.Location.X - 1920, cmpr_block4.Location.Y);
                 cmpr_block5.Location = new Point(cmpr_block5.Location.X - 1920, cmpr_block5.Location.Y);
                 cmpr_block6.Location = new Point(cmpr_block6.Location.X - 1920, cmpr_block6.Location.Y);
+                cmpr_block3.Location = new Point(cmpr_block3.Location.X - 1920, cmpr_block3.Location.Y);
+                cmpr_block4.Location = new Point(cmpr_block4.Location.X - 1920, cmpr_block4.Location.Y);
                 cmpr_block7.Location = new Point(cmpr_block7.Location.X - 1920, cmpr_block7.Location.Y);
                 cmpr_block8.Location = new Point(cmpr_block8.Location.X - 1920, cmpr_block8.Location.Y);
                 cmpr_block9.Location = new Point(cmpr_block9.Location.X - 1920, cmpr_block9.Location.Y);
                 cmpr_blockA.Location = new Point(cmpr_blockA.Location.X - 1920, cmpr_blockA.Location.Y);
-                cmpr_blockB.Location = new Point(cmpr_blockB.Location.X - 1920, cmpr_blockB.Location.Y);
-                cmpr_blockC.Location = new Point(cmpr_blockC.Location.X - 1920, cmpr_blockC.Location.Y);
                 cmpr_blockD.Location = new Point(cmpr_blockD.Location.X - 1920, cmpr_blockD.Location.Y);
                 cmpr_blockE.Location = new Point(cmpr_blockE.Location.X - 1920, cmpr_blockE.Location.Y);
+                cmpr_blockB.Location = new Point(cmpr_blockB.Location.X - 1920, cmpr_blockB.Location.Y);
+                cmpr_blockC.Location = new Point(cmpr_blockC.Location.X - 1920, cmpr_blockC.Location.Y);
                 cmpr_blockF.Location = new Point(cmpr_blockF.Location.X - 1920, cmpr_blockF.Location.Y);
                 cmpr_blockG.Location = new Point(cmpr_blockG.Location.X - 1920, cmpr_blockG.Location.Y);
                 cmpr_block_selection_ck.Location = new Point(cmpr_block_selection_ck.Location.X - 1920, cmpr_block_selection_ck.Location.Y);
@@ -2295,6 +2298,23 @@ namespace plt0_gui
                 cmpr_mouse3_label.Location = new Point(cmpr_mouse3_label.Location.X - 1920, cmpr_mouse3_label.Location.Y);
                 cmpr_mouse4_label.Location = new Point(cmpr_mouse4_label.Location.X - 1920, cmpr_mouse4_label.Location.Y);
                 cmpr_mouse5_label.Location = new Point(cmpr_mouse5_label.Location.X - 1920, cmpr_mouse5_label.Location.Y);
+                cmpr_grid.Add(cmpr_block1);
+                cmpr_grid.Add(cmpr_block2);
+                cmpr_grid.Add(cmpr_block3);
+                cmpr_grid.Add(cmpr_block4);
+                cmpr_grid.Add(cmpr_block5);
+                cmpr_grid.Add(cmpr_block6);
+                cmpr_grid.Add(cmpr_block7);
+                cmpr_grid.Add(cmpr_block8);
+                cmpr_grid.Add(cmpr_block9);
+                cmpr_grid.Add(cmpr_blockA);
+                cmpr_grid.Add(cmpr_blockB);
+                cmpr_grid.Add(cmpr_blockC);
+                cmpr_grid.Add(cmpr_blockD);
+                cmpr_grid.Add(cmpr_blockE);
+                cmpr_grid.Add(cmpr_blockF);
+                cmpr_grid.Add(cmpr_blockG);
+                cmpr_colours_argb[8] = 255;
             }
             if (!cmpr_layout_is_enabled)
             {
@@ -2384,18 +2404,18 @@ namespace plt0_gui
                 cie_601_ck.Visible = false;
                 cmpr_block1.Visible = true;
                 cmpr_block2.Visible = true;
-                cmpr_block3.Visible = true;
-                cmpr_block4.Visible = true;
                 cmpr_block5.Visible = true;
                 cmpr_block6.Visible = true;
+                cmpr_block3.Visible = true;
+                cmpr_block4.Visible = true;
                 cmpr_block7.Visible = true;
                 cmpr_block8.Visible = true;
                 cmpr_block9.Visible = true;
                 cmpr_blockA.Visible = true;
-                cmpr_blockB.Visible = true;
-                cmpr_blockC.Visible = true;
                 cmpr_blockD.Visible = true;
                 cmpr_blockE.Visible = true;
+                cmpr_blockB.Visible = true;
+                cmpr_blockC.Visible = true;
                 cmpr_blockF.Visible = true;
                 cmpr_blockG.Visible = true;
                 cmpr_label.Visible = false;
@@ -2988,9 +3008,13 @@ namespace plt0_gui
             if (len > 0)
                 if (!ishex(txt.Text[0]) && txt.Text[0] != '#')
                     txt.Text = "";
-            if (len > 7)
+            if (len > 6)
             {
-                txt.Text = txt.Text.Substring(0, 7);
+                if(txt.Text[0] != '#')
+                    txt.Text = txt.Text.Substring(0, 6);
+                else if (len > 7)
+                    txt.Text = txt.Text.Substring(0, 7);
+
             }
             if (len < 3)
             {
@@ -3076,6 +3100,11 @@ namespace plt0_gui
                 cmpr_colours_argb[(j << 1) + 1] = red;
                 cmpr_colours_argb[(j << 1) + 2] = green;
                 cmpr_colours_argb[(j << 1) + 3] = blue;
+                if (len > 5)
+                {
+                    cmpr_colours_hex = BitConverter.ToString(cmpr_colours_argb).Replace("-", string.Empty);
+                    txt.Text = cmpr_colours_hex.Substring((j << 2) + 2, 6);
+                }
                 out_colour = (ushort)((cmpr_colour[j] << 8) | (cmpr_colour[j + 1]));
                 Update_Colours();
             }
@@ -3100,11 +3129,15 @@ namespace plt0_gui
                 cmpr_colours_argb[11] = (byte)((cmpr_colours_argb[3] * 2 / 3) + (cmpr_colours_argb[7] / 3));
                 //colour3 = (ushort)((((cmpr_colours_argb[9]) >> 3) << 11) + ((cmpr_colours_argb[10] >> 2) << 5) + (cmpr_colours_argb[11] >> 3)); // the RGB565 third colour
                 cmpr_c3.BackColor = Color.FromArgb(255, cmpr_colours_argb[9], cmpr_colours_argb[10], cmpr_colours_argb[11]);
+                cmpr_colours_argb[12] = 255;
                 cmpr_colours_argb[13] = (byte)((cmpr_colours_argb[1] / 3) + (cmpr_colours_argb[5] * 2 / 3));
                 cmpr_colours_argb[14] = (byte)((cmpr_colours_argb[2] / 3) + (cmpr_colours_argb[6] * 2 / 3));
                 cmpr_colours_argb[15] = (byte)((cmpr_colours_argb[3] / 3) + (cmpr_colours_argb[7] * 2 / 3));
                 //colour4 = (ushort)((((cmpr_colours_argb[13]) >> 3) << 11) + ((cmpr_colours_argb[14] >> 2) << 5) + (cmpr_colours_argb[15] >> 3)); // the RGB565 fourth colour
                 cmpr_c4.BackColor = Color.FromArgb(255, cmpr_colours_argb[13], cmpr_colours_argb[14], cmpr_colours_argb[15]);
+                cmpr_colours_hex = BitConverter.ToString(cmpr_colours_argb).Replace("-", string.Empty);
+                cmpr_c3_txt.Text = cmpr_colours_hex.Substring(18, 6);
+                cmpr_c4_txt.Text = cmpr_colours_hex.Substring(26, 6);
             }
             else
             {
@@ -3116,8 +3149,16 @@ namespace plt0_gui
                 cmpr_c3.BackColor = Color.FromArgb(255, cmpr_colours_argb[9], cmpr_colours_argb[10], cmpr_colours_argb[11]);
                 cmpr_colours_argb[12] = 0;
                 cmpr_c4.BackColor = Color.FromArgb(0, 0, 0, 0); // fourth colour is fully transparent
+                cmpr_colours_hex = BitConverter.ToString(cmpr_colours_argb).Replace("-", string.Empty);
+                cmpr_c3_txt.Text = cmpr_colours_hex.Substring(18, 6);
+                cmpr_c4_txt.Text = "";
                 // last colour isn't in the palette, it's in _plt0.alpha_bitfield
             }
+        }
+        private void Paint_Pixel(byte index, byte button)
+        {
+            cmpr_grid[index].BackColor = Color.FromArgb(cmpr_colours_argb[(button << 2) - 4], cmpr_colours_argb[(button << 2) - 3], cmpr_colours_argb[(button << 2) - 2], cmpr_colours_argb[(button << 2) - 1]);
+            cmpr_index[index] = button;
         }
         /* public FontFamily GetFontFamilyByName(string name)
         {
@@ -3419,19 +3460,19 @@ namespace plt0_gui
             this.cmpr_swap_label = new System.Windows.Forms.Label();
             this.cmpr_block1 = new System.Windows.Forms.Label();
             this.cmpr_block2 = new System.Windows.Forms.Label();
-            this.cmpr_block3 = new System.Windows.Forms.Label();
-            this.cmpr_blockB = new System.Windows.Forms.Label();
-            this.cmpr_block9 = new System.Windows.Forms.Label();
-            this.cmpr_block4 = new System.Windows.Forms.Label();
-            this.cmpr_blockA = new System.Windows.Forms.Label();
-            this.cmpr_blockC = new System.Windows.Forms.Label();
             this.cmpr_block5 = new System.Windows.Forms.Label();
-            this.cmpr_block7 = new System.Windows.Forms.Label();
             this.cmpr_blockD = new System.Windows.Forms.Label();
-            this.cmpr_blockF = new System.Windows.Forms.Label();
+            this.cmpr_block9 = new System.Windows.Forms.Label();
             this.cmpr_block6 = new System.Windows.Forms.Label();
-            this.cmpr_block8 = new System.Windows.Forms.Label();
+            this.cmpr_blockA = new System.Windows.Forms.Label();
             this.cmpr_blockE = new System.Windows.Forms.Label();
+            this.cmpr_block3 = new System.Windows.Forms.Label();
+            this.cmpr_block7 = new System.Windows.Forms.Label();
+            this.cmpr_blockB = new System.Windows.Forms.Label();
+            this.cmpr_blockF = new System.Windows.Forms.Label();
+            this.cmpr_block4 = new System.Windows.Forms.Label();
+            this.cmpr_block8 = new System.Windows.Forms.Label();
+            this.cmpr_blockC = new System.Windows.Forms.Label();
             this.cmpr_blockG = new System.Windows.Forms.Label();
             this.cmpr_block_paint_ck = new System.Windows.Forms.PictureBox();
             this.cmpr_block_paint_label = new System.Windows.Forms.Label();
@@ -7552,6 +7593,7 @@ namespace plt0_gui
             this.textchange_ck.Size = new System.Drawing.Size(64, 64);
             this.textchange_ck.TabIndex = 590;
             this.textchange_ck.TabStop = false;
+            this.textchange_ck.Visible = false;
             this.textchange_ck.Click += new System.EventHandler(this.textchange_Click);
             this.textchange_ck.MouseEnter += new System.EventHandler(this.textchange_MouseEnter);
             this.textchange_ck.MouseLeave += new System.EventHandler(this.textchange_MouseLeave);
@@ -7569,6 +7611,7 @@ namespace plt0_gui
             this.textchange_label.Size = new System.Drawing.Size(358, 64);
             this.textchange_label.TabIndex = 589;
             this.textchange_label.Text = "Update preview for textboxes";
+            this.textchange_label.Visible = false;
             this.textchange_label.Click += new System.EventHandler(this.textchange_Click);
             this.textchange_label.MouseEnter += new System.EventHandler(this.textchange_MouseEnter);
             this.textchange_label.MouseLeave += new System.EventHandler(this.textchange_MouseLeave);
@@ -7585,6 +7628,7 @@ namespace plt0_gui
             this.auto_update_ck.Size = new System.Drawing.Size(64, 64);
             this.auto_update_ck.TabIndex = 593;
             this.auto_update_ck.TabStop = false;
+            this.auto_update_ck.Visible = false;
             this.auto_update_ck.Click += new System.EventHandler(this.auto_update_Click);
             this.auto_update_ck.MouseEnter += new System.EventHandler(this.auto_update_MouseEnter);
             this.auto_update_ck.MouseLeave += new System.EventHandler(this.auto_update_MouseLeave);
@@ -7602,6 +7646,7 @@ namespace plt0_gui
             this.auto_update_label.Size = new System.Drawing.Size(252, 64);
             this.auto_update_label.TabIndex = 592;
             this.auto_update_label.Text = "Auto update preview";
+            this.auto_update_label.Visible = false;
             this.auto_update_label.Click += new System.EventHandler(this.auto_update_Click);
             this.auto_update_label.MouseEnter += new System.EventHandler(this.auto_update_MouseEnter);
             this.auto_update_label.MouseLeave += new System.EventHandler(this.auto_update_MouseLeave);
@@ -7618,6 +7663,7 @@ namespace plt0_gui
             this.sync_preview_ck.Size = new System.Drawing.Size(256, 64);
             this.sync_preview_ck.TabIndex = 596;
             this.sync_preview_ck.TabStop = false;
+            this.sync_preview_ck.Visible = false;
             this.sync_preview_ck.Click += new System.EventHandler(this.sync_preview_Click);
             this.sync_preview_ck.MouseEnter += new System.EventHandler(this.sync_preview_MouseEnter);
             this.sync_preview_ck.MouseLeave += new System.EventHandler(this.sync_preview_MouseLeave);
@@ -7634,6 +7680,7 @@ namespace plt0_gui
             this.upscale_ck.Size = new System.Drawing.Size(64, 64);
             this.upscale_ck.TabIndex = 599;
             this.upscale_ck.TabStop = false;
+            this.upscale_ck.Visible = false;
             this.upscale_ck.Click += new System.EventHandler(this.upscale_Click);
             this.upscale_ck.MouseEnter += new System.EventHandler(this.upscale_MouseEnter);
             this.upscale_ck.MouseLeave += new System.EventHandler(this.upscale_MouseLeave);
@@ -7651,6 +7698,7 @@ namespace plt0_gui
             this.upscale_label.Size = new System.Drawing.Size(201, 64);
             this.upscale_label.TabIndex = 598;
             this.upscale_label.Text = "Upscale Preview";
+            this.upscale_label.Visible = false;
             this.upscale_label.Click += new System.EventHandler(this.upscale_Click);
             this.upscale_label.MouseEnter += new System.EventHandler(this.upscale_MouseEnter);
             this.upscale_label.MouseLeave += new System.EventHandler(this.upscale_MouseLeave);
@@ -7787,8 +7835,8 @@ namespace plt0_gui
             this.cmpr_c1.Size = new System.Drawing.Size(64, 64);
             this.cmpr_c1.TabIndex = 612;
             this.cmpr_c1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
-            this.cmpr_c1.MouseHover += new System.EventHandler(this.cmpr_c1_MouseEnter);
-            this.cmpr_c1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.cmpr_c1_MouseLeave);
+            this.cmpr_c1.MouseEnter += new System.EventHandler(this.cmpr_c1_MouseEnter);
+            this.cmpr_c1.MouseLeave += new System.EventHandler(this.cmpr_c1_MouseLeave);
             this.cmpr_c1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_c2
@@ -7804,8 +7852,8 @@ namespace plt0_gui
             this.cmpr_c2.Size = new System.Drawing.Size(64, 64);
             this.cmpr_c2.TabIndex = 616;
             this.cmpr_c2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
-            this.cmpr_c2.MouseHover += new System.EventHandler(this.cmpr_c2_MouseEnter);
-            this.cmpr_c2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.cmpr_c2_MouseLeave);
+            this.cmpr_c2.MouseEnter += new System.EventHandler(this.cmpr_c2_MouseEnter);
+            this.cmpr_c2.MouseLeave += new System.EventHandler(this.cmpr_c2_MouseLeave);
             this.cmpr_c2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_c2_label
@@ -7858,8 +7906,8 @@ namespace plt0_gui
             this.cmpr_c3.Size = new System.Drawing.Size(64, 64);
             this.cmpr_c3.TabIndex = 620;
             this.cmpr_c3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
-            this.cmpr_c3.MouseHover += new System.EventHandler(this.cmpr_c3_MouseEnter);
-            this.cmpr_c3.MouseMove += new System.Windows.Forms.MouseEventHandler(this.cmpr_c3_MouseLeave);
+            this.cmpr_c3.MouseEnter += new System.EventHandler(this.cmpr_c3_MouseEnter);
+            this.cmpr_c3.MouseLeave += new System.EventHandler(this.cmpr_c3_MouseLeave);
             this.cmpr_c3.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_c3_label
@@ -7910,8 +7958,8 @@ namespace plt0_gui
             this.cmpr_c4.Size = new System.Drawing.Size(64, 64);
             this.cmpr_c4.TabIndex = 624;
             this.cmpr_c4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
-            this.cmpr_c4.MouseHover += new System.EventHandler(this.cmpr_c4_MouseEnter);
-            this.cmpr_c4.MouseMove += new System.Windows.Forms.MouseEventHandler(this.cmpr_c4_MouseLeave);
+            this.cmpr_c4.MouseEnter += new System.EventHandler(this.cmpr_c4_MouseEnter);
+            this.cmpr_c4.MouseLeave += new System.EventHandler(this.cmpr_c4_MouseLeave);
             this.cmpr_c4.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_c4_label
@@ -7998,8 +8046,12 @@ namespace plt0_gui
             this.cmpr_block1.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
             this.cmpr_block1.Size = new System.Drawing.Size(64, 64);
             this.cmpr_block1.TabIndex = 644;
-            this.cmpr_block1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
-            this.cmpr_block1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
+            this.cmpr_block1.Click += new System.EventHandler(this.cmpr_block1_Click);
+            this.cmpr_block1.DragEnter += new System.Windows.Forms.DragEventHandler(this.Block_MouseDown4);
+            this.cmpr_block1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cmpr_block1_MouseClick);
+            this.cmpr_block1.MouseCaptureChanged += new System.EventHandler(this.Block_MouseDown);
+            this.cmpr_block1.MouseEnter += new System.EventHandler(this.cmpr_block1_MouseEnter);
+            this.cmpr_block1.MouseLeave += new System.EventHandler(this.cmpr_block1_MouseLeave);
             // 
             // cmpr_block2
             // 
@@ -8014,37 +8066,44 @@ namespace plt0_gui
             this.cmpr_block2.Size = new System.Drawing.Size(64, 64);
             this.cmpr_block2.TabIndex = 645;
             this.cmpr_block2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_block2.MouseEnter += new System.EventHandler(this.cmpr_block2_MouseEnter);
+            this.cmpr_block2.MouseLeave += new System.EventHandler(this.cmpr_block2_MouseLeave);
+            this.cmpr_block2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown3);
             this.cmpr_block2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
-            // cmpr_block3
+            // cmpr_block5
             // 
-            this.cmpr_block3.AutoSize = true;
-            this.cmpr_block3.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_block3.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.cmpr_block3.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_block3.Location = new System.Drawing.Point(1982, 728);
-            this.cmpr_block3.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_block3.Name = "cmpr_block3";
-            this.cmpr_block3.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
-            this.cmpr_block3.Size = new System.Drawing.Size(64, 64);
-            this.cmpr_block3.TabIndex = 647;
-            this.cmpr_block3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
-            this.cmpr_block3.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
+            this.cmpr_block5.AutoSize = true;
+            this.cmpr_block5.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_block5.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.cmpr_block5.ForeColor = System.Drawing.SystemColors.Control;
+            this.cmpr_block5.Location = new System.Drawing.Point(1982, 728);
+            this.cmpr_block5.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_block5.Name = "cmpr_block5";
+            this.cmpr_block5.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
+            this.cmpr_block5.Size = new System.Drawing.Size(64, 64);
+            this.cmpr_block5.TabIndex = 647;
+            this.cmpr_block5.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_block5.MouseEnter += new System.EventHandler(this.cmpr_block5_MouseEnter);
+            this.cmpr_block5.MouseLeave += new System.EventHandler(this.cmpr_block5_MouseLeave);
+            this.cmpr_block5.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
-            // cmpr_blockB
+            // cmpr_blockD
             // 
-            this.cmpr_blockB.AutoSize = true;
-            this.cmpr_blockB.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_blockB.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.cmpr_blockB.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_blockB.Location = new System.Drawing.Point(1982, 856);
-            this.cmpr_blockB.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_blockB.Name = "cmpr_blockB";
-            this.cmpr_blockB.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
-            this.cmpr_blockB.Size = new System.Drawing.Size(64, 64);
-            this.cmpr_blockB.TabIndex = 649;
-            this.cmpr_blockB.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
-            this.cmpr_blockB.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
+            this.cmpr_blockD.AutoSize = true;
+            this.cmpr_blockD.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_blockD.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.cmpr_blockD.ForeColor = System.Drawing.SystemColors.Control;
+            this.cmpr_blockD.Location = new System.Drawing.Point(1982, 856);
+            this.cmpr_blockD.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_blockD.Name = "cmpr_blockD";
+            this.cmpr_blockD.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
+            this.cmpr_blockD.Size = new System.Drawing.Size(64, 64);
+            this.cmpr_blockD.TabIndex = 649;
+            this.cmpr_blockD.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_blockD.MouseEnter += new System.EventHandler(this.cmpr_blockD_MouseEnter);
+            this.cmpr_blockD.MouseLeave += new System.EventHandler(this.cmpr_blockD_MouseLeave);
+            this.cmpr_blockD.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_block9
             // 
@@ -8059,22 +8118,26 @@ namespace plt0_gui
             this.cmpr_block9.Size = new System.Drawing.Size(64, 64);
             this.cmpr_block9.TabIndex = 648;
             this.cmpr_block9.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_block9.MouseEnter += new System.EventHandler(this.cmpr_block9_MouseEnter);
+            this.cmpr_block9.MouseLeave += new System.EventHandler(this.cmpr_block9_MouseLeave);
             this.cmpr_block9.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
-            // cmpr_block4
+            // cmpr_block6
             // 
-            this.cmpr_block4.AutoSize = true;
-            this.cmpr_block4.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_block4.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.cmpr_block4.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_block4.Location = new System.Drawing.Point(2046, 728);
-            this.cmpr_block4.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_block4.Name = "cmpr_block4";
-            this.cmpr_block4.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
-            this.cmpr_block4.Size = new System.Drawing.Size(64, 64);
-            this.cmpr_block4.TabIndex = 650;
-            this.cmpr_block4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
-            this.cmpr_block4.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
+            this.cmpr_block6.AutoSize = true;
+            this.cmpr_block6.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_block6.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.cmpr_block6.ForeColor = System.Drawing.SystemColors.Control;
+            this.cmpr_block6.Location = new System.Drawing.Point(2046, 728);
+            this.cmpr_block6.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_block6.Name = "cmpr_block6";
+            this.cmpr_block6.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
+            this.cmpr_block6.Size = new System.Drawing.Size(64, 64);
+            this.cmpr_block6.TabIndex = 650;
+            this.cmpr_block6.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_block6.MouseEnter += new System.EventHandler(this.cmpr_block6_MouseEnter);
+            this.cmpr_block6.MouseLeave += new System.EventHandler(this.cmpr_block6_MouseLeave);
+            this.cmpr_block6.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_blockA
             // 
@@ -8089,37 +8152,43 @@ namespace plt0_gui
             this.cmpr_blockA.Size = new System.Drawing.Size(64, 64);
             this.cmpr_blockA.TabIndex = 651;
             this.cmpr_blockA.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_blockA.MouseEnter += new System.EventHandler(this.cmpr_blockA_MouseEnter);
+            this.cmpr_blockA.MouseLeave += new System.EventHandler(this.cmpr_blockA_MouseLeave);
             this.cmpr_blockA.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
-            // cmpr_blockC
+            // cmpr_blockE
             // 
-            this.cmpr_blockC.AutoSize = true;
-            this.cmpr_blockC.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_blockC.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.cmpr_blockC.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_blockC.Location = new System.Drawing.Point(2046, 856);
-            this.cmpr_blockC.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_blockC.Name = "cmpr_blockC";
-            this.cmpr_blockC.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
-            this.cmpr_blockC.Size = new System.Drawing.Size(64, 64);
-            this.cmpr_blockC.TabIndex = 652;
-            this.cmpr_blockC.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
-            this.cmpr_blockC.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
+            this.cmpr_blockE.AutoSize = true;
+            this.cmpr_blockE.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_blockE.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.cmpr_blockE.ForeColor = System.Drawing.SystemColors.Control;
+            this.cmpr_blockE.Location = new System.Drawing.Point(2046, 856);
+            this.cmpr_blockE.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_blockE.Name = "cmpr_blockE";
+            this.cmpr_blockE.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
+            this.cmpr_blockE.Size = new System.Drawing.Size(64, 64);
+            this.cmpr_blockE.TabIndex = 652;
+            this.cmpr_blockE.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_blockE.MouseEnter += new System.EventHandler(this.cmpr_blockE_MouseEnter);
+            this.cmpr_blockE.MouseLeave += new System.EventHandler(this.cmpr_blockE_MouseLeave);
+            this.cmpr_blockE.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
-            // cmpr_block5
+            // cmpr_block3
             // 
-            this.cmpr_block5.AutoSize = true;
-            this.cmpr_block5.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_block5.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.cmpr_block5.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_block5.Location = new System.Drawing.Point(2110, 664);
-            this.cmpr_block5.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_block5.Name = "cmpr_block5";
-            this.cmpr_block5.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
-            this.cmpr_block5.Size = new System.Drawing.Size(64, 64);
-            this.cmpr_block5.TabIndex = 653;
-            this.cmpr_block5.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
-            this.cmpr_block5.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
+            this.cmpr_block3.AutoSize = true;
+            this.cmpr_block3.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_block3.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.cmpr_block3.ForeColor = System.Drawing.SystemColors.Control;
+            this.cmpr_block3.Location = new System.Drawing.Point(2110, 664);
+            this.cmpr_block3.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_block3.Name = "cmpr_block3";
+            this.cmpr_block3.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
+            this.cmpr_block3.Size = new System.Drawing.Size(64, 64);
+            this.cmpr_block3.TabIndex = 653;
+            this.cmpr_block3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_block3.MouseEnter += new System.EventHandler(this.cmpr_block3_MouseEnter);
+            this.cmpr_block3.MouseLeave += new System.EventHandler(this.cmpr_block3_MouseLeave);
+            this.cmpr_block3.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_block7
             // 
@@ -8134,22 +8203,26 @@ namespace plt0_gui
             this.cmpr_block7.Size = new System.Drawing.Size(64, 64);
             this.cmpr_block7.TabIndex = 654;
             this.cmpr_block7.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_block7.MouseEnter += new System.EventHandler(this.cmpr_block7_MouseEnter);
+            this.cmpr_block7.MouseLeave += new System.EventHandler(this.cmpr_block7_MouseLeave);
             this.cmpr_block7.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
-            // cmpr_blockD
+            // cmpr_blockB
             // 
-            this.cmpr_blockD.AutoSize = true;
-            this.cmpr_blockD.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_blockD.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.cmpr_blockD.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_blockD.Location = new System.Drawing.Point(2110, 792);
-            this.cmpr_blockD.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_blockD.Name = "cmpr_blockD";
-            this.cmpr_blockD.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
-            this.cmpr_blockD.Size = new System.Drawing.Size(64, 64);
-            this.cmpr_blockD.TabIndex = 655;
-            this.cmpr_blockD.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
-            this.cmpr_blockD.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
+            this.cmpr_blockB.AutoSize = true;
+            this.cmpr_blockB.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_blockB.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.cmpr_blockB.ForeColor = System.Drawing.SystemColors.Control;
+            this.cmpr_blockB.Location = new System.Drawing.Point(2110, 792);
+            this.cmpr_blockB.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_blockB.Name = "cmpr_blockB";
+            this.cmpr_blockB.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
+            this.cmpr_blockB.Size = new System.Drawing.Size(64, 64);
+            this.cmpr_blockB.TabIndex = 655;
+            this.cmpr_blockB.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_blockB.MouseEnter += new System.EventHandler(this.cmpr_blockB_MouseEnter);
+            this.cmpr_blockB.MouseLeave += new System.EventHandler(this.cmpr_blockB_MouseLeave);
+            this.cmpr_blockB.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_blockF
             // 
@@ -8164,22 +8237,27 @@ namespace plt0_gui
             this.cmpr_blockF.Size = new System.Drawing.Size(64, 64);
             this.cmpr_blockF.TabIndex = 656;
             this.cmpr_blockF.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_blockF.MouseEnter += new System.EventHandler(this.cmpr_blockF_MouseEnter);
+            this.cmpr_blockF.MouseLeave += new System.EventHandler(this.cmpr_blockF_MouseLeave);
             this.cmpr_blockF.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
-            // cmpr_block6
+            // cmpr_block4
             // 
-            this.cmpr_block6.AutoSize = true;
-            this.cmpr_block6.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_block6.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.cmpr_block6.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_block6.Location = new System.Drawing.Point(2174, 664);
-            this.cmpr_block6.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_block6.Name = "cmpr_block6";
-            this.cmpr_block6.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
-            this.cmpr_block6.Size = new System.Drawing.Size(64, 64);
-            this.cmpr_block6.TabIndex = 657;
-            this.cmpr_block6.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
-            this.cmpr_block6.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
+            this.cmpr_block4.AutoSize = true;
+            this.cmpr_block4.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_block4.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.cmpr_block4.ForeColor = System.Drawing.SystemColors.Control;
+            this.cmpr_block4.Location = new System.Drawing.Point(2174, 664);
+            this.cmpr_block4.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_block4.Name = "cmpr_block4";
+            this.cmpr_block4.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
+            this.cmpr_block4.Size = new System.Drawing.Size(64, 64);
+            this.cmpr_block4.TabIndex = 657;
+            this.cmpr_block4.Click += new System.EventHandler(this.cmpr_block4_MouseEnter);
+            this.cmpr_block4.Paint += new System.Windows.Forms.PaintEventHandler(this.cmpr_block4_MouseEnter);
+            this.cmpr_block4.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cmpr_block4_MouseEnter);
+            this.cmpr_block4.MouseEnter += new System.EventHandler(this.cmpr_block4_MouseEnter);
+            this.cmpr_block4.MouseLeave += new System.EventHandler(this.cmpr_block4_MouseLeave);
             // 
             // cmpr_block8
             // 
@@ -8194,22 +8272,26 @@ namespace plt0_gui
             this.cmpr_block8.Size = new System.Drawing.Size(64, 64);
             this.cmpr_block8.TabIndex = 658;
             this.cmpr_block8.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_block8.MouseEnter += new System.EventHandler(this.cmpr_block8_MouseEnter);
+            this.cmpr_block8.MouseLeave += new System.EventHandler(this.cmpr_block8_MouseLeave);
             this.cmpr_block8.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
-            // cmpr_blockE
+            // cmpr_blockC
             // 
-            this.cmpr_blockE.AutoSize = true;
-            this.cmpr_blockE.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_blockE.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.cmpr_blockE.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_blockE.Location = new System.Drawing.Point(2174, 792);
-            this.cmpr_blockE.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_blockE.Name = "cmpr_blockE";
-            this.cmpr_blockE.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
-            this.cmpr_blockE.Size = new System.Drawing.Size(64, 64);
-            this.cmpr_blockE.TabIndex = 659;
-            this.cmpr_blockE.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
-            this.cmpr_blockE.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
+            this.cmpr_blockC.AutoSize = true;
+            this.cmpr_blockC.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_blockC.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.cmpr_blockC.ForeColor = System.Drawing.SystemColors.Control;
+            this.cmpr_blockC.Location = new System.Drawing.Point(2174, 792);
+            this.cmpr_blockC.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_blockC.Name = "cmpr_blockC";
+            this.cmpr_blockC.Padding = new System.Windows.Forms.Padding(64, 44, 0, 0);
+            this.cmpr_blockC.Size = new System.Drawing.Size(64, 64);
+            this.cmpr_blockC.TabIndex = 659;
+            this.cmpr_blockC.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_blockC.MouseEnter += new System.EventHandler(this.cmpr_blockC_MouseEnter);
+            this.cmpr_blockC.MouseLeave += new System.EventHandler(this.cmpr_blockC_MouseLeave);
+            this.cmpr_blockC.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_blockG
             // 
@@ -8224,6 +8306,8 @@ namespace plt0_gui
             this.cmpr_blockG.Size = new System.Drawing.Size(64, 64);
             this.cmpr_blockG.TabIndex = 646;
             this.cmpr_blockG.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_blockG.MouseEnter += new System.EventHandler(this.cmpr_blockG_MouseEnter);
+            this.cmpr_blockG.MouseLeave += new System.EventHandler(this.cmpr_blockG_MouseLeave);
             this.cmpr_blockG.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_block_paint_ck
@@ -8575,7 +8659,7 @@ namespace plt0_gui
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(3503, 1721);
+            this.ClientSize = new System.Drawing.Size(3679, 1700);
             this.Controls.Add(this.cmpr_sel);
             this.Controls.Add(this.cmpr_mouse5_label);
             this.Controls.Add(this.cmpr_mouse4_label);
@@ -8595,19 +8679,19 @@ namespace plt0_gui
             this.Controls.Add(this.cmpr_block_selection_label);
             this.Controls.Add(this.cmpr_block1);
             this.Controls.Add(this.cmpr_block2);
-            this.Controls.Add(this.cmpr_block3);
-            this.Controls.Add(this.cmpr_blockB);
-            this.Controls.Add(this.cmpr_block9);
-            this.Controls.Add(this.cmpr_block4);
-            this.Controls.Add(this.cmpr_blockA);
-            this.Controls.Add(this.cmpr_blockC);
             this.Controls.Add(this.cmpr_block5);
-            this.Controls.Add(this.cmpr_block7);
             this.Controls.Add(this.cmpr_blockD);
-            this.Controls.Add(this.cmpr_blockF);
+            this.Controls.Add(this.cmpr_block9);
             this.Controls.Add(this.cmpr_block6);
-            this.Controls.Add(this.cmpr_block8);
+            this.Controls.Add(this.cmpr_blockA);
             this.Controls.Add(this.cmpr_blockE);
+            this.Controls.Add(this.cmpr_block3);
+            this.Controls.Add(this.cmpr_block7);
+            this.Controls.Add(this.cmpr_blockB);
+            this.Controls.Add(this.cmpr_blockF);
+            this.Controls.Add(this.cmpr_block4);
+            this.Controls.Add(this.cmpr_block8);
+            this.Controls.Add(this.cmpr_blockC);
             this.Controls.Add(this.cmpr_blockG);
             this.Controls.Add(this.cmpr_swap_ck);
             this.Controls.Add(this.cmpr_swap_label);
@@ -13484,6 +13568,22 @@ namespace plt0_gui
         {
             Hide_description();
         }
+        private void cmpr_c1_Click(object sender, EventArgs e)
+        {
+            cmpr_selected_colour = 1;
+        }
+        private void cmpr_c2_Click(object sender, EventArgs e)
+        {
+            cmpr_selected_colour = 2;
+        }
+        private void cmpr_c3_Click(object sender, EventArgs e)
+        {
+            cmpr_selected_colour = 3;
+        }
+        private void cmpr_c4_Click(object sender, EventArgs e)
+        {
+            cmpr_selected_colour = 4;
+        }
         private void banner_move_MouseDown(object sender, MouseEventArgs e)
         {
             // e.Button;
@@ -13710,6 +13810,10 @@ namespace plt0_gui
                 Parse_Markdown(lines[194], cmpr_warning);
             }
         }
+        private void Warn_rgb565_colour_trim()
+        {
+            Parse_Markdown(lines[195], cmpr_warning);
+        }
         private void Put_that_damn_cmpr_layout_in_place()
         {
             Check_Paint();
@@ -13721,27 +13825,335 @@ namespace plt0_gui
             checked_tooltip(cmpr_block_selection_ck);
             unchecked_tooltip(cmpr_block_paint_ck);
         }
-        private void Run_Click(object sender, EventArgs e)
+        private void Block_MouseDown2(object sender, MouseEventArgs e)
         {
-            run_count++;
-            Parse_args_class cli = new Parse_args_class();
-            cli.Parse_args(arg_array.ToArray());
-            if (run_count < 2)
-                output_label.Text = "Run " + run_count.ToString() + " time\n" + cli.Check_exit();
-            else
-                output_label.Text = "Run " + run_count.ToString() + " times\n" + cli.Check_exit();
+            if (Left_down)
+                Paint_Pixel(0, cmpr_selected_colour);
+            else if (Middle_down)
+                Paint_Pixel(0, 1);
+            else if (Right_down)
+                Paint_Pixel(0, 2);
+            else if (XButton2_down)
+                Paint_Pixel(0, 3);
+            else if (XButton1_down)
+                Paint_Pixel(0, 4);
         }
-        private void sync_preview_Click(object sender, EventArgs e)
+        private void cmpr_block1_MouseEnter(object sender, EventArgs e)
         {
-            Preview(false);
+            Parse_Markdown(lines[201]);
+            if (Left_down)
+                Paint_Pixel(0, cmpr_selected_colour);
+            else if (Middle_down)
+                Paint_Pixel(0, 1);
+            else if (Right_down)
+                Paint_Pixel(0, 2);
+            else if (XButton2_down)
+                Paint_Pixel(0, 3);
+            else if (XButton1_down)
+                Paint_Pixel(0, 4);
+        }
+        private void cmpr_block1_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+        }
+        private void Block_MouseDown3(object sender, MouseEventArgs e)
+        {
+            switch (e.Button.ToString())
+            {
+                case "XButton1":
+                    Paint_Pixel(1, 4);
+                    break;
+                case "XButton2":
+                    Paint_Pixel(1, 3);
+                    break;
+                case "Middle":
+                    Paint_Pixel(1, 1);
+                    break;
+                case "Left":
+                    Paint_Pixel(1, cmpr_selected_colour);
+                    break;
+                case "Right":
+                    Paint_Pixel(1, 2);
+                    break;
+            }
+        }
+        private void cmpr_block2_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[202]);
+            if (Left_down)
+                Paint_Pixel(1, cmpr_selected_colour);
+            else if (Middle_down)
+                Paint_Pixel(1, 1);
+            else if (Right_down)
+                Paint_Pixel(1, 2);
+            else if (XButton2_down)
+                Paint_Pixel(1, 3);
+            else if (XButton1_down)
+                Paint_Pixel(1, 4);
+        }
+        private void cmpr_block2_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+        }
+        private void cmpr_block3_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[203]);
+            if (Left_down)
+                Paint_Pixel(2, cmpr_selected_colour);
+            else if (Middle_down)
+                Paint_Pixel(2, 1);
+            else if (Right_down)
+                Paint_Pixel(2, 2);
+            else if (XButton2_down)
+                Paint_Pixel(2, 3);
+            else if (XButton1_down)
+                Paint_Pixel(2, 4);
+        }
+        private void cmpr_block3_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+        }
+        private void cmpr_block4_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[204]);
+            if (Left_down)
+                Paint_Pixel(4, cmpr_selected_colour);
+            else if (Middle_down)
+                Paint_Pixel(4, 1);
+            else if (Right_down)
+                Paint_Pixel(4, 2);
+            else if (XButton2_down)
+                Paint_Pixel(4, 3);
+            else if (XButton1_down)
+                Paint_Pixel(4, 4);
+
+        }
+        private void cmpr_block4_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+        }
+        private void cmpr_block5_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[205]);
+            if (Left_down)
+                Paint_Pixel(4, cmpr_selected_colour);
+            else if (Middle_down)
+                Paint_Pixel(4, 1);
+            else if (Right_down)
+                Paint_Pixel(4, 2);
+            else if (XButton2_down)
+                Paint_Pixel(4, 3);
+            else if (XButton1_down)
+                Paint_Pixel(4, 4);
+        }
+        private void cmpr_block5_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+        }
+        private void cmpr_block6_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[206]);
+            if (Left_down)
+                Paint_Pixel(5, cmpr_selected_colour);
+            else if (Middle_down)
+                Paint_Pixel(5, 1);
+            else if (Right_down)
+                Paint_Pixel(5, 2);
+            else if (XButton2_down)
+                Paint_Pixel(5, 3);
+            else if (XButton1_down)
+                Paint_Pixel(5, 4);
+        }
+        private void cmpr_block6_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+        }
+        private void cmpr_block7_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[207]);
+            if (Left_down)
+                Paint_Pixel(6, cmpr_selected_colour);
+            else if (Middle_down)
+                Paint_Pixel(6, 1);
+            else if (Right_down)
+                Paint_Pixel(6, 2);
+            else if (XButton2_down)
+                Paint_Pixel(6, 3);
+            else if (XButton1_down)
+                Paint_Pixel(6, 4);
+        }
+        private void cmpr_block7_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+        }
+        private void cmpr_block8_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[208]);
+            if (Left_down)
+                Paint_Pixel(7, cmpr_selected_colour);
+            else if (Middle_down)
+                Paint_Pixel(7, 1);
+            else if (Right_down)
+                Paint_Pixel(7, 2);
+            else if (XButton2_down)
+                Paint_Pixel(7, 3);
+            else if (XButton1_down)
+                Paint_Pixel(7, 4);
+        }
+        private void cmpr_block8_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+        }
+        private void cmpr_block9_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[209]);
+            if (Left_down)
+                Paint_Pixel(8, cmpr_selected_colour);
+            else if (Middle_down)
+                Paint_Pixel(8, 1);
+            else if (Right_down)
+                Paint_Pixel(8, 2);
+            else if (XButton2_down)
+                Paint_Pixel(8, 3);
+            else if (XButton1_down)
+                Paint_Pixel(8, 4);
+        }
+        private void cmpr_block9_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+        }
+        private void cmpr_blockA_MouseEnter(object sender, EventArgs e)
+        {
+
+        }
+        private void cmpr_blockA_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+        }
+        private void cmpr_blockB_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[211]);
+            if (Left_down)
+                Paint_Pixel(10, cmpr_selected_colour);
+            else if (Middle_down)
+                Paint_Pixel(10, 1);
+            else if (Right_down)
+                Paint_Pixel(10, 2);
+            else if (XButton2_down)
+                Paint_Pixel(10, 3);
+            else if (XButton1_down)
+                Paint_Pixel(10, 4);
+        }
+        private void cmpr_blockB_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+        }
+        private void cmpr_blockC_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[212]);
+            if (Left_down)
+                Paint_Pixel(11, cmpr_selected_colour);
+            else if (Middle_down)
+                Paint_Pixel(11, 1);
+            else if (Right_down)
+                Paint_Pixel(11, 2);
+            else if (XButton2_down)
+                Paint_Pixel(11, 3);
+            else if (XButton1_down)
+                Paint_Pixel(11, 4);
+        }
+        private void cmpr_blockC_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+        }
+        private void cmpr_blockD_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[213]);
+            if (Left_down)
+                Paint_Pixel(12, cmpr_selected_colour);
+            else if (Middle_down)
+                Paint_Pixel(12, 1);
+            else if (Right_down)
+                Paint_Pixel(12, 2);
+            else if (XButton2_down)
+                Paint_Pixel(12, 3);
+            else if (XButton1_down)
+                Paint_Pixel(12, 4);
+        }
+        private void cmpr_blockD_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+        }
+        private void cmpr_blockE_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[214]);
+            if (Left_down)
+                Paint_Pixel(13, cmpr_selected_colour);
+            else if (Middle_down)
+                Paint_Pixel(13, 1);
+            else if (Right_down)
+                Paint_Pixel(13, 2);
+            else if (XButton2_down)
+                Paint_Pixel(13, 3);
+            else if (XButton1_down)
+                Paint_Pixel(13, 4);
+        }
+        private void cmpr_blockE_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+        }
+        private void cmpr_blockF_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[215]);
+            if (Left_down)
+                Paint_Pixel(14, cmpr_selected_colour);
+            else if (Middle_down)
+                Paint_Pixel(14, 1);
+            else if (Right_down)
+                Paint_Pixel(14, 2);
+            else if (XButton2_down)
+                Paint_Pixel(14, 3);
+            else if (XButton1_down)
+                Paint_Pixel(14, 4);
+        }
+        private void cmpr_blockF_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+        }
+        private void cmpr_blockG_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[216]);
+            if (Left_down)
+                Paint_Pixel(15, cmpr_selected_colour);
+            else if (Middle_down)
+                Paint_Pixel(15, 1);
+            else if (Right_down)
+                Paint_Pixel(15, 2);
+            else if (XButton2_down)
+                Paint_Pixel(15, 3);
+            else if (XButton1_down)
+                Paint_Pixel(15, 4);
+        }
+        private void cmpr_blockG_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+        }
+        private void cmpr_c2_TextChanged(object sender, EventArgs e)
+        {
+            parse_rgb565(cmpr_c2, cmpr_c2_txt, 2, out colour2, colour2);
         }
 
+        private void cmpr_c1_TextChanged(object sender, EventArgs e)
+        {
+            parse_rgb565(cmpr_c1, cmpr_c1_txt, 0, out colour1, colour1);
+        }
         private void Swap_Colours_Click(object sender, EventArgs e)
         {
             seal = cmpr_c1_txt.Text;
             cmpr_c1_txt.Text = cmpr_c2_txt.Text;
             cmpr_c2_txt.Text = seal;
-            colour3 = colour1;
+            /* actually, changing these values will change all the ones below because of the TextChanged property
+             colour3 = colour1;
             colour1 = colour2;
             colour2 = colour3;
             red = cmpr_colour[0];
@@ -13758,22 +14170,82 @@ namespace plt0_gui
             cmpr_colours_argb[3] = cmpr_colours_argb[7];
             cmpr_colours_argb[5] = red;
             cmpr_colours_argb[6] = green;
-            cmpr_colours_argb[7] = blue;
+            cmpr_colours_argb[7] = blue; */
             Update_Colours();
         }
-        private void Warn_rgb565_colour_trim()
+        private void Run_Click(object sender, EventArgs e)
+        {
+            run_count++;
+            Parse_args_class cli = new Parse_args_class();
+            cli.Parse_args(arg_array.ToArray());
+            if (run_count < 2)
+                output_label.Text = "Run " + run_count.ToString() + " time\n" + cli.Check_exit();
+            else
+                output_label.Text = "Run " + run_count.ToString() + " times\n" + cli.Check_exit();
+        }
+        private void sync_preview_Click(object sender, EventArgs e)
+        {
+            Preview(false);
+        }
+
+        private void cmpr_block1_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void cmpr_block1_MouseClick(object sender, MouseEventArgs e)
+        {
+            switch (e.Button.ToString())
+            {
+                case "XButton1":
+                    Paint_Pixel(1, 4);
+                    break;
+                case "XButton2":
+                    Paint_Pixel(1, 3);
+                    break;
+                case "Middle":
+                    Paint_Pixel(1, 1);
+                    break;
+                case "Left":
+                    Paint_Pixel(1, cmpr_selected_colour);
+                    break;
+                case "Right":
+                    Paint_Pixel(1, 2);
+                    break;
+            }
+        }
+
+        private void Block_MouseDown(object sender, EventArgs e)
+        {
+            XButton1_down = true;
+        }
+
+        private void Block_MouseDown3(object sender, DragEventArgs e)
+        {
+            
+    }
+
+        private void Block_MouseDown4(object sender, DragEventArgs e)
         {
 
+            switch (e.KeyState.ToString())
+            {
+                case "XButton1":
+                    Paint_Pixel(0, 4);
+                    break;
+                case "XButton2":
+                    Paint_Pixel(0, 3);
+                    break;
+                case "Middle":
+                    Paint_Pixel(0, 1);
+                    break;
+                case "Left":
+                    Paint_Pixel(0, cmpr_selected_colour);
+                    break;
+                case "Right":
+                    Paint_Pixel(0, 2);
+                    break;
+            }
         }
-        private void cmpr_c2_TextChanged(object sender, EventArgs e)
-        {
-            parse_rgb565(cmpr_c2, cmpr_c2_txt, 2, out colour2, colour2);
-        }
-
-        private void cmpr_c1_TextChanged(object sender, EventArgs e)
-        {
-            parse_rgb565(cmpr_c1, cmpr_c1_txt, 0, out colour1, colour1);
-        }
-
     }
 }

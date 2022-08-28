@@ -844,7 +844,8 @@ output += """
             seal = cmpr_c1_txt.Text;
             cmpr_c1_txt.Text = cmpr_c2_txt.Text;
             cmpr_c2_txt.Text = seal;
-            colour3 = colour1;
+            /* actually, changing these values will change all the ones below because of the TextChanged property
+             colour3 = colour1;
             colour1 = colour2;
             colour2 = colour3;
             red = cmpr_colour[0];
@@ -861,7 +862,7 @@ output += """
             cmpr_colours_argb[3] = cmpr_colours_argb[7];
             cmpr_colours_argb[5] = red;
             cmpr_colours_argb[6] = green;
-            cmpr_colours_argb[7] = blue;
+            cmpr_colours_argb[7] = blue; */
             Update_Colours();
         }
         private void Run_Click(object sender, EventArgs e)
