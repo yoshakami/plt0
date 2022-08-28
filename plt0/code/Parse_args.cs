@@ -126,178 +126,6 @@ class Parse_args_class
             }  // who had the stupid idea to add -- before each argument. I'm removing them all lol
             switch (args[i].ToUpper())  // this needs to be sorted sooner or later. it's becoming really big with all the options lol
             {
-                case "STFU":
-                case "SHUT":
-                    {
-                        stfu = true;
-                        break;
-                    }
-                case "IA8":
-                case "AI8":
-                    {
-                        palette_format_int32[3] = 0;  // will be set to texture format if texture format is unset
-                        break;
-                    }
-                case "RGB565":
-                case "RGB":
-                    {
-                        palette_format_int32[3] = 1;
-                        break;
-                    }
-                case "RGB5A3":
-                case "RGBA":
-                    {
-                        palette_format_int32[3] = 2;
-                        break;
-                    }
-                case "I4":
-                    {
-                        texture_format_int32[3] = 0;
-                        block_width = 8;
-                        block_height = 8;
-                        format_ratio = 2;
-                        has_palette = false;
-                        break;
-                    }
-                case "I8":
-                    {
-                        texture_format_int32[3] = 1;
-                        block_width = 8;
-                        block_height = 4;
-                        format_ratio = 1;
-                        has_palette = false;
-                        break;
-                    }
-                case "IA4":
-                case "AI4":
-                    {
-                        texture_format_int32[3] = 2;
-                        block_width = 8;
-                        block_height = 4;
-                        format_ratio = 1;
-                        has_palette = false;
-                        break;
-                    }
-                case "FORCE_ALPHA":
-                    {
-                        FORCE_ALPHA = true;
-                        break;
-                    }
-                case "FORCE":
-                    {
-                        FORCE_ALPHA = true;
-                        if (args[i + 1].ToUpper() == "ALPHA")
-                        {
-                            pass = 1;
-                        }
-                        break;
-                    }
-                case "RGBA32":
-                case "RGBA8":
-                case "RGBA64":
-                    {
-                        texture_format_int32[3] = 6;
-                        block_width = 4;
-                        block_height = 4;
-                        format_ratio = 0.25;
-                        has_palette = false;
-                        break;
-                    }
-                case "CMPR":
-                    {
-                        texture_format_int32[3] = 0xE;
-                        block_width = 8;
-                        block_height = 8;
-                        format_ratio = 2;
-                        has_palette = false;
-                        break;
-                    }
-                case "C4":
-                case "CI4":
-                    {
-                        max_colours = 16;
-                        block_width = 8;
-                        block_height = 8;
-                        format_ratio = 2;
-                        texture_format_int32[3] = 8;
-                        has_palette = true;
-                        break;
-                    }
-                case "C8":
-                case "CI8":
-                    {
-                        max_colours = 256;
-                        block_width = 8;
-                        block_height = 4;
-                        texture_format_int32[3] = 9;
-                        has_palette = true;
-                        break;
-                    }
-                case "CI14X2":
-                case "C14X2":
-                    {
-                        max_colours = 16385;  // the user can still bypass this number by manually specifiying the number of colours
-                                              // max_colours = 65535;
-                        block_width = 4;
-                        block_height = 4;
-                        texture_format_int32[3] = 10;
-                        format_ratio = 0.5;
-                        has_palette = true;
-                        break;
-                    }
-                case "H":
-                case "HELP":
-                    {
-                        help = true;
-                        break;
-                    }
-                case "I":
-                    {
-                        if (args.Length > i + 1)
-                        {
-                            if (System.IO.File.Exists(args[i + 1]) && input_file == "")
-                            {
-                                input_file = args[i + 1];
-                                if (args[i + 1].Contains('.') && args[i + 1].Length > 1)
-                                {
-                                    input_fil = args[i + 1].Substring(0, args[i + 1].Length - args[i + 1].Split('.')[args[i + 1].Split('.').Length - 1].Length - 1);  // removes the text after the extension dot.
-                                    input_ext = args[i + 1].Substring(args[i + 1].Length - args[i + 1].Split('.')[args[i + 1].Split('.').Length - 1].Length - 1, args[i + 1].Length - input_fil.Length);  // removes the text before the extension dot.
-                                }
-                                else
-                                {
-                                    input_fil = args[i + 1];
-                                }
-                                pass = 1;
-                            }
-                        }
-                        break;
-                    }
-                case "I2":
-                case "J":
-                    {
-                        if (args.Length > i + 1)
-                        {
-                            if (System.IO.File.Exists(args[i + 1]) && input_file2 == "")
-                        {
-                            input_file2 = args[i + 1];
-                            pass = 1;
-                        } }
-                        break;
-                    }
-                case "O":
-                    {
-                        if (args.Length > i + 1)
-                        {
-                            if (args[i].Contains(".") && args[i + 1].Length > 1)
-                        {
-                            output_file = args[i].Substring(0, args[i].Length - args[i].Split('.')[args[i].Split('.').Length - 1].Length - 1);  // removes the text after the extension dot.
-                        }
-                        else
-                        {
-                            output_file = args[i];
-                        } }
-                        break;
-                    }
                 case "32-BIT":
                 case "32_BIT":
                 case "32BPP":
@@ -305,607 +133,99 @@ class Parse_args_class
                 case "BMP32":
                 case "BMP_32":
                 case "BMP-32":
-                    {
-                        bmp_32 = true;
-                        break;
-                    }
-                case "G2":
-                case "CIE":
-                case "CIE709":
-                case "CIE 709":
-                case "CIE_709":
-                    {
-                        algorithm = 1;
-                        break;
-                    }
-                case "CC":
-                case "CUSTOM_RGBA":
-                    {
-                        if (args.Length > i + 4)
-                        {
-                            algorithm = 2;
-                            double.TryParse(args[i + 1], out custom_rgba[0]);
-                            double.TryParse(args[i + 2], out custom_rgba[1]);
-                            double.TryParse(args[i + 3], out custom_rgba[2]);
-                            success = double.TryParse(args[i + 4], out custom_rgba[3]);
-                            if (success)
-                            {
-                                pass = 4;
-                            }
-                        }
-                        break;
-                    }
-                case "ROUND3":
-                    {
-                        if (args.Length < i + 2)
-                        {
-                            break;
-                        }
-                        success = byte.TryParse(args[i + 1], out round3);
-                        if (success)
-                        {
-                            pass = 1;
-                            if (round3 > 31 && !no_warning)
-                            {
-                                Console.WriteLine("um, so you would like to round up the 3rd bit if the value of the truncated bytes is greater than their max value, which means always round down (a.k.a BrawlCrate method), sure but be aware that the accuracy of the image is lowered");
-                            }
-                        }
-                        break;
-                    }
-                case "ROUND4":
-                    {
-                        if (args.Length < i + 2)
-                        {
-                            break;
-                        }
-                        success = byte.TryParse(args[i + 1], out round4);
-                        if (success)
-                        {
-                            pass = 1;
-                            if (round4 > 15 && !no_warning)
-                            {
-                                Console.WriteLine("um, so you would like to round up the 4th bit if the value of the truncated bytes is greater than their max value, which means always round down (a.k.a BrawlCrate method), sure but be aware that the accuracy of the image is lowered");
-                            }
-                        }
-                        break;
-                    }
-                case "ROUND5":
-                    {
-                        if (args.Length < i + 2)
-                        {
-                            break;
-                        }
-                        success = byte.TryParse(args[i + 1], out round5);
-                        if (success)
-                        {
-                            pass = 1;
-                            if (round5 > 7 && !no_warning)
-                            {
-                                Console.WriteLine("um, so you would like to round up the 5th bit if the value of the truncated bytes is greater than their max value, which means always round down (a.k.a BrawlCrate method), sure but be aware that the accuracy of the image is lowered");
-                            }
-                        }
-                        break;
-                    }
-                case "ROUND6":
-                    {
-                        if (args.Length < i + 2)
-                        {
-                            break;
-                        }
-                        success = byte.TryParse(args[i + 1], out round6);
-                        if (success)
-                        {
-                            pass = 1;
-                            if (round6 > 3 && !no_warning)
-                            {
-                                Console.WriteLine("um, so you would like to round up the 6th bit if the value of the truncated bytes is greater than their max value, which means always round down (a.k.a BrawlCrate method), sure but be aware that the accuracy of the image is lowered");
-                            }
-                        }
-                        break;
-                    }
-                case "REVERSE":
-                    {
-                        if (args.Length < i + 2)
-                        {
-                            reverse_x = true;
-                            reverse_y = true;
-                            break;
-                        }
-                        if (args[i + 1].ToUpper() == "X")
-                        {
-                            reverse_x = true;
-                            pass = 1;
-                        }
-                        if (args[i + 1].ToUpper() == "Y")
-                        {
-                            reverse_y = true;
-                            pass = 1;
-                        }
-                        if (args[i + 1].ToUpper() == "XY")
-                        {
-                            reverse_x = true;
-                            reverse_y = true;
-                            pass = 1;
-                        }
-                        break;
-                    }
-                case "X":
-                    {
-                        reverse_x = true;
-                        break;
-                    }
-                case "Y":
-                    {
-                        reverse_y = true;
-                        break;
-                    }
-                case "XY":
-                    {
-                        reverse_x = true;
-                        reverse_y = true;
-                        break;
-                    }
-                case "FUNKY":
-                    {
-                        funky = true;
-                        break;
-                    }
+                    bmp_32 = true;
+                    break;
                 case "ALPHA":
                 case "1BIT":
                 case "1-BIT":
+                    if (args.Length == i + 1)
                     {
-                        if (args.Length == i + 1)
+                        alpha = 1;
+                    }
+                    else
+                    {
+                        success = byte.TryParse(args[i + 1], out alpha);
+                        if (success)
                         {
-                            alpha = 1;
+                            pass = 1;
                         }
                         else
                         {
-                            success = byte.TryParse(args[i + 1], out alpha);
-                            if (success)
-                            {
-                                pass = 1;
-                            }
-                            else
-                            {
-                                alpha = 1;
-                            }
+                            alpha = 1;
                         }
-                        break;
                     }
-                case "BMP":
-                    {
-                        bmp = true;
-                        break;
-                    }
+                    break;
                 case "BMD":
-                    {
-                        bmd = true;
-                        break;
-                    }
+                    bmd = true;
+                    break;
+                case "BMP":
+                    bmp = true;
+                    break;
                 case "BTI":
-                    {
-                        bti = true;
-                        break;
-                    }
-                case "PNG":
-                    {
-                        png = true;
-                        break;
-                    }
-                case "TIF":
-                    {
-                        tif = true;
-                        break;
-                    }
-                case "TIFF":
-                    {
-                        tiff = true;
-                        break;
-                    }
-                case "ICO":
-                    {
-                        ico = true;
-                        break;
-                    }
-                case "JPG":
-                    {
-                        jpg = true;
-                        break;
-                    }
-                case "JPEG":
-                    {
-                        jpeg = true;
-                        break;
-                    }
-                case "GIF":
-                    {
-                        gif = true;
-                        break;
-                    }
+                    bti = true;
+                    break;
                 case "C":
+                    if (args.Length > i + 1)
                     {
-                        if (args.Length > i + 1)
-                        {
-                            success = ushort.TryParse(args[i + 1], out colour_number); // colour_number is now a number 
-
-                            if (success)
-                            {
-                                colour_number_x2 = colour_number << 1;
-                                colour_number_x4 = colour_number << 2;
-                                pass = 1;
-                            }
-                        }
-                        break;
-                    }
-                case "D":
-                case "DIVERSITY":
-                    {
-                        // default_diversity = false;
-                        if (args.Length > i + 1)
-                        {
-                            success = byte.TryParse(args[i + 1], out diversity); // diversity is now a number 
-
-                            if (success)
-                            {
-                                pass = 1;
-                            }
-                        }
-                        break;
-                    }
-                case "D2":
-                case "DIVERSITY2":
-                    {
-                        // default_diversity2 = false;
-                        if (args.Length > i + 1)
-                        {
-                            success = byte.TryParse(args[i + 1], out diversity2); // diversity2 is now a number 
-                            if (success)
-                            {
-                                pass = 1;
-                            }
-                        }
-                        break;
-                    }
-                case "M":
-                case "N-MIPMAPS":
-                case "N-MM":
-                    {
-                        if (args.Length > i + 1)
-                        {
-                            success = byte.TryParse(args[i + 1], out mipmaps_number); // mipmaps_number is now a number 
-                            if (success)
-                            {
-                                pass = 1;
-                            }
-                        }
-                        break;
-                    }
-                case "MIN":
-                    {
-
-                        if (args.Length < i + 2)
-                        {
-                            break;
-                        }
-                        pass = 1;
-                        switch (args[i + 1].ToLower())
-                        {
-                            case "NN":
-                            case "NEAREST":
-                            case "0":
-                                {
-                                    minification_filter = 0;
-                                    break;
-                                }
-                            case "LINEAR":
-                            case "1":
-                                {
-                                    minification_filter = 1;
-                                    break;
-                                }
-                            case "nearestmipmapnearest":
-                            case "2":
-
-                                {
-                                    minification_filter = 2;
-                                    break;
-                                }
-                            case "nearestmipmaplinear":
-                            case "3":
-                                {
-                                    minification_filter = 3;
-                                    break;
-                                }
-                            case "linearmipmapnearest":
-                            case "4":
-                                {
-                                    minification_filter = 4;
-                                    break;
-                                }
-                            case "linearmipmaplinear":
-                            case "5":
-                                {
-                                    minification_filter = 5;
-                                    break;
-                                }
-                            default:
-                                {
-                                    pass = 0;
-                                    break;
-                                }
-                        }
-                        break;
-                    }
-                case "MAG":
-                    {
-                        if (args.Length < i + 2)
-                        {
-                            break;
-                        }
-                        pass = 1;
-                        switch (args[i + 1].ToLower())
-                        {
-                            case "NN":
-                            case "NEAREST":
-                            case "0":
-                                {
-                                    magnification_filter = 0;
-                                    break;
-                                }
-                            case "LINEAR":
-                            case "1":
-                                {
-                                    magnification_filter = 1;
-                                    break;
-                                }
-                            case "nearestmipmapnearest":
-                            case "2":
-
-                                {
-                                    magnification_filter = 2;
-                                    break;
-                                }
-                            case "nearestmipmaplinear":
-                            case "3":
-                                {
-                                    magnification_filter = 3;
-                                    break;
-                                }
-                            case "linearmipmapnearest":
-                            case "4":
-                                {
-                                    magnification_filter = 4;
-                                    break;
-                                }
-                            case "linearmipmaplinear":
-                            case "5":
-                                {
-                                    magnification_filter = 5;
-                                    break;
-                                }
-                            default:
-                                {
-                                    pass = 0;
-                                    break;
-                                }
-                        }
-                        break;
-                    }
-                case "MAX":
-                case "CMPR_MAX":
-                case "CMPR MAX":
-                case "CMPR-MAX":
-                    {
-
-                        if (args.Length < i + 2)
-                        {
-                            break;
-                        }
-                        success = byte.TryParse(args[i + 1], out cmpr_max);
-                        if (success)
-                        {
-                            pass = 1;
-                            if (cmpr_max > 16)
-                            {
-                                Console.WriteLine("nah man, a 4x4 block can only have up to 16 colours :') I already had a hard time dealing with 541x301 pictures so don't push mamá in the ortigas");
-                                cmpr_max = 16;
-                            }
-                        }
-                        break;
-                    }
-                case "MIX":
-                case "MIXED":
-                case "BOTH":
-                case "8-BIT":
-                case "8BIT":
-                    {
-                        alpha = 2;
-                        break;
-                    }
-                case "NN":
-                case "NEAREST":
-                case "NEIGHBOUR": // bri'ish
-                case "NEIGHBOR": // ricain
-                    {
-                        minification_filter = 0;
-                        magnification_filter = 0;
-                        break;
-                    }
-                case "LINEAR":
-                    {
-                        minification_filter = 1;
-                        magnification_filter = 1;
-                        break;
-                    }
-                case "NEARESTMIPMAPNEAREST":
-                    {
-                        minification_filter = 2;
-                        magnification_filter = 2;
-                        break;
-                    }
-                case "NEARESTMIPMAPLINEAR":
-                    {
-                        minification_filter = 3;
-                        magnification_filter = 3;
-                        break;
-                    }
-                case "LINEARMIPMAPNEAREST":
-                    {
-                        minification_filter = 4;
-                        magnification_filter = 4;
-                        break;
-                    }
-                case "LINEARMIPMAPLINEAR":
-                    {
-                        minification_filter = 5;
-                        magnification_filter = 5;
-                        break;
-                    }
-                case "NW":
-                case "NOWARNING":
-                case "NO WARNING":
-                case "NO_WARNING":
-                case "NO-WARNING":
-                    {
-                        no_warning = true;
-                        break;
-                    }
-                case "NA":
-                case "NOALPHA":
-                case "NO ALPHA":
-                case "NO_ALPHA":
-                case "NO-ALPHA":
-                    {
-                        alpha = 0;
-                        break;
-                    }
-                case "NG":
-                case "NOGRADIENT":
-                case "NO GRADIENT":
-                case "NO_GRADIENT":
-                case "NO-GRADIENT":
-                case "SIMILAR":
-                    {
-                        algorithm = 3;
-                        break;
-                    }
-                case "NO":
-                    {
-                        if (args.Length < i + 2)
-                        {
-                            break;
-                        }
-                        if (args[i + 1].ToUpper() == "ALPHA")
-                        {
-                            alpha = 0;
-                            pass = 1;
-                        }
-                        if (args[i + 1].ToUpper() == "GRADIENT")
-                        {
-                            algorithm = 3;
-                            pass = 1;
-                        }
-                        if (args[i + 1].ToUpper() == "WARNING")
-                        {
-                            no_warning = true;
-                            pass = 1;
-                        }
-                        /*
-                        if (args[i + 1].ToUpper() == "BOOBS")
-                        {
-                            sadness = 255;
-                            pass = 1;
-                        } */
-                        break;
-                    }
-                case "PAL":
-                    {
-                        z = i;
-                        pass = -1;
-                        while (z < args.Length)
-                        {
-                            z++;
-                            pass++;
-                            if (args[z][0] == '#' && args[z].Length > 6)  // #RRGGBB
-                            {
-                                byte.TryParse(args[z].Substring(5, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
-                                BGRA.Add(color);
-                                byte.TryParse(args[z].Substring(3, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
-                                BGRA.Add(color);
-                                byte.TryParse(args[z].Substring(1, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
-                                BGRA.Add(color);  // for god's sake, 0 is the hashtag, NOT A F-CKING INDEX START
-                                if (args[z].Length > 8)  // #RRGGBBAA
-                                {
-                                    byte.TryParse(args[z].Substring(7, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
-                                    BGRA.Add(color);
-                                }
-                                else
-                                {
-                                    BGRA.Add(0xff); // no alpha
-                                }
-
-                            }
-                            else if (args[z][0] == '#' && args[z].Length > 3)  // #RGB
-                            {
-                                byte.TryParse(args[z].Substring(3, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
-                                BGRA.Add((byte)(color << 4));
-                                byte.TryParse(args[z].Substring(2, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
-                                BGRA.Add((byte)(color << 4));
-                                byte.TryParse(args[z].Substring(1, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
-                                BGRA.Add((byte)(color << 4));
-                                if (args[z].Length > 4)  // #RGBA
-                                {
-                                    byte.TryParse(args[z].Substring(4, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
-                                    BGRA.Add((byte)(color << 4));
-                                }
-                                else
-                                {
-                                    BGRA.Add(0xff); // no alpha
-                                }
-                            }
-                            else  // no # means there are other arguments
-                            {
-                                break;
-                            }
-                        }
-                        break;
-                    }
-                case "P":
-                case "PERCENTAGE":
-                    {
-                        if (args.Length < i + 2)
-                        {
-                            break;
-                        }
-                        success = double.TryParse(args[i + 1], out percentage);  // percentage is now a double
+                        success = ushort.TryParse(args[i + 1], out colour_number); // colour_number is now a number 
 
                         if (success)
                         {
+                            colour_number_x2 = colour_number << 1;
+                            colour_number_x4 = colour_number << 2;
                             pass = 1;
                         }
-                        break;
                     }
-                case "P2":
-                case "PERCENTAGE2":
+                    break;
+                case "C4":
+                case "CI4":
+                    max_colours = 16;
+                    block_width = 8;
+                    block_height = 8;
+                    format_ratio = 2;
+                    texture_format_int32[3] = 8;
+                    has_palette = true;
+                    break;
+                case "C8":
+                case "CI8":
+                    max_colours = 256;
+                    block_width = 8;
+                    block_height = 4;
+                    texture_format_int32[3] = 9;
+                    has_palette = true;
+                    break;
+                case "CC":
+                case "CUSTOM_RGBA":
+                    if (args.Length > i + 4)
                     {
-                        if (args.Length < i + 2)
-                        {
-                            break;
-                        }
-                        success = double.TryParse(args[i + 1], out percentage2);  // percentage2 is now a double
+                        algorithm = 2;
+                        double.TryParse(args[i + 1], out custom_rgba[0]);
+                        double.TryParse(args[i + 2], out custom_rgba[1]);
+                        double.TryParse(args[i + 3], out custom_rgba[2]);
+                        success = double.TryParse(args[i + 4], out custom_rgba[3]);
                         if (success)
                         {
-                            pass = 1;
+                            pass = 4;
                         }
-                        break;
                     }
-                case "RANDOM":
-                case "RAND":
-                    {
-                        random_palette = true;
-                        user_palette = true;  // palette doesn't need some complex indexing to be created
-                        break;
-                    }
+                    break;
+                case "CI14X2":
+                case "C14X2":
+                    max_colours = 16385;  // the user can still bypass this number by manually specifiying the number of colours
+                                          // max_colours = 65535;
+                    block_width = 4;
+                    block_height = 4;
+                    texture_format_int32[3] = 10;
+                    format_ratio = 0.5;
+                    has_palette = true;
+                    break;
+                case "CMPR":
+                    texture_format_int32[3] = 0xE;
+                    block_width = 8;
+                    block_height = 8;
+                    format_ratio = 2;
+                    has_palette = false;
+                    break;
                 case "CMPR_ALPHA_THRESHOLD":
                 case "CMPR_ALPHA_TRESHOLD":
                 case "CMPR_ALPHA_TRESOLD":
@@ -924,41 +244,352 @@ class Parse_args_class
                 case "THRESHOLD":
                 case "TRESHOLD": // common typo I do a lot
                 case "TRESOLD":
+                    if (args.Length > i + 1)
                     {
-                        if (args.Length > i + 1)
+                        success = byte.TryParse(args[i + 1], out cmpr_alpha_threshold);
+                        if (success)
                         {
-                            success = byte.TryParse(args[i + 1], out cmpr_alpha_threshold);
-                            if (success)
-                            {
-                                pass = 1;
-                            }
+                            pass = 1;
                         }
-                        break;
                     }
-                case "TPL":
+                    break;
+                case "D":
+                case "DIVERSITY":
+                    // default_diversity = false;
+                    if (args.Length > i + 1)
                     {
-                        tpl = true;
-                        break;
+                        success = byte.TryParse(args[i + 1], out diversity); // diversity is now a number 
+
+                        if (success)
+                        {
+                            pass = 1;
+                        }
                     }
-                case "TEX0":
+                    break;
+                case "D2":
+                case "DIVERSITY2":
+                    // default_diversity2 = false;
+                    if (args.Length > i + 1)
                     {
-                        tex0 = true;
-                        break;
+                        success = byte.TryParse(args[i + 1], out diversity2); // diversity2 is now a number 
+                        if (success)
+                        {
+                            pass = 1;
+                        }
                     }
-                case "WARN":
-                case "W":
-                case "VERBOSE":
-                    {
-                        warn = true;
-                        break;
-                    }
+                    break;
                 case "EXIT":
                 case "ASK":
                 case "ASK_EXIT":
+                    ask_exit = true;
+                    break;
+                case "FORCE":
+                    FORCE_ALPHA = true;
+                    if (args[i + 1].ToUpper() == "ALPHA")
                     {
-                        ask_exit = true;
+                        pass = 1;
+                    }
+                    break;
+                case "FORCE_ALPHA":
+                    FORCE_ALPHA = true;
+                    break;
+                case "FUNKY":
+                    funky = true;
+                    break;
+                case "G2":
+                case "CIE":
+                case "CIE709":
+                case "CIE 709":
+                case "CIE_709":
+                    algorithm = 1;
+                    break;
+                case "GIF":
+                    gif = true;
+                    break;
+                case "H":
+                case "HELP":
+                    help = true;
+                    break;
+                case "I":
+                    if (args.Length > i + 1)
+                    {
+                        if (System.IO.File.Exists(args[i + 1]) && input_file == "")
+                        {
+                            input_file = args[i + 1];
+                            if (args[i + 1].Contains('.') && args[i + 1].Length > 1)
+                            {
+                                input_fil = args[i + 1].Substring(0, args[i + 1].Length - args[i + 1].Split('.')[args[i + 1].Split('.').Length - 1].Length - 1);  // removes the text after the extension dot.
+                                input_ext = args[i + 1].Substring(args[i + 1].Length - args[i + 1].Split('.')[args[i + 1].Split('.').Length - 1].Length - 1, args[i + 1].Length - input_fil.Length);  // removes the text before the extension dot.
+                            }
+                            else
+                            {
+                                input_fil = args[i + 1];
+                            }
+                            pass = 1;
+                        }
+                    }
+                    break;
+                case "I2":
+                case "J":
+                    if (args.Length > i + 1)
+                    {
+                        if (System.IO.File.Exists(args[i + 1]) && input_file2 == "")
+                        {
+                            input_file2 = args[i + 1];
+                            pass = 1;
+                        }
+                    }
+                    break;
+                case "I4":
+                    texture_format_int32[3] = 0;
+                    block_width = 8;
+                    block_height = 8;
+                    format_ratio = 2;
+                    has_palette = false;
+                    break;
+                case "I8":
+                    texture_format_int32[3] = 1;
+                    block_width = 8;
+                    block_height = 4;
+                    format_ratio = 1;
+                    has_palette = false;
+                    break;
+                case "IA4":
+                case "AI4":
+                    texture_format_int32[3] = 2;
+                    block_width = 8;
+                    block_height = 4;
+                    format_ratio = 1;
+                    has_palette = false;
+                    break;
+                case "IA8":
+                case "AI8":
+                    palette_format_int32[3] = 0;  // will be set to texture format if texture format is unset
+                    break;
+                case "ICO":
+                    ico = true;
+                    break;
+                case "JPEG":
+                    jpeg = true;
+                    break;
+                case "JPG":
+                    jpg = true;
+                    break;
+                case "LINEAR":
+                    minification_filter = 1;
+                    magnification_filter = 1;
+                    break;
+                case "LINEARMIPMAPLINEAR":
+                    minification_filter = 5;
+                    magnification_filter = 5;
+                    break;
+                case "LINEARMIPMAPNEAREST":
+                    minification_filter = 4;
+                    magnification_filter = 4;
+                    break;
+                case "M":
+                case "N-MIPMAPS":
+                case "N-MM":
+                    if (args.Length > i + 1)
+                    {
+                        success = byte.TryParse(args[i + 1], out mipmaps_number); // mipmaps_number is now a number 
+                        if (success)
+                        {
+                            pass = 1;
+                        }
+                    }
+                    break;
+                case "MAG":
+                    if (args.Length < i + 2)
+                    {
                         break;
                     }
+                    pass = 1;
+                    switch (args[i + 1].ToLower())
+                    {
+                        case "NN":
+                        case "NEAREST":
+                        case "0":
+                            {
+                                magnification_filter = 0;
+                                break;
+                            }
+                        case "LINEAR":
+                        case "1":
+                            {
+                                magnification_filter = 1;
+                                break;
+                            }
+                        case "nearestmipmapnearest":
+                        case "2":
+
+                            {
+                                magnification_filter = 2;
+                                break;
+                            }
+                        case "nearestmipmaplinear":
+                        case "3":
+                            {
+                                magnification_filter = 3;
+                                break;
+                            }
+                        case "linearmipmapnearest":
+                        case "4":
+                            {
+                                magnification_filter = 4;
+                                break;
+                            }
+                        case "linearmipmaplinear":
+                        case "5":
+                            {
+                                magnification_filter = 5;
+                                break;
+                            }
+                        default:
+                            {
+                                pass = 0;
+                                break;
+                            }
+                    }
+                    break;
+                case "MAX":
+                case "CMPR_MAX":
+                case "CMPR MAX":
+                case "CMPR-MAX":
+
+                    if (args.Length < i + 2)
+                    {
+                        break;
+                    }
+                    success = byte.TryParse(args[i + 1], out cmpr_max);
+                    if (success)
+                    {
+                        pass = 1;
+                        if (cmpr_max > 16)
+                        {
+                            Console.WriteLine("nah man, a 4x4 block can only have up to 16 colours :') I already had a hard time dealing with 541x301 pictures so don't push mamÃ¡ in the ortigas");
+                            cmpr_max = 16;
+                        }
+                    }
+                    break;
+                case "MIN":
+
+                    if (args.Length < i + 2)
+                    {
+                        break;
+                    }
+                    pass = 1;
+                    switch (args[i + 1].ToLower())
+                    {
+                        case "NN":
+                        case "NEAREST":
+                        case "0":
+                            {
+                                minification_filter = 0;
+                                break;
+                            }
+                        case "LINEAR":
+                        case "1":
+                            {
+                                minification_filter = 1;
+                                break;
+                            }
+                        case "nearestmipmapnearest":
+                        case "2":
+
+                            {
+                                minification_filter = 2;
+                                break;
+                            }
+                        case "nearestmipmaplinear":
+                        case "3":
+                            {
+                                minification_filter = 3;
+                                break;
+                            }
+                        case "linearmipmapnearest":
+                        case "4":
+                            {
+                                minification_filter = 4;
+                                break;
+                            }
+                        case "linearmipmaplinear":
+                        case "5":
+                            {
+                                minification_filter = 5;
+                                break;
+                            }
+                        default:
+                            {
+                                pass = 0;
+                                break;
+                            }
+                    }
+                    break;
+                case "MIX":
+                case "MIXED":
+                case "BOTH":
+                case "8-BIT":
+                case "8BIT":
+                    alpha = 2;
+                    break;
+                case "NA":
+                case "NOALPHA":
+                case "NO ALPHA":
+                case "NO_ALPHA":
+                case "NO-ALPHA":
+                    alpha = 0;
+                    break;
+                case "NEARESTMIPMAPLINEAR":
+                    minification_filter = 3;
+                    magnification_filter = 3;
+                    break;
+                case "NEARESTMIPMAPNEAREST":
+                    minification_filter = 2;
+                    magnification_filter = 2;
+                    break;
+                case "NG":
+                case "NOGRADIENT":
+                case "NO GRADIENT":
+                case "NO_GRADIENT":
+                case "NO-GRADIENT":
+                case "SIMILAR":
+                    algorithm = 3;
+                    break;
+                case "NN":
+                case "NEAREST":
+                case "NEIGHBOUR": // bri'ish
+                case "NEIGHBOR": // ricain
+                    minification_filter = 0;
+                    magnification_filter = 0;
+                    break;
+                case "NO":
+                    if (args.Length < i + 2)
+                    {
+                        break;
+                    }
+                    if (args[i + 1].ToUpper() == "ALPHA")
+                    {
+                        alpha = 0;
+                        pass = 1;
+                    }
+                    if (args[i + 1].ToUpper() == "GRADIENT")
+                    {
+                        algorithm = 3;
+                        pass = 1;
+                    }
+                    if (args[i + 1].ToUpper() == "WARNING")
+                    {
+                        no_warning = true;
+                        pass = 1;
+                    }
+                    /*
+                    if (args[i + 1].ToUpper() == "BOOBS")
+                    {
+                        sadness = 255;
+                        pass = 1;
+                    } */
+                    break;
                 case "NOERROR":
                 case "NO-ERROR":
                 case "NOERR":
@@ -967,66 +598,296 @@ class Parse_args_class
                 case "SAFE_MODE":
                 case "SAFE-MODE":
                 case "SAFE MODE":
+                    safe_mode = true;
+                    break;
+                case "NW":
+                case "NOWARNING":
+                case "NO WARNING":
+                case "NO_WARNING":
+                case "NO-WARNING":
+                    no_warning = true;
+                    break;
+                case "O":
+                    if (args.Length > i + 1)
                     {
-                        safe_mode = true;
+                        if (args[i].Contains(".") && args[i + 1].Length > 1)
+                        {
+                            output_file = args[i].Substring(0, args[i].Length - args[i].Split('.')[args[i].Split('.').Length - 1].Length - 1);  // removes the text after the extension dot.
+                        }
+                        else
+                        {
+                            output_file = args[i];
+                        }
+                    }
+                    break;
+                case "P":
+                case "PERCENTAGE":
+                    if (args.Length < i + 2)
+                    {
                         break;
                     }
-                case "WRAP":
+                    success = double.TryParse(args[i + 1], out percentage);  // percentage is now a double
+
+                    if (success)
                     {
-                        if (args.Length < i + 3)
+                        pass = 1;
+                    }
+                    break;
+                case "P2":
+                case "PERCENTAGE2":
+                    if (args.Length < i + 2)
+                    {
+                        break;
+                    }
+                    success = double.TryParse(args[i + 1], out percentage2);  // percentage2 is now a double
+                    if (success)
+                    {
+                        pass = 1;
+                    }
+                    break;
+                case "PAL":
+                    z = i;
+                    pass = -1;
+                    while (z < args.Length)
+                    {
+                        z++;
+                        pass++;
+                        if (args[z][0] == '#' && args[z].Length > 6)  // #RRGGBB
+                        {
+                            byte.TryParse(args[z].Substring(5, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
+                            BGRA.Add(color);
+                            byte.TryParse(args[z].Substring(3, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
+                            BGRA.Add(color);
+                            byte.TryParse(args[z].Substring(1, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
+                            BGRA.Add(color);  // for god's sake, 0 is the hashtag, NOT A F-CKING INDEX START
+                            if (args[z].Length > 8)  // #RRGGBBAA
+                            {
+                                byte.TryParse(args[z].Substring(7, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
+                                BGRA.Add(color);
+                            }
+                            else
+                            {
+                                BGRA.Add(0xff); // no alpha
+                            }
+
+                        }
+                        else if (args[z][0] == '#' && args[z].Length > 3)  // #RGB
+                        {
+                            byte.TryParse(args[z].Substring(3, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
+                            BGRA.Add((byte)(color << 4));
+                            byte.TryParse(args[z].Substring(2, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
+                            BGRA.Add((byte)(color << 4));
+                            byte.TryParse(args[z].Substring(1, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
+                            BGRA.Add((byte)(color << 4));
+                            if (args[z].Length > 4)  // #RGBA
+                            {
+                                byte.TryParse(args[z].Substring(4, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out color);
+                                BGRA.Add((byte)(color << 4));
+                            }
+                            else
+                            {
+                                BGRA.Add(0xff); // no alpha
+                            }
+                        }
+                        else  // no # means there are other arguments
                         {
                             break;
                         }
-                        pass = 2;
-                        switch (args[i + 1].ToUpper().Substring(0, 1))
-                        {
-                            case "C": // clamp
-                                {
-                                    WrapS = 0;
-                                    break;
-                                }
-                            case "R": // repeat
-                                {
-                                    WrapS = 1;
-                                    break;
-                                }
-                            case "M": // mirror
-                                {
-                                    WrapS = 2;
-                                    break;
-                                }
-                            default:
-                                {
-                                    pass = 0;
-                                    break;
-                                }
-                        }
-                        switch (args[i + 2].ToUpper().Substring(0, 1))
-                        {
-                            case "C": // clamp
-                                {
-                                    WrapT = 0;
-                                    break;
-                                }
-                            case "R": // repeat
-                                {
-                                    WrapT = 1;
-                                    break;
-                                }
-                            case "M": // mirror
-                                {
-                                    WrapT = 2;
-                                    break;
-                                }
-                            default:
-                                {
-                                    pass = 0;
-                                    break;
-                                }
-                        }
+                    }
+                    break;
+                case "PNG":
+                    png = true;
+                    break;
+                case "RANDOM":
+                case "RAND":
+                    random_palette = true;
+                    user_palette = true;  // palette doesn't need some complex indexing to be created
+                    break;
+                case "REVERSE":
+                    if (args.Length < i + 2)
+                    {
+                        reverse_x = true;
+                        reverse_y = true;
                         break;
                     }
-
+                    if (args[i + 1].ToUpper() == "X")
+                    {
+                        reverse_x = true;
+                        pass = 1;
+                    }
+                    if (args[i + 1].ToUpper() == "Y")
+                    {
+                        reverse_y = true;
+                        pass = 1;
+                    }
+                    if (args[i + 1].ToUpper() == "XY")
+                    {
+                        reverse_x = true;
+                        reverse_y = true;
+                        pass = 1;
+                    }
+                    break;
+                case "RGB565":
+                case "RGB":
+                    palette_format_int32[3] = 1;
+                    break;
+                case "RGB5A3":
+                case "RGBA":
+                    palette_format_int32[3] = 2;
+                    break;
+                case "RGBA32":
+                case "RGBA8":
+                case "RGBA64":
+                    texture_format_int32[3] = 6;
+                    block_width = 4;
+                    block_height = 4;
+                    format_ratio = 0.25;
+                    has_palette = false;
+                    break;
+                case "ROUND3":
+                    if (args.Length < i + 2)
+                    {
+                        break;
+                    }
+                    success = byte.TryParse(args[i + 1], out round3);
+                    if (success)
+                    {
+                        pass = 1;
+                        if (round3 > 31 && !no_warning)
+                        {
+                            Console.WriteLine("um, so you would like to round up the 3rd bit if the value of the truncated bytes is greater than their max value, which means always round down (a.k.a BrawlCrate method), sure but be aware that the accuracy of the image is lowered");
+                        }
+                    }
+                    break;
+                case "ROUND4":
+                    if (args.Length < i + 2)
+                    {
+                        break;
+                    }
+                    success = byte.TryParse(args[i + 1], out round4);
+                    if (success)
+                    {
+                        pass = 1;
+                        if (round4 > 15 && !no_warning)
+                        {
+                            Console.WriteLine("um, so you would like to round up the 4th bit if the value of the truncated bytes is greater than their max value, which means always round down (a.k.a BrawlCrate method), sure but be aware that the accuracy of the image is lowered");
+                        }
+                    }
+                    break;
+                case "ROUND5":
+                    if (args.Length < i + 2)
+                    {
+                        break;
+                    }
+                    success = byte.TryParse(args[i + 1], out round5);
+                    if (success)
+                    {
+                        pass = 1;
+                        if (round5 > 7 && !no_warning)
+                        {
+                            Console.WriteLine("um, so you would like to round up the 5th bit if the value of the truncated bytes is greater than their max value, which means always round down (a.k.a BrawlCrate method), sure but be aware that the accuracy of the image is lowered");
+                        }
+                    }
+                    break;
+                case "ROUND6":
+                    if (args.Length < i + 2)
+                    {
+                        break;
+                    }
+                    success = byte.TryParse(args[i + 1], out round6);
+                    if (success)
+                    {
+                        pass = 1;
+                        if (round6 > 3 && !no_warning)
+                        {
+                            Console.WriteLine("um, so you would like to round up the 6th bit if the value of the truncated bytes is greater than their max value, which means always round down (a.k.a BrawlCrate method), sure but be aware that the accuracy of the image is lowered");
+                        }
+                    }
+                    break;
+                case "STFU":
+                case "SHUT":
+                    stfu = true;
+                    break;
+                case "TEX0":
+                    tex0 = true;
+                    break;
+                case "TIF":
+                    tif = true;
+                    break;
+                case "TIFF":
+                    tiff = true;
+                    break;
+                case "TPL":
+                    tpl = true;
+                    break;
+                case "WARN":
+                case "W":
+                case "VERBOSE":
+                    warn = true;
+                    break;
+                case "WRAP":
+                    if (args.Length < i + 3)
+                    {
+                        break;
+                    }
+                    pass = 2;
+                    switch (args[i + 1].ToUpper().Substring(0, 1))
+                    {
+                        case "C": // clamp
+                            {
+                                WrapS = 0;
+                                break;
+                            }
+                        case "R": // repeat
+                            {
+                                WrapS = 1;
+                                break;
+                            }
+                        case "M": // mirror
+                            {
+                                WrapS = 2;
+                                break;
+                            }
+                        default:
+                            {
+                                pass = 0;
+                                break;
+                            }
+                    }
+                    switch (args[i + 2].ToUpper().Substring(0, 1))
+                    {
+                        case "C": // clamp
+                            {
+                                WrapT = 0;
+                                break;
+                            }
+                        case "R": // repeat
+                            {
+                                WrapT = 1;
+                                break;
+                            }
+                        case "M": // mirror
+                            {
+                                WrapT = 2;
+                                break;
+                            }
+                        default:
+                            {
+                                pass = 0;
+                                break;
+                            }
+                    }
+                    break;
+                case "X":
+                    reverse_x = true;
+                    break;
+                case "XY":
+                    reverse_x = true;
+                    reverse_y = true;
+                    break;
+                case "Y":
+                    reverse_y = true;
+                    break;
                 default:
                     {
                         if (System.IO.File.Exists(args[i]) && input_file == "")
