@@ -256,6 +256,7 @@
         private System.Windows.Forms.Label upscale_label;
         private System.Windows.Forms.Label banner_move;
         // private System.Windows.Forms.PictureBox image_ck;  // uncomment this line to unlock the designer, and comment another line on plt0-v.cs  ->             this.image_ck.InterpolationMode = InterpolationMode.NearestNeighbor;
+        // edit: just compile and launch once, then the designer will be unlocked with this PictureBoxWithInterpolationMode
         private PictureBoxWithInterpolationMode image_ck;
         private System.Windows.Forms.Label preview4k_label;
         private System.Windows.Forms.PictureBox preview4k_ck;

@@ -16,7 +16,7 @@ namespace plt0_gui
         static readonly string execName = System.AppDomain.CurrentDomain.FriendlyName.Replace("\\", "/");
         static readonly string appdata = Environment.GetEnvironmentVariable("appdata").Replace("\\", "/");
         static string args;
-        string[] cmpr_args = new string[] {"1", execPath + "images/preview/1"};
+        string[] cmpr_args = new string[] {"gui", "1", execPath + "images/preview/1"};
         string[] lines = new string[255];
         string[] layout_name = { "All", "Auto", "Preview", "Paint" };
         string cmpr_colours_hex;
@@ -2248,6 +2248,14 @@ namespace plt0_gui
             cmpr_selected_block_label.Visible = false;
             cmpr_block_selection_label.Visible = false;
             cmpr_picture_tooltip_label.Visible = false;
+            cmpr_preview_ck.Visible = false;
+            output_label.Visible = true;
+            for (byte i = 0; i < 9; i++)
+            {
+                desc[i].Location = new Point(desc[i].Location.X + 300, desc[i].Location.Y);
+            }
+            description_title.Location = new Point(description_title.Location.X + 300, description_title.Location.Y);
+            description_surrounding.Location = new Point(description_surrounding.Location.X + 300, description_surrounding.Location.Y);
         }
         private void Layout_Paint()
         {
@@ -2336,6 +2344,7 @@ namespace plt0_gui
                 Hide_encoding(1);
                 Hide_encoding(5);
                 Hide_encoding(8);
+                output_label.Visible = false;
                 i4_ck.Visible = false;
                 i8_ck.Visible = false;
                 a_a_ck.Visible = false;
@@ -2471,6 +2480,13 @@ namespace plt0_gui
                 mandatory_settings_label.Visible = false;
                 cmpr_block_selection_label.Visible = true;
                 cmpr_picture_tooltip_label.Visible = true;
+                cmpr_preview_ck.Visible = true;
+                for (byte i = 0; i < 9; i++)
+                {
+                    desc[i].Location = new Point(desc[i].Location.X - 300, desc[i].Location.Y);
+                }
+                description_title.Location = new Point(description_title.Location.X - 300, description_title.Location.Y);
+                description_surrounding.Location = new Point(description_surrounding.Location.X - 300, description_surrounding.Location.Y);
                 layout = 3;
             }
             Check_Paint();
@@ -3168,6 +3184,11 @@ namespace plt0_gui
         {
             cmpr_grid[index].BackColor = Color.FromArgb(cmpr_colours_argb[(button << 2) - 4], cmpr_colours_argb[(button << 2) - 3], cmpr_colours_argb[(button << 2) - 2], cmpr_colours_argb[(button << 2) - 1]);
             cmpr_index[index] = (byte)(button - 1);
+            //  cmpr_preview_ck.Image = GetImageFromByteArray(cmpr_file);
+        }
+        private void Change_mipmap()
+        {
+            // you can deal directly with the "mipmaps" variable
         }
         /* public FontFamily GetFontFamilyByName(string name)
         {
@@ -9046,6 +9067,7 @@ namespace plt0_gui
         // I also had to redirect the labels to each function below, which again, isn't pretty fast
 
         // generated checkbox behaviour code by the python script in the py folder
+
         private void Load_Images()
         {
             if (File.Exists(execPath + "images/banner.png"))
@@ -12616,6 +12638,7 @@ namespace plt0_gui
                 input_file_txt.Text = dialog.FileName;
                 input_file = dialog.FileName;
                 Check_run();
+                Check_Paint();
                 Organize_args();
             }
         }
@@ -12649,6 +12672,7 @@ namespace plt0_gui
             Check_run();
             Organize_args();
             Preview(true);
+            Check_Paint();
         }
         private void input_file2_MouseEnter(object sender, EventArgs e)
         {
@@ -12693,6 +12717,7 @@ namespace plt0_gui
             Parse_byte_text(mipmaps_txt, out mipmaps, 255);
             Organize_args();
             Preview(true);
+            Change_mipmap();
         }
         private void cmpr_max_MouseEnter(object sender, EventArgs e)
         {
@@ -13768,12 +13793,15 @@ namespace plt0_gui
                     {
                         num++;
                     }
-                    cmpr_args[0] = input_file;
-                    cmpr_args[1] = (execPath + "images/preview/" + num + ".bmp");  // even if there's an output file in the args, the last one is the output file :) that's how I made it
+                    cmpr_args[1] = input_file;
+                    cmpr_args[2] = (execPath + "images/preview/" + num + ".bmp");  // even if there's an output file in the args, the last one is the output file :) that's how I made it
                     Parse_args_class cli = new Parse_args_class();
                     cli.Parse_args(cmpr_args);
                     if (File.Exists(execPath + "images/preview/" + num + ".bmp"))
+                    {
                         cmpr_preview_ck.Image = Image.FromFile(execPath + "images/preview/" + num + ".bmp");
+                        cmpr_warning.Text = "";
+                    }
                     else
                         cmpr_warning.Text = cli.Check_exit();
                 }
@@ -13789,6 +13817,7 @@ namespace plt0_gui
         }
         private void Put_that_damn_cmpr_layout_in_place()
         {
+            Check_Paint();
             Parse_Markdown(lines[196], cmpr_mouse1_label);
             Parse_Markdown(lines[197], cmpr_mouse2_label);
             Parse_Markdown(lines[198], cmpr_mouse3_label);

@@ -508,7 +508,7 @@ var_type = ["", "", "",
 max_value = [0,0,0,
 255, 16, 255, 65535, 32, 16, 8, 4,
 255, 255, 100.0, 100.0, 255.0, 255.0, 255.0, 255.0]
-check_paint = ["\n                Check_Paint()";, ""]
+check_paint = ["\n                Check_Paint();", "", "", "\n                Change_mipmap();"] + [""] * 20
 name = ["Picture", "Palette"]
 name2 = ["Texture", "bmd or tpl"]
 filter = ["*.bmp;*.png;*.jfif;*.jpg;*.jpeg;*.jpg;*.ico;*.gif;*.tif;*.tiff;*.rle;*.dib", "*.plt0;*.bmp"]
@@ -549,7 +549,7 @@ for p in range(3):
         {
             """ + textbox[p][:-4] + """ = """ + textbox[p] + """.Text;""" + check_run[w] + """
             Organize_args();
-            Preview(true);
+            Preview(true);""" + check_paint[p] + """
         }"""
 for o in range(3, len(textbox)):
     x += 1
@@ -566,7 +566,7 @@ for o in range(3, len(textbox)):
         {
             Parse_""" + var_type[o] + "_text(" + textbox[o] + ", out " + textbox[o][:-4] + ", " + str(max_value[o]) + """);
             Organize_args();
-            Preview(true);
+            Preview(true);""" + check_paint[o] + """
         }"""
 palette_enc = ["AI8", "RGB565", "RGB5A3"]
 for q in range(len(palette_enc)):
@@ -786,11 +786,45 @@ x += 1
 output += """
         private void Check_Paint()
         {
+            if (layout != 3)
+                return;
             if (File.Exists(input_file))
             {
-                cmpr_warning.Text = "";
-                Parse_args_class cli = new Parse_args_class();
-                cli.Parse_args(new byte[] input_arg = {input_file, output_name});
+                success = true;
+                using (FileStream fs = File.OpenRead(input_file))
+                {
+                    Array.Resize(ref cmpr_file, (int)fs.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
+                    fs.Read(cmpr_file, 0, (int)fs.Length);
+                    if (cmpr_file.Length > 48)
+                    {
+                        if (cmpr_file[0x23] != 0xE)
+                        {
+                            Parse_Markdown(lines[""" + str(x) + """], cmpr_warning);
+                            success = false;
+                        }
+                    }
+                    else
+                    {
+                        Parse_Markdown(lines[""" + str(x) + """], cmpr_warning);
+                        success = false;
+                    }
+                }
+                if (success)
+                {
+                    int num = 1;
+                    while (File.Exists(execPath + "images/preview/" + num + ".bmp"))
+                    {
+                        num++;
+                    }
+                    cmpr_args[1] = input_file;
+                    cmpr_args[2] = (execPath + "images/preview/" + num + ".bmp");  // even if there's an output file in the args, the last one is the output file :) that's how I made it
+                    Parse_args_class cli = new Parse_args_class();
+                    cli.Parse_args(cmpr_args);
+                    if (File.Exists(execPath + "images/preview/" + num + ".bmp"))
+                        cmpr_preview_ck.Image = Image.FromFile(execPath + "images/preview/" + num + ".bmp");
+                    else
+                        cmpr_warning.Text = cli.Check_exit();
+                }
             }
             else
             {
