@@ -666,6 +666,12 @@ for s in range(len(text_icon)):
         {
             Hide_description();""" + line3[s] + """
         }"""
+for u in range(len(text_icon) - 4, len(text_icon)):
+    output += """
+        private void """ + text_icon[u] + """_Click(object sender, EventArgs e)
+        {
+            cmpr_selected_colour = """ + str(u - len(text_icon) + 5) + """;
+        }"""
 line4 = [''] * 5 + ["\n                this.Size = new Size(this.Size.Width + mouse_x - e.X, this.Size.Height + mouse_y - e.Y);"]
 for t in range(4, 6):
     output += """
@@ -800,6 +806,63 @@ for y in range(5):
 output += """
             checked_tooltip(cmpr_block_selection_ck);
             unchecked_tooltip(cmpr_block_paint_ck);
+        }"""
+block_name = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G"]
+for z in range(16):
+    x += 1
+    output += """
+        private void cmpr_block""" + block_name[z] + """_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[""" + str(x) + """]);
+            if (Left_down)
+                Paint_Pixel(""" + str(z) + """, cmpr_selected_colour);
+            else if (Middle_down)
+                Paint_Pixel(""" + str(z) + """, 1);
+            else if (Right_down)
+                Paint_Pixel(""" + str(z) + """, 2);
+            else if (XButton2_down)
+                Paint_Pixel(""" + str(z) + """, 3);
+            else if (XButton1_down)
+                Paint_Pixel(""" + str(z) + """, 4);
+        }
+        private void cmpr_block""" + block_name[z] + """_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+        }"""
+output += """
+        private void cmpr_c2_TextChanged(object sender, EventArgs e)
+        {
+            parse_rgb565(cmpr_c2, cmpr_c2_txt, 2, out colour2, colour2);
+        }
+
+        private void cmpr_c1_TextChanged(object sender, EventArgs e)
+        {
+            parse_rgb565(cmpr_c1, cmpr_c1_txt, 0, out colour1, colour1);
+        }
+        private void Swap_Colours_Click(object sender, EventArgs e)
+        {
+            seal = cmpr_c1_txt.Text;
+            cmpr_c1_txt.Text = cmpr_c2_txt.Text;
+            cmpr_c2_txt.Text = seal;
+            colour3 = colour1;
+            colour1 = colour2;
+            colour2 = colour3;
+            red = cmpr_colour[0];
+            green = cmpr_colours_argb[1];
+            cmpr_colour[0] = cmpr_colour[2];
+            cmpr_colour[1] = cmpr_colour[3];
+            cmpr_colour[2] = red;
+            cmpr_colour[3] = green;
+            red = cmpr_colours_argb[1];
+            green = cmpr_colours_argb[2];
+            blue = cmpr_colours_argb[3];
+            cmpr_colours_argb[1] = cmpr_colours_argb[5];
+            cmpr_colours_argb[2] = cmpr_colours_argb[6];
+            cmpr_colours_argb[3] = cmpr_colours_argb[7];
+            cmpr_colours_argb[5] = red;
+            cmpr_colours_argb[6] = green;
+            cmpr_colours_argb[7] = blue;
+            Update_Colours();
         }
         private void Run_Click(object sender, EventArgs e)
         {

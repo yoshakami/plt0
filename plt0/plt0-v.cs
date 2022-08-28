@@ -2976,7 +2976,149 @@ namespace plt0_gui
                     break;
             }
         }
+        private void parse_rgb565(Label lab, TextBox txt, byte j, out ushort out_colour, ushort default_colour)
+        {
+            success = false;
+            len = txt.Text.Length;
+            for (byte i = 1; i < len; i++)
+            {
+                if (!ishex(txt.Text[i]))
+                    txt.Text = txt.Text.Substring(0, i);
+            }
+            if (len > 0)
+                if (!ishex(txt.Text[0]) && txt.Text[0] != '#')
+                    txt.Text = "";
+            if (len > 7)
+            {
+                txt.Text = txt.Text.Substring(0, 7);
+            }
+            if (len < 3)
+            {
+                out_colour = default_colour;
+                return;
+            }
+            if (txt.Text[0] == '#' && len > 3)
+            {
+                if (len == 4)
+                {
+                    byte.TryParse(txt.Text.Substring(1, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
+                    byte.TryParse(txt.Text.Substring(2, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
+                    byte.TryParse(txt.Text.Substring(3, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
+                    red <<= 4;
+                    green <<= 4;
+                    blue <<= 4;
+                    success = true;
+                }
+                else if (len == 7)
+                {
+                    byte.TryParse(txt.Text.Substring(1, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
+                    byte.TryParse(txt.Text.Substring(3, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
+                    byte.TryParse(txt.Text.Substring(5, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
+                    if ((red & 7) != 0)
+                    {
+                        red &= 0xf8;
+                        Warn_rgb565_colour_trim();
+                    }
+                    if ((green & 3) != 0)
+                    {
+                        green &= 0xfc;
+                        Warn_rgb565_colour_trim();
+                    }
+                    if ((blue & 7) != 0)
+                    {
+                        blue &= 0xf8;
+                        Warn_rgb565_colour_trim();
+                    }
+                    success = true;
+                }
+            }
+            else
+            {
+                if (len == 3)
+                {
+                    byte.TryParse(txt.Text.Substring(0, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
+                    byte.TryParse(txt.Text.Substring(1, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
+                    byte.TryParse(txt.Text.Substring(2, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
+                    red <<= 4;
+                    green <<= 4;
+                    blue <<= 4;
+                    success = true;
+                }
+                else if (len == 6)
+                {
+                    byte.TryParse(txt.Text.Substring(0, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
+                    byte.TryParse(txt.Text.Substring(2, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
+                    byte.TryParse(txt.Text.Substring(4, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
+                    if ((red & 7) != 0)
+                    {
+                        red &= 0xf8;
+                        Warn_rgb565_colour_trim();
+                    }
+                    if ((green & 3) != 0)
+                    {
+                        green &= 0xfc;
+                        Warn_rgb565_colour_trim();
+                    }
+                    if ((blue & 7) != 0)
+                    {
+                        blue &= 0xf8;
+                        Warn_rgb565_colour_trim();
+                    }
+                    success = true;
+                }
+            }
+            if (success)
+            {
+                cmpr_colour[j] = (byte)((red & 0xf8) + (green >> 5));
+                cmpr_colour[j + 1] = (byte)(((green << 3) & 224) + (blue >> 3));
+                lab.BackColor = Color.FromArgb(255, red, green, blue);
+                cmpr_colours_argb[(j << 1)] = 255;
+                cmpr_colours_argb[(j << 1) + 1] = red;
+                cmpr_colours_argb[(j << 1) + 2] = green;
+                cmpr_colours_argb[(j << 1) + 3] = blue;
+                out_colour = (ushort)((cmpr_colour[j] << 8) | (cmpr_colour[j + 1]));
+                Update_Colours();
+            }
+            else
+                out_colour = default_colour;
 
+        }
+        private void Update_Colours()
+        {
+            if (colour1 > colour2)
+            {
+                /*red = cmpr_colours_argb[1];
+                green = cmpr_colours_argb[2];
+                blue = cmpr_colours_argb[3];
+
+                red2 = cmpr_colours_argb[5];
+                green2 = cmpr_colours_argb[6];
+                blue2 = cmpr_colours_argb[7];*/
+
+                cmpr_colours_argb[9] = (byte)((cmpr_colours_argb[1] * 2 / 3) + (cmpr_colours_argb[5] / 3));
+                cmpr_colours_argb[10] = (byte)((cmpr_colours_argb[2] * 2 / 3) + (cmpr_colours_argb[6] / 3));
+                cmpr_colours_argb[11] = (byte)((cmpr_colours_argb[3] * 2 / 3) + (cmpr_colours_argb[7] / 3));
+                //colour3 = (ushort)((((cmpr_colours_argb[9]) >> 3) << 11) + ((cmpr_colours_argb[10] >> 2) << 5) + (cmpr_colours_argb[11] >> 3)); // the RGB565 third colour
+                cmpr_c3.BackColor = Color.FromArgb(255, cmpr_colours_argb[9], cmpr_colours_argb[10], cmpr_colours_argb[11]);
+                cmpr_colours_argb[13] = (byte)((cmpr_colours_argb[1] / 3) + (cmpr_colours_argb[5] * 2 / 3));
+                cmpr_colours_argb[14] = (byte)((cmpr_colours_argb[2] / 3) + (cmpr_colours_argb[6] * 2 / 3));
+                cmpr_colours_argb[15] = (byte)((cmpr_colours_argb[3] / 3) + (cmpr_colours_argb[7] * 2 / 3));
+                //colour4 = (ushort)((((cmpr_colours_argb[13]) >> 3) << 11) + ((cmpr_colours_argb[14] >> 2) << 5) + (cmpr_colours_argb[15] >> 3)); // the RGB565 fourth colour
+                cmpr_c4.BackColor = Color.FromArgb(255, cmpr_colours_argb[13], cmpr_colours_argb[14], cmpr_colours_argb[15]);
+            }
+            else
+            {
+                // of course, that's the exact opposite! - not quite lol
+                cmpr_colours_argb[9] = (byte)((cmpr_colours_argb[1] / 2) + (cmpr_colours_argb[5] / 2));
+                cmpr_colours_argb[10] = (byte)((cmpr_colours_argb[2] / 2) + (cmpr_colours_argb[6] / 2));
+                cmpr_colours_argb[11] = (byte)((cmpr_colours_argb[3] / 2) + (cmpr_colours_argb[7] / 2));
+                //colour3 = (ushort)((((cmpr_colours_argb[9]) >> 3) << 11) + ((cmpr_colours_argb[10] >> 2) << 5) + (cmpr_colours_argb[11] >> 3)); // the RGB565 third colour
+                cmpr_c3.BackColor = Color.FromArgb(255, cmpr_colours_argb[9], cmpr_colours_argb[10], cmpr_colours_argb[11]);
+                cmpr_colours_argb[12] = 0;
+                cmpr_c4.BackColor = Color.FromArgb(0, 0, 0, 0); // fourth colour is fully transparent
+                // last colour isn't in the palette, it's in _plt0.alpha_bitfield
+            }
+        }
         /* public FontFamily GetFontFamilyByName(string name)
         {
             return _privateFontCollection.Families.FirstOrDefault(x => x.Name == name);
@@ -7608,8 +7750,10 @@ namespace plt0_gui
             this.cmpr_c1_label.Size = new System.Drawing.Size(140, 45);
             this.cmpr_c1_label.TabIndex = 610;
             this.cmpr_c1_label.Text = "Colour 1";
+            this.cmpr_c1_label.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_c1_label.MouseEnter += new System.EventHandler(this.cmpr_c1_MouseEnter);
             this.cmpr_c1_label.MouseLeave += new System.EventHandler(this.cmpr_c1_MouseLeave);
+            this.cmpr_c1_label.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_c1_txt
             // 
@@ -7625,8 +7769,10 @@ namespace plt0_gui
             this.cmpr_c1_txt.Text = "#000000";
             this.cmpr_c1_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.cmpr_c1_txt.TextChanged += new System.EventHandler(this.cmpr_c1_TextChanged);
+            this.cmpr_c1_txt.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_c1_txt.MouseEnter += new System.EventHandler(this.cmpr_c1_MouseEnter);
             this.cmpr_c1_txt.MouseLeave += new System.EventHandler(this.cmpr_c1_MouseLeave);
+            this.cmpr_c1_txt.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_c1
             // 
@@ -7640,8 +7786,10 @@ namespace plt0_gui
             this.cmpr_c1.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
             this.cmpr_c1.Size = new System.Drawing.Size(64, 64);
             this.cmpr_c1.TabIndex = 612;
+            this.cmpr_c1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_c1.MouseHover += new System.EventHandler(this.cmpr_c1_MouseEnter);
             this.cmpr_c1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.cmpr_c1_MouseLeave);
+            this.cmpr_c1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_c2
             // 
@@ -7655,8 +7803,10 @@ namespace plt0_gui
             this.cmpr_c2.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
             this.cmpr_c2.Size = new System.Drawing.Size(64, 64);
             this.cmpr_c2.TabIndex = 616;
+            this.cmpr_c2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_c2.MouseHover += new System.EventHandler(this.cmpr_c2_MouseEnter);
             this.cmpr_c2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.cmpr_c2_MouseLeave);
+            this.cmpr_c2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_c2_label
             // 
@@ -7671,8 +7821,10 @@ namespace plt0_gui
             this.cmpr_c2_label.Size = new System.Drawing.Size(140, 45);
             this.cmpr_c2_label.TabIndex = 614;
             this.cmpr_c2_label.Text = "Colour 2";
+            this.cmpr_c2_label.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_c2_label.MouseEnter += new System.EventHandler(this.cmpr_c2_MouseEnter);
             this.cmpr_c2_label.MouseLeave += new System.EventHandler(this.cmpr_c2_MouseLeave);
+            this.cmpr_c2_label.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_c2_txt
             // 
@@ -7688,8 +7840,10 @@ namespace plt0_gui
             this.cmpr_c2_txt.Text = "#000000";
             this.cmpr_c2_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.cmpr_c2_txt.TextChanged += new System.EventHandler(this.cmpr_c2_TextChanged);
+            this.cmpr_c2_txt.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_c2_txt.MouseEnter += new System.EventHandler(this.cmpr_c2_MouseEnter);
             this.cmpr_c2_txt.MouseLeave += new System.EventHandler(this.cmpr_c2_MouseLeave);
+            this.cmpr_c2_txt.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_c3
             // 
@@ -7703,8 +7857,10 @@ namespace plt0_gui
             this.cmpr_c3.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
             this.cmpr_c3.Size = new System.Drawing.Size(64, 64);
             this.cmpr_c3.TabIndex = 620;
+            this.cmpr_c3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_c3.MouseHover += new System.EventHandler(this.cmpr_c3_MouseEnter);
             this.cmpr_c3.MouseMove += new System.Windows.Forms.MouseEventHandler(this.cmpr_c3_MouseLeave);
+            this.cmpr_c3.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_c3_label
             // 
@@ -7719,8 +7875,10 @@ namespace plt0_gui
             this.cmpr_c3_label.Size = new System.Drawing.Size(140, 45);
             this.cmpr_c3_label.TabIndex = 618;
             this.cmpr_c3_label.Text = "Colour 3";
+            this.cmpr_c3_label.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_c3_label.MouseEnter += new System.EventHandler(this.cmpr_c3_MouseEnter);
             this.cmpr_c3_label.MouseLeave += new System.EventHandler(this.cmpr_c3_MouseLeave);
+            this.cmpr_c3_label.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_c3_txt
             // 
@@ -7734,8 +7892,10 @@ namespace plt0_gui
             this.cmpr_c3_txt.Size = new System.Drawing.Size(141, 21);
             this.cmpr_c3_txt.TabIndex = 617;
             this.cmpr_c3_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.cmpr_c3_txt.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_c3_txt.MouseEnter += new System.EventHandler(this.cmpr_c3_MouseEnter);
             this.cmpr_c3_txt.MouseLeave += new System.EventHandler(this.cmpr_c3_MouseLeave);
+            this.cmpr_c3_txt.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_c4
             // 
@@ -7749,8 +7909,10 @@ namespace plt0_gui
             this.cmpr_c4.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
             this.cmpr_c4.Size = new System.Drawing.Size(64, 64);
             this.cmpr_c4.TabIndex = 624;
+            this.cmpr_c4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_c4.MouseHover += new System.EventHandler(this.cmpr_c4_MouseEnter);
             this.cmpr_c4.MouseMove += new System.Windows.Forms.MouseEventHandler(this.cmpr_c4_MouseLeave);
+            this.cmpr_c4.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_c4_label
             // 
@@ -7765,8 +7927,10 @@ namespace plt0_gui
             this.cmpr_c4_label.Size = new System.Drawing.Size(140, 45);
             this.cmpr_c4_label.TabIndex = 622;
             this.cmpr_c4_label.Text = "Colour 4";
+            this.cmpr_c4_label.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_c4_label.MouseEnter += new System.EventHandler(this.cmpr_c4_MouseEnter);
             this.cmpr_c4_label.MouseLeave += new System.EventHandler(this.cmpr_c4_MouseLeave);
+            this.cmpr_c4_label.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_c4_txt
             // 
@@ -7780,8 +7944,10 @@ namespace plt0_gui
             this.cmpr_c4_txt.Size = new System.Drawing.Size(141, 21);
             this.cmpr_c4_txt.TabIndex = 621;
             this.cmpr_c4_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.cmpr_c4_txt.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_c4_txt.MouseEnter += new System.EventHandler(this.cmpr_c4_MouseEnter);
             this.cmpr_c4_txt.MouseLeave += new System.EventHandler(this.cmpr_c4_MouseLeave);
+            this.cmpr_c4_txt.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_swap_ck
             // 
@@ -7796,8 +7962,10 @@ namespace plt0_gui
             this.cmpr_swap_ck.TabIndex = 626;
             this.cmpr_swap_ck.TabStop = false;
             this.cmpr_swap_ck.Click += new System.EventHandler(this.Swap_Colours_Click);
+            this.cmpr_swap_ck.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_swap_ck.MouseEnter += new System.EventHandler(this.cmpr_swap_MouseEnter);
             this.cmpr_swap_ck.MouseLeave += new System.EventHandler(this.cmpr_swap_MouseLeave);
+            this.cmpr_swap_ck.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_swap_label
             // 
@@ -7813,8 +7981,10 @@ namespace plt0_gui
             this.cmpr_swap_label.TabIndex = 625;
             this.cmpr_swap_label.Text = "Swap Colours";
             this.cmpr_swap_label.Click += new System.EventHandler(this.Swap_Colours_Click);
+            this.cmpr_swap_label.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_swap_label.MouseEnter += new System.EventHandler(this.cmpr_swap_MouseEnter);
             this.cmpr_swap_label.MouseLeave += new System.EventHandler(this.cmpr_swap_MouseLeave);
+            this.cmpr_swap_label.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_block1
             // 
@@ -8070,8 +8240,10 @@ namespace plt0_gui
             this.cmpr_block_paint_ck.TabStop = false;
             this.cmpr_block_paint_ck.Visible = false;
             this.cmpr_block_paint_ck.Click += new System.EventHandler(this.cmpr_block_paint_Click);
+            this.cmpr_block_paint_ck.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_block_paint_ck.MouseEnter += new System.EventHandler(this.cmpr_block_paint_MouseEnter);
             this.cmpr_block_paint_ck.MouseLeave += new System.EventHandler(this.cmpr_block_paint_MouseLeave);
+            this.cmpr_block_paint_ck.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_block_paint_label
             // 
@@ -8088,8 +8260,10 @@ namespace plt0_gui
             this.cmpr_block_paint_label.Text = "Paint Pixels";
             this.cmpr_block_paint_label.Visible = false;
             this.cmpr_block_paint_label.Click += new System.EventHandler(this.cmpr_block_paint_Click);
+            this.cmpr_block_paint_label.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_block_paint_label.MouseEnter += new System.EventHandler(this.cmpr_block_paint_MouseEnter);
             this.cmpr_block_paint_label.MouseLeave += new System.EventHandler(this.cmpr_block_paint_MouseLeave);
+            this.cmpr_block_paint_label.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_block_selection_ck
             // 
@@ -8105,8 +8279,10 @@ namespace plt0_gui
             this.cmpr_block_selection_ck.TabStop = false;
             this.cmpr_block_selection_ck.Visible = false;
             this.cmpr_block_selection_ck.Click += new System.EventHandler(this.cmpr_block_selection_Click);
+            this.cmpr_block_selection_ck.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_block_selection_ck.MouseEnter += new System.EventHandler(this.cmpr_block_selection_MouseEnter);
             this.cmpr_block_selection_ck.MouseLeave += new System.EventHandler(this.cmpr_block_selection_MouseLeave);
+            this.cmpr_block_selection_ck.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_block_selection_label
             // 
@@ -8123,8 +8299,10 @@ namespace plt0_gui
             this.cmpr_block_selection_label.Text = "Select Block";
             this.cmpr_block_selection_label.Visible = false;
             this.cmpr_block_selection_label.Click += new System.EventHandler(this.cmpr_block_selection_Click);
+            this.cmpr_block_selection_label.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_block_selection_label.MouseEnter += new System.EventHandler(this.cmpr_block_selection_MouseEnter);
             this.cmpr_block_selection_label.MouseLeave += new System.EventHandler(this.cmpr_block_selection_MouseLeave);
+            this.cmpr_block_selection_label.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_picture_tooltip_label
             // 
@@ -8138,6 +8316,8 @@ namespace plt0_gui
             this.cmpr_picture_tooltip_label.Size = new System.Drawing.Size(175, 20);
             this.cmpr_picture_tooltip_label.TabIndex = 667;
             this.cmpr_picture_tooltip_label.Text = "Picture tooltip";
+            this.cmpr_picture_tooltip_label.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_picture_tooltip_label.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_selected_block_label
             // 
@@ -8151,6 +8331,8 @@ namespace plt0_gui
             this.cmpr_selected_block_label.Size = new System.Drawing.Size(184, 20);
             this.cmpr_selected_block_label.TabIndex = 668;
             this.cmpr_selected_block_label.Text = "Selected Block";
+            this.cmpr_selected_block_label.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_selected_block_label.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_save_ck
             // 
@@ -8164,8 +8346,10 @@ namespace plt0_gui
             this.cmpr_save_ck.Size = new System.Drawing.Size(128, 64);
             this.cmpr_save_ck.TabIndex = 669;
             this.cmpr_save_ck.TabStop = false;
+            this.cmpr_save_ck.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_save_ck.MouseEnter += new System.EventHandler(this.cmpr_save_MouseEnter);
             this.cmpr_save_ck.MouseLeave += new System.EventHandler(this.cmpr_save_MouseLeave);
+            this.cmpr_save_ck.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_save_as_ck
             // 
@@ -8179,8 +8363,10 @@ namespace plt0_gui
             this.cmpr_save_as_ck.Size = new System.Drawing.Size(128, 64);
             this.cmpr_save_as_ck.TabIndex = 671;
             this.cmpr_save_as_ck.TabStop = false;
+            this.cmpr_save_as_ck.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_save_as_ck.MouseEnter += new System.EventHandler(this.cmpr_save_as_MouseEnter);
             this.cmpr_save_as_ck.MouseLeave += new System.EventHandler(this.cmpr_save_as_MouseLeave);
+            this.cmpr_save_as_ck.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_warning
             // 
@@ -8198,6 +8384,8 @@ namespace plt0_gui
             this.cmpr_warning.TabIndex = 673;
             this.cmpr_warning.Text = "Input file is not a cmpr texture";
             this.cmpr_warning.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.cmpr_warning.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_warning.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_sel_label
             // 
@@ -8212,8 +8400,10 @@ namespace plt0_gui
             this.cmpr_sel_label.Size = new System.Drawing.Size(147, 64);
             this.cmpr_sel_label.TabIndex = 674;
             this.cmpr_sel_label.Text = "Selected :";
+            this.cmpr_sel_label.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_sel_label.MouseEnter += new System.EventHandler(this.cmpr_sel_MouseEnter);
             this.cmpr_sel_label.MouseLeave += new System.EventHandler(this.cmpr_sel_MouseLeave);
+            this.cmpr_sel_label.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_mouse1_label
             // 
@@ -8228,8 +8418,10 @@ namespace plt0_gui
             this.cmpr_mouse1_label.Size = new System.Drawing.Size(153, 64);
             this.cmpr_mouse1_label.TabIndex = 677;
             this.cmpr_mouse1_label.Text = "-> Left Click";
+            this.cmpr_mouse1_label.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_mouse1_label.MouseEnter += new System.EventHandler(this.cmpr_mouse1_MouseEnter);
             this.cmpr_mouse1_label.MouseLeave += new System.EventHandler(this.cmpr_mouse1_MouseLeave);
+            this.cmpr_mouse1_label.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_mouse2_label
             // 
@@ -8244,8 +8436,10 @@ namespace plt0_gui
             this.cmpr_mouse2_label.Size = new System.Drawing.Size(153, 64);
             this.cmpr_mouse2_label.TabIndex = 678;
             this.cmpr_mouse2_label.Text = "-> Left Click";
+            this.cmpr_mouse2_label.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_mouse2_label.MouseEnter += new System.EventHandler(this.cmpr_mouse2_MouseEnter);
             this.cmpr_mouse2_label.MouseLeave += new System.EventHandler(this.cmpr_mouse2_MouseLeave);
+            this.cmpr_mouse2_label.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_mouse4_label
             // 
@@ -8260,8 +8454,10 @@ namespace plt0_gui
             this.cmpr_mouse4_label.Size = new System.Drawing.Size(153, 64);
             this.cmpr_mouse4_label.TabIndex = 680;
             this.cmpr_mouse4_label.Text = "-> Left Click";
+            this.cmpr_mouse4_label.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_mouse4_label.MouseEnter += new System.EventHandler(this.cmpr_mouse4_MouseEnter);
             this.cmpr_mouse4_label.MouseLeave += new System.EventHandler(this.cmpr_mouse4_MouseLeave);
+            this.cmpr_mouse4_label.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_mouse3_label
             // 
@@ -8276,8 +8472,10 @@ namespace plt0_gui
             this.cmpr_mouse3_label.Size = new System.Drawing.Size(153, 64);
             this.cmpr_mouse3_label.TabIndex = 679;
             this.cmpr_mouse3_label.Text = "-> Left Click";
+            this.cmpr_mouse3_label.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_mouse3_label.MouseEnter += new System.EventHandler(this.cmpr_mouse3_MouseEnter);
             this.cmpr_mouse3_label.MouseLeave += new System.EventHandler(this.cmpr_mouse3_MouseLeave);
+            this.cmpr_mouse3_label.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_mouse5_label
             // 
@@ -8292,8 +8490,10 @@ namespace plt0_gui
             this.cmpr_mouse5_label.Size = new System.Drawing.Size(153, 64);
             this.cmpr_mouse5_label.TabIndex = 681;
             this.cmpr_mouse5_label.Text = "-> Left Click";
+            this.cmpr_mouse5_label.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_mouse5_label.MouseEnter += new System.EventHandler(this.cmpr_mouse5_MouseEnter);
             this.cmpr_mouse5_label.MouseLeave += new System.EventHandler(this.cmpr_mouse5_MouseLeave);
+            this.cmpr_mouse5_label.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // cmpr_sel
             // 
@@ -8307,8 +8507,10 @@ namespace plt0_gui
             this.cmpr_sel.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
             this.cmpr_sel.Size = new System.Drawing.Size(64, 64);
             this.cmpr_sel.TabIndex = 682;
+            this.cmpr_sel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
             this.cmpr_sel.MouseEnter += new System.EventHandler(this.cmpr_sel_MouseEnter);
             this.cmpr_sel.MouseLeave += new System.EventHandler(this.cmpr_sel_MouseLeave);
+            this.cmpr_sel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // bmd_ck
             // 
@@ -8344,6 +8546,8 @@ namespace plt0_gui
             this.cmpr_preview_ck.TabIndex = 666;
             this.cmpr_preview_ck.TabStop = false;
             this.cmpr_preview_ck.Visible = false;
+            this.cmpr_preview_ck.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.cmpr_preview_ck.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             // 
             // image_ck
             // 
@@ -8371,7 +8575,7 @@ namespace plt0_gui
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(3817, 1720);
+            this.ClientSize = new System.Drawing.Size(3503, 1721);
             this.Controls.Add(this.cmpr_sel);
             this.Controls.Add(this.cmpr_mouse5_label);
             this.Controls.Add(this.cmpr_mouse4_label);
@@ -8692,6 +8896,8 @@ namespace plt0_gui
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.plt0_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.plt0_DragEnter);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Block_MouseDown);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Block_MouseUp);
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tpl_ck)).EndInit();
@@ -13529,148 +13735,31 @@ namespace plt0_gui
         {
             Preview(false);
         }
-        private void parse_rgb565(Label lab, TextBox txt, byte j, out ushort out_colour, ushort default_colour)
+
+        private void Swap_Colours_Click(object sender, EventArgs e)
         {
-            success = false;
-            len = txt.Text.Length;
-            for (byte i = 1; i < len; i++)
-            {
-                if (!ishex(txt.Text[i]))
-                    txt.Text = txt.Text.Substring(0, i);
-            }
-            if (len > 0)
-                if (!ishex(txt.Text[0]) && txt.Text[0] != '#')
-                    txt.Text = "";
-            if (len > 7)
-            {
-                txt.Text = txt.Text.Substring(0, 7);
-            }
-            if (len < 3)
-            {
-                out_colour = default_colour;
-                return;
-            }
-            if (txt.Text[0] == '#' && len > 3)
-            {
-                if (len == 4)
-                {
-                    byte.TryParse(txt.Text.Substring(1, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
-                    byte.TryParse(txt.Text.Substring(2, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
-                    byte.TryParse(txt.Text.Substring(3, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
-                    red <<= 4;
-                    green <<= 4;
-                    blue <<= 4;
-                    success = true;
-                }
-                else if (len == 7)
-                {
-                    byte.TryParse(txt.Text.Substring(1, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
-                    byte.TryParse(txt.Text.Substring(3, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
-                    byte.TryParse(txt.Text.Substring(5, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
-                    if ((red & 7) != 0)
-                    {
-                        red &= 0xf8;
-                        Warn_rgb565_colour_trim();
-                    }
-                    if ((green & 3) != 0)
-                    {
-                        green &= 0xfc;
-                        Warn_rgb565_colour_trim();
-                    }
-                    if ((blue & 7) != 0)
-                    {
-                        blue &= 0xf8;
-                        Warn_rgb565_colour_trim();
-                    }
-                    success = true;
-                }
-            }
-            else
-            {
-                if (len == 3)
-                {
-                    byte.TryParse(txt.Text.Substring(0, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
-                    byte.TryParse(txt.Text.Substring(1, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
-                    byte.TryParse(txt.Text.Substring(2, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
-                    red <<= 4;
-                    green <<= 4;
-                    blue <<= 4;
-                    success = true;
-                }
-                else if (len == 6)
-                {
-                    byte.TryParse(txt.Text.Substring(0, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
-                    byte.TryParse(txt.Text.Substring(2, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
-                    byte.TryParse(txt.Text.Substring(4, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
-                    if ((red & 7) != 0)
-                    {
-                        red &= 0xf8;
-                        Warn_rgb565_colour_trim();
-                    }
-                    if ((green & 3) != 0)
-                    {
-                        green &= 0xfc;
-                        Warn_rgb565_colour_trim();
-                    }
-                    if ((blue & 7) != 0)
-                    {
-                        blue &= 0xf8;
-                        Warn_rgb565_colour_trim();
-                    }
-                    success = true;
-                }
-            }
-            if (success)
-            {
-                cmpr_colour[j] = (byte)((red & 0xf8) + (green >> 5));
-                cmpr_colour[j + 1] = (byte)(((green << 3) & 224) + (blue >> 3));
-                lab.BackColor = Color.FromArgb(255, red, green, blue);
-                cmpr_colours_argb[(j << 1)] = 255;
-                cmpr_colours_argb[(j << 1) + 1] = red;
-                cmpr_colours_argb[(j << 1) + 2] = green;
-                cmpr_colours_argb[(j << 1) + 3] = blue;
-                out_colour = (ushort)((cmpr_colour[j] << 8) | (cmpr_colour[j + 1]));
-                Update_Colours();
-            }
-            else
-                out_colour = default_colour;
-
-        }
-        private void Update_Colours()
-        {
-            if (colour1 > colour2)
-            {
-                /*red = cmpr_colours_argb[1];
-                green = cmpr_colours_argb[2];
-                blue = cmpr_colours_argb[3];
-
-                red2 = cmpr_colours_argb[5];
-                green2 = cmpr_colours_argb[6];
-                blue2 = cmpr_colours_argb[7];*/
-
-                cmpr_colours_argb[9] = (byte)((cmpr_colours_argb[1] * 2 / 3) + (cmpr_colours_argb[5] / 3));
-                cmpr_colours_argb[10] = (byte)((cmpr_colours_argb[2] * 2 / 3) + (cmpr_colours_argb[6] / 3));
-                cmpr_colours_argb[11] = (byte)((cmpr_colours_argb[3] * 2 / 3) + (cmpr_colours_argb[7] / 3));
-                //colour3 = (ushort)((((cmpr_colours_argb[9]) >> 3) << 11) + ((cmpr_colours_argb[10] >> 2) << 5) + (cmpr_colours_argb[11] >> 3)); // the RGB565 third colour
-                cmpr_c3.BackColor = Color.FromArgb(255, cmpr_colours_argb[9], cmpr_colours_argb[10], cmpr_colours_argb[11]);
-                cmpr_colours_argb[13] = (byte)((cmpr_colours_argb[1] / 3) + (cmpr_colours_argb[5] * 2 / 3));
-                cmpr_colours_argb[14] = (byte)((cmpr_colours_argb[2] / 3) + (cmpr_colours_argb[6] * 2 / 3));
-                cmpr_colours_argb[15] = (byte)((cmpr_colours_argb[3] / 3) + (cmpr_colours_argb[7] * 2 / 3));
-                //colour4 = (ushort)((((cmpr_colours_argb[13]) >> 3) << 11) + ((cmpr_colours_argb[14] >> 2) << 5) + (cmpr_colours_argb[15] >> 3)); // the RGB565 fourth colour
-                cmpr_c4.BackColor = Color.FromArgb(255, cmpr_colours_argb[13], cmpr_colours_argb[14], cmpr_colours_argb[15]);
-            }
-            else
-            {
-                // of course, that's the exact opposite! - not quite lol
-                cmpr_colours_argb[9] = (byte)((cmpr_colours_argb[1] / 2) + (cmpr_colours_argb[5] / 2));
-                cmpr_colours_argb[10] = (byte)((cmpr_colours_argb[2] / 2) + (cmpr_colours_argb[6] / 2));
-                cmpr_colours_argb[11] = (byte)((cmpr_colours_argb[3] / 2) + (cmpr_colours_argb[7] / 2));
-                //colour3 = (ushort)((((cmpr_colours_argb[9]) >> 3) << 11) + ((cmpr_colours_argb[10] >> 2) << 5) + (cmpr_colours_argb[11] >> 3)); // the RGB565 third colour
-                cmpr_c3.BackColor = Color.FromArgb(255, cmpr_colours_argb[9], cmpr_colours_argb[10], cmpr_colours_argb[11]);
-                cmpr_colours_argb[12] = 0;
-                cmpr_c4.BackColor = Color.FromArgb(0, 0, 0, 0); // fourth colour is fully transparent
-                // last colour isn't in the palette, it's in _plt0.alpha_bitfield
-            }
+            seal = cmpr_c1_txt.Text;
+            cmpr_c1_txt.Text = cmpr_c2_txt.Text;
+            cmpr_c2_txt.Text = seal;
+            colour3 = colour1;
+            colour1 = colour2;
+            colour2 = colour3;
+            red = cmpr_colour[0];
+            green = cmpr_colours_argb[1];
+            cmpr_colour[0] = cmpr_colour[2];
+            cmpr_colour[1] = cmpr_colour[3];
+            cmpr_colour[2] = red;
+            cmpr_colour[3] = green;
+            red = cmpr_colours_argb[1];
+            green = cmpr_colours_argb[2];
+            blue = cmpr_colours_argb[3];
+            cmpr_colours_argb[1] = cmpr_colours_argb[5];
+            cmpr_colours_argb[2] = cmpr_colours_argb[6];
+            cmpr_colours_argb[3] = cmpr_colours_argb[7];
+            cmpr_colours_argb[5] = red;
+            cmpr_colours_argb[6] = green;
+            cmpr_colours_argb[7] = blue;
+            Update_Colours();
         }
         private void Warn_rgb565_colour_trim()
         {
@@ -13686,24 +13775,5 @@ namespace plt0_gui
             parse_rgb565(cmpr_c1, cmpr_c1_txt, 0, out colour1, colour1);
         }
 
-        private void Swap_Colours_Click(object sender, EventArgs e)
-        {
-            seal = cmpr_c1_txt.Text;
-            cmpr_c1_txt.Text = cmpr_c2_txt.Text;
-            cmpr_c2_txt.Text = seal;
-            colour3 = colour1;
-            colour1 = colour2;
-            colour2 = colour3;
-            red = cmpr_colours_argb[1];
-            green = cmpr_colours_argb[2];
-            blue = cmpr_colours_argb[3];
-            cmpr_colours_argb[1] = cmpr_colours_argb[5];
-            cmpr_colours_argb[2] = cmpr_colours_argb[6];
-            cmpr_colours_argb[3] = cmpr_colours_argb[7];
-            cmpr_colours_argb[5] = red;
-            cmpr_colours_argb[6] = green;
-            cmpr_colours_argb[7] = blue;
-            Update_Colours();
-        }
     }
 }
