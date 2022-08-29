@@ -820,8 +820,9 @@ output += """
                         mag_ratio = (double)(1024 - cmpr_preview_ck.Image.Width) / (double)cmpr_preview_ck.Image.Width; // 
                     blocks_wide = (ushort)(cmpr_preview_ck.Image.Width >> 3);
                     blocks_tall = (ushort)(cmpr_preview_ck.Image.Height >> 3);
+                    cmpr_preview_start_offset = 0x7A + (cmpr_preview.Length - (cmpr_preview_ck.Image.Width << 2));
                     cmpr_warning.Text = "";
-                }
+                    }
                 else
                     cmpr_warning.Text = cli.Check_exit();
             }
