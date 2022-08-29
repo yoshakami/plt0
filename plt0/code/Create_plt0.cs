@@ -2821,7 +2821,7 @@ same for blue + green*/
                     {
                         index_reversed.Add(index_list[h + i + 2]);
                         index_reversed.Add(index_list[h + i + 3]);
-                        index_reversed.Add(index_list[h + i ]);
+                        index_reversed.Add(index_list[h + i]);
                         index_reversed.Add(index_list[h + i + 1]);
                     }
                     h -= blocks_wide << 1;
