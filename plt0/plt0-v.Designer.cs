@@ -295,6 +295,12 @@
         private System.Windows.Forms.Label cmpr_sel;
         private System.Windows.Forms.PictureBox bmd_ck;
         private PictureBoxWithInterpolationMode cmpr_grid_ck;
+        private System.Windows.Forms.Label cmpr_hover_colour;
+        private System.Windows.Forms.Label cmpr_hover_colour_label;
+        private System.Windows.Forms.TextBox cmpr_hover_colour_txt;
+        private System.Windows.Forms.Label cmpr_edited_colour;
+        private System.Windows.Forms.Label cmpr_edited_colour_label;
+        private System.Windows.Forms.TextBox cmpr_edited_colour_txt;
         /*
 /// <summary>
 /// Required designer variable.

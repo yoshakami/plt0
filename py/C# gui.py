@@ -1,8 +1,9 @@
 import pyperclip
 # the goal of this code is to be able to easily change variable or function names in the designer, and generate them in bulk. also adds code to load images declared 
+scrapped = "" # for scrapped functions
 output = """        private void Load_Images()
         {"""
-x = 58  # settings start line minus two
+x = 68  # settings start line minus two
 with open("X:\\yoshi\\3D Objects\\C#\\plt0\\plt0\\plt0-v.cs", "r") as cs:
     text = cs.read()
     text = text.splitlines()
@@ -754,8 +755,9 @@ for v in range(2):
         }"""
 bool_value = ["true", "false"]
 func_name = ["Down", "Up"]
-for w in range(2):
-    output += """
+w = 0
+#for w in range(2):
+scrapped = """
         private void Block_Mouse""" + func_name[w] + """(object sender, MouseEventArgs e)
         {
             // back button = XButton1
@@ -790,36 +792,42 @@ output += """
                 return;
             if (File.Exists(input_file))
             {
-                success = true;
                 using (FileStream fs = File.OpenRead(input_file))
                 {
                     Array.Resize(ref cmpr_file, (int)fs.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
                     fs.Read(cmpr_file, 0, (int)fs.Length);
                 }
-                if (success)
+                int num = 1;
+                while (File.Exists(execPath + "images/preview/" + num + ".bmp"))
                 {
-                    int num = 1;
-                    while (File.Exists(execPath + "images/preview/" + num + ".bmp"))
-                    {
-                        num++;
-                    }
-                    cmpr_args[1] = input_file;
-                    cmpr_args[2] = (execPath + "images/preview/" + num + ".bmp");  // even if there's an output file in the args, the last one is the output file :) that's how I made it
-                    Parse_args_class cli = new Parse_args_class();
-                    cli.Parse_args(cmpr_args);
-                    if (File.Exists(execPath + "images/preview/" + num + ".bmp"))
-                    { 
-                        cmpr_preview_ck.Image = Image.FromFile(execPath + "images/preview/" + num + ".bmp");
-                        description.Text = cmpr_preview_ck.Image.Height.ToString() + cmpr_preview_ck.Image.Tag.ToString();
-                        cmpr_warning.Text = "";
-                    }
-                    else
-                        cmpr_warning.Text = cli.Check_exit();
+                    num++;
                 }
+                cmpr_args[1] = input_file;
+                cmpr_args[2] = (execPath + "images/preview/" + num + ".bmp");  // even if there's an output file in the args, the last one is the output file :) that's how I made it
+                Parse_args_class cli = new Parse_args_class();
+                cli.Parse_args(cmpr_args);
+                if (File.Exists(execPath + "images/preview/" + num + ".bmp"))
+                {
+                    using (FileStream fs = File.OpenRead(execPath + "images/preview/" + num + ".bmp"))
+                    {
+                        Array.Resize(ref cmpr_preview, (int)fs.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
+                        fs.Read(cmpr_preview, 0, (int)fs.Length);
+                    }
+                    cmpr_preview_ck.Image = GetImageFromByteArray(cmpr_preview);
+                    if (cmpr_preview_ck.Image.Height > cmpr_preview_ck.Image.Width)
+                        mag_ratio = (double)(1024 - cmpr_preview_ck.Image.Height) / (double)cmpr_preview_ck.Image.Height; // 
+                    else
+                        mag_ratio = (double)(1024 - cmpr_preview_ck.Image.Width) / (double)cmpr_preview_ck.Image.Width; // 
+                    blocks_wide = (ushort)(cmpr_preview_ck.Image.Width >> 3);
+                    blocks_tall = (ushort)(cmpr_preview_ck.Image.Height >> 3);
+                    cmpr_warning.Text = "";
+                }
+                else
+                    cmpr_warning.Text = cli.Check_exit();
             }
             else
             {
-                Parse_Markdown(lines[194], cmpr_warning);
+                Parse_Markdown(lines[204], cmpr_warning);
             }
         }
         private void Warn_rgb565_colour_trim()
@@ -942,6 +950,23 @@ output += """
         private void sync_preview_Click(object sender, EventArgs e)
         {
             Preview(false);
+        }
+        private void cmpr_preview_ck_MouseMove(object sender, MouseEventArgs e)
+        {
+            ushort x = (ushort)(e.X * mag_ratio);
+            block_x = (ushort)(x >> 2);
+            block_x = (ushort)(((block_x >> 1) << 2) + block_x);  // because of the sub-block on 2 rows order rule
+            ushort y = (ushort)(e.Y * mag_ratio);
+            block_y = (ushort)(y >> 2);
+            if (block_y % 2 == 0)
+                block_y += 2;
+            block_y = (ushort)(block_y * blocks_wide);
+            current_block = block_x + block_y;
+            if (current_block == previous_block)
+                return;
+            previous_block = current_block;
+            //cmpr_preview[0x7A + (x << 2) + ((y * cmpr_preview_ck.Width) << 2)] = 
+            //Hover_cmpr();
         }
     }
 }

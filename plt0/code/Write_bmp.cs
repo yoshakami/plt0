@@ -1386,16 +1386,14 @@ class Write_bmp_class
                         file.Close();
                         if (!stfu)
                             Console.WriteLine(output_file + end);
-                        // done = true;  // fun fact, this statement IS executed. I DON4T F4CKING KNOW WHY I HAD TO PASTE IT THRICE
                     }
                     if (png || gif || jpeg || jpg || ico || tiff || tif)
                     {
                         // LMAO THE NUMBER OF ARGS, that's how you do dependancy injection without renaming EACH VARIABLE
                         using (Bitmap output_bmp = (Bitmap)Bitmap.FromFile(output_file + end))
                         {
-                            Convert_from_bmp_class.Convert_from_bmp(output_bmp, z, output_file, canvas_dim[z][2], canvas_dim[z][3], png, tif, tiff, jpg, jpeg, gif, ico, no_warning, warn, stfu);  // the problem was in this func.....
+                            Convert_from_bmp_class.Convert_from_bmp(output_bmp, z, output_file, canvas_dim[z][2], canvas_dim[z][3], png, tif, tiff, jpg, jpeg, gif, ico, no_warning, warn, stfu);
                         }
-                        // done = true;  // fun fact, this statement is never executed.
                     }
                     done = true;
                 }
@@ -1425,10 +1423,7 @@ class Write_bmp_class
                     }
                 }
             }
-
-            //size = size >> 2;  // for next loop - divides by 4 because it's half the width size and half the height size
-            //Array.Resize(ref pixel, pixel.Length >> 1);
         }
     }
-
 }
+// satisfying end
