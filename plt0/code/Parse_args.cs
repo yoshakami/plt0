@@ -37,6 +37,7 @@ class Parse_args_class
     bool help = false;
     bool correct = false;
     bool gui = false;
+    bool name_string = false;
     public bool reverse_x = false;
     public bool reverse_y = false;
     public bool user_palette = false;
@@ -539,6 +540,13 @@ class Parse_args_class
                 case "NO_ALPHA":
                 case "NO-ALPHA":
                     alpha = 0;
+                    break;
+                case "NAME-STRING":
+                case "NAME STRING":
+                case "NAME_STRING":
+                case "NAME":
+                case "STRING":
+                    name_string = true;
                     break;
                 case "NEARESTMIPMAPLINEAR":
                     minification_filter = 3;
@@ -1507,7 +1515,7 @@ class Parse_args_class
                 gui_message = "specified bmd output but no bmd file given";
                 return;
             }
-            Write_bti_class.Write_bti(index_list, colour_palette, texture_format_int32, palette_format_int32, block_width_array, block_height_array, bitmap_width, bitmap_height, colour_number, format_ratio, input_fil, input_file2, output_file, bmd_file, has_palette, safe_mode, no_warning, warn, stfu, block_width, block_height, mipmaps_number, minification_filter, magnification_filter, WrapS, WrapT, alpha);
+            Write_bti_class.Write_bti(index_list, colour_palette, texture_format_int32, palette_format_int32, block_width_array, block_height_array, bitmap_width, bitmap_height, colour_number, format_ratio, input_fil, input_file2, output_file, bmd_file, has_palette, safe_mode, no_warning, warn, stfu, name_string, block_width, block_height, mipmaps_number, minification_filter, magnification_filter, WrapS, WrapT, alpha);
         }
         if (tpl)
         {
@@ -1517,7 +1525,7 @@ class Parse_args_class
             }
             else
             {
-                Write_tpl_class.Write_tpl(index_list, colour_palette, texture_format_int32, palette_format_int32, bitmap_width, bitmap_height, colour_number, format_ratio, output_file, has_palette, safe_mode, no_warning, warn, stfu, block_width, block_height, mipmaps_number, minification_filter, magnification_filter, WrapS, WrapT);
+                Write_tpl_class.Write_tpl(index_list, colour_palette, texture_format_int32, palette_format_int32, bitmap_width, bitmap_height, colour_number, format_ratio, output_file, has_palette, safe_mode, no_warning, warn, stfu, name_string, block_width, block_height, mipmaps_number, minification_filter, magnification_filter, WrapS, WrapT);
             }
         }
         if (bmp || png || tif || tiff || ico || jpg || jpeg || gif)  // tell me if there's another format available through some extensions I'll add it
@@ -1528,9 +1536,9 @@ class Parse_args_class
         {
             if (has_palette)
             {
-                Write_plt0_class.Write_plt0(colour_palette, palette_format_int32, colour_number, output_file, safe_mode, no_warning, warn, stfu);
+                Write_plt0_class.Write_plt0(colour_palette, palette_format_int32, colour_number, output_file, safe_mode, no_warning, warn, stfu, name_string);
             }
-            Write_tex0_class.Write_tex0(index_list, texture_format_int32, bitmap_width, bitmap_height, format_ratio, output_file, has_palette, safe_mode, no_warning, warn, stfu, block_width, block_height, mipmaps_number);
+            Write_tex0_class.Write_tex0(index_list, texture_format_int32, bitmap_width, bitmap_height, format_ratio, output_file, has_palette, safe_mode, no_warning, warn, stfu, name_string, block_width, block_height, mipmaps_number);
         }
         correct = true;
         /* }  // put /* before this line for debugging

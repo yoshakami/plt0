@@ -14,7 +14,7 @@ class Write_tex0_class
     /// each mipmap contains a list of every row of the image (starting by the bottom one). <br/>
     /// each row is actually a byte array of every pixel encoded in a specific format.</param>
     /// <returns>nothing. but writes the file into the output name given in CLI argument</returns>
-    static public void Write_tex0(List<List<byte[]>> index_list, byte[] texture_format_int32, ushort bitmap_width, ushort bitmap_height, double format_ratio, string output_file, bool has_palette, bool safe_mode, bool no_warning, bool warn, bool stfu, sbyte block_width, sbyte block_height, byte mipmaps_number)  // index_list contains all mipmaps.
+    static public void Write_tex0(List<List<byte[]>> index_list, byte[] texture_format_int32, ushort bitmap_width, ushort bitmap_height, double format_ratio, string output_file, bool has_palette, bool safe_mode, bool no_warning, bool warn, bool stfu, bool name_string, sbyte block_width, sbyte block_height, byte mipmaps_number)  // index_list contains all mipmaps.
     {
         int size = 0x40;
         double temp;
@@ -83,17 +83,20 @@ class Write_tex0_class
         byte[] data = new byte[64];  // header data
         float mipmaps = mipmaps_number;
         byte[] mipmap_float = BitConverter.GetBytes(mipmaps);
-        for (int i = 0; i < size2; i++)
+        if (name_string)
         {
-            data2[i] = 0;
-        }
-        for (int i = 0; i < file_name.Length; i++)
-        {
-            data2[i + size2] = (byte)file_name[i];
-        }
-        for (int i = size2 + file_name.Length; i < data2.Length; i++)
-        {
-            data2[i] = 0;
+            for (int i = 0; i < size2; i++)
+            {
+                data2[i] = 0;
+            }
+            for (int i = 0; i < file_name.Length; i++)
+            {
+                data2[i + size2] = (byte)file_name[i];
+            }
+            for (int i = size2 + file_name.Length; i < data2.Length; i++)
+            {
+                data2[i] = 0;
+            }
         }
         data[0] = (byte)'T';
         data[1] = (byte)'E';
@@ -177,7 +180,8 @@ class Write_tex0_class
                 {
                     file.Write(data, 0, 64);
                     file.Write(tex_data, 0, size - 64);
-                    file.Write(data2, 0, data2.Length);
+                    if (name_string)
+                        file.Write(data2, 0, data2.Length);
                     file.Close();
                     done = true;
                     if (!stfu)

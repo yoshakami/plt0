@@ -301,6 +301,8 @@
         private System.Windows.Forms.Label cmpr_edited_colour;
         private System.Windows.Forms.Label cmpr_edited_colour_label;
         private System.Windows.Forms.TextBox cmpr_edited_colour_txt;
+        private System.Windows.Forms.PictureBox name_string_ck;
+        private System.Windows.Forms.Label name_string_label;
         /*
 /// <summary>
 /// Required designer variable.

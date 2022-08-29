@@ -2524,7 +2524,7 @@ same for blue + green*/
                                         red = bmp_image[y + _plt0.rgba_channel[0]];
                                         green = bmp_image[y + _plt0.rgba_channel[1]];
                                         blue = bmp_image[y + _plt0.rgba_channel[2]];
-                                        if (_plt0.alpha > 0 && bmp_image[y + 3] < _plt0.cmpr_alpha_threshold)
+                                        if (_plt0.alpha > 0 && bmp_image[y + _plt0.rgba_channel[3]] < _plt0.cmpr_alpha_threshold)
                                         {
                                             alpha_bitfield += (ushort)(1 << (j + (z * 4)));
                                         }
@@ -2627,7 +2627,7 @@ same for blue + green*/
                                             }
                                         }
 
-                                        if (alpha_bitfield == 0)  // put the biggest ushort in second place
+                                        if (alpha_bitfield != 0)  // put the biggest ushort in second place
                                         {
                                             colour_palette.Add(Colour_list[diff_min_index][1]);
                                             colour_palette.Add(Colour_list[diff_max_index][1]);

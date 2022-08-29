@@ -3,25 +3,28 @@ using System.IO;
 
 class Write_plt0_class
 {
-    static public void Write_plt0(byte[] colour_palette, byte[] palette_format_int32, ushort colour_number, string output_file, bool safe_mode, bool no_warning, bool warn, bool stfu)
+    static public void Write_plt0(byte[] colour_palette, byte[] palette_format_int32, ushort colour_number, string output_file, bool safe_mode, bool no_warning, bool warn, bool stfu, bool name_string)
     {
         int size = 0x40 + colour_palette.Length;
         byte size2 = (byte)(4 + Math.Abs(16 - size) % 16);
         byte len = (byte)output_file.Split('\\').Length;
         string file_name = (output_file.Split('\\')[len - 1]);
-        byte[] data2 = new byte[size2 + len + ((16 - len) % 16)];
         byte[] data = new byte[64];  // header data
-        for (int i = 0; i < size2; i++)
+        byte[] data2 = new byte[size2 + len + ((16 - len) % 16)];
+        if (name_string)
         {
-            data2[i] = 0;
-        }
-        for (int i = 0; i < file_name.Length; i++)
-        {
-            data2[i + size2] = (byte)file_name[i];
-        }
-        for (int i = size2 + file_name.Length; i < data2.Length; i++)
-        {
-            data2[i] = 0;
+            for (int i = 0; i < size2; i++)
+            {
+                data2[i] = 0;
+            }
+            for (int i = 0; i < file_name.Length; i++)
+            {
+                data2[i + size2] = (byte)file_name[i];
+            }
+            for (int i = size2 + file_name.Length; i < data2.Length; i++)
+            {
+                data2[i] = 0;
+            }
         }
         data[0] = (byte)'P';
         data[1] = (byte)'L';
@@ -77,7 +80,8 @@ class Write_plt0_class
                 {
                     file.Write(data, 0, 64);
                     file.Write(colour_palette, 0, colour_palette.Length);
-                    file.Write(data2, 0, data2.Length);
+                    if (name_string)
+                        file.Write(data2, 0, data2.Length);
                     file.Close();
                     done = true;
                     if (!stfu)
