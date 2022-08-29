@@ -847,39 +847,39 @@ output += """
             checked_tooltip(cmpr_block_selection_ck);
             unchecked_tooltip(cmpr_block_paint_ck);
         }"""
-block_name = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G"]
-for z in range(16):
-    x += 1
-    output += """
-        private void cmpr_block""" + block_name[z] + """_MouseClick(object sender, MouseEventArgs e)
-        {
-            switch (e.Button.ToString())
-            {
-                case "Left":
-                    Paint_Pixel(""" + str(z) + """, cmpr_selected_colour);
-                    break;
-                case "Middle":
-                    Paint_Pixel(""" + str(z) + """, 1);
-                    break;
-                case "Right":
-                    Paint_Pixel(""" + str(z) + """, 2);
-                    break;
-                case "XButton2":
-                    Paint_Pixel(""" + str(z) + """, 3);
-                    break;
-                case "XButton1":
-                    Paint_Pixel(""" + str(z) + """, 4);
-                    break;
-            }
-        }
-        private void cmpr_block""" + block_name[z] + """_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[""" + str(x) + """]);
-        }
-        private void cmpr_block""" + block_name[z] + """_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-        }"""
+#block_name = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G"]
+#for z in range(16):
+#    x += 1
+#    output += """
+#        private void cmpr_block""" + block_name[z] + """_MouseClick(object sender, MouseEventArgs e)
+#        {
+#            switch (e.Button.ToString())
+#            {
+#                case "Left":
+#                    Paint_Pixel(""" + str(z) + """, cmpr_selected_colour);
+#                    break;
+#                case "Middle":
+#                    Paint_Pixel(""" + str(z) + """, 1);
+#                    break;
+#                case "Right":
+#                    Paint_Pixel(""" + str(z) + """, 2);
+#                    break;
+#                case "XButton2":
+#                    Paint_Pixel(""" + str(z) + """, 3);
+#                    break;
+#                case "XButton1":
+#                    Paint_Pixel(""" + str(z) + """, 4);
+#                    break;
+#            }
+#        }
+#        private void cmpr_block""" + block_name[z] + """_MouseEnter(object sender, EventArgs e)
+#        {
+#            Parse_Markdown(lines[""" + str(x) + """]);
+#        }
+#        private void cmpr_block""" + block_name[z] + """_MouseLeave(object sender, EventArgs e)
+#        {
+#            Hide_description();
+#        }"""
 output += """
         private void cmpr_c2_TextChanged(object sender, EventArgs e)
         {
@@ -915,6 +915,28 @@ output += """
             cmpr_colours_argb[6] = green;
             cmpr_colours_argb[7] = blue; */
             Update_Colours();
+        }
+        private void cmpr_grid_ck_MouseMove(object sender, MouseEventArgs e)
+        {
+            
+            switch (e.Button.ToString())
+            {
+                case "Left":
+                    Paint_Pixel(e.X, e.Y, cmpr_selected_colour);
+                    break;
+                case "Middle":
+                    Paint_Pixel(e.X, e.Y, 1);
+                    break;
+                case "Right":
+                    Paint_Pixel(e.X, e.Y, 2);
+                    break;
+                case "XButton2":
+                    Paint_Pixel(e.X, e.Y, 3);
+                    break;
+                case "XButton1":
+                    Paint_Pixel(e.X, e.Y, 4);
+                    break;
+            }
         }
         private void Run_Click(object sender, EventArgs e)
         {

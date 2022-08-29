@@ -13,10 +13,13 @@ namespace plt0_gui
 {
     public partial class plt0_gui : Form
     {
+        private static readonly ImageConverter _imageConverter = new ImageConverter();
         static readonly string execPath = AppDomain.CurrentDomain.BaseDirectory.Replace("\\", "/");
         static readonly string execName = System.AppDomain.CurrentDomain.FriendlyName.Replace("\\", "/");
         static readonly string appdata = Environment.GetEnvironmentVariable("appdata").Replace("\\", "/");
         static string args;
+        // the 4x4 grid for the Paint Layout is a 4x4 bmp file
+        byte[] cmpr_4x4 = { 66, 77, 186, 0, 0, 0, 121, 111, 115, 104, 122, 0, 0, 0, 108, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0, 1, 0, 32, 0, 3, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 0, 0, 255, 0, 0, 255, 0, 0, 0, 0, 0, 0, 255, 32, 110, 105, 87, 0, 104, 116, 116, 112, 115, 58, 47, 47, 100, 105, 115, 99, 111, 114, 100, 46, 103, 103, 47, 118, 57, 86, 112, 68, 90, 57, 0, 116, 104, 105, 115, 32, 105, 115, 32, 112, 97, 100, 100, 105, 110, 103, 32, 100, 97, 116, 97, 0, 0, 240, 255, 72, 242, 64, 255, 72, 66, 240, 255, 0, 255, 0, 255, 200, 254, 200, 255, 32, 57, 240, 255, 32, 249, 56, 255, 200, 206, 240, 255, 16, 16, 240, 255, 32, 241, 56, 255, 48, 49, 255, 255, 72, 250, 64, 255, 16, 255, 16, 255, 32, 57, 255, 255, 48, 241, 48, 255, 72, 66, 240, 255};
         string[] cmpr_args = new string[] { "gui", "1", execPath + "images/preview/1" };
         string[] lines = new string[255];
         string[] layout_name = { "All", "Auto", "Preview", "Paint" };
@@ -2236,6 +2239,7 @@ namespace plt0_gui
             cmpr_block_selection_label.Visible = false;
             cmpr_picture_tooltip_label.Visible = false;
             cmpr_preview_ck.Visible = false;
+            cmpr_grid_ck.Visible = false;
             output_label.Visible = true;
             for (byte i = 0; i < 9; i++)
             {
@@ -2280,6 +2284,7 @@ namespace plt0_gui
                 cmpr_mouse3_label.Location = new Point(cmpr_mouse3_label.Location.X - 1920, cmpr_mouse3_label.Location.Y);
                 cmpr_mouse4_label.Location = new Point(cmpr_mouse4_label.Location.X - 1920, cmpr_mouse4_label.Location.Y);
                 cmpr_mouse5_label.Location = new Point(cmpr_mouse5_label.Location.X - 1920, cmpr_mouse5_label.Location.Y);
+                cmpr_grid_ck.Location = new Point(cmpr_grid_ck.Location.X - 1920, cmpr_grid_ck.Location.Y);
                 cmpr_colours_argb[8] = 255;
             }
             if (!cmpr_layout_is_enabled)
@@ -2420,6 +2425,7 @@ namespace plt0_gui
                 cmpr_block_selection_label.Visible = true;
                 cmpr_picture_tooltip_label.Visible = true;
                 cmpr_preview_ck.Visible = true;
+                cmpr_grid_ck.Visible = true;
                 for (byte i = 0; i < 9; i++)
                 {
                     desc[i].Location = new Point(desc[i].Location.X - 300, desc[i].Location.Y);
@@ -3123,7 +3129,47 @@ namespace plt0_gui
         {
             //cmpr_grid[index].BackColor = Color.FromArgb(cmpr_colours_argb[(button << 2) - 4], cmpr_colours_argb[(button << 2) - 3], cmpr_colours_argb[(button << 2) - 2], cmpr_colours_argb[(button << 2) - 1]);
             cmpr_index[index] = (byte)(button - 1);
+
             //  cmpr_preview_ck.Image = GetImageFromByteArray(cmpr_file);
+        }
+        private void Paint_Pixel(int x, int y, byte button)  // note: X and Y are height and width WITHIN the picturebox
+        {
+            x >>= 6;
+            y >>= 6;
+            if (x > 3 || y > 3)
+                return;
+            cmpr_4x4[0x7A + ((x + y) << 2)] = cmpr_colours_argb[(button << 2) - 1];  // B
+            cmpr_4x4[0x7A + ((x + y) << 2) + 1] = cmpr_colours_argb[(button << 2) - 2];  // G
+            cmpr_4x4[0x7A + ((x + y) << 2) + 2] = cmpr_colours_argb[(button << 2) - 3];  // R
+            cmpr_4x4[0x7A + ((x + y) << 2) + 3] = cmpr_colours_argb[(button << 2) - 4];  // A
+            //cmpr_grid[index].BackColor = Color.FromArgb(cmpr_colours_argb[(button << 2) - 4], cmpr_colours_argb[(button << 2) - 3], cmpr_colours_argb[(button << 2) - 2], cmpr_colours_argb[(button << 2) - 1]);
+            cmpr_index[x + y] = (byte)(button - 1);
+            // change that because the first byte of a bmp is at the last line :P
+            // also X + Y doesn't work because 0, 1 = 1, 0 lol
+            cmpr_grid_ck.Image = GetImageFromByteArray(cmpr_4x4);
+        }
+          /// <summary>
+           /// Method that uses the ImageConverter object in .Net Framework to convert a byte array, 
+           /// presumably containing a JPEG or PNG file image, into a Bitmap object, which can also be 
+           /// used as an Image object.
+           /// </summary>
+           /// <param name="byteArray">byte array containing JPEG or PNG file image or similar</param>
+           /// <returns>Bitmap object if it works, else exception is thrown</returns>
+        public static Bitmap GetImageFromByteArray(byte[] byteArray)
+        {
+            Bitmap bm = (Bitmap)_imageConverter.ConvertFrom(byteArray);
+
+            if (bm != null && (bm.HorizontalResolution != (int)bm.HorizontalResolution ||
+                               bm.VerticalResolution != (int)bm.VerticalResolution))
+            {
+                // Correct a strange glitch that has been observed in the test program when converting 
+                //  from a PNG file image created by CopyImageToByteArray() - the dpi value "drifts" 
+                //  slightly away from the nominal integer value
+                bm.SetResolution((int)(bm.HorizontalResolution + 0.5f),
+                                 (int)(bm.VerticalResolution + 0.5f));
+            }
+
+            return bm;
         }
         private void Change_mipmap()
         {
@@ -3444,9 +3490,9 @@ namespace plt0_gui
             this.cmpr_mouse5_label = new System.Windows.Forms.Label();
             this.cmpr_sel = new System.Windows.Forms.Label();
             this.bmd_ck = new System.Windows.Forms.PictureBox();
+            this.cmpr_grid_ck = new PictureBoxWithInterpolationMode();
             this.cmpr_preview_ck = new PictureBoxWithInterpolationMode();
             this.image_ck = new PictureBoxWithInterpolationMode();
-            this.cmpr_grid_ck = new PictureBoxWithInterpolationMode();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tpl_ck)).BeginInit();
@@ -3569,9 +3615,9 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_save_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_save_as_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bmd_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmpr_grid_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.image_ck)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cmpr_grid_ck)).BeginInit();
             this.SuspendLayout();
             // 
             // output_file_type_label
@@ -8235,6 +8281,26 @@ namespace plt0_gui
             this.bmd_ck.MouseEnter += new System.EventHandler(this.bmd_MouseEnter);
             this.bmd_ck.MouseLeave += new System.EventHandler(this.bmd_MouseLeave);
             // 
+            // cmpr_grid_ck
+            // 
+            this.cmpr_grid_ck.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_grid_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.cmpr_grid_ck.ErrorImage = null;
+            this.cmpr_grid_ck.InitialImage = null;
+            this.cmpr_grid_ck.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+            this.cmpr_grid_ck.Location = new System.Drawing.Point(1982, 657);
+            this.cmpr_grid_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_grid_ck.MaximumSize = new System.Drawing.Size(256, 256);
+            this.cmpr_grid_ck.MinimumSize = new System.Drawing.Size(256, 256);
+            this.cmpr_grid_ck.Name = "cmpr_grid_ck";
+            this.cmpr_grid_ck.Size = new System.Drawing.Size(256, 256);
+            this.cmpr_grid_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.cmpr_grid_ck.TabIndex = 683;
+            this.cmpr_grid_ck.TabStop = false;
+            this.cmpr_grid_ck.Visible = false;
+            this.cmpr_grid_ck.MouseEnter += new System.EventHandler(this.cmpr_c4_MouseEnter);
+            this.cmpr_grid_ck.MouseMove += new System.Windows.Forms.MouseEventHandler(this.cmpr_grid_ck_MouseMove);
+            // 
             // cmpr_preview_ck
             // 
             this.cmpr_preview_ck.BackColor = System.Drawing.Color.Transparent;
@@ -8274,25 +8340,6 @@ namespace plt0_gui
             this.image_ck.TabIndex = 602;
             this.image_ck.TabStop = false;
             this.image_ck.Visible = false;
-            // 
-            // cmpr_grid_ck
-            // 
-            this.cmpr_grid_ck.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_grid_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.cmpr_grid_ck.Enabled = false;
-            this.cmpr_grid_ck.ErrorImage = null;
-            this.cmpr_grid_ck.InitialImage = null;
-            this.cmpr_grid_ck.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-            this.cmpr_grid_ck.Location = new System.Drawing.Point(1982, 657);
-            this.cmpr_grid_ck.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_grid_ck.MaximumSize = new System.Drawing.Size(256, 256);
-            this.cmpr_grid_ck.MinimumSize = new System.Drawing.Size(256, 256);
-            this.cmpr_grid_ck.Name = "cmpr_grid_ck";
-            this.cmpr_grid_ck.Size = new System.Drawing.Size(256, 256);
-            this.cmpr_grid_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.cmpr_grid_ck.TabIndex = 683;
-            this.cmpr_grid_ck.TabStop = false;
-            this.cmpr_grid_ck.Visible = false;
             // 
             // plt0_gui
             // 
@@ -8729,9 +8776,9 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_save_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_save_as_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bmd_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmpr_grid_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.image_ck)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cmpr_grid_ck)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -13441,30 +13488,41 @@ namespace plt0_gui
                 return;
             if (File.Exists(input_file))
             {
+                success = true;
                 using (FileStream fs = File.OpenRead(input_file))
                 {
                     Array.Resize(ref cmpr_file, (int)fs.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
                     fs.Read(cmpr_file, 0, (int)fs.Length);
+                    if (cmpr_file.Length > 48)
+                    {
+                        if (cmpr_file[0x23] != 0xE)
+                        {
+                            Parse_Markdown(lines[194], cmpr_warning);
+                            success = false;
+                        }
+                    }
+                    else
+                    {
+                        Parse_Markdown(lines[194], cmpr_warning);
+                        success = false;
+                    }
                 }
-                int num = 1;
-                while (File.Exists(execPath + "images/preview/" + num + ".bmp"))
+                if (success)
                 {
-                    num++;
+                    int num = 1;
+                    while (File.Exists(execPath + "images/preview/" + num + ".bmp"))
+                    {
+                        num++;
+                    }
+                    cmpr_args[1] = input_file;
+                    cmpr_args[2] = (execPath + "images/preview/" + num + ".bmp");  // even if there's an output file in the args, the last one is the output file :) that's how I made it
+                    Parse_args_class cli = new Parse_args_class();
+                    cli.Parse_args(cmpr_args);
+                    if (File.Exists(execPath + "images/preview/" + num + ".bmp"))
+                        cmpr_preview_ck.Image = Image.FromFile(execPath + "images/preview/" + num + ".bmp");
+                    else
+                        cmpr_warning.Text = cli.Check_exit();
                 }
-                cmpr_args[1] = input_file;
-                cmpr_args[2] = (execPath + "images/preview/" + num + ".bmp");  // even if there's an output file in the args, the last one is the output file :) that's how I made it
-                Parse_args_class cli = new Parse_args_class();
-                cli.Parse_args(cmpr_args);
-                if (cli.texture_format != 0xE)
-                    Parse_Markdown(lines[194], cmpr_warning);
-                else if (File.Exists(execPath + "images/preview/" + num + ".bmp"))
-                {
-                    cmpr_preview_ck.Image = Image.FromFile(execPath + "images/preview/" + num + ".bmp");
-                    cmpr_warning.Text = "";
-                }
-                else
-                    cmpr_warning.Text = cli.Check_exit();
-
             }
             else
             {
@@ -13485,470 +13543,6 @@ namespace plt0_gui
             Parse_Markdown(lines[200], cmpr_mouse5_label);
             checked_tooltip(cmpr_block_selection_ck);
             unchecked_tooltip(cmpr_block_paint_ck);
-        }
-        private void cmpr_block1_MouseClick(object sender, MouseEventArgs e)
-        {
-            switch (e.Button.ToString())
-            {
-                case "Left":
-                    Paint_Pixel(0, cmpr_selected_colour);
-                    break;
-                case "Middle":
-                    Paint_Pixel(0, 1);
-                    break;
-                case "Right":
-                    Paint_Pixel(0, 2);
-                    break;
-                case "XButton2":
-                    Paint_Pixel(0, 3);
-                    break;
-                case "XButton1":
-                    Paint_Pixel(0, 4);
-                    break;
-            }
-        }
-        private void cmpr_block1_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[201]);
-        }
-        private void cmpr_block1_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-        }
-        private void cmpr_block2_MouseClick(object sender, MouseEventArgs e)
-        {
-            switch (e.Button.ToString())
-            {
-                case "Left":
-                    Paint_Pixel(1, cmpr_selected_colour);
-                    break;
-                case "Middle":
-                    Paint_Pixel(1, 1);
-                    break;
-                case "Right":
-                    Paint_Pixel(1, 2);
-                    break;
-                case "XButton2":
-                    Paint_Pixel(1, 3);
-                    break;
-                case "XButton1":
-                    Paint_Pixel(1, 4);
-                    break;
-            }
-        }
-        private void cmpr_block2_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[202]);
-        }
-        private void cmpr_block2_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-        }
-        private void cmpr_block3_MouseClick(object sender, MouseEventArgs e)
-        {
-            switch (e.Button.ToString())
-            {
-                case "Left":
-                    Paint_Pixel(2, cmpr_selected_colour);
-                    break;
-                case "Middle":
-                    Paint_Pixel(2, 1);
-                    break;
-                case "Right":
-                    Paint_Pixel(2, 2);
-                    break;
-                case "XButton2":
-                    Paint_Pixel(2, 3);
-                    break;
-                case "XButton1":
-                    Paint_Pixel(2, 4);
-                    break;
-            }
-        }
-        private void cmpr_block3_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[203]);
-        }
-        private void cmpr_block3_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-        }
-        private void cmpr_block4_MouseClick(object sender, MouseEventArgs e)
-        {
-            switch (e.Button.ToString())
-            {
-                case "Left":
-                    Paint_Pixel(3, cmpr_selected_colour);
-                    break;
-                case "Middle":
-                    Paint_Pixel(3, 1);
-                    break;
-                case "Right":
-                    Paint_Pixel(3, 2);
-                    break;
-                case "XButton2":
-                    Paint_Pixel(3, 3);
-                    break;
-                case "XButton1":
-                    Paint_Pixel(3, 4);
-                    break;
-            }
-        }
-        private void cmpr_block4_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[204]);
-        }
-        private void cmpr_block4_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-        }
-        private void cmpr_block5_MouseClick(object sender, MouseEventArgs e)
-        {
-            switch (e.Button.ToString())
-            {
-                case "Left":
-                    Paint_Pixel(4, cmpr_selected_colour);
-                    break;
-                case "Middle":
-                    Paint_Pixel(4, 1);
-                    break;
-                case "Right":
-                    Paint_Pixel(4, 2);
-                    break;
-                case "XButton2":
-                    Paint_Pixel(4, 3);
-                    break;
-                case "XButton1":
-                    Paint_Pixel(4, 4);
-                    break;
-            }
-        }
-        private void cmpr_block5_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[205]);
-        }
-        private void cmpr_block5_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-        }
-        private void cmpr_block6_MouseClick(object sender, MouseEventArgs e)
-        {
-            switch (e.Button.ToString())
-            {
-                case "Left":
-                    Paint_Pixel(5, cmpr_selected_colour);
-                    break;
-                case "Middle":
-                    Paint_Pixel(5, 1);
-                    break;
-                case "Right":
-                    Paint_Pixel(5, 2);
-                    break;
-                case "XButton2":
-                    Paint_Pixel(5, 3);
-                    break;
-                case "XButton1":
-                    Paint_Pixel(5, 4);
-                    break;
-            }
-        }
-        private void cmpr_block6_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[206]);
-        }
-        private void cmpr_block6_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-        }
-        private void cmpr_block7_MouseClick(object sender, MouseEventArgs e)
-        {
-            switch (e.Button.ToString())
-            {
-                case "Left":
-                    Paint_Pixel(6, cmpr_selected_colour);
-                    break;
-                case "Middle":
-                    Paint_Pixel(6, 1);
-                    break;
-                case "Right":
-                    Paint_Pixel(6, 2);
-                    break;
-                case "XButton2":
-                    Paint_Pixel(6, 3);
-                    break;
-                case "XButton1":
-                    Paint_Pixel(6, 4);
-                    break;
-            }
-        }
-        private void cmpr_block7_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[207]);
-        }
-        private void cmpr_block7_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-        }
-        private void cmpr_block8_MouseClick(object sender, MouseEventArgs e)
-        {
-            switch (e.Button.ToString())
-            {
-                case "Left":
-                    Paint_Pixel(7, cmpr_selected_colour);
-                    break;
-                case "Middle":
-                    Paint_Pixel(7, 1);
-                    break;
-                case "Right":
-                    Paint_Pixel(7, 2);
-                    break;
-                case "XButton2":
-                    Paint_Pixel(7, 3);
-                    break;
-                case "XButton1":
-                    Paint_Pixel(7, 4);
-                    break;
-            }
-        }
-        private void cmpr_block8_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[208]);
-        }
-        private void cmpr_block8_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-        }
-        private void cmpr_block9_MouseClick(object sender, MouseEventArgs e)
-        {
-            switch (e.Button.ToString())
-            {
-                case "Left":
-                    Paint_Pixel(8, cmpr_selected_colour);
-                    break;
-                case "Middle":
-                    Paint_Pixel(8, 1);
-                    break;
-                case "Right":
-                    Paint_Pixel(8, 2);
-                    break;
-                case "XButton2":
-                    Paint_Pixel(8, 3);
-                    break;
-                case "XButton1":
-                    Paint_Pixel(8, 4);
-                    break;
-            }
-        }
-        private void cmpr_block9_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[209]);
-        }
-        private void cmpr_block9_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-        }
-        private void cmpr_blockA_MouseClick(object sender, MouseEventArgs e)
-        {
-            switch (e.Button.ToString())
-            {
-                case "Left":
-                    Paint_Pixel(9, cmpr_selected_colour);
-                    break;
-                case "Middle":
-                    Paint_Pixel(9, 1);
-                    break;
-                case "Right":
-                    Paint_Pixel(9, 2);
-                    break;
-                case "XButton2":
-                    Paint_Pixel(9, 3);
-                    break;
-                case "XButton1":
-                    Paint_Pixel(9, 4);
-                    break;
-            }
-        }
-        private void cmpr_blockA_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[210]);
-        }
-        private void cmpr_blockA_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-        }
-        private void cmpr_blockB_MouseClick(object sender, MouseEventArgs e)
-        {
-            switch (e.Button.ToString())
-            {
-                case "Left":
-                    Paint_Pixel(10, cmpr_selected_colour);
-                    break;
-                case "Middle":
-                    Paint_Pixel(10, 1);
-                    break;
-                case "Right":
-                    Paint_Pixel(10, 2);
-                    break;
-                case "XButton2":
-                    Paint_Pixel(10, 3);
-                    break;
-                case "XButton1":
-                    Paint_Pixel(10, 4);
-                    break;
-            }
-        }
-        private void cmpr_blockB_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[211]);
-        }
-        private void cmpr_blockB_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-        }
-        private void cmpr_blockC_MouseClick(object sender, MouseEventArgs e)
-        {
-            switch (e.Button.ToString())
-            {
-                case "Left":
-                    Paint_Pixel(11, cmpr_selected_colour);
-                    break;
-                case "Middle":
-                    Paint_Pixel(11, 1);
-                    break;
-                case "Right":
-                    Paint_Pixel(11, 2);
-                    break;
-                case "XButton2":
-                    Paint_Pixel(11, 3);
-                    break;
-                case "XButton1":
-                    Paint_Pixel(11, 4);
-                    break;
-            }
-        }
-        private void cmpr_blockC_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[212]);
-        }
-        private void cmpr_blockC_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-        }
-        private void cmpr_blockD_MouseClick(object sender, MouseEventArgs e)
-        {
-            switch (e.Button.ToString())
-            {
-                case "Left":
-                    Paint_Pixel(12, cmpr_selected_colour);
-                    break;
-                case "Middle":
-                    Paint_Pixel(12, 1);
-                    break;
-                case "Right":
-                    Paint_Pixel(12, 2);
-                    break;
-                case "XButton2":
-                    Paint_Pixel(12, 3);
-                    break;
-                case "XButton1":
-                    Paint_Pixel(12, 4);
-                    break;
-            }
-        }
-        private void cmpr_blockD_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[213]);
-        }
-        private void cmpr_blockD_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-        }
-        private void cmpr_blockE_MouseClick(object sender, MouseEventArgs e)
-        {
-            switch (e.Button.ToString())
-            {
-                case "Left":
-                    Paint_Pixel(13, cmpr_selected_colour);
-                    break;
-                case "Middle":
-                    Paint_Pixel(13, 1);
-                    break;
-                case "Right":
-                    Paint_Pixel(13, 2);
-                    break;
-                case "XButton2":
-                    Paint_Pixel(13, 3);
-                    break;
-                case "XButton1":
-                    Paint_Pixel(13, 4);
-                    break;
-            }
-        }
-        private void cmpr_blockE_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[214]);
-        }
-        private void cmpr_blockE_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-        }
-        private void cmpr_blockF_MouseClick(object sender, MouseEventArgs e)
-        {
-            switch (e.Button.ToString())
-            {
-                case "Left":
-                    Paint_Pixel(14, cmpr_selected_colour);
-                    break;
-                case "Middle":
-                    Paint_Pixel(14, 1);
-                    break;
-                case "Right":
-                    Paint_Pixel(14, 2);
-                    break;
-                case "XButton2":
-                    Paint_Pixel(14, 3);
-                    break;
-                case "XButton1":
-                    Paint_Pixel(14, 4);
-                    break;
-            }
-        }
-        private void cmpr_blockF_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[215]);
-        }
-        private void cmpr_blockF_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-        }
-        private void cmpr_blockG_MouseClick(object sender, MouseEventArgs e)
-        {
-            switch (e.Button.ToString())
-            {
-                case "Left":
-                    Paint_Pixel(15, cmpr_selected_colour);
-                    break;
-                case "Middle":
-                    Paint_Pixel(15, 1);
-                    break;
-                case "Right":
-                    Paint_Pixel(15, 2);
-                    break;
-                case "XButton2":
-                    Paint_Pixel(15, 3);
-                    break;
-                case "XButton1":
-                    Paint_Pixel(15, 4);
-                    break;
-            }
-        }
-        private void cmpr_blockG_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(lines[216]);
-        }
-        private void cmpr_blockG_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
         }
         private void cmpr_c2_TextChanged(object sender, EventArgs e)
         {
@@ -13984,6 +13578,28 @@ namespace plt0_gui
             cmpr_colours_argb[6] = green;
             cmpr_colours_argb[7] = blue; */
             Update_Colours();
+        }
+        private void cmpr_grid_ck_MouseMove(object sender, MouseEventArgs e)
+        {
+
+            switch (e.Button.ToString())
+            {
+                case "Left":
+                    Paint_Pixel(e.X, e.Y, cmpr_selected_colour);
+                    break;
+                case "Middle":
+                    Paint_Pixel(e.X, e.Y, 1);
+                    break;
+                case "Right":
+                    Paint_Pixel(e.X, e.Y, 2);
+                    break;
+                case "XButton2":
+                    Paint_Pixel(e.X, e.Y, 3);
+                    break;
+                case "XButton1":
+                    Paint_Pixel(e.X, e.Y, 4);
+                    break;
+            }
         }
         private void Run_Click(object sender, EventArgs e)
         {
