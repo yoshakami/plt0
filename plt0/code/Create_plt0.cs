@@ -2629,27 +2629,51 @@ same for blue + green*/
 
                                         if (alpha_bitfield != 0)  // put the biggest ushort in second place
                                         {
-                                            colour_palette.Add(Colour_list[diff_min_index][1]);
-                                            colour_palette.Add(Colour_list[diff_max_index][1]);
-                                            index[0] = (byte)(Colour_list[diff_min_index][1] >> 8);
-                                            index[1] = (byte)(Colour_list[diff_min_index][1]);
-                                            index[2] = (byte)(Colour_list[diff_max_index][1] >> 8);
-                                            index[3] = (byte)(Colour_list[diff_max_index][1]);
+                                            if (Colour_list[diff_min_index][1] > Colour_list[diff_max_index][1])  // put diff_min at the second spot
+                                            {
+                                                index[0] = (byte)(Colour_list[diff_max_index][1] >> 8);
+                                                index[1] = (byte)(Colour_list[diff_max_index][1]);
+                                                index[2] = (byte)(Colour_list[diff_min_index][1] >> 8);
+                                                index[3] = (byte)(Colour_list[diff_min_index][1]);
+                                                colour_palette.Add(Colour_list[diff_max_index][1]);
+                                                colour_palette.Add(Colour_list[diff_min_index][1]);
+                                            }
+                                            else
+                                            {
+                                                index[0] = (byte)(Colour_list[diff_min_index][1] >> 8);
+                                                index[1] = (byte)(Colour_list[diff_min_index][1]);
+                                                index[2] = (byte)(Colour_list[diff_max_index][1] >> 8);
+                                                index[3] = (byte)(Colour_list[diff_max_index][1]);
+                                                colour_palette.Add(Colour_list[diff_min_index][1]);
+                                                colour_palette.Add(Colour_list[diff_max_index][1]);
+                                            }
                                             red = (byte)(((index[0] & 248) + (index[2] & 248)) / 2);
                                             green = (byte)(((((index[0] & 7) << 5) + ((index[1] >> 3) & 28)) + (((index[2] & 7) << 5) + ((index[3] >> 3) & 28))) / 2);
                                             blue = (byte)((((index[1] << 3) & 248) + ((index[3] << 3) & 248)) / 2);
                                             colour_palette.Add((ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)));  // the RGB565 third colour
                                                                                                                                    // last colour isn't in the palette, it's in _plt0.alpha_bitfield
                                         }
-                                        else
+                                        else  // put biggest ushort in first place
                                         {
                                             // of course, that's the exact opposite!
-                                            colour_palette.Add(Colour_list[diff_max_index][1]);
-                                            colour_palette.Add(Colour_list[diff_min_index][1]);
-                                            index[0] = (byte)(Colour_list[diff_max_index][1] >> 8);
-                                            index[1] = (byte)(Colour_list[diff_max_index][1]);
-                                            index[2] = (byte)(Colour_list[diff_min_index][1] >> 8);
-                                            index[3] = (byte)(Colour_list[diff_min_index][1]);
+                                            if (Colour_list[diff_min_index][1] > Colour_list[diff_max_index][1])  // put diff_min at the first spot
+                                            {
+                                                index[0] = (byte)(Colour_list[diff_min_index][1] >> 8);
+                                                index[1] = (byte)(Colour_list[diff_min_index][1]);
+                                                index[2] = (byte)(Colour_list[diff_max_index][1] >> 8);
+                                                index[3] = (byte)(Colour_list[diff_max_index][1]);
+                                                colour_palette.Add(Colour_list[diff_min_index][1]);
+                                                colour_palette.Add(Colour_list[diff_max_index][1]);
+                                            }
+                                            else
+                                            {
+                                                index[0] = (byte)(Colour_list[diff_max_index][1] >> 8);
+                                                index[1] = (byte)(Colour_list[diff_max_index][1]);
+                                                index[2] = (byte)(Colour_list[diff_min_index][1] >> 8);
+                                                index[3] = (byte)(Colour_list[diff_min_index][1]);
+                                                colour_palette.Add(Colour_list[diff_max_index][1]);
+                                                colour_palette.Add(Colour_list[diff_min_index][1]);
+                                            }
 
                                             red = (byte)(index[0] & 248);
                                             green = (byte)(((index[0] & 7) << 5) + ((index[1] >> 3) & 28));

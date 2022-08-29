@@ -626,6 +626,7 @@ class Parse_args_class
                         {
                             output_file = args[i];
                         }
+                        pass = 1;
                     }
                     break;
                 case "P":
