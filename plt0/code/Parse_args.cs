@@ -618,13 +618,13 @@ class Parse_args_class
                 case "O":
                     if (args.Length > i + 1)
                     {
-                        if (args[i].Contains(".") && args[i + 1].Length > 1)
+                        if (args[i + 1].Contains(".") && args[i + 1].Length > 1)
                         {
-                            output_file = args[i].Substring(0, args[i].Length - args[i].Split('.')[args[i].Split('.').Length - 1].Length - 1);  // removes the text after the extension dot.
+                            output_file = args[i + 1].Substring(0, args[i + 1].Length - args[i + 1].Split('.')[args[i + 1].Split('.').Length - 1].Length - 1);  // removes the text after the extension dot.
                         }
                         else
                         {
-                            output_file = args[i];
+                            output_file = args[i + 1];
                         }
                         pass = 1;
                     }
