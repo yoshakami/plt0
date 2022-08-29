@@ -28,6 +28,7 @@ v1.2 : add french zettings.txt
 currently developping v1.0
 
 Note: if you want to change the source code of GUI layout, you'll probably need a 4k screen, since Visual Studio automatically resizes the app bounds to your screen size (Naughy VS!) and the whole screen is packed to the gills with GUI elements
+
 the whole GUI was made with only 3 elements : label, picturebox, and textbox
 
 ## why this project
