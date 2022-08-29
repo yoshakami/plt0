@@ -59,6 +59,8 @@ namespace plt0_gui
         ushort colour1;
         ushort colour2;
         ushort colour3;
+        byte min_ratio;
+        byte mag_ratio;
         byte offset;
         string seal;
         //byte jump_line;
@@ -1363,16 +1365,19 @@ namespace plt0_gui
             if (File.Exists(input_file))
             {
                 args += "\"" + input_file + "\" ";
+                arg_array.Add("i");
                 arg_array.Add(input_file);
             }
             if (File.Exists(input_file2))
             {
                 args += "\"" + input_file2 + "\" ";
+                arg_array.Add("j");
                 arg_array.Add(input_file2);
             }
             if (output_name != "")
             {
                 args += "\"" + output_name + "\" ";
+                arg_array.Add("o");
                 arg_array.Add(output_name);
             }
             if (encoding != 7)
@@ -3125,28 +3130,6 @@ namespace plt0_gui
             for (ushort x = 0; x < 256; x += 64)
                 for (ushort y = 0; y < 256; y += 64)
                     Paint_Pixel(x, y, (byte)(cmpr_index[(x >> 6) + (y >> 4)] + 1));
-        }
-        private void Paint_Pixel(byte index, byte button)
-        {
-            //cmpr_grid[index].BackColor = Color.FromArgb(cmpr_colours_argb[(button << 2) - 4], cmpr_colours_argb[(button << 2) - 3], cmpr_colours_argb[(button << 2) - 2], cmpr_colours_argb[(button << 2) - 1]);
-            // cmpr_index[index] = (byte)(button - 1);
-            offset = 48;
-            if (index > 4)
-                offset = 32;
-            if (index > 8)
-                offset = 16;
-            if (index > 12)
-                offset = 0;
-            cmpr_4x4[0x7A + offset + (index % 4)] = cmpr_colours_argb[(button << 2) - 1];  // B
-            cmpr_4x4[0x7B + offset + (index % 4)] = cmpr_colours_argb[(button << 2) - 2];  // G
-            cmpr_4x4[0x7C + offset + (index % 4)] = cmpr_colours_argb[(button << 2) - 3];  // R
-            cmpr_4x4[0x7D + offset + (index % 4)] = cmpr_colours_argb[(button << 2) - 4];  // A
-            //cmpr_grid[index].BackColor = Color.FromArgb(cmpr_colours_argb[(button << 2) - 4], cmpr_colours_argb[(button << 2) - 3], cmpr_colours_argb[(button << 2) - 2], cmpr_colours_argb[(button << 2) - 1]);
-            cmpr_index[index] = (byte)(button - 1);
-            // change that because the first byte of a bmp is at the last line :P
-            // also X + Y doesn't work because 0, 1 = 1, 0 lol
-            cmpr_grid_ck.Image = GetImageFromByteArray(cmpr_4x4);
-            //  cmpr_preview_ck.Image = GetImageFromByteArray(cmpr_file);
         }
         private void Paint_Pixel(int x, int y, byte button)  // note: X and Y are height and width WITHIN the picturebox
         {
@@ -13535,7 +13518,11 @@ namespace plt0_gui
                     Parse_args_class cli = new Parse_args_class();
                     cli.Parse_args(cmpr_args);
                     if (File.Exists(execPath + "images/preview/" + num + ".bmp"))
+                    { 
                         cmpr_preview_ck.Image = Image.FromFile(execPath + "images/preview/" + num + ".bmp");
+                        description.Text = cmpr_preview_ck.Image.Height.ToString() + cmpr_preview_ck.Image.Tag.ToString();
+                        cmpr_warning.Text = "";
+                    }
                     else
                         cmpr_warning.Text = cli.Check_exit();
                 }

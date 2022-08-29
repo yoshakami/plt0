@@ -795,19 +795,6 @@ output += """
                 {
                     Array.Resize(ref cmpr_file, (int)fs.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
                     fs.Read(cmpr_file, 0, (int)fs.Length);
-                    if (cmpr_file.Length > 48)
-                    {
-                        if (cmpr_file[0x23] != 0xE)
-                        {
-                            Parse_Markdown(lines[""" + str(x) + """], cmpr_warning);
-                            success = false;
-                        }
-                    }
-                    else
-                    {
-                        Parse_Markdown(lines[""" + str(x) + """], cmpr_warning);
-                        success = false;
-                    }
                 }
                 if (success)
                 {
@@ -821,14 +808,18 @@ output += """
                     Parse_args_class cli = new Parse_args_class();
                     cli.Parse_args(cmpr_args);
                     if (File.Exists(execPath + "images/preview/" + num + ".bmp"))
+                    { 
                         cmpr_preview_ck.Image = Image.FromFile(execPath + "images/preview/" + num + ".bmp");
+                        description.Text = cmpr_preview_ck.Image.Height.ToString() + cmpr_preview_ck.Image.Tag.ToString();
+                        cmpr_warning.Text = "";
+                    }
                     else
                         cmpr_warning.Text = cli.Check_exit();
                 }
             }
             else
             {
-                Parse_Markdown(lines[""" + str(x) + """], cmpr_warning);
+                Parse_Markdown(lines[194], cmpr_warning);
             }
         }
         private void Warn_rgb565_colour_trim()
