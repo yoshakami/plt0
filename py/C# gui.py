@@ -968,6 +968,15 @@ output += """
             //cmpr_preview[0x7A + (x << 2) + ((y * cmpr_preview_ck.Width) << 2)] = 
             //Hover_cmpr();
         }
+        private void cmpr_hover_colour_TextChanged(object sender, EventArgs e)
+        {
+            parse_rgba(cmpr_hover_colour, cmpr_hover_colour_txt);
+        }
+
+        private void cmpr_edited_colour_TextChanged(object sender, EventArgs e)
+        {
+            parse_rgba(cmpr_edited_colour, cmpr_edited_colour_txt);
+        }
     }
 }
 """

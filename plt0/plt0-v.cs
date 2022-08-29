@@ -7,6 +7,7 @@ using System.Drawing.Drawing2D;
 using System.Reflection;
 using plt0;
 using System.CodeDom.Compiler;
+using System.Text;
 //using System.Drawing.Text;
 //using System.Linq;
 
@@ -20,8 +21,9 @@ namespace plt0_gui
         static readonly string appdata = Environment.GetEnvironmentVariable("appdata").Replace("\\", "/");
         static string args;
         byte[] cmpr_preview;
+        byte[] colour_4 = { 0, 0, 0, 0 };
         // the 4x4 grid for the Paint Layout is a 4x4 bmp file
-        byte[] cmpr_4x4 = { 66, 77, 186, 0, 0, 0, 121, 111, 115, 104, 122, 0, 0, 0, 108, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0, 1, 0, 32, 0, 3, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 0, 0, 255, 0, 0, 255, 0, 0, 0, 0, 0, 0, 255, 32, 110, 105, 87, 0, 104, 116, 116, 112, 115, 58, 47, 47, 100, 105, 115, 99, 111, 114, 100, 46, 103, 103, 47, 118, 57, 86, 112, 68, 90, 57, 0, 116, 104, 105, 115, 32, 105, 115, 32, 112, 97, 100, 100, 105, 110, 103, 32, 100, 97, 116, 97, 0, 0, 240, 255, 72, 242, 64, 255, 72, 66, 240, 255, 0, 255, 0, 255, 200, 254, 200, 255, 32, 57, 240, 255, 32, 249, 56, 255, 200, 206, 240, 255, 16, 16, 240, 255, 32, 241, 56, 255, 48, 49, 255, 255, 72, 250, 64, 255, 16, 255, 16, 255, 32, 57, 255, 255, 48, 241, 48, 255, 72, 66, 240, 255};
+        byte[] cmpr_4x4 = { 66, 77, 186, 0, 0, 0, 121, 111, 115, 104, 122, 0, 0, 0, 108, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0, 1, 0, 32, 0, 3, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 0, 0, 255, 0, 0, 255, 0, 0, 0, 0, 0, 0, 255, 32, 110, 105, 87, 0, 104, 116, 116, 112, 115, 58, 47, 47, 100, 105, 115, 99, 111, 114, 100, 46, 103, 103, 47, 118, 57, 86, 112, 68, 90, 57, 0, 116, 104, 105, 115, 32, 105, 115, 32, 112, 97, 100, 100, 105, 110, 103, 32, 100, 97, 116, 97, 0, 0, 240, 255, 72, 242, 64, 255, 72, 66, 240, 255, 0, 255, 0, 255, 200, 254, 200, 255, 32, 57, 240, 255, 32, 249, 56, 255, 200, 206, 240, 255, 16, 16, 240, 255, 32, 241, 56, 255, 48, 49, 255, 255, 72, 250, 64, 255, 16, 255, 16, 255, 32, 57, 255, 255, 48, 241, 48, 255, 72, 66, 240, 255 };
         string[] cmpr_args = new string[] { "gui", "1", execPath + "images/preview/1" };
         string[] lines = new string[255];
         string[] layout_name = { "All", "Auto", "Preview", "Paint" };
@@ -56,6 +58,7 @@ namespace plt0_gui
         byte red;
         byte green;
         byte blue;
+        byte alpha2;
         byte cmpr_selected_colour = 1;
         ushort colour1;
         ushort colour2;
@@ -350,448 +353,7 @@ namespace plt0_gui
             //markdown.Add(font_unit);
             //markdown.Add(font_encoding);
             //markdown.Add(font_size);
-            this.image_ck.Location = new System.Drawing.Point(815, 96);
-            this.cmpr_preview_ck.Location = new System.Drawing.Point(896, 44);
-            if (Directory.Exists(execPath + "images/preview"))
-            {
-                string[] files = Directory.GetFiles(execPath + "images/preview");
-                for (int i = 0; i < files.Length; i++)
-                    File.Delete(files[i]);
-                Directory.Delete(execPath + "images/preview");
-            }
-            encoding_ck.Add(i4_ck);
-            encoding_ck.Add(i8_ck);
-            encoding_ck.Add(ai4_ck);
-            encoding_ck.Add(ai8_ck);
-            encoding_ck.Add(rgb565_ck);
-            encoding_ck.Add(rgb5a3_ck);
-            encoding_ck.Add(rgba32_ck);
-            encoding_ck.Add(i4_ck);  // nothing
-            encoding_ck.Add(ci4_ck);
-            encoding_ck.Add(ci8_ck);
-            encoding_ck.Add(ci14x2_ck);
-            encoding_ck.Add(i4_ck);  // nothing
-            encoding_ck.Add(i4_ck);  // nothing
-            encoding_ck.Add(i4_ck);  // nothing
-            encoding_ck.Add(cmpr_ck);
-            r_ck.Add(r_r_ck);
-            r_ck.Add(r_g_ck);
-            r_ck.Add(r_b_ck);
-            r_ck.Add(r_a_ck);
-            g_ck.Add(g_r_ck);
-            g_ck.Add(g_g_ck);
-            g_ck.Add(g_b_ck);
-            g_ck.Add(g_a_ck);
-            b_ck.Add(b_r_ck);
-            b_ck.Add(b_g_ck);
-            b_ck.Add(b_b_ck);
-            b_ck.Add(b_a_ck);
-            a_ck.Add(a_r_ck);
-            a_ck.Add(a_g_ck);
-            a_ck.Add(a_b_ck);
-            a_ck.Add(a_a_ck);
-            magnification_ck.Add(mag_nearest_neighbour_ck);
-            magnification_ck.Add(mag_linear_ck);
-            magnification_ck.Add(mag_nearestmipmapnearest_ck);
-            magnification_ck.Add(mag_nearestmipmaplinear_ck);
-            magnification_ck.Add(mag_linearmipmapnearest_ck);
-            magnification_ck.Add(mag_linearmipmaplinear_ck);
-            magnification_ck.Add(mag_linearmipmaplinear_ck); // nothing
-            minification_ck.Add(min_nearest_neighbour_ck);
-            minification_ck.Add(min_linear_ck);
-            minification_ck.Add(min_nearestmipmapnearest_ck);
-            minification_ck.Add(min_nearestmipmaplinear_ck);
-            minification_ck.Add(min_linearmipmapnearest_ck);
-            minification_ck.Add(min_linearmipmaplinear_ck);
-            minification_ck.Add(min_linearmipmaplinear_ck); // nothing
-            WrapS_ck.Add(Sclamp_ck);
-            WrapS_ck.Add(Srepeat_ck);
-            WrapS_ck.Add(Smirror_ck);
-            WrapS_ck.Add(Smirror_ck);  // nothing
-            WrapT_ck.Add(Tclamp_ck);
-            WrapT_ck.Add(Trepeat_ck);
-            WrapT_ck.Add(Tmirror_ck);
-            WrapT_ck.Add(Tmirror_ck);  // nothing
-            alpha_ck_array.Add(no_alpha_ck);
-            alpha_ck_array.Add(alpha_ck);
-            alpha_ck_array.Add(mix_ck);
-            alpha_ck_array.Add(mix_ck);  // nothing
-            algorithm_ck.Add(cie_601_ck);
-            algorithm_ck.Add(cie_709_ck);
-            algorithm_ck.Add(custom_ck);
-            algorithm_ck.Add(no_gradient_ck);
-            algorithm_ck.Add(cie_601_ck);  // nothing
-            palette_ck.Add(palette_ai8_ck);
-            palette_ck.Add(palette_rgb565_ck);
-            palette_ck.Add(palette_rgb5a3_ck);
-            palette_ck.Add(palette_ai8_ck);  // nothing
-            desc.Add(description);
-            desc.Add(desc2);
-            desc.Add(desc3);
-            desc.Add(desc4);
-            desc.Add(desc5);
-            desc.Add(desc6);
-            desc.Add(desc7);
-            desc.Add(desc8);
-            desc.Add(desc9);
-            Load_Images();
-            banner_ck.BackgroundImage = banner;
-            surrounding_ck.BackgroundImage = surrounding;
-            banner_minus_ck.BackgroundImage = minimized;
-            banner_x_ck.BackgroundImage = close;
-            discord_ck.BackgroundImage = discord;
-            github_ck.BackgroundImage = github;
-            youtube_ck.BackgroundImage = youtube;
-            version_ck.BackgroundImage = version;
-            run_ck.BackgroundImage = run_off;
-            cli_textbox_ck.BackgroundImage = cli_textbox;
-            this.BackgroundImage = background;
-            unchecked_checkbox(ask_exit_ck);
-            unchecked_checkbox(FORCE_ALPHA_ck);
-            unchecked_checkbox(jpeg_ck);
-            unchecked_checkbox(jpg_ck);
-            unchecked_checkbox(bti_ck);
-            unchecked_checkbox(bmd_ck);
-            unchecked_checkbox(ico_ck);
-            unchecked_checkbox(bmp_ck);
-            unchecked_checkbox(bmp_32_ck);
-            unchecked_checkbox(stfu_ck);
-            unchecked_checkbox(safe_mode_ck);
-            unchecked_checkbox(warn_ck);
-            unchecked_checkbox(tpl_ck);
-            unchecked_checkbox(tiff_ck);
-            unchecked_checkbox(tif_ck);
-            unchecked_checkbox(tex0_ck);
-            unchecked_checkbox(png_ck);
-            unchecked_checkbox(random_ck);
-            unchecked_checkbox(reversex_ck);
-            unchecked_checkbox(reversey_ck);
-            unchecked_checkbox(funky_ck);
-            unchecked_checkbox(no_warning_ck);
-            unchecked_checkbox(gif_ck);
-            unchecked_checkbox(textchange_ck);
-            unchecked_encoding(i4_ck);
-            unchecked_encoding(i8_ck);
-            unchecked_encoding(ai4_ck);
-            unchecked_encoding(ai8_ck);
-            unchecked_encoding(rgb565_ck);
-            unchecked_encoding(rgb5a3_ck);
-            unchecked_encoding(rgba32_ck);
-            unchecked_encoding(ci4_ck);
-            unchecked_encoding(ci8_ck);
-            unchecked_encoding(ci14x2_ck);
-            unchecked_encoding(cmpr_ck);
-            checked_checkbox(auto_update_ck);
-            checked_checkbox(upscale_ck);
-            unchecked_R(a_r_ck);
-            unchecked_G(a_g_ck);
-            unchecked_B(a_b_ck);
-            checked_A(a_a_ck);
-            unchecked_R(b_r_ck);
-            unchecked_G(b_g_ck);
-            checked_B(b_b_ck);
-            unchecked_A(b_a_ck);
-            unchecked_R(g_r_ck);
-            checked_G(g_g_ck);
-            unchecked_B(g_b_ck);
-            unchecked_A(g_a_ck);
-            checked_R(r_r_ck);
-            unchecked_G(r_g_ck);
-            unchecked_B(r_b_ck);
-            unchecked_A(r_a_ck);
-            unchecked_Minification(min_nearest_neighbour_ck);
-            unchecked_Minification(min_linear_ck);
-            unchecked_Minification(min_nearestmipmapnearest_ck);
-            unchecked_Minification(min_nearestmipmaplinear_ck);
-            unchecked_Minification(min_linearmipmapnearest_ck);
-            unchecked_Minification(min_linearmipmaplinear_ck);
-            unchecked_Magnification(mag_nearest_neighbour_ck);
-            unchecked_Magnification(mag_linear_ck);
-            unchecked_Magnification(mag_nearestmipmapnearest_ck);
-            unchecked_Magnification(mag_nearestmipmaplinear_ck);
-            unchecked_Magnification(mag_linearmipmapnearest_ck);
-            unchecked_Magnification(mag_linearmipmaplinear_ck);
-            unchecked_WrapT(Tclamp_ck);
-            unchecked_WrapT(Trepeat_ck);
-            unchecked_WrapT(Tmirror_ck);
-            unchecked_WrapS(Sclamp_ck);
-            unchecked_WrapS(Srepeat_ck);
-            unchecked_WrapS(Smirror_ck);
-            unchecked_alpha(no_alpha_ck);
-            unchecked_alpha(alpha_ck);
-            unchecked_alpha(mix_ck);
-            unchecked_algorithm(cie_601_ck);
-            unchecked_algorithm(cie_709_ck);
-            unchecked_algorithm(custom_ck);
-            unchecked_algorithm(no_gradient_ck);
-            Category_checked(view_alpha_ck);
-            Category_checked(view_algorithm_ck);
-            Category_checked(view_WrapS_ck);
-            Category_checked(view_WrapT_ck);
-            Category_checked(view_min_ck);
-            Category_checked(view_mag_ck);
-            unchecked_palette(palette_ai8_ck);
-            unchecked_palette(palette_rgb565_ck);
-            unchecked_palette(palette_rgb5a3_ck);
-            if (System.IO.File.Exists(execPath + "images/settings.txt"))
-            {
-                string version = "";
-                lines = System.IO.File.ReadAllLines(execPath + "images/settings.txt");
-                if (lines.Length > 0)
-                {
-                    version = lines[0].Substring(12);
-                }
-
-                switch (version)
-                {
-                    case "v1.0":
-                        if (version == "v1.0" && lines.Length < 200)  // incorrect v1.0 config file
-                        {
-                            //  System.Diagnostics.Debug.WriteLine("some tetttttttttt23423423423423423ttttttttttttttttttttttt");
-                            Console.WriteLine("plt0 v1.0 config file should have EXACTLY 200 lines");
-                            Console.ReadLine();
-                            Environment.Exit(1);
-                        }
-                        break; // in case it needs to get out of this switch
-                               // sarcarm++;
-                    default:
-                        Console.WriteLine("incorrect config version. " + execPath + "images/settings.txt's First line isn't recognized by this tool");
-                        Console.ReadLine();
-                        Environment.Exit(2);
-                        break; // idk what happens if you don't put a break on a case, but it won't compile otherwise
-
-                }
-                switch (lines[2].ToUpper())
-                {
-                    case "ALL":
-                        checked_All();
-                        unchecked_Auto();
-                        unchecked_Preview();
-                        unchecked_Paint();
-                        Layout_All();
-                        /*
-                        View_alpha();
-                        View_algorithm();
-                        View_WrapS();
-                        View_WrapT();
-                        View_mag();
-                        View_min();*/
-                        break;
-                    case "AUTO":
-                        unchecked_All();
-                        checked_Auto();
-                        unchecked_Preview();
-                        unchecked_Paint();
-                        Layout_Auto();
-                        break;
-                    case "PREVIEW":
-                        unchecked_All();
-                        unchecked_Auto();
-                        checked_Preview();
-                        unchecked_Paint();
-                        Layout_Preview();
-                        //View_algorithm();
-                        //View_alpha();
-                        // view encoding and channel swap and some options
-                        break;
-                    case "PAINT":
-                        unchecked_All();
-                        unchecked_Auto();
-                        unchecked_Preview();
-                        checked_Paint();
-                        Layout_Paint();
-                        break;
-                }
-                switch (lines[4].ToUpper())
-                {
-                    case "MAXIMIZED":
-                        this.WindowState = FormWindowState.Maximized;
-                        banner_1_ck.BackgroundImage = bottom_left_off;
-                        banner_2_ck.BackgroundImage = bottom_off;
-                        banner_3_ck.BackgroundImage = bottom_right_off;
-                        banner_4_ck.BackgroundImage = left_off;
-                        banner_5_ck.BackgroundImage = maximized_on;
-                        banner_6_ck.BackgroundImage = right_off;
-                        banner_7_ck.BackgroundImage = top_left_off;
-                        banner_8_ck.BackgroundImage = top_off;
-                        banner_9_ck.BackgroundImage = top_right_off;
-                        break;
-                    case "NORMAL":
-                        // default
-                        banner_1_ck.BackgroundImage = bottom_left_off;
-                        banner_2_ck.BackgroundImage = bottom_off;
-                        banner_3_ck.BackgroundImage = bottom_right_off;
-                        banner_4_ck.BackgroundImage = left_off;
-                        banner_5_ck.BackgroundImage = maximized_off;
-                        banner_6_ck.BackgroundImage = right_off;
-                        banner_7_ck.BackgroundImage = top_left_off;
-                        banner_8_ck.BackgroundImage = top_off;
-                        banner_9_ck.BackgroundImage = top_right_off;
-                        break;
-                    case "LEFT":
-                        arrow = 4;
-                        banner_1_ck.BackgroundImage = bottom_left_off;
-                        banner_2_ck.BackgroundImage = bottom_off;
-                        banner_3_ck.BackgroundImage = bottom_right_off;
-                        banner_4_ck.BackgroundImage = left_on;
-                        banner_5_ck.BackgroundImage = maximized_off;
-                        banner_6_ck.BackgroundImage = right_off;
-                        banner_7_ck.BackgroundImage = top_left_off;
-                        banner_8_ck.BackgroundImage = top_off;
-                        banner_9_ck.BackgroundImage = top_right_off;
-                        break;
-                    case "TOP_LEFT":
-                        arrow = 7;
-                        banner_1_ck.BackgroundImage = bottom_left_off;
-                        banner_2_ck.BackgroundImage = bottom_off;
-                        banner_3_ck.BackgroundImage = bottom_right_off;
-                        banner_4_ck.BackgroundImage = left_off;
-                        banner_5_ck.BackgroundImage = maximized_off;
-                        banner_6_ck.BackgroundImage = right_off;
-                        banner_7_ck.BackgroundImage = top_left_on;
-                        banner_8_ck.BackgroundImage = top_off;
-                        banner_9_ck.BackgroundImage = top_right_off;
-                        break;
-                    case "TOP":
-                        arrow = 8;
-                        banner_1_ck.BackgroundImage = bottom_left_off;
-                        banner_2_ck.BackgroundImage = bottom_off;
-                        banner_3_ck.BackgroundImage = bottom_right_off;
-                        banner_4_ck.BackgroundImage = left_off;
-                        banner_5_ck.BackgroundImage = maximized_off;
-                        banner_6_ck.BackgroundImage = right_off;
-                        banner_7_ck.BackgroundImage = top_left_off;
-                        banner_8_ck.BackgroundImage = top_on;
-                        banner_9_ck.BackgroundImage = top_right_off;
-                        break;
-                    case "TOP_RIGHT":
-                        arrow = 9;
-                        banner_1_ck.BackgroundImage = bottom_left_off;
-                        banner_2_ck.BackgroundImage = bottom_off;
-                        banner_3_ck.BackgroundImage = bottom_right_off;
-                        banner_4_ck.BackgroundImage = left_off;
-                        banner_5_ck.BackgroundImage = maximized_off;
-                        banner_6_ck.BackgroundImage = right_off;
-                        banner_7_ck.BackgroundImage = top_left_off;
-                        banner_8_ck.BackgroundImage = top_off;
-                        banner_9_ck.BackgroundImage = top_right_on;
-                        break;
-                    case "RIGHT":
-                        arrow = 6;
-                        banner_1_ck.BackgroundImage = bottom_left_off;
-                        banner_2_ck.BackgroundImage = bottom_off;
-                        banner_3_ck.BackgroundImage = bottom_right_off;
-                        banner_4_ck.BackgroundImage = left_off;
-                        banner_5_ck.BackgroundImage = maximized_off;
-                        banner_6_ck.BackgroundImage = right_on;
-                        banner_7_ck.BackgroundImage = top_left_off;
-                        banner_8_ck.BackgroundImage = top_off;
-                        banner_9_ck.BackgroundImage = top_right_off;
-                        break;
-                    case "BOTTOM_RIGHT":
-                        arrow = 3;
-                        banner_1_ck.BackgroundImage = bottom_left_off;
-                        banner_2_ck.BackgroundImage = bottom_off;
-                        banner_3_ck.BackgroundImage = bottom_right_on;
-                        banner_4_ck.BackgroundImage = left_off;
-                        banner_5_ck.BackgroundImage = maximized_off;
-                        banner_6_ck.BackgroundImage = right_off;
-                        banner_7_ck.BackgroundImage = top_left_off;
-                        banner_8_ck.BackgroundImage = top_off;
-                        banner_9_ck.BackgroundImage = top_right_off;
-                        break;
-                    case "BOTTOM":
-                        arrow = 2;
-                        banner_1_ck.BackgroundImage = bottom_left_off;
-                        banner_2_ck.BackgroundImage = bottom_on;
-                        banner_3_ck.BackgroundImage = bottom_right_off;
-                        banner_4_ck.BackgroundImage = left_off;
-                        banner_5_ck.BackgroundImage = maximized_off;
-                        banner_6_ck.BackgroundImage = right_off;
-                        banner_7_ck.BackgroundImage = top_left_off;
-                        banner_8_ck.BackgroundImage = top_off;
-                        banner_9_ck.BackgroundImage = top_right_off;
-                        break;
-                    case "BOTTOM_LEFT":
-                        arrow = 1;
-                        banner_1_ck.BackgroundImage = bottom_left_on;
-                        banner_2_ck.BackgroundImage = bottom_off;
-                        banner_3_ck.BackgroundImage = bottom_right_off;
-                        banner_4_ck.BackgroundImage = left_off;
-                        banner_5_ck.BackgroundImage = maximized_off;
-                        banner_6_ck.BackgroundImage = right_off;
-                        banner_7_ck.BackgroundImage = top_left_off;
-                        banner_8_ck.BackgroundImage = top_off;
-                        banner_9_ck.BackgroundImage = top_right_off;
-                        break;
-                }
-                input_file_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                input_file2_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                output_name_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                mipmaps_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                cmpr_max_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                cmpr_min_alpha_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                num_colours_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                round3_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                round4_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                round5_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                round6_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                diversity_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                diversity2_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                percentage_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                percentage2_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                custom_r_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                custom_g_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                custom_b_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-                custom_a_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
-
-                input_file_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                input_file2_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                output_name_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                mipmaps_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                cmpr_max_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                cmpr_min_alpha_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                num_colours_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                round3_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                round4_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                round5_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                round6_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                diversity_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                diversity2_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                percentage_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                percentage2_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                custom_r_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                custom_g_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                custom_b_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-                custom_a_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
-
-                description_title.ForeColor = System.Drawing.Color.FromName(lines[10]);
-                description.ForeColor = System.Drawing.Color.FromName(lines[10]);
-            }
-            else
-            {
-                try
-                {
-                    string[] new_lines = { "plt0 config v1.0", "Layout (change next line with one of these: \"All\", \"Auto\", \"Preview\", \"Paint\")", "All", "Window Location (\"Normal\", \"Maximized\", \"Bottom_left\", \"Left\", \"Top_left\", \"Top\", \"Top_right\", \"Right\", \"Bottom_right\", \"Bottom\")", "Maximized", "Textboxes text color (System.Drawing.Color)", "White", "Textboxes color", "Black", "Description color", "Cyan", "Font name (it must be installed on your system)", "default" };
-                    Array.Resize(ref new_lines, 255);
-                    for (byte i = 14; i < 255; i++)
-                    {
-                        new_lines[i - 1] = i.ToString();
-                    }
-
-                    System.IO.File.WriteAllLines(execPath + "images/settings.txt", new_lines);
-                }
-                catch
-                {
-                    // um, idk what to do here if the user doesn't let the app write a file.
-                }
-            }
-            Directory.CreateDirectory(execPath + "images/preview");
-            //
-            // NativeMethods.AllocConsole();
-            plt0.NativeMethods.FreeConsole();
         }
-
         /*private void Change_font_normal()
         {
             font_normal = new System.Drawing.Font(fontname, 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
@@ -3108,6 +2670,125 @@ namespace plt0_gui
                 out_colour = default_colour;
 
         }
+        private void parse_rgba(Label lab, TextBox txt)
+        {
+            success = false;
+            alpha2 = 255;
+            len = txt.Text.Length;
+            for (byte i = 1; i < len; i++)
+            {
+                if (!ishex(txt.Text[i]))
+                    txt.Text = txt.Text.Substring(0, i);
+            }
+            if (len > 0)
+                if (!ishex(txt.Text[0]) && txt.Text[0] != '#')
+                    txt.Text = "";
+            if (len > 8)
+            {
+                if (txt.Text[0] != '#')
+                    txt.Text = txt.Text.Substring(0, 8);
+                else if (len > 9)
+                    txt.Text = txt.Text.Substring(0, 9);
+
+            }
+            if (len < 3)
+            {
+                return;
+            }
+            if (txt.Text[0] == '#' && len > 3)
+            {
+                if (len == 4)
+                {
+                    byte.TryParse(txt.Text.Substring(1, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
+                    byte.TryParse(txt.Text.Substring(2, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
+                    byte.TryParse(txt.Text.Substring(3, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
+                    red <<= 4;
+                    green <<= 4;
+                    blue <<= 4;
+                    success = true;
+                }
+                if (len == 5)
+                {
+                    byte.TryParse(txt.Text.Substring(1, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
+                    byte.TryParse(txt.Text.Substring(2, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
+                    byte.TryParse(txt.Text.Substring(3, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
+                    byte.TryParse(txt.Text.Substring(4, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out alpha2);
+                    red <<= 4;
+                    green <<= 4;
+                    blue <<= 4;
+                    alpha2 <<= 4;
+                    success = true;
+                }
+                else if (len == 7)
+                {
+                    byte.TryParse(txt.Text.Substring(1, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
+                    byte.TryParse(txt.Text.Substring(3, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
+                    byte.TryParse(txt.Text.Substring(5, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
+                    success = true;
+                }
+                else if (len == 9)
+                {
+                    byte.TryParse(txt.Text.Substring(1, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
+                    byte.TryParse(txt.Text.Substring(3, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
+                    byte.TryParse(txt.Text.Substring(5, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
+                    byte.TryParse(txt.Text.Substring(7, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out alpha2);
+                    success = true;
+                }
+            }
+            else
+            {
+                if (len == 3)
+                {
+                    byte.TryParse(txt.Text.Substring(0, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
+                    byte.TryParse(txt.Text.Substring(1, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
+                    byte.TryParse(txt.Text.Substring(2, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
+                    red <<= 4;
+                    green <<= 4;
+                    blue <<= 4;
+                    success = true;
+                }
+                if (len == 4)
+                {
+                    byte.TryParse(txt.Text.Substring(0, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
+                    byte.TryParse(txt.Text.Substring(1, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
+                    byte.TryParse(txt.Text.Substring(2, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
+                    byte.TryParse(txt.Text.Substring(3, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out alpha2);
+                    red <<= 4;
+                    green <<= 4;
+                    blue <<= 4;
+                    alpha2 <<= 4;
+                    success = true;
+                }
+                else if (len == 6)
+                {
+                    byte.TryParse(txt.Text.Substring(0, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
+                    byte.TryParse(txt.Text.Substring(2, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
+                    byte.TryParse(txt.Text.Substring(4, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
+                    success = true;
+                }
+                else if (len == 8)
+                {
+                    byte.TryParse(txt.Text.Substring(0, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
+                    byte.TryParse(txt.Text.Substring(2, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
+                    byte.TryParse(txt.Text.Substring(4, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
+                    byte.TryParse(txt.Text.Substring(6, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out alpha2);
+                    success = true;
+                }
+            }
+            if (success)
+            {
+                lab.BackColor = Color.FromArgb(alpha2, red, green, blue);
+                colour_4[0] = red;
+                colour_4[1] = green;
+                colour_4[2] = blue;
+                colour_4[3] = alpha2;
+                if (len > 5)
+                {
+                    cmpr_colours_hex = BitConverter.ToString(colour_4).Replace("-", string.Empty);
+                    txt.Text = cmpr_colours_hex.Substring(0, 8);
+                }
+            }
+        }
         private void Update_Colours()
         {
             if (colour1 > colour2)
@@ -3171,13 +2852,13 @@ namespace plt0_gui
             // also X + Y doesn't work because 0, 1 = 1, 0 lol
             cmpr_grid_ck.Image = GetImageFromByteArray(cmpr_4x4);
         }
-          /// <summary>
-           /// Method that uses the ImageConverter object in .Net Framework to convert a byte array, 
-           /// presumably containing a JPEG or PNG file image, into a Bitmap object, which can also be 
-           /// used as an Image object.
-           /// </summary>
-           /// <param name="byteArray">byte array containing JPEG or PNG file image or similar</param>
-           /// <returns>Bitmap object if it works, else exception is thrown</returns>
+        /// <summary>
+        /// Method that uses the ImageConverter object in .Net Framework to convert a byte array, 
+        /// presumably containing a JPEG or PNG file image, into a Bitmap object, which can also be 
+        /// used as an Image object.
+        /// </summary>
+        /// <param name="byteArray">byte array containing JPEG or PNG file image or similar</param>
+        /// <returns>Bitmap object if it works, else exception is thrown</returns>
         public static Bitmap GetImageFromByteArray(byte[] byteArray)
         {
             Bitmap bm = (Bitmap)_imageConverter.ConvertFrom(byteArray);
@@ -3220,6 +2901,17 @@ namespace plt0_gui
             }
         } */
 
+        public void SetAllControlsFont(ControlCollection ctrls)
+        {
+            foreach (Control c in ctrls)
+            {
+                if (c.Controls != null)
+                {
+                    SetAllControlsFont((ControlCollection)c.Controls);
+                }
+                c.Font = new Font(lines[12], c.Font.Size, c.Font.Style, c.Font.Unit, GdiCharSet;
+            }
+        }
         // the whole code below is generated by something else than me typing on my keyboard in Visual Studio
         // actually not the whole code, but let's pretend I haven't typed 15k lines
         private void InitializeComponent()
@@ -3513,15 +3205,15 @@ namespace plt0_gui
             this.cmpr_mouse5_label = new System.Windows.Forms.Label();
             this.cmpr_sel = new System.Windows.Forms.Label();
             this.bmd_ck = new System.Windows.Forms.PictureBox();
-            this.cmpr_grid_ck = new PictureBoxWithInterpolationMode();
-            this.cmpr_preview_ck = new PictureBoxWithInterpolationMode();
-            this.image_ck = new PictureBoxWithInterpolationMode();
             this.cmpr_hover_colour = new System.Windows.Forms.Label();
             this.cmpr_hover_colour_label = new System.Windows.Forms.Label();
             this.cmpr_hover_colour_txt = new System.Windows.Forms.TextBox();
             this.cmpr_edited_colour = new System.Windows.Forms.Label();
             this.cmpr_edited_colour_label = new System.Windows.Forms.Label();
             this.cmpr_edited_colour_txt = new System.Windows.Forms.TextBox();
+            this.cmpr_grid_ck = new PictureBoxWithInterpolationMode();
+            this.cmpr_preview_ck = new PictureBoxWithInterpolationMode();
+            this.image_ck = new PictureBoxWithInterpolationMode();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tpl_ck)).BeginInit();
@@ -8310,6 +8002,88 @@ namespace plt0_gui
             this.bmd_ck.MouseEnter += new System.EventHandler(this.bmd_MouseEnter);
             this.bmd_ck.MouseLeave += new System.EventHandler(this.bmd_MouseLeave);
             // 
+            // cmpr_hover_colour
+            // 
+            this.cmpr_hover_colour.AutoSize = true;
+            this.cmpr_hover_colour.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_hover_colour.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.cmpr_hover_colour.ForeColor = System.Drawing.SystemColors.Window;
+            this.cmpr_hover_colour.Location = new System.Drawing.Point(2528, 319);
+            this.cmpr_hover_colour.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_hover_colour.Name = "cmpr_hover_colour";
+            this.cmpr_hover_colour.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
+            this.cmpr_hover_colour.Size = new System.Drawing.Size(64, 64);
+            this.cmpr_hover_colour.TabIndex = 686;
+            // 
+            // cmpr_hover_colour_label
+            // 
+            this.cmpr_hover_colour_label.AutoSize = true;
+            this.cmpr_hover_colour_label.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_hover_colour_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.cmpr_hover_colour_label.ForeColor = System.Drawing.SystemColors.Control;
+            this.cmpr_hover_colour_label.Location = new System.Drawing.Point(2601, 318);
+            this.cmpr_hover_colour_label.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_hover_colour_label.Name = "cmpr_hover_colour_label";
+            this.cmpr_hover_colour_label.Padding = new System.Windows.Forms.Padding(0, 15, 0, 10);
+            this.cmpr_hover_colour_label.Size = new System.Drawing.Size(162, 45);
+            this.cmpr_hover_colour_label.TabIndex = 685;
+            this.cmpr_hover_colour_label.Text = "Hover Colour";
+            // 
+            // cmpr_hover_colour_txt
+            // 
+            this.cmpr_hover_colour_txt.BackColor = System.Drawing.Color.Black;
+            this.cmpr_hover_colour_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.cmpr_hover_colour_txt.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.cmpr_hover_colour_txt.ForeColor = System.Drawing.SystemColors.Window;
+            this.cmpr_hover_colour_txt.Location = new System.Drawing.Point(2605, 363);
+            this.cmpr_hover_colour_txt.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_hover_colour_txt.Name = "cmpr_hover_colour_txt";
+            this.cmpr_hover_colour_txt.Size = new System.Drawing.Size(141, 21);
+            this.cmpr_hover_colour_txt.TabIndex = 684;
+            this.cmpr_hover_colour_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.cmpr_hover_colour_txt.TextChanged += new System.EventHandler(this.cmpr_hover_colour_TextChanged);
+            // 
+            // cmpr_edited_colour
+            // 
+            this.cmpr_edited_colour.AutoSize = true;
+            this.cmpr_edited_colour.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_edited_colour.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.cmpr_edited_colour.ForeColor = System.Drawing.SystemColors.Window;
+            this.cmpr_edited_colour.Location = new System.Drawing.Point(2528, 419);
+            this.cmpr_edited_colour.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_edited_colour.Name = "cmpr_edited_colour";
+            this.cmpr_edited_colour.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
+            this.cmpr_edited_colour.Size = new System.Drawing.Size(64, 64);
+            this.cmpr_edited_colour.TabIndex = 689;
+            // 
+            // cmpr_edited_colour_label
+            // 
+            this.cmpr_edited_colour_label.AutoSize = true;
+            this.cmpr_edited_colour_label.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_edited_colour_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.cmpr_edited_colour_label.ForeColor = System.Drawing.SystemColors.Control;
+            this.cmpr_edited_colour_label.Location = new System.Drawing.Point(2601, 418);
+            this.cmpr_edited_colour_label.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_edited_colour_label.Name = "cmpr_edited_colour_label";
+            this.cmpr_edited_colour_label.Padding = new System.Windows.Forms.Padding(0, 15, 0, 10);
+            this.cmpr_edited_colour_label.Size = new System.Drawing.Size(166, 45);
+            this.cmpr_edited_colour_label.TabIndex = 688;
+            this.cmpr_edited_colour_label.Text = "Edited Colour";
+            // 
+            // cmpr_edited_colour_txt
+            // 
+            this.cmpr_edited_colour_txt.BackColor = System.Drawing.Color.Black;
+            this.cmpr_edited_colour_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.cmpr_edited_colour_txt.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.cmpr_edited_colour_txt.ForeColor = System.Drawing.SystemColors.Window;
+            this.cmpr_edited_colour_txt.Location = new System.Drawing.Point(2605, 463);
+            this.cmpr_edited_colour_txt.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_edited_colour_txt.Name = "cmpr_edited_colour_txt";
+            this.cmpr_edited_colour_txt.Size = new System.Drawing.Size(141, 21);
+            this.cmpr_edited_colour_txt.TabIndex = 687;
+            this.cmpr_edited_colour_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.cmpr_edited_colour_txt.TextChanged += new System.EventHandler(this.cmpr_edited_colour_TextChanged);
+            // 
             // cmpr_grid_ck
             // 
             this.cmpr_grid_ck.BackColor = System.Drawing.Color.Transparent;
@@ -8368,86 +8142,6 @@ namespace plt0_gui
             this.image_ck.TabIndex = 602;
             this.image_ck.TabStop = false;
             this.image_ck.Visible = false;
-            // 
-            // cmpr_hover_colour
-            // 
-            this.cmpr_hover_colour.AutoSize = true;
-            this.cmpr_hover_colour.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_hover_colour.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.cmpr_hover_colour.ForeColor = System.Drawing.SystemColors.Window;
-            this.cmpr_hover_colour.Location = new System.Drawing.Point(2528, 319);
-            this.cmpr_hover_colour.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_hover_colour.Name = "cmpr_hover_colour";
-            this.cmpr_hover_colour.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
-            this.cmpr_hover_colour.Size = new System.Drawing.Size(64, 64);
-            this.cmpr_hover_colour.TabIndex = 686;
-            // 
-            // cmpr_hover_colour_label
-            // 
-            this.cmpr_hover_colour_label.AutoSize = true;
-            this.cmpr_hover_colour_label.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_hover_colour_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.cmpr_hover_colour_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_hover_colour_label.Location = new System.Drawing.Point(2601, 318);
-            this.cmpr_hover_colour_label.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_hover_colour_label.Name = "cmpr_hover_colour_label";
-            this.cmpr_hover_colour_label.Padding = new System.Windows.Forms.Padding(0, 15, 0, 10);
-            this.cmpr_hover_colour_label.Size = new System.Drawing.Size(162, 45);
-            this.cmpr_hover_colour_label.TabIndex = 685;
-            this.cmpr_hover_colour_label.Text = "Hover Colour";
-            // 
-            // cmpr_hover_colour_txt
-            // 
-            this.cmpr_hover_colour_txt.BackColor = System.Drawing.Color.Black;
-            this.cmpr_hover_colour_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.cmpr_hover_colour_txt.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.cmpr_hover_colour_txt.ForeColor = System.Drawing.SystemColors.Window;
-            this.cmpr_hover_colour_txt.Location = new System.Drawing.Point(2605, 363);
-            this.cmpr_hover_colour_txt.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_hover_colour_txt.Name = "cmpr_hover_colour_txt";
-            this.cmpr_hover_colour_txt.Size = new System.Drawing.Size(141, 21);
-            this.cmpr_hover_colour_txt.TabIndex = 684;
-            this.cmpr_hover_colour_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // cmpr_edited_colour
-            // 
-            this.cmpr_edited_colour.AutoSize = true;
-            this.cmpr_edited_colour.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_edited_colour.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.cmpr_edited_colour.ForeColor = System.Drawing.SystemColors.Window;
-            this.cmpr_edited_colour.Location = new System.Drawing.Point(2528, 419);
-            this.cmpr_edited_colour.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_edited_colour.Name = "cmpr_edited_colour";
-            this.cmpr_edited_colour.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
-            this.cmpr_edited_colour.Size = new System.Drawing.Size(64, 64);
-            this.cmpr_edited_colour.TabIndex = 689;
-            // 
-            // cmpr_edited_colour_label
-            // 
-            this.cmpr_edited_colour_label.AutoSize = true;
-            this.cmpr_edited_colour_label.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_edited_colour_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.cmpr_edited_colour_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_edited_colour_label.Location = new System.Drawing.Point(2601, 418);
-            this.cmpr_edited_colour_label.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_edited_colour_label.Name = "cmpr_edited_colour_label";
-            this.cmpr_edited_colour_label.Padding = new System.Windows.Forms.Padding(0, 15, 0, 10);
-            this.cmpr_edited_colour_label.Size = new System.Drawing.Size(166, 45);
-            this.cmpr_edited_colour_label.TabIndex = 688;
-            this.cmpr_edited_colour_label.Text = "Edited Colour";
-            // 
-            // cmpr_edited_colour_txt
-            // 
-            this.cmpr_edited_colour_txt.BackColor = System.Drawing.Color.Black;
-            this.cmpr_edited_colour_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.cmpr_edited_colour_txt.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.cmpr_edited_colour_txt.ForeColor = System.Drawing.SystemColors.Window;
-            this.cmpr_edited_colour_txt.Location = new System.Drawing.Point(2605, 463);
-            this.cmpr_edited_colour_txt.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_edited_colour_txt.Name = "cmpr_edited_colour_txt";
-            this.cmpr_edited_colour_txt.Size = new System.Drawing.Size(141, 21);
-            this.cmpr_edited_colour_txt.TabIndex = 687;
-            this.cmpr_edited_colour_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // plt0_gui
             // 
@@ -8893,6 +8587,464 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_grid_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.image_ck)).EndInit();
+
+            this.image_ck.Location = new System.Drawing.Point(815, 96);
+            this.cmpr_preview_ck.Location = new System.Drawing.Point(896, 44);
+            if (Directory.Exists(execPath + "images/preview"))
+            {
+                string[] files = Directory.GetFiles(execPath + "images/preview");
+                for (int i = 0; i < files.Length; i++)
+                    File.Delete(files[i]);
+                Directory.Delete(execPath + "images/preview");
+            }
+            encoding_ck.Add(i4_ck);
+            encoding_ck.Add(i8_ck);
+            encoding_ck.Add(ai4_ck);
+            encoding_ck.Add(ai8_ck);
+            encoding_ck.Add(rgb565_ck);
+            encoding_ck.Add(rgb5a3_ck);
+            encoding_ck.Add(rgba32_ck);
+            encoding_ck.Add(i4_ck);  // nothing
+            encoding_ck.Add(ci4_ck);
+            encoding_ck.Add(ci8_ck);
+            encoding_ck.Add(ci14x2_ck);
+            encoding_ck.Add(i4_ck);  // nothing
+            encoding_ck.Add(i4_ck);  // nothing
+            encoding_ck.Add(i4_ck);  // nothing
+            encoding_ck.Add(cmpr_ck);
+            r_ck.Add(r_r_ck);
+            r_ck.Add(r_g_ck);
+            r_ck.Add(r_b_ck);
+            r_ck.Add(r_a_ck);
+            g_ck.Add(g_r_ck);
+            g_ck.Add(g_g_ck);
+            g_ck.Add(g_b_ck);
+            g_ck.Add(g_a_ck);
+            b_ck.Add(b_r_ck);
+            b_ck.Add(b_g_ck);
+            b_ck.Add(b_b_ck);
+            b_ck.Add(b_a_ck);
+            a_ck.Add(a_r_ck);
+            a_ck.Add(a_g_ck);
+            a_ck.Add(a_b_ck);
+            a_ck.Add(a_a_ck);
+            magnification_ck.Add(mag_nearest_neighbour_ck);
+            magnification_ck.Add(mag_linear_ck);
+            magnification_ck.Add(mag_nearestmipmapnearest_ck);
+            magnification_ck.Add(mag_nearestmipmaplinear_ck);
+            magnification_ck.Add(mag_linearmipmapnearest_ck);
+            magnification_ck.Add(mag_linearmipmaplinear_ck);
+            magnification_ck.Add(mag_linearmipmaplinear_ck); // nothing
+            minification_ck.Add(min_nearest_neighbour_ck);
+            minification_ck.Add(min_linear_ck);
+            minification_ck.Add(min_nearestmipmapnearest_ck);
+            minification_ck.Add(min_nearestmipmaplinear_ck);
+            minification_ck.Add(min_linearmipmapnearest_ck);
+            minification_ck.Add(min_linearmipmaplinear_ck);
+            minification_ck.Add(min_linearmipmaplinear_ck); // nothing
+            WrapS_ck.Add(Sclamp_ck);
+            WrapS_ck.Add(Srepeat_ck);
+            WrapS_ck.Add(Smirror_ck);
+            WrapS_ck.Add(Smirror_ck);  // nothing
+            WrapT_ck.Add(Tclamp_ck);
+            WrapT_ck.Add(Trepeat_ck);
+            WrapT_ck.Add(Tmirror_ck);
+            WrapT_ck.Add(Tmirror_ck);  // nothing
+            alpha_ck_array.Add(no_alpha_ck);
+            alpha_ck_array.Add(alpha_ck);
+            alpha_ck_array.Add(mix_ck);
+            alpha_ck_array.Add(mix_ck);  // nothing
+            algorithm_ck.Add(cie_601_ck);
+            algorithm_ck.Add(cie_709_ck);
+            algorithm_ck.Add(custom_ck);
+            algorithm_ck.Add(no_gradient_ck);
+            algorithm_ck.Add(cie_601_ck);  // nothing
+            palette_ck.Add(palette_ai8_ck);
+            palette_ck.Add(palette_rgb565_ck);
+            palette_ck.Add(palette_rgb5a3_ck);
+            palette_ck.Add(palette_ai8_ck);  // nothing
+            desc.Add(description);
+            desc.Add(desc2);
+            desc.Add(desc3);
+            desc.Add(desc4);
+            desc.Add(desc5);
+            desc.Add(desc6);
+            desc.Add(desc7);
+            desc.Add(desc8);
+            desc.Add(desc9);
+            Load_Images();
+            banner_ck.BackgroundImage = banner;
+            surrounding_ck.BackgroundImage = surrounding;
+            banner_minus_ck.BackgroundImage = minimized;
+            banner_x_ck.BackgroundImage = close;
+            discord_ck.BackgroundImage = discord;
+            github_ck.BackgroundImage = github;
+            youtube_ck.BackgroundImage = youtube;
+            version_ck.BackgroundImage = version;
+            run_ck.BackgroundImage = run_off;
+            cli_textbox_ck.BackgroundImage = cli_textbox;
+            this.BackgroundImage = background;
+            unchecked_checkbox(ask_exit_ck);
+            unchecked_checkbox(FORCE_ALPHA_ck);
+            unchecked_checkbox(jpeg_ck);
+            unchecked_checkbox(jpg_ck);
+            unchecked_checkbox(bti_ck);
+            unchecked_checkbox(bmd_ck);
+            unchecked_checkbox(ico_ck);
+            unchecked_checkbox(bmp_ck);
+            unchecked_checkbox(bmp_32_ck);
+            unchecked_checkbox(stfu_ck);
+            unchecked_checkbox(safe_mode_ck);
+            unchecked_checkbox(warn_ck);
+            unchecked_checkbox(tpl_ck);
+            unchecked_checkbox(tiff_ck);
+            unchecked_checkbox(tif_ck);
+            unchecked_checkbox(tex0_ck);
+            unchecked_checkbox(png_ck);
+            unchecked_checkbox(random_ck);
+            unchecked_checkbox(reversex_ck);
+            unchecked_checkbox(reversey_ck);
+            unchecked_checkbox(funky_ck);
+            unchecked_checkbox(no_warning_ck);
+            unchecked_checkbox(gif_ck);
+            unchecked_checkbox(textchange_ck);
+            unchecked_encoding(i4_ck);
+            unchecked_encoding(i8_ck);
+            unchecked_encoding(ai4_ck);
+            unchecked_encoding(ai8_ck);
+            unchecked_encoding(rgb565_ck);
+            unchecked_encoding(rgb5a3_ck);
+            unchecked_encoding(rgba32_ck);
+            unchecked_encoding(ci4_ck);
+            unchecked_encoding(ci8_ck);
+            unchecked_encoding(ci14x2_ck);
+            unchecked_encoding(cmpr_ck);
+            checked_checkbox(auto_update_ck);
+            checked_checkbox(upscale_ck);
+            unchecked_R(a_r_ck);
+            unchecked_G(a_g_ck);
+            unchecked_B(a_b_ck);
+            checked_A(a_a_ck);
+            unchecked_R(b_r_ck);
+            unchecked_G(b_g_ck);
+            checked_B(b_b_ck);
+            unchecked_A(b_a_ck);
+            unchecked_R(g_r_ck);
+            checked_G(g_g_ck);
+            unchecked_B(g_b_ck);
+            unchecked_A(g_a_ck);
+            checked_R(r_r_ck);
+            unchecked_G(r_g_ck);
+            unchecked_B(r_b_ck);
+            unchecked_A(r_a_ck);
+            unchecked_Minification(min_nearest_neighbour_ck);
+            unchecked_Minification(min_linear_ck);
+            unchecked_Minification(min_nearestmipmapnearest_ck);
+            unchecked_Minification(min_nearestmipmaplinear_ck);
+            unchecked_Minification(min_linearmipmapnearest_ck);
+            unchecked_Minification(min_linearmipmaplinear_ck);
+            unchecked_Magnification(mag_nearest_neighbour_ck);
+            unchecked_Magnification(mag_linear_ck);
+            unchecked_Magnification(mag_nearestmipmapnearest_ck);
+            unchecked_Magnification(mag_nearestmipmaplinear_ck);
+            unchecked_Magnification(mag_linearmipmapnearest_ck);
+            unchecked_Magnification(mag_linearmipmaplinear_ck);
+            unchecked_WrapT(Tclamp_ck);
+            unchecked_WrapT(Trepeat_ck);
+            unchecked_WrapT(Tmirror_ck);
+            unchecked_WrapS(Sclamp_ck);
+            unchecked_WrapS(Srepeat_ck);
+            unchecked_WrapS(Smirror_ck);
+            unchecked_alpha(no_alpha_ck);
+            unchecked_alpha(alpha_ck);
+            unchecked_alpha(mix_ck);
+            unchecked_algorithm(cie_601_ck);
+            unchecked_algorithm(cie_709_ck);
+            unchecked_algorithm(custom_ck);
+            unchecked_algorithm(no_gradient_ck);
+            Category_checked(view_alpha_ck);
+            Category_checked(view_algorithm_ck);
+            Category_checked(view_WrapS_ck);
+            Category_checked(view_WrapT_ck);
+            Category_checked(view_min_ck);
+            Category_checked(view_mag_ck);
+            unchecked_palette(palette_ai8_ck);
+            unchecked_palette(palette_rgb565_ck);
+            unchecked_palette(palette_rgb5a3_ck);
+            if (System.IO.File.Exists(execPath + "images/settings.txt"))
+            {
+                string version = "";
+                lines = System.IO.File.ReadAllLines(execPath + "images/settings.txt");
+                if (lines.Length > 0)
+                {
+                    version = lines[0].Substring(12);
+                }
+
+                switch (version)
+                {
+                    case "v1.0":
+                        if (version == "v1.0" && lines.Length < 200)  // incorrect v1.0 config file
+                        {
+                            //  System.Diagnostics.Debug.WriteLine("some tetttttttttt23423423423423423ttttttttttttttttttttttt");
+                            Console.WriteLine("plt0 v1.0 config file should have EXACTLY 200 lines");
+                            Console.ReadLine();
+                            Environment.Exit(1);
+                        }
+                        break; // in case it needs to get out of this switch
+                               // sarcarm++;
+                    default:
+                        Console.WriteLine("incorrect config version. " + execPath + "images/settings.txt's First line isn't recognized by this tool");
+                        Console.ReadLine();
+                        Environment.Exit(2);
+                        break; // idk what happens if you don't put a break on a case, but it won't compile otherwise
+
+                }
+                switch (lines[2].ToUpper())
+                {
+                    case "ALL":
+                        checked_All();
+                        unchecked_Auto();
+                        unchecked_Preview();
+                        unchecked_Paint();
+                        Layout_All();
+                        /*
+                        View_alpha();
+                        View_algorithm();
+                        View_WrapS();
+                        View_WrapT();
+                        View_mag();
+                        View_min();*/
+                        break;
+                    case "AUTO":
+                        unchecked_All();
+                        checked_Auto();
+                        unchecked_Preview();
+                        unchecked_Paint();
+                        Layout_Auto();
+                        break;
+                    case "PREVIEW":
+                        unchecked_All();
+                        unchecked_Auto();
+                        checked_Preview();
+                        unchecked_Paint();
+                        Layout_Preview();
+                        //View_algorithm();
+                        //View_alpha();
+                        // view encoding and channel swap and some options
+                        break;
+                    case "PAINT":
+                        unchecked_All();
+                        unchecked_Auto();
+                        unchecked_Preview();
+                        checked_Paint();
+                        Layout_Paint();
+                        break;
+                }
+                switch (lines[4].ToUpper())
+                {
+                    case "MAXIMIZED":
+                        this.WindowState = FormWindowState.Maximized;
+                        banner_1_ck.BackgroundImage = bottom_left_off;
+                        banner_2_ck.BackgroundImage = bottom_off;
+                        banner_3_ck.BackgroundImage = bottom_right_off;
+                        banner_4_ck.BackgroundImage = left_off;
+                        banner_5_ck.BackgroundImage = maximized_on;
+                        banner_6_ck.BackgroundImage = right_off;
+                        banner_7_ck.BackgroundImage = top_left_off;
+                        banner_8_ck.BackgroundImage = top_off;
+                        banner_9_ck.BackgroundImage = top_right_off;
+                        break;
+                    case "NORMAL":
+                        // default
+                        banner_1_ck.BackgroundImage = bottom_left_off;
+                        banner_2_ck.BackgroundImage = bottom_off;
+                        banner_3_ck.BackgroundImage = bottom_right_off;
+                        banner_4_ck.BackgroundImage = left_off;
+                        banner_5_ck.BackgroundImage = maximized_off;
+                        banner_6_ck.BackgroundImage = right_off;
+                        banner_7_ck.BackgroundImage = top_left_off;
+                        banner_8_ck.BackgroundImage = top_off;
+                        banner_9_ck.BackgroundImage = top_right_off;
+                        break;
+                    case "LEFT":
+                        arrow = 4;
+                        banner_1_ck.BackgroundImage = bottom_left_off;
+                        banner_2_ck.BackgroundImage = bottom_off;
+                        banner_3_ck.BackgroundImage = bottom_right_off;
+                        banner_4_ck.BackgroundImage = left_on;
+                        banner_5_ck.BackgroundImage = maximized_off;
+                        banner_6_ck.BackgroundImage = right_off;
+                        banner_7_ck.BackgroundImage = top_left_off;
+                        banner_8_ck.BackgroundImage = top_off;
+                        banner_9_ck.BackgroundImage = top_right_off;
+                        break;
+                    case "TOP_LEFT":
+                        arrow = 7;
+                        banner_1_ck.BackgroundImage = bottom_left_off;
+                        banner_2_ck.BackgroundImage = bottom_off;
+                        banner_3_ck.BackgroundImage = bottom_right_off;
+                        banner_4_ck.BackgroundImage = left_off;
+                        banner_5_ck.BackgroundImage = maximized_off;
+                        banner_6_ck.BackgroundImage = right_off;
+                        banner_7_ck.BackgroundImage = top_left_on;
+                        banner_8_ck.BackgroundImage = top_off;
+                        banner_9_ck.BackgroundImage = top_right_off;
+                        break;
+                    case "TOP":
+                        arrow = 8;
+                        banner_1_ck.BackgroundImage = bottom_left_off;
+                        banner_2_ck.BackgroundImage = bottom_off;
+                        banner_3_ck.BackgroundImage = bottom_right_off;
+                        banner_4_ck.BackgroundImage = left_off;
+                        banner_5_ck.BackgroundImage = maximized_off;
+                        banner_6_ck.BackgroundImage = right_off;
+                        banner_7_ck.BackgroundImage = top_left_off;
+                        banner_8_ck.BackgroundImage = top_on;
+                        banner_9_ck.BackgroundImage = top_right_off;
+                        break;
+                    case "TOP_RIGHT":
+                        arrow = 9;
+                        banner_1_ck.BackgroundImage = bottom_left_off;
+                        banner_2_ck.BackgroundImage = bottom_off;
+                        banner_3_ck.BackgroundImage = bottom_right_off;
+                        banner_4_ck.BackgroundImage = left_off;
+                        banner_5_ck.BackgroundImage = maximized_off;
+                        banner_6_ck.BackgroundImage = right_off;
+                        banner_7_ck.BackgroundImage = top_left_off;
+                        banner_8_ck.BackgroundImage = top_off;
+                        banner_9_ck.BackgroundImage = top_right_on;
+                        break;
+                    case "RIGHT":
+                        arrow = 6;
+                        banner_1_ck.BackgroundImage = bottom_left_off;
+                        banner_2_ck.BackgroundImage = bottom_off;
+                        banner_3_ck.BackgroundImage = bottom_right_off;
+                        banner_4_ck.BackgroundImage = left_off;
+                        banner_5_ck.BackgroundImage = maximized_off;
+                        banner_6_ck.BackgroundImage = right_on;
+                        banner_7_ck.BackgroundImage = top_left_off;
+                        banner_8_ck.BackgroundImage = top_off;
+                        banner_9_ck.BackgroundImage = top_right_off;
+                        break;
+                    case "BOTTOM_RIGHT":
+                        arrow = 3;
+                        banner_1_ck.BackgroundImage = bottom_left_off;
+                        banner_2_ck.BackgroundImage = bottom_off;
+                        banner_3_ck.BackgroundImage = bottom_right_on;
+                        banner_4_ck.BackgroundImage = left_off;
+                        banner_5_ck.BackgroundImage = maximized_off;
+                        banner_6_ck.BackgroundImage = right_off;
+                        banner_7_ck.BackgroundImage = top_left_off;
+                        banner_8_ck.BackgroundImage = top_off;
+                        banner_9_ck.BackgroundImage = top_right_off;
+                        break;
+                    case "BOTTOM":
+                        arrow = 2;
+                        banner_1_ck.BackgroundImage = bottom_left_off;
+                        banner_2_ck.BackgroundImage = bottom_on;
+                        banner_3_ck.BackgroundImage = bottom_right_off;
+                        banner_4_ck.BackgroundImage = left_off;
+                        banner_5_ck.BackgroundImage = maximized_off;
+                        banner_6_ck.BackgroundImage = right_off;
+                        banner_7_ck.BackgroundImage = top_left_off;
+                        banner_8_ck.BackgroundImage = top_off;
+                        banner_9_ck.BackgroundImage = top_right_off;
+                        break;
+                    case "BOTTOM_LEFT":
+                        arrow = 1;
+                        banner_1_ck.BackgroundImage = bottom_left_on;
+                        banner_2_ck.BackgroundImage = bottom_off;
+                        banner_3_ck.BackgroundImage = bottom_right_off;
+                        banner_4_ck.BackgroundImage = left_off;
+                        banner_5_ck.BackgroundImage = maximized_off;
+                        banner_6_ck.BackgroundImage = right_off;
+                        banner_7_ck.BackgroundImage = top_left_off;
+                        banner_8_ck.BackgroundImage = top_off;
+                        banner_9_ck.BackgroundImage = top_right_off;
+                        break;
+                }
+                input_file_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                input_file2_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                output_name_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                mipmaps_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                cmpr_max_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                cmpr_min_alpha_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                num_colours_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                round3_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                round4_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                round5_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                round6_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                diversity_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                diversity2_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                percentage_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                percentage2_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                custom_r_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                custom_g_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                custom_b_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                custom_a_txt.ForeColor = System.Drawing.Color.FromName(lines[6]);
+                cmpr_edited_colour_txt.BackColor = System.Drawing.Color.FromName(lines[6]);
+                cmpr_hover_colour_txt.BackColor = System.Drawing.Color.FromName(lines[6]);
+                cmpr_c1_txt.BackColor = System.Drawing.Color.FromName(lines[6]);
+                cmpr_c2_txt.BackColor = System.Drawing.Color.FromName(lines[6]);
+                cmpr_c3_txt.BackColor = System.Drawing.Color.FromName(lines[6]);
+                cmpr_c4_txt.BackColor = System.Drawing.Color.FromName(lines[6]);
+
+                input_file_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                input_file2_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                output_name_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                mipmaps_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                cmpr_max_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                cmpr_min_alpha_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                num_colours_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                round3_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                round4_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                round5_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                round6_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                diversity_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                diversity2_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                percentage_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                percentage2_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                custom_r_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                custom_g_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                custom_b_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                custom_a_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                cmpr_edited_colour_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                cmpr_hover_colour_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                cmpr_c1_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                cmpr_c2_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                cmpr_c3_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                cmpr_c4_txt.BackColor = System.Drawing.Color.FromName(lines[8]);
+                description_title.ForeColor = System.Drawing.Color.FromName(lines[10]);
+                description.ForeColor = System.Drawing.Color.FromName(lines[10]);
+                // change font........... lines[12] will be annoying
+                byte.TryParse(lines[14], out GdiCharSet);
+                SetAllControlsFont((ControlCollection)this.Controls);
+                cmpr_hover_colour.BackColor = Color.FromName(lines[16]);
+                cmpr_edited_colour.BackColor = Color.FromName(lines[18]);
+            }
+            else
+            {
+                try
+                {
+                    string[] new_lines = { "plt0 config v1.0", "Layout (change next line with one of these: \"All\", \"Auto\", \"Preview\", \"Paint\")", "All", "Window Location (\"Normal\", \"Maximized\", \"Bottom_left\", \"Left\", \"Top_left\", \"Top\", \"Top_right\", \"Right\", \"Bottom_right\", \"Bottom\")", "Maximized", "Textboxes text color (System.Drawing.Color)", "White", "Textboxes color", "Black", "Description color", "Cyan", "Font name (it must be installed on your system)", "Segoe UI", "Encoding number (internally named GdiCharSet, see https://docs.microsoft.com/en-us/dotnet/api/system.drawing.font.gdicharset?view=dotnet-plat-ext-6.0)", "128", "CMPR Hover Colour", "White", "CMPR Edited Colour", "Transparent" };
+                    Array.Resize(ref new_lines, 255);
+                    for (byte i = 14; i < 255; i++)
+                    {
+                        new_lines[i - 1] = i.ToString();
+                    }
+
+                    System.IO.File.WriteAllLines(execPath + "images/settings.txt", new_lines);
+                }
+                catch
+                {
+                    // um, idk what to do here if the user doesn't let the app write a file.
+                }
+            }
+            Directory.CreateDirectory(execPath + "images/preview");
+            //
+            // NativeMethods.AllocConsole();
+            plt0.NativeMethods.FreeConsole();
+        
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -13690,6 +13842,15 @@ namespace plt0_gui
             previous_block = current_block;
             //cmpr_preview[0x7A + (x << 2) + ((y * cmpr_preview_ck.Width) << 2)] = 
             //Hover_cmpr();
+        }
+        private void cmpr_hover_colour_TextChanged(object sender, EventArgs e)
+        {
+            parse_rgba(cmpr_hover_colour, cmpr_hover_colour_txt);
+        }
+
+        private void cmpr_edited_colour_TextChanged(object sender, EventArgs e)
+        {
+            parse_rgba(cmpr_edited_colour, cmpr_edited_colour_txt);
         }
     }
 }
