@@ -59,9 +59,9 @@ namespace plt0_gui
         byte green;
         byte blue;
         byte alpha2;
-        byte cmpr_hover_red = 0;
-        byte cmpr_hover_green = 0;
-        byte cmpr_hover_blue = 0;
+        byte cmpr_hover_red = 255;
+        byte cmpr_hover_green = 255;
+        byte cmpr_hover_blue = 255;
         byte cmpr_hover_alpha = 0;
         byte cmpr_edit_red = 0;
         byte cmpr_edit_green = 0;
@@ -13864,11 +13864,11 @@ namespace plt0_gui
                     cmpr_preview_ck.Image = GetImageFromByteArray(cmpr_preview);
                     cmpr_preview_vanilla = cmpr_preview_ck.Image;
                     if (cmpr_preview_ck.Image.Height > cmpr_preview_ck.Image.Width)
-                        mag_ratio = (double)(1024 - cmpr_preview_ck.Image.Height) / (double)cmpr_preview_ck.Image.Height; // 
+                        mag_ratio = 1 + (double)(1024 - cmpr_preview_ck.Image.Height) / (double)cmpr_preview_ck.Image.Height; // 
                     else
-                        mag_ratio = (double)(1024 - cmpr_preview_ck.Image.Width) / (double)cmpr_preview_ck.Image.Width; // 
-                    blocks_wide = (ushort)(cmpr_preview_ck.Image.Width >> 3);
-                    blocks_tall = (ushort)(cmpr_preview_ck.Image.Height >> 3);
+                        mag_ratio = 1 + (double)(1024 - cmpr_preview_ck.Image.Width) / (double)cmpr_preview_ck.Image.Width; // 
+                    blocks_wide = (ushort)(cmpr_preview_ck.Image.Width >> 2);
+                    blocks_tall = (ushort)(cmpr_preview_ck.Image.Height >> 2);
                     cmpr_preview_start_offset = (cmpr_preview.Length - (cmpr_preview_ck.Image.Width << 2));
                     cmpr_warning.Text = "";
                 }
@@ -13972,61 +13972,79 @@ namespace plt0_gui
             block_x = (ushort)(((block_x >> 1) << 2) + block_x);  // because of the sub-block on 2 rows order rule
             ushort y = (ushort)(e.Y / mag_ratio);
             block_y = (ushort)(y >> 2);
-            if (block_y % 2 == 0)
-                block_y += 2;
-            block_y = (ushort)(block_y * blocks_wide);
-            current_block = block_x + block_y;
+            if (block_y % 2 == 1)
+                current_block = block_x + 2;
+            else
+                current_block = block_x;
+           // block_y = (ushort)(block_y * blocks_wide);
+            //current_block = block_x + block_y;
             if (current_block == previous_block || cmpr_preview_vanilla == null)
                 return;
             previous_block = current_block;
-            cmpr_preview[cmpr_preview_start_offset + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_blue;
-            cmpr_preview[cmpr_preview_start_offset + 1 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_green;
-            cmpr_preview[cmpr_preview_start_offset + 2 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_red;
-            cmpr_preview[cmpr_preview_start_offset + 3 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_alpha;
-            cmpr_preview[cmpr_preview_start_offset + 4 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_blue;
-            cmpr_preview[cmpr_preview_start_offset + 5 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_green;
-            cmpr_preview[cmpr_preview_start_offset + 6 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_red;
-            cmpr_preview[cmpr_preview_start_offset + 7 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_alpha;
-            cmpr_preview[cmpr_preview_start_offset + 8 +(block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_blue;
-            cmpr_preview[cmpr_preview_start_offset + 9 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_green;
-            cmpr_preview[cmpr_preview_start_offset + 10 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_red;
-            cmpr_preview[cmpr_preview_start_offset + 11 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_alpha;
-            cmpr_preview[cmpr_preview_start_offset + 12 +(block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_blue;
-            cmpr_preview[cmpr_preview_start_offset + 13 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_green;
-            cmpr_preview[cmpr_preview_start_offset + 14 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_red;
-            cmpr_preview[cmpr_preview_start_offset + 15 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_alpha;
-            cmpr_preview[cmpr_preview_start_offset + (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_blue;
-            cmpr_preview[cmpr_preview_start_offset + 1 + (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_green;
-            cmpr_preview[cmpr_preview_start_offset + 2 + (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_red;
-            cmpr_preview[cmpr_preview_start_offset + 3 + (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_alpha;
-            cmpr_preview[cmpr_preview_start_offset + 4 + (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_blue;
-            cmpr_preview[cmpr_preview_start_offset + 5 + (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_green;
-            cmpr_preview[cmpr_preview_start_offset + 6 + (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_red;
-            cmpr_preview[cmpr_preview_start_offset + 7 + (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_alpha;
-            cmpr_preview[cmpr_preview_start_offset + 8 + (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_blue;
-            cmpr_preview[cmpr_preview_start_offset + 9 + (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_green;
-            cmpr_preview[cmpr_preview_start_offset + 10 + (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_red;
-            cmpr_preview[cmpr_preview_start_offset + 11 + (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_alpha;
-            cmpr_preview[cmpr_preview_start_offset + 12 + (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_blue;
-            cmpr_preview[cmpr_preview_start_offset + 13 + (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_green;
-            cmpr_preview[cmpr_preview_start_offset + 14 + (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_red;
-            cmpr_preview[cmpr_preview_start_offset + 15 + (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_alpha;
-            cmpr_preview[cmpr_preview_start_offset + (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_blue;
-            cmpr_preview[cmpr_preview_start_offset + 1 + (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_green;
-            cmpr_preview[cmpr_preview_start_offset + 2 + (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_red;
-            cmpr_preview[cmpr_preview_start_offset + 3 + (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_alpha;
-            cmpr_preview[cmpr_preview_start_offset + 4 + (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_blue;
-            cmpr_preview[cmpr_preview_start_offset + 5 + (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_green;
-            cmpr_preview[cmpr_preview_start_offset + 6 + (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_red;
-            cmpr_preview[cmpr_preview_start_offset + 7 + (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_alpha;
-            cmpr_preview[cmpr_preview_start_offset + 8 + (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_blue;
-            cmpr_preview[cmpr_preview_start_offset + 9 + (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_green;
-            cmpr_preview[cmpr_preview_start_offset + 10 + (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_red;
-            cmpr_preview[cmpr_preview_start_offset + 11 + (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_alpha;
-            cmpr_preview[cmpr_preview_start_offset + 12 + (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_blue;
-            cmpr_preview[cmpr_preview_start_offset + 13 + (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_green;
-            cmpr_preview[cmpr_preview_start_offset + 14 + (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_red;
-            cmpr_preview[cmpr_preview_start_offset + 15 + (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_alpha;
+            cmpr_preview[cmpr_preview_start_offset + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_blue;
+            cmpr_preview[cmpr_preview_start_offset + 1 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_green;
+            cmpr_preview[cmpr_preview_start_offset + 2 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_red;
+            cmpr_preview[cmpr_preview_start_offset + 3 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_alpha;
+            cmpr_preview[cmpr_preview_start_offset + 4 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_blue;
+            cmpr_preview[cmpr_preview_start_offset + 5 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_green;
+            cmpr_preview[cmpr_preview_start_offset + 6 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_red;
+            cmpr_preview[cmpr_preview_start_offset + 7 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_alpha;
+            cmpr_preview[cmpr_preview_start_offset + 8 +(block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_blue;
+            cmpr_preview[cmpr_preview_start_offset + 9 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_green;
+            cmpr_preview[cmpr_preview_start_offset + 10 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_red;
+            cmpr_preview[cmpr_preview_start_offset + 11 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_alpha;
+            cmpr_preview[cmpr_preview_start_offset + 12 +(block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_blue;
+            cmpr_preview[cmpr_preview_start_offset + 13 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_green;
+            cmpr_preview[cmpr_preview_start_offset + 14 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_red;
+            cmpr_preview[cmpr_preview_start_offset + 15 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_alpha;
+            cmpr_preview[cmpr_preview_start_offset - (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_blue;
+            cmpr_preview[cmpr_preview_start_offset + 1 - (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_green;
+            cmpr_preview[cmpr_preview_start_offset + 2 - (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_red;
+            cmpr_preview[cmpr_preview_start_offset + 3 - (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_alpha;
+            cmpr_preview[cmpr_preview_start_offset + 4 - (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_blue;
+            cmpr_preview[cmpr_preview_start_offset + 5 - (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_green;
+            cmpr_preview[cmpr_preview_start_offset + 6 - (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_red;
+            cmpr_preview[cmpr_preview_start_offset + 7 - (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_alpha;
+            cmpr_preview[cmpr_preview_start_offset + 8 - (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_blue;
+            cmpr_preview[cmpr_preview_start_offset + 9 - (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_green;
+            cmpr_preview[cmpr_preview_start_offset + 10 - (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_red;
+            cmpr_preview[cmpr_preview_start_offset + 11 - (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_alpha;
+            cmpr_preview[cmpr_preview_start_offset + 12 - (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_blue;
+            cmpr_preview[cmpr_preview_start_offset + 13 - (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_green;
+            cmpr_preview[cmpr_preview_start_offset + 14 - (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_red;
+            cmpr_preview[cmpr_preview_start_offset + 15 - (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_alpha;
+            cmpr_preview[cmpr_preview_start_offset - (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_blue;
+            cmpr_preview[cmpr_preview_start_offset + 1 - (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_green;
+            cmpr_preview[cmpr_preview_start_offset + 2 - (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_red;
+            cmpr_preview[cmpr_preview_start_offset + 3 - (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_alpha;
+            cmpr_preview[cmpr_preview_start_offset + 4 - (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_blue;
+            cmpr_preview[cmpr_preview_start_offset + 5 - (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_green;
+            cmpr_preview[cmpr_preview_start_offset + 6 - (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_red;
+            cmpr_preview[cmpr_preview_start_offset + 7 - (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_alpha;
+            cmpr_preview[cmpr_preview_start_offset + 8 - (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_blue;
+            cmpr_preview[cmpr_preview_start_offset + 9 - (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_green;
+            cmpr_preview[cmpr_preview_start_offset + 10 - (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_red;
+            cmpr_preview[cmpr_preview_start_offset + 11 - (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_alpha;
+            cmpr_preview[cmpr_preview_start_offset + 12 - (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_blue;
+            cmpr_preview[cmpr_preview_start_offset + 13 - (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_green;
+            cmpr_preview[cmpr_preview_start_offset + 14 - (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_red;
+            cmpr_preview[cmpr_preview_start_offset + 15 - (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_alpha;
+            cmpr_preview[cmpr_preview_start_offset - (cmpr_preview_ck.Image.Width * 12) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_blue;
+            cmpr_preview[cmpr_preview_start_offset + 1 - (cmpr_preview_ck.Image.Width * 12) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_green;
+            cmpr_preview[cmpr_preview_start_offset + 2 - (cmpr_preview_ck.Image.Width * 12) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_red;
+            cmpr_preview[cmpr_preview_start_offset + 3 - (cmpr_preview_ck.Image.Width * 12) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_alpha;
+            cmpr_preview[cmpr_preview_start_offset + 4 - (cmpr_preview_ck.Image.Width * 12) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_blue;
+            cmpr_preview[cmpr_preview_start_offset + 5 - (cmpr_preview_ck.Image.Width * 12) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_green;
+            cmpr_preview[cmpr_preview_start_offset + 6 - (cmpr_preview_ck.Image.Width * 12) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_red;
+            cmpr_preview[cmpr_preview_start_offset + 7 - (cmpr_preview_ck.Image.Width * 12) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_alpha;
+            cmpr_preview[cmpr_preview_start_offset + 8 - (cmpr_preview_ck.Image.Width * 12) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_blue;
+            cmpr_preview[cmpr_preview_start_offset + 9 - (cmpr_preview_ck.Image.Width * 12) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_green;
+            cmpr_preview[cmpr_preview_start_offset + 10 - (cmpr_preview_ck.Image.Width * 12) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_red;
+            cmpr_preview[cmpr_preview_start_offset + 11 - (cmpr_preview_ck.Image.Width * 12) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_alpha;
+            cmpr_preview[cmpr_preview_start_offset + 12 - (cmpr_preview_ck.Image.Width * 12) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_blue;
+            cmpr_preview[cmpr_preview_start_offset + 13 - (cmpr_preview_ck.Image.Width * 12) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_green;
+            cmpr_preview[cmpr_preview_start_offset + 14 - (cmpr_preview_ck.Image.Width * 12) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_red;
+            cmpr_preview[cmpr_preview_start_offset + 15 - (cmpr_preview_ck.Image.Width * 12) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_alpha;
             cmpr_preview_ck.Image = GetImageFromByteArray(cmpr_preview);
         }
         private void cmpr_hover_colour_TextChanged(object sender, EventArgs e)
