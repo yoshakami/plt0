@@ -1,6 +1,6 @@
 plt0 config v1.0
 Layout (change next line with one of these: "All", "Auto", "Preview", "Paint")
-Paint
+Auto
 Window Location ("Normal", "Maximized", "Bottom_left", "Left", "Top_left", "Top", "Top_right", "Right", "Bottom_right", "Bottom")
 Maximized
 Textboxes text color (System.Drawing.Color)
@@ -13,6 +13,12 @@ Font name (it must be installed on your system)
 NintendoP-NewRodin DB
 Encoding number (internally named GdiCharSet, see https://docs.microsoft.com/en-us/dotnet/api/system.drawing.font.gdicharset?view=dotnet-plat-ext-6.0)
 128
+CMPR Hover Colour
+White
+CMPR Edited Colour
+Transparent
+
+
 
 
 
@@ -45,6 +51,7 @@ yeah, I decided to implement my own markdown again.
 "\z" = z-axis block depth of selected encoding
 "\0" = 0utputs the x-axis block width of selected encoding
 
+
 notes: 
 colour names are all the ones allowed in System.Drawing.Color
 \v (GdiVerticalFont = true by default) see https://docs.microsoft.com/en-us/dotnet/api/system.drawing.font.gdiverticalfont?view=dotnet-plat-ext-6.0
@@ -53,8 +60,11 @@ colour names are all the ones allowed in System.Drawing.Color
 if it doesn't have quotes, make markdown with arguments always end with a space (\c \f \g \j \q \s)
 the byte \x00 must always have 2 digits (that way, the program know where it ends, and you don't need to add a ending character after it)
 
+
 you can use \j 8 times at most in one line of this .txt
 this is because labels override each other :/ even though its back is transparent, it won't allow the text of the other label back him to show
+
+
 
 
 edit textures of a bmd file \j \c red (a bmd file must be provided in input_file2)
@@ -193,13 +203,30 @@ fourth colour \j\j\c red it is interpolated,\j\c red you can't edit it directly
 will select a 4x4 block\nwhen you click on the preview picture
 will paint pixels\nwhen you click on the preview picture
 \c red Input file is not a CMPR texture
-\c orange colour1 trimmed to RGB565
+\c orange colour trimmed to RGB565
 \c green -> Mouse Wheel Click
 \c green -> Right Click
 \c green -> Forward Button
 \c green -> Backward Button
 \c green -> Left Click
+(1, 1)
+(1, 2)
+(1, 3)
+(1, 4)
+(2, 1)
+(2, 2)
+(2, 3)
+(2, 4)
+(3, 1)
+(3, 2)
+(3, 3)
+(3, 4)
+(4, 1)
+(4, 2)
+(4, 3)
+(4, 4)
 color, 16 bits per pixel - no alpha \j\c red 5 bits red\j\c green 6 bits green\j\c blue 5 bits blue\j\c Violet  test\j\c pink test2\j\c orange text\j\c purple purple\j\c chartreuse chartreuse\c yellow yellow
 Hello \u ! you found an easter egg lol \n\ndid you know most apps have a folder in \a ?\j\j\j\n\n\c Red this one doesn't though. I prefer using local files.
 this is padding data to alignment. (meme)
+this is padding data to alignment.
 this is padding data to alignment.

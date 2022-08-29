@@ -24,7 +24,7 @@ namespace plt0_gui
         byte[] colour_4 = { 0, 0, 0, 0 };
         // the 4x4 grid for the Paint Layout is a 4x4 bmp file
         byte[] cmpr_4x4 = { 66, 77, 186, 0, 0, 0, 121, 111, 115, 104, 122, 0, 0, 0, 108, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0, 1, 0, 32, 0, 3, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 0, 0, 255, 0, 0, 255, 0, 0, 0, 0, 0, 0, 255, 32, 110, 105, 87, 0, 104, 116, 116, 112, 115, 58, 47, 47, 100, 105, 115, 99, 111, 114, 100, 46, 103, 103, 47, 118, 57, 86, 112, 68, 90, 57, 0, 116, 104, 105, 115, 32, 105, 115, 32, 112, 97, 100, 100, 105, 110, 103, 32, 100, 97, 116, 97, 0, 0, 240, 255, 72, 242, 64, 255, 72, 66, 240, 255, 0, 255, 0, 255, 200, 254, 200, 255, 32, 57, 240, 255, 32, 249, 56, 255, 200, 206, 240, 255, 16, 16, 240, 255, 32, 241, 56, 255, 48, 49, 255, 255, 72, 250, 64, 255, 16, 255, 16, 255, 32, 57, 255, 255, 48, 241, 48, 255, 72, 66, 240, 255 };
-        string[] cmpr_args = new string[] { "gui", "1", execPath + "images/preview/1" };
+        string[] cmpr_args = new string[] { "gui", "i", "i", execPath + "images/preview/1" };
         string[] lines = new string[255];
         string[] layout_name = { "All", "Auto", "Preview", "Paint" };
         string cmpr_colours_hex;
@@ -8705,7 +8705,6 @@ namespace plt0_gui
             // 
             this.cmpr_preview_ck.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_preview_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.cmpr_preview_ck.Enabled = false;
             this.cmpr_preview_ck.ErrorImage = null;
             this.cmpr_preview_ck.InitialImage = null;
             this.cmpr_preview_ck.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
@@ -8748,6 +8747,7 @@ namespace plt0_gui
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(3751, 2014);
+            this.Controls.Add(this.mandatory_settings_label);
             this.Controls.Add(this.cmpr_edited_colour);
             this.Controls.Add(this.cmpr_edited_colour_label);
             this.Controls.Add(this.cmpr_edited_colour_txt);
@@ -9036,7 +9036,6 @@ namespace plt0_gui
             this.Controls.Add(this.bti_label);
             this.Controls.Add(this.bmd_ck);
             this.Controls.Add(this.bmd_label);
-            this.Controls.Add(this.mandatory_settings_label);
             this.Controls.Add(this.output_file_type_label);
             this.Controls.Add(this.surrounding_ck);
             this.Controls.Add(this.view_min_label);
@@ -13851,8 +13850,8 @@ namespace plt0_gui
                 {
                     num++;
                 }
-                cmpr_args[1] = input_file;
-                cmpr_args[2] = (execPath + "images/preview/" + num + ".bmp");  // even if there's an output file in the args, the last one is the output file :) that's how I made it
+                cmpr_args[2] = input_file;
+                cmpr_args[3] = (execPath + "images/preview/" + num + ".bmp");  // even if there's an output file in the args, the last one is the output file :) that's how I made it
                 Parse_args_class cli = new Parse_args_class();
                 cli.Parse_args(cmpr_args);
                 if (File.Exists(execPath + "images/preview/" + num + ".bmp"))
@@ -13870,7 +13869,7 @@ namespace plt0_gui
                         mag_ratio = (double)(1024 - cmpr_preview_ck.Image.Width) / (double)cmpr_preview_ck.Image.Width; // 
                     blocks_wide = (ushort)(cmpr_preview_ck.Image.Width >> 3);
                     blocks_tall = (ushort)(cmpr_preview_ck.Image.Height >> 3);
-                    cmpr_preview_start_offset = 0x7A + (cmpr_preview.Length - (cmpr_preview_ck.Image.Width << 2));
+                    cmpr_preview_start_offset = (cmpr_preview.Length - (cmpr_preview_ck.Image.Width << 2));
                     cmpr_warning.Text = "";
                 }
                 else
@@ -13933,7 +13932,6 @@ namespace plt0_gui
         }
         private void cmpr_grid_ck_MouseMove(object sender, MouseEventArgs e)
         {
-
             switch (e.Button.ToString())
             {
                 case "Left":
@@ -13969,10 +13967,10 @@ namespace plt0_gui
         }
         private void cmpr_preview_ck_MouseMove(object sender, MouseEventArgs e)
         {
-            ushort x = (ushort)(e.X * mag_ratio);
+            ushort x = (ushort)(e.X / mag_ratio);
             block_x = (ushort)(x >> 2);
             block_x = (ushort)(((block_x >> 1) << 2) + block_x);  // because of the sub-block on 2 rows order rule
-            ushort y = (ushort)(e.Y * mag_ratio);
+            ushort y = (ushort)(e.Y / mag_ratio);
             block_y = (ushort)(y >> 2);
             if (block_y % 2 == 0)
                 block_y += 2;
@@ -13981,10 +13979,54 @@ namespace plt0_gui
             if (current_block == previous_block || cmpr_preview_vanilla == null)
                 return;
             previous_block = current_block;
-            cmpr_preview[cmpr_preview_start_offset + (x << 2) - ((y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_blue;
-            cmpr_preview[cmpr_preview_start_offset + 1 + (x << 2) - ((y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_green;
-            cmpr_preview[cmpr_preview_start_offset + 2 + (x << 2) - ((y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_red;
-            cmpr_preview[cmpr_preview_start_offset + 3 + (x << 2) - ((y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_alpha;
+            cmpr_preview[cmpr_preview_start_offset + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_blue;
+            cmpr_preview[cmpr_preview_start_offset + 1 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_green;
+            cmpr_preview[cmpr_preview_start_offset + 2 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_red;
+            cmpr_preview[cmpr_preview_start_offset + 3 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_alpha;
+            cmpr_preview[cmpr_preview_start_offset + 4 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_blue;
+            cmpr_preview[cmpr_preview_start_offset + 5 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_green;
+            cmpr_preview[cmpr_preview_start_offset + 6 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_red;
+            cmpr_preview[cmpr_preview_start_offset + 7 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_alpha;
+            cmpr_preview[cmpr_preview_start_offset + 8 +(block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_blue;
+            cmpr_preview[cmpr_preview_start_offset + 9 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_green;
+            cmpr_preview[cmpr_preview_start_offset + 10 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_red;
+            cmpr_preview[cmpr_preview_start_offset + 11 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_alpha;
+            cmpr_preview[cmpr_preview_start_offset + 12 +(block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_blue;
+            cmpr_preview[cmpr_preview_start_offset + 13 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_green;
+            cmpr_preview[cmpr_preview_start_offset + 14 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_red;
+            cmpr_preview[cmpr_preview_start_offset + 15 + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_alpha;
+            cmpr_preview[cmpr_preview_start_offset + (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_blue;
+            cmpr_preview[cmpr_preview_start_offset + 1 + (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_green;
+            cmpr_preview[cmpr_preview_start_offset + 2 + (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_red;
+            cmpr_preview[cmpr_preview_start_offset + 3 + (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_alpha;
+            cmpr_preview[cmpr_preview_start_offset + 4 + (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_blue;
+            cmpr_preview[cmpr_preview_start_offset + 5 + (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_green;
+            cmpr_preview[cmpr_preview_start_offset + 6 + (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_red;
+            cmpr_preview[cmpr_preview_start_offset + 7 + (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_alpha;
+            cmpr_preview[cmpr_preview_start_offset + 8 + (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_blue;
+            cmpr_preview[cmpr_preview_start_offset + 9 + (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_green;
+            cmpr_preview[cmpr_preview_start_offset + 10 + (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_red;
+            cmpr_preview[cmpr_preview_start_offset + 11 + (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_alpha;
+            cmpr_preview[cmpr_preview_start_offset + 12 + (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_blue;
+            cmpr_preview[cmpr_preview_start_offset + 13 + (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_green;
+            cmpr_preview[cmpr_preview_start_offset + 14 + (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_red;
+            cmpr_preview[cmpr_preview_start_offset + 15 + (cmpr_preview_ck.Image.Width << 2) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_alpha;
+            cmpr_preview[cmpr_preview_start_offset + (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_blue;
+            cmpr_preview[cmpr_preview_start_offset + 1 + (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_green;
+            cmpr_preview[cmpr_preview_start_offset + 2 + (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_red;
+            cmpr_preview[cmpr_preview_start_offset + 3 + (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_alpha;
+            cmpr_preview[cmpr_preview_start_offset + 4 + (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_blue;
+            cmpr_preview[cmpr_preview_start_offset + 5 + (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_green;
+            cmpr_preview[cmpr_preview_start_offset + 6 + (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_red;
+            cmpr_preview[cmpr_preview_start_offset + 7 + (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_alpha;
+            cmpr_preview[cmpr_preview_start_offset + 8 + (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_blue;
+            cmpr_preview[cmpr_preview_start_offset + 9 + (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_green;
+            cmpr_preview[cmpr_preview_start_offset + 10 + (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_red;
+            cmpr_preview[cmpr_preview_start_offset + 11 + (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_alpha;
+            cmpr_preview[cmpr_preview_start_offset + 12 + (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_blue;
+            cmpr_preview[cmpr_preview_start_offset + 13 + (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_green;
+            cmpr_preview[cmpr_preview_start_offset + 14 + (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_red;
+            cmpr_preview[cmpr_preview_start_offset + 15 + (cmpr_preview_ck.Image.Width << 3) + (block_x << 2) - ((block_y * cmpr_preview_ck.Image.Width) << 2)] = cmpr_hover_alpha;
             cmpr_preview_ck.Image = GetImageFromByteArray(cmpr_preview);
         }
         private void cmpr_hover_colour_TextChanged(object sender, EventArgs e)
