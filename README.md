@@ -27,6 +27,12 @@ v1.2 : add french zettings.txt
 
 currently developping v1.0
 
+Note: if you want to change the source code of GUI layout, you'll probably need a 4k screen, since Visual Studio automatically resizes the app bounds to your screen size (Naughy VS!) and the whole screen is packed to the gills with GUI elements
+
+the whole GUI was made with only 3 elements : label, picturebox, and textbox
+
+the GUI opens if (input file = "")  or texture_format isn't specified<br>(which means that opening a texture with plt0.exe will decode it and output a bmp without showing the GUI)
+
 ## why this project
 wimgt doesn't support textures with palette (or corrupts them), except tpl files. which makes his whole tool a bit annoying
 
@@ -37,7 +43,7 @@ first, I made it on python, but noticed python is kinda slow, so I rewritten it 
 
 I ended up making lists of ushort arrays and an IComparer.
 
-0. I Installed "Visual Studio Community 2022", then choosen "Windows Application", then changed the code itself to make it a CLI (for now).
+0. I Installed "Visual Studio Community 2022", then choosen "Console Application", (this allows the program to be a hybrid gui/cli).
 1. Parse arguments: I used a big switch case (not case sensitive) and some smart thinking about input/output files/palette
 2. I used the native System.Drawing.Imaging.ImageFormat library to convert the input image to 32bit depth bmp, then I processed the raw stream data.
 3. Convert all pixels to palette format
