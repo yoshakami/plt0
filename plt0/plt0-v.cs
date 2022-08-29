@@ -6,6 +6,7 @@ using System.IO;
 using System.Drawing.Drawing2D;
 using System.Reflection;
 using plt0;
+using System.CodeDom.Compiler;
 //using System.Drawing.Text;
 //using System.Linq;
 
@@ -58,6 +59,7 @@ namespace plt0_gui
         ushort colour1;
         ushort colour2;
         ushort colour3;
+        byte offset;
         string seal;
         //byte jump_line;
         float size_font;
@@ -3120,30 +3122,44 @@ namespace plt0_gui
                 // last colour isn't in the palette, it's in _plt0.alpha_bitfield
             }
             cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
-            for (byte i = 0; i < 16; i++)
-            {
-                Paint_Pixel(i, (byte)(cmpr_index[i] + 1));
-            }
+            for (ushort x = 0; x < 256; x += 64)
+                for (ushort y = 0; y < 256; y += 64)
+                    Paint_Pixel(x, y, (byte)(cmpr_index[(x >> 6) + (y >> 4)] + 1));
         }
         private void Paint_Pixel(byte index, byte button)
         {
             //cmpr_grid[index].BackColor = Color.FromArgb(cmpr_colours_argb[(button << 2) - 4], cmpr_colours_argb[(button << 2) - 3], cmpr_colours_argb[(button << 2) - 2], cmpr_colours_argb[(button << 2) - 1]);
+            // cmpr_index[index] = (byte)(button - 1);
+            offset = 48;
+            if (index > 4)
+                offset = 32;
+            if (index > 8)
+                offset = 16;
+            if (index > 12)
+                offset = 0;
+            cmpr_4x4[0x7A + offset + (index % 4)] = cmpr_colours_argb[(button << 2) - 1];  // B
+            cmpr_4x4[0x7B + offset + (index % 4)] = cmpr_colours_argb[(button << 2) - 2];  // G
+            cmpr_4x4[0x7C + offset + (index % 4)] = cmpr_colours_argb[(button << 2) - 3];  // R
+            cmpr_4x4[0x7D + offset + (index % 4)] = cmpr_colours_argb[(button << 2) - 4];  // A
+            //cmpr_grid[index].BackColor = Color.FromArgb(cmpr_colours_argb[(button << 2) - 4], cmpr_colours_argb[(button << 2) - 3], cmpr_colours_argb[(button << 2) - 2], cmpr_colours_argb[(button << 2) - 1]);
             cmpr_index[index] = (byte)(button - 1);
-
+            // change that because the first byte of a bmp is at the last line :P
+            // also X + Y doesn't work because 0, 1 = 1, 0 lol
+            cmpr_grid_ck.Image = GetImageFromByteArray(cmpr_4x4);
             //  cmpr_preview_ck.Image = GetImageFromByteArray(cmpr_file);
         }
         private void Paint_Pixel(int x, int y, byte button)  // note: X and Y are height and width WITHIN the picturebox
         {
             x >>= 6;
             y >>= 6;
-            if (x > 3 || y > 3)
+            if (x > 3 || y > 3 || x < 0 || y < 0)
                 return;
-            cmpr_4x4[0x7A + ((x + y) << 2)] = cmpr_colours_argb[(button << 2) - 1];  // B
-            cmpr_4x4[0x7A + ((x + y) << 2) + 1] = cmpr_colours_argb[(button << 2) - 2];  // G
-            cmpr_4x4[0x7A + ((x + y) << 2) + 2] = cmpr_colours_argb[(button << 2) - 3];  // R
-            cmpr_4x4[0x7A + ((x + y) << 2) + 3] = cmpr_colours_argb[(button << 2) - 4];  // A
+            cmpr_4x4[170 + (x << 2) - (y << 4)] = cmpr_colours_argb[(button << 2) - 1];  // B
+            cmpr_4x4[171 + (x << 2) - (y << 4)] = cmpr_colours_argb[(button << 2) - 2];  // G
+            cmpr_4x4[172 + (x << 2) - (y << 4)] = cmpr_colours_argb[(button << 2) - 3];  // R
+            cmpr_4x4[173 + (x << 2) - (y << 4)] = cmpr_colours_argb[(button << 2) - 4];  // A
             //cmpr_grid[index].BackColor = Color.FromArgb(cmpr_colours_argb[(button << 2) - 4], cmpr_colours_argb[(button << 2) - 3], cmpr_colours_argb[(button << 2) - 2], cmpr_colours_argb[(button << 2) - 1]);
-            cmpr_index[x + y] = (byte)(button - 1);
+            cmpr_index[x + (y << 2)] = (byte)(button - 1);
             // change that because the first byte of a bmp is at the last line :P
             // also X + Y doesn't work because 0, 1 = 1, 0 lol
             cmpr_grid_ck.Image = GetImageFromByteArray(cmpr_4x4);
@@ -8298,7 +8314,7 @@ namespace plt0_gui
             this.cmpr_grid_ck.TabIndex = 683;
             this.cmpr_grid_ck.TabStop = false;
             this.cmpr_grid_ck.Visible = false;
-            this.cmpr_grid_ck.MouseEnter += new System.EventHandler(this.cmpr_c4_MouseEnter);
+            this.cmpr_grid_ck.MouseDown += new System.Windows.Forms.MouseEventHandler(this.cmpr_grid_ck_MouseMove);
             this.cmpr_grid_ck.MouseMove += new System.Windows.Forms.MouseEventHandler(this.cmpr_grid_ck_MouseMove);
             // 
             // cmpr_preview_ck
@@ -8348,7 +8364,7 @@ namespace plt0_gui
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(3758, 1765);
+            this.ClientSize = new System.Drawing.Size(3803, 1526);
             this.Controls.Add(this.cmpr_grid_ck);
             this.Controls.Add(this.cmpr_sel);
             this.Controls.Add(this.cmpr_mouse5_label);
