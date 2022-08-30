@@ -14242,21 +14242,21 @@ namespace plt0_gui
         }
         private void cmpr_grid_ck_MouseMove(object sender, MouseEventArgs e)
         {
-            switch (e.Button.ToString())
+            switch (e.Button)
             {
-                case "Left":
+                case MouseButtons.Left:
                     Paint_Pixel(e.X, e.Y, cmpr_selected_colour);
                     break;
-                case "Middle":
+                case MouseButtons.Middle:
                     Paint_Pixel(e.X, e.Y, 1);
                     break;
-                case "Right":
+                case MouseButtons.Right:
                     Paint_Pixel(e.X, e.Y, 2);
                     break;
-                case "XButton2":
+                case MouseButtons.XButton2:
                     Paint_Pixel(e.X, e.Y, 3);
                     break;
-                case "XButton1":
+                case MouseButtons.XButton1:
                     Paint_Pixel(e.X, e.Y, 4);
                     break;
             }
@@ -14274,6 +14274,34 @@ namespace plt0_gui
         private void sync_preview_Click(object sender, EventArgs e)
         {
             Preview(false);
+        }
+        private void Get_Pixel_Colour(MouseButtons e)
+        {
+            cmpr_x &= 3;
+            cmpr_y &= 3;
+
+            switch (e)
+            {
+                case MouseButtons.Left:
+                    Change_Colour_From_Pixel(cmpr_selected_colour);
+                    break;
+                case MouseButtons.Middle:
+                    Change_Colour_From_Pixel(1);
+                    break;
+                case MouseButtons.Right:
+                    Change_Colour_From_Pixel(2);
+                    break;
+                case MouseButtons.XButton2:
+                    Change_Colour_From_Pixel(3);
+                    break;
+                case MouseButtons.XButton1:
+                    Change_Colour_From_Pixel(4);
+                    break;
+            }
+        }
+        private void Change_Colour_From_Pixel(byte cmpr_colour)
+        {
+
         }
         private void cmpr_preview_ck_MouseMove(object sender, MouseEventArgs e)
         {
@@ -14295,9 +14323,15 @@ namespace plt0_gui
             }
             else
                 current_block = (block_y * blocks_wide) + (((block_x >> 1) << 2) + (block_x % 2));
+            if (tooltip == 1)
+            {
+                if (e.Button != MouseButtons.None)
+                    Get_Pixel_Colour(e.Button);
+                return;
+            }
             // block_y = (ushort)(block_y * blocks_wide);
             //current_block = block_x + block_y;
-            if (e.Button.ToString() == "Left")
+            if (e.Button == MouseButtons.Left)
             {
                 Load_cmpr_block();
                 return;

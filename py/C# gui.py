@@ -936,21 +936,21 @@ output += """
         }
         private void cmpr_grid_ck_MouseMove(object sender, MouseEventArgs e)
         {
-            switch (e.Button.ToString())
+            switch (e.Button)
             {
-                case "Left":
+                case MouseButtons.Left:
                     Paint_Pixel(e.X, e.Y, cmpr_selected_colour);
                     break;
-                case "Middle":
+                case MouseButtons.Middle:
                     Paint_Pixel(e.X, e.Y, 1);
                     break;
-                case "Right":
+                case MouseButtons.Right:
                     Paint_Pixel(e.X, e.Y, 2);
                     break;
-                case "XButton2":
+                case MouseButtons.XButton2:
                     Paint_Pixel(e.X, e.Y, 3);
                     break;
-                case "XButton1":
+                case MouseButtons.XButton1:
                     Paint_Pixel(e.X, e.Y, 4);
                     break;
             }
@@ -961,13 +961,95 @@ output += """
             Parse_args_class cli = new Parse_args_class();
             cli.Parse_args(arg_array.ToArray());
             if (run_count < 2)
-                output_label.Text = "Run " + run_count.ToString() + " time\n" + cli.Check_exit();
+                output_label.Text = "Run " + run_count.ToString() + " time\\n" + cli.Check_exit();
             else
-                output_label.Text = "Run " + run_count.ToString() + " times\n" + cli.Check_exit();
+                output_label.Text = "Run " + run_count.ToString() + " times\\n" + cli.Check_exit();
         }
         private void sync_preview_Click(object sender, EventArgs e)
         {
             Preview(false);
+        }
+        private void Get_Pixel_Colour(MouseButtons e)
+        {
+            cmpr_x &= 3;
+            cmpr_y &= 3;
+
+            switch (e)
+            {
+                case MouseButtons.Left:
+                    Change_Colour_From_Pixel(cmpr_selected_colour);
+                    break;
+                case MouseButtons.Middle:
+                    Change_Colour_From_Pixel(1);
+                    break;
+                case MouseButtons.Right:
+                    Change_Colour_From_Pixel(2);
+                    break;
+                case MouseButtons.XButton2:
+                    Change_Colour_From_Pixel(3);
+                    break;
+                case MouseButtons.XButton1:
+                    Change_Colour_From_Pixel(4);
+                    break;
+            }
+        }
+        private void Change_Colour_From_Pixel(byte cmpr_colour)
+        {
+            if (cmpr_colour > 2)
+            {
+                cmpr_warning
+            }
+            cmpr_index_i = (byte)((cmpr_file[cmpr_data_start_offset + (current_block << 3) + 4 + cmpr_y] >> (6 - (cmpr_x << 1))) & 3);
+            if (cmpr_index_i < 2)
+            {
+                cmpr_colours_argb[(cmpr_colour << 2) + 3] = (byte)(cmpr_file[cmpr_data_start_offset + (current_block << 3) + (cmpr_index_i << 1) + 1] << 3); // blue
+                cmpr_colours_argb[(cmpr_colour << 2) + 2] = (byte)(((cmpr_file[cmpr_data_start_offset + (current_block << 3) + (cmpr_index_i << 1)] << 5) | (cmpr_file[cmpr_data_start_offset + (current_block << 3) + (cmpr_index_i << 1) + 1] >> 3)) & 0xfc);  // green
+                cmpr_colours_argb[(cmpr_colour << 2) + 1] = (byte)(cmpr_file[cmpr_data_start_offset + (current_block << 3) + (cmpr_index_i << 1)] & 0xf8);  // red
+            }
+            else
+            {
+                colour3 = (ushort)((cmpr_file[cmpr_data_start_offset + (current_block << 3)] << 8) | cmpr_file[cmpr_data_start_offset + (current_block << 3) + 1]);
+                colour4 = (ushort)((cmpr_file[cmpr_data_start_offset + (current_block << 3) + 2] << 8) | cmpr_file[cmpr_data_start_offset + (current_block << 3) + 3]);
+
+                red = (byte)((colour3 >> 8) & 248);
+                green = (byte)((((colour3 >> 8) & 7) << 5) + (((byte)colour3 >> 3) & 28));
+                blue = (byte)(((byte)colour3 << 3) & 248);
+
+                red2 = (byte)((colour4 >> 8) & 248);
+                green2 = (byte)((((colour4 >> 8) & 7) << 5) + (((byte)colour4 >> 3) & 28));
+                blue2 = (byte)(((byte)colour4 << 3) & 248);
+
+                if (colour1 > colour2)
+                {
+                    if (cmpr_index_i == 2)
+                    {
+                        cmpr_colours_argb[(cmpr_colour << 2) + 1] = (byte)((red * 2 / 3) + (red2 / 3));
+                        cmpr_colours_argb[(cmpr_colour << 2) + 2] = (byte)((green * 2 / 3) + (green2 / 3));
+                        cmpr_colours_argb[(cmpr_colour << 2) + 3] = (byte)((blue * 2 / 3) + (blue2 / 3));
+                    }
+                    else
+                    {
+                        cmpr_colours_argb[(cmpr_colour << 2) + 1] = (byte)((red / 3) + (red2 * 2 / 3));
+                        cmpr_colours_argb[(cmpr_colour << 2) + 2] = (byte)((green / 3) + (green2 * 2 / 3));
+                        cmpr_colours_argb[(cmpr_colour << 2) + 3] = (byte)((blue / 3) + (blue2 * 2 / 3));
+                    }
+                }
+                else
+                {
+                    // of course, that's the exact opposite! - not quite lol
+                    if (cmpr_index_i == 2)
+                    {
+                        cmpr_colours_argb[(cmpr_colour << 2) + 1] = (byte)((red * 2 / 3) + (red2 / 3));
+                        cmpr_colours_argb[(cmpr_colour << 2) + 2] = (byte)((green * 2 / 3) + (green2 / 3));
+                        cmpr_colours_argb[(cmpr_colour << 2) + 3] = (byte)((blue * 2 / 3) + (blue2 / 3));
+                    }
+                    else
+                    {
+                        cmpr_warning
+                    }
+                }
+            }
+
         }
         private void cmpr_preview_ck_MouseMove(object sender, MouseEventArgs e)
         {
@@ -989,13 +1071,21 @@ output += """
             }
             else
                 current_block = (block_y * blocks_wide) + (((block_x >> 1) << 2) + (block_x % 2));
+            if (tooltip == 1)
+            {
+                if (e.Button != MouseButtons.None)
+                    Get_Pixel_Colour(e.Button);
+                return;
+            }
             // block_y = (ushort)(block_y * blocks_wide);
             //current_block = block_x + block_y;
-            if (e.Button.ToString() == "Left")
+            if (e.Button == MouseButtons.Left)
             {
                 Load_cmpr_block();
                 return;
             }
+            if (!cmpr_hover)
+                return;
             if (current_block == previous_block)
                 return;
             if (current_block > max_block)
@@ -1082,7 +1172,7 @@ output += """
 
         private void cmpr_preview_ck_MouseLeave(object sender, EventArgs e)
         {
-            if (cmpr_preview_vanilla != null)
+            if (cmpr_preview_vanilla != null || !cmpr_hover)
                 cmpr_preview_ck.Image = GetImageFromByteArray(cmpr_preview_vanilla);
             previous_block = -1;
         }
