@@ -3844,6 +3844,8 @@ namespace plt0_gui
             this.cmpr_grid_ck = new PictureBoxWithInterpolationMode();
             this.cmpr_preview_ck = new PictureBoxWithInterpolationMode();
             this.image_ck = new PictureBoxWithInterpolationMode();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tpl_ck)).BeginInit();
@@ -3970,6 +3972,7 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_grid_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.image_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // output_file_type_label
@@ -8336,7 +8339,7 @@ namespace plt0_gui
             this.cmpr_swap_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.cmpr_swap_ck.ErrorImage = null;
             this.cmpr_swap_ck.InitialImage = null;
-            this.cmpr_swap_ck.Location = new System.Drawing.Point(1982, 502);
+            this.cmpr_swap_ck.Location = new System.Drawing.Point(1986, 490);
             this.cmpr_swap_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_swap_ck.Name = "cmpr_swap_ck";
             this.cmpr_swap_ck.Size = new System.Drawing.Size(64, 64);
@@ -8352,13 +8355,13 @@ namespace plt0_gui
             this.cmpr_swap_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_swap_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_swap_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.cmpr_swap_label.Location = new System.Drawing.Point(2051, 502);
+            this.cmpr_swap_label.Location = new System.Drawing.Point(2055, 490);
             this.cmpr_swap_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_swap_label.Name = "cmpr_swap_label";
             this.cmpr_swap_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.cmpr_swap_label.Size = new System.Drawing.Size(169, 64);
+            this.cmpr_swap_label.Size = new System.Drawing.Size(356, 64);
             this.cmpr_swap_label.TabIndex = 625;
-            this.cmpr_swap_label.Text = "Swap Colours";
+            this.cmpr_swap_label.Text = "Swap Colours + change index";
             this.cmpr_swap_label.Click += new System.EventHandler(this.Swap_Colours_Click);
             this.cmpr_swap_label.MouseEnter += new System.EventHandler(this.cmpr_swap_MouseEnter);
             this.cmpr_swap_label.MouseLeave += new System.EventHandler(this.cmpr_swap_MouseLeave);
@@ -8452,7 +8455,7 @@ namespace plt0_gui
             this.cmpr_selected_block_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_selected_block_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_selected_block_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_selected_block_label.Location = new System.Drawing.Point(2025, 617);
+            this.cmpr_selected_block_label.Location = new System.Drawing.Point(2029, 645);
             this.cmpr_selected_block_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_selected_block_label.Name = "cmpr_selected_block_label";
             this.cmpr_selected_block_label.Size = new System.Drawing.Size(184, 20);
@@ -8755,7 +8758,7 @@ namespace plt0_gui
             this.cmpr_grid_ck.ErrorImage = null;
             this.cmpr_grid_ck.InitialImage = null;
             this.cmpr_grid_ck.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-            this.cmpr_grid_ck.Location = new System.Drawing.Point(1982, 657);
+            this.cmpr_grid_ck.Location = new System.Drawing.Point(1986, 685);
             this.cmpr_grid_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_grid_ck.MaximumSize = new System.Drawing.Size(256, 256);
             this.cmpr_grid_ck.MinimumSize = new System.Drawing.Size(256, 256);
@@ -8808,6 +8811,33 @@ namespace plt0_gui
             this.image_ck.TabStop = false;
             this.image_ck.Visible = false;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pictureBox1.ErrorImage = null;
+            this.pictureBox1.InitialImage = null;
+            this.pictureBox1.Location = new System.Drawing.Point(1986, 554);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(64, 64);
+            this.pictureBox1.TabIndex = 693;
+            this.pictureBox1.TabStop = false;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.label1.ForeColor = System.Drawing.SystemColors.Window;
+            this.label1.Location = new System.Drawing.Point(2055, 554);
+            this.label1.Margin = new System.Windows.Forms.Padding(0);
+            this.label1.Name = "label1";
+            this.label1.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.label1.Size = new System.Drawing.Size(169, 64);
+            this.label1.TabIndex = 692;
+            this.label1.Text = "Swap Colours";
+            // 
             // plt0_gui
             // 
             this.AllowDrop = true;
@@ -8816,6 +8846,8 @@ namespace plt0_gui
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(3751, 2014);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.name_string_ck);
             this.Controls.Add(this.name_string_label);
             this.Controls.Add(this.mandatory_settings_label);
@@ -9255,6 +9287,7 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_grid_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.image_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -14094,13 +14127,13 @@ namespace plt0_gui
             if (cmpr_preview == null)
                 return;
             cmpr_x = (int)((e.X - cmpr_x_offscreen) / mag_ratio);
-            if (cmpr_x < 0)
-                return;
-            block_x = (ushort)(cmpr_x >> 2);
-            // block_x = (ushort)(((block_x >> 1) << 2) + block_x);  // because of the sub-block on 2 rows order rule
             cmpr_y = (int)((e.Y - cmpr_y_offscreen) / mag_ratio);
-            if (cmpr_y < 0)
+            if (cmpr_x < 0 || cmpr_y < 0)
+            {
+                cmpr_preview_ck_MouseLeave(null, null);
                 return;
+            }
+            block_x = (ushort)(cmpr_x >> 2);
             block_y = (ushort)(cmpr_y >> 2);
             if (block_y % 2 == 1)
             {
@@ -14116,8 +14149,13 @@ namespace plt0_gui
                 Load_cmpr_block();
                 return;
             }
-            if (current_block == previous_block || current_block > max_block)
+            if (current_block == previous_block)
                 return;
+            if (current_block > max_block)
+            {
+                cmpr_preview_ck_MouseLeave(null, null);
+                return;
+            }
             previous_block = current_block;
             cmpr_preview = cmpr_preview_vanilla.ToArray();
             cmpr_preview[cmpr_preview_start_offset + (block_x << 4) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_hover_blue;
@@ -14204,21 +14242,7 @@ namespace plt0_gui
 
         private void cmpr_preview_ck_MouseDown(object sender, MouseEventArgs e)
         {
-            if (cmpr_preview == null)
-                return;
-            cmpr_x = (ushort)(e.X / mag_ratio);
-            block_x = (ushort)(cmpr_x >> 2);
-            // block_x = (ushort)(((block_x >> 1) << 2) + block_x);  // because of the sub-block on 2 rows order rule
-            cmpr_y = (ushort)(e.Y / mag_ratio);
-            block_y = (ushort)(cmpr_y >> 2);
-            if (block_y % 2 == 1)
-            {
-                current_block = (block_y * blocks_wide) + 2 + (((block_x >> 1) << 2) + (block_x % 2));
-                current_block -= blocks_wide;
-            }
-            else
-                current_block = (block_y * blocks_wide) + (((block_x >> 1) << 2) + (block_x % 2));
-            Load_cmpr_block();
+            cmpr_preview_ck_MouseMove(sender, e);
         }
         private void Load_cmpr_block()
         {
