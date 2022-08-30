@@ -92,6 +92,7 @@ namespace plt0_gui
         int current_block;
         int loaded_block = -1;
         int previous_block = -1;
+        int max_block;
         int cmpr_preview_start_offset;
         byte byte_text;
         bool success;
@@ -13981,6 +13982,7 @@ namespace plt0_gui
                         mag_ratio = 1 + (double)(1024 - cmpr_preview_ck.Image.Width) / (double)cmpr_preview_ck.Image.Width;
                     blocks_wide = (ushort)(cmpr_preview_ck.Image.Width >> 2);
                     blocks_tall = (ushort)(cmpr_preview_ck.Image.Height >> 2);
+                    max_block = blocks_wide * blocks_tall;
                     cmpr_preview_start_offset = (cmpr_preview.Length - (cmpr_preview_ck.Image.Width << 2));
                     cmpr_warning.Text = "";
                 }
@@ -14206,6 +14208,8 @@ namespace plt0_gui
         }
         private void Load_cmpr_block()
         {
+            if (current_block > max_block)
+                return; // you idiot thought I would allow that!!!!!
             the_program_is_loading_a_cmpr_block = true;
             loaded_block = current_block;
             cmpr_colours_argb[7] = (byte)(cmpr_file[cmpr_data_start_offset + (current_block << 3) + 3] << 3); // blue
