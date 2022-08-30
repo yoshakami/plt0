@@ -1848,6 +1848,8 @@ namespace plt0_gui
             cmpr_edited_colour_txt.Visible = false;
             name_string_ck.Visible = true;
             name_string_label.Visible = true;
+            cmpr_swap2_label.Visible = false;
+            cmpr_swap2_ck.Visible = false;
             for (byte i = 0; i < 9; i++)
             {
                 desc[i].Location = new Point(desc[i].Location.X + 300, desc[i].Location.Y);
@@ -1898,6 +1900,8 @@ namespace plt0_gui
                 cmpr_edited_colour.Location = new Point(cmpr_edited_colour.Location.X - 1920, cmpr_edited_colour.Location.Y);
                 cmpr_edited_colour_label.Location = new Point(cmpr_edited_colour_label.Location.X - 1920, cmpr_edited_colour_label.Location.Y);
                 cmpr_edited_colour_txt.Location = new Point(cmpr_edited_colour_txt.Location.X - 1920, cmpr_edited_colour_txt.Location.Y);
+                cmpr_swap2_ck.Location = new Point(cmpr_swap2_ck.Location.X - 1920, cmpr_swap2_ck.Location.Y);
+                cmpr_swap2_label.Location = new Point(cmpr_swap2_label.Location.X - 1920, cmpr_swap2_label.Location.Y);
                 cmpr_colours_argb[8] = 255;
             }
             if (!cmpr_layout_is_enabled)
@@ -2047,6 +2051,8 @@ namespace plt0_gui
                 cmpr_edited_colour_txt.Visible = true;
                 name_string_ck.Visible = false;
                 name_string_label.Visible = false;
+                cmpr_swap2_label.Visible = true;
+                cmpr_swap2_ck.Visible = true;
                 for (byte i = 0; i < 9; i++)
                 {
                     desc[i].Location = new Point(desc[i].Location.X - 300, desc[i].Location.Y);
@@ -3844,8 +3850,8 @@ namespace plt0_gui
             this.cmpr_grid_ck = new PictureBoxWithInterpolationMode();
             this.cmpr_preview_ck = new PictureBoxWithInterpolationMode();
             this.image_ck = new PictureBoxWithInterpolationMode();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.cmpr_swap2_ck = new System.Windows.Forms.PictureBox();
+            this.cmpr_swap2_label = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tpl_ck)).BeginInit();
@@ -3972,7 +3978,7 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_grid_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.image_ck)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmpr_swap2_ck)).BeginInit();
             this.SuspendLayout();
             // 
             // output_file_type_label
@@ -8811,32 +8817,32 @@ namespace plt0_gui
             this.image_ck.TabStop = false;
             this.image_ck.Visible = false;
             // 
-            // pictureBox1
+            // cmpr_swap2_ck
             // 
-            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.pictureBox1.ErrorImage = null;
-            this.pictureBox1.InitialImage = null;
-            this.pictureBox1.Location = new System.Drawing.Point(1986, 554);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(64, 64);
-            this.pictureBox1.TabIndex = 693;
-            this.pictureBox1.TabStop = false;
+            this.cmpr_swap2_ck.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_swap2_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.cmpr_swap2_ck.ErrorImage = null;
+            this.cmpr_swap2_ck.InitialImage = null;
+            this.cmpr_swap2_ck.Location = new System.Drawing.Point(1986, 554);
+            this.cmpr_swap2_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_swap2_ck.Name = "cmpr_swap2_ck";
+            this.cmpr_swap2_ck.Size = new System.Drawing.Size(64, 64);
+            this.cmpr_swap2_ck.TabIndex = 693;
+            this.cmpr_swap2_ck.TabStop = false;
             // 
-            // label1
+            // cmpr_swap2_label
             // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.label1.ForeColor = System.Drawing.SystemColors.Window;
-            this.label1.Location = new System.Drawing.Point(2055, 554);
-            this.label1.Margin = new System.Windows.Forms.Padding(0);
-            this.label1.Name = "label1";
-            this.label1.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.label1.Size = new System.Drawing.Size(169, 64);
-            this.label1.TabIndex = 692;
-            this.label1.Text = "Swap Colours";
+            this.cmpr_swap2_label.AutoSize = true;
+            this.cmpr_swap2_label.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_swap2_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.cmpr_swap2_label.ForeColor = System.Drawing.SystemColors.Window;
+            this.cmpr_swap2_label.Location = new System.Drawing.Point(2055, 554);
+            this.cmpr_swap2_label.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_swap2_label.Name = "cmpr_swap2_label";
+            this.cmpr_swap2_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.cmpr_swap2_label.Size = new System.Drawing.Size(169, 64);
+            this.cmpr_swap2_label.TabIndex = 692;
+            this.cmpr_swap2_label.Text = "Swap Colours";
             // 
             // plt0_gui
             // 
@@ -8846,8 +8852,8 @@ namespace plt0_gui
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(3751, 2014);
-            this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.cmpr_swap2_ck);
+            this.Controls.Add(this.cmpr_swap2_label);
             this.Controls.Add(this.name_string_ck);
             this.Controls.Add(this.name_string_label);
             this.Controls.Add(this.mandatory_settings_label);
@@ -9287,7 +9293,7 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_grid_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.image_ck)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmpr_swap2_ck)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

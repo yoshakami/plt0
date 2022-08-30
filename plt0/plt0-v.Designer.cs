@@ -303,8 +303,8 @@
         private System.Windows.Forms.TextBox cmpr_edited_colour_txt;
         private System.Windows.Forms.PictureBox name_string_ck;
         private System.Windows.Forms.Label name_string_label;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.PictureBox cmpr_swap2_ck;
+        private System.Windows.Forms.Label cmpr_swap2_label;
         /*
 /// <summary>
 /// Required designer variable.
