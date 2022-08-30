@@ -305,6 +305,7 @@
         private System.Windows.Forms.Label name_string_label;
         private System.Windows.Forms.PictureBox cmpr_swap2_ck;
         private System.Windows.Forms.Label cmpr_swap2_label;
+        private PictureBoxWithInterpolationMode cmpr_palette;
         /*
 /// <summary>
 /// Required designer variable.
