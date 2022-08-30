@@ -76,8 +76,8 @@ namespace plt0_gui
         byte cmpr_selected_colour = 1;
         ushort cmpr_x_offscreen;
         ushort cmpr_y_offscreen;
-        ushort cmpr_x;
-        ushort cmpr_y;
+        int cmpr_x;
+        int cmpr_y;
         ushort colour1;
         ushort colour2;
         ushort colour3;
@@ -13982,13 +13982,13 @@ namespace plt0_gui
                     {
                         cmpr_y_offscreen = 0;
                         mag_ratio = 1 + (double)(1024 - cmpr_preview_ck.Image.Height) / (double)cmpr_preview_ck.Image.Height;
-                        cmpr_x_offscreen = (ushort)(1024 - (cmpr_preview_ck.Image.Width * mag_ratio));
+                        cmpr_x_offscreen = (ushort)((ushort)(1024 - (cmpr_preview_ck.Image.Width * mag_ratio)) >> 1);  // a fix for non-squared images
                     }
                     else
                     {
                         cmpr_x_offscreen = 0;
                         mag_ratio = 1 + (double)(1024 - cmpr_preview_ck.Image.Width) / (double)cmpr_preview_ck.Image.Width;
-                        cmpr_y_offscreen = (ushort)(1024 - (cmpr_preview_ck.Image.Height * mag_ratio));
+                        cmpr_y_offscreen = (ushort)((ushort)(1024 - (cmpr_preview_ck.Image.Height * mag_ratio)) >> 1);  // a fix for non-squared images
                     }
                     blocks_wide = (ushort)(cmpr_preview_ck.Image.Width >> 2);
                     blocks_tall = (ushort)(cmpr_preview_ck.Image.Height >> 2);
@@ -14093,10 +14093,14 @@ namespace plt0_gui
         {
             if (cmpr_preview == null)
                 return;
-            cmpr_x = (ushort)((e.X - cmpr_x_offscreen) / mag_ratio);
+            cmpr_x = (int)((e.X - cmpr_x_offscreen) / mag_ratio);
+            if (cmpr_x < 0)
+                return;
             block_x = (ushort)(cmpr_x >> 2);
             // block_x = (ushort)(((block_x >> 1) << 2) + block_x);  // because of the sub-block on 2 rows order rule
-            cmpr_y = (ushort)((e.Y - cmpr_y_offscreen) / mag_ratio);
+            cmpr_y = (int)((e.Y - cmpr_y_offscreen) / mag_ratio);
+            if (cmpr_y < 0)
+                return;
             block_y = (ushort)(cmpr_y >> 2);
             if (block_y % 2 == 1)
             {
@@ -14112,7 +14116,7 @@ namespace plt0_gui
                 Load_cmpr_block();
                 return;
             }
-            if (current_block == previous_block)
+            if (current_block == previous_block || current_block > max_block)
                 return;
             previous_block = current_block;
             cmpr_preview = cmpr_preview_vanilla.ToArray();
