@@ -64,6 +64,7 @@ namespace plt0_gui
         byte green;
         byte blue;
         byte alpha2;
+        bool the_program_is_loading_a_cmpr_block = false;
         byte cmpr_hover_red = 255;
         byte cmpr_hover_green = 255;
         byte cmpr_hover_blue = 255;
@@ -89,6 +90,7 @@ namespace plt0_gui
         int y;
         int cmpr_data_start_offset;
         int current_block;
+        int loaded_block = -1;
         int previous_block = -1;
         int cmpr_preview_start_offset;
         byte byte_text;
@@ -2687,7 +2689,10 @@ namespace plt0_gui
                     txt.Text = cmpr_colours_hex.Substring((j << 2) + 2, 6);
                 }
                 out_colour = (ushort)((cmpr_colour[j] << 8) | (cmpr_colour[j + 1]));
-                Update_Colours();
+                if (the_program_is_loading_a_cmpr_block)
+                    Update_Colours(false);
+                else
+                    Update_Colours(true);
             }
             else
                 out_colour = default_colour;
@@ -2939,8 +2944,15 @@ namespace plt0_gui
                 }
             }
         }
-        private void Update_Colours()
+        private void Update_Colours(bool user_changed_the_colour_pusposefully=false)
         {
+            if (loaded_block != -1 && user_changed_the_colour_pusposefully)
+            {
+                cmpr_file[cmpr_data_start_offset + (loaded_block << 3)] = (byte)(colour1 >> 8);
+                cmpr_file[cmpr_data_start_offset + (loaded_block << 3) + 1] = (byte)(colour1);
+                cmpr_file[cmpr_data_start_offset + (loaded_block << 3) + 2] = (byte)(colour2 >> 8);
+                cmpr_file[cmpr_data_start_offset + (loaded_block << 3) + 3] = (byte)(colour2);
+            }
             if (colour1 > colour2)
             {
                 /*red = cmpr_colours_argb[1];
@@ -2998,6 +3010,9 @@ namespace plt0_gui
             cmpr_4x4[173 + (x << 2) - (y << 4)] = cmpr_colours_argb[(button << 2) - 4];  // A
             //cmpr_grid[index].BackColor = Color.FromArgb(cmpr_colours_argb[(button << 2) - 4], cmpr_colours_argb[(button << 2) - 3], cmpr_colours_argb[(button << 2) - 2], cmpr_colours_argb[(button << 2) - 1]);
             cmpr_index[x + (y << 2)] = (byte)(button - 1);
+            
+            cmpr_file[cmpr_data_start_offset + (loaded_block << 3) + y] &= (byte)(0xff ^ (3 << (6 - (x << 1)))); // voids the previous index
+            cmpr_file[cmpr_data_start_offset + (loaded_block << 3) + y] += (byte)(0xff ^ ((button - 1) << (6 - (x << 1)))); // replaces it with the new one
             // change that because the first byte of a bmp is at the last line :P
             // also X + Y doesn't work because 0, 1 = 1, 0 lol
             cmpr_grid_ck.Image = GetImageFromByteArray(cmpr_4x4);
@@ -8372,9 +8387,9 @@ namespace plt0_gui
             this.cmpr_block_paint_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_block_paint_label.Name = "cmpr_block_paint_label";
             this.cmpr_block_paint_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.cmpr_block_paint_label.Size = new System.Drawing.Size(145, 64);
+            this.cmpr_block_paint_label.Size = new System.Drawing.Size(166, 64);
             this.cmpr_block_paint_label.TabIndex = 663;
-            this.cmpr_block_paint_label.Text = "Paint Pixels";
+            this.cmpr_block_paint_label.Text = "Colour Picker";
             this.cmpr_block_paint_label.Visible = false;
             this.cmpr_block_paint_label.Click += new System.EventHandler(this.cmpr_block_paint_Click);
             this.cmpr_block_paint_label.MouseEnter += new System.EventHandler(this.cmpr_block_paint_MouseEnter);
@@ -13951,6 +13966,8 @@ namespace plt0_gui
                 cli.Parse_args(cmpr_args);
                 if (File.Exists(execPath + "images/preview/" + num + ".bmp"))
                 {
+                    previous_block = -1;
+                    loaded_block = -1;
                     using (FileStream fs = File.OpenRead(execPath + "images/preview/" + num + ".bmp"))
                     {
                         Array.Resize(ref cmpr_preview, (int)fs.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
@@ -14023,7 +14040,7 @@ namespace plt0_gui
             cmpr_colours_argb[5] = red;
             cmpr_colours_argb[6] = green;
             cmpr_colours_argb[7] = blue; */
-            Update_Colours();
+            Update_Colours(true);
         }
         private void cmpr_grid_ck_MouseMove(object sender, MouseEventArgs e)
         {
@@ -14189,14 +14206,17 @@ namespace plt0_gui
         }
         private void Load_cmpr_block()
         {
+            the_program_is_loading_a_cmpr_block = true;
+            loaded_block = current_block;
             cmpr_colours_argb[7] = (byte)(cmpr_file[cmpr_data_start_offset + (current_block << 3) + 3] << 3); // blue
             cmpr_colours_argb[6] = (byte)(((cmpr_file[cmpr_data_start_offset + (current_block << 3) + 2] << 5) | (cmpr_file[cmpr_data_start_offset + (current_block << 3) + 3] >> 3)) & 0xfc);  // green
             cmpr_colours_argb[5] = (byte)(cmpr_file[cmpr_data_start_offset + (current_block << 3) + 2] & 0xf8);  // red
             cmpr_colours_argb[3] = (byte)(cmpr_file[cmpr_data_start_offset + (current_block << 3) + 1] << 3); // blue
             cmpr_colours_argb[2] = (byte)(((cmpr_file[cmpr_data_start_offset + (current_block << 3)] << 5) | (cmpr_file[cmpr_data_start_offset + (current_block << 3) + 1] >> 3)) & 0xfc);  // green
             cmpr_colours_argb[1] = (byte)(cmpr_file[cmpr_data_start_offset + (current_block << 3)] & 0xf8);  // red
-            // colour2 = (ushort)((cmpr_file[cmpr_data_start_offset + (current_block << 3) + 2] << 8) + cmpr_file[cmpr_data_start_offset + (current_block << 3) + 3]);  
+            // colour2 = (ushort)((cmpr_file[cmpr_data_start_offset + (current_block << 3) + 2] << 8) | cmpr_file[cmpr_data_start_offset + (current_block << 3) + 3]);  
             // ^ edit: no need to assign this AAAAA since parse_rgb565 does litteraly all the job by changing the textbox.Text
+            // edit2: need to assign this AAAAA since Update_colours change them in the cmpr file and is called as soon as you edit ONE BYTE of cmpr_c1.txt 
             for (byte i = 0; i < 4; i++)
             {
                 for (byte j = 0; j < 4; j++)
@@ -14204,9 +14224,10 @@ namespace plt0_gui
                     cmpr_index[(i << 2) + j] = (byte)((cmpr_file[cmpr_data_start_offset + (current_block << 3) + 4 + i] >> (6 - (j << 1))) & 3);
                 }
             }
-            cmpr_colours_hex = BitConverter.ToString(cmpr_colours_argb).Replace("-", string.Empty);
-            cmpr_c1_txt.Text = cmpr_colours_hex.Substring(2, 6);
-            cmpr_c2_txt.Text = cmpr_colours_hex.Substring(10, 6);
+            string cmpr_colours_hex2 = BitConverter.ToString(cmpr_colours_argb).Replace("-", string.Empty);
+            cmpr_c1_txt.Text = cmpr_colours_hex2.Substring(2, 6);
+            cmpr_c2_txt.Text = cmpr_colours_hex2.Substring(10, 6);
+            the_program_is_loading_a_cmpr_block = false;
             cmpr_preview[cmpr_preview_start_offset + (block_x << 4) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_edit_blue;
             cmpr_preview[cmpr_preview_start_offset + 1 + (block_x << 4) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_edit_green;
             cmpr_preview[cmpr_preview_start_offset + 2 + (block_x << 4) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_edit_red;
