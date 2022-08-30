@@ -662,8 +662,21 @@ for j in range(len(view)):
         }"""
 text_icon = ["version", "cli_textbox", "run", "Output_label", "banner_move", "banner_resize", "sync_preview", "cmpr_save", "cmpr_save_as", "cmpr_swap", "cmpr_swap2", "cmpr_palette", "cmpr_mouse1", "cmpr_mouse2", "cmpr_mouse3", "cmpr_mouse4", "cmpr_mouse5", "cmpr_sel", "cmpr_c1", "cmpr_c2", "cmpr_c3", "cmpr_c4"]
 for s in range(len(text_icon)):
-    line2 = ["\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;", "\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;\n            this.cli_textbox_label.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(4)))), ((int)(((byte)(0)))));", "\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;","", "", "", "\n            if (preview_changed)\n                " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;\n            else\n                " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_selected;"] + ["\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;"] * 3 + [""] * 15
-    line3 = ["\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + ";", "\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + ";\n            this.cli_textbox_label.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(20)))), ((int)(((byte)(0)))), ((int)(((byte)(49)))));","\n            Check_run();", "", "", "", "\n            if (preview_changed)\n                " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_off;\n            else\n                " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_on;"] + ["\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + ";"] * 3 + [""] * 15
+    line2 = [
+"\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;",
+"\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;\n            this.cli_textbox_label.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(4)))), ((int)(((byte)(0)))));",
+"\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;",
+"",
+"",
+"",
+"\n            if (!preview_changed)\n                " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;\n            else\n                " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_selected;"] + [
+"\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;"] * 4 + [""] * 15
+    line3 = [
+"\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + ";",
+"\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + ";\n            this.cli_textbox_label.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(20)))), ((int)(((byte)(0)))), ((int)(((byte)(49)))));",
+"\n            Check_run();", "", "", "",
+"\n            if (!preview_changed)\n                " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_off;\n            else\n                " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_on;"] + [
+"\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + ";"] * 3 + [""] * 15
     x += 1
     output += """
         private void """ + text_icon[s] + """_MouseEnter(object sender, EventArgs e)
@@ -929,9 +942,9 @@ output += """
         {
             seal = cmpr_c1_txt.Text;
             cmpr_c1_txt.Text = cmpr_c2_txt.Text;
-            cmpr_swap2 = true;
+            cmpr_swap2_enabled = true;
             cmpr_c2_txt.Text = seal;
-            cmpr_swap2 = false;
+            cmpr_swap2_enabled = false;
         }
         private void cmpr_grid_ck_MouseMove(object sender, MouseEventArgs e)
         {
