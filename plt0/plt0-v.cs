@@ -220,6 +220,7 @@ namespace plt0_gui
         List<PictureBox> alpha_ck_array = new List<PictureBox>();
         List<PictureBox> algorithm_ck = new List<PictureBox>();
         Image banner;
+        Image gradient;
         Image background;
         Image white_box;
         Image light_blue_box;
@@ -356,7 +357,7 @@ namespace plt0_gui
 
         // I couldn't manage to get external fonts working. this needs to be specified within the app itself :/
         // static string fontname = "Segoe UI";
-        Image input_file_image;
+        // Image input_file_image;
         // Font font_normal = new System.Drawing.Font(fontname, 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
         // Font new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
         public plt0_gui()
@@ -440,9 +441,9 @@ namespace plt0_gui
         private void Parse_Markdown(string txt, Label lab)
         {// these are variables. easy to replace
             txt = txt.Replace("\\a", appdata).Replace("\\e", execName).Replace("\\h", this.Height.ToString()).Replace("\\l", layout_name[layout]).Replace("\\m", mipmaps.ToString()).Replace("\\n", "\n").Replace("\\o", output_name).Replace("\\p", execPath).Replace("\\r", "\r").Replace("\\t", "\t").Replace("\\w", this.Width.ToString()).Replace("\\0", block_width_array[encoding].ToString()).Replace("\\y", block_height_array[encoding].ToString()).Replace("\\z", block_depth_array[encoding].ToString());
-            if (input_file_image != null)
-                txt = txt.Replace("\\d", input_file_image.PixelFormat.ToString());
-            else
+            //if (input_file_image != null)
+            //    txt = txt.Replace("\\d", input_file_image.PixelFormat.ToString());
+            //else
                 txt = txt.Replace("\\d", "");
             // implement b, c, f, g, i, j, k, q, s, u, v, x
             font_colour = lines[10];  // default colour
@@ -591,9 +592,9 @@ namespace plt0_gui
         {
             // these are variables. easy to replace
             txt = txt.Replace("\\a", appdata).Replace("\\e", execName).Replace("\\h", this.Height.ToString()).Replace("\\l", layout_name[layout]).Replace("\\m", mipmaps.ToString()).Replace("\\n", "\n").Replace("\\o", output_name).Replace("\\p", execPath).Replace("\\r", "\r").Replace("\\t", "\t").Replace("\\w", this.Width.ToString()).Replace("\\0", block_width_array[encoding].ToString()).Replace("\\y", block_height_array[encoding].ToString()).Replace("\\z", block_depth_array[encoding].ToString());
-            if (input_file_image != null)
-                txt = txt.Replace("\\d", input_file_image.PixelFormat.ToString());
-            else
+            //if (input_file_image != null)
+            //    txt = txt.Replace("\\d", input_file_image.PixelFormat.ToString());
+            //else
                 txt = txt.Replace("\\d", "");
             // implement b, c, f, g, i, j, k, q, s, u, v, x
             string[] txt_label = txt.Split(new string[] { "\\j" }, StringSplitOptions.None);
@@ -901,11 +902,13 @@ namespace plt0_gui
                 return false;
             }
         }
-        private void Preview(bool called_from_text)
+        private void Preview(bool called_from_text, bool called_from_sync=false)
         {
-            if (layout != 2 || !auto_update)
+            if (layout != 2)
                 return;
             if (called_from_text && !textchange)
+                return;
+            if (!auto_update && !called_from_sync)
                 return;
             if (Check_run())
             {
@@ -1878,6 +1881,7 @@ namespace plt0_gui
             if (!cmpr_layout_is_in_place)
             {
                 Put_that_damn_cmpr_layout_in_place();
+                cmpr_palette.BackgroundImage = gradient;
                 cmpr_layout_is_in_place = true;
                 cmpr_c1.Location = new Point(cmpr_c1.Location.X - 1920, cmpr_c1.Location.Y);
                 cmpr_c1_txt.Location = new Point(cmpr_c1_txt.Location.X - 1920, cmpr_c1_txt.Location.Y);
@@ -1921,6 +1925,7 @@ namespace plt0_gui
                 cmpr_palette.Location = new Point(cmpr_palette.Location.X - 1920, cmpr_palette.Location.Y);
                 cmpr_hover_ck.Location = new Point(cmpr_hover_ck.Location.X - 1920, cmpr_hover_ck.Location.Y);
                 cmpr_hover_label.Location = new Point(cmpr_hover_label.Location.X - 1920, cmpr_hover_label.Location.Y);
+                cmpr_preview_ck.Location = new Point(cmpr_preview_ck.Location.X - 1920, cmpr_preview_ck.Location.Y);
                 cmpr_colours_argb[8] = 255;
             }
             if (!cmpr_layout_is_enabled)
@@ -3132,7 +3137,6 @@ namespace plt0_gui
         private void InitializeForm()
         {
             this.image_ck.Location = new System.Drawing.Point(815, 96);
-            this.cmpr_preview_ck.Location = new System.Drawing.Point(896, 44);
             if (Directory.Exists(execPath + "images/preview"))
             {
                 string[] files = Directory.GetFiles(execPath + "images/preview");
@@ -8523,10 +8527,10 @@ namespace plt0_gui
             this.cmpr_save_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.cmpr_save_ck.ErrorImage = null;
             this.cmpr_save_ck.InitialImage = null;
-            this.cmpr_save_ck.Location = new System.Drawing.Point(2481, 941);
+            this.cmpr_save_ck.Location = new System.Drawing.Point(2309, 941);
             this.cmpr_save_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_save_ck.Name = "cmpr_save_ck";
-            this.cmpr_save_ck.Size = new System.Drawing.Size(128, 64);
+            this.cmpr_save_ck.Size = new System.Drawing.Size(192, 64);
             this.cmpr_save_ck.TabIndex = 669;
             this.cmpr_save_ck.TabStop = false;
             this.cmpr_save_ck.MouseEnter += new System.EventHandler(this.cmpr_save_MouseEnter);
@@ -8538,10 +8542,10 @@ namespace plt0_gui
             this.cmpr_save_as_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.cmpr_save_as_ck.ErrorImage = null;
             this.cmpr_save_as_ck.InitialImage = null;
-            this.cmpr_save_as_ck.Location = new System.Drawing.Point(2626, 941);
+            this.cmpr_save_as_ck.Location = new System.Drawing.Point(2501, 941);
             this.cmpr_save_as_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_save_as_ck.Name = "cmpr_save_as_ck";
-            this.cmpr_save_as_ck.Size = new System.Drawing.Size(128, 64);
+            this.cmpr_save_as_ck.Size = new System.Drawing.Size(256, 64);
             this.cmpr_save_as_ck.TabIndex = 671;
             this.cmpr_save_as_ck.TabStop = false;
             this.cmpr_save_as_ck.MouseEnter += new System.EventHandler(this.cmpr_save_as_MouseEnter);
@@ -8878,7 +8882,7 @@ namespace plt0_gui
             this.cmpr_palette.ErrorImage = null;
             this.cmpr_palette.InitialImage = null;
             this.cmpr_palette.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-            this.cmpr_palette.Location = new System.Drawing.Point(1986, 1005);
+            this.cmpr_palette.Location = new System.Drawing.Point(1986, 1016);
             this.cmpr_palette.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_palette.MaximumSize = new System.Drawing.Size(768, 64);
             this.cmpr_palette.MinimumSize = new System.Drawing.Size(768, 64);
@@ -8918,7 +8922,7 @@ namespace plt0_gui
             this.cmpr_preview_ck.ErrorImage = null;
             this.cmpr_preview_ck.InitialImage = null;
             this.cmpr_preview_ck.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-            this.cmpr_preview_ck.Location = new System.Drawing.Point(2816, 44);
+            this.cmpr_preview_ck.Location = new System.Drawing.Point(2816, 56);
             this.cmpr_preview_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_preview_ck.MaximumSize = new System.Drawing.Size(1024, 1024);
             this.cmpr_preview_ck.MinimumSize = new System.Drawing.Size(1024, 1024);
@@ -9421,6 +9425,10 @@ namespace plt0_gui
             if (File.Exists(execPath + "images/banner.png"))
             {
                 banner = Image.FromFile(execPath + "images/banner.png");
+            }
+            if (File.Exists(execPath + "images/gradient.png"))
+            {
+                gradient = Image.FromFile(execPath + "images/gradient.png");
             }
             if (File.Exists(execPath + "images/background.png"))
             {

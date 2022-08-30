@@ -979,7 +979,7 @@ output += """
         }
         private void sync_preview_Click(object sender, EventArgs e)
         {
-            Preview(false);
+            Preview(false, true);
         }
         private void Get_Pixel_Colour(MouseButtons e)
         {
