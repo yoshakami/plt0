@@ -9946,6 +9946,14 @@ namespace plt0_gui
             {
                 cmpr_swap = Image.FromFile(execPath + "images/cmpr_swap.png");
             }
+            if (File.Exists(execPath + "images/cmpr_swap2_hover.png"))
+            {
+                cmpr_swap2_hover = Image.FromFile(execPath + "images/cmpr_swap2_hover.png");
+            }
+            if (File.Exists(execPath + "images/cmpr_swap2.png"))
+            {
+                cmpr_swap2 = Image.FromFile(execPath + "images/cmpr_swap2.png");
+            }
         }
         private void bmd_Click(object sender, EventArgs e)
         {
@@ -13815,18 +13823,18 @@ namespace plt0_gui
         private void sync_preview_MouseEnter(object sender, EventArgs e)
         {
             Parse_Markdown(lines[190]);
-            if (preview_changed)
-                sync_preview_ck.BackgroundImage = sync_preview_selected;
-            else
+            if (!preview_changed)
                 sync_preview_ck.BackgroundImage = sync_preview_hover;
+            else
+                sync_preview_ck.BackgroundImage = sync_preview_selected;
         }
         private void sync_preview_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
-            if (preview_changed)
-                sync_preview_ck.BackgroundImage = sync_preview_on;
-            else
+            if (!preview_changed)
                 sync_preview_ck.BackgroundImage = sync_preview_off;
+            else
+                sync_preview_ck.BackgroundImage = sync_preview_on;
         }
         private void cmpr_save_MouseEnter(object sender, EventArgs e)
         {
@@ -13861,10 +13869,12 @@ namespace plt0_gui
         private void cmpr_swap2_MouseEnter(object sender, EventArgs e)
         {
             Parse_Markdown(lines[194]);
+            cmpr_swap2_ck.BackgroundImage = cmpr_swap2_hover;
         }
         private void cmpr_swap2_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
+            cmpr_swap2_ck.BackgroundImage = cmpr_swap2;
         }
         private void cmpr_palette_MouseEnter(object sender, EventArgs e)
         {

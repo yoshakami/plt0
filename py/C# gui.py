@@ -676,7 +676,7 @@ for s in range(len(text_icon)):
 "\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + ";\n            this.cli_textbox_label.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(20)))), ((int)(((byte)(0)))), ((int)(((byte)(49)))));",
 "\n            Check_run();", "", "", "",
 "\n            if (!preview_changed)\n                " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_off;\n            else\n                " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_on;"] + [
-"\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + ";"] * 3 + [""] * 15
+"\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + ";"] * 4 + [""] * 15
     x += 1
     output += """
         private void """ + text_icon[s] + """_MouseEnter(object sender, EventArgs e)
