@@ -792,83 +792,13 @@ scrapped = """
         }"""
 x += 1
 output += """
-        private void Check_Paint()
-        {
-            if (layout != 3)
-                return;
-            if (File.Exists(input_file))
-            {
-                using (FileStream fs = File.OpenRead(input_file))
-                {
-                    Array.Resize(ref cmpr_file, (int)fs.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
-                    fs.Read(cmpr_file, 0, (int)fs.Length);
-                }
-                if (cmpr_file[0] == 0 && cmpr_file[1] == 32 && cmpr_file[2] == 0xaf && cmpr_file[3] == 48)
-                    return; // not implemented yet.
-                else if (cmpr_file[0] == 84 && cmpr_file[1] == 69 && cmpr_file[2] == 88 && cmpr_file[3] == 48)
-                    cmpr_data_start_offset = 0x40;
-                else if (cmpr_file[0] < 15 && cmpr_file[6] < 3 && cmpr_file[7] < 3)
-                    cmpr_data_start_offset = (cmpr_file[0x1C] << 24) | (cmpr_file[0x1D] << 16) | (cmpr_file[0x1E] << 8) | cmpr_file[0x1F];  // usually 0x20
-
-                int num = 1;
-                while (File.Exists(execPath + "images/preview/" + num + ".bmp"))
-                {
-                    num++;
-                }
-                cmpr_args[2] = input_file;
-                cmpr_args[3] = (execPath + "images/preview/" + num + ".bmp");  // even if there's an output file in the args, the last one is the output file :) that's how I made it
-                Parse_args_class cli = new Parse_args_class();
-                cli.Parse_args(cmpr_args);
-                if (cli.texture_format != 0xE)
-                { 
-                    Parse_Markdown(lines[""" + str(x) + """], cmpr_warning);
-                    return;
-                }
-                if (File.Exists(execPath + "images/preview/" + num + ".bmp"))
-                {
-                    previous_block = -1;
-                    loaded_block = -1;
-                    using (FileStream fs = File.OpenRead(execPath + "images/preview/" + num + ".bmp"))
-                    {
-                        Array.Resize(ref cmpr_preview, (int)fs.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
-                        fs.Read(cmpr_preview, 0, (int)fs.Length);
-                    }
-                    cmpr_preview_ck.Image = GetImageFromByteArray(cmpr_preview);
-                    cmpr_preview_vanilla = cmpr_preview.ToArray();
-                    if (cmpr_preview_ck.Image.Height > cmpr_preview_ck.Image.Width)
-                    {
-                        cmpr_y_offscreen = 0;
-                        mag_ratio = 1 + (double)(1024 - cmpr_preview_ck.Image.Height) / (double)cmpr_preview_ck.Image.Height;
-                        cmpr_x_offscreen = (ushort)((ushort)(1024 - (cmpr_preview_ck.Image.Width * mag_ratio)) >> 1);  // a fix for non-squared images
-                    }
-                    else
-                    {
-                        cmpr_x_offscreen = 0;
-                        mag_ratio = 1 + (double)(1024 - cmpr_preview_ck.Image.Width) / (double)cmpr_preview_ck.Image.Width;
-                        cmpr_y_offscreen = (ushort)((ushort)(1024 - (cmpr_preview_ck.Image.Height * mag_ratio)) >> 1);  // a fix for non-squared images
-                    }
-                    blocks_wide = (ushort)(cmpr_preview_ck.Image.Width >> 2);
-                    blocks_tall = (ushort)(cmpr_preview_ck.Image.Height >> 2);
-                    max_block = blocks_wide * blocks_tall - 1;  // minus one because the first block is zero
-                    cmpr_preview_start_offset = (cmpr_preview.Length - (cmpr_preview_ck.Image.Width << 2));
-                    cmpr_warning.Text = "";
-                }
-                else
-                    cmpr_warning.Text = cli.Check_exit();
-            }
-            else
-            {
-                Parse_Markdown(lines[""" + str(x) + """], cmpr_warning);
-            }
-        }
         private void Warn_rgb565_colour_trim()
         {
-            Parse_Markdown(lines[""" + str(x + 1) + """], cmpr_warning);
+            Parse_Markdown(lines[""" + str(x) + """], cmpr_warning);
         }
         private void Put_that_damn_cmpr_layout_in_place()
         {
             Check_Paint();"""
-x += 1
 for y in range(5):
     x += 1
     output += """
@@ -911,6 +841,75 @@ output += """
 #            Hide_description();
 #        }"""
 output += """
+        private void Check_Paint()
+        {
+            if (layout != 3)
+                return;
+            if (File.Exists(input_file))
+            {
+                using (FileStream fs = File.OpenRead(input_file))
+                {
+                    Array.Resize(ref cmpr_file, (int)fs.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
+                    fs.Read(cmpr_file, 0, (int)fs.Length);
+                }
+                if (cmpr_file[0] == 0 && cmpr_file[1] == 32 && cmpr_file[2] == 0xaf && cmpr_file[3] == 48)
+                    return; // not implemented yet.
+                else if (cmpr_file[0] == 84 && cmpr_file[1] == 69 && cmpr_file[2] == 88 && cmpr_file[3] == 48)
+                    cmpr_data_start_offset = 0x40;
+                else if (cmpr_file[0] < 15 && cmpr_file[6] < 3 && cmpr_file[7] < 3)
+                    cmpr_data_start_offset = (cmpr_file[0x1C] << 24) | (cmpr_file[0x1D] << 16) | (cmpr_file[0x1E] << 8) | cmpr_file[0x1F];  // usually 0x20
+
+                int num = 1;
+                while (File.Exists(execPath + "images/preview/" + num + ".bmp"))
+                {
+                    num++;
+                }
+                cmpr_args[2] = input_file;
+                cmpr_args[3] = (execPath + "images/preview/" + num + ".bmp");  // even if there's an output file in the args, the last one is the output file :) that's how I made it
+                Parse_args_class cli = new Parse_args_class();
+                cli.Parse_args(cmpr_args);
+                if (cli.texture_format != 0xE)
+                { 
+                    Parse_Markdown(lines[""" + str(x + 1) + """], cmpr_warning);
+                    return;
+                }
+                if (File.Exists(execPath + "images/preview/" + num + ".bmp"))
+                {
+                    previous_block = -1;
+                    loaded_block = -1;
+                    using (FileStream fs = File.OpenRead(execPath + "images/preview/" + num + ".bmp"))
+                    {
+                        Array.Resize(ref cmpr_preview, (int)fs.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
+                        fs.Read(cmpr_preview, 0, (int)fs.Length);
+                    }
+                    cmpr_preview_ck.Image = GetImageFromByteArray(cmpr_preview);
+                    cmpr_preview_vanilla = cmpr_preview.ToArray();
+                    if (cmpr_preview_ck.Image.Height > cmpr_preview_ck.Image.Width)
+                    {
+                        cmpr_y_offscreen = 0;
+                        mag_ratio = 1 + (double)(1024 - cmpr_preview_ck.Image.Height) / (double)cmpr_preview_ck.Image.Height;
+                        cmpr_x_offscreen = (ushort)((ushort)(1024 - (cmpr_preview_ck.Image.Width * mag_ratio)) >> 1);  // a fix for non-squared images
+                    }
+                    else
+                    {
+                        cmpr_x_offscreen = 0;
+                        mag_ratio = 1 + (double)(1024 - cmpr_preview_ck.Image.Width) / (double)cmpr_preview_ck.Image.Width;
+                        cmpr_y_offscreen = (ushort)((ushort)(1024 - (cmpr_preview_ck.Image.Height * mag_ratio)) >> 1);  // a fix for non-squared images
+                    }
+                    blocks_wide = (ushort)(cmpr_preview_ck.Image.Width >> 2);
+                    blocks_tall = (ushort)(cmpr_preview_ck.Image.Height >> 2);
+                    max_block = blocks_wide * blocks_tall - 1;  // minus one because the first block is zero
+                    cmpr_preview_start_offset = (cmpr_preview.Length - (cmpr_preview_ck.Image.Width << 2));
+                    cmpr_warning.Text = "";
+                }
+                else
+                    cmpr_warning.Text = cli.Check_exit();
+            }
+            else
+            {
+                Parse_Markdown(lines[""" + str(x + 1) + """], cmpr_warning);
+            }
+        }
         private void cmpr_c2_TextChanged(object sender, EventArgs e)
         {
             parse_rgb565(cmpr_c2, cmpr_c2_txt, 2, out colour2, colour2);
@@ -997,7 +996,7 @@ output += """
         {
             if (cmpr_colour > 2)
             {
-                cmpr_warning
+                Parse_Markdown(lines[""" + str(x + 2) + """], cmpr_warning);
             }
             cmpr_index_i = (byte)((cmpr_file[cmpr_data_start_offset + (current_block << 3) + 4 + cmpr_y] >> (6 - (cmpr_x << 1))) & 3);
             if (cmpr_index_i < 2)
@@ -1045,7 +1044,7 @@ output += """
                     }
                     else
                     {
-                        cmpr_warning
+                        Parse_Markdown(lines[""" + str(x + 3) + """], cmpr_warning);
                     }
                 }
             }

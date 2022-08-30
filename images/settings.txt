@@ -1,6 +1,6 @@
 plt0 config v1.0
 Layout (change next line with one of these: "All", "Auto", "Preview", "Paint")
-Auto
+Paint
 Window Location ("Normal", "Maximized", "Bottom_left", "Left", "Top_left", "Top", "Top_right", "Right", "Bottom_right", "Bottom")
 Maximized
 Textboxes text color (System.Drawing.Color)
@@ -83,6 +83,7 @@ option asking you to press enter before the console window disappears in cli mod
 when decoding, the program will write a 32-bit bmp in any case \n\n(else I've optimized bit depth to make file size smaller depending while keeping all image data intact)
 force your alpha value to be applied even if the input image isn't a 32-bit RGBA image\j\j\c Red(will output a fully transparent image in most cases)
 when decoding, will write raw/random data, making a funky result
+adds the texture name\jat the end of the file\j\c Red (only use this for importing it into BrawlCrate!)
 won't inform the user that he made mistakes
 fill the colour palette with random values for CI4, CI8, and CI14x2 formats
 output will be horizontally reversed
@@ -90,6 +91,7 @@ reverse output vertically
 makes the program to never throw any exception (useful when using subprocess.checkoutput in python)
 silent mode (with a cool small internal name)
 verbose mode (prints the internal variables content and some other text in the console)
+activate a block colour when you move your mouse onto the preview.\n\n\n\n\n\n\n\n\n\n\n\n (convert the 2D vector of mouse cursor position into a byte array of a bmp file in the background)
 black and white, 4 bit per pixel - no alpha \n(will look bad if your image is colorful)
 black and white, 8 bit per pixel - no alpha
 black and white, 4 bit per pixel - alpha \n(looks bad, and an alpha value is stored for each pixel)
@@ -190,6 +192,8 @@ Refresh the preview (you can't see this text though)
 Save the texture to what you've written in output name
 Open a save prompt (with the file explorer)
 Swap Colour1 and Colour2 \j\c MediumVioletRed (toogle transparency)
+Swap Colour1 and Colour2 \jbut doesn't swap the indexes\jin the 4x4 block\j\c MediumVioletRed (toogle transparency)
+Click to quickly change one of the 4 colours
 hold Mouse wheel down on any pixel of the Selected Block to assign it to Colour 1
 hold Right Click down on any pixel of the Selected Block to assign it to Colour 2
 hold Forward Button \j\c DarkTurquoise (located on the side of gaming mouses)\j\c Coral down on any pixel of the Selected Block to assign it to Colour 3
@@ -201,14 +205,16 @@ the second rgb565 colour of the selected 4x4 block
 third colour \j\j\c red it is interpolated,\j\c red you can't edit it directly
 fourth colour \j\j\c red it is interpolated,\j\c red you can't edit it directly
 will select a 4x4 block\nwhen you click on the preview picture
-will paint pixels\nwhen you click on the preview picture
-\c red Input file is not a CMPR texture
+will pick a colour\nwhen you click on a pixel of the preview picture\n\nalternatively, you can click whenever you want in the bottom line to load a colour
 \c orange colour trimmed to RGB565
 \c green -> Mouse Wheel Click
 \c green -> Right Click
 \c green -> Forward Button
 \c green -> Backward Button
 \c green -> Left Click
+\c red Input file is not a CMPR texture
+\c yellow no. I told you already\jyou can't directly change\jColour 3 or 4 
+\c white Sir, have you every wondered why there's no "A" in "RGB565" ?
 (1, 1)
 (1, 2)
 (1, 3)
@@ -228,5 +234,17 @@ will paint pixels\nwhen you click on the preview picture
 color, 16 bits per pixel - no alpha \j\c red 5 bits red\j\c green 6 bits green\j\c blue 5 bits blue\j\c Violet  test\j\c pink test2\j\c orange text\j\c purple purple\j\c chartreuse chartreuse\c yellow yellow
 Hello \u ! you found an easter egg lol \n\ndid you know most apps have a folder in \a ?\j\j\j\n\n\c Red this one doesn't though. I prefer using local files.
 this is padding data to alignment. (meme)
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
 this is padding data to alignment.
 this is padding data to alignment.

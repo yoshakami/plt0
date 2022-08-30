@@ -63,6 +63,9 @@ namespace plt0_gui
         byte red;
         byte green;
         byte blue;
+        byte red2;
+        byte green2;
+        byte blue2;
         byte alpha2;
         bool the_program_is_loading_a_cmpr_block = false;
         bool cmpr_swap2 = false;
@@ -84,6 +87,7 @@ namespace plt0_gui
         ushort colour1;
         ushort colour2;
         ushort colour3;
+        ushort colour4;
         double mag_ratio;
         byte offset;
         string seal;
@@ -14133,6 +14137,21 @@ namespace plt0_gui
             else
                 unchecked_tooltip(cmpr_block_paint_ck);
         }
+        private void Warn_rgb565_colour_trim()
+        {
+            Parse_Markdown(lines[208], cmpr_warning);
+        }
+        private void Put_that_damn_cmpr_layout_in_place()
+        {
+            Check_Paint();
+            Parse_Markdown(lines[209], cmpr_mouse1_label);
+            Parse_Markdown(lines[210], cmpr_mouse2_label);
+            Parse_Markdown(lines[211], cmpr_mouse3_label);
+            Parse_Markdown(lines[212], cmpr_mouse4_label);
+            Parse_Markdown(lines[213], cmpr_mouse5_label);
+            checked_tooltip(cmpr_block_selection_ck);
+            unchecked_tooltip(cmpr_block_paint_ck);
+        }
         private void Check_Paint()
         {
             if (layout != 3)
@@ -14162,7 +14181,7 @@ namespace plt0_gui
                 cli.Parse_args(cmpr_args);
                 if (cli.texture_format != 0xE)
                 {
-                    Parse_Markdown(lines[208], cmpr_warning);
+                    Parse_Markdown(lines[214], cmpr_warning);
                     return;
                 }
                 if (File.Exists(execPath + "images/preview/" + num + ".bmp"))
@@ -14199,23 +14218,8 @@ namespace plt0_gui
             }
             else
             {
-                Parse_Markdown(lines[208], cmpr_warning);
+                Parse_Markdown(lines[214], cmpr_warning);
             }
-        }
-        private void Warn_rgb565_colour_trim()
-        {
-            Parse_Markdown(lines[209], cmpr_warning);
-        }
-        private void Put_that_damn_cmpr_layout_in_place()
-        {
-            Check_Paint();
-            Parse_Markdown(lines[210], cmpr_mouse1_label);
-            Parse_Markdown(lines[211], cmpr_mouse2_label);
-            Parse_Markdown(lines[212], cmpr_mouse3_label);
-            Parse_Markdown(lines[213], cmpr_mouse4_label);
-            Parse_Markdown(lines[214], cmpr_mouse5_label);
-            checked_tooltip(cmpr_block_selection_ck);
-            unchecked_tooltip(cmpr_block_paint_ck);
         }
         private void cmpr_c2_TextChanged(object sender, EventArgs e)
         {
@@ -14301,6 +14305,60 @@ namespace plt0_gui
         }
         private void Change_Colour_From_Pixel(byte cmpr_colour)
         {
+            if (cmpr_colour > 2)
+            {
+                Parse_Markdown(lines[215], cmpr_warning);
+            }
+            cmpr_index_i = (byte)((cmpr_file[cmpr_data_start_offset + (current_block << 3) + 4 + cmpr_y] >> (6 - (cmpr_x << 1))) & 3);
+            if (cmpr_index_i < 2)
+            {
+                cmpr_colours_argb[(cmpr_colour << 2) + 3] = (byte)(cmpr_file[cmpr_data_start_offset + (current_block << 3) + (cmpr_index_i << 1) + 1] << 3); // blue
+                cmpr_colours_argb[(cmpr_colour << 2) + 2] = (byte)(((cmpr_file[cmpr_data_start_offset + (current_block << 3) + (cmpr_index_i << 1)] << 5) | (cmpr_file[cmpr_data_start_offset + (current_block << 3) + (cmpr_index_i << 1) + 1] >> 3)) & 0xfc);  // green
+                cmpr_colours_argb[(cmpr_colour << 2) + 1] = (byte)(cmpr_file[cmpr_data_start_offset + (current_block << 3) + (cmpr_index_i << 1)] & 0xf8);  // red
+            }
+            else
+            {
+                colour3 = (ushort)((cmpr_file[cmpr_data_start_offset + (current_block << 3)] << 8) | cmpr_file[cmpr_data_start_offset + (current_block << 3) + 1]);
+                colour4 = (ushort)((cmpr_file[cmpr_data_start_offset + (current_block << 3) + 2] << 8) | cmpr_file[cmpr_data_start_offset + (current_block << 3) + 3]);
+
+                red = (byte)((colour3 >> 8) & 248);
+                green = (byte)((((colour3 >> 8) & 7) << 5) + (((byte)colour3 >> 3) & 28));
+                blue = (byte)(((byte)colour3 << 3) & 248);
+
+                red2 = (byte)((colour4 >> 8) & 248);
+                green2 = (byte)((((colour4 >> 8) & 7) << 5) + (((byte)colour4 >> 3) & 28));
+                blue2 = (byte)(((byte)colour4 << 3) & 248);
+
+                if (colour1 > colour2)
+                {
+                    if (cmpr_index_i == 2)
+                    {
+                        cmpr_colours_argb[(cmpr_colour << 2) + 1] = (byte)((red * 2 / 3) + (red2 / 3));
+                        cmpr_colours_argb[(cmpr_colour << 2) + 2] = (byte)((green * 2 / 3) + (green2 / 3));
+                        cmpr_colours_argb[(cmpr_colour << 2) + 3] = (byte)((blue * 2 / 3) + (blue2 / 3));
+                    }
+                    else
+                    {
+                        cmpr_colours_argb[(cmpr_colour << 2) + 1] = (byte)((red / 3) + (red2 * 2 / 3));
+                        cmpr_colours_argb[(cmpr_colour << 2) + 2] = (byte)((green / 3) + (green2 * 2 / 3));
+                        cmpr_colours_argb[(cmpr_colour << 2) + 3] = (byte)((blue / 3) + (blue2 * 2 / 3));
+                    }
+                }
+                else
+                {
+                    // of course, that's the exact opposite! - not quite lol
+                    if (cmpr_index_i == 2)
+                    {
+                        cmpr_colours_argb[(cmpr_colour << 2) + 1] = (byte)((red * 2 / 3) + (red2 / 3));
+                        cmpr_colours_argb[(cmpr_colour << 2) + 2] = (byte)((green * 2 / 3) + (green2 / 3));
+                        cmpr_colours_argb[(cmpr_colour << 2) + 3] = (byte)((blue * 2 / 3) + (blue2 / 3));
+                    }
+                    else
+                    {
+                        Parse_Markdown(lines[216], cmpr_warning);
+                    }
+                }
+            }
 
         }
         private void cmpr_preview_ck_MouseMove(object sender, MouseEventArgs e)
