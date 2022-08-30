@@ -3011,8 +3011,8 @@ namespace plt0_gui
             //cmpr_grid[index].BackColor = Color.FromArgb(cmpr_colours_argb[(button << 2) - 4], cmpr_colours_argb[(button << 2) - 3], cmpr_colours_argb[(button << 2) - 2], cmpr_colours_argb[(button << 2) - 1]);
             cmpr_index[x + (y << 2)] = (byte)(button - 1);
             
-            cmpr_file[cmpr_data_start_offset + (loaded_block << 3) + y] &= (byte)(0xff ^ (3 << (6 - (x << 1)))); // voids the previous index
-            cmpr_file[cmpr_data_start_offset + (loaded_block << 3) + y] += (byte)(0xff ^ ((button - 1) << (6 - (x << 1)))); // replaces it with the new one
+            cmpr_file[cmpr_data_start_offset + (loaded_block << 3) + 4 + y] &= (byte)(0xff ^ (3 << (6 - (x << 1)))); // voids the previous index
+            cmpr_file[cmpr_data_start_offset + (loaded_block << 3) + 4 + y] += (byte)(0xff ^ ((button - 1) << (6 - (x << 1)))); // replaces it with the new one
             // change that because the first byte of a bmp is at the last line :P
             // also X + Y doesn't work because 0, 1 = 1, 0 lol
             cmpr_grid_ck.Image = GetImageFromByteArray(cmpr_4x4);
@@ -14224,9 +14224,9 @@ namespace plt0_gui
                     cmpr_index[(i << 2) + j] = (byte)((cmpr_file[cmpr_data_start_offset + (current_block << 3) + 4 + i] >> (6 - (j << 1))) & 3);
                 }
             }
-            string cmpr_colours_hex2 = BitConverter.ToString(cmpr_colours_argb).Replace("-", string.Empty);
-            cmpr_c1_txt.Text = cmpr_colours_hex2.Substring(2, 6);
-            cmpr_c2_txt.Text = cmpr_colours_hex2.Substring(10, 6);
+            cmpr_colours_hex = BitConverter.ToString(cmpr_colours_argb).Replace("-", string.Empty);
+            cmpr_c1_txt.Text = cmpr_colours_hex.Substring(2, 6);
+            cmpr_c2_txt.Text = cmpr_colours_hex.Substring(10, 6);
             the_program_is_loading_a_cmpr_block = false;
             cmpr_preview[cmpr_preview_start_offset + (block_x << 4) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_edit_blue;
             cmpr_preview[cmpr_preview_start_offset + 1 + (block_x << 4) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_edit_green;
