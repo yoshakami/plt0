@@ -1,2 +1,7 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+/.idea
+/.git
+/.vs
+/plt0/bin
+/plt0/obj
