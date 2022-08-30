@@ -66,6 +66,8 @@ namespace plt0_gui
         byte alpha2;
         bool the_program_is_loading_a_cmpr_block = false;
         bool cmpr_swap2 = false;
+        bool cmpr_hover = true;
+        byte cmpr_index_i = 0;
         byte cmpr_hover_red = 255;
         byte cmpr_hover_green = 255;
         byte cmpr_hover_blue = 255;
@@ -3017,7 +3019,6 @@ namespace plt0_gui
             cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
             if (cmpr_swap2)
             {
-                byte cmpr_index_i = 0;
                 for (ushort x = 0; x < 256; x += 64)
                 {
                     for (ushort y = 0; y < 256; y += 64)
@@ -3250,6 +3251,7 @@ namespace plt0_gui
             unchecked_encoding(ci8_ck);
             unchecked_encoding(ci14x2_ck);
             unchecked_encoding(cmpr_ck);
+            checked_checkbox(cmpr_hover_ck);
             checked_checkbox(auto_update_ck);
             checked_checkbox(upscale_ck);
             unchecked_R(a_r_ck);
@@ -3883,6 +3885,8 @@ namespace plt0_gui
             this.cmpr_swap2_ck = new System.Windows.Forms.PictureBox();
             this.cmpr_swap2_label = new System.Windows.Forms.Label();
             this.cmpr_palette = new PictureBoxWithInterpolationMode();
+            this.cmpr_hover_ck = new System.Windows.Forms.PictureBox();
+            this.cmpr_hover_label = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tpl_ck)).BeginInit();
@@ -4011,6 +4015,7 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.image_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_swap2_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_palette)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmpr_hover_ck)).BeginInit();
             this.SuspendLayout();
             // 
             // output_file_type_label
@@ -8680,7 +8685,7 @@ namespace plt0_gui
             this.cmpr_hover_colour.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_hover_colour.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_hover_colour.ForeColor = System.Drawing.SystemColors.Window;
-            this.cmpr_hover_colour.Location = new System.Drawing.Point(2555, 342);
+            this.cmpr_hover_colour.Location = new System.Drawing.Point(2555, 385);
             this.cmpr_hover_colour.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_hover_colour.Name = "cmpr_hover_colour";
             this.cmpr_hover_colour.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
@@ -8693,7 +8698,7 @@ namespace plt0_gui
             this.cmpr_hover_colour_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_hover_colour_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_hover_colour_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_hover_colour_label.Location = new System.Drawing.Point(2601, 318);
+            this.cmpr_hover_colour_label.Location = new System.Drawing.Point(2601, 361);
             this.cmpr_hover_colour_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_hover_colour_label.Name = "cmpr_hover_colour_label";
             this.cmpr_hover_colour_label.Padding = new System.Windows.Forms.Padding(0, 15, 0, 10);
@@ -8707,7 +8712,7 @@ namespace plt0_gui
             this.cmpr_hover_colour_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.cmpr_hover_colour_txt.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.cmpr_hover_colour_txt.ForeColor = System.Drawing.SystemColors.Window;
-            this.cmpr_hover_colour_txt.Location = new System.Drawing.Point(2605, 363);
+            this.cmpr_hover_colour_txt.Location = new System.Drawing.Point(2605, 406);
             this.cmpr_hover_colour_txt.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_hover_colour_txt.Name = "cmpr_hover_colour_txt";
             this.cmpr_hover_colour_txt.Size = new System.Drawing.Size(141, 21);
@@ -8721,7 +8726,7 @@ namespace plt0_gui
             this.cmpr_edited_colour.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_edited_colour.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_edited_colour.ForeColor = System.Drawing.SystemColors.Window;
-            this.cmpr_edited_colour.Location = new System.Drawing.Point(2564, 448);
+            this.cmpr_edited_colour.Location = new System.Drawing.Point(2555, 1325);
             this.cmpr_edited_colour.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_edited_colour.Name = "cmpr_edited_colour";
             this.cmpr_edited_colour.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
@@ -8734,7 +8739,7 @@ namespace plt0_gui
             this.cmpr_edited_colour_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_edited_colour_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_edited_colour_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_edited_colour_label.Location = new System.Drawing.Point(2601, 418);
+            this.cmpr_edited_colour_label.Location = new System.Drawing.Point(2592, 1295);
             this.cmpr_edited_colour_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_edited_colour_label.Name = "cmpr_edited_colour_label";
             this.cmpr_edited_colour_label.Padding = new System.Windows.Forms.Padding(0, 15, 0, 10);
@@ -8748,7 +8753,7 @@ namespace plt0_gui
             this.cmpr_edited_colour_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.cmpr_edited_colour_txt.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.cmpr_edited_colour_txt.ForeColor = System.Drawing.SystemColors.Window;
-            this.cmpr_edited_colour_txt.Location = new System.Drawing.Point(2605, 463);
+            this.cmpr_edited_colour_txt.Location = new System.Drawing.Point(2596, 1340);
             this.cmpr_edited_colour_txt.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_edited_colour_txt.Name = "cmpr_edited_colour_txt";
             this.cmpr_edited_colour_txt.Size = new System.Drawing.Size(141, 21);
@@ -8762,7 +8767,7 @@ namespace plt0_gui
             this.name_string_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.name_string_ck.ErrorImage = null;
             this.name_string_ck.InitialImage = null;
-            this.name_string_ck.Location = new System.Drawing.Point(1647, 318);
+            this.name_string_ck.Location = new System.Drawing.Point(1647, 320);
             this.name_string_ck.Margin = new System.Windows.Forms.Padding(0);
             this.name_string_ck.Name = "name_string_ck";
             this.name_string_ck.Size = new System.Drawing.Size(64, 64);
@@ -8778,7 +8783,7 @@ namespace plt0_gui
             this.name_string_label.BackColor = System.Drawing.Color.Transparent;
             this.name_string_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.name_string_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.name_string_label.Location = new System.Drawing.Point(1716, 318);
+            this.name_string_label.Location = new System.Drawing.Point(1716, 320);
             this.name_string_label.Margin = new System.Windows.Forms.Padding(0);
             this.name_string_label.Name = "name_string_label";
             this.name_string_label.Padding = new System.Windows.Forms.Padding(0, 22, 30, 22);
@@ -8901,6 +8906,33 @@ namespace plt0_gui
             this.cmpr_palette.MouseEnter += new System.EventHandler(this.cmpr_palette_MouseEnter);
             this.cmpr_palette.MouseLeave += new System.EventHandler(this.cmpr_palette_MouseLeave);
             // 
+            // cmpr_hover_ck
+            // 
+            this.cmpr_hover_ck.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_hover_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.cmpr_hover_ck.ErrorImage = null;
+            this.cmpr_hover_ck.InitialImage = null;
+            this.cmpr_hover_ck.Location = new System.Drawing.Point(2532, 282);
+            this.cmpr_hover_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_hover_ck.Name = "cmpr_hover_ck";
+            this.cmpr_hover_ck.Size = new System.Drawing.Size(64, 64);
+            this.cmpr_hover_ck.TabIndex = 696;
+            this.cmpr_hover_ck.TabStop = false;
+            // 
+            // cmpr_hover_label
+            // 
+            this.cmpr_hover_label.AutoSize = true;
+            this.cmpr_hover_label.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_hover_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.cmpr_hover_label.ForeColor = System.Drawing.SystemColors.Window;
+            this.cmpr_hover_label.Location = new System.Drawing.Point(2601, 282);
+            this.cmpr_hover_label.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_hover_label.Name = "cmpr_hover_label";
+            this.cmpr_hover_label.Padding = new System.Windows.Forms.Padding(0, 22, 30, 22);
+            this.cmpr_hover_label.Size = new System.Drawing.Size(192, 64);
+            this.cmpr_hover_label.TabIndex = 695;
+            this.cmpr_hover_label.Text = "Hover Colour";
+            // 
             // plt0_gui
             // 
             this.AllowDrop = true;
@@ -8909,6 +8941,8 @@ namespace plt0_gui
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(3761, 1857);
+            this.Controls.Add(this.cmpr_hover_ck);
+            this.Controls.Add(this.cmpr_hover_label);
             this.Controls.Add(this.cmpr_palette);
             this.Controls.Add(this.cmpr_swap2_ck);
             this.Controls.Add(this.cmpr_swap2_label);
@@ -9353,6 +9387,7 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.image_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_swap2_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_palette)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmpr_hover_ck)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
