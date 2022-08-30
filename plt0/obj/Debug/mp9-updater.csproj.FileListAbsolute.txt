@@ -1,9 +1,0 @@
-X:\yoshi\3D Objects\C#\mp9-updater\mp9-updater\bin\Debug\mp9-updater.dll.config
-X:\yoshi\3D Objects\C#\mp9-updater\mp9-updater\bin\Debug\mp9-updater.dll
-X:\yoshi\3D Objects\C#\mp9-updater\mp9-updater\bin\Debug\mp9-updater.pdb
-X:\yoshi\3D Objects\C#\mp9-updater\mp9-updater\obj\Debug\mp9-updater.csproj.AssemblyReference.cache
-X:\yoshi\3D Objects\C#\mp9-updater\mp9-updater\obj\Debug\mp9_updater.Properties.Resources.resources
-X:\yoshi\3D Objects\C#\mp9-updater\mp9-updater\obj\Debug\mp9-updater.csproj.GenerateResource.cache
-X:\yoshi\3D Objects\C#\mp9-updater\mp9-updater\obj\Debug\mp9-updater.csproj.CoreCompileInputs.cache
-X:\yoshi\3D Objects\C#\mp9-updater\mp9-updater\obj\Debug\mp9-updater.dll
-X:\yoshi\3D Objects\C#\mp9-updater\mp9-updater\obj\Debug\mp9-updater.pdb
