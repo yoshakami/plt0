@@ -20,10 +20,16 @@ while (text[w][:14] == "        Image "):
 output += """
         }"""
 w = -1
-booleans = ["bmd", "bti", "tex0", "tpl", "bmp", "png", "jpg", "jpeg", "gif", "ico", "tif", "tiff", "ask_exit", "bmp_32", "FORCE_ALPHA", "funky", "name_string", "no_warning", "random", "reversex", "reversey", "safe_mode", "stfu", "warn"]
+booleans = ["bmd", "bti", "tex0", "tpl", "bmp", "png", "jpg", "jpeg", "gif", "ico", "tif", "tiff", "ask_exit", "bmp_32", "FORCE_ALPHA", "funky", "name_string", "no_warning", "random", "reversex", "reversey", "safe_mode", "stfu", "warn", "cmpr_hover"]
 check_run = ["\n            Check_run();"] * 12 + [""] * 30
-layout_auto = ["", "\n            View_WrapS();\n            View_WrapT();\n            View_min();\n            View_mag();"] * 2 + [""] * 11 + ["\n            Preview(false);"] * 30
-layout_auto2 = ["", "\n            Hide_WrapS();\n            Hide_WrapT();\n            Hide_min();\n            Hide_mag();"] * 2 + [""] * 11 + ["\n            Preview(false);"] * 30
+layout_auto = ["", "\n            View_WrapS();\n            View_WrapT();\n            View_min();\n            View_mag();"] * 2 + [""] * 10 + ["\n            Preview(false);"] * 7 + ["", "", "", """
+            cmpr_hover_colour.Visible = true;
+            cmpr_hover_colour_label.Visible = true;
+            cmpr_hover_colour_txt.Visible = true;"""]
+layout_auto2 = ["", "\n            Hide_WrapS();\n            Hide_WrapT();\n            Hide_min();\n            Hide_mag();"] * 2 + [""] * 10 + ["\n            Preview(false);"] * 7+ ["", "", "", """
+            cmpr_hover_colour.Visible = false;
+            cmpr_hover_colour_label.Visible = false;
+            cmpr_hover_colour_txt.Visible = false;"""]
 for y in booleans:
     x += 1
     w += 1
@@ -814,7 +820,10 @@ output += """
                 Parse_args_class cli = new Parse_args_class();
                 cli.Parse_args(cmpr_args);
                 if (cli.texture_format != 0xE)
+                { 
                     Parse_Markdown(lines[""" + str(x) + """], cmpr_warning);
+                    return;
+                }
                 if (File.Exists(execPath + "images/preview/" + num + ".bmp"))
                 {
                     previous_block = -1;
@@ -840,7 +849,7 @@ output += """
                     }
                     blocks_wide = (ushort)(cmpr_preview_ck.Image.Width >> 2);
                     blocks_tall = (ushort)(cmpr_preview_ck.Image.Height >> 2);
-                    max_block = blocks_wide * blocks_tall -1;  // minus one because the first block is zero
+                    max_block = blocks_wide * blocks_tall - 1;  // minus one because the first block is zero
                     cmpr_preview_start_offset = (cmpr_preview.Length - (cmpr_preview_ck.Image.Width << 2));
                     cmpr_warning.Text = "";
                 }
@@ -916,26 +925,14 @@ output += """
             seal = cmpr_c1_txt.Text;
             cmpr_c1_txt.Text = cmpr_c2_txt.Text;
             cmpr_c2_txt.Text = seal;
-            /* actually, changing these values will change all the ones below because of the TextChanged property
-             colour3 = colour1;
-            colour1 = colour2;
-            colour2 = colour3;
-            red = cmpr_colour[0];
-            green = cmpr_colours_argb[1];
-            cmpr_colour[0] = cmpr_colour[2];
-            cmpr_colour[1] = cmpr_colour[3];
-            cmpr_colour[2] = red;
-            cmpr_colour[3] = green;
-            red = cmpr_colours_argb[1];
-            green = cmpr_colours_argb[2];
-            blue = cmpr_colours_argb[3];
-            cmpr_colours_argb[1] = cmpr_colours_argb[5];
-            cmpr_colours_argb[2] = cmpr_colours_argb[6];
-            cmpr_colours_argb[3] = cmpr_colours_argb[7];
-            cmpr_colours_argb[5] = red;
-            cmpr_colours_argb[6] = green;
-            cmpr_colours_argb[7] = blue; */
-            Update_Colours(true);
+        }
+        private void cmpr_swap2_Click(object sender, EventArgs e)
+        {
+            seal = cmpr_c1_txt.Text;
+            cmpr_c1_txt.Text = cmpr_c2_txt.Text;
+            cmpr_swap2 = true;
+            cmpr_c2_txt.Text = seal;
+            cmpr_swap2 = false;
         }
         private void cmpr_grid_ck_MouseMove(object sender, MouseEventArgs e)
         {
