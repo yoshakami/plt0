@@ -3012,7 +3012,7 @@ namespace plt0_gui
             cmpr_index[x + (y << 2)] = (byte)(button - 1);
             
             cmpr_file[cmpr_data_start_offset + (loaded_block << 3) + 4 + y] &= (byte)(0xff ^ (3 << (6 - (x << 1)))); // voids the previous index
-            cmpr_file[cmpr_data_start_offset + (loaded_block << 3) + 4 + y] += (byte)(0xff ^ ((button - 1) << (6 - (x << 1)))); // replaces it with the new one
+            cmpr_file[cmpr_data_start_offset + (loaded_block << 3) + 4 + y] += (byte)((button - 1) << (6 - (x << 1))); // replaces it with the new one
             // change that because the first byte of a bmp is at the last line :P
             // also X + Y doesn't work because 0, 1 = 1, 0 lol
             cmpr_grid_ck.Image = GetImageFromByteArray(cmpr_4x4);

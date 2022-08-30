@@ -1,5 +1,5 @@
-/.idea
-/.git
-/.vs
-/plt0/bin
-/plt0/obj
+.idea/*
+.git/*
+.vs/*
+plt0/bin/*
+plt0/obj/*
