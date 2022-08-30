@@ -74,6 +74,8 @@ namespace plt0_gui
         byte cmpr_edit_blue = 0;
         byte cmpr_edit_alpha = 0;
         byte cmpr_selected_colour = 1;
+        ushort cmpr_x_offscreen;
+        ushort cmpr_y_offscreen;
         ushort cmpr_x;
         ushort cmpr_y;
         ushort colour1;
@@ -13977,12 +13979,20 @@ namespace plt0_gui
                     cmpr_preview_ck.Image = GetImageFromByteArray(cmpr_preview);
                     cmpr_preview_vanilla = cmpr_preview.ToArray();
                     if (cmpr_preview_ck.Image.Height > cmpr_preview_ck.Image.Width)
+                    {
+                        cmpr_y_offscreen = 0;
                         mag_ratio = 1 + (double)(1024 - cmpr_preview_ck.Image.Height) / (double)cmpr_preview_ck.Image.Height;
+                        cmpr_x_offscreen = (ushort)(1024 - (cmpr_preview_ck.Image.Width * mag_ratio));
+                    }
                     else
+                    {
+                        cmpr_x_offscreen = 0;
                         mag_ratio = 1 + (double)(1024 - cmpr_preview_ck.Image.Width) / (double)cmpr_preview_ck.Image.Width;
+                        cmpr_y_offscreen = (ushort)(1024 - (cmpr_preview_ck.Image.Height * mag_ratio));
+                    }
                     blocks_wide = (ushort)(cmpr_preview_ck.Image.Width >> 2);
                     blocks_tall = (ushort)(cmpr_preview_ck.Image.Height >> 2);
-                    max_block = blocks_wide * blocks_tall -1;
+                    max_block = blocks_wide * blocks_tall -1;  // minus one because the first block is zero
                     cmpr_preview_start_offset = (cmpr_preview.Length - (cmpr_preview_ck.Image.Width << 2));
                     cmpr_warning.Text = "";
                 }
@@ -14083,10 +14093,10 @@ namespace plt0_gui
         {
             if (cmpr_preview == null)
                 return;
-            cmpr_x = (ushort)(e.X / mag_ratio);
+            cmpr_x = (ushort)((e.X - cmpr_x_offscreen) / mag_ratio);
             block_x = (ushort)(cmpr_x >> 2);
             // block_x = (ushort)(((block_x >> 1) << 2) + block_x);  // because of the sub-block on 2 rows order rule
-            cmpr_y = (ushort)(e.Y / mag_ratio);
+            cmpr_y = (ushort)((e.Y - cmpr_y_offscreen) / mag_ratio);
             block_y = (ushort)(cmpr_y >> 2);
             if (block_y % 2 == 1)
             {
