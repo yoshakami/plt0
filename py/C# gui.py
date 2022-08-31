@@ -431,8 +431,18 @@ for l in range(len(banner_common)):
             Hide_description();
             banner_""" + banner_short[l] + """_ck.BackgroundImage = """ + banner_common[l].lower() + """;
         }"""
-banner_long = ["Left", "Top_left", "Top", "Top_right", "Right", "Bottom_right", "Bottom", "Bottom_left"]
-banner = ["4", "7", "8", "9", "6", "3", "2", "1"]  # it's faster to look at the numpad arrows
+banner_long = ["Left", "Top_left", "Top", "Top_right", "Right", "Bottom_right", "Bottom", "Bottom_left", "Arrow_1080p", "Screen2_Left", "Screen2_Top_left", "Screen2_Top", "Screen2_Top_right", "Screen2_Right", "Screen2_Bottom_right", "Screen2_Bottom", "Screen2_Bottom_left"]
+banner = ["4", "7", "8", "9", "6", "3", "2", "1", "5", "14", "17", "18", "19", "16", "13", "12", "11"]  # it's faster to look at the numpad arrows
+location = ["Screen.AllScreens[i].Bounds.Location;\n                    break"] * 3 + [
+"new Point(Screen.AllScreens[i].Bounds.X + Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Y);\n                    break",   # Top Right
+"new Point(Screen.AllScreens[i].Bounds.X + Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Y);\n                    break",   # Right
+"new Point(Screen.AllScreens[i].Bounds.X + Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Y + Screen.AllScreens[i].Bounds.Height / 2);\n                    break",  # Bottom Right
+"new Point(Screen.AllScreens[i].Bounds.X, Screen.AllScreens[i].Bounds.Y + Screen.AllScreens[i].Bounds.Height / 2);\n                    break",  # Bottom
+"new Point(Screen.AllScreens[i].Bounds.X, Screen.AllScreens[i].Bounds.Y + Screen.AllScreens[i].Bounds.Height / 2);\n                    break", # Bottom Left
+"Screen.AllScreens[i].Bounds.Location;\n                    break"] + [''] * 9  # Arrow 1080p
+this_location = ["this.Location = "] * 10 + ["continue"] * 9
+this_size = ["this.Size = "] * 10 + ["continue"] * 9
+da_else_statement = [""
 #banner_long = ["Left", "Top_left", "Top", "Top_right", "Right", "Bottom_right", "Bottom", "Bottom_left"]
 #banner = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 for m in range(len(banner)):
@@ -442,33 +452,7 @@ for m in range(len(banner)):
     output += """
         private void """ + banner_long[m] + """_Click(object sender, EventArgs e)
         {
-            switch (arrow)
-            {
-                case 4:
-                    unchecked_Left();
-                    break;
-                case 7:
-                    unchecked_Top_left();
-                    break;
-                case 8:
-                    unchecked_Top();
-                    break;
-                case 9:
-                    unchecked_Top_right();
-                    break;
-                case 6:
-                    unchecked_Right();
-                    break;
-                case 3:
-                    unchecked_Bottom_right();
-                    break;
-                case 2:
-                    unchecked_Bottom();
-                    break;
-                case 1:
-                    unchecked_Bottom_left();
-                    break;
-            }
+            Uncheck_Arrow();
             selected_""" + banner_long[m] + """();
             arrow = """ + banner[m] + """;
         }
@@ -502,6 +486,14 @@ for m in range(len(banner)):
         }
         private void selected_""" + banner_long[m] + """()
         {
+            for (byte i = 0; i < Screen.AllScreens.Length; i++)
+            {
+                if (Screen.AllScreens[i].Bounds.X == 0)
+                {
+                    """ + this_size[m] + size[m] + """;
+                    """ + this_location[m] + location[m] + """;
+                }""" + da_else_statement[m] + """
+            }
             banner_""" + banner[m] + "_ck.BackgroundImage = " + banner_long[m].lower() + """_selected;
         }"""
 textbox = ["input_file_txt",
