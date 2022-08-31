@@ -3878,13 +3878,14 @@ namespace plt0_gui
             this.cmpr_swap2_label = new System.Windows.Forms.Label();
             this.cmpr_hover_ck = new System.Windows.Forms.PictureBox();
             this.cmpr_hover_label = new System.Windows.Forms.Label();
+            this.cmpr_update_preview_ck = new System.Windows.Forms.PictureBox();
+            this.cmpr_update_preview_label = new System.Windows.Forms.Label();
+            this.banner_global_move_ck = new System.Windows.Forms.PictureBox();
+            this.banner_reset = new System.Windows.Forms.PictureBox();
             this.cmpr_palette = new PictureBoxWithInterpolationMode();
             this.cmpr_grid_ck = new PictureBoxWithInterpolationMode();
             this.cmpr_preview_ck = new PictureBoxWithInterpolationMode();
             this.image_ck = new PictureBoxWithInterpolationMode();
-            this.cmpr_update_preview_ck = new System.Windows.Forms.PictureBox();
-            this.cmpr_update_preview_label = new System.Windows.Forms.Label();
-            this.banner_global_move_ck = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tpl_ck)).BeginInit();
@@ -4010,12 +4011,13 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.name_string_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_swap2_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_hover_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmpr_update_preview_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_global_move_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_reset)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_palette)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_grid_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.image_ck)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cmpr_update_preview_ck)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.banner_global_move_ck)).BeginInit();
             this.SuspendLayout();
             // 
             // output_file_type_label
@@ -7828,7 +7830,7 @@ namespace plt0_gui
             this.version_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.version_ck.ErrorImage = null;
             this.version_ck.InitialImage = null;
-            this.version_ck.Location = new System.Drawing.Point(720, 0);
+            this.version_ck.Location = new System.Drawing.Point(748, 0);
             this.version_ck.Margin = new System.Windows.Forms.Padding(0);
             this.version_ck.Name = "version_ck";
             this.version_ck.Size = new System.Drawing.Size(64, 32);
@@ -8583,10 +8585,10 @@ namespace plt0_gui
             this.cmpr_warning.ForeColor = System.Drawing.Color.Red;
             this.cmpr_warning.Location = new System.Drawing.Point(2999, 32);
             this.cmpr_warning.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_warning.MaximumSize = new System.Drawing.Size(400, 0);
-            this.cmpr_warning.MinimumSize = new System.Drawing.Size(400, 0);
+            this.cmpr_warning.MaximumSize = new System.Drawing.Size(0, 20);
+            this.cmpr_warning.MinimumSize = new System.Drawing.Size(0, 20);
             this.cmpr_warning.Name = "cmpr_warning";
-            this.cmpr_warning.Size = new System.Drawing.Size(400, 20);
+            this.cmpr_warning.Size = new System.Drawing.Size(374, 20);
             this.cmpr_warning.TabIndex = 673;
             this.cmpr_warning.Text = "Input file is not a cmpr texture";
             this.cmpr_warning.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -8903,6 +8905,68 @@ namespace plt0_gui
             this.cmpr_hover_label.MouseEnter += new System.EventHandler(this.cmpr_hover_MouseEnter);
             this.cmpr_hover_label.MouseLeave += new System.EventHandler(this.cmpr_hover_MouseLeave);
             // 
+            // cmpr_update_preview_ck
+            // 
+            this.cmpr_update_preview_ck.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_update_preview_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.cmpr_update_preview_ck.ErrorImage = null;
+            this.cmpr_update_preview_ck.InitialImage = null;
+            this.cmpr_update_preview_ck.Location = new System.Drawing.Point(2532, 419);
+            this.cmpr_update_preview_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_update_preview_ck.Name = "cmpr_update_preview_ck";
+            this.cmpr_update_preview_ck.Size = new System.Drawing.Size(64, 64);
+            this.cmpr_update_preview_ck.TabIndex = 698;
+            this.cmpr_update_preview_ck.TabStop = false;
+            this.cmpr_update_preview_ck.Click += new System.EventHandler(this.cmpr_update_preview_Click);
+            this.cmpr_update_preview_ck.MouseEnter += new System.EventHandler(this.cmpr_update_preview_MouseEnter);
+            this.cmpr_update_preview_ck.MouseLeave += new System.EventHandler(this.cmpr_update_preview_MouseLeave);
+            // 
+            // cmpr_update_preview_label
+            // 
+            this.cmpr_update_preview_label.AutoSize = true;
+            this.cmpr_update_preview_label.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_update_preview_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.cmpr_update_preview_label.ForeColor = System.Drawing.SystemColors.Window;
+            this.cmpr_update_preview_label.Location = new System.Drawing.Point(2601, 419);
+            this.cmpr_update_preview_label.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_update_preview_label.Name = "cmpr_update_preview_label";
+            this.cmpr_update_preview_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.cmpr_update_preview_label.Size = new System.Drawing.Size(192, 64);
+            this.cmpr_update_preview_label.TabIndex = 697;
+            this.cmpr_update_preview_label.Text = "Update Preview";
+            this.cmpr_update_preview_label.Click += new System.EventHandler(this.cmpr_update_preview_Click);
+            this.cmpr_update_preview_label.MouseEnter += new System.EventHandler(this.cmpr_update_preview_MouseEnter);
+            this.cmpr_update_preview_label.MouseLeave += new System.EventHandler(this.cmpr_update_preview_MouseLeave);
+            // 
+            // banner_global_move_ck
+            // 
+            this.banner_global_move_ck.BackColor = System.Drawing.Color.Transparent;
+            this.banner_global_move_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.banner_global_move_ck.ErrorImage = null;
+            this.banner_global_move_ck.InitialImage = null;
+            this.banner_global_move_ck.Location = new System.Drawing.Point(383, 0);
+            this.banner_global_move_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_global_move_ck.Name = "banner_global_move_ck";
+            this.banner_global_move_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_global_move_ck.TabIndex = 699;
+            this.banner_global_move_ck.TabStop = false;
+            this.banner_global_move_ck.Click += new System.EventHandler(this.banner_global_move_Click);
+            this.banner_global_move_ck.MouseEnter += new System.EventHandler(this.banner_global_move_MouseEnter);
+            this.banner_global_move_ck.MouseLeave += new System.EventHandler(this.banner_global_move_MouseLeave);
+            // 
+            // banner_reset
+            // 
+            this.banner_reset.BackColor = System.Drawing.Color.Transparent;
+            this.banner_reset.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.banner_reset.ErrorImage = null;
+            this.banner_reset.InitialImage = null;
+            this.banner_reset.Location = new System.Drawing.Point(687, 0);
+            this.banner_reset.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_reset.Name = "banner_reset";
+            this.banner_reset.Size = new System.Drawing.Size(32, 32);
+            this.banner_reset.TabIndex = 700;
+            this.banner_reset.TabStop = false;
+            // 
             // cmpr_palette
             // 
             this.cmpr_palette.BackColor = System.Drawing.Color.Transparent;
@@ -8981,55 +9045,6 @@ namespace plt0_gui
             this.image_ck.TabStop = false;
             this.image_ck.Visible = false;
             // 
-            // cmpr_update_preview_ck
-            // 
-            this.cmpr_update_preview_ck.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_update_preview_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.cmpr_update_preview_ck.ErrorImage = null;
-            this.cmpr_update_preview_ck.InitialImage = null;
-            this.cmpr_update_preview_ck.Location = new System.Drawing.Point(2532, 419);
-            this.cmpr_update_preview_ck.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_update_preview_ck.Name = "cmpr_update_preview_ck";
-            this.cmpr_update_preview_ck.Size = new System.Drawing.Size(64, 64);
-            this.cmpr_update_preview_ck.TabIndex = 698;
-            this.cmpr_update_preview_ck.TabStop = false;
-            this.cmpr_update_preview_ck.Click += new System.EventHandler(this.cmpr_update_preview_Click);
-            this.cmpr_update_preview_ck.MouseEnter += new System.EventHandler(this.cmpr_update_preview_MouseEnter);
-            this.cmpr_update_preview_ck.MouseLeave += new System.EventHandler(this.cmpr_update_preview_MouseLeave);
-            // 
-            // cmpr_update_preview_label
-            // 
-            this.cmpr_update_preview_label.AutoSize = true;
-            this.cmpr_update_preview_label.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_update_preview_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
-            this.cmpr_update_preview_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.cmpr_update_preview_label.Location = new System.Drawing.Point(2601, 419);
-            this.cmpr_update_preview_label.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_update_preview_label.Name = "cmpr_update_preview_label";
-            this.cmpr_update_preview_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.cmpr_update_preview_label.Size = new System.Drawing.Size(192, 64);
-            this.cmpr_update_preview_label.TabIndex = 697;
-            this.cmpr_update_preview_label.Text = "Update Preview";
-            this.cmpr_update_preview_label.Click += new System.EventHandler(this.cmpr_update_preview_Click);
-            this.cmpr_update_preview_label.MouseEnter += new System.EventHandler(this.cmpr_update_preview_MouseEnter);
-            this.cmpr_update_preview_label.MouseLeave += new System.EventHandler(this.cmpr_update_preview_MouseLeave);
-            // 
-            // banner_global_move_ck
-            // 
-            this.banner_global_move_ck.BackColor = System.Drawing.Color.Transparent;
-            this.banner_global_move_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.banner_global_move_ck.ErrorImage = null;
-            this.banner_global_move_ck.InitialImage = null;
-            this.banner_global_move_ck.Location = new System.Drawing.Point(383, 0);
-            this.banner_global_move_ck.Margin = new System.Windows.Forms.Padding(0);
-            this.banner_global_move_ck.Name = "banner_global_move_ck";
-            this.banner_global_move_ck.Size = new System.Drawing.Size(32, 32);
-            this.banner_global_move_ck.TabIndex = 699;
-            this.banner_global_move_ck.TabStop = false;
-            this.banner_global_move_ck.Click += new System.EventHandler(this.banner_global_move_Click);
-            this.banner_global_move_ck.MouseEnter += new System.EventHandler(this.banner_global_move_MouseEnter);
-            this.banner_global_move_ck.MouseLeave += new System.EventHandler(this.banner_global_move_MouseLeave);
-            // 
             // plt0_gui
             // 
             this.AllowDrop = true;
@@ -9038,6 +9053,7 @@ namespace plt0_gui
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(3270, 1768);
+            this.Controls.Add(this.banner_reset);
             this.Controls.Add(this.banner_global_move_ck);
             this.Controls.Add(this.cmpr_update_preview_ck);
             this.Controls.Add(this.cmpr_update_preview_label);
@@ -9354,9 +9370,7 @@ namespace plt0_gui
             this.MaximumSize = new System.Drawing.Size(99999, 99999);
             this.Name = "plt0_gui";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.WindowsDefaultBounds;
             this.Text = "PLT0 - Image Encoding tool";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.plt0_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.plt0_DragEnter);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyDown);
@@ -9490,12 +9504,13 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.name_string_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_swap2_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_hover_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmpr_update_preview_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_global_move_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_reset)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_palette)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_grid_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.image_ck)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cmpr_update_preview_ck)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.banner_global_move_ck)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -12749,6 +12764,8 @@ namespace plt0_gui
         private void selected_Left()
         {
             banner_4_ck.BackgroundImage = left_selected;
+            this.Size = new Size(960, 1080);
+            this.Location = new Point(0, 0);
         }
         private void Top_left_Click(object sender, EventArgs e)
         {
@@ -12813,6 +12830,8 @@ namespace plt0_gui
         private void selected_Top_left()
         {
             banner_7_ck.BackgroundImage = top_left_selected;
+            this.Size = new Size(960, 540);
+            this.Location = new Point(0, 0);
         }
         private void Top_Click(object sender, EventArgs e)
         {
@@ -12877,6 +12896,8 @@ namespace plt0_gui
         private void selected_Top()
         {
             banner_8_ck.BackgroundImage = top_selected;
+            this.Size = new Size(1920, 540);
+            this.Location = new Point(0, 0);
         }
         private void Top_right_Click(object sender, EventArgs e)
         {
@@ -12941,6 +12962,8 @@ namespace plt0_gui
         private void selected_Top_right()
         {
             banner_9_ck.BackgroundImage = top_right_selected;
+            this.Size = new Size(960, 540);
+            this.Location = new Point(960, 0);
         }
         private void Right_Click(object sender, EventArgs e)
         {
@@ -13005,6 +13028,32 @@ namespace plt0_gui
         private void selected_Right()
         {
             banner_6_ck.BackgroundImage = right_selected;
+            this.Size = new Size(960, 1080);
+            this.Location = new Point(960, 0);
+        }
+        private void Screen2_Left_Click()
+        {
+            this.Location = Screen.AllScreens[1].WorkingArea.Location;
+            this.Size = new Size(1920, 1080);
+            this.Location = new Point(-99999, -99999);
+        }
+        private void Screen2_Right_Click()
+        {
+            this.Location = Screen.AllScreens[1].WorkingArea.Location;
+            this.Size = new Size(1920, 1080);
+            this.Location = new Point(-99999, -99999);
+        }
+        private void Screen2_Top_Click()
+        {
+            this.Location = Screen.AllScreens[1].WorkingArea.Location;
+            this.Size = new Size(1920, 1080);
+            this.Location = new Point(-99999, -99999);
+        }
+        private void Screen2_Bottom_Click()
+        {
+            this.Location = Screen.AllScreens[1].WorkingArea.Location;
+            this.Size = new Size(1920, 1080);
+            this.Location = new Point(-99999, -99999);
         }
         private void Bottom_right_Click(object sender, EventArgs e)
         {
@@ -13069,6 +13118,8 @@ namespace plt0_gui
         private void selected_Bottom_right()
         {
             banner_3_ck.BackgroundImage = bottom_right_selected;
+            this.Size = new Size(960, 540);
+            this.Location = new Point(960, 540);
         }
         private void Bottom_Click(object sender, EventArgs e)
         {
@@ -13133,6 +13184,8 @@ namespace plt0_gui
         private void selected_Bottom()
         {
             banner_2_ck.BackgroundImage = bottom_selected;
+            this.Size = new Size(1920, 540);
+            this.Location = new Point(0, 540);
         }
         private void Bottom_left_Click(object sender, EventArgs e)
         {
@@ -13197,6 +13250,8 @@ namespace plt0_gui
         private void selected_Bottom_left()
         {
             banner_1_ck.BackgroundImage = bottom_left_selected;
+            this.Size = new Size(960, 540);
+            this.Location = new Point(0, 540);
         }
         private void input_file_Click(object sender, EventArgs e)
         {
@@ -14817,6 +14872,7 @@ namespace plt0_gui
         }
         private void cmpr_KeyDown(object sender, KeyEventArgs e)
         {
+            // cmpr_warning.Text = $"KeyDown code: {e.KeyCode}, value: {e.KeyValue}, modifiers: {e.Modifiers}" + "\r\n";
             if (e.KeyCode == Keys.F1)
                 All_Click(null, null);
             else if (e.KeyCode == Keys.F2)
@@ -14839,6 +14895,22 @@ namespace plt0_gui
                 Easter_Egg();  // God Luck finding this key :P
             else if (e.KeyCode == Keys.Escape)
                 Environment.Exit(0);
+            else if (e.Control && e.KeyCode == Keys.Left)
+                Left_Click(null, null);
+            else if (e.Control && e.KeyCode == Keys.Right)
+                Right_Click(null, null);
+            else if (e.Control && e.KeyCode == Keys.Up)
+                Top_Click(null, null);
+            else if (e.Control && e.KeyCode == Keys.Down)
+                Bottom_Click(null, null);
+            else if (e.Alt && e.KeyCode == Keys.Left)
+                Screen2_Left_Click();
+            else if (e.Alt && e.KeyCode == Keys.Right)
+                Screen2_Right_Click();
+            else if (e.Alt && e.KeyCode == Keys.Up)
+                Screen2_Top_Click();
+            else if (e.Alt && e.KeyCode == Keys.Down)
+                Screen2_Bottom_Click();
             if (layout != 3) // not paint
             {
                 if (e.Control && e.KeyCode == Keys.R)
@@ -14863,6 +14935,24 @@ namespace plt0_gui
                 cmpr_c3_Click(null, null);
             else if (e.Control && (e.KeyCode == Keys.D4 || e.KeyCode == Keys.NumPad4))
                 cmpr_c4_Click(null, null);
+            else if (e.Alt && (e.KeyCode == Keys.D1 || e.KeyCode == Keys.NumPad1))
+                Bottom_left_Click(null, null);
+            else if (e.Alt && (e.KeyCode == Keys.D2 || e.KeyCode == Keys.NumPad2))
+                Bottom_Click(null, null);
+            else if (e.Alt && (e.KeyCode == Keys.D3 || e.KeyCode == Keys.NumPad3))
+                Bottom_right_Click(null, null);
+            else if (e.Alt && (e.KeyCode == Keys.D4 || e.KeyCode == Keys.NumPad4))
+                Left_Click(null, null);
+            else if (e.Alt && (e.KeyCode == Keys.D5 || e.KeyCode == Keys.NumPad5))
+                Maximized_Click(null, null);
+            else if (e.Alt && (e.KeyCode == Keys.D6 || e.KeyCode == Keys.NumPad6))
+                Right_Click(null, null);
+            else if (e.Alt && (e.KeyCode == Keys.D7 || e.KeyCode == Keys.NumPad7))
+                Top_left_Click(null, null);
+            else if (e.Alt && (e.KeyCode == Keys.D8 || e.KeyCode == Keys.NumPad8))
+                Top_Click(null, null);
+            else if (e.Alt && (e.KeyCode == Keys.D9 || e.KeyCode == Keys.NumPad9))
+                Top_right_Click(null, null);
         }
         private void cmpr_KeyUp(object sender, KeyEventArgs e)
         {
