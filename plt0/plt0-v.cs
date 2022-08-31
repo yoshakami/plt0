@@ -1744,153 +1744,152 @@ namespace plt0_gui
         }
         private void Disable_Paint_Layout()
         {
-            i4_ck.Visible = true;
-            i8_ck.Visible = true;
             a_a_ck.Visible = true;
             a_b_ck.Visible = true;
             a_g_ck.Visible = true;
             a_r_ck.Visible = true;
             ai4_ck.Visible = true;
+            ai4_label.Visible = true;
             ai8_ck.Visible = true;
+            ai8_label.Visible = true;
+            algorithm_label.Visible = true;
             b_a_ck.Visible = true;
             b_b_ck.Visible = true;
             b_g_ck.Visible = true;
             b_r_ck.Visible = true;
             bmd_ck.Visible = true;
-            bmp_ck.Visible = true;
-            bti_ck.Visible = true;
-            ci4_ck.Visible = true;
-            ci8_ck.Visible = true;
-            g_a_ck.Visible = true;
-            g_b_ck.Visible = true;
-            g_g_ck.Visible = true;
-            g_r_ck.Visible = true;
-            gif_ck.Visible = true;
-            ico_ck.Visible = true;
-            jpg_ck.Visible = true;
-            png_ck.Visible = true;
-            r_a_ck.Visible = true;
-            r_b_ck.Visible = true;
-            r_g_ck.Visible = true;
-            r_r_ck.Visible = true;
-            run_ck.Visible = true;
-            tif_ck.Visible = true;
-            tpl_ck.Visible = true;
-            cmpr_ck.Visible = true;
-            jpeg_ck.Visible = true;
-            tex0_ck.Visible = true;
-            tiff_ck.Visible = true;
-            cmpr_c1.Visible = false;
-            cmpr_c2.Visible = false;
-            cmpr_c3.Visible = false;
-            cmpr_c4.Visible = false;
-            funky_ck.Visible = true;
-            i4_label.Visible = true;
-            i8_label.Visible = true;
-            cmpr_sel.Visible = false;
-            ai4_label.Visible = true;
-            ai8_label.Visible = true;
             bmd_label.Visible = true;
             bmp_32_ck.Visible = true;
-            bmp_label.Visible = true;
-            bti_label.Visible = true;
-            ci4_label.Visible = true;
-            ci8_label.Visible = true;
-            ci14x2_ck.Visible = true;
-            custom_ck.Visible = true;
-            gif_label.Visible = true;
-            ico_label.Visible = true;
-            jpg_label.Visible = true;
-            png_label.Visible = true;
-            random_ck.Visible = true;
-            rgb5a3_ck.Visible = true;
-            rgb565_ck.Visible = true;
-            rgba32_ck.Visible = true;
-            tif_label.Visible = true;
-            tpl_label.Visible = true;
-            cie_601_ck.Visible = true;
-            cmpr_label.Visible = true;
-            jpeg_label.Visible = true;
-            tex0_label.Visible = true;
-            tiff_label.Visible = true;
-            funky_label.Visible = true;
-            reversex_ck.Visible = true;
-            reversey_ck.Visible = true;
-            cmpr_c1_txt.Visible = false;
-            cmpr_c2_txt.Visible = false;
-            cmpr_c3_txt.Visible = false;
-            cmpr_c4_txt.Visible = false;
             bmp_32_label.Visible = true;
+            bmp_ck.Visible = true;
+            bmp_label.Visible = true;
+            bti_ck.Visible = true;
+            bti_label.Visible = true;
+            ci14x2_ck.Visible = true;
             ci14x2_label.Visible = true;
-            custom_label.Visible = true;
-            random_label.Visible = true;
-            rgb5a3_label.Visible = true;
-            rgb565_label.Visible = true;
-            rgba32_label.Visible = true;
-            cmpr_save_ck.Visible = false;
-            cmpr_swap_ck.Visible = false;
-            cmpr_warning.Visible = false;
+            ci4_ck.Visible = true;
+            ci4_label.Visible = true;
+            ci8_ck.Visible = true;
+            ci8_label.Visible = true;
+            cie_601_ck.Visible = true;
             cie_601_label.Visible = true;
-            options_label.Visible = true;
-            cmpr_c1_label.Visible = false;
-            cmpr_c2_label.Visible = false;
-            cmpr_c3_label.Visible = false;
-            cmpr_c4_label.Visible = false;
             cli_textbox_ck.Visible = true;
-            encoding_label.Visible = true;
-            reversex_label.Visible = true;
-            reversey_label.Visible = true;
-            surrounding_ck.Visible = true;
-            cmpr_layout_is_enabled = false;
-            cmpr_sel_label.Visible = false;
-            algorithm_label.Visible = true;
-            input_file2_txt.Visible = true;
-            cmpr_save_as_ck.Visible = false;
-            cmpr_swap_label.Visible = false;
             cli_textbox_label.Visible = true;
-            input_file2_label.Visible = true;
+            cmpr_block_paint_ck.Visible = false;
+            cmpr_block_paint_label.Visible = false;
+            cmpr_block_selection_ck.Visible = false;
+            cmpr_block_selection_label.Visible = false;
+            cmpr_c1.Visible = false;
+            cmpr_c1_label.Visible = false;
+            cmpr_c1_txt.Visible = false;
+            cmpr_c2.Visible = false;
+            cmpr_c2_label.Visible = false;
+            cmpr_c2_txt.Visible = false;
+            cmpr_c3.Visible = false;
+            cmpr_c3_label.Visible = false;
+            cmpr_c3_txt.Visible = false;
+            cmpr_c4.Visible = false;
+            cmpr_c4_label.Visible = false;
+            cmpr_c4_txt.Visible = false;
+            cmpr_ck.Visible = true;
+            cmpr_grid_ck.Visible = false;
+            cmpr_hover_ck.Visible = false;
+            cmpr_hover_colour.Visible = false;
+            cmpr_hover_colour_label.Visible = false;
+            cmpr_hover_colour_txt.Visible = false;
+            cmpr_hover_label.Visible = false;
+            cmpr_label.Visible = true;
+            cmpr_layout_is_enabled = false;
             cmpr_mouse1_label.Visible = false;
             cmpr_mouse2_label.Visible = false;
             cmpr_mouse3_label.Visible = false;
             cmpr_mouse4_label.Visible = false;
             cmpr_mouse5_label.Visible = false;
-            cmpr_block_paint_ck.Visible = false;
-            colour_channels_label.Visible = true;
-            output_file_type_label.Visible = true;
-            cmpr_block_paint_label.Visible = false;
-            cmpr_block_selection_ck.Visible = false;
-            mandatory_settings_label.Visible = true;
-            cmpr_selected_block_label.Visible = false;
-            cmpr_block_selection_label.Visible = false;
+            cmpr_palette.Visible = false;
             cmpr_picture_tooltip_label.Visible = false;
             cmpr_preview_ck.Visible = false;
-            cmpr_grid_ck.Visible = false;
-            output_label.Visible = true;
-            cmpr_hover_colour.Visible = false;
-            cmpr_hover_colour_label.Visible = false;
-            cmpr_hover_colour_txt.Visible = false;
-            cmpr_edited_colour.Visible = false;
-            cmpr_edited_colour_label.Visible = false;
-            cmpr_edited_colour_txt.Visible = false;
-            name_string_ck.Visible = true;
-            name_string_label.Visible = true;
-            cmpr_swap2_label.Visible = false;
+            cmpr_save_as_ck.Visible = false;
+            cmpr_save_ck.Visible = false;
+            cmpr_sel.Visible = false;
+            cmpr_sel_label.Visible = false;
+            cmpr_selected_block_label.Visible = false;
             cmpr_swap2_ck.Visible = false;
-            cmpr_palette.Visible = false;
-            cmpr_hover_ck.Visible = false;
-            cmpr_hover_label.Visible = false;
+            cmpr_swap2_label.Visible = false;
+            cmpr_swap_ck.Visible = false;
+            cmpr_swap_label.Visible = false;
             cmpr_update_preview_ck.Visible = false;
             cmpr_update_preview_label.Visible = false;
+            cmpr_warning.Visible = false;
+            colour_channels_label.Visible = true;
+            custom_ck.Visible = true;
+            custom_label.Visible = true;
+            encoding_label.Visible = true;
+            funky_ck.Visible = true;
+            funky_label.Visible = true;
+            g_a_ck.Visible = true;
+            g_b_ck.Visible = true;
+            g_g_ck.Visible = true;
+            g_r_ck.Visible = true;
+            gif_ck.Visible = true;
+            gif_label.Visible = true;
+            i4_ck.Visible = true;
+            i4_label.Visible = true;
+            i8_ck.Visible = true;
+            i8_label.Visible = true;
+            ico_ck.Visible = true;
+            ico_label.Visible = true;
+            input_file2_label.Visible = true;
+            input_file2_txt.Visible = true;
+            jpeg_ck.Visible = true;
+            jpeg_label.Visible = true;
+            jpg_ck.Visible = true;
+            jpg_label.Visible = true;
+            mandatory_settings_label.Visible = true;
+            name_string_ck.Visible = true;
+            name_string_label.Visible = true;
+            options_label.Visible = true;
+            output_file_type_label.Visible = true;
+            output_label.Visible = true;
+            png_ck.Visible = true;
+            png_label.Visible = true;
+            r_a_ck.Visible = true;
+            r_b_ck.Visible = true;
+            r_g_ck.Visible = true;
+            r_r_ck.Visible = true;
+            random_ck.Visible = true;
+            random_label.Visible = true;
+            reversex_ck.Visible = true;
+            reversex_label.Visible = true;
+            reversey_ck.Visible = true;
+            reversey_label.Visible = true;
+            rgb565_ck.Visible = true;
+            rgb565_label.Visible = true;
+            rgb5a3_ck.Visible = true;
+            rgb5a3_label.Visible = true;
+            rgba32_ck.Visible = true;
+            rgba32_label.Visible = true;
+            run_ck.Visible = true;
+            surrounding_ck.Visible = true;
+            tex0_ck.Visible = true;
+            tex0_label.Visible = true;
+            tif_ck.Visible = true;
+            tif_label.Visible = true;
+            tiff_ck.Visible = true;
+            tiff_label.Visible = true;
+            tpl_ck.Visible = true;
+            tpl_label.Visible = true;
             for (byte i = 0; i < 9; i++)
             {
                 desc[i].Location = new Point(desc[i].Location.X + 300, desc[i].Location.Y - 100);
             }
             description_title.Location = new Point(description_title.Location.X + 300, description_title.Location.Y - 100);
             description_surrounding.Location = new Point(description_surrounding.Location.X + 300, description_surrounding.Location.Y - 100);
-            mipmaps_label.Location = new Point(mipmaps_label.Location.X + 180, mipmaps_label.Location.Y);
-            mipmaps_txt.Location = new Point(mipmaps_txt.Location.X + 180, mipmaps_txt.Location.Y);
-            output_name_label.Location = new Point(output_name_label.Location.X + 165, output_name_label.Location.Y);
-            output_name_txt.Location = new Point(output_name_txt.Location.X + 165, output_name_txt.Location.Y);
+            input_file_label.Location = new Point(input_file_label.Location.X, input_file_label.Location.Y - 14);
+            input_file_txt.Location = new Point(input_file_txt.Location.X, input_file_txt.Location.Y - 14);
+            mipmaps_label.Location = new Point(mipmaps_label.Location.X + 180, mipmaps_label.Location.Y - 14);
+            mipmaps_txt.Location = new Point(mipmaps_txt.Location.X + 180, mipmaps_txt.Location.Y - 14);
+            output_name_label.Location = new Point(output_name_label.Location.X + 165, output_name_label.Location.Y - 14);
+            output_name_txt.Location = new Point(output_name_txt.Location.X + 165, output_name_txt.Location.Y - 14);
         }
         private void Layout_Paint()
         {
@@ -1937,9 +1936,6 @@ namespace plt0_gui
                 cmpr_hover_colour.Location = new Point(cmpr_hover_colour.Location.X - 1920, cmpr_hover_colour.Location.Y);
                 cmpr_hover_colour_label.Location = new Point(cmpr_hover_colour_label.Location.X - 1920, cmpr_hover_colour_label.Location.Y);
                 cmpr_hover_colour_txt.Location = new Point(cmpr_hover_colour_txt.Location.X - 1920, cmpr_hover_colour_txt.Location.Y);
-                cmpr_edited_colour.Location = new Point(cmpr_edited_colour.Location.X - 1920, cmpr_edited_colour.Location.Y);
-                cmpr_edited_colour_label.Location = new Point(cmpr_edited_colour_label.Location.X - 1920, cmpr_edited_colour_label.Location.Y);
-                cmpr_edited_colour_txt.Location = new Point(cmpr_edited_colour_txt.Location.X - 1920, cmpr_edited_colour_txt.Location.Y);
                 cmpr_swap2_ck.Location = new Point(cmpr_swap2_ck.Location.X - 1920, cmpr_swap2_ck.Location.Y);
                 cmpr_swap2_label.Location = new Point(cmpr_swap2_label.Location.X - 1920, cmpr_swap2_label.Location.Y);
                 cmpr_palette.Location = new Point(cmpr_palette.Location.X - 1920, cmpr_palette.Location.Y);
@@ -1967,160 +1963,160 @@ namespace plt0_gui
                 Hide_encoding(1);
                 Hide_encoding(5);
                 Hide_encoding(8);
-                output_label.Visible = false;
-                i4_ck.Visible = false;
-                i8_ck.Visible = false;
+                view_algorithm = false;
                 a_a_ck.Visible = false;
                 a_b_ck.Visible = false;
                 a_g_ck.Visible = false;
                 a_r_ck.Visible = false;
                 ai4_ck.Visible = false;
+                ai4_label.Visible = false;
                 ai8_ck.Visible = false;
+                ai8_label.Visible = false;
+                algorithm_label.Visible = false;
                 b_a_ck.Visible = false;
                 b_b_ck.Visible = false;
                 b_g_ck.Visible = false;
                 b_r_ck.Visible = false;
                 bmd_ck.Visible = false;
-                bmp_ck.Visible = false;
-                bti_ck.Visible = false;
-                ci4_ck.Visible = false;
-                ci8_ck.Visible = false;
-                cmpr_c1.Visible = true;
-                cmpr_c2.Visible = true;
-                cmpr_c3.Visible = true;
-                cmpr_c4.Visible = true;
-                g_a_ck.Visible = false;
-                g_b_ck.Visible = false;
-                g_g_ck.Visible = false;
-                g_r_ck.Visible = false;
-                gif_ck.Visible = false;
-                ico_ck.Visible = false;
-                jpg_ck.Visible = false;
-                png_ck.Visible = false;
-                r_a_ck.Visible = false;
-                r_b_ck.Visible = false;
-                r_g_ck.Visible = false;
-                r_r_ck.Visible = false;
-                run_ck.Visible = false;
-                tif_ck.Visible = false;
-                tpl_ck.Visible = false;
-                cmpr_ck.Visible = false;
-                cmpr_sel.Visible = true;
-                jpeg_ck.Visible = false;
-                tex0_ck.Visible = false;
-                tiff_ck.Visible = false;
-                funky_ck.Visible = false;
-                i4_label.Visible = false;
-                i8_label.Visible = false;
-                ai4_label.Visible = false;
-                ai8_label.Visible = false;
                 bmd_label.Visible = false;
                 bmp_32_ck.Visible = false;
-                bmp_label.Visible = false;
-                bti_label.Visible = false;
-                ci4_label.Visible = false;
-                ci8_label.Visible = false;
-                ci14x2_ck.Visible = false;
-                custom_ck.Visible = false;
-                gif_label.Visible = false;
-                ico_label.Visible = false;
-                jpg_label.Visible = false;
-                png_label.Visible = false;
-                random_ck.Visible = false;
-                rgb5a3_ck.Visible = false;
-                rgb565_ck.Visible = false;
-                rgba32_ck.Visible = false;
-                tif_label.Visible = false;
-                tpl_label.Visible = false;
-                cmpr_c1_txt.Visible = true;
-                cmpr_c2_txt.Visible = true;
-                cmpr_c3_txt.Visible = true;
-                cmpr_c4_txt.Visible = true;
-                cie_601_ck.Visible = false;
-                cmpr_label.Visible = false;
-                jpeg_label.Visible = false;
-                tex0_label.Visible = false;
-                tiff_label.Visible = false;
-                cmpr_save_ck.Visible = true;
-                cmpr_swap_ck.Visible = true;
-                funky_label.Visible = false;
-                reversex_ck.Visible = false;
-                reversey_ck.Visible = false;
-                cmpr_warning.Visible = true;
                 bmp_32_label.Visible = false;
+                bmp_ck.Visible = false;
+                bmp_label.Visible = false;
+                bti_ck.Visible = false;
+                bti_label.Visible = false;
+                ci14x2_ck.Visible = false;
                 ci14x2_label.Visible = false;
-                cmpr_c1_label.Visible = true;
-                cmpr_c2_label.Visible = true;
-                cmpr_c3_label.Visible = true;
-                cmpr_c4_label.Visible = true;
-                custom_label.Visible = false;
-                random_label.Visible = false;
-                rgb5a3_label.Visible = false;
-                rgb565_label.Visible = false;
-                rgba32_label.Visible = false;
+                ci4_ck.Visible = false;
+                ci4_label.Visible = false;
+                ci8_ck.Visible = false;
+                ci8_label.Visible = false;
+                cie_601_ck.Visible = false;
                 cie_601_label.Visible = false;
-                cmpr_layout_is_enabled = true;
-                cmpr_sel_label.Visible = true;
-                options_label.Visible = false;
                 cli_textbox_ck.Visible = false;
-                cmpr_save_as_ck.Visible = true;
-                cmpr_swap_label.Visible = true;
-                encoding_label.Visible = false;
-                reversex_label.Visible = false;
-                reversey_label.Visible = false;
-                surrounding_ck.Visible = false;
-                algorithm_label.Visible = false;
-                input_file2_txt.Visible = false;
+                cli_textbox_label.Visible = false;
+                cmpr_block_paint_ck.Visible = true;
+                cmpr_block_paint_label.Visible = true;
+                cmpr_block_selection_ck.Visible = true;
+                cmpr_block_selection_label.Visible = true;
+                cmpr_c1.Visible = true;
+                cmpr_c1_label.Visible = true;
+                cmpr_c1_txt.Visible = true;
+                cmpr_c2.Visible = true;
+                cmpr_c2_label.Visible = true;
+                cmpr_c2_txt.Visible = true;
+                cmpr_c3.Visible = true;
+                cmpr_c3_label.Visible = true;
+                cmpr_c3_txt.Visible = true;
+                cmpr_c4.Visible = true;
+                cmpr_c4_label.Visible = true;
+                cmpr_c4_txt.Visible = true;
+                cmpr_ck.Visible = false;
+                cmpr_grid_ck.Visible = true;
+                cmpr_hover_ck.Visible = true;
+                cmpr_hover_colour.Visible = true;
+                cmpr_hover_colour_label.Visible = true;
+                cmpr_hover_colour_txt.Visible = true;
+                cmpr_hover_label.Visible = true;
+                cmpr_label.Visible = false;
+                cmpr_layout_is_enabled = true;
                 cmpr_mouse1_label.Visible = true;
                 cmpr_mouse2_label.Visible = true;
                 cmpr_mouse3_label.Visible = true;
                 cmpr_mouse4_label.Visible = true;
                 cmpr_mouse5_label.Visible = true;
-                cli_textbox_label.Visible = false;
-                input_file2_label.Visible = false;
-                cmpr_block_paint_ck.Visible = true;
-                cmpr_block_paint_label.Visible = true;
-                colour_channels_label.Visible = false;
-                cmpr_block_selection_ck.Visible = true;
-                output_file_type_label.Visible = false;
-                cmpr_selected_block_label.Visible = true;
-                mandatory_settings_label.Visible = false;
-                cmpr_block_selection_label.Visible = true;
+                cmpr_palette.Visible = true;
                 cmpr_picture_tooltip_label.Visible = true;
                 cmpr_preview_ck.Visible = true;
-                cmpr_grid_ck.Visible = true;
-                cmpr_hover_colour.Visible = true;
-                cmpr_hover_colour_label.Visible = true;
-                cmpr_hover_colour_txt.Visible = true;
-                cmpr_edited_colour.Visible = true;
-                cmpr_edited_colour_label.Visible = true;
-                cmpr_edited_colour_txt.Visible = true;
-                name_string_ck.Visible = false;
-                name_string_label.Visible = false;
-                cmpr_swap2_label.Visible = true;
+                cmpr_save_as_ck.Visible = true;
+                cmpr_save_ck.Visible = true;
+                cmpr_sel.Visible = true;
+                cmpr_sel_label.Visible = true;
+                cmpr_selected_block_label.Visible = true;
                 cmpr_swap2_ck.Visible = true;
-                cmpr_palette.Visible = true;
-                cmpr_hover_ck.Visible = true;
-                cmpr_hover_label.Visible = true;
+                cmpr_swap2_label.Visible = true;
+                cmpr_swap_ck.Visible = true;
+                cmpr_swap_label.Visible = true;
                 cmpr_update_preview_ck.Visible = true;
                 cmpr_update_preview_label.Visible = true;
+                cmpr_warning.Visible = true;
+                colour_channels_label.Visible = false;
+                custom_ck.Visible = false;
+                custom_label.Visible = false;
+                encoding_label.Visible = false;
+                funky_ck.Visible = false;
+                funky_label.Visible = false;
+                g_a_ck.Visible = false;
+                g_b_ck.Visible = false;
+                g_g_ck.Visible = false;
+                g_r_ck.Visible = false;
+                gif_ck.Visible = false;
+                gif_label.Visible = false;
+                i4_ck.Visible = false;
+                i4_label.Visible = false;
+                i8_ck.Visible = false;
+                i8_label.Visible = false;
+                ico_ck.Visible = false;
+                ico_label.Visible = false;
+                input_file2_label.Visible = false;
+                input_file2_txt.Visible = false;
+                jpeg_ck.Visible = false;
+                jpeg_label.Visible = false;
+                jpg_ck.Visible = false;
+                jpg_label.Visible = false;
+                mandatory_settings_label.Visible = false;
+                name_string_ck.Visible = false;
+                name_string_label.Visible = false;
+                options_label.Visible = false;
+                output_file_type_label.Visible = false;
+                output_label.Visible = false;
+                png_ck.Visible = false;
+                png_label.Visible = false;
+                r_a_ck.Visible = false;
+                r_b_ck.Visible = false;
+                r_g_ck.Visible = false;
+                r_r_ck.Visible = false;
+                random_ck.Visible = false;
+                random_label.Visible = false;
+                reversex_ck.Visible = false;
+                reversex_label.Visible = false;
+                reversey_ck.Visible = false;
+                reversey_label.Visible = false;
+                rgb565_ck.Visible = false;
+                rgb565_label.Visible = false;
+                rgb5a3_ck.Visible = false;
+                rgb5a3_label.Visible = false;
+                rgba32_ck.Visible = false;
+                rgba32_label.Visible = false;
+                run_ck.Visible = false;
+                surrounding_ck.Visible = false;
+                tex0_ck.Visible = false;
+                tex0_label.Visible = false;
+                tif_ck.Visible = false;
+                tif_label.Visible = false;
+                tiff_ck.Visible = false;
+                tiff_label.Visible = false;
+                tpl_ck.Visible = false;
+                tpl_label.Visible = false;
                 for (byte i = 0; i < 9; i++)
                 {
                     desc[i].Location = new Point(desc[i].Location.X - 300, desc[i].Location.Y + 100);
                 }
                 description_title.Location = new Point(description_title.Location.X - 300, description_title.Location.Y + 100);
                 description_surrounding.Location = new Point(description_surrounding.Location.X - 300, description_surrounding.Location.Y + 100);
-                mipmaps_label.Location = new Point(mipmaps_label.Location.X - 180, mipmaps_label.Location.Y);
-                mipmaps_txt.Location = new Point(mipmaps_txt.Location.X - 180, mipmaps_txt.Location.Y);
-                output_name_label.Location = new Point(output_name_label.Location.X - 165, output_name_label.Location.Y);
-                output_name_txt.Location = new Point(output_name_txt.Location.X - 165, output_name_txt.Location.Y);
+                input_file_label.Location = new Point(input_file_label.Location.X, input_file_label.Location.Y + 14);
+                input_file_txt.Location = new Point(input_file_txt.Location.X, input_file_txt.Location.Y + 14);
+                mipmaps_label.Location = new Point(mipmaps_label.Location.X - 180, mipmaps_label.Location.Y + 14);
+                mipmaps_txt.Location = new Point(mipmaps_txt.Location.X - 180, mipmaps_txt.Location.Y + 14);
+                output_name_label.Location = new Point(output_name_label.Location.X - 165, output_name_label.Location.Y + 14);
+                output_name_txt.Location = new Point(output_name_txt.Location.X - 165, output_name_txt.Location.Y + 14);
                 layout = 3;
             }
             Check_Paint();
         }
-        private void View_alpha()
+        private void View_alpha(bool secret_mode=false)
         {
-            if (layout != 1)
+            if (layout != 1 && !secret_mode)
                 return;
             for (byte i = 0; i < alpha_ck_array.Count; i++)
             {
@@ -2132,9 +2128,9 @@ namespace plt0_gui
             mix_label.Visible = true;
             view_alpha = true;
         }
-        private void Hide_alpha()
+        private void Hide_alpha(bool secret_mode=false)
         {
-            if (layout != 1)
+            if (layout != 1 && !secret_mode)
                 return;
             //System.Windows.Forms.FormWindowState previous = this.WindowState;
             //this.WindowState = FormWindowState.Minimized;
@@ -2146,12 +2142,12 @@ namespace plt0_gui
             no_alpha_label.Visible = false;
             alpha_title.Visible = false;
             mix_label.Visible = false;
-            view_alpha = false;
+            view_alpha = false;  // this doesn't update for some reason
             //this.WindowState = FormWindowState.Normal;
         }
-        private void View_algorithm(byte algorithm)
+        private void View_algorithm(byte algorithm, bool secret_mode = false)
         {
-            if (layout != 1)
+            if (layout != 1 && !secret_mode)
                 return;
             /*if (algorithm < 2)
             {
@@ -2186,9 +2182,9 @@ namespace plt0_gui
                 view_algorithm = true;
             }
         }
-        private void Hide_algorithm(byte algorithm)
+        private void Hide_algorithm(byte algorithm, bool secret_mode = false)
         {
-            if (layout != 1)
+            if (layout != 1 && !secret_mode)
                 return;
             if (algorithm == 2)
             {
@@ -2215,9 +2211,9 @@ namespace plt0_gui
                 view_algorithm = false;
             }
         }
-        private void View_options()
+        private void View_options(bool secret_mode = false)
         {
-            if (layout != 1)
+            if (layout != 1 && !secret_mode)
                 return;
             warn_label.Visible = true;
             FORCE_ALPHA_label.Visible = true;
@@ -2231,9 +2227,9 @@ namespace plt0_gui
             safe_mode_ck.Visible = true;
             view_options = true;
         }
-        private void Hide_options()
+        private void Hide_options(bool secret_mode = false)
         {
-            if (layout != 1)
+            if (layout != 1 && !secret_mode)
                 return;
             warn_label.Visible = false;
             FORCE_ALPHA_label.Visible = false;
@@ -2247,9 +2243,9 @@ namespace plt0_gui
             safe_mode_ck.Visible = false;
             view_options = false;
         }
-        private void View_WrapS()
+        private void View_WrapS(bool secret_mode=false)
         {
-            if (layout != 1)
+            if (layout != 1 && !secret_mode)
                 return;
             for (byte i = 0; i < WrapS_ck.Count; i++)
             {
@@ -2261,9 +2257,9 @@ namespace plt0_gui
             WrapS_label.Visible = true;
             view_WrapS = true;
         }
-        private void Hide_WrapS()
+        private void Hide_WrapS(bool secret_mode = false)
         {
-            if (layout != 1)
+            if (layout != 1 && !secret_mode)
                 return;
             for (byte i = 0; i < WrapS_ck.Count; i++)
             {
@@ -2275,9 +2271,9 @@ namespace plt0_gui
             WrapS_label.Visible = false;
             view_WrapS = false;
         }
-        private void View_WrapT()
+        private void View_WrapT(bool secret_mode = false)
         {
-            if (layout != 1)
+            if (layout != 1 && !secret_mode)
                 return;
             for (byte i = 0; i < WrapT_ck.Count; i++)
             {
@@ -2289,9 +2285,9 @@ namespace plt0_gui
             WrapT_label.Visible = true;
             view_WrapT = true;
         }
-        private void Hide_WrapT()
+        private void Hide_WrapT(bool secret_mode = false)
         {
-            if (layout != 1)
+            if (layout != 1 && !secret_mode)
                 return;
             for (byte i = 0; i < WrapT_ck.Count; i++)
             {
@@ -2303,9 +2299,9 @@ namespace plt0_gui
             WrapT_label.Visible = false;
             view_WrapT = false;
         }
-        private void View_min()
+        private void View_min(bool secret_mode = false)
         {
-            if (layout != 1)
+            if (layout != 1 && !secret_mode)
                 return;
             for (byte i = 0; i < minification_ck.Count; i++)
             {
@@ -2320,9 +2316,9 @@ namespace plt0_gui
             minification_label.Visible = true;
             view_min = true;
         }
-        private void Hide_min()
+        private void Hide_min(bool secret_mode = false)
         {
-            if (layout != 1)
+            if (layout != 1 && !secret_mode)
                 return;
             for (byte i = 0; i < minification_ck.Count; i++)
             {
@@ -2337,9 +2333,9 @@ namespace plt0_gui
             minification_label.Visible = false;
             view_min = false;
         }
-        private void View_mag()
+        private void View_mag(bool secret_mode = false)
         {
-            if (layout != 1)
+            if (layout != 1 && !secret_mode)
                 return;
             for (byte i = 0; i < magnification_ck.Count; i++)
             {
@@ -2354,10 +2350,9 @@ namespace plt0_gui
             magnification_label.Visible = true;
             view_mag = true;
         }
-        private void Hide_mag()
+        private void Hide_mag(bool secret_mode = false)
         {
-            // this.FormBorderStyle = FormBorderStyle.SizableToolWindow;
-            if (layout != 1)
+            if (layout != 1 && !secret_mode)
                 return;
             for (byte i = 0; i < magnification_ck.Count; i++)
             {
@@ -2394,10 +2389,10 @@ namespace plt0_gui
             percentage_label.Visible = false;
             percentage_txt.Visible = false;
         }
-        private void View_cmpr()
+        private void View_cmpr(bool secret_mode = false)
         {
             cie_601_label.Text = "Default";
-            if (layout != 1)
+            if (layout != 1 && !secret_mode)
                 return;
             View_diversity();
             no_gradient_ck.Visible = true;
@@ -2412,9 +2407,9 @@ namespace plt0_gui
             round6_txt.Visible = true;
             view_cmpr = true;
         }
-        private void Hide_cmpr()
+        private void Hide_cmpr(bool secret_mode = false)
         {
-            if (layout != 1)
+            if (layout != 1 && !secret_mode)
                 return;
             Hide_diversity();
             no_gradient_ck.Visible = false;
@@ -2429,9 +2424,9 @@ namespace plt0_gui
             round6_txt.Visible = false;
             view_cmpr = false;
         }
-        private void View_palette()
+        private void View_palette(bool secret_mode = false)
         {
-            if (layout != 1)
+            if (layout != 1 && !secret_mode)
                 return;
             View_diversity();
             palette_label.Visible = true;
@@ -2445,9 +2440,9 @@ namespace plt0_gui
             num_colours_txt.Visible = true;
             view_palette = true;
         }
-        private void Hide_palette()
+        private void Hide_palette(bool secret_mode = false)
         {
-            if (layout != 1)
+            if (layout != 1 && !secret_mode)
                 return;
             Hide_diversity();
             palette_label.Visible = false;
@@ -2470,9 +2465,9 @@ namespace plt0_gui
             cmpr_min_alpha_label.Visible = false;
             cmpr_min_alpha_txt.Visible = false;
         }
-        private void View_rgba()
+        private void View_rgba(bool secret_mode = false)
         {
-            if (layout != 1)
+            if (layout != 1 && !secret_mode)
                 return;
             custom_rgba_label.Visible = true;
             custom_r_label.Visible = true;
@@ -2485,9 +2480,9 @@ namespace plt0_gui
             custom_a_label.Visible = true;
             view_rgba = true;
         }
-        private void Hide_rgba()
+        private void Hide_rgba(bool secret_mode = false)
         {
-            if (layout != 1)
+            if (layout != 1 && !secret_mode)
                 return;
             custom_rgba_label.Visible = false;
             custom_r_label.Visible = false;
@@ -2623,7 +2618,7 @@ namespace plt0_gui
                     round6_txt.Visible = false;
                     break;
                 case 5:
-                    Hide_alpha();
+                    Hide_alpha(false);
                     round3_label.Visible = false;
                     round3_txt.Visible = false;
                     round4_label.Visible = false;
@@ -2642,6 +2637,49 @@ namespace plt0_gui
                     Hide_cmpr();
                     break;
             }
+        }
+        private void Easter_Egg()
+        {
+            if (!view_algorithm)
+                Category_unchecked(view_algorithm_ck);
+            if (!view_alpha)
+                Category_unchecked(view_alpha_ck);
+            if (!view_cmpr)
+                Category_unchecked(view_cmpr_ck);
+            if (!view_palette)
+                Category_unchecked(view_palette_ck);
+            if (!view_min)
+                Category_unchecked(view_min_ck);
+            if (!view_mag)
+                Category_unchecked(view_mag_ck);
+            if (!view_rgba)
+                Category_unchecked(view_rgba_ck);
+            if (!view_options)
+                Category_unchecked(view_options_ck);
+            if (!view_WrapS)
+                Category_unchecked(view_WrapS_ck);
+            if (!view_WrapT)
+                Category_unchecked(view_WrapT_ck);
+            view_algorithm_ck.Visible = true;
+            view_alpha_ck.Visible = true;
+            view_cmpr_ck.Visible = true;
+            view_palette_ck.Visible = true;
+            view_min_ck.Visible = true;
+            view_mag_ck.Visible = true;
+            view_rgba_ck.Visible = true;
+            view_options_ck.Visible = true;
+            view_WrapS_ck.Visible = true;
+            view_WrapT_ck.Visible = true;
+            view_algorithm_label.Visible = true;
+            view_alpha_label.Visible = true;
+            view_cmpr_label.Visible = true;
+            view_palette_label.Visible = true;
+            view_min_label.Visible = true;
+            view_mag_label.Visible = true;
+            view_rgba_label.Visible = true;
+            view_options_label.Visible = true;
+            view_WrapS_label.Visible = true;
+            view_WrapT_label.Visible = true;
         }
         private void parse_rgb565(Label lab, TextBox txt, byte j, out ushort out_colour, ushort default_colour)
         {
@@ -2761,129 +2799,6 @@ namespace plt0_gui
             else
                 out_colour = default_colour;
 
-        }
-        private void parse_rgba_edited(Label lab, TextBox txt)
-        {
-            success = false;
-            alpha2 = 255;
-            len = txt.Text.Length;
-            for (byte i = 1; i < len; i++)
-            {
-                if (!ishex(txt.Text[i]))
-                    txt.Text = txt.Text.Substring(0, i);
-            }
-            if (len > 0)
-                if (!ishex(txt.Text[0]) && txt.Text[0] != '#')
-                    txt.Text = "";
-            if (len > 8)
-            {
-                if (txt.Text[0] != '#')
-                    txt.Text = txt.Text.Substring(0, 8);
-                else if (len > 9)
-                    txt.Text = txt.Text.Substring(0, 9);
-
-            }
-            if (len < 3)
-            {
-                return;
-            }
-            if (txt.Text[0] == '#' && len > 3)
-            {
-                if (len == 4)
-                {
-                    byte.TryParse(txt.Text.Substring(1, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
-                    byte.TryParse(txt.Text.Substring(2, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
-                    byte.TryParse(txt.Text.Substring(3, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
-                    red <<= 4;
-                    green <<= 4;
-                    blue <<= 4;
-                    success = true;
-                }
-                if (len == 5)
-                {
-                    byte.TryParse(txt.Text.Substring(1, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
-                    byte.TryParse(txt.Text.Substring(2, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
-                    byte.TryParse(txt.Text.Substring(3, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
-                    byte.TryParse(txt.Text.Substring(4, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out alpha2);
-                    red <<= 4;
-                    green <<= 4;
-                    blue <<= 4;
-                    alpha2 <<= 4;
-                    success = true;
-                }
-                else if (len == 7)
-                {
-                    byte.TryParse(txt.Text.Substring(1, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
-                    byte.TryParse(txt.Text.Substring(3, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
-                    byte.TryParse(txt.Text.Substring(5, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
-                    success = true;
-                }
-                else if (len == 9)
-                {
-                    byte.TryParse(txt.Text.Substring(1, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
-                    byte.TryParse(txt.Text.Substring(3, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
-                    byte.TryParse(txt.Text.Substring(5, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
-                    byte.TryParse(txt.Text.Substring(7, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out alpha2);
-                    success = true;
-                }
-            }
-            else
-            {
-                if (len == 3)
-                {
-                    byte.TryParse(txt.Text.Substring(0, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
-                    byte.TryParse(txt.Text.Substring(1, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
-                    byte.TryParse(txt.Text.Substring(2, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
-                    red <<= 4;
-                    green <<= 4;
-                    blue <<= 4;
-                    success = true;
-                }
-                if (len == 4)
-                {
-                    byte.TryParse(txt.Text.Substring(0, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
-                    byte.TryParse(txt.Text.Substring(1, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
-                    byte.TryParse(txt.Text.Substring(2, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
-                    byte.TryParse(txt.Text.Substring(3, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out alpha2);
-                    red <<= 4;
-                    green <<= 4;
-                    blue <<= 4;
-                    alpha2 <<= 4;
-                    success = true;
-                }
-                else if (len == 6)
-                {
-                    byte.TryParse(txt.Text.Substring(0, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
-                    byte.TryParse(txt.Text.Substring(2, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
-                    byte.TryParse(txt.Text.Substring(4, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
-                    success = true;
-                }
-                else if (len == 8)
-                {
-                    byte.TryParse(txt.Text.Substring(0, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
-                    byte.TryParse(txt.Text.Substring(2, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
-                    byte.TryParse(txt.Text.Substring(4, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
-                    byte.TryParse(txt.Text.Substring(6, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out alpha2);
-                    success = true;
-                }
-            }
-            if (success)
-            {
-                lab.BackColor = Color.FromArgb(alpha2, red, green, blue);
-                colour_4[0] = red;
-                colour_4[1] = green;
-                colour_4[2] = blue;
-                colour_4[3] = alpha2;
-                cmpr_edit_red = red;
-                cmpr_edit_green = green;
-                cmpr_edit_blue = blue;
-                cmpr_edit_alpha = alpha2;
-                if (len > 7)
-                {
-                    cmpr_colours_hex = BitConverter.ToString(colour_4).Replace("-", string.Empty);
-                    txt.Text = cmpr_colours_hex.Substring(0, 8);
-                }
-            }
         }
         private void parse_rgba_hover(Label lab, TextBox txt)
         {
@@ -3083,6 +2998,8 @@ namespace plt0_gui
         }
         private void Paint_Pixel(int x, int y, byte button, bool called_outside_update_colours = true)  // note: X and Y are height and width WITHIN the picturebox
         {
+            if (cmpr_file == null)
+                return;
             x >>= 6;
             y >>= 6;
             if (x > 3 || y > 3 || x < 0 || y < 0)
@@ -3162,194 +3079,9 @@ namespace plt0_gui
                 c.Font = new Font(lines[12], c.Font.Size, c.Font.Style, c.Font.Unit, GdiCharSet);
             }
         }
-        private void InitializeForm()
+        private void Load_settings()
         {
-            this.image_ck.Location = new System.Drawing.Point(815, 96);
-            if (Directory.Exists(execPath + "images/preview"))
-            {
-                string[] files = Directory.GetFiles(execPath + "images/preview");
-                for (int i = 0; i < files.Length; i++)
-                    File.Delete(files[i]);
-                Directory.Delete(execPath + "images/preview");
-            }
-            encoding_ck.Add(i4_ck);
-            encoding_ck.Add(i8_ck);
-            encoding_ck.Add(ai4_ck);
-            encoding_ck.Add(ai8_ck);
-            encoding_ck.Add(rgb565_ck);
-            encoding_ck.Add(rgb5a3_ck);
-            encoding_ck.Add(rgba32_ck);
-            encoding_ck.Add(i4_ck);  // nothing
-            encoding_ck.Add(ci4_ck);
-            encoding_ck.Add(ci8_ck);
-            encoding_ck.Add(ci14x2_ck);
-            encoding_ck.Add(i4_ck);  // nothing
-            encoding_ck.Add(i4_ck);  // nothing
-            encoding_ck.Add(i4_ck);  // nothing
-            encoding_ck.Add(cmpr_ck);
-            r_ck.Add(r_r_ck);
-            r_ck.Add(r_g_ck);
-            r_ck.Add(r_b_ck);
-            r_ck.Add(r_a_ck);
-            g_ck.Add(g_r_ck);
-            g_ck.Add(g_g_ck);
-            g_ck.Add(g_b_ck);
-            g_ck.Add(g_a_ck);
-            b_ck.Add(b_r_ck);
-            b_ck.Add(b_g_ck);
-            b_ck.Add(b_b_ck);
-            b_ck.Add(b_a_ck);
-            a_ck.Add(a_r_ck);
-            a_ck.Add(a_g_ck);
-            a_ck.Add(a_b_ck);
-            a_ck.Add(a_a_ck);
-            magnification_ck.Add(mag_nearest_neighbour_ck);
-            magnification_ck.Add(mag_linear_ck);
-            magnification_ck.Add(mag_nearestmipmapnearest_ck);
-            magnification_ck.Add(mag_nearestmipmaplinear_ck);
-            magnification_ck.Add(mag_linearmipmapnearest_ck);
-            magnification_ck.Add(mag_linearmipmaplinear_ck);
-            magnification_ck.Add(mag_linearmipmaplinear_ck); // nothing
-            minification_ck.Add(min_nearest_neighbour_ck);
-            minification_ck.Add(min_linear_ck);
-            minification_ck.Add(min_nearestmipmapnearest_ck);
-            minification_ck.Add(min_nearestmipmaplinear_ck);
-            minification_ck.Add(min_linearmipmapnearest_ck);
-            minification_ck.Add(min_linearmipmaplinear_ck);
-            minification_ck.Add(min_linearmipmaplinear_ck); // nothing
-            WrapS_ck.Add(Sclamp_ck);
-            WrapS_ck.Add(Srepeat_ck);
-            WrapS_ck.Add(Smirror_ck);
-            WrapS_ck.Add(Smirror_ck);  // nothing
-            WrapT_ck.Add(Tclamp_ck);
-            WrapT_ck.Add(Trepeat_ck);
-            WrapT_ck.Add(Tmirror_ck);
-            WrapT_ck.Add(Tmirror_ck);  // nothing
-            alpha_ck_array.Add(no_alpha_ck);
-            alpha_ck_array.Add(alpha_ck);
-            alpha_ck_array.Add(mix_ck);
-            alpha_ck_array.Add(mix_ck);  // nothing
-            algorithm_ck.Add(cie_601_ck);
-            algorithm_ck.Add(cie_709_ck);
-            algorithm_ck.Add(custom_ck);
-            algorithm_ck.Add(no_gradient_ck);
-            algorithm_ck.Add(cie_601_ck);  // nothing
-            palette_ck.Add(palette_ai8_ck);
-            palette_ck.Add(palette_rgb565_ck);
-            palette_ck.Add(palette_rgb5a3_ck);
-            palette_ck.Add(palette_ai8_ck);  // nothing
-            desc.Add(description);
-            desc.Add(desc2);
-            desc.Add(desc3);
-            desc.Add(desc4);
-            desc.Add(desc5);
-            desc.Add(desc6);
-            desc.Add(desc7);
-            desc.Add(desc8);
-            desc.Add(desc9);
-            Load_Images();
-            banner_ck.BackgroundImage = banner;
-            surrounding_ck.BackgroundImage = surrounding;
-            banner_minus_ck.BackgroundImage = minimized;
-            banner_x_ck.BackgroundImage = close;
-            discord_ck.BackgroundImage = discord;
-            github_ck.BackgroundImage = github;
-            youtube_ck.BackgroundImage = youtube;
-            version_ck.BackgroundImage = version;
-            run_ck.BackgroundImage = run_off;
-            cli_textbox_ck.BackgroundImage = cli_textbox;
-            sync_preview_ck.BackgroundImage = sync_preview_off;
-            this.BackgroundImage = background;
-            unchecked_checkbox(ask_exit_ck);
-            unchecked_checkbox(FORCE_ALPHA_ck);
-            unchecked_checkbox(jpeg_ck);
-            unchecked_checkbox(jpg_ck);
-            unchecked_checkbox(bti_ck);
-            unchecked_checkbox(bmd_ck);
-            unchecked_checkbox(ico_ck);
-            unchecked_checkbox(bmp_ck);
-            unchecked_checkbox(bmp_32_ck);
-            unchecked_checkbox(stfu_ck);
-            unchecked_checkbox(safe_mode_ck);
-            unchecked_checkbox(warn_ck);
-            unchecked_checkbox(tpl_ck);
-            unchecked_checkbox(tiff_ck);
-            unchecked_checkbox(tif_ck);
-            unchecked_checkbox(tex0_ck);
-            unchecked_checkbox(png_ck);
-            unchecked_checkbox(random_ck);
-            unchecked_checkbox(reversex_ck);
-            unchecked_checkbox(reversey_ck);
-            unchecked_checkbox(funky_ck);
-            unchecked_checkbox(no_warning_ck);
-            unchecked_checkbox(gif_ck);
-            unchecked_checkbox(textchange_ck);
-            unchecked_checkbox(name_string_ck);
-            unchecked_encoding(i4_ck);
-            unchecked_encoding(i8_ck);
-            unchecked_encoding(ai4_ck);
-            unchecked_encoding(ai8_ck);
-            unchecked_encoding(rgb565_ck);
-            unchecked_encoding(rgb5a3_ck);
-            unchecked_encoding(rgba32_ck);
-            unchecked_encoding(ci4_ck);
-            unchecked_encoding(ci8_ck);
-            unchecked_encoding(ci14x2_ck);
-            unchecked_encoding(cmpr_ck);
-            checked_checkbox(cmpr_hover_ck);
-            checked_checkbox(auto_update_ck);
-            checked_checkbox(upscale_ck);
-            checked_checkbox(cmpr_update_preview_ck);
-            unchecked_R(a_r_ck);
-            unchecked_G(a_g_ck);
-            unchecked_B(a_b_ck);
-            checked_A(a_a_ck);
-            unchecked_R(b_r_ck);
-            unchecked_G(b_g_ck);
-            checked_B(b_b_ck);
-            unchecked_A(b_a_ck);
-            unchecked_R(g_r_ck);
-            checked_G(g_g_ck);
-            unchecked_B(g_b_ck);
-            unchecked_A(g_a_ck);
-            checked_R(r_r_ck);
-            unchecked_G(r_g_ck);
-            unchecked_B(r_b_ck);
-            unchecked_A(r_a_ck);
-            unchecked_Minification(min_nearest_neighbour_ck);
-            unchecked_Minification(min_linear_ck);
-            unchecked_Minification(min_nearestmipmapnearest_ck);
-            unchecked_Minification(min_nearestmipmaplinear_ck);
-            unchecked_Minification(min_linearmipmapnearest_ck);
-            unchecked_Minification(min_linearmipmaplinear_ck);
-            unchecked_Magnification(mag_nearest_neighbour_ck);
-            unchecked_Magnification(mag_linear_ck);
-            unchecked_Magnification(mag_nearestmipmapnearest_ck);
-            unchecked_Magnification(mag_nearestmipmaplinear_ck);
-            unchecked_Magnification(mag_linearmipmapnearest_ck);
-            unchecked_Magnification(mag_linearmipmaplinear_ck);
-            unchecked_WrapT(Tclamp_ck);
-            unchecked_WrapT(Trepeat_ck);
-            unchecked_WrapT(Tmirror_ck);
-            unchecked_WrapS(Sclamp_ck);
-            unchecked_WrapS(Srepeat_ck);
-            unchecked_WrapS(Smirror_ck);
-            unchecked_alpha(no_alpha_ck);
-            unchecked_alpha(alpha_ck);
-            unchecked_alpha(mix_ck);
-            unchecked_algorithm(cie_601_ck);
-            unchecked_algorithm(cie_709_ck);
-            unchecked_algorithm(custom_ck);
-            unchecked_algorithm(no_gradient_ck);
-            Category_checked(view_alpha_ck);
-            Category_checked(view_algorithm_ck);
-            Category_checked(view_WrapS_ck);
-            Category_checked(view_WrapT_ck);
-            Category_checked(view_min_ck);
-            Category_checked(view_mag_ck);
-            unchecked_palette(palette_ai8_ck);
-            unchecked_palette(palette_rgb565_ck);
-            unchecked_palette(palette_rgb5a3_ck);
+
             if (System.IO.File.Exists(execPath + "images/settings.txt"))
             {
                 string version = "";
@@ -3619,6 +3351,206 @@ namespace plt0_gui
                     // um, idk what to do here if the user doesn't let the app write a file.
                 }
             }
+        }
+        private void Fill_Lists()
+        {
+            encoding_ck.Add(i4_ck);
+            encoding_ck.Add(i8_ck);
+            encoding_ck.Add(ai4_ck);
+            encoding_ck.Add(ai8_ck);
+            encoding_ck.Add(rgb565_ck);
+            encoding_ck.Add(rgb5a3_ck);
+            encoding_ck.Add(rgba32_ck);
+            encoding_ck.Add(i4_ck);  // nothing
+            encoding_ck.Add(ci4_ck);
+            encoding_ck.Add(ci8_ck);
+            encoding_ck.Add(ci14x2_ck);
+            encoding_ck.Add(i4_ck);  // nothing
+            encoding_ck.Add(i4_ck);  // nothing
+            encoding_ck.Add(i4_ck);  // nothing
+            encoding_ck.Add(cmpr_ck);
+            r_ck.Add(r_r_ck);
+            r_ck.Add(r_g_ck);
+            r_ck.Add(r_b_ck);
+            r_ck.Add(r_a_ck);
+            g_ck.Add(g_r_ck);
+            g_ck.Add(g_g_ck);
+            g_ck.Add(g_b_ck);
+            g_ck.Add(g_a_ck);
+            b_ck.Add(b_r_ck);
+            b_ck.Add(b_g_ck);
+            b_ck.Add(b_b_ck);
+            b_ck.Add(b_a_ck);
+            a_ck.Add(a_r_ck);
+            a_ck.Add(a_g_ck);
+            a_ck.Add(a_b_ck);
+            a_ck.Add(a_a_ck);
+            magnification_ck.Add(mag_nearest_neighbour_ck);
+            magnification_ck.Add(mag_linear_ck);
+            magnification_ck.Add(mag_nearestmipmapnearest_ck);
+            magnification_ck.Add(mag_nearestmipmaplinear_ck);
+            magnification_ck.Add(mag_linearmipmapnearest_ck);
+            magnification_ck.Add(mag_linearmipmaplinear_ck);
+            magnification_ck.Add(mag_linearmipmaplinear_ck); // nothing
+            minification_ck.Add(min_nearest_neighbour_ck);
+            minification_ck.Add(min_linear_ck);
+            minification_ck.Add(min_nearestmipmapnearest_ck);
+            minification_ck.Add(min_nearestmipmaplinear_ck);
+            minification_ck.Add(min_linearmipmapnearest_ck);
+            minification_ck.Add(min_linearmipmaplinear_ck);
+            minification_ck.Add(min_linearmipmaplinear_ck); // nothing
+            WrapS_ck.Add(Sclamp_ck);
+            WrapS_ck.Add(Srepeat_ck);
+            WrapS_ck.Add(Smirror_ck);
+            WrapS_ck.Add(Smirror_ck);  // nothing
+            WrapT_ck.Add(Tclamp_ck);
+            WrapT_ck.Add(Trepeat_ck);
+            WrapT_ck.Add(Tmirror_ck);
+            WrapT_ck.Add(Tmirror_ck);  // nothing
+            alpha_ck_array.Add(no_alpha_ck);
+            alpha_ck_array.Add(alpha_ck);
+            alpha_ck_array.Add(mix_ck);
+            alpha_ck_array.Add(mix_ck);  // nothing
+            algorithm_ck.Add(cie_601_ck);
+            algorithm_ck.Add(cie_709_ck);
+            algorithm_ck.Add(custom_ck);
+            algorithm_ck.Add(no_gradient_ck);
+            algorithm_ck.Add(cie_601_ck);  // nothing
+            palette_ck.Add(palette_ai8_ck);
+            palette_ck.Add(palette_rgb565_ck);
+            palette_ck.Add(palette_rgb5a3_ck);
+            palette_ck.Add(palette_ai8_ck);  // nothing
+            desc.Add(description);
+            desc.Add(desc2);
+            desc.Add(desc3);
+            desc.Add(desc4);
+            desc.Add(desc5);
+            desc.Add(desc6);
+            desc.Add(desc7);
+            desc.Add(desc8);
+            desc.Add(desc9);
+        }
+        private void InitializeForm(bool load_settings_dot_tee_ekks_tee=true, bool this_is_the_first_time_this_function_is_called=true)
+        {
+            Load_Images();
+            if (this_is_the_first_time_this_function_is_called)
+                Fill_Lists();
+            if (load_settings_dot_tee_ekks_tee)
+                Load_settings();
+            this.image_ck.Location = new System.Drawing.Point(815, 96);
+            if (Directory.Exists(execPath + "images/preview"))
+            {
+                string[] files = Directory.GetFiles(execPath + "images/preview");
+                for (int i = 0; i < files.Length; i++)
+                    File.Delete(files[i]);
+                Directory.Delete(execPath + "images/preview");
+            }
+            banner_ck.BackgroundImage = banner;
+            surrounding_ck.BackgroundImage = surrounding;
+            banner_minus_ck.BackgroundImage = minimized;
+            banner_x_ck.BackgroundImage = close;
+            discord_ck.BackgroundImage = discord;
+            github_ck.BackgroundImage = github;
+            youtube_ck.BackgroundImage = youtube;
+            version_ck.BackgroundImage = version;
+            run_ck.BackgroundImage = run_off;
+            cli_textbox_ck.BackgroundImage = cli_textbox;
+            sync_preview_ck.BackgroundImage = sync_preview_off;
+            this.BackgroundImage = background;
+            unchecked_checkbox(ask_exit_ck);
+            unchecked_checkbox(FORCE_ALPHA_ck);
+            unchecked_checkbox(jpeg_ck);
+            unchecked_checkbox(jpg_ck);
+            unchecked_checkbox(bti_ck);
+            unchecked_checkbox(bmd_ck);
+            unchecked_checkbox(ico_ck);
+            unchecked_checkbox(bmp_ck);
+            unchecked_checkbox(bmp_32_ck);
+            unchecked_checkbox(stfu_ck);
+            unchecked_checkbox(safe_mode_ck);
+            unchecked_checkbox(warn_ck);
+            unchecked_checkbox(tpl_ck);
+            unchecked_checkbox(tiff_ck);
+            unchecked_checkbox(tif_ck);
+            unchecked_checkbox(tex0_ck);
+            unchecked_checkbox(png_ck);
+            unchecked_checkbox(random_ck);
+            unchecked_checkbox(reversex_ck);
+            unchecked_checkbox(reversey_ck);
+            unchecked_checkbox(funky_ck);
+            unchecked_checkbox(no_warning_ck);
+            unchecked_checkbox(gif_ck);
+            unchecked_checkbox(textchange_ck);
+            unchecked_checkbox(name_string_ck);
+            unchecked_encoding(i4_ck);
+            unchecked_encoding(i8_ck);
+            unchecked_encoding(ai4_ck);
+            unchecked_encoding(ai8_ck);
+            unchecked_encoding(rgb565_ck);
+            unchecked_encoding(rgb5a3_ck);
+            unchecked_encoding(rgba32_ck);
+            unchecked_encoding(ci4_ck);
+            unchecked_encoding(ci8_ck);
+            unchecked_encoding(ci14x2_ck);
+            unchecked_encoding(cmpr_ck);
+            checked_checkbox(cmpr_hover_ck);
+            checked_checkbox(auto_update_ck);
+            checked_checkbox(upscale_ck);
+            checked_checkbox(cmpr_update_preview_ck);
+            unchecked_R(a_r_ck);
+            unchecked_G(a_g_ck);
+            unchecked_B(a_b_ck);
+            checked_A(a_a_ck);
+            unchecked_R(b_r_ck);
+            unchecked_G(b_g_ck);
+            checked_B(b_b_ck);
+            unchecked_A(b_a_ck);
+            unchecked_R(g_r_ck);
+            checked_G(g_g_ck);
+            unchecked_B(g_b_ck);
+            unchecked_A(g_a_ck);
+            checked_R(r_r_ck);
+            unchecked_G(r_g_ck);
+            unchecked_B(r_b_ck);
+            unchecked_A(r_a_ck);
+            unchecked_Minification(min_nearest_neighbour_ck);
+            unchecked_Minification(min_linear_ck);
+            unchecked_Minification(min_nearestmipmapnearest_ck);
+            unchecked_Minification(min_nearestmipmaplinear_ck);
+            unchecked_Minification(min_linearmipmapnearest_ck);
+            unchecked_Minification(min_linearmipmaplinear_ck);
+            unchecked_Magnification(mag_nearest_neighbour_ck);
+            unchecked_Magnification(mag_linear_ck);
+            unchecked_Magnification(mag_nearestmipmapnearest_ck);
+            unchecked_Magnification(mag_nearestmipmaplinear_ck);
+            unchecked_Magnification(mag_linearmipmapnearest_ck);
+            unchecked_Magnification(mag_linearmipmaplinear_ck);
+            unchecked_WrapT(Tclamp_ck);
+            unchecked_WrapT(Trepeat_ck);
+            unchecked_WrapT(Tmirror_ck);
+            unchecked_WrapS(Sclamp_ck);
+            unchecked_WrapS(Srepeat_ck);
+            unchecked_WrapS(Smirror_ck);
+            unchecked_alpha(no_alpha_ck);
+            unchecked_alpha(alpha_ck);
+            unchecked_alpha(mix_ck);
+            unchecked_algorithm(cie_601_ck);
+            unchecked_algorithm(cie_709_ck);
+            unchecked_algorithm(custom_ck);
+            unchecked_algorithm(no_gradient_ck);
+            Category_checked(view_alpha_ck);
+            Category_checked(view_algorithm_ck);
+            Category_checked(view_WrapS_ck);
+            Category_checked(view_WrapT_ck);
+            Category_checked(view_min_ck);
+            Category_checked(view_mag_ck);
+            Category_checked(view_cmpr_ck);
+            Category_checked(view_rgba_ck);
+            Category_checked(view_options_ck);
+            Category_checked(view_palette_ck);
+            unchecked_palette(palette_ai8_ck);
+            unchecked_palette(palette_rgb565_ck);
+            unchecked_palette(palette_rgb5a3_ck);
             Directory.CreateDirectory(execPath + "images/preview");
             //
             // NativeMethods.AllocConsole();
@@ -4656,7 +4588,7 @@ namespace plt0_gui
             this.no_warning_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.no_warning_ck.ErrorImage = null;
             this.no_warning_ck.InitialImage = null;
-            this.no_warning_ck.Location = new System.Drawing.Point(608, 1247);
+            this.no_warning_ck.Location = new System.Drawing.Point(1647, 1131);
             this.no_warning_ck.Margin = new System.Windows.Forms.Padding(0);
             this.no_warning_ck.Name = "no_warning_ck";
             this.no_warning_ck.Size = new System.Drawing.Size(64, 64);
@@ -4672,7 +4604,7 @@ namespace plt0_gui
             this.no_warning_label.BackColor = System.Drawing.Color.Transparent;
             this.no_warning_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.no_warning_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.no_warning_label.Location = new System.Drawing.Point(677, 1247);
+            this.no_warning_label.Location = new System.Drawing.Point(1716, 1131);
             this.no_warning_label.Margin = new System.Windows.Forms.Padding(0);
             this.no_warning_label.Name = "no_warning_label";
             this.no_warning_label.Padding = new System.Windows.Forms.Padding(0, 22, 50, 22);
@@ -6415,7 +6347,7 @@ namespace plt0_gui
             this.view_algorithm_ck.Enabled = false;
             this.view_algorithm_ck.ErrorImage = null;
             this.view_algorithm_ck.InitialImage = null;
-            this.view_algorithm_ck.Location = new System.Drawing.Point(239, 1127);
+            this.view_algorithm_ck.Location = new System.Drawing.Point(239, 1131);
             this.view_algorithm_ck.Margin = new System.Windows.Forms.Padding(0);
             this.view_algorithm_ck.Name = "view_algorithm_ck";
             this.view_algorithm_ck.Size = new System.Drawing.Size(64, 64);
@@ -6432,7 +6364,7 @@ namespace plt0_gui
             this.view_algorithm_label.BackColor = System.Drawing.Color.Transparent;
             this.view_algorithm_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.view_algorithm_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.view_algorithm_label.Location = new System.Drawing.Point(307, 1127);
+            this.view_algorithm_label.Location = new System.Drawing.Point(307, 1131);
             this.view_algorithm_label.Margin = new System.Windows.Forms.Padding(0);
             this.view_algorithm_label.Name = "view_algorithm_label";
             this.view_algorithm_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -6451,7 +6383,7 @@ namespace plt0_gui
             this.view_WrapS_ck.Enabled = false;
             this.view_WrapS_ck.ErrorImage = null;
             this.view_WrapS_ck.InitialImage = null;
-            this.view_WrapS_ck.Location = new System.Drawing.Point(40, 1180);
+            this.view_WrapS_ck.Location = new System.Drawing.Point(40, 1195);
             this.view_WrapS_ck.Margin = new System.Windows.Forms.Padding(0);
             this.view_WrapS_ck.Name = "view_WrapS_ck";
             this.view_WrapS_ck.Size = new System.Drawing.Size(64, 64);
@@ -6468,7 +6400,7 @@ namespace plt0_gui
             this.view_WrapS_label.BackColor = System.Drawing.Color.Transparent;
             this.view_WrapS_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.view_WrapS_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.view_WrapS_label.Location = new System.Drawing.Point(108, 1180);
+            this.view_WrapS_label.Location = new System.Drawing.Point(108, 1195);
             this.view_WrapS_label.Margin = new System.Windows.Forms.Padding(0);
             this.view_WrapS_label.Name = "view_WrapS_label";
             this.view_WrapS_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
@@ -6487,7 +6419,7 @@ namespace plt0_gui
             this.view_WrapT_ck.Enabled = false;
             this.view_WrapT_ck.ErrorImage = null;
             this.view_WrapT_ck.InitialImage = null;
-            this.view_WrapT_ck.Location = new System.Drawing.Point(239, 1180);
+            this.view_WrapT_ck.Location = new System.Drawing.Point(239, 1195);
             this.view_WrapT_ck.Margin = new System.Windows.Forms.Padding(0);
             this.view_WrapT_ck.Name = "view_WrapT_ck";
             this.view_WrapT_ck.Size = new System.Drawing.Size(64, 64);
@@ -6504,7 +6436,7 @@ namespace plt0_gui
             this.view_WrapT_label.BackColor = System.Drawing.Color.Transparent;
             this.view_WrapT_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.view_WrapT_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.view_WrapT_label.Location = new System.Drawing.Point(307, 1180);
+            this.view_WrapT_label.Location = new System.Drawing.Point(307, 1195);
             this.view_WrapT_label.Margin = new System.Windows.Forms.Padding(0);
             this.view_WrapT_label.Name = "view_WrapT_label";
             this.view_WrapT_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -6523,7 +6455,7 @@ namespace plt0_gui
             this.view_mag_ck.Enabled = false;
             this.view_mag_ck.ErrorImage = null;
             this.view_mag_ck.InitialImage = null;
-            this.view_mag_ck.Location = new System.Drawing.Point(239, 1229);
+            this.view_mag_ck.Location = new System.Drawing.Point(239, 1259);
             this.view_mag_ck.Margin = new System.Windows.Forms.Padding(0);
             this.view_mag_ck.Name = "view_mag_ck";
             this.view_mag_ck.Size = new System.Drawing.Size(64, 64);
@@ -6540,7 +6472,7 @@ namespace plt0_gui
             this.view_mag_label.BackColor = System.Drawing.Color.Transparent;
             this.view_mag_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.view_mag_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.view_mag_label.Location = new System.Drawing.Point(307, 1229);
+            this.view_mag_label.Location = new System.Drawing.Point(307, 1259);
             this.view_mag_label.Margin = new System.Windows.Forms.Padding(0);
             this.view_mag_label.Name = "view_mag_label";
             this.view_mag_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -6559,7 +6491,7 @@ namespace plt0_gui
             this.view_min_ck.Enabled = false;
             this.view_min_ck.ErrorImage = null;
             this.view_min_ck.InitialImage = null;
-            this.view_min_ck.Location = new System.Drawing.Point(40, 1229);
+            this.view_min_ck.Location = new System.Drawing.Point(40, 1259);
             this.view_min_ck.Margin = new System.Windows.Forms.Padding(0);
             this.view_min_ck.Name = "view_min_ck";
             this.view_min_ck.Size = new System.Drawing.Size(64, 64);
@@ -6576,7 +6508,7 @@ namespace plt0_gui
             this.view_min_label.BackColor = System.Drawing.Color.Transparent;
             this.view_min_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.view_min_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.view_min_label.Location = new System.Drawing.Point(108, 1229);
+            this.view_min_label.Location = new System.Drawing.Point(108, 1259);
             this.view_min_label.Margin = new System.Windows.Forms.Padding(0);
             this.view_min_label.Name = "view_min_label";
             this.view_min_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -6888,6 +6820,8 @@ namespace plt0_gui
             this.input_file_txt.TabIndex = 0;
             this.input_file_txt.TextChanged += new System.EventHandler(this.input_file_TextChanged);
             this.input_file_txt.DoubleClick += new System.EventHandler(this.input_file_Click);
+            this.input_file_txt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyDown);
+            this.input_file_txt.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyUp);
             this.input_file_txt.MouseEnter += new System.EventHandler(this.input_file_MouseEnter);
             this.input_file_txt.MouseLeave += new System.EventHandler(this.input_file_MouseLeave);
             // 
@@ -6937,6 +6871,8 @@ namespace plt0_gui
             this.input_file2_txt.TabIndex = 1;
             this.input_file2_txt.TextChanged += new System.EventHandler(this.input_file2_TextChanged);
             this.input_file2_txt.DoubleClick += new System.EventHandler(this.input_file2_Click);
+            this.input_file2_txt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyDown);
+            this.input_file2_txt.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyUp);
             this.input_file2_txt.MouseEnter += new System.EventHandler(this.input_file2_MouseEnter);
             this.input_file2_txt.MouseLeave += new System.EventHandler(this.input_file2_MouseLeave);
             // 
@@ -6969,6 +6905,8 @@ namespace plt0_gui
             this.mipmaps_txt.Text = "0";
             this.mipmaps_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.mipmaps_txt.TextChanged += new System.EventHandler(this.mipmaps_TextChanged);
+            this.mipmaps_txt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyDown);
+            this.mipmaps_txt.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyUp);
             this.mipmaps_txt.MouseEnter += new System.EventHandler(this.mipmaps_MouseEnter);
             this.mipmaps_txt.MouseLeave += new System.EventHandler(this.mipmaps_MouseLeave);
             // 
@@ -6997,10 +6935,12 @@ namespace plt0_gui
             this.diversity_txt.Margin = new System.Windows.Forms.Padding(0);
             this.diversity_txt.Name = "diversity_txt";
             this.diversity_txt.Size = new System.Drawing.Size(100, 21);
-            this.diversity_txt.TabIndex = 7;
+            this.diversity_txt.TabIndex = 11;
             this.diversity_txt.Text = "10";
             this.diversity_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.diversity_txt.TextChanged += new System.EventHandler(this.diversity_TextChanged);
+            this.diversity_txt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyDown);
+            this.diversity_txt.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyUp);
             this.diversity_txt.MouseEnter += new System.EventHandler(this.diversity_MouseEnter);
             this.diversity_txt.MouseLeave += new System.EventHandler(this.diversity_MouseLeave);
             // 
@@ -7029,10 +6969,12 @@ namespace plt0_gui
             this.diversity2_txt.Margin = new System.Windows.Forms.Padding(0);
             this.diversity2_txt.Name = "diversity2_txt";
             this.diversity2_txt.Size = new System.Drawing.Size(114, 21);
-            this.diversity2_txt.TabIndex = 8;
+            this.diversity2_txt.TabIndex = 12;
             this.diversity2_txt.Text = "0";
             this.diversity2_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.diversity2_txt.TextChanged += new System.EventHandler(this.diversity2_TextChanged);
+            this.diversity2_txt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyDown);
+            this.diversity2_txt.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyUp);
             this.diversity2_txt.MouseEnter += new System.EventHandler(this.diversity2_MouseEnter);
             this.diversity2_txt.MouseLeave += new System.EventHandler(this.diversity2_MouseLeave);
             // 
@@ -7061,10 +7003,12 @@ namespace plt0_gui
             this.percentage_txt.Margin = new System.Windows.Forms.Padding(0);
             this.percentage_txt.Name = "percentage_txt";
             this.percentage_txt.Size = new System.Drawing.Size(128, 21);
-            this.percentage_txt.TabIndex = 9;
+            this.percentage_txt.TabIndex = 13;
             this.percentage_txt.Text = "0%";
             this.percentage_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.percentage_txt.TextChanged += new System.EventHandler(this.percentage_TextChanged);
+            this.percentage_txt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyDown);
+            this.percentage_txt.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyUp);
             this.percentage_txt.MouseEnter += new System.EventHandler(this.percentage_MouseEnter);
             this.percentage_txt.MouseLeave += new System.EventHandler(this.percentage_MouseLeave);
             // 
@@ -7093,10 +7037,12 @@ namespace plt0_gui
             this.percentage2_txt.Margin = new System.Windows.Forms.Padding(0);
             this.percentage2_txt.Name = "percentage2_txt";
             this.percentage2_txt.Size = new System.Drawing.Size(143, 21);
-            this.percentage2_txt.TabIndex = 10;
+            this.percentage2_txt.TabIndex = 14;
             this.percentage2_txt.Text = "0%";
             this.percentage2_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.percentage2_txt.TextChanged += new System.EventHandler(this.percentage2_TextChanged);
+            this.percentage2_txt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyDown);
+            this.percentage2_txt.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyUp);
             this.percentage2_txt.MouseEnter += new System.EventHandler(this.percentage2_MouseEnter);
             this.percentage2_txt.MouseLeave += new System.EventHandler(this.percentage2_MouseLeave);
             // 
@@ -7129,6 +7075,8 @@ namespace plt0_gui
             this.cmpr_max_txt.Text = "16";
             this.cmpr_max_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.cmpr_max_txt.TextChanged += new System.EventHandler(this.cmpr_max_TextChanged);
+            this.cmpr_max_txt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyDown);
+            this.cmpr_max_txt.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyUp);
             this.cmpr_max_txt.MouseEnter += new System.EventHandler(this.cmpr_max_MouseEnter);
             this.cmpr_max_txt.MouseLeave += new System.EventHandler(this.cmpr_max_MouseLeave);
             // 
@@ -7159,6 +7107,8 @@ namespace plt0_gui
             this.output_name_txt.Size = new System.Drawing.Size(177, 21);
             this.output_name_txt.TabIndex = 2;
             this.output_name_txt.TextChanged += new System.EventHandler(this.output_name_TextChanged);
+            this.output_name_txt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyDown);
+            this.output_name_txt.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyUp);
             this.output_name_txt.MouseEnter += new System.EventHandler(this.output_name_MouseEnter);
             this.output_name_txt.MouseLeave += new System.EventHandler(this.output_name_MouseLeave);
             // 
@@ -7191,6 +7141,8 @@ namespace plt0_gui
             this.cmpr_min_alpha_txt.Text = "100";
             this.cmpr_min_alpha_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.cmpr_min_alpha_txt.TextChanged += new System.EventHandler(this.cmpr_min_alpha_TextChanged);
+            this.cmpr_min_alpha_txt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyDown);
+            this.cmpr_min_alpha_txt.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyUp);
             this.cmpr_min_alpha_txt.MouseEnter += new System.EventHandler(this.cmpr_min_alpha_MouseEnter);
             this.cmpr_min_alpha_txt.MouseLeave += new System.EventHandler(this.cmpr_min_alpha_MouseLeave);
             // 
@@ -7222,6 +7174,8 @@ namespace plt0_gui
             this.num_colours_txt.TabIndex = 6;
             this.num_colours_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_colours_txt.TextChanged += new System.EventHandler(this.num_colours_TextChanged);
+            this.num_colours_txt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyDown);
+            this.num_colours_txt.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyUp);
             this.num_colours_txt.MouseEnter += new System.EventHandler(this.num_colours_MouseEnter);
             this.num_colours_txt.MouseLeave += new System.EventHandler(this.num_colours_MouseLeave);
             // 
@@ -7250,10 +7204,12 @@ namespace plt0_gui
             this.round3_txt.Margin = new System.Windows.Forms.Padding(0);
             this.round3_txt.Name = "round3_txt";
             this.round3_txt.Size = new System.Drawing.Size(100, 21);
-            this.round3_txt.TabIndex = 11;
+            this.round3_txt.TabIndex = 7;
             this.round3_txt.Text = "15";
             this.round3_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.round3_txt.TextChanged += new System.EventHandler(this.round3_TextChanged);
+            this.round3_txt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyDown);
+            this.round3_txt.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyUp);
             this.round3_txt.MouseEnter += new System.EventHandler(this.round3_MouseEnter);
             this.round3_txt.MouseLeave += new System.EventHandler(this.round3_MouseLeave);
             // 
@@ -7282,10 +7238,12 @@ namespace plt0_gui
             this.round4_txt.Margin = new System.Windows.Forms.Padding(0);
             this.round4_txt.Name = "round4_txt";
             this.round4_txt.Size = new System.Drawing.Size(100, 21);
-            this.round4_txt.TabIndex = 12;
+            this.round4_txt.TabIndex = 8;
             this.round4_txt.Text = "7";
             this.round4_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.round4_txt.TextChanged += new System.EventHandler(this.round4_TextChanged);
+            this.round4_txt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyDown);
+            this.round4_txt.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyUp);
             this.round4_txt.MouseEnter += new System.EventHandler(this.round4_MouseEnter);
             this.round4_txt.MouseLeave += new System.EventHandler(this.round4_MouseLeave);
             // 
@@ -7314,10 +7272,12 @@ namespace plt0_gui
             this.round5_txt.Margin = new System.Windows.Forms.Padding(0);
             this.round5_txt.Name = "round5_txt";
             this.round5_txt.Size = new System.Drawing.Size(100, 21);
-            this.round5_txt.TabIndex = 13;
+            this.round5_txt.TabIndex = 9;
             this.round5_txt.Text = "3";
             this.round5_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.round5_txt.TextChanged += new System.EventHandler(this.round5_TextChanged);
+            this.round5_txt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyDown);
+            this.round5_txt.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyUp);
             this.round5_txt.MouseEnter += new System.EventHandler(this.round5_MouseEnter);
             this.round5_txt.MouseLeave += new System.EventHandler(this.round5_MouseLeave);
             // 
@@ -7346,10 +7306,12 @@ namespace plt0_gui
             this.round6_txt.Margin = new System.Windows.Forms.Padding(0);
             this.round6_txt.Name = "round6_txt";
             this.round6_txt.Size = new System.Drawing.Size(100, 21);
-            this.round6_txt.TabIndex = 14;
+            this.round6_txt.TabIndex = 10;
             this.round6_txt.Text = "1";
             this.round6_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.round6_txt.TextChanged += new System.EventHandler(this.round6_TextChanged);
+            this.round6_txt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyDown);
+            this.round6_txt.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyUp);
             this.round6_txt.MouseEnter += new System.EventHandler(this.round6_MouseEnter);
             this.round6_txt.MouseLeave += new System.EventHandler(this.round6_MouseLeave);
             // 
@@ -7382,6 +7344,8 @@ namespace plt0_gui
             this.custom_a_txt.Text = "1.0";
             this.custom_a_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.custom_a_txt.TextChanged += new System.EventHandler(this.custom_a_TextChanged);
+            this.custom_a_txt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyDown);
+            this.custom_a_txt.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyUp);
             this.custom_a_txt.MouseEnter += new System.EventHandler(this.custom_a_MouseEnter);
             this.custom_a_txt.MouseLeave += new System.EventHandler(this.custom_a_MouseLeave);
             // 
@@ -7414,6 +7378,8 @@ namespace plt0_gui
             this.custom_b_txt.Text = "1.0";
             this.custom_b_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.custom_b_txt.TextChanged += new System.EventHandler(this.custom_b_TextChanged);
+            this.custom_b_txt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyDown);
+            this.custom_b_txt.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyUp);
             this.custom_b_txt.MouseEnter += new System.EventHandler(this.custom_b_MouseEnter);
             this.custom_b_txt.MouseLeave += new System.EventHandler(this.custom_b_MouseLeave);
             // 
@@ -7446,6 +7412,8 @@ namespace plt0_gui
             this.custom_g_txt.Text = "1.0";
             this.custom_g_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.custom_g_txt.TextChanged += new System.EventHandler(this.custom_g_TextChanged);
+            this.custom_g_txt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyDown);
+            this.custom_g_txt.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyUp);
             this.custom_g_txt.MouseEnter += new System.EventHandler(this.custom_g_MouseEnter);
             this.custom_g_txt.MouseLeave += new System.EventHandler(this.custom_g_MouseLeave);
             // 
@@ -7478,6 +7446,8 @@ namespace plt0_gui
             this.custom_r_txt.Text = "1.0";
             this.custom_r_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.custom_r_txt.TextChanged += new System.EventHandler(this.custom_r_TextChanged);
+            this.custom_r_txt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyDown);
+            this.custom_r_txt.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyUp);
             this.custom_r_txt.MouseEnter += new System.EventHandler(this.custom_r_MouseEnter);
             this.custom_r_txt.MouseLeave += new System.EventHandler(this.custom_r_MouseLeave);
             // 
@@ -7877,7 +7847,7 @@ namespace plt0_gui
             this.view_rgba_ck.Enabled = false;
             this.view_rgba_ck.ErrorImage = null;
             this.view_rgba_ck.InitialImage = null;
-            this.view_rgba_ck.Location = new System.Drawing.Point(240, 1293);
+            this.view_rgba_ck.Location = new System.Drawing.Point(240, 1323);
             this.view_rgba_ck.Margin = new System.Windows.Forms.Padding(0);
             this.view_rgba_ck.Name = "view_rgba_ck";
             this.view_rgba_ck.Size = new System.Drawing.Size(64, 64);
@@ -7894,7 +7864,7 @@ namespace plt0_gui
             this.view_rgba_label.BackColor = System.Drawing.Color.Transparent;
             this.view_rgba_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.view_rgba_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.view_rgba_label.Location = new System.Drawing.Point(308, 1293);
+            this.view_rgba_label.Location = new System.Drawing.Point(308, 1323);
             this.view_rgba_label.Margin = new System.Windows.Forms.Padding(0);
             this.view_rgba_label.Name = "view_rgba_label";
             this.view_rgba_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -7913,7 +7883,7 @@ namespace plt0_gui
             this.view_palette_ck.Enabled = false;
             this.view_palette_ck.ErrorImage = null;
             this.view_palette_ck.InitialImage = null;
-            this.view_palette_ck.Location = new System.Drawing.Point(239, 1357);
+            this.view_palette_ck.Location = new System.Drawing.Point(239, 1387);
             this.view_palette_ck.Margin = new System.Windows.Forms.Padding(0);
             this.view_palette_ck.Name = "view_palette_ck";
             this.view_palette_ck.Size = new System.Drawing.Size(64, 64);
@@ -7930,7 +7900,7 @@ namespace plt0_gui
             this.view_palette_label.BackColor = System.Drawing.Color.Transparent;
             this.view_palette_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.view_palette_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.view_palette_label.Location = new System.Drawing.Point(307, 1357);
+            this.view_palette_label.Location = new System.Drawing.Point(307, 1387);
             this.view_palette_label.Margin = new System.Windows.Forms.Padding(0);
             this.view_palette_label.Name = "view_palette_label";
             this.view_palette_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -7949,12 +7919,13 @@ namespace plt0_gui
             this.view_cmpr_ck.Enabled = false;
             this.view_cmpr_ck.ErrorImage = null;
             this.view_cmpr_ck.InitialImage = null;
-            this.view_cmpr_ck.Location = new System.Drawing.Point(41, 1293);
+            this.view_cmpr_ck.Location = new System.Drawing.Point(41, 1323);
             this.view_cmpr_ck.Margin = new System.Windows.Forms.Padding(0);
             this.view_cmpr_ck.Name = "view_cmpr_ck";
             this.view_cmpr_ck.Size = new System.Drawing.Size(64, 64);
             this.view_cmpr_ck.TabIndex = 583;
             this.view_cmpr_ck.TabStop = false;
+            this.view_cmpr_ck.Visible = false;
             this.view_cmpr_ck.Click += new System.EventHandler(this.view_cmpr_Click);
             this.view_cmpr_ck.MouseEnter += new System.EventHandler(this.view_cmpr_MouseEnter);
             this.view_cmpr_ck.MouseLeave += new System.EventHandler(this.view_cmpr_MouseLeave);
@@ -7965,13 +7936,14 @@ namespace plt0_gui
             this.view_cmpr_label.BackColor = System.Drawing.Color.Transparent;
             this.view_cmpr_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.view_cmpr_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.view_cmpr_label.Location = new System.Drawing.Point(109, 1294);
+            this.view_cmpr_label.Location = new System.Drawing.Point(109, 1324);
             this.view_cmpr_label.Margin = new System.Windows.Forms.Padding(0);
             this.view_cmpr_label.Name = "view_cmpr_label";
             this.view_cmpr_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
             this.view_cmpr_label.Size = new System.Drawing.Size(79, 64);
             this.view_cmpr_label.TabIndex = 581;
             this.view_cmpr_label.Text = "CMPR";
+            this.view_cmpr_label.Visible = false;
             this.view_cmpr_label.Click += new System.EventHandler(this.view_cmpr_Click);
             this.view_cmpr_label.MouseEnter += new System.EventHandler(this.view_cmpr_MouseEnter);
             this.view_cmpr_label.MouseLeave += new System.EventHandler(this.view_cmpr_MouseLeave);
@@ -7983,12 +7955,13 @@ namespace plt0_gui
             this.view_options_ck.Enabled = false;
             this.view_options_ck.ErrorImage = null;
             this.view_options_ck.InitialImage = null;
-            this.view_options_ck.Location = new System.Drawing.Point(40, 1357);
+            this.view_options_ck.Location = new System.Drawing.Point(40, 1387);
             this.view_options_ck.Margin = new System.Windows.Forms.Padding(0);
             this.view_options_ck.Name = "view_options_ck";
             this.view_options_ck.Size = new System.Drawing.Size(64, 64);
             this.view_options_ck.TabIndex = 586;
             this.view_options_ck.TabStop = false;
+            this.view_options_ck.Visible = false;
             this.view_options_ck.Click += new System.EventHandler(this.view_options_Click);
             this.view_options_ck.MouseEnter += new System.EventHandler(this.view_options_MouseEnter);
             this.view_options_ck.MouseLeave += new System.EventHandler(this.view_options_MouseLeave);
@@ -7999,13 +7972,14 @@ namespace plt0_gui
             this.view_options_label.BackColor = System.Drawing.Color.Transparent;
             this.view_options_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.view_options_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.view_options_label.Location = new System.Drawing.Point(108, 1358);
+            this.view_options_label.Location = new System.Drawing.Point(108, 1388);
             this.view_options_label.Margin = new System.Windows.Forms.Padding(0);
             this.view_options_label.Name = "view_options_label";
             this.view_options_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
             this.view_options_label.Size = new System.Drawing.Size(97, 64);
             this.view_options_label.TabIndex = 584;
             this.view_options_label.Text = "Options";
+            this.view_options_label.Visible = false;
             this.view_options_label.Click += new System.EventHandler(this.view_options_Click);
             this.view_options_label.MouseEnter += new System.EventHandler(this.view_options_MouseEnter);
             this.view_options_label.MouseLeave += new System.EventHandler(this.view_options_MouseLeave);
@@ -8176,7 +8150,7 @@ namespace plt0_gui
             this.preview4k_label.BackColor = System.Drawing.Color.Transparent;
             this.preview4k_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.preview4k_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.preview4k_label.Location = new System.Drawing.Point(677, 1131);
+            this.preview4k_label.Location = new System.Drawing.Point(677, 1377);
             this.preview4k_label.Margin = new System.Windows.Forms.Padding(0);
             this.preview4k_label.Name = "preview4k_label";
             this.preview4k_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -8193,7 +8167,7 @@ namespace plt0_gui
             this.preview4k_ck.Enabled = false;
             this.preview4k_ck.ErrorImage = null;
             this.preview4k_ck.InitialImage = null;
-            this.preview4k_ck.Location = new System.Drawing.Point(608, 1131);
+            this.preview4k_ck.Location = new System.Drawing.Point(608, 1377);
             this.preview4k_ck.Margin = new System.Windows.Forms.Padding(0);
             this.preview4k_ck.Name = "preview4k_ck";
             this.preview4k_ck.Size = new System.Drawing.Size(64, 64);
@@ -8259,10 +8233,12 @@ namespace plt0_gui
             this.cmpr_c1_txt.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_c1_txt.Name = "cmpr_c1_txt";
             this.cmpr_c1_txt.Size = new System.Drawing.Size(141, 21);
-            this.cmpr_c1_txt.TabIndex = 609;
+            this.cmpr_c1_txt.TabIndex = 19;
             this.cmpr_c1_txt.Text = "#000000";
             this.cmpr_c1_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.cmpr_c1_txt.TextChanged += new System.EventHandler(this.cmpr_c1_TextChanged);
+            this.cmpr_c1_txt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyDown);
+            this.cmpr_c1_txt.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyUp);
             this.cmpr_c1_txt.MouseEnter += new System.EventHandler(this.cmpr_c1_MouseEnter);
             this.cmpr_c1_txt.MouseLeave += new System.EventHandler(this.cmpr_c1_MouseLeave);
             // 
@@ -8324,10 +8300,12 @@ namespace plt0_gui
             this.cmpr_c2_txt.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_c2_txt.Name = "cmpr_c2_txt";
             this.cmpr_c2_txt.Size = new System.Drawing.Size(141, 21);
-            this.cmpr_c2_txt.TabIndex = 613;
+            this.cmpr_c2_txt.TabIndex = 20;
             this.cmpr_c2_txt.Text = "#000000";
             this.cmpr_c2_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.cmpr_c2_txt.TextChanged += new System.EventHandler(this.cmpr_c2_TextChanged);
+            this.cmpr_c2_txt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyDown);
+            this.cmpr_c2_txt.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyUp);
             this.cmpr_c2_txt.MouseEnter += new System.EventHandler(this.cmpr_c2_MouseEnter);
             this.cmpr_c2_txt.MouseLeave += new System.EventHandler(this.cmpr_c2_MouseLeave);
             // 
@@ -8373,8 +8351,10 @@ namespace plt0_gui
             this.cmpr_c3_txt.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_c3_txt.Name = "cmpr_c3_txt";
             this.cmpr_c3_txt.Size = new System.Drawing.Size(141, 21);
-            this.cmpr_c3_txt.TabIndex = 617;
+            this.cmpr_c3_txt.TabIndex = 21;
             this.cmpr_c3_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.cmpr_c3_txt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyDown);
+            this.cmpr_c3_txt.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyUp);
             this.cmpr_c3_txt.MouseEnter += new System.EventHandler(this.cmpr_c3_MouseEnter);
             this.cmpr_c3_txt.MouseLeave += new System.EventHandler(this.cmpr_c3_MouseLeave);
             // 
@@ -8420,8 +8400,10 @@ namespace plt0_gui
             this.cmpr_c4_txt.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_c4_txt.Name = "cmpr_c4_txt";
             this.cmpr_c4_txt.Size = new System.Drawing.Size(141, 21);
-            this.cmpr_c4_txt.TabIndex = 621;
+            this.cmpr_c4_txt.TabIndex = 22;
             this.cmpr_c4_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.cmpr_c4_txt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyDown);
+            this.cmpr_c4_txt.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyUp);
             this.cmpr_c4_txt.MouseEnter += new System.EventHandler(this.cmpr_c4_MouseEnter);
             this.cmpr_c4_txt.MouseLeave += new System.EventHandler(this.cmpr_c4_MouseLeave);
             // 
@@ -8766,9 +8748,11 @@ namespace plt0_gui
             this.cmpr_hover_colour_txt.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_hover_colour_txt.Name = "cmpr_hover_colour_txt";
             this.cmpr_hover_colour_txt.Size = new System.Drawing.Size(141, 21);
-            this.cmpr_hover_colour_txt.TabIndex = 684;
+            this.cmpr_hover_colour_txt.TabIndex = 23;
             this.cmpr_hover_colour_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.cmpr_hover_colour_txt.TextChanged += new System.EventHandler(this.cmpr_hover_colour_TextChanged);
+            this.cmpr_hover_colour_txt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyDown);
+            this.cmpr_hover_colour_txt.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyUp);
             // 
             // cmpr_edited_colour
             // 
@@ -8782,6 +8766,7 @@ namespace plt0_gui
             this.cmpr_edited_colour.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
             this.cmpr_edited_colour.Size = new System.Drawing.Size(32, 32);
             this.cmpr_edited_colour.TabIndex = 689;
+            this.cmpr_edited_colour.Visible = false;
             // 
             // cmpr_edited_colour_label
             // 
@@ -8796,6 +8781,7 @@ namespace plt0_gui
             this.cmpr_edited_colour_label.Size = new System.Drawing.Size(166, 45);
             this.cmpr_edited_colour_label.TabIndex = 688;
             this.cmpr_edited_colour_label.Text = "Edited Colour";
+            this.cmpr_edited_colour_label.Visible = false;
             // 
             // cmpr_edited_colour_txt
             // 
@@ -8809,7 +8795,7 @@ namespace plt0_gui
             this.cmpr_edited_colour_txt.Size = new System.Drawing.Size(141, 21);
             this.cmpr_edited_colour_txt.TabIndex = 687;
             this.cmpr_edited_colour_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.cmpr_edited_colour_txt.TextChanged += new System.EventHandler(this.cmpr_edited_colour_TextChanged);
+            this.cmpr_edited_colour_txt.Visible = false;
             // 
             // name_string_ck
             // 
@@ -9328,13 +9314,13 @@ namespace plt0_gui
             this.Controls.Add(this.bmd_ck);
             this.Controls.Add(this.bmd_label);
             this.Controls.Add(this.output_file_type_label);
-            this.Controls.Add(this.surrounding_ck);
             this.Controls.Add(this.view_min_label);
             this.Controls.Add(this.desc2);
             this.Controls.Add(this.description);
             this.Controls.Add(this.description_surrounding);
             this.Controls.Add(this.banner_resize);
             this.Controls.Add(this.banner_move);
+            this.Controls.Add(this.surrounding_ck);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Segoe UI", 15F);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
@@ -9349,6 +9335,8 @@ namespace plt0_gui
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.plt0_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.plt0_DragEnter);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyUp);
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tpl_ck)).EndInit();
@@ -13583,13 +13571,15 @@ namespace plt0_gui
         {
             if (view_alpha)
             {
-                Hide_alpha();
+                Hide_alpha(true);
                 Category_hover(view_alpha_ck);
+                //view_alpha = false;
             }
             else
             {
-                View_alpha();
+                View_alpha(true);
                 Category_selected(view_alpha_ck);
+                //view_alpha = true;
             }
         }
         private void view_alpha_MouseEnter(object sender, EventArgs e)
@@ -13612,12 +13602,12 @@ namespace plt0_gui
         {
             if (view_algorithm)
             {
-                Hide_algorithm(algorithm);
+                Hide_algorithm(255, true);
                 Category_hover(view_algorithm_ck);
             }
             else
             {
-                View_algorithm(algorithm);
+                View_algorithm(255, true);
                 Category_selected(view_algorithm_ck);
             }
         }
@@ -13641,12 +13631,12 @@ namespace plt0_gui
         {
             if (view_WrapS)
             {
-                Hide_WrapS();
+                Hide_WrapS(true);
                 Category_hover(view_WrapS_ck);
             }
             else
             {
-                View_WrapS();
+                View_WrapS(true);
                 Category_selected(view_WrapS_ck);
             }
         }
@@ -13670,12 +13660,12 @@ namespace plt0_gui
         {
             if (view_WrapT)
             {
-                Hide_WrapT();
+                Hide_WrapT(true);
                 Category_hover(view_WrapT_ck);
             }
             else
             {
-                View_WrapT();
+                View_WrapT(true);
                 Category_selected(view_WrapT_ck);
             }
         }
@@ -13699,12 +13689,12 @@ namespace plt0_gui
         {
             if (view_min)
             {
-                Hide_min();
+                Hide_min(true);
                 Category_hover(view_min_ck);
             }
             else
             {
-                View_min();
+                View_min(true);
                 Category_selected(view_min_ck);
             }
         }
@@ -13728,12 +13718,12 @@ namespace plt0_gui
         {
             if (view_mag)
             {
-                Hide_mag();
+                Hide_mag(true);
                 Category_hover(view_mag_ck);
             }
             else
             {
-                View_mag();
+                View_mag(true);
                 Category_selected(view_mag_ck);
             }
         }
@@ -13757,12 +13747,12 @@ namespace plt0_gui
         {
             if (view_rgba)
             {
-                Hide_rgba();
+                Hide_rgba(true);
                 Category_hover(view_rgba_ck);
             }
             else
             {
-                View_rgba();
+                View_rgba(true);
                 Category_selected(view_rgba_ck);
             }
         }
@@ -13786,12 +13776,12 @@ namespace plt0_gui
         {
             if (view_palette)
             {
-                Hide_palette();
+                Hide_palette(true);
                 Category_hover(view_palette_ck);
             }
             else
             {
-                View_palette();
+                View_palette(true);
                 Category_selected(view_palette_ck);
             }
         }
@@ -13815,12 +13805,12 @@ namespace plt0_gui
         {
             if (view_cmpr)
             {
-                Hide_cmpr();
+                Hide_cmpr(true);
                 Category_hover(view_cmpr_ck);
             }
             else
             {
-                View_cmpr();
+                View_cmpr(true);
                 Category_selected(view_cmpr_ck);
             }
         }
@@ -13844,12 +13834,12 @@ namespace plt0_gui
         {
             if (view_options)
             {
-                Hide_options();
+                Hide_options(true);
                 Category_hover(view_options_ck);
             }
             else
             {
-                View_options();
+                View_options(true);
                 Category_selected(view_options_ck);
             }
         }
@@ -14420,18 +14410,18 @@ namespace plt0_gui
                     break;
             }
         }
-        private void Change_Colour_From_Pixel(byte cmpr_colour)
+        private void Change_Colour_From_Pixel(byte cmpr_colour_index)
         {
-            if (cmpr_colour > 2)
+            if (cmpr_colour_index > 2)
             {
                 Parse_Markdown(lines[216], cmpr_warning);
             }
             cmpr_index_i = (byte)((cmpr_file[cmpr_data_start_offset + (current_block << 3) + 4 + cmpr_y] >> (6 - (cmpr_x << 1))) & 3);
             if (cmpr_index_i < 2)
             {
-                cmpr_colours_argb[(cmpr_colour << 2) + 3] = (byte)(cmpr_file[cmpr_data_start_offset + (current_block << 3) + (cmpr_index_i << 1) + 1] << 3); // blue
-                cmpr_colours_argb[(cmpr_colour << 2) + 2] = (byte)(((cmpr_file[cmpr_data_start_offset + (current_block << 3) + (cmpr_index_i << 1)] << 5) | (cmpr_file[cmpr_data_start_offset + (current_block << 3) + (cmpr_index_i << 1) + 1] >> 3)) & 0xfc);  // green
-                cmpr_colours_argb[(cmpr_colour << 2) + 1] = (byte)(cmpr_file[cmpr_data_start_offset + (current_block << 3) + (cmpr_index_i << 1)] & 0xf8);  // red
+                cmpr_colours_argb[(cmpr_colour_index << 2) - 1] = (byte)(cmpr_file[cmpr_data_start_offset + (current_block << 3) + (cmpr_index_i << 1) + 1] << 3); // blue
+                cmpr_colours_argb[(cmpr_colour_index << 2) - 2] = (byte)(((cmpr_file[cmpr_data_start_offset + (current_block << 3) + (cmpr_index_i << 1)] << 5) | (cmpr_file[cmpr_data_start_offset + (current_block << 3) + (cmpr_index_i << 1) + 1] >> 3)) & 0xfc);  // green
+                cmpr_colours_argb[(cmpr_colour_index << 2) - 3] = (byte)(cmpr_file[cmpr_data_start_offset + (current_block << 3) + (cmpr_index_i << 1)] & 0xf8);  // red
             }
             else
             {
@@ -14450,15 +14440,15 @@ namespace plt0_gui
                 {
                     if (cmpr_index_i == 2)
                     {
-                        cmpr_colours_argb[(cmpr_colour << 2) + 1] = (byte)((red * 2 / 3) + (red2 / 3));
-                        cmpr_colours_argb[(cmpr_colour << 2) + 2] = (byte)((green * 2 / 3) + (green2 / 3));
-                        cmpr_colours_argb[(cmpr_colour << 2) + 3] = (byte)((blue * 2 / 3) + (blue2 / 3));
+                        cmpr_colours_argb[(cmpr_colour_index << 2) - 3] = (byte)((red * 2 / 3) + (red2 / 3));
+                        cmpr_colours_argb[(cmpr_colour_index << 2) - 2] = (byte)((green * 2 / 3) + (green2 / 3));
+                        cmpr_colours_argb[(cmpr_colour_index << 2) - 1] = (byte)((blue * 2 / 3) + (blue2 / 3));
                     }
                     else
                     {
-                        cmpr_colours_argb[(cmpr_colour << 2) + 1] = (byte)((red / 3) + (red2 * 2 / 3));
-                        cmpr_colours_argb[(cmpr_colour << 2) + 2] = (byte)((green / 3) + (green2 * 2 / 3));
-                        cmpr_colours_argb[(cmpr_colour << 2) + 3] = (byte)((blue / 3) + (blue2 * 2 / 3));
+                        cmpr_colours_argb[(cmpr_colour_index << 2) - 3] = (byte)((red / 3) + (red2 * 2 / 3));
+                        cmpr_colours_argb[(cmpr_colour_index << 2) - 2] = (byte)((green / 3) + (green2 * 2 / 3));
+                        cmpr_colours_argb[(cmpr_colour_index << 2) - 1] = (byte)((blue / 3) + (blue2 * 2 / 3));
                     }
                 }
                 else
@@ -14466,9 +14456,9 @@ namespace plt0_gui
                     // of course, that's the exact opposite! - not quite lol
                     if (cmpr_index_i == 2)
                     {
-                        cmpr_colours_argb[(cmpr_colour << 2) + 1] = (byte)((red * 2 / 3) + (red2 / 3));
-                        cmpr_colours_argb[(cmpr_colour << 2) + 2] = (byte)((green * 2 / 3) + (green2 / 3));
-                        cmpr_colours_argb[(cmpr_colour << 2) + 3] = (byte)((blue * 2 / 3) + (blue2 / 3));
+                        cmpr_colours_argb[(cmpr_colour_index << 2) + 1] = (byte)((red * 2 / 3) + (red2 / 3));
+                        cmpr_colours_argb[(cmpr_colour_index << 2) + 2] = (byte)((green * 2 / 3) + (green2 / 3));
+                        cmpr_colours_argb[(cmpr_colour_index << 2) + 3] = (byte)((blue * 2 / 3) + (blue2 / 3));
                     }
                     else
                     {
@@ -14476,6 +14466,11 @@ namespace plt0_gui
                     }
                 }
             }
+            cmpr_colours_hex = BitConverter.ToString(cmpr_colours_argb).Replace("-", string.Empty);
+            if (cmpr_colour_index == 1)
+                cmpr_c1_txt.Text = cmpr_colours_hex.Substring(2, 6);
+            else
+                cmpr_c2_txt.Text = cmpr_colours_hex.Substring(10, 6);
 
         }
         private void cmpr_preview_ck_MouseMove(object sender, MouseEventArgs e)
@@ -14592,14 +14587,10 @@ namespace plt0_gui
         {
             parse_rgba_hover(cmpr_hover_colour, cmpr_hover_colour_txt);
         }
-        private void cmpr_edited_colour_TextChanged(object sender, EventArgs e)
-        {
-            parse_rgba_edited(cmpr_edited_colour, cmpr_edited_colour_txt);
-        }
 
         private void cmpr_preview_ck_MouseLeave(object sender, EventArgs e)
         {
-            if (cmpr_preview_vanilla != null || !cmpr_hover)
+            if (cmpr_preview_vanilla != null && !cmpr_hover)
                 cmpr_preview_ck.Image = GetImageFromByteArray(cmpr_preview_vanilla);
             previous_block = -1;
         }
@@ -14624,7 +14615,8 @@ namespace plt0_gui
             cmpr_colours_argb[1] = (byte)(cmpr_file[cmpr_data_start_offset + (current_block << 3)] & 0xf8);  // red
             // colour2 = (ushort)((cmpr_file[cmpr_data_start_offset + (current_block << 3) + 2] << 8) | cmpr_file[cmpr_data_start_offset + (current_block << 3) + 3]);  
             // ^ edit: no need to assign this AAAAA since parse_rgb565 does litteraly all the job by changing the textbox.Text
-            // edit2: need to assign this AAAAA since Update_colours change them in the cmpr file and is called as soon as you edit ONE BYTE of cmpr_c1.txt 
+            // edit2: need to assign this AAAAA since Update_colours change them in the cmpr file and is called as soon as you edit ONE BYTE of cmpr_c1.txt
+            // edit3: no. you don't need it.
             for (byte i = 0; i < 4; i++)
             {
                 for (byte j = 0; j < 4; j++)
@@ -14703,7 +14695,7 @@ namespace plt0_gui
         }
         private void Preview_Paint()
         {
-            if (!cmpr_update_preview)
+            if (!cmpr_update_preview || cmpr_preview_vanilla == null)
                 return;
             cmpr_preview_vanilla[cmpr_preview_start_offset + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[0] << 2) + 3];
             cmpr_preview_vanilla[cmpr_preview_start_offset + 1 + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[0] << 2) + 2];
@@ -14811,6 +14803,64 @@ namespace plt0_gui
                 output_name = saveFileDialog.FileName;
                 Save_CMPR_Texture(saveFileDialog.FileName);
             }
+        }
+
+        private void cmpr_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F1)
+                All_Click(null, null);
+            else if (e.KeyCode == Keys.F2)
+                Auto_Click(null, null);
+            else if (e.KeyCode == Keys.F3)
+                Preview_Click(null, null);
+            else if (e.KeyCode == Keys.F4)
+                Paint_Click(null, null);
+            else if (e.KeyCode == Keys.F8)  // the dev key to reload all graphics
+                InitializeForm(false, false);
+            else if (e.KeyCode == Keys.F9)  // the dev key to reload settings.txt and all graphics
+                InitializeForm(true, false);
+            else if (e.KeyCode == Keys.F10)
+                Minimized_Click(null, null);
+            else if (e.KeyCode == Keys.F11)
+                Maximized_Click(null, null);
+            else if (e.KeyCode == Keys.F12)  // the dev key to reload settings.txt
+                Load_settings();
+            else if (e.KeyCode == Keys.Clear)
+                Easter_Egg();  // God Luck finding this key :P
+            else if (e.KeyCode == Keys.Escape)
+                Environment.Exit(0);
+            if (layout != 3) // not paint
+            {
+                if (e.Control && e.KeyCode == Keys.R)
+                    Run_Click(null, null);
+                return;
+            }
+            if (e.KeyCode == Keys.ControlKey)
+                cmpr_block_paint_Click(null, null);
+            if (e.KeyCode == Keys.Enter)
+                cmpr_hover_Click(null, null);
+            if (e.Control && e.Shift && e.KeyCode == Keys.S)
+                cmpr_save_as_ck_Click(null, null);
+            else if (e.Control && e.KeyCode == Keys.S)
+                cmpr_save_ck_Click(null, null);
+            else if (e.Control && e.KeyCode == Keys.U)
+                Preview_Paint();
+            else if (e.Control && (e.KeyCode == Keys.D1 || e.KeyCode == Keys.NumPad1))
+                cmpr_c1_Click(null, null);
+            else if (e.Control && (e.KeyCode == Keys.D2 || e.KeyCode == Keys.NumPad2))
+                cmpr_c2_Click(null, null);
+            else if (e.Control && (e.KeyCode == Keys.D3 || e.KeyCode == Keys.NumPad3))
+                cmpr_c3_Click(null, null);
+            else if (e.Control && (e.KeyCode == Keys.D4 || e.KeyCode == Keys.NumPad4))
+                cmpr_c4_Click(null, null);
+        }
+
+        private void cmpr_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (layout != 3) // not paint
+                return;
+            if (e.KeyCode == Keys.ControlKey)
+                cmpr_block_selection_Click(null, null);
         }
     }
 }
