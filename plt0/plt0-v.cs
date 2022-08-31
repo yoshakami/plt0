@@ -67,6 +67,8 @@ namespace plt0_gui
         byte green2;
         byte blue2;
         byte alpha2;
+        bool cmpr_update_preview = true;
+        bool sync_preview_is_on = false;
         bool the_program_is_loading_a_cmpr_block = false;
         bool cmpr_swap2_enabled = false;
         bool cmpr_hover = true;
@@ -191,6 +193,8 @@ namespace plt0_gui
         ushort num_colours = 0;
         ushort block_x;
         ushort block_y;
+        ushort selected_block_x;
+        ushort selected_block_y;
         ushort blocks_wide;
         ushort blocks_tall;
         byte tooltip = 0;
@@ -440,11 +444,10 @@ namespace plt0_gui
         }
         private void Parse_Markdown(string txt, Label lab)
         {// these are variables. easy to replace
-            txt = txt.Replace("\\a", appdata).Replace("\\e", execName).Replace("\\h", this.Height.ToString()).Replace("\\l", layout_name[layout]).Replace("\\m", mipmaps.ToString()).Replace("\\n", "\n").Replace("\\o", output_name).Replace("\\p", execPath).Replace("\\r", "\r").Replace("\\t", "\t").Replace("\\w", this.Width.ToString()).Replace("\\0", block_width_array[encoding].ToString()).Replace("\\y", block_height_array[encoding].ToString()).Replace("\\z", block_depth_array[encoding].ToString());
-            //if (input_file_image != null)
-            //    txt = txt.Replace("\\d", input_file_image.PixelFormat.ToString());
-            //else
-                txt = txt.Replace("\\d", "");
+         //if (input_file_image != null)
+         //    txt = txt.Replace("\\d", input_file_image.PixelFormat.ToString());
+         //else
+            txt = txt.Replace("\\d", "");
             // implement b, c, f, g, i, j, k, q, s, u, v, x
             font_colour = lines[10];  // default colour
             font_name = lines[12]; // default font name
@@ -532,7 +535,7 @@ namespace plt0_gui
                 txt = txt.Substring(0, y) + System.Text.Encoding.Unicode.GetString(new[] { byte_text }) + txt.Substring(y + 4);
                 y = txt.IndexOf("\\x");
             }
-            txt = txt.Replace("\\b", "").Replace("\\i", "").Replace("\\k", "").Replace("\\u", "").Replace("\\v", "");
+            txt = txt.Replace("\\a", appdata).Replace("\\b", "").Replace("\\e", execName).Replace("\\h", this.Height.ToString()).Replace("\\i", "").Replace("\\k", "").Replace("\\l", layout_name[layout]).Replace("\\m", mipmaps.ToString()).Replace("\\n", "\n").Replace("\\o", output_name).Replace("\\p", execPath).Replace("\\r", "\r").Replace("\\t", "\t").Replace("\\u", "").Replace("\\v", "").Replace("\\w", this.Width.ToString()).Replace("\\0", block_width_array[encoding].ToString()).Replace("\\y", block_height_array[encoding].ToString()).Replace("\\z", block_depth_array[encoding].ToString());
             // lab.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, ((System.Drawing.FontStyle)((((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic) | System.Drawing.FontStyle.Underline) | System.Drawing.FontStyle.Strikeout))), System.Drawing.GraphicsUnit.World, ((byte)(0)), true);
             switch (font_style)
             {
@@ -595,7 +598,7 @@ namespace plt0_gui
             //if (input_file_image != null)
             //    txt = txt.Replace("\\d", input_file_image.PixelFormat.ToString());
             //else
-                txt = txt.Replace("\\d", "");
+            txt = txt.Replace("\\d", "");
             // implement b, c, f, g, i, j, k, q, s, u, v, x
             string[] txt_label = txt.Split(new string[] { "\\j" }, StringSplitOptions.None);
             for (byte i = 0; i < (byte)txt_label.Length; i++)
@@ -902,10 +905,16 @@ namespace plt0_gui
                 return false;
             }
         }
-        private void Preview(bool called_from_text, bool called_from_sync=false)
+        private void Preview(bool called_from_text, bool called_from_sync = false)
         {
             if (layout != 2)
                 return;
+            preview_changed = true;
+            if (!sync_preview_is_on)
+            {
+                sync_preview_is_on = true;
+                sync_preview_ck.BackgroundImage = sync_preview_on;
+            }
             if (called_from_text && !textchange)
                 return;
             if (!auto_update && !called_from_sync)
@@ -954,7 +963,12 @@ namespace plt0_gui
                 //if (image_ck.BackgroundImage != null)
                 //    image_ck.BackgroundImage.Dispose();
                 if (File.Exists(execPath + "images/preview/" + num + ".bmp"))
+                {
                     image_ck.Image = Image.FromFile(execPath + "images/preview/" + num + ".bmp");
+                    preview_changed = false;
+                    sync_preview_ck.BackgroundImage = sync_preview_off;
+                    sync_preview_is_on = false;
+                }
                 else
                     cli_textbox_label.Text = cli.Check_exit();
                 //do something
@@ -1865,16 +1879,18 @@ namespace plt0_gui
             cmpr_palette.Visible = false;
             cmpr_hover_ck.Visible = false;
             cmpr_hover_label.Visible = false;
+            cmpr_update_preview_ck.Visible = false;
+            cmpr_update_preview_label.Visible = false;
             for (byte i = 0; i < 9; i++)
             {
-                desc[i].Location = new Point(desc[i].Location.X + 300, desc[i].Location.Y);
+                desc[i].Location = new Point(desc[i].Location.X + 300, desc[i].Location.Y - 100);
             }
-            description_title.Location = new Point(description_title.Location.X + 300, description_title.Location.Y);
-            description_surrounding.Location = new Point(description_surrounding.Location.X + 300, description_surrounding.Location.Y);
-            mipmaps_label.Location = new Point(mipmaps_label.Location.X + 150, mipmaps_label.Location.Y);
-            mipmaps_txt.Location = new Point(mipmaps_txt.Location.X + 150, mipmaps_txt.Location.Y);
-            output_name_label.Location = new Point(output_name_label.Location.X + 150, output_name_label.Location.Y);
-            output_name_txt.Location = new Point(output_name_txt.Location.X + 150, output_name_txt.Location.Y);
+            description_title.Location = new Point(description_title.Location.X + 300, description_title.Location.Y - 100);
+            description_surrounding.Location = new Point(description_surrounding.Location.X + 300, description_surrounding.Location.Y - 100);
+            mipmaps_label.Location = new Point(mipmaps_label.Location.X + 180, mipmaps_label.Location.Y);
+            mipmaps_txt.Location = new Point(mipmaps_txt.Location.X + 180, mipmaps_txt.Location.Y);
+            output_name_label.Location = new Point(output_name_label.Location.X + 165, output_name_label.Location.Y);
+            output_name_txt.Location = new Point(output_name_txt.Location.X + 165, output_name_txt.Location.Y);
         }
         private void Layout_Paint()
         {
@@ -1882,6 +1898,10 @@ namespace plt0_gui
             {
                 Put_that_damn_cmpr_layout_in_place();
                 cmpr_palette.BackgroundImage = gradient;
+                cmpr_swap_ck.BackgroundImage = cmpr_swap;
+                cmpr_swap2_ck.BackgroundImage = cmpr_swap2;
+                cmpr_save_ck.BackgroundImage = cmpr_save;
+                cmpr_save_as_ck.BackgroundImage = cmpr_save_as;
                 cmpr_layout_is_in_place = true;
                 cmpr_c1.Location = new Point(cmpr_c1.Location.X - 1920, cmpr_c1.Location.Y);
                 cmpr_c1_txt.Location = new Point(cmpr_c1_txt.Location.X - 1920, cmpr_c1_txt.Location.Y);
@@ -1926,6 +1946,8 @@ namespace plt0_gui
                 cmpr_hover_ck.Location = new Point(cmpr_hover_ck.Location.X - 1920, cmpr_hover_ck.Location.Y);
                 cmpr_hover_label.Location = new Point(cmpr_hover_label.Location.X - 1920, cmpr_hover_label.Location.Y);
                 cmpr_preview_ck.Location = new Point(cmpr_preview_ck.Location.X - 1920, cmpr_preview_ck.Location.Y);
+                cmpr_update_preview_ck.Location = new Point(cmpr_update_preview_ck.Location.X - 1920, cmpr_update_preview_ck.Location.Y);
+                cmpr_update_preview_label.Location = new Point(cmpr_update_preview_label.Location.X - 1920, cmpr_update_preview_label.Location.Y);
                 cmpr_colours_argb[8] = 255;
             }
             if (!cmpr_layout_is_enabled)
@@ -2080,16 +2102,18 @@ namespace plt0_gui
                 cmpr_palette.Visible = true;
                 cmpr_hover_ck.Visible = true;
                 cmpr_hover_label.Visible = true;
+                cmpr_update_preview_ck.Visible = true;
+                cmpr_update_preview_label.Visible = true;
                 for (byte i = 0; i < 9; i++)
                 {
-                    desc[i].Location = new Point(desc[i].Location.X - 300, desc[i].Location.Y);
+                    desc[i].Location = new Point(desc[i].Location.X - 300, desc[i].Location.Y + 100);
                 }
-                description_title.Location = new Point(description_title.Location.X - 300, description_title.Location.Y);
-                description_surrounding.Location = new Point(description_surrounding.Location.X - 300, description_surrounding.Location.Y);
-                mipmaps_label.Location = new Point(mipmaps_label.Location.X - 150, mipmaps_label.Location.Y);
-                mipmaps_txt.Location = new Point(mipmaps_txt.Location.X - 150, mipmaps_txt.Location.Y);
-                output_name_label.Location = new Point(output_name_label.Location.X - 150, output_name_label.Location.Y);
-                output_name_txt.Location = new Point(output_name_txt.Location.X - 150, output_name_txt.Location.Y);
+                description_title.Location = new Point(description_title.Location.X - 300, description_title.Location.Y + 100);
+                description_surrounding.Location = new Point(description_surrounding.Location.X - 300, description_surrounding.Location.Y + 100);
+                mipmaps_label.Location = new Point(mipmaps_label.Location.X - 180, mipmaps_label.Location.Y);
+                mipmaps_txt.Location = new Point(mipmaps_txt.Location.X - 180, mipmaps_txt.Location.Y);
+                output_name_label.Location = new Point(output_name_label.Location.X - 165, output_name_label.Location.Y);
+                output_name_txt.Location = new Point(output_name_txt.Location.X - 165, output_name_txt.Location.Y);
                 layout = 3;
             }
             Check_Paint();
@@ -3042,20 +3066,22 @@ namespace plt0_gui
                     {
                         cmpr_index_i = (byte)(cmpr_index[(x >> 6) + (y >> 4)] + 1);
                         if (cmpr_index_i == 1)
-                            Paint_Pixel(x, y, 2);
+                            Paint_Pixel(x, y, 2, false);
                         else if (cmpr_index_i == 2)
-                            Paint_Pixel(x, y, 1);
+                            Paint_Pixel(x, y, 1, false);
                         else
-                            Paint_Pixel(x, y, cmpr_index_i);
+                            Paint_Pixel(x, y, cmpr_index_i, false);
                     }
                 }
-                return;
             }
-            for (ushort x = 0; x < 256; x += 64)
-                for (ushort y = 0; y < 256; y += 64)
-                    Paint_Pixel(x, y, (byte)(cmpr_index[(x >> 6) + (y >> 4)] + 1));
+            else
+                for (ushort x = 0; x < 256; x += 64)
+                    for (ushort y = 0; y < 256; y += 64)
+                        Paint_Pixel(x, y, (byte)(cmpr_index[(x >> 6) + (y >> 4)] + 1), false);
+            if (cmpr_update_preview)
+                Preview_Paint();
         }
-        private void Paint_Pixel(int x, int y, byte button)  // note: X and Y are height and width WITHIN the picturebox
+        private void Paint_Pixel(int x, int y, byte button, bool called_outside_update_colours = true)  // note: X and Y are height and width WITHIN the picturebox
         {
             x >>= 6;
             y >>= 6;
@@ -3073,6 +3099,8 @@ namespace plt0_gui
             // change that because the first byte of a bmp is at the last line :P
             // also X + Y doesn't work because 0, 1 = 1, 0 lol
             cmpr_grid_ck.Image = GetImageFromByteArray(cmpr_4x4);
+            if (called_outside_update_colours)
+                Preview_Paint();
         }
         /// <summary>
         /// Method that uses the ImageConverter object in .Net Framework to convert a byte array, 
@@ -3230,6 +3258,7 @@ namespace plt0_gui
             version_ck.BackgroundImage = version;
             run_ck.BackgroundImage = run_off;
             cli_textbox_ck.BackgroundImage = cli_textbox;
+            sync_preview_ck.BackgroundImage = sync_preview_off;
             this.BackgroundImage = background;
             unchecked_checkbox(ask_exit_ck);
             unchecked_checkbox(FORCE_ALPHA_ck);
@@ -3270,6 +3299,7 @@ namespace plt0_gui
             checked_checkbox(cmpr_hover_ck);
             checked_checkbox(auto_update_ck);
             checked_checkbox(upscale_ck);
+            checked_checkbox(cmpr_update_preview_ck);
             unchecked_R(a_r_ck);
             unchecked_G(a_g_ck);
             unchecked_B(a_b_ck);
@@ -3903,6 +3933,8 @@ namespace plt0_gui
             this.cmpr_grid_ck = new PictureBoxWithInterpolationMode();
             this.cmpr_preview_ck = new PictureBoxWithInterpolationMode();
             this.image_ck = new PictureBoxWithInterpolationMode();
+            this.cmpr_update_preview_ck = new System.Windows.Forms.PictureBox();
+            this.cmpr_update_preview_label = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tpl_ck)).BeginInit();
@@ -4032,6 +4064,7 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_grid_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.image_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmpr_update_preview_ck)).BeginInit();
             this.SuspendLayout();
             // 
             // output_file_type_label
@@ -8398,7 +8431,7 @@ namespace plt0_gui
             this.cmpr_swap_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.cmpr_swap_ck.ErrorImage = null;
             this.cmpr_swap_ck.InitialImage = null;
-            this.cmpr_swap_ck.Location = new System.Drawing.Point(1986, 490);
+            this.cmpr_swap_ck.Location = new System.Drawing.Point(1986, 512);
             this.cmpr_swap_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_swap_ck.Name = "cmpr_swap_ck";
             this.cmpr_swap_ck.Size = new System.Drawing.Size(64, 64);
@@ -8414,7 +8447,7 @@ namespace plt0_gui
             this.cmpr_swap_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_swap_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_swap_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.cmpr_swap_label.Location = new System.Drawing.Point(2055, 490);
+            this.cmpr_swap_label.Location = new System.Drawing.Point(2055, 512);
             this.cmpr_swap_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_swap_label.Name = "cmpr_swap_label";
             this.cmpr_swap_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -8431,7 +8464,7 @@ namespace plt0_gui
             this.cmpr_block_paint_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.cmpr_block_paint_ck.ErrorImage = null;
             this.cmpr_block_paint_ck.InitialImage = null;
-            this.cmpr_block_paint_ck.Location = new System.Drawing.Point(2532, 162);
+            this.cmpr_block_paint_ck.Location = new System.Drawing.Point(2532, 159);
             this.cmpr_block_paint_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_block_paint_ck.Name = "cmpr_block_paint_ck";
             this.cmpr_block_paint_ck.Size = new System.Drawing.Size(64, 64);
@@ -8448,7 +8481,7 @@ namespace plt0_gui
             this.cmpr_block_paint_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_block_paint_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_block_paint_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.cmpr_block_paint_label.Location = new System.Drawing.Point(2600, 162);
+            this.cmpr_block_paint_label.Location = new System.Drawing.Point(2600, 159);
             this.cmpr_block_paint_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_block_paint_label.Name = "cmpr_block_paint_label";
             this.cmpr_block_paint_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -8466,7 +8499,7 @@ namespace plt0_gui
             this.cmpr_block_selection_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.cmpr_block_selection_ck.ErrorImage = null;
             this.cmpr_block_selection_ck.InitialImage = null;
-            this.cmpr_block_selection_ck.Location = new System.Drawing.Point(2532, 98);
+            this.cmpr_block_selection_ck.Location = new System.Drawing.Point(2532, 95);
             this.cmpr_block_selection_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_block_selection_ck.Name = "cmpr_block_selection_ck";
             this.cmpr_block_selection_ck.Size = new System.Drawing.Size(64, 64);
@@ -8483,7 +8516,7 @@ namespace plt0_gui
             this.cmpr_block_selection_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_block_selection_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_block_selection_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.cmpr_block_selection_label.Location = new System.Drawing.Point(2601, 97);
+            this.cmpr_block_selection_label.Location = new System.Drawing.Point(2601, 94);
             this.cmpr_block_selection_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_block_selection_label.Name = "cmpr_block_selection_label";
             this.cmpr_block_selection_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -8501,7 +8534,7 @@ namespace plt0_gui
             this.cmpr_picture_tooltip_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_picture_tooltip_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_picture_tooltip_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_picture_tooltip_label.Location = new System.Drawing.Point(2555, 56);
+            this.cmpr_picture_tooltip_label.Location = new System.Drawing.Point(2555, 58);
             this.cmpr_picture_tooltip_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_picture_tooltip_label.Name = "cmpr_picture_tooltip_label";
             this.cmpr_picture_tooltip_label.Size = new System.Drawing.Size(175, 20);
@@ -8527,12 +8560,13 @@ namespace plt0_gui
             this.cmpr_save_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.cmpr_save_ck.ErrorImage = null;
             this.cmpr_save_ck.InitialImage = null;
-            this.cmpr_save_ck.Location = new System.Drawing.Point(2309, 941);
+            this.cmpr_save_ck.Location = new System.Drawing.Point(2351, 941);
             this.cmpr_save_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_save_ck.Name = "cmpr_save_ck";
             this.cmpr_save_ck.Size = new System.Drawing.Size(192, 64);
             this.cmpr_save_ck.TabIndex = 669;
             this.cmpr_save_ck.TabStop = false;
+            this.cmpr_save_ck.Click += new System.EventHandler(this.cmpr_save_ck_Click);
             this.cmpr_save_ck.MouseEnter += new System.EventHandler(this.cmpr_save_MouseEnter);
             this.cmpr_save_ck.MouseLeave += new System.EventHandler(this.cmpr_save_MouseLeave);
             // 
@@ -8542,12 +8576,13 @@ namespace plt0_gui
             this.cmpr_save_as_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.cmpr_save_as_ck.ErrorImage = null;
             this.cmpr_save_as_ck.InitialImage = null;
-            this.cmpr_save_as_ck.Location = new System.Drawing.Point(2501, 941);
+            this.cmpr_save_as_ck.Location = new System.Drawing.Point(2550, 941);
             this.cmpr_save_as_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_save_as_ck.Name = "cmpr_save_as_ck";
             this.cmpr_save_as_ck.Size = new System.Drawing.Size(256, 64);
             this.cmpr_save_as_ck.TabIndex = 671;
             this.cmpr_save_as_ck.TabStop = false;
+            this.cmpr_save_as_ck.Click += new System.EventHandler(this.cmpr_save_as_ck_Click);
             this.cmpr_save_as_ck.MouseEnter += new System.EventHandler(this.cmpr_save_as_MouseEnter);
             this.cmpr_save_as_ck.MouseLeave += new System.EventHandler(this.cmpr_save_as_MouseLeave);
             // 
@@ -8557,13 +8592,12 @@ namespace plt0_gui
             this.cmpr_warning.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_warning.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_warning.ForeColor = System.Drawing.Color.Red;
-            this.cmpr_warning.Location = new System.Drawing.Point(2266, 844);
+            this.cmpr_warning.Location = new System.Drawing.Point(2999, 32);
             this.cmpr_warning.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_warning.MaximumSize = new System.Drawing.Size(540, 0);
-            this.cmpr_warning.MinimumSize = new System.Drawing.Size(540, 0);
+            this.cmpr_warning.MaximumSize = new System.Drawing.Size(400, 0);
+            this.cmpr_warning.MinimumSize = new System.Drawing.Size(400, 0);
             this.cmpr_warning.Name = "cmpr_warning";
-            this.cmpr_warning.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.cmpr_warning.Size = new System.Drawing.Size(540, 64);
+            this.cmpr_warning.Size = new System.Drawing.Size(400, 20);
             this.cmpr_warning.TabIndex = 673;
             this.cmpr_warning.Text = "Input file is not a cmpr texture";
             this.cmpr_warning.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -8701,7 +8735,7 @@ namespace plt0_gui
             this.cmpr_hover_colour.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_hover_colour.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_hover_colour.ForeColor = System.Drawing.SystemColors.Window;
-            this.cmpr_hover_colour.Location = new System.Drawing.Point(2555, 385);
+            this.cmpr_hover_colour.Location = new System.Drawing.Point(2555, 344);
             this.cmpr_hover_colour.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_hover_colour.Name = "cmpr_hover_colour";
             this.cmpr_hover_colour.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
@@ -8714,7 +8748,7 @@ namespace plt0_gui
             this.cmpr_hover_colour_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_hover_colour_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_hover_colour_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_hover_colour_label.Location = new System.Drawing.Point(2601, 361);
+            this.cmpr_hover_colour_label.Location = new System.Drawing.Point(2601, 320);
             this.cmpr_hover_colour_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_hover_colour_label.Name = "cmpr_hover_colour_label";
             this.cmpr_hover_colour_label.Padding = new System.Windows.Forms.Padding(0, 15, 0, 10);
@@ -8728,7 +8762,7 @@ namespace plt0_gui
             this.cmpr_hover_colour_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.cmpr_hover_colour_txt.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.cmpr_hover_colour_txt.ForeColor = System.Drawing.SystemColors.Window;
-            this.cmpr_hover_colour_txt.Location = new System.Drawing.Point(2605, 406);
+            this.cmpr_hover_colour_txt.Location = new System.Drawing.Point(2605, 365);
             this.cmpr_hover_colour_txt.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_hover_colour_txt.Name = "cmpr_hover_colour_txt";
             this.cmpr_hover_colour_txt.Size = new System.Drawing.Size(141, 21);
@@ -8816,12 +8850,13 @@ namespace plt0_gui
             this.cmpr_swap2_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.cmpr_swap2_ck.ErrorImage = null;
             this.cmpr_swap2_ck.InitialImage = null;
-            this.cmpr_swap2_ck.Location = new System.Drawing.Point(1986, 554);
+            this.cmpr_swap2_ck.Location = new System.Drawing.Point(2532, 512);
             this.cmpr_swap2_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_swap2_ck.Name = "cmpr_swap2_ck";
             this.cmpr_swap2_ck.Size = new System.Drawing.Size(64, 64);
             this.cmpr_swap2_ck.TabIndex = 693;
             this.cmpr_swap2_ck.TabStop = false;
+            this.cmpr_swap2_ck.Click += new System.EventHandler(this.cmpr_swap2_Click);
             this.cmpr_swap2_ck.MouseEnter += new System.EventHandler(this.cmpr_swap2_MouseEnter);
             this.cmpr_swap2_ck.MouseLeave += new System.EventHandler(this.cmpr_swap2_MouseLeave);
             // 
@@ -8831,7 +8866,7 @@ namespace plt0_gui
             this.cmpr_swap2_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_swap2_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_swap2_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.cmpr_swap2_label.Location = new System.Drawing.Point(2055, 554);
+            this.cmpr_swap2_label.Location = new System.Drawing.Point(2601, 512);
             this.cmpr_swap2_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_swap2_label.Name = "cmpr_swap2_label";
             this.cmpr_swap2_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -8848,7 +8883,7 @@ namespace plt0_gui
             this.cmpr_hover_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.cmpr_hover_ck.ErrorImage = null;
             this.cmpr_hover_ck.InitialImage = null;
-            this.cmpr_hover_ck.Location = new System.Drawing.Point(2532, 282);
+            this.cmpr_hover_ck.Location = new System.Drawing.Point(2532, 241);
             this.cmpr_hover_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_hover_ck.Name = "cmpr_hover_ck";
             this.cmpr_hover_ck.Size = new System.Drawing.Size(64, 64);
@@ -8864,7 +8899,7 @@ namespace plt0_gui
             this.cmpr_hover_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_hover_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.cmpr_hover_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.cmpr_hover_label.Location = new System.Drawing.Point(2601, 282);
+            this.cmpr_hover_label.Location = new System.Drawing.Point(2601, 241);
             this.cmpr_hover_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_hover_label.Name = "cmpr_hover_label";
             this.cmpr_hover_label.Padding = new System.Windows.Forms.Padding(0, 22, 30, 22);
@@ -8878,16 +8913,14 @@ namespace plt0_gui
             // cmpr_palette
             // 
             this.cmpr_palette.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_palette.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.cmpr_palette.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.cmpr_palette.ErrorImage = null;
             this.cmpr_palette.InitialImage = null;
             this.cmpr_palette.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-            this.cmpr_palette.Location = new System.Drawing.Point(1986, 1016);
+            this.cmpr_palette.Location = new System.Drawing.Point(1920, 1016);
             this.cmpr_palette.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_palette.MaximumSize = new System.Drawing.Size(768, 64);
-            this.cmpr_palette.MinimumSize = new System.Drawing.Size(768, 64);
             this.cmpr_palette.Name = "cmpr_palette";
-            this.cmpr_palette.Size = new System.Drawing.Size(768, 64);
+            this.cmpr_palette.Size = new System.Drawing.Size(896, 64);
             this.cmpr_palette.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.cmpr_palette.TabIndex = 694;
             this.cmpr_palette.TabStop = false;
@@ -8955,6 +8988,39 @@ namespace plt0_gui
             this.image_ck.TabStop = false;
             this.image_ck.Visible = false;
             // 
+            // cmpr_update_preview_ck
+            // 
+            this.cmpr_update_preview_ck.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_update_preview_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.cmpr_update_preview_ck.ErrorImage = null;
+            this.cmpr_update_preview_ck.InitialImage = null;
+            this.cmpr_update_preview_ck.Location = new System.Drawing.Point(2532, 419);
+            this.cmpr_update_preview_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_update_preview_ck.Name = "cmpr_update_preview_ck";
+            this.cmpr_update_preview_ck.Size = new System.Drawing.Size(64, 64);
+            this.cmpr_update_preview_ck.TabIndex = 698;
+            this.cmpr_update_preview_ck.TabStop = false;
+            this.cmpr_update_preview_ck.Click += new System.EventHandler(this.cmpr_update_preview_Click);
+            this.cmpr_update_preview_ck.MouseEnter += new System.EventHandler(this.cmpr_update_preview_MouseEnter);
+            this.cmpr_update_preview_ck.MouseLeave += new System.EventHandler(this.cmpr_update_preview_MouseLeave);
+            // 
+            // cmpr_update_preview_label
+            // 
+            this.cmpr_update_preview_label.AutoSize = true;
+            this.cmpr_update_preview_label.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_update_preview_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.cmpr_update_preview_label.ForeColor = System.Drawing.SystemColors.Window;
+            this.cmpr_update_preview_label.Location = new System.Drawing.Point(2601, 419);
+            this.cmpr_update_preview_label.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_update_preview_label.Name = "cmpr_update_preview_label";
+            this.cmpr_update_preview_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.cmpr_update_preview_label.Size = new System.Drawing.Size(192, 64);
+            this.cmpr_update_preview_label.TabIndex = 697;
+            this.cmpr_update_preview_label.Text = "Update Preview";
+            this.cmpr_update_preview_label.Click += new System.EventHandler(this.cmpr_update_preview_Click);
+            this.cmpr_update_preview_label.MouseEnter += new System.EventHandler(this.cmpr_update_preview_MouseEnter);
+            this.cmpr_update_preview_label.MouseLeave += new System.EventHandler(this.cmpr_update_preview_MouseLeave);
+            // 
             // plt0_gui
             // 
             this.AllowDrop = true;
@@ -8963,6 +9029,8 @@ namespace plt0_gui
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(3270, 1768);
+            this.Controls.Add(this.cmpr_update_preview_ck);
+            this.Controls.Add(this.cmpr_update_preview_label);
             this.Controls.Add(this.cmpr_hover_ck);
             this.Controls.Add(this.cmpr_hover_label);
             this.Controls.Add(this.cmpr_palette);
@@ -9410,6 +9478,7 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_grid_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.image_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmpr_update_preview_ck)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -10754,7 +10823,6 @@ namespace plt0_gui
             if (cmpr_hover)
             {
                 cmpr_hover = false;
-                Organize_args();
                 hover_checkbox(cmpr_hover_ck);
                 cmpr_hover_colour.Visible = false;
                 cmpr_hover_colour_label.Visible = false;
@@ -10763,7 +10831,6 @@ namespace plt0_gui
             else
             {
                 cmpr_hover = true;
-                Organize_args();
                 selected_checkbox(cmpr_hover_ck);
                 cmpr_hover_colour.Visible = true;
                 cmpr_hover_colour_label.Visible = true;
@@ -10786,6 +10853,36 @@ namespace plt0_gui
             else
                 unchecked_checkbox(cmpr_hover_ck);
         }
+        private void cmpr_update_preview_Click(object sender, EventArgs e)
+        {
+            if (cmpr_update_preview)
+            {
+                cmpr_update_preview = false;
+                hover_checkbox(cmpr_update_preview_ck);
+            }
+            else
+            {
+                cmpr_update_preview = true;
+                selected_checkbox(cmpr_update_preview_ck);
+                Preview_Paint();
+            }
+        }
+        private void cmpr_update_preview_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[94]);
+            if (cmpr_update_preview)
+                selected_checkbox(cmpr_update_preview_ck);
+            else
+                hover_checkbox(cmpr_update_preview_ck);
+        }
+        private void cmpr_update_preview_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (cmpr_update_preview)
+                checked_checkbox(cmpr_update_preview_ck);
+            else
+                unchecked_checkbox(cmpr_update_preview_ck);
+        }
         private void I4_Click(object sender, EventArgs e)
         {
             unchecked_encoding(encoding_ck[encoding]);
@@ -10799,7 +10896,7 @@ namespace plt0_gui
         }
         private void I4_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[94]);
+            Parse_Markdown(lines[95]);
             if (encoding == 0)
                 selected_encoding(i4_ck);
             else
@@ -10826,7 +10923,7 @@ namespace plt0_gui
         }
         private void I8_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[95]);
+            Parse_Markdown(lines[96]);
             if (encoding == 1)
                 selected_encoding(i8_ck);
             else
@@ -10853,7 +10950,7 @@ namespace plt0_gui
         }
         private void AI4_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[96]);
+            Parse_Markdown(lines[97]);
             if (encoding == 2)
                 selected_encoding(ai4_ck);
             else
@@ -10880,7 +10977,7 @@ namespace plt0_gui
         }
         private void AI8_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[97]);
+            Parse_Markdown(lines[98]);
             if (encoding == 3)
                 selected_encoding(ai8_ck);
             else
@@ -10907,7 +11004,7 @@ namespace plt0_gui
         }
         private void RGB565_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[98]);
+            Parse_Markdown(lines[99]);
             if (encoding == 4)
                 selected_encoding(rgb565_ck);
             else
@@ -10934,7 +11031,7 @@ namespace plt0_gui
         }
         private void RGB5A3_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[99]);
+            Parse_Markdown(lines[100]);
             if (encoding == 5)
                 selected_encoding(rgb5a3_ck);
             else
@@ -10961,7 +11058,7 @@ namespace plt0_gui
         }
         private void RGBA32_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[100]);
+            Parse_Markdown(lines[101]);
             if (encoding == 6)
                 selected_encoding(rgba32_ck);
             else
@@ -10988,7 +11085,7 @@ namespace plt0_gui
         }
         private void CI4_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[101]);
+            Parse_Markdown(lines[102]);
             if (encoding == 8)
                 selected_encoding(ci4_ck);
             else
@@ -11015,7 +11112,7 @@ namespace plt0_gui
         }
         private void CI8_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[102]);
+            Parse_Markdown(lines[103]);
             if (encoding == 9)
                 selected_encoding(ci8_ck);
             else
@@ -11042,7 +11139,7 @@ namespace plt0_gui
         }
         private void CI14X2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[103]);
+            Parse_Markdown(lines[104]);
             if (encoding == 10)
                 selected_encoding(ci14x2_ck);
             else
@@ -11068,7 +11165,7 @@ namespace plt0_gui
         }
         private void CMPR_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[104]);
+            Parse_Markdown(lines[105]);
             if (encoding == 14)
                 selected_encoding(cmpr_ck);
             else
@@ -11093,7 +11190,7 @@ namespace plt0_gui
         }
         private void Cie_601_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[105]);
+            Parse_Markdown(lines[106]);
             if (algorithm == 0)
                 selected_algorithm(cie_601_ck);
             else
@@ -11118,7 +11215,7 @@ namespace plt0_gui
         }
         private void Cie_709_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[106]);
+            Parse_Markdown(lines[107]);
             if (algorithm == 1)
                 selected_algorithm(cie_709_ck);
             else
@@ -11144,7 +11241,7 @@ namespace plt0_gui
         }
         private void Custom_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[107]);
+            Parse_Markdown(lines[108]);
             if (algorithm == 2)
                 selected_algorithm(custom_ck);
             else
@@ -11170,7 +11267,7 @@ namespace plt0_gui
         }
         private void No_gradient_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[108]);
+            Parse_Markdown(lines[109]);
             if (algorithm == 3)
                 selected_algorithm(no_gradient_ck);
             else
@@ -11194,7 +11291,7 @@ namespace plt0_gui
         }
         private void No_alpha_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[109]);
+            Parse_Markdown(lines[110]);
             if (alpha == 0)
                 selected_alpha(no_alpha_ck);
             else
@@ -11218,7 +11315,7 @@ namespace plt0_gui
         }
         private void Alpha_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[110]);
+            Parse_Markdown(lines[111]);
             if (alpha == 1)
                 selected_alpha(alpha_ck);
             else
@@ -11242,7 +11339,7 @@ namespace plt0_gui
         }
         private void Mix_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[111]);
+            Parse_Markdown(lines[112]);
             if (alpha == 2)
                 selected_alpha(mix_ck);
             else
@@ -11265,7 +11362,7 @@ namespace plt0_gui
         }
         private void WrapS_Clamp_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[112]);
+            Parse_Markdown(lines[113]);
             if (WrapS == 0)
                 selected_WrapS(Sclamp_ck);
             else
@@ -11288,7 +11385,7 @@ namespace plt0_gui
         }
         private void WrapS_Repeat_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[113]);
+            Parse_Markdown(lines[114]);
             if (WrapS == 1)
                 selected_WrapS(Srepeat_ck);
             else
@@ -11311,7 +11408,7 @@ namespace plt0_gui
         }
         private void WrapS_Mirror_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[114]);
+            Parse_Markdown(lines[115]);
             if (WrapS == 2)
                 selected_WrapS(Smirror_ck);
             else
@@ -11334,7 +11431,7 @@ namespace plt0_gui
         }
         private void WrapT_Clamp_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[115]);
+            Parse_Markdown(lines[116]);
             if (WrapT == 0)
                 selected_WrapT(Tclamp_ck);
             else
@@ -11357,7 +11454,7 @@ namespace plt0_gui
         }
         private void WrapT_Repeat_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[116]);
+            Parse_Markdown(lines[117]);
             if (WrapT == 1)
                 selected_WrapT(Trepeat_ck);
             else
@@ -11380,7 +11477,7 @@ namespace plt0_gui
         }
         private void WrapT_Mirror_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[117]);
+            Parse_Markdown(lines[118]);
             if (WrapT == 2)
                 selected_WrapT(Tmirror_ck);
             else
@@ -11403,7 +11500,7 @@ namespace plt0_gui
         }
         private void Minification_Nearest_Neighbour_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[118]);
+            Parse_Markdown(lines[119]);
             if (minification_filter == 0)
                 selected_Minification(min_nearest_neighbour_ck);
             else
@@ -11426,7 +11523,7 @@ namespace plt0_gui
         }
         private void Minification_Linear_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[119]);
+            Parse_Markdown(lines[120]);
             if (minification_filter == 1)
                 selected_Minification(min_linear_ck);
             else
@@ -11449,7 +11546,7 @@ namespace plt0_gui
         }
         private void Minification_NearestMipmapNearest_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[120]);
+            Parse_Markdown(lines[121]);
             if (minification_filter == 2)
                 selected_Minification(min_nearestmipmapnearest_ck);
             else
@@ -11472,7 +11569,7 @@ namespace plt0_gui
         }
         private void Minification_NearestMipmapLinear_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[121]);
+            Parse_Markdown(lines[122]);
             if (minification_filter == 3)
                 selected_Minification(min_nearestmipmaplinear_ck);
             else
@@ -11495,7 +11592,7 @@ namespace plt0_gui
         }
         private void Minification_LinearMipmapNearest_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[122]);
+            Parse_Markdown(lines[123]);
             if (minification_filter == 4)
                 selected_Minification(min_linearmipmapnearest_ck);
             else
@@ -11518,7 +11615,7 @@ namespace plt0_gui
         }
         private void Minification_LinearMipmapLinear_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[123]);
+            Parse_Markdown(lines[124]);
             if (minification_filter == 5)
                 selected_Minification(min_linearmipmaplinear_ck);
             else
@@ -11541,7 +11638,7 @@ namespace plt0_gui
         }
         private void Magnification_Nearest_Neighbour_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[124]);
+            Parse_Markdown(lines[125]);
             if (magnification_filter == 0)
                 selected_Magnification(mag_nearest_neighbour_ck);
             else
@@ -11564,7 +11661,7 @@ namespace plt0_gui
         }
         private void Magnification_Linear_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[125]);
+            Parse_Markdown(lines[126]);
             if (magnification_filter == 1)
                 selected_Magnification(mag_linear_ck);
             else
@@ -11587,7 +11684,7 @@ namespace plt0_gui
         }
         private void Magnification_NearestMipmapNearest_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[126]);
+            Parse_Markdown(lines[127]);
             if (magnification_filter == 2)
                 selected_Magnification(mag_nearestmipmapnearest_ck);
             else
@@ -11610,7 +11707,7 @@ namespace plt0_gui
         }
         private void Magnification_NearestMipmapLinear_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[127]);
+            Parse_Markdown(lines[128]);
             if (magnification_filter == 3)
                 selected_Magnification(mag_nearestmipmaplinear_ck);
             else
@@ -11633,7 +11730,7 @@ namespace plt0_gui
         }
         private void Magnification_LinearMipmapNearest_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[128]);
+            Parse_Markdown(lines[129]);
             if (magnification_filter == 4)
                 selected_Magnification(mag_linearmipmapnearest_ck);
             else
@@ -11656,7 +11753,7 @@ namespace plt0_gui
         }
         private void Magnification_LinearMipmapLinear_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[129]);
+            Parse_Markdown(lines[130]);
             if (magnification_filter == 5)
                 selected_Magnification(mag_linearmipmaplinear_ck);
             else
@@ -11694,7 +11791,7 @@ namespace plt0_gui
         }
         private void R_R_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[130]);
+            Parse_Markdown(lines[131]);
             if (r == 0)
                 selected_R(r_r_ck);
             else
@@ -11732,7 +11829,7 @@ namespace plt0_gui
         }
         private void R_G_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[130]);
+            Parse_Markdown(lines[131]);
             if (r == 1)
                 selected_G(r_g_ck);
             else
@@ -11770,7 +11867,7 @@ namespace plt0_gui
         }
         private void R_B_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[130]);
+            Parse_Markdown(lines[131]);
             if (r == 2)
                 selected_B(r_b_ck);
             else
@@ -11808,7 +11905,7 @@ namespace plt0_gui
         }
         private void R_A_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[130]);
+            Parse_Markdown(lines[131]);
             if (r == 3)
                 selected_A(r_a_ck);
             else
@@ -11846,7 +11943,7 @@ namespace plt0_gui
         }
         private void G_R_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[131]);
+            Parse_Markdown(lines[132]);
             if (g == 0)
                 selected_R(g_r_ck);
             else
@@ -11884,7 +11981,7 @@ namespace plt0_gui
         }
         private void G_G_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[131]);
+            Parse_Markdown(lines[132]);
             if (g == 1)
                 selected_G(g_g_ck);
             else
@@ -11922,7 +12019,7 @@ namespace plt0_gui
         }
         private void G_B_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[131]);
+            Parse_Markdown(lines[132]);
             if (g == 2)
                 selected_B(g_b_ck);
             else
@@ -11960,7 +12057,7 @@ namespace plt0_gui
         }
         private void G_A_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[131]);
+            Parse_Markdown(lines[132]);
             if (g == 3)
                 selected_A(g_a_ck);
             else
@@ -11998,7 +12095,7 @@ namespace plt0_gui
         }
         private void B_R_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[132]);
+            Parse_Markdown(lines[133]);
             if (b == 0)
                 selected_R(b_r_ck);
             else
@@ -12036,7 +12133,7 @@ namespace plt0_gui
         }
         private void B_G_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[132]);
+            Parse_Markdown(lines[133]);
             if (b == 1)
                 selected_G(b_g_ck);
             else
@@ -12074,7 +12171,7 @@ namespace plt0_gui
         }
         private void B_B_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[132]);
+            Parse_Markdown(lines[133]);
             if (b == 2)
                 selected_B(b_b_ck);
             else
@@ -12112,7 +12209,7 @@ namespace plt0_gui
         }
         private void B_A_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[132]);
+            Parse_Markdown(lines[133]);
             if (b == 3)
                 selected_A(b_a_ck);
             else
@@ -12150,7 +12247,7 @@ namespace plt0_gui
         }
         private void A_R_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[133]);
+            Parse_Markdown(lines[134]);
             if (a == 0)
                 selected_R(a_r_ck);
             else
@@ -12188,7 +12285,7 @@ namespace plt0_gui
         }
         private void A_G_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[133]);
+            Parse_Markdown(lines[134]);
             if (a == 1)
                 selected_G(a_g_ck);
             else
@@ -12226,7 +12323,7 @@ namespace plt0_gui
         }
         private void A_B_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[133]);
+            Parse_Markdown(lines[134]);
             if (a == 2)
                 selected_B(a_b_ck);
             else
@@ -12264,7 +12361,7 @@ namespace plt0_gui
         }
         private void A_A_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[133]);
+            Parse_Markdown(lines[134]);
             if (a == 3)
                 selected_A(a_a_ck);
             else
@@ -12300,7 +12397,7 @@ namespace plt0_gui
         }
         private void All_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[134]);
+            Parse_Markdown(lines[135]);
             if (layout == 0)
                 selected_All();
             else
@@ -12352,7 +12449,7 @@ namespace plt0_gui
         }
         private void Auto_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[135]);
+            Parse_Markdown(lines[136]);
             if (layout == 1)
                 selected_Auto();
             else
@@ -12404,7 +12501,7 @@ namespace plt0_gui
         }
         private void Preview_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[136]);
+            Parse_Markdown(lines[137]);
             if (layout == 2)
                 selected_Preview();
             else
@@ -12456,7 +12553,7 @@ namespace plt0_gui
         }
         private void Paint_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[137]);
+            Parse_Markdown(lines[138]);
             if (layout == 3)
                 selected_Paint();
             else
@@ -12492,7 +12589,7 @@ namespace plt0_gui
         }
         private void Minimized_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[138]);
+            Parse_Markdown(lines[139]);
             banner_minus_ck.BackgroundImage = minimized_hover;
         }
         private void Minimized_MouseLeave(object sender, EventArgs e)
@@ -12515,7 +12612,7 @@ namespace plt0_gui
         }
         private void Maximized_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[139]);
+            Parse_Markdown(lines[140]);
             if (this.WindowState == FormWindowState.Maximized)
                 banner_5_ck.BackgroundImage = maximized_selected;
             else
@@ -12535,7 +12632,7 @@ namespace plt0_gui
         }
         private void Close_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[140]);
+            Parse_Markdown(lines[141]);
             banner_x_ck.BackgroundImage = close_hover;
         }
         private void Close_MouseLeave(object sender, EventArgs e)
@@ -12577,7 +12674,7 @@ namespace plt0_gui
         }
         private void Left_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[141]);
+            Parse_Markdown(lines[142]);
             if (arrow == 4)
                 selected_Left();
             else
@@ -12641,7 +12738,7 @@ namespace plt0_gui
         }
         private void Top_left_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[142]);
+            Parse_Markdown(lines[143]);
             if (arrow == 7)
                 selected_Top_left();
             else
@@ -12705,7 +12802,7 @@ namespace plt0_gui
         }
         private void Top_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[143]);
+            Parse_Markdown(lines[144]);
             if (arrow == 8)
                 selected_Top();
             else
@@ -12769,7 +12866,7 @@ namespace plt0_gui
         }
         private void Top_right_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[144]);
+            Parse_Markdown(lines[145]);
             if (arrow == 9)
                 selected_Top_right();
             else
@@ -12833,7 +12930,7 @@ namespace plt0_gui
         }
         private void Right_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[145]);
+            Parse_Markdown(lines[146]);
             if (arrow == 6)
                 selected_Right();
             else
@@ -12897,7 +12994,7 @@ namespace plt0_gui
         }
         private void Bottom_right_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[146]);
+            Parse_Markdown(lines[147]);
             if (arrow == 3)
                 selected_Bottom_right();
             else
@@ -12961,7 +13058,7 @@ namespace plt0_gui
         }
         private void Bottom_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[147]);
+            Parse_Markdown(lines[148]);
             if (arrow == 2)
                 selected_Bottom();
             else
@@ -13025,7 +13122,7 @@ namespace plt0_gui
         }
         private void Bottom_left_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[148]);
+            Parse_Markdown(lines[149]);
             if (arrow == 1)
                 selected_Bottom_left();
             else
@@ -13090,7 +13187,7 @@ namespace plt0_gui
         }
         private void input_file_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[149]);
+            Parse_Markdown(lines[150]);
         }
         private void input_file_MouseLeave(object sender, EventArgs e)
         {
@@ -13106,7 +13203,7 @@ namespace plt0_gui
         }
         private void input_file2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[150]);
+            Parse_Markdown(lines[151]);
         }
         private void input_file2_MouseLeave(object sender, EventArgs e)
         {
@@ -13121,7 +13218,7 @@ namespace plt0_gui
         }
         private void output_name_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[151]);
+            Parse_Markdown(lines[152]);
         }
         private void output_name_MouseLeave(object sender, EventArgs e)
         {
@@ -13136,7 +13233,7 @@ namespace plt0_gui
         }
         private void mipmaps_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[152]);
+            Parse_Markdown(lines[153]);
         }
         private void mipmaps_MouseLeave(object sender, EventArgs e)
         {
@@ -13151,7 +13248,7 @@ namespace plt0_gui
         }
         private void cmpr_max_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[153]);
+            Parse_Markdown(lines[154]);
         }
         private void cmpr_max_MouseLeave(object sender, EventArgs e)
         {
@@ -13165,7 +13262,7 @@ namespace plt0_gui
         }
         private void cmpr_min_alpha_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[154]);
+            Parse_Markdown(lines[155]);
         }
         private void cmpr_min_alpha_MouseLeave(object sender, EventArgs e)
         {
@@ -13179,7 +13276,7 @@ namespace plt0_gui
         }
         private void num_colours_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[155]);
+            Parse_Markdown(lines[156]);
         }
         private void num_colours_MouseLeave(object sender, EventArgs e)
         {
@@ -13193,7 +13290,7 @@ namespace plt0_gui
         }
         private void round3_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[156]);
+            Parse_Markdown(lines[157]);
         }
         private void round3_MouseLeave(object sender, EventArgs e)
         {
@@ -13207,7 +13304,7 @@ namespace plt0_gui
         }
         private void round4_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[157]);
+            Parse_Markdown(lines[158]);
         }
         private void round4_MouseLeave(object sender, EventArgs e)
         {
@@ -13221,7 +13318,7 @@ namespace plt0_gui
         }
         private void round5_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[158]);
+            Parse_Markdown(lines[159]);
         }
         private void round5_MouseLeave(object sender, EventArgs e)
         {
@@ -13235,7 +13332,7 @@ namespace plt0_gui
         }
         private void round6_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[159]);
+            Parse_Markdown(lines[160]);
         }
         private void round6_MouseLeave(object sender, EventArgs e)
         {
@@ -13249,7 +13346,7 @@ namespace plt0_gui
         }
         private void diversity_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[160]);
+            Parse_Markdown(lines[161]);
         }
         private void diversity_MouseLeave(object sender, EventArgs e)
         {
@@ -13263,7 +13360,7 @@ namespace plt0_gui
         }
         private void diversity2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[161]);
+            Parse_Markdown(lines[162]);
         }
         private void diversity2_MouseLeave(object sender, EventArgs e)
         {
@@ -13277,7 +13374,7 @@ namespace plt0_gui
         }
         private void percentage_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[162]);
+            Parse_Markdown(lines[163]);
         }
         private void percentage_MouseLeave(object sender, EventArgs e)
         {
@@ -13291,7 +13388,7 @@ namespace plt0_gui
         }
         private void percentage2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[163]);
+            Parse_Markdown(lines[164]);
         }
         private void percentage2_MouseLeave(object sender, EventArgs e)
         {
@@ -13305,7 +13402,7 @@ namespace plt0_gui
         }
         private void custom_r_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[164]);
+            Parse_Markdown(lines[165]);
         }
         private void custom_r_MouseLeave(object sender, EventArgs e)
         {
@@ -13319,7 +13416,7 @@ namespace plt0_gui
         }
         private void custom_g_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[165]);
+            Parse_Markdown(lines[166]);
         }
         private void custom_g_MouseLeave(object sender, EventArgs e)
         {
@@ -13333,7 +13430,7 @@ namespace plt0_gui
         }
         private void custom_b_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[166]);
+            Parse_Markdown(lines[167]);
         }
         private void custom_b_MouseLeave(object sender, EventArgs e)
         {
@@ -13347,7 +13444,7 @@ namespace plt0_gui
         }
         private void custom_a_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[167]);
+            Parse_Markdown(lines[168]);
         }
         private void custom_a_MouseLeave(object sender, EventArgs e)
         {
@@ -13371,7 +13468,7 @@ namespace plt0_gui
         }
         private void palette_AI8_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[168]);
+            Parse_Markdown(lines[169]);
             if (palette_enc == 0)
                 selected_palette(palette_ai8_ck);
             else
@@ -13397,7 +13494,7 @@ namespace plt0_gui
         }
         private void palette_RGB565_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[169]);
+            Parse_Markdown(lines[170]);
             if (palette_enc == 1)
                 selected_palette(palette_rgb565_ck);
             else
@@ -13423,7 +13520,7 @@ namespace plt0_gui
         }
         private void palette_RGB5A3_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[170]);
+            Parse_Markdown(lines[171]);
             if (palette_enc == 2)
                 selected_palette(palette_rgb5a3_ck);
             else
@@ -13444,7 +13541,7 @@ namespace plt0_gui
         }
         private void discord_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[171]);
+            Parse_Markdown(lines[172]);
             discord_ck.BackgroundImage = discord_hover;
         }
         private void discord_MouseLeave(object sender, EventArgs e)
@@ -13459,7 +13556,7 @@ namespace plt0_gui
         }
         private void github_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[172]);
+            Parse_Markdown(lines[173]);
             github_ck.BackgroundImage = github_hover;
         }
         private void github_MouseLeave(object sender, EventArgs e)
@@ -13474,7 +13571,7 @@ namespace plt0_gui
         }
         private void youtube_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[173]);
+            Parse_Markdown(lines[174]);
             youtube_ck.BackgroundImage = youtube_hover;
         }
         private void youtube_MouseLeave(object sender, EventArgs e)
@@ -13497,7 +13594,7 @@ namespace plt0_gui
         }
         private void view_alpha_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[174]);
+            Parse_Markdown(lines[175]);
             if (view_alpha)
                 Category_selected(view_alpha_ck);
             else
@@ -13526,7 +13623,7 @@ namespace plt0_gui
         }
         private void view_algorithm_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[175]);
+            Parse_Markdown(lines[176]);
             if (view_algorithm)
                 Category_selected(view_algorithm_ck);
             else
@@ -13555,7 +13652,7 @@ namespace plt0_gui
         }
         private void view_WrapS_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[176]);
+            Parse_Markdown(lines[177]);
             if (view_WrapS)
                 Category_selected(view_WrapS_ck);
             else
@@ -13584,7 +13681,7 @@ namespace plt0_gui
         }
         private void view_WrapT_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[177]);
+            Parse_Markdown(lines[178]);
             if (view_WrapT)
                 Category_selected(view_WrapT_ck);
             else
@@ -13613,7 +13710,7 @@ namespace plt0_gui
         }
         private void view_min_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[178]);
+            Parse_Markdown(lines[179]);
             if (view_min)
                 Category_selected(view_min_ck);
             else
@@ -13642,7 +13739,7 @@ namespace plt0_gui
         }
         private void view_mag_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[179]);
+            Parse_Markdown(lines[180]);
             if (view_mag)
                 Category_selected(view_mag_ck);
             else
@@ -13671,7 +13768,7 @@ namespace plt0_gui
         }
         private void view_rgba_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[180]);
+            Parse_Markdown(lines[181]);
             if (view_rgba)
                 Category_selected(view_rgba_ck);
             else
@@ -13700,7 +13797,7 @@ namespace plt0_gui
         }
         private void view_palette_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[181]);
+            Parse_Markdown(lines[182]);
             if (view_palette)
                 Category_selected(view_palette_ck);
             else
@@ -13729,7 +13826,7 @@ namespace plt0_gui
         }
         private void view_cmpr_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[182]);
+            Parse_Markdown(lines[183]);
             if (view_cmpr)
                 Category_selected(view_cmpr_ck);
             else
@@ -13758,7 +13855,7 @@ namespace plt0_gui
         }
         private void view_options_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[183]);
+            Parse_Markdown(lines[184]);
             if (view_options)
                 Category_selected(view_options_ck);
             else
@@ -13774,7 +13871,7 @@ namespace plt0_gui
         }
         private void version_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[184]);
+            Parse_Markdown(lines[185]);
             version_ck.BackgroundImage = version_hover;
         }
         private void version_MouseLeave(object sender, EventArgs e)
@@ -13784,7 +13881,7 @@ namespace plt0_gui
         }
         private void cli_textbox_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[185]);
+            Parse_Markdown(lines[186]);
             cli_textbox_ck.BackgroundImage = cli_textbox_hover;
             this.cli_textbox_label.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(4)))), ((int)(((byte)(0)))));
         }
@@ -13796,7 +13893,7 @@ namespace plt0_gui
         }
         private void run_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[186]);
+            Parse_Markdown(lines[187]);
             run_ck.BackgroundImage = run_hover;
         }
         private void run_MouseLeave(object sender, EventArgs e)
@@ -13806,7 +13903,7 @@ namespace plt0_gui
         }
         private void Output_label_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[187]);
+            Parse_Markdown(lines[188]);
         }
         private void Output_label_MouseLeave(object sender, EventArgs e)
         {
@@ -13814,7 +13911,7 @@ namespace plt0_gui
         }
         private void banner_move_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[188]);
+            Parse_Markdown(lines[189]);
         }
         private void banner_move_MouseLeave(object sender, EventArgs e)
         {
@@ -13822,7 +13919,7 @@ namespace plt0_gui
         }
         private void banner_resize_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[189]);
+            Parse_Markdown(lines[190]);
         }
         private void banner_resize_MouseLeave(object sender, EventArgs e)
         {
@@ -13830,7 +13927,7 @@ namespace plt0_gui
         }
         private void sync_preview_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[190]);
+            Parse_Markdown(lines[191]);
             if (!preview_changed)
                 sync_preview_ck.BackgroundImage = sync_preview_hover;
             else
@@ -13846,7 +13943,7 @@ namespace plt0_gui
         }
         private void cmpr_save_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[191]);
+            Parse_Markdown(lines[192]);
             cmpr_save_ck.BackgroundImage = cmpr_save_hover;
         }
         private void cmpr_save_MouseLeave(object sender, EventArgs e)
@@ -13856,7 +13953,7 @@ namespace plt0_gui
         }
         private void cmpr_save_as_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[192]);
+            Parse_Markdown(lines[193]);
             cmpr_save_as_ck.BackgroundImage = cmpr_save_as_hover;
         }
         private void cmpr_save_as_MouseLeave(object sender, EventArgs e)
@@ -13866,7 +13963,7 @@ namespace plt0_gui
         }
         private void cmpr_swap_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[193]);
+            Parse_Markdown(lines[194]);
             cmpr_swap_ck.BackgroundImage = cmpr_swap_hover;
         }
         private void cmpr_swap_MouseLeave(object sender, EventArgs e)
@@ -13876,7 +13973,7 @@ namespace plt0_gui
         }
         private void cmpr_swap2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[194]);
+            Parse_Markdown(lines[195]);
             cmpr_swap2_ck.BackgroundImage = cmpr_swap2_hover;
         }
         private void cmpr_swap2_MouseLeave(object sender, EventArgs e)
@@ -13886,7 +13983,7 @@ namespace plt0_gui
         }
         private void cmpr_palette_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[195]);
+            Parse_Markdown(lines[196]);
         }
         private void cmpr_palette_MouseLeave(object sender, EventArgs e)
         {
@@ -13894,7 +13991,7 @@ namespace plt0_gui
         }
         private void cmpr_mouse1_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[196]);
+            Parse_Markdown(lines[197]);
         }
         private void cmpr_mouse1_MouseLeave(object sender, EventArgs e)
         {
@@ -13902,7 +13999,7 @@ namespace plt0_gui
         }
         private void cmpr_mouse2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[197]);
+            Parse_Markdown(lines[198]);
         }
         private void cmpr_mouse2_MouseLeave(object sender, EventArgs e)
         {
@@ -13910,7 +14007,7 @@ namespace plt0_gui
         }
         private void cmpr_mouse3_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[198]);
+            Parse_Markdown(lines[199]);
         }
         private void cmpr_mouse3_MouseLeave(object sender, EventArgs e)
         {
@@ -13918,7 +14015,7 @@ namespace plt0_gui
         }
         private void cmpr_mouse4_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[199]);
+            Parse_Markdown(lines[200]);
         }
         private void cmpr_mouse4_MouseLeave(object sender, EventArgs e)
         {
@@ -13926,7 +14023,7 @@ namespace plt0_gui
         }
         private void cmpr_mouse5_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[200]);
+            Parse_Markdown(lines[201]);
         }
         private void cmpr_mouse5_MouseLeave(object sender, EventArgs e)
         {
@@ -13934,7 +14031,7 @@ namespace plt0_gui
         }
         private void cmpr_sel_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[201]);
+            Parse_Markdown(lines[202]);
         }
         private void cmpr_sel_MouseLeave(object sender, EventArgs e)
         {
@@ -13942,7 +14039,7 @@ namespace plt0_gui
         }
         private void cmpr_c1_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[202]);
+            Parse_Markdown(lines[203]);
         }
         private void cmpr_c1_MouseLeave(object sender, EventArgs e)
         {
@@ -13950,7 +14047,7 @@ namespace plt0_gui
         }
         private void cmpr_c2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[203]);
+            Parse_Markdown(lines[204]);
         }
         private void cmpr_c2_MouseLeave(object sender, EventArgs e)
         {
@@ -13958,7 +14055,7 @@ namespace plt0_gui
         }
         private void cmpr_c3_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[204]);
+            Parse_Markdown(lines[205]);
         }
         private void cmpr_c3_MouseLeave(object sender, EventArgs e)
         {
@@ -13966,7 +14063,7 @@ namespace plt0_gui
         }
         private void cmpr_c4_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[205]);
+            Parse_Markdown(lines[206]);
         }
         private void cmpr_c4_MouseLeave(object sender, EventArgs e)
         {
@@ -14121,7 +14218,7 @@ namespace plt0_gui
         }
         private void cmpr_block_selection_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[206]);
+            Parse_Markdown(lines[207]);
             if (tooltip == 0)
                 selected_tooltip(cmpr_block_selection_ck);
             else
@@ -14143,7 +14240,7 @@ namespace plt0_gui
         }
         private void cmpr_block_paint_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[207]);
+            Parse_Markdown(lines[208]);
             if (tooltip == 1)
                 selected_tooltip(cmpr_block_paint_ck);
             else
@@ -14159,16 +14256,16 @@ namespace plt0_gui
         }
         private void Warn_rgb565_colour_trim()
         {
-            Parse_Markdown(lines[208], cmpr_warning);
+            Parse_Markdown(lines[209], cmpr_warning);
         }
         private void Put_that_damn_cmpr_layout_in_place()
         {
             Check_Paint();
-            Parse_Markdown(lines[209], cmpr_mouse1_label);
-            Parse_Markdown(lines[210], cmpr_mouse2_label);
-            Parse_Markdown(lines[211], cmpr_mouse3_label);
-            Parse_Markdown(lines[212], cmpr_mouse4_label);
-            Parse_Markdown(lines[213], cmpr_mouse5_label);
+            Parse_Markdown(lines[210], cmpr_mouse1_label);
+            Parse_Markdown(lines[211], cmpr_mouse2_label);
+            Parse_Markdown(lines[212], cmpr_mouse3_label);
+            Parse_Markdown(lines[213], cmpr_mouse4_label);
+            Parse_Markdown(lines[214], cmpr_mouse5_label);
             checked_tooltip(cmpr_block_selection_ck);
             unchecked_tooltip(cmpr_block_paint_ck);
         }
@@ -14201,7 +14298,7 @@ namespace plt0_gui
                 cli.Parse_args(cmpr_args);
                 if (cli.texture_format != 0xE)
                 {
-                    Parse_Markdown(lines[214], cmpr_warning);
+                    Parse_Markdown(lines[215], cmpr_warning);
                     return;
                 }
                 if (File.Exists(execPath + "images/preview/" + num + ".bmp"))
@@ -14238,7 +14335,7 @@ namespace plt0_gui
             }
             else
             {
-                Parse_Markdown(lines[214], cmpr_warning);
+                Parse_Markdown(lines[215], cmpr_warning);
             }
         }
         private void cmpr_c2_TextChanged(object sender, EventArgs e)
@@ -14297,7 +14394,7 @@ namespace plt0_gui
         }
         private void sync_preview_Click(object sender, EventArgs e)
         {
-            Preview(false);
+            Preview(false, true);
         }
         private void Get_Pixel_Colour(MouseButtons e)
         {
@@ -14327,7 +14424,7 @@ namespace plt0_gui
         {
             if (cmpr_colour > 2)
             {
-                Parse_Markdown(lines[215], cmpr_warning);
+                Parse_Markdown(lines[216], cmpr_warning);
             }
             cmpr_index_i = (byte)((cmpr_file[cmpr_data_start_offset + (current_block << 3) + 4 + cmpr_y] >> (6 - (cmpr_x << 1))) & 3);
             if (cmpr_index_i < 2)
@@ -14375,7 +14472,7 @@ namespace plt0_gui
                     }
                     else
                     {
-                        Parse_Markdown(lines[216], cmpr_warning);
+                        Parse_Markdown(lines[217], cmpr_warning);
                     }
                 }
             }
@@ -14517,6 +14614,8 @@ namespace plt0_gui
                 return; // you idiot thought I would allow that!!!!!
             the_program_is_loading_a_cmpr_block = true;
             loaded_block = current_block;
+            selected_block_x = block_x;
+            selected_block_y = block_y;
             cmpr_colours_argb[7] = (byte)(cmpr_file[cmpr_data_start_offset + (current_block << 3) + 3] << 3); // blue
             cmpr_colours_argb[6] = (byte)(((cmpr_file[cmpr_data_start_offset + (current_block << 3) + 2] << 5) | (cmpr_file[cmpr_data_start_offset + (current_block << 3) + 3] >> 3)) & 0xfc);  // green
             cmpr_colours_argb[5] = (byte)(cmpr_file[cmpr_data_start_offset + (current_block << 3) + 2] & 0xf8);  // red
@@ -14537,7 +14636,7 @@ namespace plt0_gui
             cmpr_c1_txt.Text = cmpr_colours_hex.Substring(2, 6);
             cmpr_c2_txt.Text = cmpr_colours_hex.Substring(10, 6);
             the_program_is_loading_a_cmpr_block = false;
-            cmpr_preview[cmpr_preview_start_offset + (block_x << 4) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_edit_blue;
+            /* cmpr_preview[cmpr_preview_start_offset + (block_x << 4) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_edit_blue;
             cmpr_preview[cmpr_preview_start_offset + 1 + (block_x << 4) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_edit_green;
             cmpr_preview[cmpr_preview_start_offset + 2 + (block_x << 4) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_edit_red;
             cmpr_preview[cmpr_preview_start_offset + 3 + (block_x << 4) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_edit_alpha;
@@ -14600,7 +14699,118 @@ namespace plt0_gui
             cmpr_preview[cmpr_preview_start_offset + 12 - (cmpr_preview_ck.Image.Width * 12) + (block_x << 4) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_edit_blue;
             cmpr_preview[cmpr_preview_start_offset + 13 - (cmpr_preview_ck.Image.Width * 12) + (block_x << 4) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_edit_green;
             cmpr_preview[cmpr_preview_start_offset + 14 - (cmpr_preview_ck.Image.Width * 12) + (block_x << 4) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_edit_red;
-            cmpr_preview[cmpr_preview_start_offset + 15 - (cmpr_preview_ck.Image.Width * 12) + (block_x << 4) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_edit_alpha;
+            cmpr_preview[cmpr_preview_start_offset + 15 - (cmpr_preview_ck.Image.Width * 12) + (block_x << 4) - ((block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_edit_alpha; */
+        }
+        private void Preview_Paint()
+        {
+            if (!cmpr_update_preview)
+                return;
+            cmpr_preview_vanilla[cmpr_preview_start_offset + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[0] << 2) + 3];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 1 + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[0] << 2) + 2];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 2 + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[0] << 2) + 1];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 3 + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[0] << 2)];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 4 + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[1] << 2) + 3];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 5 + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[1] << 2) + 2];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 6 + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[1] << 2) + 1];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 7 + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[1] << 2)];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 8 + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[2] << 2) + 3];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 9 + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[2] << 2) + 2];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 10 + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[2] << 2) + 1];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 11 + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[2] << 2)];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 12 + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[3] << 2) + 3];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 13 + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[3] << 2) + 2];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 14 + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[3] << 2) + 1];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 15 + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[3] << 2)];
+            cmpr_preview_vanilla[cmpr_preview_start_offset - (cmpr_preview_ck.Image.Width << 2) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[4] << 2) + 3];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 1 - (cmpr_preview_ck.Image.Width << 2) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[4] << 2) + 2];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 2 - (cmpr_preview_ck.Image.Width << 2) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[4] << 2) + 1];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 3 - (cmpr_preview_ck.Image.Width << 2) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[4] << 2)];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 4 - (cmpr_preview_ck.Image.Width << 2) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[5] << 2) + 3];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 5 - (cmpr_preview_ck.Image.Width << 2) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[5] << 2) + 2];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 6 - (cmpr_preview_ck.Image.Width << 2) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[5] << 2) + 1];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 7 - (cmpr_preview_ck.Image.Width << 2) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[5] << 2)];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 8 - (cmpr_preview_ck.Image.Width << 2) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[6] << 2) + 3];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 9 - (cmpr_preview_ck.Image.Width << 2) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[6] << 2) + 2];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 10 - (cmpr_preview_ck.Image.Width << 2) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[6] << 2) + 1];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 11 - (cmpr_preview_ck.Image.Width << 2) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[6] << 2)];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 12 - (cmpr_preview_ck.Image.Width << 2) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[7] << 2) + 3];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 13 - (cmpr_preview_ck.Image.Width << 2) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[7] << 2) + 2];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 14 - (cmpr_preview_ck.Image.Width << 2) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[7] << 2) + 1];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 15 - (cmpr_preview_ck.Image.Width << 2) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[7] << 2)];
+            cmpr_preview_vanilla[cmpr_preview_start_offset - (cmpr_preview_ck.Image.Width << 3) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[8] << 2) + 3];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 1 - (cmpr_preview_ck.Image.Width << 3) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[8] << 2) + 2];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 2 - (cmpr_preview_ck.Image.Width << 3) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[8] << 2) + 1];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 3 - (cmpr_preview_ck.Image.Width << 3) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[8] << 2)];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 4 - (cmpr_preview_ck.Image.Width << 3) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[9] << 2) + 3];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 5 - (cmpr_preview_ck.Image.Width << 3) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[9] << 2) + 2];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 6 - (cmpr_preview_ck.Image.Width << 3) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[9] << 2) + 1];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 7 - (cmpr_preview_ck.Image.Width << 3) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[9] << 2)];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 8 - (cmpr_preview_ck.Image.Width << 3) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[10] << 2) + 3];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 9 - (cmpr_preview_ck.Image.Width << 3) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[10] << 2) + 2];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 10 - (cmpr_preview_ck.Image.Width << 3) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[10] << 2) + 1];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 11 - (cmpr_preview_ck.Image.Width << 3) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[10] << 2)];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 12 - (cmpr_preview_ck.Image.Width << 3) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[11] << 2) + 3];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 13 - (cmpr_preview_ck.Image.Width << 3) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[11] << 2) + 2];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 14 - (cmpr_preview_ck.Image.Width << 3) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[11] << 2) + 1];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 15 - (cmpr_preview_ck.Image.Width << 3) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[11] << 2)];
+            cmpr_preview_vanilla[cmpr_preview_start_offset - (cmpr_preview_ck.Image.Width * 12) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[12] << 2) + 3];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 1 - (cmpr_preview_ck.Image.Width * 12) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[12] << 2) + 2];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 2 - (cmpr_preview_ck.Image.Width * 12) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[12] << 2) + 1];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 3 - (cmpr_preview_ck.Image.Width * 12) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[12] << 2)];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 4 - (cmpr_preview_ck.Image.Width * 12) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[13] << 2) + 3];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 5 - (cmpr_preview_ck.Image.Width * 12) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[13] << 2) + 2];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 6 - (cmpr_preview_ck.Image.Width * 12) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[13] << 2) + 1];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 7 - (cmpr_preview_ck.Image.Width * 12) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[13] << 2)];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 8 - (cmpr_preview_ck.Image.Width * 12) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[14] << 2) + 3];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 9 - (cmpr_preview_ck.Image.Width * 12) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[14] << 2) + 2];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 10 - (cmpr_preview_ck.Image.Width * 12) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[14] << 2) + 1];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 11 - (cmpr_preview_ck.Image.Width * 12) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[14] << 2)];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 12 - (cmpr_preview_ck.Image.Width * 12) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[15] << 2) + 3];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 13 - (cmpr_preview_ck.Image.Width * 12) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[15] << 2) + 2];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 14 - (cmpr_preview_ck.Image.Width * 12) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[15] << 2) + 1];
+            cmpr_preview_vanilla[cmpr_preview_start_offset + 15 - (cmpr_preview_ck.Image.Width * 12) + (selected_block_x << 4) - ((selected_block_y * cmpr_preview_ck.Image.Width) << 4)] = cmpr_colours_argb[(cmpr_index[15] << 2)];
+            cmpr_preview_ck.Image = GetImageFromByteArray(cmpr_preview_vanilla);
+        }
+        private void Save_CMPR_Texture(string cmpr_filename)
+        {
+            try
+            {
+                using (FileStream fs = new FileStream(cmpr_filename, FileMode.Create))
+                {
+                    fs.Write(cmpr_file, 0, cmpr_file.Length);
+                }
+                Parse_Markdown(lines[217], description);
+            }
+            catch (Exception ex)
+            {
+                description.Text = ex.Message;
+                if (ex.Message.Substring(0, 34) == "The process cannot access the file")  // because it is being used by another process
+                {
+                    Parse_Markdown(lines[218], description);
+                }
+            }
+        }
+        private void cmpr_save_ck_Click(object sender, EventArgs e)
+        {
+            Save_CMPR_Texture(output_name);
+        }
+
+        private void cmpr_save_as_ck_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Title = "Save CMPR Texture",
+                Filter = "All files (*.*)|*.*|Texture|*.bti;*.tex0;*.tpl",
+                RestoreDirectory = true,
+                //OverwritePrompt = true,
+                //DereferenceLinks = true,
+                //ValidateNames = true
+            };
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                output_name = saveFileDialog.FileName;
+                Save_CMPR_Texture(saveFileDialog.FileName);
+            }
         }
     }
 }

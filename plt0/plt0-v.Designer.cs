@@ -308,6 +308,8 @@
         private PictureBoxWithInterpolationMode cmpr_palette;
         private System.Windows.Forms.PictureBox cmpr_hover_ck;
         private System.Windows.Forms.Label cmpr_hover_label;
+        private System.Windows.Forms.PictureBox cmpr_update_preview_ck;
+        private System.Windows.Forms.Label cmpr_update_preview_label;
         /*
 /// <summary>
 /// Required designer variable.
