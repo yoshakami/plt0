@@ -2697,6 +2697,62 @@ namespace plt0_gui
             view_WrapS_label.Visible = true;
             view_WrapT_label.Visible = true;
         }
+        private void Uncheck_arrow()
+        {
+            switch (arrow)
+            {
+                case 4:
+                    unchecked_Left();
+                    break;
+                case 7:
+                    unchecked_Top_left();
+                    break;
+                case 8:
+                    unchecked_Top();
+                    break;
+                case 9:
+                    unchecked_Top_right();
+                    break;
+                case 6:
+                    unchecked_Right();
+                    break;
+                case 3:
+                    unchecked_Bottom_right();
+                    break;
+                case 2:
+                    unchecked_Bottom();
+                    break;
+                case 1:
+                    unchecked_Bottom_left();
+                    break;
+                case 14:
+                    unchecked_Screen2_Left();
+                    break;
+                case 17:
+                    unchecked_Screen2_Top_left();
+                    break;
+                case 18:
+                    unchecked_Screen2_Top();
+                    break;
+                case 19:
+                    unchecked_Screen2_Top_right();
+                    break;
+                case 16:
+                    unchecked_Screen2_Right();
+                    break;
+                case 13:
+                    unchecked_Screen2_Bottom_right();
+                    break;
+                case 12:
+                    unchecked_Screen2_Bottom();
+                    break;
+                case 11:
+                    unchecked_Screen2_Bottom_left();
+                    break;
+                case 5:
+                    unchecked_1080p();
+            }
+        }
         private void parse_rgb565(Label lab, TextBox txt, byte j, out ushort out_colour, ushort default_colour)
         {
             success = false;
@@ -13031,25 +13087,67 @@ namespace plt0_gui
             this.Size = new Size(960, 1080);
             this.Location = new Point(960, 0);
         }
-        private void Screen2_Left_Click()
+        private void Screen2_Left_Click(object sender, EventArgs e)
         {
-            this.Location = Screen.AllScreens[1].WorkingArea.Location;
-            this.Size = new Size(1920, 1080);
-            this.Location = new Point(-99999, -99999);
+            this.Size = new Size(1920, 2160);
+            if (Screen.AllScreens.Length > 1)
+            {
+                if (Screen.AllScreens[0].Bounds.X == 0)
+                {
+                    this.Location = Screen.AllScreens[1].Bounds.Location;
+                }
+                else
+                {
+                    this.Location = Screen.AllScreens[0].Bounds.Location;
+                }
+            }
         }
-        private void Screen2_Right_Click()
+        private void Screen2_Top_Left_Click(object sender, EventArgs e)
         {
-            this.Location = Screen.AllScreens[1].WorkingArea.Location;
-            this.Size = new Size(1920, 1080);
-            this.Location = new Point(-99999, -99999);
+            this.Size = new Size(1920, 2160);
+            if (Screen.AllScreens.Length > 1)
+            {
+                if (Screen.AllScreens[0].Bounds.X == 0)
+                {
+                    this.Location = Screen.AllScreens[1].Bounds.Location;
+                }
+                else
+                {
+                    this.Location = Screen.AllScreens[0].Bounds.Location;
+                }
+            }
         }
-        private void Screen2_Top_Click()
+        private void Screen2_Right_Click(object sender, EventArgs e)
         {
-            this.Location = Screen.AllScreens[1].WorkingArea.Location;
-            this.Size = new Size(1920, 1080);
-            this.Location = new Point(-99999, -99999);
+            this.Size = new Size(1920, 2160);
+            if (Screen.AllScreens.Length > 1)
+            {
+                if (Screen.AllScreens[0].Bounds.X == 0)
+                {
+                    this.Location = new Point(Screen.AllScreens[1].Bounds.X + Screen.AllScreens[1].Bounds.Width / 2, Screen.AllScreens[1].Bounds.Y);
+                }
+                else
+                {
+                    this.Location = new Point(Screen.AllScreens[0].Bounds.X + Screen.AllScreens[0].Bounds.Width / 2, Screen.AllScreens[0].Bounds.Y);
+                }
+            }
         }
-        private void Screen2_Bottom_Click()
+        private void Screen2_Top_Click(object sender, EventArgs e)
+        {
+            this.Size = new Size(0xf00, 1080);
+            if (Screen.AllScreens.Length > 1)
+            {
+                if (Screen.AllScreens[0].Bounds.X == 0)
+                {
+                    this.Location = Screen.AllScreens[1].Bounds.Location;
+                }
+                else
+                {
+                    this.Location = Screen.AllScreens[0].Bounds.Location;
+                }
+            }
+        }
+        private void Screen2_Bottom_Click(object sender, EventArgs e)
         {
             this.Location = Screen.AllScreens[1].WorkingArea.Location;
             this.Size = new Size(1920, 1080);
