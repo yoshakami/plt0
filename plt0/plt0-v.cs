@@ -67,6 +67,7 @@ namespace plt0_gui
         byte green2;
         byte blue2;
         byte alpha2;
+        bool banner_global_move = false;
         bool cmpr_update_preview = true;
         bool sync_preview_is_on = false;
         bool the_program_is_loading_a_cmpr_block = false;
@@ -77,10 +78,10 @@ namespace plt0_gui
         byte cmpr_hover_green = 255;
         byte cmpr_hover_blue = 255;
         byte cmpr_hover_alpha = 0;
-        byte cmpr_edit_red = 0;
+        /*byte cmpr_edit_red = 0;
         byte cmpr_edit_green = 0;
         byte cmpr_edit_blue = 0;
-        byte cmpr_edit_alpha = 0;
+        byte cmpr_edit_alpha = 0;*/
         byte cmpr_selected_colour = 1;
         ushort cmpr_x_offscreen;
         ushort cmpr_y_offscreen;
@@ -91,7 +92,7 @@ namespace plt0_gui
         ushort colour3;
         ushort colour4;
         double mag_ratio;
-        byte offset;
+        //byte offset;
         string seal;
         //byte jump_line;
         float size_font;
@@ -107,7 +108,7 @@ namespace plt0_gui
         int cmpr_preview_start_offset;
         byte byte_text;
         bool success;
-        bool Left_down = false;
+        /*bool Left_down = false;
         bool Right_down = false;
         bool Middle_down = false;
         bool XButton1_down = false;
@@ -224,12 +225,13 @@ namespace plt0_gui
         List<PictureBox> alpha_ck_array = new List<PictureBox>();
         List<PictureBox> algorithm_ck = new List<PictureBox>();
         Image banner;
-        Image gradient;
         Image background;
+        Image gradient;
+        Image surrounding;
+        Image check;
         Image white_box;
         Image light_blue_box;
         Image light_blue_check;
-        Image check;
         Image pink_circle;
         Image pink_circle_on;
         Image violet_circle;
@@ -276,88 +278,91 @@ namespace plt0_gui
         Image r_off;
         Image r_hover;
         Image r_selected;
-        Image surrounding;
-        Image all_on;
-        Image all_off;
         Image all_hover;
+        Image all_off;
+        Image all_on;
         Image all_selected;
-        Image auto_on;
-        Image auto_off;
         Image auto_hover;
+        Image auto_off;
+        Image auto_on;
         Image auto_selected;
-        Image preview_on;
-        Image preview_off;
-        Image preview_hover;
-        Image preview_selected;
-        Image paint_on;
-        Image paint_off;
-        Image paint_hover;
-        Image paint_selected;
-        Image bottom_left_on;
-        Image bottom_left_off;
-        Image bottom_left_hover;
-        Image bottom_left_selected;
-        Image left_on;
-        Image left_off;
-        Image left_hover;
-        Image left_selected;
-        Image top_left_on;
-        Image top_left_off;
-        Image top_left_hover;
-        Image top_left_selected;
-        Image bottom_right_on;
-        Image bottom_right_off;
-        Image bottom_right_hover;
-        Image bottom_right_selected;
-        Image right_on;
-        Image right_off;
-        Image right_hover;
-        Image right_selected;
-        Image top_right_on;
-        Image top_right_off;
-        Image top_right_hover;
-        Image top_right_selected;
-        Image bottom_on;
-        Image bottom_off;
+        Image banner_global_move_hover;
+        Image banner_global_move_off;
+        Image banner_global_move_on;
+        Image banner_global_move_selected;
         Image bottom_hover;
+        Image bottom_left_hover;
+        Image bottom_left_off;
+        Image bottom_left_on;
+        Image bottom_left_selected;
+        Image bottom_off;
+        Image bottom_on;
+        Image bottom_right_hover;
+        Image bottom_right_off;
+        Image bottom_right_on;
+        Image bottom_right_selected;
         Image bottom_selected;
-        Image top_on;
-        Image top_off;
-        Image top_hover;
-        Image top_selected;
+        Image cli_textbox;
+        Image cli_textbox_hover;
         Image close;
         Image close_hover;
-        Image maximized_on;
-        Image maximized_off;
+        Image cmpr_save;
+        Image cmpr_save_as;
+        Image cmpr_save_as_hover;
+        Image cmpr_save_hover;
+        Image cmpr_swap2;
+        Image cmpr_swap2_hover;
+        Image cmpr_swap;
+        Image cmpr_swap_hover;
+        Image discord;
+        Image discord_hover;
+        Image github;
+        Image github_hover;
+        Image left_hover;
+        Image left_off;
+        Image left_on;
+        Image left_selected;
         Image maximized_hover;
+        Image maximized_off;
+        Image maximized_on;
         Image maximized_selected;
         Image minimized;
         Image minimized_hover;
-        Image youtube;
-        Image discord;
-        Image github;
-        Image youtube_hover;
-        Image discord_hover;
-        Image github_hover;
-        Image run_on;
-        Image run_off;
+        Image paint_hover;
+        Image paint_off;
+        Image paint_on;
+        Image paint_selected;
+        Image preview_hover;
+        Image preview_off;
+        Image preview_on;
+        Image preview_selected;
+        Image right_hover;
+        Image right_off;
+        Image right_on;
+        Image right_selected;
         Image run_hover;
-        Image cli_textbox;
-        Image cli_textbox_hover;
+        Image run_off;
+        Image run_on;
+        Image sync_preview_hover;
+        Image sync_preview_off;
+        Image sync_preview_on;
+        Image sync_preview_selected;
+        Image top_hover;
+        Image top_left_hover;
+        Image top_left_off;
+        Image top_left_on;
+        Image top_left_selected;
+        Image top_off;
+        Image top_on;
+        Image top_right_hover;
+        Image top_right_off;
+        Image top_right_on;
+        Image top_right_selected;
+        Image top_selected;
         Image version;
         Image version_hover;
-        Image sync_preview_on;
-        Image sync_preview_off;
-        Image sync_preview_hover;
-        Image sync_preview_selected;
-        Image cmpr_save;
-        Image cmpr_save_hover;
-        Image cmpr_save_as_hover;
-        Image cmpr_save_as;
-        Image cmpr_swap_hover;
-        Image cmpr_swap;
-        Image cmpr_swap2_hover;
-        Image cmpr_swap2;
+        Image youtube;
+        Image youtube_hover;
 
         // I couldn't manage to get external fonts working. this needs to be specified within the app itself :/
         // static string fontname = "Segoe UI";
@@ -384,6 +389,7 @@ namespace plt0_gui
             //}
             InitializeComponent();
             InitializeForm();
+            this.Size = new Size(1920, 1080);
             //output_file_type_label.Text = fontname;
             //algorithm_label.Text = algorithm_label.Font.Name;
             //markdown.Add(font_name);
@@ -1272,6 +1278,16 @@ namespace plt0_gui
                 output_label.Text = (string)e.Data.GetData(DataFormats.Text);
             }
         }
+        private void plt0_gui_MouseEnter(object sender, EventArgs e)
+        {
+            if (banner_global_move)
+                this.Cursor = Cursors.SizeAll;
+        }
+        private void plt0_gui_MouseLeave(object sender, EventArgs e)
+        {
+            if (banner_global_move)
+                this.Cursor = Cursors.Default;
+        }
         private bool ishex(char txt)
         {
             switch (txt)
@@ -1711,7 +1727,7 @@ namespace plt0_gui
             description_surrounding.Visible = false;
             for (byte i = 0; i < 9; i++)
             {
-                desc[i].Location = new Point(desc[i].Location.X, desc[i].Location.Y + 1000);
+                desc[i].Location = new Point(desc[i].Location.X, desc[i].Location.Y + 600);
             }
             preview_layout_is_enabled = true;
         }
@@ -1731,7 +1747,7 @@ namespace plt0_gui
             description_surrounding.Visible = true;
             for (byte i = 0; i < 9; i++)
             {
-                desc[i].Location = new Point(desc[i].Location.X, desc[i].Location.Y - 1000);
+                desc[i].Location = new Point(desc[i].Location.X, desc[i].Location.Y - 600);
             }
             preview_layout_is_enabled = false;
         }
@@ -1963,7 +1979,7 @@ namespace plt0_gui
                 Hide_encoding(1);
                 Hide_encoding(5);
                 Hide_encoding(8);
-                view_algorithm =
+                view_algorithm = false;
                 a_a_ck.Visible = false;
                 a_b_ck.Visible = false;
                 a_g_ck.Visible = false;
@@ -2201,7 +2217,7 @@ namespace plt0_gui
             {
                 for (byte i = 0; i < algorithm_ck.Count; i++)
                 {
-                    algorithm_ck[i].Visible = true;
+                    algorithm_ck[i].Visible = false;
                 }
                 no_gradient_label.Visible = false;
                 algorithm_label.Visible = false;
@@ -3456,6 +3472,7 @@ namespace plt0_gui
             run_ck.BackgroundImage = run_off;
             cli_textbox_ck.BackgroundImage = cli_textbox;
             sync_preview_ck.BackgroundImage = sync_preview_off;
+            banner_global_move_ck.BackgroundImage = banner_global_move_off;
             this.BackgroundImage = background;
             unchecked_checkbox(ask_exit_ck);
             unchecked_checkbox(FORCE_ALPHA_ck);
@@ -3867,6 +3884,7 @@ namespace plt0_gui
             this.image_ck = new PictureBoxWithInterpolationMode();
             this.cmpr_update_preview_ck = new System.Windows.Forms.PictureBox();
             this.cmpr_update_preview_label = new System.Windows.Forms.Label();
+            this.banner_global_move_ck = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tpl_ck)).BeginInit();
@@ -3997,6 +4015,7 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.image_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_update_preview_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_global_move_ck)).BeginInit();
             this.SuspendLayout();
             // 
             // output_file_type_label
@@ -6308,7 +6327,6 @@ namespace plt0_gui
             // 
             this.view_alpha_ck.BackColor = System.Drawing.Color.Transparent;
             this.view_alpha_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.view_alpha_ck.Enabled = false;
             this.view_alpha_ck.ErrorImage = null;
             this.view_alpha_ck.InitialImage = null;
             this.view_alpha_ck.Location = new System.Drawing.Point(40, 1131);
@@ -6331,8 +6349,8 @@ namespace plt0_gui
             this.view_alpha_label.Location = new System.Drawing.Point(108, 1131);
             this.view_alpha_label.Margin = new System.Windows.Forms.Padding(0);
             this.view_alpha_label.Name = "view_alpha_label";
-            this.view_alpha_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
-            this.view_alpha_label.Size = new System.Drawing.Size(74, 42);
+            this.view_alpha_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.view_alpha_label.Size = new System.Drawing.Size(74, 64);
             this.view_alpha_label.TabIndex = 376;
             this.view_alpha_label.Text = "Alpha";
             this.view_alpha_label.Visible = false;
@@ -6344,7 +6362,6 @@ namespace plt0_gui
             // 
             this.view_algorithm_ck.BackColor = System.Drawing.Color.Transparent;
             this.view_algorithm_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.view_algorithm_ck.Enabled = false;
             this.view_algorithm_ck.ErrorImage = null;
             this.view_algorithm_ck.InitialImage = null;
             this.view_algorithm_ck.Location = new System.Drawing.Point(239, 1131);
@@ -6380,7 +6397,6 @@ namespace plt0_gui
             // 
             this.view_WrapS_ck.BackColor = System.Drawing.Color.Transparent;
             this.view_WrapS_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.view_WrapS_ck.Enabled = false;
             this.view_WrapS_ck.ErrorImage = null;
             this.view_WrapS_ck.InitialImage = null;
             this.view_WrapS_ck.Location = new System.Drawing.Point(40, 1195);
@@ -6403,8 +6419,8 @@ namespace plt0_gui
             this.view_WrapS_label.Location = new System.Drawing.Point(108, 1195);
             this.view_WrapS_label.Margin = new System.Windows.Forms.Padding(0);
             this.view_WrapS_label.Name = "view_WrapS_label";
-            this.view_WrapS_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
-            this.view_WrapS_label.Size = new System.Drawing.Size(83, 42);
+            this.view_WrapS_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.view_WrapS_label.Size = new System.Drawing.Size(83, 64);
             this.view_WrapS_label.TabIndex = 382;
             this.view_WrapS_label.Text = "WrapS";
             this.view_WrapS_label.Visible = false;
@@ -6416,7 +6432,6 @@ namespace plt0_gui
             // 
             this.view_WrapT_ck.BackColor = System.Drawing.Color.Transparent;
             this.view_WrapT_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.view_WrapT_ck.Enabled = false;
             this.view_WrapT_ck.ErrorImage = null;
             this.view_WrapT_ck.InitialImage = null;
             this.view_WrapT_ck.Location = new System.Drawing.Point(239, 1195);
@@ -6452,7 +6467,6 @@ namespace plt0_gui
             // 
             this.view_mag_ck.BackColor = System.Drawing.Color.Transparent;
             this.view_mag_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.view_mag_ck.Enabled = false;
             this.view_mag_ck.ErrorImage = null;
             this.view_mag_ck.InitialImage = null;
             this.view_mag_ck.Location = new System.Drawing.Point(239, 1259);
@@ -6488,7 +6502,6 @@ namespace plt0_gui
             // 
             this.view_min_ck.BackColor = System.Drawing.Color.Transparent;
             this.view_min_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.view_min_ck.Enabled = false;
             this.view_min_ck.ErrorImage = null;
             this.view_min_ck.InitialImage = null;
             this.view_min_ck.Location = new System.Drawing.Point(40, 1259);
@@ -6652,7 +6665,7 @@ namespace plt0_gui
             this.banner_9_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_9_ck.ErrorImage = null;
             this.banner_9_ck.InitialImage = null;
-            this.banner_9_ck.Location = new System.Drawing.Point(480, 0);
+            this.banner_9_ck.Location = new System.Drawing.Point(526, 0);
             this.banner_9_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_9_ck.Name = "banner_9_ck";
             this.banner_9_ck.Size = new System.Drawing.Size(32, 32);
@@ -6668,7 +6681,7 @@ namespace plt0_gui
             this.banner_8_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_8_ck.ErrorImage = null;
             this.banner_8_ck.InitialImage = null;
-            this.banner_8_ck.Location = new System.Drawing.Point(448, 0);
+            this.banner_8_ck.Location = new System.Drawing.Point(494, 0);
             this.banner_8_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_8_ck.Name = "banner_8_ck";
             this.banner_8_ck.Size = new System.Drawing.Size(32, 32);
@@ -6684,7 +6697,7 @@ namespace plt0_gui
             this.banner_7_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_7_ck.ErrorImage = null;
             this.banner_7_ck.InitialImage = null;
-            this.banner_7_ck.Location = new System.Drawing.Point(416, 0);
+            this.banner_7_ck.Location = new System.Drawing.Point(462, 0);
             this.banner_7_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_7_ck.Name = "banner_7_ck";
             this.banner_7_ck.Size = new System.Drawing.Size(32, 32);
@@ -6700,7 +6713,7 @@ namespace plt0_gui
             this.banner_6_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_6_ck.ErrorImage = null;
             this.banner_6_ck.InitialImage = null;
-            this.banner_6_ck.Location = new System.Drawing.Point(512, 0);
+            this.banner_6_ck.Location = new System.Drawing.Point(558, 0);
             this.banner_6_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_6_ck.Name = "banner_6_ck";
             this.banner_6_ck.Size = new System.Drawing.Size(32, 32);
@@ -6716,7 +6729,7 @@ namespace plt0_gui
             this.banner_4_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_4_ck.ErrorImage = null;
             this.banner_4_ck.InitialImage = null;
-            this.banner_4_ck.Location = new System.Drawing.Point(384, 0);
+            this.banner_4_ck.Location = new System.Drawing.Point(430, 0);
             this.banner_4_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_4_ck.Name = "banner_4_ck";
             this.banner_4_ck.Size = new System.Drawing.Size(32, 32);
@@ -6732,7 +6745,7 @@ namespace plt0_gui
             this.banner_3_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_3_ck.ErrorImage = null;
             this.banner_3_ck.InitialImage = null;
-            this.banner_3_ck.Location = new System.Drawing.Point(544, 0);
+            this.banner_3_ck.Location = new System.Drawing.Point(590, 0);
             this.banner_3_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_3_ck.Name = "banner_3_ck";
             this.banner_3_ck.Size = new System.Drawing.Size(32, 32);
@@ -6748,7 +6761,7 @@ namespace plt0_gui
             this.banner_2_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_2_ck.ErrorImage = null;
             this.banner_2_ck.InitialImage = null;
-            this.banner_2_ck.Location = new System.Drawing.Point(576, 0);
+            this.banner_2_ck.Location = new System.Drawing.Point(622, 0);
             this.banner_2_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_2_ck.Name = "banner_2_ck";
             this.banner_2_ck.Size = new System.Drawing.Size(32, 32);
@@ -6764,7 +6777,7 @@ namespace plt0_gui
             this.banner_1_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_1_ck.ErrorImage = null;
             this.banner_1_ck.InitialImage = null;
-            this.banner_1_ck.Location = new System.Drawing.Point(608, 0);
+            this.banner_1_ck.Location = new System.Drawing.Point(654, 0);
             this.banner_1_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_1_ck.Name = "banner_1_ck";
             this.banner_1_ck.Size = new System.Drawing.Size(32, 32);
@@ -7815,7 +7828,7 @@ namespace plt0_gui
             this.version_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.version_ck.ErrorImage = null;
             this.version_ck.InitialImage = null;
-            this.version_ck.Location = new System.Drawing.Point(674, 0);
+            this.version_ck.Location = new System.Drawing.Point(720, 0);
             this.version_ck.Margin = new System.Windows.Forms.Padding(0);
             this.version_ck.Name = "version_ck";
             this.version_ck.Size = new System.Drawing.Size(64, 32);
@@ -7844,7 +7857,6 @@ namespace plt0_gui
             // 
             this.view_rgba_ck.BackColor = System.Drawing.Color.Transparent;
             this.view_rgba_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.view_rgba_ck.Enabled = false;
             this.view_rgba_ck.ErrorImage = null;
             this.view_rgba_ck.InitialImage = null;
             this.view_rgba_ck.Location = new System.Drawing.Point(240, 1323);
@@ -7880,7 +7892,6 @@ namespace plt0_gui
             // 
             this.view_palette_ck.BackColor = System.Drawing.Color.Transparent;
             this.view_palette_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.view_palette_ck.Enabled = false;
             this.view_palette_ck.ErrorImage = null;
             this.view_palette_ck.InitialImage = null;
             this.view_palette_ck.Location = new System.Drawing.Point(239, 1387);
@@ -7916,7 +7927,6 @@ namespace plt0_gui
             // 
             this.view_cmpr_ck.BackColor = System.Drawing.Color.Transparent;
             this.view_cmpr_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.view_cmpr_ck.Enabled = false;
             this.view_cmpr_ck.ErrorImage = null;
             this.view_cmpr_ck.InitialImage = null;
             this.view_cmpr_ck.Location = new System.Drawing.Point(41, 1323);
@@ -7952,7 +7962,6 @@ namespace plt0_gui
             // 
             this.view_options_ck.BackColor = System.Drawing.Color.Transparent;
             this.view_options_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.view_options_ck.Enabled = false;
             this.view_options_ck.ErrorImage = null;
             this.view_options_ck.InitialImage = null;
             this.view_options_ck.Location = new System.Drawing.Point(40, 1387);
@@ -8001,7 +8010,6 @@ namespace plt0_gui
             this.banner_resize.MouseEnter += new System.EventHandler(this.banner_resize_MouseEnter);
             this.banner_resize.MouseLeave += new System.EventHandler(this.banner_resize_MouseLeave);
             this.banner_resize.MouseMove += new System.Windows.Forms.MouseEventHandler(this.banner_resize_MouseMove);
-            this.banner_resize.MouseUp += new System.Windows.Forms.MouseEventHandler(this.banner_resize_MouseUp);
             // 
             // textchange_ck
             // 
@@ -8132,7 +8140,7 @@ namespace plt0_gui
             this.banner_move.Cursor = System.Windows.Forms.Cursors.SizeAll;
             this.banner_move.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.banner_move.ForeColor = System.Drawing.SystemColors.Control;
-            this.banner_move.Location = new System.Drawing.Point(762, 0);
+            this.banner_move.Location = new System.Drawing.Point(725, 0);
             this.banner_move.Margin = new System.Windows.Forms.Padding(0);
             this.banner_move.Name = "banner_move";
             this.banner_move.Padding = new System.Windows.Forms.Padding(880, 6, 0, 6);
@@ -8142,7 +8150,6 @@ namespace plt0_gui
             this.banner_move.MouseEnter += new System.EventHandler(this.banner_move_MouseEnter);
             this.banner_move.MouseLeave += new System.EventHandler(this.banner_move_MouseLeave);
             this.banner_move.MouseMove += new System.Windows.Forms.MouseEventHandler(this.banner_move_MouseMove);
-            this.banner_move.MouseUp += new System.Windows.Forms.MouseEventHandler(this.banner_move_MouseUp);
             // 
             // preview4k_label
             // 
@@ -9007,6 +9014,22 @@ namespace plt0_gui
             this.cmpr_update_preview_label.MouseEnter += new System.EventHandler(this.cmpr_update_preview_MouseEnter);
             this.cmpr_update_preview_label.MouseLeave += new System.EventHandler(this.cmpr_update_preview_MouseLeave);
             // 
+            // banner_global_move_ck
+            // 
+            this.banner_global_move_ck.BackColor = System.Drawing.Color.Transparent;
+            this.banner_global_move_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.banner_global_move_ck.ErrorImage = null;
+            this.banner_global_move_ck.InitialImage = null;
+            this.banner_global_move_ck.Location = new System.Drawing.Point(383, 0);
+            this.banner_global_move_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_global_move_ck.Name = "banner_global_move_ck";
+            this.banner_global_move_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_global_move_ck.TabIndex = 699;
+            this.banner_global_move_ck.TabStop = false;
+            this.banner_global_move_ck.Click += new System.EventHandler(this.banner_global_move_Click);
+            this.banner_global_move_ck.MouseEnter += new System.EventHandler(this.banner_global_move_MouseEnter);
+            this.banner_global_move_ck.MouseLeave += new System.EventHandler(this.banner_global_move_MouseLeave);
+            // 
             // plt0_gui
             // 
             this.AllowDrop = true;
@@ -9015,6 +9038,7 @@ namespace plt0_gui
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(3270, 1768);
+            this.Controls.Add(this.banner_global_move_ck);
             this.Controls.Add(this.cmpr_update_preview_ck);
             this.Controls.Add(this.cmpr_update_preview_label);
             this.Controls.Add(this.cmpr_hover_ck);
@@ -9337,6 +9361,10 @@ namespace plt0_gui
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.plt0_DragEnter);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyUp);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.banner_global_move_MouseDown);
+            this.MouseEnter += new System.EventHandler(this.plt0_gui_MouseEnter);
+            this.MouseLeave += new System.EventHandler(this.plt0_gui_MouseLeave);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.banner_global_move_MouseMove);
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tpl_ck)).EndInit();
@@ -9467,6 +9495,7 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.image_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_update_preview_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_global_move_ck)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -9483,13 +9512,21 @@ namespace plt0_gui
             {
                 banner = Image.FromFile(execPath + "images/banner.png");
             }
+            if (File.Exists(execPath + "images/background.png"))
+            {
+                background = Image.FromFile(execPath + "images/background.png");
+            }
             if (File.Exists(execPath + "images/gradient.png"))
             {
                 gradient = Image.FromFile(execPath + "images/gradient.png");
             }
-            if (File.Exists(execPath + "images/background.png"))
+            if (File.Exists(execPath + "images/surrounding.png"))
             {
-                background = Image.FromFile(execPath + "images/background.png");
+                surrounding = Image.FromFile(execPath + "images/surrounding.png");
+            }
+            if (File.Exists(execPath + "images/check.png"))
+            {
+                check = Image.FromFile(execPath + "images/check.png");
             }
             if (File.Exists(execPath + "images/white_box.png"))
             {
@@ -9502,10 +9539,6 @@ namespace plt0_gui
             if (File.Exists(execPath + "images/light_blue_check.png"))
             {
                 light_blue_check = Image.FromFile(execPath + "images/light_blue_check.png");
-            }
-            if (File.Exists(execPath + "images/check.png"))
-            {
-                check = Image.FromFile(execPath + "images/check.png");
             }
             if (File.Exists(execPath + "images/pink_circle.png"))
             {
@@ -9691,201 +9724,109 @@ namespace plt0_gui
             {
                 r_selected = Image.FromFile(execPath + "images/r_selected.png");
             }
-            if (File.Exists(execPath + "images/surrounding.png"))
+            if (File.Exists(execPath + "images/all_hover.png"))
             {
-                surrounding = Image.FromFile(execPath + "images/surrounding.png");
-            }
-            if (File.Exists(execPath + "images/all_on.png"))
-            {
-                all_on = Image.FromFile(execPath + "images/all_on.png");
+                all_hover = Image.FromFile(execPath + "images/all_hover.png");
             }
             if (File.Exists(execPath + "images/all_off.png"))
             {
                 all_off = Image.FromFile(execPath + "images/all_off.png");
             }
-            if (File.Exists(execPath + "images/all_hover.png"))
+            if (File.Exists(execPath + "images/all_on.png"))
             {
-                all_hover = Image.FromFile(execPath + "images/all_hover.png");
+                all_on = Image.FromFile(execPath + "images/all_on.png");
             }
             if (File.Exists(execPath + "images/all_selected.png"))
             {
                 all_selected = Image.FromFile(execPath + "images/all_selected.png");
             }
-            if (File.Exists(execPath + "images/auto_on.png"))
+            if (File.Exists(execPath + "images/auto_hover.png"))
             {
-                auto_on = Image.FromFile(execPath + "images/auto_on.png");
+                auto_hover = Image.FromFile(execPath + "images/auto_hover.png");
             }
             if (File.Exists(execPath + "images/auto_off.png"))
             {
                 auto_off = Image.FromFile(execPath + "images/auto_off.png");
             }
-            if (File.Exists(execPath + "images/auto_hover.png"))
+            if (File.Exists(execPath + "images/auto_on.png"))
             {
-                auto_hover = Image.FromFile(execPath + "images/auto_hover.png");
+                auto_on = Image.FromFile(execPath + "images/auto_on.png");
             }
             if (File.Exists(execPath + "images/auto_selected.png"))
             {
                 auto_selected = Image.FromFile(execPath + "images/auto_selected.png");
             }
-            if (File.Exists(execPath + "images/preview_on.png"))
+            if (File.Exists(execPath + "images/banner_global_move_hover.png"))
             {
-                preview_on = Image.FromFile(execPath + "images/preview_on.png");
+                banner_global_move_hover = Image.FromFile(execPath + "images/banner_global_move_hover.png");
             }
-            if (File.Exists(execPath + "images/preview_off.png"))
+            if (File.Exists(execPath + "images/banner_global_move_off.png"))
             {
-                preview_off = Image.FromFile(execPath + "images/preview_off.png");
+                banner_global_move_off = Image.FromFile(execPath + "images/banner_global_move_off.png");
             }
-            if (File.Exists(execPath + "images/preview_hover.png"))
+            if (File.Exists(execPath + "images/banner_global_move_on.png"))
             {
-                preview_hover = Image.FromFile(execPath + "images/preview_hover.png");
+                banner_global_move_on = Image.FromFile(execPath + "images/banner_global_move_on.png");
             }
-            if (File.Exists(execPath + "images/preview_selected.png"))
+            if (File.Exists(execPath + "images/banner_global_move_selected.png"))
             {
-                preview_selected = Image.FromFile(execPath + "images/preview_selected.png");
-            }
-            if (File.Exists(execPath + "images/paint_on.png"))
-            {
-                paint_on = Image.FromFile(execPath + "images/paint_on.png");
-            }
-            if (File.Exists(execPath + "images/paint_off.png"))
-            {
-                paint_off = Image.FromFile(execPath + "images/paint_off.png");
-            }
-            if (File.Exists(execPath + "images/paint_hover.png"))
-            {
-                paint_hover = Image.FromFile(execPath + "images/paint_hover.png");
-            }
-            if (File.Exists(execPath + "images/paint_selected.png"))
-            {
-                paint_selected = Image.FromFile(execPath + "images/paint_selected.png");
-            }
-            if (File.Exists(execPath + "images/bottom_left_on.png"))
-            {
-                bottom_left_on = Image.FromFile(execPath + "images/bottom_left_on.png");
-            }
-            if (File.Exists(execPath + "images/bottom_left_off.png"))
-            {
-                bottom_left_off = Image.FromFile(execPath + "images/bottom_left_off.png");
-            }
-            if (File.Exists(execPath + "images/bottom_left_hover.png"))
-            {
-                bottom_left_hover = Image.FromFile(execPath + "images/bottom_left_hover.png");
-            }
-            if (File.Exists(execPath + "images/bottom_left_selected.png"))
-            {
-                bottom_left_selected = Image.FromFile(execPath + "images/bottom_left_selected.png");
-            }
-            if (File.Exists(execPath + "images/left_on.png"))
-            {
-                left_on = Image.FromFile(execPath + "images/left_on.png");
-            }
-            if (File.Exists(execPath + "images/left_off.png"))
-            {
-                left_off = Image.FromFile(execPath + "images/left_off.png");
-            }
-            if (File.Exists(execPath + "images/left_hover.png"))
-            {
-                left_hover = Image.FromFile(execPath + "images/left_hover.png");
-            }
-            if (File.Exists(execPath + "images/left_selected.png"))
-            {
-                left_selected = Image.FromFile(execPath + "images/left_selected.png");
-            }
-            if (File.Exists(execPath + "images/top_left_on.png"))
-            {
-                top_left_on = Image.FromFile(execPath + "images/top_left_on.png");
-            }
-            if (File.Exists(execPath + "images/top_left_off.png"))
-            {
-                top_left_off = Image.FromFile(execPath + "images/top_left_off.png");
-            }
-            if (File.Exists(execPath + "images/top_left_hover.png"))
-            {
-                top_left_hover = Image.FromFile(execPath + "images/top_left_hover.png");
-            }
-            if (File.Exists(execPath + "images/top_left_selected.png"))
-            {
-                top_left_selected = Image.FromFile(execPath + "images/top_left_selected.png");
-            }
-            if (File.Exists(execPath + "images/bottom_right_on.png"))
-            {
-                bottom_right_on = Image.FromFile(execPath + "images/bottom_right_on.png");
-            }
-            if (File.Exists(execPath + "images/bottom_right_off.png"))
-            {
-                bottom_right_off = Image.FromFile(execPath + "images/bottom_right_off.png");
-            }
-            if (File.Exists(execPath + "images/bottom_right_hover.png"))
-            {
-                bottom_right_hover = Image.FromFile(execPath + "images/bottom_right_hover.png");
-            }
-            if (File.Exists(execPath + "images/bottom_right_selected.png"))
-            {
-                bottom_right_selected = Image.FromFile(execPath + "images/bottom_right_selected.png");
-            }
-            if (File.Exists(execPath + "images/right_on.png"))
-            {
-                right_on = Image.FromFile(execPath + "images/right_on.png");
-            }
-            if (File.Exists(execPath + "images/right_off.png"))
-            {
-                right_off = Image.FromFile(execPath + "images/right_off.png");
-            }
-            if (File.Exists(execPath + "images/right_hover.png"))
-            {
-                right_hover = Image.FromFile(execPath + "images/right_hover.png");
-            }
-            if (File.Exists(execPath + "images/right_selected.png"))
-            {
-                right_selected = Image.FromFile(execPath + "images/right_selected.png");
-            }
-            if (File.Exists(execPath + "images/top_right_on.png"))
-            {
-                top_right_on = Image.FromFile(execPath + "images/top_right_on.png");
-            }
-            if (File.Exists(execPath + "images/top_right_off.png"))
-            {
-                top_right_off = Image.FromFile(execPath + "images/top_right_off.png");
-            }
-            if (File.Exists(execPath + "images/top_right_hover.png"))
-            {
-                top_right_hover = Image.FromFile(execPath + "images/top_right_hover.png");
-            }
-            if (File.Exists(execPath + "images/top_right_selected.png"))
-            {
-                top_right_selected = Image.FromFile(execPath + "images/top_right_selected.png");
-            }
-            if (File.Exists(execPath + "images/bottom_on.png"))
-            {
-                bottom_on = Image.FromFile(execPath + "images/bottom_on.png");
-            }
-            if (File.Exists(execPath + "images/bottom_off.png"))
-            {
-                bottom_off = Image.FromFile(execPath + "images/bottom_off.png");
+                banner_global_move_selected = Image.FromFile(execPath + "images/banner_global_move_selected.png");
             }
             if (File.Exists(execPath + "images/bottom_hover.png"))
             {
                 bottom_hover = Image.FromFile(execPath + "images/bottom_hover.png");
             }
+            if (File.Exists(execPath + "images/bottom_left_hover.png"))
+            {
+                bottom_left_hover = Image.FromFile(execPath + "images/bottom_left_hover.png");
+            }
+            if (File.Exists(execPath + "images/bottom_left_off.png"))
+            {
+                bottom_left_off = Image.FromFile(execPath + "images/bottom_left_off.png");
+            }
+            if (File.Exists(execPath + "images/bottom_left_on.png"))
+            {
+                bottom_left_on = Image.FromFile(execPath + "images/bottom_left_on.png");
+            }
+            if (File.Exists(execPath + "images/bottom_left_selected.png"))
+            {
+                bottom_left_selected = Image.FromFile(execPath + "images/bottom_left_selected.png");
+            }
+            if (File.Exists(execPath + "images/bottom_off.png"))
+            {
+                bottom_off = Image.FromFile(execPath + "images/bottom_off.png");
+            }
+            if (File.Exists(execPath + "images/bottom_on.png"))
+            {
+                bottom_on = Image.FromFile(execPath + "images/bottom_on.png");
+            }
+            if (File.Exists(execPath + "images/bottom_right_hover.png"))
+            {
+                bottom_right_hover = Image.FromFile(execPath + "images/bottom_right_hover.png");
+            }
+            if (File.Exists(execPath + "images/bottom_right_off.png"))
+            {
+                bottom_right_off = Image.FromFile(execPath + "images/bottom_right_off.png");
+            }
+            if (File.Exists(execPath + "images/bottom_right_on.png"))
+            {
+                bottom_right_on = Image.FromFile(execPath + "images/bottom_right_on.png");
+            }
+            if (File.Exists(execPath + "images/bottom_right_selected.png"))
+            {
+                bottom_right_selected = Image.FromFile(execPath + "images/bottom_right_selected.png");
+            }
             if (File.Exists(execPath + "images/bottom_selected.png"))
             {
                 bottom_selected = Image.FromFile(execPath + "images/bottom_selected.png");
             }
-            if (File.Exists(execPath + "images/top_on.png"))
+            if (File.Exists(execPath + "images/cli_textbox.png"))
             {
-                top_on = Image.FromFile(execPath + "images/top_on.png");
+                cli_textbox = Image.FromFile(execPath + "images/cli_textbox.png");
             }
-            if (File.Exists(execPath + "images/top_off.png"))
+            if (File.Exists(execPath + "images/cli_textbox_hover.png"))
             {
-                top_off = Image.FromFile(execPath + "images/top_off.png");
-            }
-            if (File.Exists(execPath + "images/top_hover.png"))
-            {
-                top_hover = Image.FromFile(execPath + "images/top_hover.png");
-            }
-            if (File.Exists(execPath + "images/top_selected.png"))
-            {
-                top_selected = Image.FromFile(execPath + "images/top_selected.png");
+                cli_textbox_hover = Image.FromFile(execPath + "images/cli_textbox_hover.png");
             }
             if (File.Exists(execPath + "images/close.png"))
             {
@@ -9895,17 +9836,81 @@ namespace plt0_gui
             {
                 close_hover = Image.FromFile(execPath + "images/close_hover.png");
             }
-            if (File.Exists(execPath + "images/maximized_on.png"))
+            if (File.Exists(execPath + "images/cmpr_save.png"))
             {
-                maximized_on = Image.FromFile(execPath + "images/maximized_on.png");
+                cmpr_save = Image.FromFile(execPath + "images/cmpr_save.png");
+            }
+            if (File.Exists(execPath + "images/cmpr_save_as.png"))
+            {
+                cmpr_save_as = Image.FromFile(execPath + "images/cmpr_save_as.png");
+            }
+            if (File.Exists(execPath + "images/cmpr_save_as_hover.png"))
+            {
+                cmpr_save_as_hover = Image.FromFile(execPath + "images/cmpr_save_as_hover.png");
+            }
+            if (File.Exists(execPath + "images/cmpr_save_hover.png"))
+            {
+                cmpr_save_hover = Image.FromFile(execPath + "images/cmpr_save_hover.png");
+            }
+            if (File.Exists(execPath + "images/cmpr_swap2.png"))
+            {
+                cmpr_swap2 = Image.FromFile(execPath + "images/cmpr_swap2.png");
+            }
+            if (File.Exists(execPath + "images/cmpr_swap2_hover.png"))
+            {
+                cmpr_swap2_hover = Image.FromFile(execPath + "images/cmpr_swap2_hover.png");
+            }
+            if (File.Exists(execPath + "images/cmpr_swap.png"))
+            {
+                cmpr_swap = Image.FromFile(execPath + "images/cmpr_swap.png");
+            }
+            if (File.Exists(execPath + "images/cmpr_swap_hover.png"))
+            {
+                cmpr_swap_hover = Image.FromFile(execPath + "images/cmpr_swap_hover.png");
+            }
+            if (File.Exists(execPath + "images/discord.png"))
+            {
+                discord = Image.FromFile(execPath + "images/discord.png");
+            }
+            if (File.Exists(execPath + "images/discord_hover.png"))
+            {
+                discord_hover = Image.FromFile(execPath + "images/discord_hover.png");
+            }
+            if (File.Exists(execPath + "images/github.png"))
+            {
+                github = Image.FromFile(execPath + "images/github.png");
+            }
+            if (File.Exists(execPath + "images/github_hover.png"))
+            {
+                github_hover = Image.FromFile(execPath + "images/github_hover.png");
+            }
+            if (File.Exists(execPath + "images/left_hover.png"))
+            {
+                left_hover = Image.FromFile(execPath + "images/left_hover.png");
+            }
+            if (File.Exists(execPath + "images/left_off.png"))
+            {
+                left_off = Image.FromFile(execPath + "images/left_off.png");
+            }
+            if (File.Exists(execPath + "images/left_on.png"))
+            {
+                left_on = Image.FromFile(execPath + "images/left_on.png");
+            }
+            if (File.Exists(execPath + "images/left_selected.png"))
+            {
+                left_selected = Image.FromFile(execPath + "images/left_selected.png");
+            }
+            if (File.Exists(execPath + "images/maximized_hover.png"))
+            {
+                maximized_hover = Image.FromFile(execPath + "images/maximized_hover.png");
             }
             if (File.Exists(execPath + "images/maximized_off.png"))
             {
                 maximized_off = Image.FromFile(execPath + "images/maximized_off.png");
             }
-            if (File.Exists(execPath + "images/maximized_hover.png"))
+            if (File.Exists(execPath + "images/maximized_on.png"))
             {
-                maximized_hover = Image.FromFile(execPath + "images/maximized_hover.png");
+                maximized_on = Image.FromFile(execPath + "images/maximized_on.png");
             }
             if (File.Exists(execPath + "images/maximized_selected.png"))
             {
@@ -9919,49 +9924,129 @@ namespace plt0_gui
             {
                 minimized_hover = Image.FromFile(execPath + "images/minimized_hover.png");
             }
-            if (File.Exists(execPath + "images/youtube.png"))
+            if (File.Exists(execPath + "images/paint_hover.png"))
             {
-                youtube = Image.FromFile(execPath + "images/youtube.png");
+                paint_hover = Image.FromFile(execPath + "images/paint_hover.png");
             }
-            if (File.Exists(execPath + "images/discord.png"))
+            if (File.Exists(execPath + "images/paint_off.png"))
             {
-                discord = Image.FromFile(execPath + "images/discord.png");
+                paint_off = Image.FromFile(execPath + "images/paint_off.png");
             }
-            if (File.Exists(execPath + "images/github.png"))
+            if (File.Exists(execPath + "images/paint_on.png"))
             {
-                github = Image.FromFile(execPath + "images/github.png");
+                paint_on = Image.FromFile(execPath + "images/paint_on.png");
             }
-            if (File.Exists(execPath + "images/youtube_hover.png"))
+            if (File.Exists(execPath + "images/paint_selected.png"))
             {
-                youtube_hover = Image.FromFile(execPath + "images/youtube_hover.png");
+                paint_selected = Image.FromFile(execPath + "images/paint_selected.png");
             }
-            if (File.Exists(execPath + "images/discord_hover.png"))
+            if (File.Exists(execPath + "images/preview_hover.png"))
             {
-                discord_hover = Image.FromFile(execPath + "images/discord_hover.png");
+                preview_hover = Image.FromFile(execPath + "images/preview_hover.png");
             }
-            if (File.Exists(execPath + "images/github_hover.png"))
+            if (File.Exists(execPath + "images/preview_off.png"))
             {
-                github_hover = Image.FromFile(execPath + "images/github_hover.png");
+                preview_off = Image.FromFile(execPath + "images/preview_off.png");
             }
-            if (File.Exists(execPath + "images/run_on.png"))
+            if (File.Exists(execPath + "images/preview_on.png"))
             {
-                run_on = Image.FromFile(execPath + "images/run_on.png");
+                preview_on = Image.FromFile(execPath + "images/preview_on.png");
             }
-            if (File.Exists(execPath + "images/run_off.png"))
+            if (File.Exists(execPath + "images/preview_selected.png"))
             {
-                run_off = Image.FromFile(execPath + "images/run_off.png");
+                preview_selected = Image.FromFile(execPath + "images/preview_selected.png");
+            }
+            if (File.Exists(execPath + "images/right_hover.png"))
+            {
+                right_hover = Image.FromFile(execPath + "images/right_hover.png");
+            }
+            if (File.Exists(execPath + "images/right_off.png"))
+            {
+                right_off = Image.FromFile(execPath + "images/right_off.png");
+            }
+            if (File.Exists(execPath + "images/right_on.png"))
+            {
+                right_on = Image.FromFile(execPath + "images/right_on.png");
+            }
+            if (File.Exists(execPath + "images/right_selected.png"))
+            {
+                right_selected = Image.FromFile(execPath + "images/right_selected.png");
             }
             if (File.Exists(execPath + "images/run_hover.png"))
             {
                 run_hover = Image.FromFile(execPath + "images/run_hover.png");
             }
-            if (File.Exists(execPath + "images/cli_textbox.png"))
+            if (File.Exists(execPath + "images/run_off.png"))
             {
-                cli_textbox = Image.FromFile(execPath + "images/cli_textbox.png");
+                run_off = Image.FromFile(execPath + "images/run_off.png");
             }
-            if (File.Exists(execPath + "images/cli_textbox_hover.png"))
+            if (File.Exists(execPath + "images/run_on.png"))
             {
-                cli_textbox_hover = Image.FromFile(execPath + "images/cli_textbox_hover.png");
+                run_on = Image.FromFile(execPath + "images/run_on.png");
+            }
+            if (File.Exists(execPath + "images/sync_preview_hover.png"))
+            {
+                sync_preview_hover = Image.FromFile(execPath + "images/sync_preview_hover.png");
+            }
+            if (File.Exists(execPath + "images/sync_preview_off.png"))
+            {
+                sync_preview_off = Image.FromFile(execPath + "images/sync_preview_off.png");
+            }
+            if (File.Exists(execPath + "images/sync_preview_on.png"))
+            {
+                sync_preview_on = Image.FromFile(execPath + "images/sync_preview_on.png");
+            }
+            if (File.Exists(execPath + "images/sync_preview_selected.png"))
+            {
+                sync_preview_selected = Image.FromFile(execPath + "images/sync_preview_selected.png");
+            }
+            if (File.Exists(execPath + "images/top_hover.png"))
+            {
+                top_hover = Image.FromFile(execPath + "images/top_hover.png");
+            }
+            if (File.Exists(execPath + "images/top_left_hover.png"))
+            {
+                top_left_hover = Image.FromFile(execPath + "images/top_left_hover.png");
+            }
+            if (File.Exists(execPath + "images/top_left_off.png"))
+            {
+                top_left_off = Image.FromFile(execPath + "images/top_left_off.png");
+            }
+            if (File.Exists(execPath + "images/top_left_on.png"))
+            {
+                top_left_on = Image.FromFile(execPath + "images/top_left_on.png");
+            }
+            if (File.Exists(execPath + "images/top_left_selected.png"))
+            {
+                top_left_selected = Image.FromFile(execPath + "images/top_left_selected.png");
+            }
+            if (File.Exists(execPath + "images/top_off.png"))
+            {
+                top_off = Image.FromFile(execPath + "images/top_off.png");
+            }
+            if (File.Exists(execPath + "images/top_on.png"))
+            {
+                top_on = Image.FromFile(execPath + "images/top_on.png");
+            }
+            if (File.Exists(execPath + "images/top_right_hover.png"))
+            {
+                top_right_hover = Image.FromFile(execPath + "images/top_right_hover.png");
+            }
+            if (File.Exists(execPath + "images/top_right_off.png"))
+            {
+                top_right_off = Image.FromFile(execPath + "images/top_right_off.png");
+            }
+            if (File.Exists(execPath + "images/top_right_on.png"))
+            {
+                top_right_on = Image.FromFile(execPath + "images/top_right_on.png");
+            }
+            if (File.Exists(execPath + "images/top_right_selected.png"))
+            {
+                top_right_selected = Image.FromFile(execPath + "images/top_right_selected.png");
+            }
+            if (File.Exists(execPath + "images/top_selected.png"))
+            {
+                top_selected = Image.FromFile(execPath + "images/top_selected.png");
             }
             if (File.Exists(execPath + "images/version.png"))
             {
@@ -9971,53 +10056,13 @@ namespace plt0_gui
             {
                 version_hover = Image.FromFile(execPath + "images/version_hover.png");
             }
-            if (File.Exists(execPath + "images/sync_preview_on.png"))
+            if (File.Exists(execPath + "images/youtube.png"))
             {
-                sync_preview_on = Image.FromFile(execPath + "images/sync_preview_on.png");
+                youtube = Image.FromFile(execPath + "images/youtube.png");
             }
-            if (File.Exists(execPath + "images/sync_preview_off.png"))
+            if (File.Exists(execPath + "images/youtube_hover.png"))
             {
-                sync_preview_off = Image.FromFile(execPath + "images/sync_preview_off.png");
-            }
-            if (File.Exists(execPath + "images/sync_preview_hover.png"))
-            {
-                sync_preview_hover = Image.FromFile(execPath + "images/sync_preview_hover.png");
-            }
-            if (File.Exists(execPath + "images/sync_preview_selected.png"))
-            {
-                sync_preview_selected = Image.FromFile(execPath + "images/sync_preview_selected.png");
-            }
-            if (File.Exists(execPath + "images/cmpr_save.png"))
-            {
-                cmpr_save = Image.FromFile(execPath + "images/cmpr_save.png");
-            }
-            if (File.Exists(execPath + "images/cmpr_save_hover.png"))
-            {
-                cmpr_save_hover = Image.FromFile(execPath + "images/cmpr_save_hover.png");
-            }
-            if (File.Exists(execPath + "images/cmpr_save_as_hover.png"))
-            {
-                cmpr_save_as_hover = Image.FromFile(execPath + "images/cmpr_save_as_hover.png");
-            }
-            if (File.Exists(execPath + "images/cmpr_save_as.png"))
-            {
-                cmpr_save_as = Image.FromFile(execPath + "images/cmpr_save_as.png");
-            }
-            if (File.Exists(execPath + "images/cmpr_swap_hover.png"))
-            {
-                cmpr_swap_hover = Image.FromFile(execPath + "images/cmpr_swap_hover.png");
-            }
-            if (File.Exists(execPath + "images/cmpr_swap.png"))
-            {
-                cmpr_swap = Image.FromFile(execPath + "images/cmpr_swap.png");
-            }
-            if (File.Exists(execPath + "images/cmpr_swap2_hover.png"))
-            {
-                cmpr_swap2_hover = Image.FromFile(execPath + "images/cmpr_swap2_hover.png");
-            }
-            if (File.Exists(execPath + "images/cmpr_swap2.png"))
-            {
-                cmpr_swap2 = Image.FromFile(execPath + "images/cmpr_swap2.png");
+                youtube_hover = Image.FromFile(execPath + "images/youtube_hover.png");
             }
         }
         private void bmd_Click(object sender, EventArgs e)
@@ -12571,6 +12616,19 @@ namespace plt0_gui
         {
             paint_ck.BackgroundImage = paint_selected;
         }
+        private void banner_global_move_Click(object sender, EventArgs e)
+        {
+            if (banner_global_move)
+            {
+                banner_global_move = false;
+                banner_global_move_ck.BackgroundImage = banner_global_move_hover;
+            }
+            else
+            {
+                banner_global_move = true;
+                banner_global_move_ck.BackgroundImage = banner_global_move_selected;
+            }
+        }
         private void Minimized_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
@@ -13600,12 +13658,12 @@ namespace plt0_gui
         {
             if (view_algorithm)
             {
-                Hide_algorithm(algorithm, true);
+                Hide_algorithm(255, true);
                 Category_hover(view_algorithm_ck);
             }
             else
             {
-                View_algorithm(algorithm, true);
+                View_algorithm(255, true);
                 Category_selected(view_algorithm_ck);
             }
         }
@@ -13897,9 +13955,25 @@ namespace plt0_gui
         {
             Hide_description();
         }
-        private void banner_move_MouseEnter(object sender, EventArgs e)
+        private void banner_global_move_MouseEnter(object sender, EventArgs e)
         {
             Parse_Markdown(lines[239]);
+            if (banner_global_move)
+                banner_global_move_ck.BackgroundImage = banner_global_move_selected;
+            else
+                banner_global_move_ck.BackgroundImage = banner_global_move_hover;
+        }
+        private void banner_global_move_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (banner_global_move)
+                banner_global_move_ck.BackgroundImage = banner_global_move_on;
+            else
+                banner_global_move_ck.BackgroundImage = banner_global_move_off;
+        }
+        private void banner_move_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[240]);
         }
         private void banner_move_MouseLeave(object sender, EventArgs e)
         {
@@ -13907,7 +13981,7 @@ namespace plt0_gui
         }
         private void banner_resize_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[240]);
+            Parse_Markdown(lines[241]);
         }
         private void banner_resize_MouseLeave(object sender, EventArgs e)
         {
@@ -13915,7 +13989,7 @@ namespace plt0_gui
         }
         private void sync_preview_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[241]);
+            Parse_Markdown(lines[242]);
             if (!preview_changed)
                 sync_preview_ck.BackgroundImage = sync_preview_hover;
             else
@@ -13931,7 +14005,7 @@ namespace plt0_gui
         }
         private void cmpr_save_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[242]);
+            Parse_Markdown(lines[243]);
             cmpr_save_ck.BackgroundImage = cmpr_save_hover;
         }
         private void cmpr_save_MouseLeave(object sender, EventArgs e)
@@ -13941,7 +14015,7 @@ namespace plt0_gui
         }
         private void cmpr_save_as_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[243]);
+            Parse_Markdown(lines[244]);
             cmpr_save_as_ck.BackgroundImage = cmpr_save_as_hover;
         }
         private void cmpr_save_as_MouseLeave(object sender, EventArgs e)
@@ -13951,7 +14025,7 @@ namespace plt0_gui
         }
         private void cmpr_swap_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[244]);
+            Parse_Markdown(lines[245]);
             cmpr_swap_ck.BackgroundImage = cmpr_swap_hover;
         }
         private void cmpr_swap_MouseLeave(object sender, EventArgs e)
@@ -13961,7 +14035,7 @@ namespace plt0_gui
         }
         private void cmpr_swap2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[245]);
+            Parse_Markdown(lines[246]);
             cmpr_swap2_ck.BackgroundImage = cmpr_swap2_hover;
         }
         private void cmpr_swap2_MouseLeave(object sender, EventArgs e)
@@ -13971,7 +14045,7 @@ namespace plt0_gui
         }
         private void cmpr_palette_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[246]);
+            Parse_Markdown(lines[247]);
         }
         private void cmpr_palette_MouseLeave(object sender, EventArgs e)
         {
@@ -13979,7 +14053,7 @@ namespace plt0_gui
         }
         private void cmpr_mouse1_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[247]);
+            Parse_Markdown(lines[248]);
         }
         private void cmpr_mouse1_MouseLeave(object sender, EventArgs e)
         {
@@ -13987,7 +14061,7 @@ namespace plt0_gui
         }
         private void cmpr_mouse2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[248]);
+            Parse_Markdown(lines[249]);
         }
         private void cmpr_mouse2_MouseLeave(object sender, EventArgs e)
         {
@@ -13995,7 +14069,7 @@ namespace plt0_gui
         }
         private void cmpr_mouse3_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[249]);
+            Parse_Markdown(lines[250]);
         }
         private void cmpr_mouse3_MouseLeave(object sender, EventArgs e)
         {
@@ -14003,7 +14077,7 @@ namespace plt0_gui
         }
         private void cmpr_mouse4_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[250]);
+            Parse_Markdown(lines[251]);
         }
         private void cmpr_mouse4_MouseLeave(object sender, EventArgs e)
         {
@@ -14011,7 +14085,7 @@ namespace plt0_gui
         }
         private void cmpr_mouse5_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[251]);
+            Parse_Markdown(lines[252]);
         }
         private void cmpr_mouse5_MouseLeave(object sender, EventArgs e)
         {
@@ -14019,7 +14093,7 @@ namespace plt0_gui
         }
         private void cmpr_sel_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[252]);
+            Parse_Markdown(lines[253]);
         }
         private void cmpr_sel_MouseLeave(object sender, EventArgs e)
         {
@@ -14027,7 +14101,7 @@ namespace plt0_gui
         }
         private void cmpr_c1_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[253]);
+            Parse_Markdown(lines[254]);
         }
         private void cmpr_c1_MouseLeave(object sender, EventArgs e)
         {
@@ -14035,7 +14109,7 @@ namespace plt0_gui
         }
         private void cmpr_c2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[254]);
+            Parse_Markdown(lines[255]);
         }
         private void cmpr_c2_MouseLeave(object sender, EventArgs e)
         {
@@ -14043,7 +14117,7 @@ namespace plt0_gui
         }
         private void cmpr_c3_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[255]);
+            Parse_Markdown(lines[256]);
         }
         private void cmpr_c3_MouseLeave(object sender, EventArgs e)
         {
@@ -14051,7 +14125,7 @@ namespace plt0_gui
         }
         private void cmpr_c4_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[256]);
+            Parse_Markdown(lines[257]);
         }
         private void cmpr_c4_MouseLeave(object sender, EventArgs e)
         {
@@ -14077,20 +14151,28 @@ namespace plt0_gui
             cmpr_selected_colour = 4;
             cmpr_sel.BackColor = System.Drawing.Color.FromArgb(cmpr_colours_argb[12], cmpr_colours_argb[13], cmpr_colours_argb[14], cmpr_colours_argb[15]);
         }
+        private void banner_global_move_MouseDown(object sender, MouseEventArgs e)
+        {
+            // e.Button;
+            mouse_x = e.X;
+            mouse_y = e.Y;
+        }
+        private void banner_global_move_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (banner_global_move && e.Button == MouseButtons.Left)
+            {
+                this.Location = new Point(this.Location.X + e.X - mouse_x, this.Location.Y + e.Y - mouse_y);
+            }
+        }
         private void banner_move_MouseDown(object sender, MouseEventArgs e)
         {
             // e.Button;
             mouse_x = e.X;
             mouse_y = e.Y;
-            mouse_down = true;
-        }
-        private void banner_move_MouseUp(object sender, MouseEventArgs e)
-        {
-            mouse_down = false;
         }
         private void banner_move_MouseMove(object sender, MouseEventArgs e)
         {
-            if (mouse_down)
+            if (e.Button == MouseButtons.Left)
             {
                 this.Location = new Point(this.Location.X + e.X - mouse_x, this.Location.Y + e.Y - mouse_y);
             }
@@ -14100,15 +14182,10 @@ namespace plt0_gui
             // e.Button;
             mouse_x = e.X;
             mouse_y = e.Y;
-            mouse_down = true;
-        }
-        private void banner_resize_MouseUp(object sender, MouseEventArgs e)
-        {
-            mouse_down = false;
         }
         private void banner_resize_MouseMove(object sender, MouseEventArgs e)
         {
-            if (mouse_down)
+            if (e.Button == MouseButtons.Left)
             {
                 this.Location = new Point(this.Location.X + e.X - mouse_x, this.Location.Y + e.Y - mouse_y);
                 this.Size = new Size(this.Size.Width + mouse_x - e.X, this.Size.Height + mouse_y - e.Y);
@@ -14206,7 +14283,7 @@ namespace plt0_gui
         }
         private void cmpr_block_selection_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[257]);
+            Parse_Markdown(lines[258]);
             if (tooltip == 0)
                 selected_tooltip(cmpr_block_selection_ck);
             else
@@ -14228,7 +14305,7 @@ namespace plt0_gui
         }
         private void cmpr_block_paint_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[258]);
+            Parse_Markdown(lines[259]);
             if (tooltip == 1)
                 selected_tooltip(cmpr_block_paint_ck);
             else
@@ -14244,16 +14321,16 @@ namespace plt0_gui
         }
         private void Warn_rgb565_colour_trim()
         {
-            Parse_Markdown(lines[259], cmpr_warning);
+            Parse_Markdown(lines[260], cmpr_warning);
         }
         private void Put_that_damn_cmpr_layout_in_place()
         {
             Check_Paint();
-            Parse_Markdown(lines[260], cmpr_mouse1_label);
-            Parse_Markdown(lines[261], cmpr_mouse2_label);
-            Parse_Markdown(lines[262], cmpr_mouse3_label);
-            Parse_Markdown(lines[263], cmpr_mouse4_label);
-            Parse_Markdown(lines[264], cmpr_mouse5_label);
+            Parse_Markdown(lines[261], cmpr_mouse1_label);
+            Parse_Markdown(lines[262], cmpr_mouse2_label);
+            Parse_Markdown(lines[263], cmpr_mouse3_label);
+            Parse_Markdown(lines[264], cmpr_mouse4_label);
+            Parse_Markdown(lines[265], cmpr_mouse5_label);
             checked_tooltip(cmpr_block_selection_ck);
             unchecked_tooltip(cmpr_block_paint_ck);
         }
@@ -14286,7 +14363,7 @@ namespace plt0_gui
                 cli.Parse_args(cmpr_args);
                 if (cli.texture_format != 0xE)
                 {
-                    Parse_Markdown(lines[265], cmpr_warning);
+                    Parse_Markdown(lines[266], cmpr_warning);
                     return;
                 }
                 if (File.Exists(execPath + "images/preview/" + num + ".bmp"))
@@ -14323,7 +14400,7 @@ namespace plt0_gui
             }
             else
             {
-                Parse_Markdown(lines[265], cmpr_warning);
+                Parse_Markdown(lines[266], cmpr_warning);
             }
         }
         private void cmpr_c2_TextChanged(object sender, EventArgs e)

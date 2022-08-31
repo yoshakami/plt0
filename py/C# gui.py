@@ -365,6 +365,20 @@ for k in range(len(lyt)):
         {
             """ + lyt[k] + "_ck.BackgroundImage = " + lyt[k] + """_selected;
         }"""
+output += """
+        private void banner_global_move_Click(object sender, EventArgs e)
+        {
+            if (banner_global_move)
+            {
+                banner_global_move = false;
+                banner_global_move_ck.BackgroundImage = banner_global_move_hover;
+            }
+            else
+            {
+                banner_global_move = true;
+                banner_global_move_ck.BackgroundImage = banner_global_move_selected;
+            }
+        }"""
 banner_common = ["Minimized", "Maximized", "Close"]
 banner_short = ["minus", "5", "x"]
 line3 = ["this.WindowState = FormWindowState.Minimized", "this.WindowState = FormWindowState.Maximized", "Environment.Exit(0)"]
@@ -628,7 +642,7 @@ for r in range(3):
 view = ["view_alpha", "view_algorithm", "view_WrapS", "view_WrapT", "view_min", "view_mag", "view_rgba", "view_palette", "view_cmpr", "view_options"]
 # ck_name = ["alpha_ck_array", "algorithm_ck", "WrapS_ck", "WrapT_ck", "minification_ck", "magnification_ck"]
 for j in range(len(view)):
-    hide = [view[j].split('_')[1] + "(true);", view[j].split('_')[1] + "(algorithm, true);"] + [view[j].split('_')[1] + "(true);"] * 9
+    hide = [view[j].split('_')[1] + "(true);", view[j].split('_')[1] + "(255, true);"] + [view[j].split('_')[1] + "(true);"] * 9
     x += 1
     output += """
         private void """ + view[j] + """_Click(object sender, EventArgs e)
@@ -660,13 +674,18 @@ for j in range(len(view)):
             else
                 Category_unchecked(""" + view[j] + """_ck);
         }"""
-text_icon = ["version", "cli_textbox", "run", "Output_label", "banner_move", "banner_resize", "sync_preview", "cmpr_save", "cmpr_save_as", "cmpr_swap", "cmpr_swap2", "cmpr_palette", "cmpr_mouse1", "cmpr_mouse2", "cmpr_mouse3", "cmpr_mouse4", "cmpr_mouse5", "cmpr_sel", "cmpr_c1", "cmpr_c2", "cmpr_c3", "cmpr_c4"]
+text_icon = ["version", "cli_textbox", "run", "Output_label", "banner_global_move", "banner_move", "banner_resize", "sync_preview", "cmpr_save", "cmpr_save_as", "cmpr_swap", "cmpr_swap2", "cmpr_palette", "cmpr_mouse1", "cmpr_mouse2", "cmpr_mouse3", "cmpr_mouse4", "cmpr_mouse5", "cmpr_sel", "cmpr_c1", "cmpr_c2", "cmpr_c3", "cmpr_c4"]
 for s in range(len(text_icon)):
     line2 = [
 "\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;",
 "\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;\n            this.cli_textbox_label.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(4)))), ((int)(((byte)(0)))));",
 "\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;",
 "",
+"""
+            if (banner_global_move)
+                banner_global_move_ck.BackgroundImage = banner_global_move_selected;
+            else
+                banner_global_move_ck.BackgroundImage = banner_global_move_hover;""",
 "",
 "",
 "\n            if (!preview_changed)\n                " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_hover;\n            else\n                " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_selected;"] + [
@@ -674,7 +693,15 @@ for s in range(len(text_icon)):
     line3 = [
 "\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + ";",
 "\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + ";\n            this.cli_textbox_label.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(20)))), ((int)(((byte)(0)))), ((int)(((byte)(49)))));",
-"\n            Check_run();", "", "", "",
+"\n            Check_run();",
+"",
+"""
+            if (banner_global_move)
+                banner_global_move_ck.BackgroundImage = banner_global_move_on;
+            else
+                banner_global_move_ck.BackgroundImage = banner_global_move_off;""",
+"",
+"",
 "\n            if (!preview_changed)\n                " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_off;\n            else\n                " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + "_on;"] + [
 "\n            " + text_icon[s] + "_ck.BackgroundImage = " + text_icon[s] + ";"] * 4 + [""] * 15
     x += 1
@@ -694,23 +721,20 @@ for u in range(len(text_icon) - 4, len(text_icon)):
             cmpr_selected_colour = """ + str(u - len(text_icon) + 5) + """;
             cmpr_sel.BackColor = System.Drawing.Color.FromArgb(cmpr_colours_argb[""" + str(((u - len(text_icon) + 5) << 2) - 4) + "], cmpr_colours_argb[" + str(((u - len(text_icon) + 5) << 2) - 3) + "], cmpr_colours_argb[" + str(((u - len(text_icon) + 5) << 2) - 2) + "], cmpr_colours_argb[" + str(((u - len(text_icon) + 5) << 2) - 1) + """]);
         }"""
-line4 = [''] * 5 + ["\n                this.Size = new Size(this.Size.Width + mouse_x - e.X, this.Size.Height + mouse_y - e.Y);"]
-for t in range(4, 6):
+line4 = [''] * 6 + ["\n                this.Size = new Size(this.Size.Width + mouse_x - e.X, this.Size.Height + mouse_y - e.Y);"]
+line5 = [''] * 5 + ["\n                this.Size = new Size(this.Size.Width + mouse_x - e.X, this.Size.Height + mouse_y - e.Y);", '']
+line6 = [''] * 4 + ["banner_global_move && e.Button == MouseButtons.Left"] + ["e.Button == MouseButtons.Left"] * 2
+for t in range(4, 7):
     output += """
         private void """ + text_icon[t] + """_MouseDown(object sender, MouseEventArgs e)
         {
             // e.Button;
             mouse_x = e.X;
             mouse_y = e.Y;
-            mouse_down = true;
-        }
-        private void """ + text_icon[t] + """_MouseUp(object sender, MouseEventArgs e)
-        {
-            mouse_down = false;
         }
         private void """ + text_icon[t] + """_MouseMove(object sender, MouseEventArgs e)
         {
-            if (mouse_down)
+            if (""" + line6[t] + """)
             {
                 this.Location = new Point(this.Location.X + e.X - mouse_x, this.Location.Y + e.Y - mouse_y);""" + line4[t] + """
             }
