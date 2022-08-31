@@ -15,11 +15,62 @@ Encoding number (internally named GdiCharSet, see https://docs.microsoft.com/en-
 128
 CMPR Hover Colour
 White
-CMPR Edited Colour
-Transparent
-
-
-
+CMPR Hover colour Checkbox {"True", "False"}
+False
+CMPR Update Preview {"True", "False"}
+True
+Update Preview for Textboxes {"True", "False"}
+True
+Auto Update Preview {"True", "False"}
+True
+Upscale Preview {"True", "False"}
+True
+bmd {"True", "False"}
+False
+bti {"True", "False"}
+False
+tex0 {"True", "False"}
+False
+tpl {"True", "False"}
+False
+bmp {"True", "False"}
+False
+png {"True", "False"}
+False
+jpg {"True", "False"}
+False
+jpeg {"True", "False"}
+False
+gif {"True", "False"}
+False
+ico {"True", "False"}
+False
+tif {"True", "False"}
+False
+tiff {"True", "False"}
+False
+ask exit {"True", "False"}
+False
+32-bit bmp {"True", "False"}
+False
+FORCE ALPHA {"True", "False"}
+False
+funky {"True", "False"}
+False
+name string {"True", "False"}
+False
+random palette {"True", "False"}
+False
+reverse x-axis {"True", "False"}
+False
+reverse y_axis {"True", "False"}
+False
+safe mode {"True", "False"}
+False
+stfu {"True", "False"}
+False
+warn {"True", "False"}
+False
 
 
 yeah, I decided to implement my own markdown again.
@@ -57,13 +108,12 @@ colour names are all the ones allowed in System.Drawing.Color
 \v (GdiVerticalFont = true by default) see https://docs.microsoft.com/en-us/dotnet/api/system.drawing.font.gdiverticalfont?view=dotnet-plat-ext-6.0
 \q values are {"World", "Pixel", "Point", "Inch", "Document", "Milimeter", "Display"}
 \g is actually the encoding, 0 is ANSI for example. see https://docs.microsoft.com/en-us/dotnet/api/system.drawing.font.gdicharset?view=dotnet-plat-ext-6.0
-if it doesn't have quotes, make markdown with arguments always end with a space (\c \f \g \j \q \s)
+if it doesn't have quotes, make markdown with arguments always end with a space (\c \f \g \q \s)
 the byte \x00 must always have 2 digits (that way, the program know where it ends, and you don't need to add a ending character after it)
 
 
 you can use \j 8 times at most in one line of this .txt
 this is because labels override each other :/ even though its back is transparent, it won't allow the text of the other label back him to show
-
 
 
 
@@ -91,7 +141,8 @@ reverse output vertically
 makes the program to never throw any exception (useful when using subprocess.checkoutput in python)
 silent mode (with a cool small internal name)
 verbose mode (prints the internal variables content and some other text in the console)
-activate a block colour when you move your mouse onto the preview.\n\n\n\n\n\n\n\n\n\n\n\n (convert the 2D vector of mouse cursor position into a byte array of a bmp file in the background)
+activate a block colour when you\jmove your mouse onto the preview.\j\j\c GreenYellow Shortcut: Enter\n\n\n\n\n\n\n\n\n\n\n\n (convert the 2D vector of mouse cursor position into a byte array of a bmp file in the background)
+Update the Preview whenever\jthe 4x4 block is edited.\j\jalso update as soon as\jthis option is checked.\j\j\c GreenYellow Shortcut: Ctrl + U
 black and white, 4 bit per pixel - no alpha \n(will look bad if your image is colorful)
 black and white, 8 bit per pixel - no alpha
 black and white, 4 bit per pixel - alpha \n(looks bad, and an alpha value is stored for each pixel)
@@ -132,13 +183,13 @@ Swap the Red channel with one of your choice
 Swap the Green channel with one of your choice
 Swap the Blue channel with one of your choice
 Swap the Alpha channel with one of your choice
-Layout - show everything even if it has no inpact when running
-Layout - will only display options matching what's selected
-Layout - Preview the encoded/decoded texture
-Layout - CMPR Image Editor
-Minimize
-Maximize
-Close
+Layout - show everything\jeven if it has no inpact when running\j\j\c GreenYellow Shortcut: F1
+Layout - will only display options\jmatching what's selected\j\j\c GreenYellow Shortcut: F2
+Layout - Preview the encoded\jor decoded texture\j\j\c GreenYellow Shortcut: F3
+Layout - CMPR Image Editor\j\j\c GreenYellow Shortcut: F4
+Minimize\j\j\c GreenYellow Shortcut: F10
+Maximize\j\j\c GreenYellow Shortcut: F11
+Close\j\j\c GreenYellow Shortcut: Escape
 Scale the window to the left with half of your screen's width (implementation of win + left arrow)
 Scale the window to the Upper Left Corner with 1/4 screen width and 1/2 screen height (win + left arrow then win + up arrow)
 Scale the window to the top with half of your screen's height (no native shortcut)
@@ -184,28 +235,28 @@ Toogle the CMPR Category
 Toogle the Options Category
 The version of this tool
 full command if you wanted to run the app with the current parameters from a command line
-Launch the application
+Launch the application\j\j\c GreenYellow Shortcut: Ctrl + R
 The output text after you click on >Run
 Move this window
 Resize this window
-Refresh the preview (you can't see this text though)
-Save the texture to what you've written in output name
-Open a save prompt (with the file explorer)
+Refresh the preview\j(you can't see this text though)\j\j\c GreenYellow Unless you have a 4k screeeeeen :D\jWelcome to the creew !!!\jgnow you can develop with windows.forms
+Save the texture to what\jyou've written in output name\j\j\c GreenYellow Shortcut: Ctrl + S
+Open a save prompt\j(with the file explorer)\j\j\c GreenYellow Shortcut: Ctrl + Shift + S
 Swap Colour1 and Colour2 \j\c MediumVioletRed (toogle transparency)
 Swap Colour1 and Colour2 \jbut doesn't swap the indexes\jin the 4x4 block\j\c MediumVioletRed (toogle transparency)
-Click to quickly change one of the 4 colours
+This is a palette.\n\nClick to change one of the 4 colours
 hold Mouse wheel down on any pixel of the Selected Block to assign it to Colour 1
 hold Right Click down on any pixel of the Selected Block to assign it to Colour 2
 hold Forward Button \j\c DarkTurquoise (located on the side of gaming mouses)\j\c Coral down on any pixel of the Selected Block to assign it to Colour 3
 hold Backward Button \j\c DarkTurquoise (located on the side of gaming mouses)\j\c MediumAquamarine down on any pixel of the Selected Block to assign it to Colour 4
 hold Left Click down on any pixel of\jthe Selected Block to assign it to the\jcolour you see \j\j\c Orange (the one you've selected)
 Click on any of the 4 colours to Select it.\n\n(this will bind left click to this colour when you click on any pixel of the Selected Block)
-the first rgb565 colour of the selected 4x4 block
-the second rgb565 colour of the selected 4x4 block
-third colour \j\j\c red it is interpolated,\j\c red you can't edit it directly
-fourth colour \j\j\c red it is interpolated,\j\c red you can't edit it directly
-will select a 4x4 block\nwhen you click on the preview picture
-will pick a colour\nwhen you click on a pixel of the preview picture\n\nalternatively, you can click whenever you want in the bottom line to load a colour
+the first rgb565 colour\jof the selected 4x4 block\j\j\c GreenYellow Shortcut to select it: Ctrl + 1
+the second rgb565 colour\jof the selected 4x4 block\j\j\c GreenYellow Shortcut to select it: Ctrl + 2
+third colour \j\j\c red it is interpolated,\j\c red you can't edit it directly\j\j\c GreenYellow Shortcut to select it: Ctrl + 3
+fourth colour \j\j\c red it is interpolated,\j\c red you can't edit it directly\j\j\c GreenYellow Shortcut to select it: Ctrl + 4
+will select a 4x4 block\jwhen you click on the preview picture\j\j\c GreenYellow Shortcut: press Control Key
+will pick a colour\jwhen you click on a pixel\jof the preview picture\j\j\c GreenYellow Shortcut: Hold Control Key
 \c orange colour trimmed to RGB565
 \c green -> Mouse Wheel Click
 \c green -> Right Click
@@ -213,8 +264,10 @@ will pick a colour\nwhen you click on a pixel of the preview picture\n\nalternat
 \c green -> Backward Button
 \c green -> Left Click
 \c red Input file is not a CMPR texture
-\c yellow no. I told you already\jyou can't directly change\jColour 3 or 4 
+\c yellow no. I told you already. You can't directly change Colour 3 or 4 
 \c white Sir, have you every wondered why there's no "A" in "RGB565" ?
+\c Turquoise saved \o
+\c AliceBlue save failed\n\o is used by another process
 (1, 1)
 (1, 2)
 (1, 3)
@@ -234,9 +287,6 @@ will pick a colour\nwhen you click on a pixel of the preview picture\n\nalternat
 color, 16 bits per pixel - no alpha \j\c red 5 bits red\j\c green 6 bits green\j\c blue 5 bits blue\j\c Violet  test\j\c pink test2\j\c orange text\j\c purple purple\j\c chartreuse chartreuse\c yellow yellow
 Hello \u ! you found an easter egg lol \n\ndid you know most apps have a folder in \a ?\j\j\j\n\n\c Red this one doesn't though. I prefer using local files.
 this is padding data to alignment. (meme)
-this is padding data to alignment.
-this is padding data to alignment.
-this is padding data to alignment.
 this is padding data to alignment.
 this is padding data to alignment.
 this is padding data to alignment.
