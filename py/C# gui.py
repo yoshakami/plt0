@@ -391,29 +391,29 @@ for l in range(len(banner_common)):
             if (this.WindowState == FormWindowState.Maximized)
             {
                 this.WindowState = FormWindowState.Normal;
-                banner_5_ck.BackgroundImage = maximized_hover;
+                banner_f11_ck.BackgroundImage = maximized_hover;
             }
             else
             {
                 this.WindowState = FormWindowState.Maximized;
-                banner_5_ck.BackgroundImage = maximized_selected;
+                banner_f11_ck.BackgroundImage = maximized_selected;
             }
         }
         private void Maximized_MouseEnter(object sender, EventArgs e)
         {
             Parse_Markdown(lines[""" + str(x) + """]);
             if (this.WindowState == FormWindowState.Maximized)
-                banner_5_ck.BackgroundImage = maximized_selected;
+                banner_f11_ck.BackgroundImage = maximized_selected;
             else
-                banner_5_ck.BackgroundImage = maximized_hover;
+                banner_f11_ck.BackgroundImage = maximized_hover;
         }
         private void Maximized_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
             if (this.WindowState == FormWindowState.Maximized)
-                banner_5_ck.BackgroundImage = maximized_on;
+                banner_f11_ck.BackgroundImage = maximized_on;
             else
-                banner_5_ck.BackgroundImage = maximized_off;
+                banner_f11_ck.BackgroundImage = maximized_off;
         }"""
         continue
     output += """
@@ -549,23 +549,21 @@ output += """
         {
             FileDialog dialog = new OpenFileDialog
             {
-                if (layout == 3)
-                {
-                    Title = "Select a CMPR texture"
-                    Filter = \"""" + name2[0] + '|' + filter2[0] + """|All files (*.*)|*.*",
-                }
-                else
-                {
-                    Title = \"""" + file_title[n] + """",
-                    Filter = \"""" + name[n] + '|' + filter[n] + '|' + name2[n] + '|' + filter2[n] + """|All files (*.*)|*.*",
-                }
+                Title = "Select a picture or a texture",
+                Filter = "Picture|*.bmp;*.png;*.jfif;*.jpg;*.jpeg;*.jpg;*.ico;*.gif;*.tif;*.tiff;*.rle;*.dib|Texture|*.bti;*.tex0;*.tpl|All files (*.*)|*.*",
                 RestoreDirectory = true
             };
+            if (layout == 3)
+            {
+                dialog.Title = "Select a CMPR texture";
+                dialog.Filter = "Texture|*.bti;*.tex0;*.tpl|All files (*.*)|*.*";
+            }
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                """ + textbox[n] + """.Text = dialog.FileName;
-                """ + textbox[n][:-4] + """ = dialog.FileName;
-                Check_run();""" + check_paint[n] + """
+                input_file_txt.Text = dialog.FileName;
+                input_file = dialog.FileName;
+                Check_run();
+                Check_Paint();
                 Organize_args();
             }
         }"""
@@ -593,10 +591,12 @@ output += """
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog
             {
-                Title = "Output File Name (you actually need to click "Run" to save it)",
+                Title = "Output File Name (you actually need to click on Run to save it)",
                 Filter = "All files (*.*)|*.*|Texture|*.bti;*.tex0;*.tpl|Picture|*.bmp;*.png;*.jfif;*.jpg;*.jpeg;*.jpg;*.ico;*.gif;*.tif;*.tiff;*.rle;*.dib",
                 RestoreDirectory = true,
             };
+            if (layout == 3)
+                saveFileDialog.Title = "Output File Name (this won't save it, it just sets its name)";
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 output_name_txt.Text = saveFileDialog.FileName;
@@ -682,6 +682,7 @@ output += """
             Organize_args();
             Preview(true);""" + check_paint[o] + """
         }"""
+x += 1
 for o in range(4, len(textbox)):
     x += 1
     output += """
