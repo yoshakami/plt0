@@ -432,7 +432,7 @@ for l in range(len(banner_common)):
             banner_""" + banner_short[l] + """_ck.BackgroundImage = """ + banner_common[l].lower() + """;
         }"""
 banner_long = ["Left", "Top_left", "Top", "Top_right", "Right", "Bottom_right", "Bottom", "Bottom_left", "Arrow_1080p", "Screen2_Left", "Screen2_Top_left", "Screen2_Top", "Screen2_Top_right", "Screen2_Right", "Screen2_Bottom_right", "Screen2_Bottom", "Screen2_Bottom_left", "Screen2_Arrow_1080p"]
-banner = ["4", "7", "8", "9", "6", "3", "2", "1", , "5", "14", "17", "18", "19", "16", "13", "12", "11", "15"]  # it's faster to look at the numpad arrows
+banner = ["4", "7", "8", "9", "6", "3", "2", "1", "5", "14", "17", "18", "19", "16", "13", "12", "11", "15"]  # it's faster to look at the numpad arrows
 location = ["Screen.AllScreens[i].Bounds.Location"] * 3 + [
 "new Point(Screen.AllScreens[i].Bounds.X + Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Y)",   # Top Right
 "new Point(Screen.AllScreens[i].Bounds.X + Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Y)",   # Right
@@ -1369,7 +1369,7 @@ output += """
         private void cmpr_KeyDown(object sender, KeyEventArgs e)
         {
             
-            cmpr_warning.Text = $"KeyDown code: {e.KeyCode}, value: {e.KeyValue}, modifiers: {e.Modifiers}" + "\r\n";
+            cmpr_warning.Text = $"KeyDown code: {e.KeyCode}, value: {e.KeyValue}, modifiers: {e.Modifiers}";
             if (e.KeyCode == Keys.F1)
                 All_Click(null, null);
             else if (e.KeyCode == Keys.F2)
