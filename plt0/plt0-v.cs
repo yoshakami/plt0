@@ -3111,8 +3111,6 @@ namespace plt0_gui
         }
         private void Paint_Pixel(int x, int y, byte button, bool called_outside_update_colours = true)  // note: X and Y are height and width WITHIN the picturebox
         {
-            if (cmpr_file == null)
-                return;
             x >>= 6;
             y >>= 6;
             if (x > 3 || y > 3 || x < 0 || y < 0)
@@ -3123,12 +3121,13 @@ namespace plt0_gui
             cmpr_4x4[173 + (x << 2) - (y << 4)] = cmpr_colours_argb[(button << 2) - 4];  // A
             //cmpr_grid[index].BackColor = Color.FromArgb(cmpr_colours_argb[(button << 2) - 4], cmpr_colours_argb[(button << 2) - 3], cmpr_colours_argb[(button << 2) - 2], cmpr_colours_argb[(button << 2) - 1]);
             cmpr_index[x + (y << 2)] = (byte)(button - 1);
-
+            cmpr_grid_ck.Image = GetImageFromByteArray(cmpr_4x4);
+            if (cmpr_file == null || loaded_block == -1)  // the default value when no blocks are selected was making the program write into the header >_<
+                return;
             cmpr_file[cmpr_data_start_offset + (loaded_block << 3) + 4 + y] &= (byte)(0xff ^ (3 << (6 - (x << 1)))); // voids the previous index
             cmpr_file[cmpr_data_start_offset + (loaded_block << 3) + 4 + y] += (byte)((button - 1) << (6 - (x << 1))); // replaces it with the new one
             // change that because the first byte of a bmp is at the last line :P
             // also X + Y doesn't work because 0, 1 = 1, 0 lol
-            cmpr_grid_ck.Image = GetImageFromByteArray(cmpr_4x4);
             if (called_outside_update_colours)
                 Preview_Paint();
         }
