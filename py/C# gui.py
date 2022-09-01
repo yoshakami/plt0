@@ -1040,7 +1040,7 @@ output += """
         {
             if (cmpr_colour_index > 2)
             {
-                Parse_Markdown(lines[216], cmpr_warning);
+                Parse_Markdown(lines[""" + str(x + 2) + """], cmpr_warning);
             }
             cmpr_index_i = (byte)((cmpr_file[cmpr_data_start_offset + (current_block << 3) + 4 + cmpr_y] >> (6 - (cmpr_x << 1))) & 3);
             if (cmpr_index_i < 2)
@@ -1088,7 +1088,7 @@ output += """
                     }
                     else
                     {
-                        Parse_Markdown(lines[217], cmpr_warning);
+                        Parse_Markdown(lines[""" + str(x + 3) + """], cmpr_warning);
                     }
                 }
             }
@@ -1333,14 +1333,14 @@ output += """
                 {
                     fs.Write(cmpr_file, 0, cmpr_file.Length);
                 }
-                Parse_Markdown(lines[217], description);
+                Parse_Markdown(lines[""" + str(x + 4) + """], description);
             }
             catch (Exception ex)
             {
                 description.Text = ex.Message;
                 if (ex.Message.Substring(0, 34) == "The process cannot access the file")  // because it is being used by another process
                 {
-                    Parse_Markdown(lines[218], description);
+                    Parse_Markdown(lines[""" + str(x + 5) + """], description);
                 }
             }
         }
