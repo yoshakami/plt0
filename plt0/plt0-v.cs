@@ -512,10 +512,10 @@ namespace plt0_gui
             font_colour = lines[10];  // default colour
             font_name = lines[12]; // default font name
             font_style = 0;
-            font_unit = "point";
-            size_font = 15F;
+            font_unit = "pixel";
+            size_font = 20F;
+            font_size = "20";
             font_encoding = "128";
-            font_size = "15";
             byte.TryParse(lines[14], out GdiCharSet);
             if (txt.Contains("\\b"))
             {
@@ -582,7 +582,7 @@ namespace plt0_gui
                     unit_font = GraphicsUnit.Display;
                     break;
                 default:  // I were to always suppose the setting file's markdown would never have errors so I haven't made any hard check. It's not worth securing everything since it's just visual and I'm doing this for free.
-                    unit_font = GraphicsUnit.Point;
+                    unit_font = GraphicsUnit.Pixel;
                     break;
 
             }
@@ -666,10 +666,10 @@ namespace plt0_gui
                 font_colour = lines[10];  // default colour
                 font_name = lines[12]; // default font name
                 font_style = 0;
-                font_unit = "point";
-                size_font = 15F;
+                font_unit = "pixel";
+                size_font = 20F;
                 font_encoding = "128";
-                font_size = "15";
+                font_size = "20";
                 byte.TryParse(lines[14], out GdiCharSet);
                 desc[i].Visible = true;
                 if (txt_label[i].Contains("\\b"))
@@ -737,7 +737,7 @@ namespace plt0_gui
                         unit_font = GraphicsUnit.Display;
                         break;
                     default:  // I were to always suppose the setting file's markdown would never have errors so I haven't made any hard check. It's not worth securing everything since it's just visual and I'm doing this for free.
-                        unit_font = GraphicsUnit.Point;
+                        unit_font = GraphicsUnit.Pixel;
                         break;
 
                 }
@@ -7076,7 +7076,7 @@ namespace plt0_gui
             // 
             this.diversity_txt.BackColor = System.Drawing.Color.Black;
             this.diversity_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.diversity_txt.Font = new System.Drawing.Font("Ableton Sans Small", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.diversity_txt.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.diversity_txt.ForeColor = System.Drawing.SystemColors.Window;
             this.diversity_txt.Location = new System.Drawing.Point(502, 908);
             this.diversity_txt.Margin = new System.Windows.Forms.Padding(0);
@@ -7110,7 +7110,7 @@ namespace plt0_gui
             // 
             this.diversity2_txt.BackColor = System.Drawing.Color.Black;
             this.diversity2_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.diversity2_txt.Font = new System.Drawing.Font("Ableton Sans Small", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.diversity2_txt.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.diversity2_txt.ForeColor = System.Drawing.SystemColors.Window;
             this.diversity2_txt.Location = new System.Drawing.Point(624, 908);
             this.diversity2_txt.Margin = new System.Windows.Forms.Padding(0);
@@ -7144,7 +7144,7 @@ namespace plt0_gui
             // 
             this.percentage_txt.BackColor = System.Drawing.Color.Black;
             this.percentage_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.percentage_txt.Font = new System.Drawing.Font("Ableton Sans Small", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.percentage_txt.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.percentage_txt.ForeColor = System.Drawing.SystemColors.Window;
             this.percentage_txt.Location = new System.Drawing.Point(757, 908);
             this.percentage_txt.Margin = new System.Windows.Forms.Padding(0);
@@ -7178,7 +7178,7 @@ namespace plt0_gui
             // 
             this.percentage2_txt.BackColor = System.Drawing.Color.Black;
             this.percentage2_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.percentage2_txt.Font = new System.Drawing.Font("Ableton Sans Small", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.percentage2_txt.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.percentage2_txt.ForeColor = System.Drawing.SystemColors.Window;
             this.percentage2_txt.Location = new System.Drawing.Point(904, 908);
             this.percentage2_txt.Margin = new System.Windows.Forms.Padding(0);
@@ -15600,11 +15600,10 @@ namespace plt0_gui
             }
             catch (Exception ex)
             {
-                description.Text = ex.Message;
-                if (ex.Message.Substring(0, 34) == "The process cannot access the file")  // because it is being used by another process
-                {
-                    Parse_Markdown(lines[283], description);
-                }
+                cmpr_warning.Text = ex.Message;
+                if (ex.Message.Length > 34)
+                    if (ex.Message.Substring(0, 34) == "The process cannot access the file")  // because it is being used by another process
+                        Parse_Markdown(lines[283], cmpr_warning);
             }
         }
         private void cmpr_save_ck_Click(object sender, EventArgs e)
