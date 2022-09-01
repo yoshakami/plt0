@@ -511,6 +511,134 @@ for m in range(len(banner)):
             }
             banner_""" + banner[m] + "_ck.BackgroundImage = " + banner_long[m].lower() + """_selected;
         }"""
+x += 1
+output += """
+        private void input_file_Click(object sender, EventArgs e)
+        {
+            FileDialog dialog = new OpenFileDialog
+            {
+                Title = "Select a picture or a texture",
+                Filter = "Picture|*.bmp;*.png;*.jfif;*.jpg;*.jpeg;*.jpg;*.ico;*.gif;*.tif;*.tiff;*.rle;*.dib|Texture|*.bti;*.tex0;*.tpl|All files (*.*)|*.*",
+                RestoreDirectory = true
+            };
+            if (layout == 3)
+            {
+                dialog.Title = "Select a CMPR texture";
+                dialog.Filter = "Texture|*.bti;*.tex0;*.tpl|All files (*.*)|*.*";
+            }
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                input_file_txt.Text = dialog.FileName;
+                input_file = dialog.FileName;
+                Check_run();
+                Check_Paint();
+                Organize_args();
+            }
+        }
+        private void input_file_MouseEnter(object sender, EventArgs e)
+        {
+            if (layout == 3)
+                Parse_Markdown(lines[""" + str(x) + """]);
+            else
+                Parse_Markdown(lines[""" + str(x + 1) + """]);
+        }
+        private void input_file_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+        }
+        private void input_file_TextChanged(object sender, EventArgs e)
+        {
+            input_file = input_file_txt.Text;
+            Check_run();
+            Organize_args();
+            Preview(true);
+            Check_Paint();
+        }
+        private void input_file2_Click(object sender, EventArgs e)
+        {
+            FileDialog dialog = new OpenFileDialog
+            {
+                Title = "Select a palette, a bmd file, or a tpl file",
+                Filter = "Palette|*.plt0;*.bmp|bmd or tpl|*.bmd;*tpl|All files (*.*)|*.*",
+                RestoreDirectory = true
+            };
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                input_file2_txt.Text = dialog.FileName;
+                input_file2 = dialog.FileName;
+                Check_run();
+                Organize_args();
+            }
+        }
+        private void input_file2_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[""" + str(x + 2) + """]);
+        }
+        private void input_file2_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+        }
+        private void input_file2_TextChanged(object sender, EventArgs e)
+        {
+            input_file2 = input_file2_txt.Text;
+            Check_run();
+            Organize_args();
+            Preview(true);
+        }
+        private void output_name_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Title = "Output file name",
+                Filter = "All files (*.*)|*.*|Texture|*.bti;*.tex0;*.tpl|Picture|*.bmp;*.png;*.jfif;*.jpg;*.jpeg;*.jpg;*.ico;*.gif;*.tif;*.tiff;*.rle;*.dib",
+                RestoreDirectory = true,
+            };
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                output_name_txt.Text = saveFileDialog.FileName;
+            }
+        }
+        private void output_name_MouseEnter(object sender, EventArgs e)
+        {
+            if (layout == 3)
+                Parse_Markdown(lines[""" + str(x + 3) + """]);
+            else
+                Parse_Markdown(lines[""" + str(x + 4) + """]);
+        }
+        private void output_name_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+        }
+        private void output_name_TextChanged(object sender, EventArgs e)
+        {
+            output_name = output_name_txt.Text;
+            Check_run();
+            Organize_args();
+            Preview(true);
+        }
+        private void mipmaps_MouseEnter(object sender, EventArgs e)
+        {
+            if (layout == 3)
+                Parse_Markdown(lines[""" + str(x + 5) + """]);
+            else
+                Parse_Markdown(lines[""" + str(x + 6) + """]);
+        }
+        private void mipmaps_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+        }
+        private void mipmaps_TextChanged(object sender, EventArgs e)
+        {
+            Parse_byte_text(mipmaps_txt, out mipmaps, 255);
+            Organize_args();
+            Preview(true);
+            Change_mipmap();
+        }"""
+x += 6
+"""for p in range(3):
+    x += 1
+    w += 1"""
+p = 0
 textbox = ["input_file_txt",
 "input_file2_txt",
 "output_name_txt",
@@ -543,28 +671,7 @@ filter = ["*.bmp;*.png;*.jfif;*.jpg;*.jpeg;*.jpg;*.ico;*.gif;*.tif;*.tiff;*.rle;
 filter2 = ["*.bti;*.tex0;*.tpl", "*.bmd;*tpl"]
 file_title = ["Select a picture or a texture", "Select a palette, a bmd file, or a tpl file"]
 w = 7
-for n in range(2):
-    output += """
-        private void """ + textbox[n][:-4] + """_Click(object sender, EventArgs e)
-        {
-            FileDialog dialog = new OpenFileDialog
-            {
-                Title = \"""" + file_title[n] + """",
-                Filter = \"""" + name[n] + '|' + filter[n] + '|' + name2[n] + '|' + filter2[n] + """|All files (*.*)|*.*",
-                RestoreDirectory = true
-            };
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                """ + textbox[n] + """.Text = dialog.FileName;
-                """ + textbox[n][:-4] + """ = dialog.FileName;
-                Check_run();""" + check_paint[n] + """
-                Organize_args();
-            }
-        }"""
-for p in range(3):
-    x += 1
-    w += 1
-    output += """
+scrapped += """
         private void """ + textbox[p][:-4] + """_MouseEnter(object sender, EventArgs e)
         {
             Parse_Markdown(lines[""" + str(x) + """]);
@@ -579,7 +686,7 @@ for p in range(3):
             Organize_args();
             Preview(true);""" + check_paint[p] + """
         }"""
-for o in range(3, len(textbox)):
+for o in range(4, len(textbox)):
     x += 1
     output += """
         private void """ + textbox[o][:-4] + """_MouseEnter(object sender, EventArgs e)
