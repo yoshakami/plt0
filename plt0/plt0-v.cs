@@ -12,6 +12,7 @@ using System.Linq;
 using static System.Net.Mime.MediaTypeNames;
 using Image = System.Drawing.Image;
 using System.ComponentModel;
+using static System.Net.WebRequestMethods;
 //using System.Drawing.Text;
 //using System.Linq;
 
@@ -13981,6 +13982,11 @@ namespace plt0_gui
                 Filter = "Picture|*.bmp;*.png;*.jfif;*.jpg;*.jpeg;*.jpg;*.ico;*.gif;*.tif;*.tiff;*.rle;*.dib|Texture|*.bti;*.tex0;*.tpl|All files (*.*)|*.*",
                 RestoreDirectory = true
             };
+            if (layout == 3)
+            {
+                dialog.Title = "Select a CMPR texture";
+                dialog.Filter = "Texture|*.bti;*.tex0;*.tpl|All files (*.*)|*.*";
+            }
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 input_file_txt.Text = dialog.FileName;
@@ -14008,7 +14014,10 @@ namespace plt0_gui
         }
         private void input_file_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[210]);
+            if (layout == 3)
+                Parse_Markdown(lines[210]);
+            else
+                Parse_Markdown(lines[210]);
         }
         private void input_file_MouseLeave(object sender, EventArgs e)
         {
