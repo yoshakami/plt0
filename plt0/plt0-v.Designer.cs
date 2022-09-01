@@ -163,7 +163,7 @@
         private System.Windows.Forms.PictureBox auto_ck;
         private System.Windows.Forms.PictureBox paint_ck;
         private System.Windows.Forms.PictureBox banner_x_ck;
-        private System.Windows.Forms.PictureBox banner_5_ck;
+        private System.Windows.Forms.PictureBox banner_f11_ck;
         private System.Windows.Forms.PictureBox banner_minus_ck;
         private System.Windows.Forms.PictureBox banner_9_ck;
         private System.Windows.Forms.PictureBox banner_8_ck;
@@ -311,7 +311,17 @@
         private System.Windows.Forms.PictureBox cmpr_update_preview_ck;
         private System.Windows.Forms.Label cmpr_update_preview_label;
         private System.Windows.Forms.PictureBox banner_global_move_ck;
-        private System.Windows.Forms.PictureBox banner_reset;
+        private System.Windows.Forms.PictureBox banner_15_ck;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox banner_11_ck;
+        private System.Windows.Forms.PictureBox banner_12_ck;
+        private System.Windows.Forms.PictureBox banner_13_ck;
+        private System.Windows.Forms.PictureBox banner_14_ck;
+        private System.Windows.Forms.PictureBox banner_16_ck;
+        private System.Windows.Forms.PictureBox banner_17_ck;
+        private System.Windows.Forms.PictureBox banner_18_ck;
+        private System.Windows.Forms.PictureBox banner_19_ck;
+        private System.Windows.Forms.PictureBox pictureBox10;
         /*
 /// <summary>
 /// Required designer variable.

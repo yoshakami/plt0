@@ -290,18 +290,6 @@ namespace plt0_gui
         Image banner_global_move_off;
         Image banner_global_move_on;
         Image banner_global_move_selected;
-        Image bottom_hover;
-        Image bottom_left_hover;
-        Image bottom_left_off;
-        Image bottom_left_on;
-        Image bottom_left_selected;
-        Image bottom_off;
-        Image bottom_on;
-        Image bottom_right_hover;
-        Image bottom_right_off;
-        Image bottom_right_on;
-        Image bottom_right_selected;
-        Image bottom_selected;
         Image cli_textbox;
         Image cli_textbox_hover;
         Image close;
@@ -318,10 +306,6 @@ namespace plt0_gui
         Image discord_hover;
         Image github;
         Image github_hover;
-        Image left_hover;
-        Image left_off;
-        Image left_on;
-        Image left_selected;
         Image maximized_hover;
         Image maximized_off;
         Image maximized_on;
@@ -336,10 +320,6 @@ namespace plt0_gui
         Image preview_off;
         Image preview_on;
         Image preview_selected;
-        Image right_hover;
-        Image right_off;
-        Image right_on;
-        Image right_selected;
         Image run_hover;
         Image run_off;
         Image run_on;
@@ -347,6 +327,30 @@ namespace plt0_gui
         Image sync_preview_off;
         Image sync_preview_on;
         Image sync_preview_selected;
+        Image version;
+        Image version_hover;
+        Image youtube;
+        Image youtube_hover;
+        Image bottom_hover;
+        Image bottom_left_hover;
+        Image bottom_left_off;
+        Image bottom_left_on;
+        Image bottom_left_selected;
+        Image bottom_off;
+        Image bottom_on;
+        Image bottom_right_hover;
+        Image bottom_right_off;
+        Image bottom_right_on;
+        Image bottom_right_selected;
+        Image bottom_selected;
+        Image right_hover;
+        Image right_off;
+        Image right_on;
+        Image right_selected;
+        Image left_hover;
+        Image left_off;
+        Image left_on;
+        Image left_selected;
         Image top_hover;
         Image top_left_hover;
         Image top_left_off;
@@ -359,10 +363,42 @@ namespace plt0_gui
         Image top_right_on;
         Image top_right_selected;
         Image top_selected;
-        Image version;
-        Image version_hover;
-        Image youtube;
-        Image youtube_hover;
+        Image screen2_bottom_hover;
+        Image screen2_bottom_left_hover;
+        Image screen2_bottom_left_off;
+        Image screen2_bottom_left_on;
+        Image screen2_bottom_left_selected;
+        Image screen2_bottom_off;
+        Image screen2_bottom_on;
+        Image screen2_bottom_right_hover;
+        Image screen2_bottom_right_off;
+        Image screen2_bottom_right_on;
+        Image screen2_bottom_right_selected;
+        Image screen2_bottom_selected;
+        Image screen2_right_hover;
+        Image screen2_right_off;
+        Image screen2_right_on;
+        Image screen2_right_selected;
+        Image screen2_left_hover;
+        Image screen2_left_off;
+        Image screen2_left_on;
+        Image screen2_left_selected;
+        Image screen2_top_hover;
+        Image screen2_top_left_hover;
+        Image screen2_top_left_off;
+        Image screen2_top_left_on;
+        Image screen2_top_left_selected;
+        Image screen2_top_off;
+        Image screen2_top_on;
+        Image screen2_top_right_hover;
+        Image screen2_top_right_off;
+        Image screen2_top_right_on;
+        Image screen2_top_right_selected;
+        Image arrow_1080p_hover;
+        Image arrow_1080p_off;
+        Image arrow_1080p_on;
+        Image arrow_1080p_selected;
+        Image screen2_top_selected;
 
         // I couldn't manage to get external fonts working. this needs to be specified within the app itself :/
         // static string fontname = "Segoe UI";
@@ -2697,7 +2733,7 @@ namespace plt0_gui
             view_WrapS_label.Visible = true;
             view_WrapT_label.Visible = true;
         }
-        private void Uncheck_arrow()
+        private void Uncheck_Arrow()
         {
             switch (arrow)
             {
@@ -2750,7 +2786,8 @@ namespace plt0_gui
                     unchecked_Screen2_Bottom_left();
                     break;
                 case 5:
-                    unchecked_1080p();
+                    unchecked_Arrow_1080p();
+                    break;
             }
         }
         private void parse_rgb565(Label lab, TextBox txt, byte j, out ushort out_colour, ushort default_colour)
@@ -3231,7 +3268,7 @@ namespace plt0_gui
                         banner_2_ck.BackgroundImage = bottom_off;
                         banner_3_ck.BackgroundImage = bottom_right_off;
                         banner_4_ck.BackgroundImage = left_off;
-                        banner_5_ck.BackgroundImage = maximized_on;
+                        banner_f11_ck.BackgroundImage = maximized_on;
                         banner_6_ck.BackgroundImage = right_off;
                         banner_7_ck.BackgroundImage = top_left_off;
                         banner_8_ck.BackgroundImage = top_off;
@@ -3243,7 +3280,7 @@ namespace plt0_gui
                         banner_2_ck.BackgroundImage = bottom_off;
                         banner_3_ck.BackgroundImage = bottom_right_off;
                         banner_4_ck.BackgroundImage = left_off;
-                        banner_5_ck.BackgroundImage = maximized_off;
+                        banner_f11_ck.BackgroundImage = maximized_off;
                         banner_6_ck.BackgroundImage = right_off;
                         banner_7_ck.BackgroundImage = top_left_off;
                         banner_8_ck.BackgroundImage = top_off;
@@ -3255,7 +3292,7 @@ namespace plt0_gui
                         banner_2_ck.BackgroundImage = bottom_off;
                         banner_3_ck.BackgroundImage = bottom_right_off;
                         banner_4_ck.BackgroundImage = left_on;
-                        banner_5_ck.BackgroundImage = maximized_off;
+                        banner_f11_ck.BackgroundImage = maximized_off;
                         banner_6_ck.BackgroundImage = right_off;
                         banner_7_ck.BackgroundImage = top_left_off;
                         banner_8_ck.BackgroundImage = top_off;
@@ -3267,7 +3304,7 @@ namespace plt0_gui
                         banner_2_ck.BackgroundImage = bottom_off;
                         banner_3_ck.BackgroundImage = bottom_right_off;
                         banner_4_ck.BackgroundImage = left_off;
-                        banner_5_ck.BackgroundImage = maximized_off;
+                        banner_f11_ck.BackgroundImage = maximized_off;
                         banner_6_ck.BackgroundImage = right_off;
                         banner_7_ck.BackgroundImage = top_left_on;
                         banner_8_ck.BackgroundImage = top_off;
@@ -3279,7 +3316,7 @@ namespace plt0_gui
                         banner_2_ck.BackgroundImage = bottom_off;
                         banner_3_ck.BackgroundImage = bottom_right_off;
                         banner_4_ck.BackgroundImage = left_off;
-                        banner_5_ck.BackgroundImage = maximized_off;
+                        banner_f11_ck.BackgroundImage = maximized_off;
                         banner_6_ck.BackgroundImage = right_off;
                         banner_7_ck.BackgroundImage = top_left_off;
                         banner_8_ck.BackgroundImage = top_on;
@@ -3291,7 +3328,7 @@ namespace plt0_gui
                         banner_2_ck.BackgroundImage = bottom_off;
                         banner_3_ck.BackgroundImage = bottom_right_off;
                         banner_4_ck.BackgroundImage = left_off;
-                        banner_5_ck.BackgroundImage = maximized_off;
+                        banner_f11_ck.BackgroundImage = maximized_off;
                         banner_6_ck.BackgroundImage = right_off;
                         banner_7_ck.BackgroundImage = top_left_off;
                         banner_8_ck.BackgroundImage = top_off;
@@ -3303,7 +3340,7 @@ namespace plt0_gui
                         banner_2_ck.BackgroundImage = bottom_off;
                         banner_3_ck.BackgroundImage = bottom_right_off;
                         banner_4_ck.BackgroundImage = left_off;
-                        banner_5_ck.BackgroundImage = maximized_off;
+                        banner_f11_ck.BackgroundImage = maximized_off;
                         banner_6_ck.BackgroundImage = right_on;
                         banner_7_ck.BackgroundImage = top_left_off;
                         banner_8_ck.BackgroundImage = top_off;
@@ -3315,7 +3352,7 @@ namespace plt0_gui
                         banner_2_ck.BackgroundImage = bottom_off;
                         banner_3_ck.BackgroundImage = bottom_right_on;
                         banner_4_ck.BackgroundImage = left_off;
-                        banner_5_ck.BackgroundImage = maximized_off;
+                        banner_f11_ck.BackgroundImage = maximized_off;
                         banner_6_ck.BackgroundImage = right_off;
                         banner_7_ck.BackgroundImage = top_left_off;
                         banner_8_ck.BackgroundImage = top_off;
@@ -3327,7 +3364,7 @@ namespace plt0_gui
                         banner_2_ck.BackgroundImage = bottom_on;
                         banner_3_ck.BackgroundImage = bottom_right_off;
                         banner_4_ck.BackgroundImage = left_off;
-                        banner_5_ck.BackgroundImage = maximized_off;
+                        banner_f11_ck.BackgroundImage = maximized_off;
                         banner_6_ck.BackgroundImage = right_off;
                         banner_7_ck.BackgroundImage = top_left_off;
                         banner_8_ck.BackgroundImage = top_off;
@@ -3339,7 +3376,7 @@ namespace plt0_gui
                         banner_2_ck.BackgroundImage = bottom_off;
                         banner_3_ck.BackgroundImage = bottom_right_off;
                         banner_4_ck.BackgroundImage = left_off;
-                        banner_5_ck.BackgroundImage = maximized_off;
+                        banner_f11_ck.BackgroundImage = maximized_off;
                         banner_6_ck.BackgroundImage = right_off;
                         banner_7_ck.BackgroundImage = top_left_off;
                         banner_8_ck.BackgroundImage = top_off;
@@ -3795,7 +3832,7 @@ namespace plt0_gui
             this.auto_ck = new System.Windows.Forms.PictureBox();
             this.paint_ck = new System.Windows.Forms.PictureBox();
             this.banner_x_ck = new System.Windows.Forms.PictureBox();
-            this.banner_5_ck = new System.Windows.Forms.PictureBox();
+            this.banner_f11_ck = new System.Windows.Forms.PictureBox();
             this.banner_minus_ck = new System.Windows.Forms.PictureBox();
             this.banner_9_ck = new System.Windows.Forms.PictureBox();
             this.banner_8_ck = new System.Windows.Forms.PictureBox();
@@ -3937,7 +3974,17 @@ namespace plt0_gui
             this.cmpr_update_preview_ck = new System.Windows.Forms.PictureBox();
             this.cmpr_update_preview_label = new System.Windows.Forms.Label();
             this.banner_global_move_ck = new System.Windows.Forms.PictureBox();
-            this.banner_reset = new System.Windows.Forms.PictureBox();
+            this.banner_15_ck = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.banner_11_ck = new System.Windows.Forms.PictureBox();
+            this.banner_12_ck = new System.Windows.Forms.PictureBox();
+            this.banner_13_ck = new System.Windows.Forms.PictureBox();
+            this.banner_14_ck = new System.Windows.Forms.PictureBox();
+            this.banner_16_ck = new System.Windows.Forms.PictureBox();
+            this.banner_17_ck = new System.Windows.Forms.PictureBox();
+            this.banner_18_ck = new System.Windows.Forms.PictureBox();
+            this.banner_19_ck = new System.Windows.Forms.PictureBox();
+            this.pictureBox10 = new System.Windows.Forms.PictureBox();
             this.cmpr_palette = new PictureBoxWithInterpolationMode();
             this.cmpr_grid_ck = new PictureBoxWithInterpolationMode();
             this.cmpr_preview_ck = new PictureBoxWithInterpolationMode();
@@ -4028,7 +4075,7 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.auto_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.paint_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.banner_x_ck)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.banner_5_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_f11_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.banner_minus_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.banner_9_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.banner_8_ck)).BeginInit();
@@ -4069,7 +4116,17 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_hover_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_update_preview_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.banner_global_move_ck)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.banner_reset)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_15_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_11_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_12_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_13_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_14_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_16_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_17_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_18_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_19_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_palette)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_grid_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).BeginInit();
@@ -6685,21 +6742,21 @@ namespace plt0_gui
             this.banner_x_ck.MouseEnter += new System.EventHandler(this.Close_MouseEnter);
             this.banner_x_ck.MouseLeave += new System.EventHandler(this.Close_MouseLeave);
             // 
-            // banner_5_ck
+            // banner_f11_ck
             // 
-            this.banner_5_ck.BackColor = System.Drawing.Color.Transparent;
-            this.banner_5_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.banner_5_ck.ErrorImage = null;
-            this.banner_5_ck.InitialImage = null;
-            this.banner_5_ck.Location = new System.Drawing.Point(1856, 0);
-            this.banner_5_ck.Margin = new System.Windows.Forms.Padding(0);
-            this.banner_5_ck.Name = "banner_5_ck";
-            this.banner_5_ck.Size = new System.Drawing.Size(32, 32);
-            this.banner_5_ck.TabIndex = 406;
-            this.banner_5_ck.TabStop = false;
-            this.banner_5_ck.Click += new System.EventHandler(this.Maximized_Click);
-            this.banner_5_ck.MouseEnter += new System.EventHandler(this.Maximized_MouseEnter);
-            this.banner_5_ck.MouseLeave += new System.EventHandler(this.Maximized_MouseLeave);
+            this.banner_f11_ck.BackColor = System.Drawing.Color.Transparent;
+            this.banner_f11_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.banner_f11_ck.ErrorImage = null;
+            this.banner_f11_ck.InitialImage = null;
+            this.banner_f11_ck.Location = new System.Drawing.Point(1856, 0);
+            this.banner_f11_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_f11_ck.Name = "banner_f11_ck";
+            this.banner_f11_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_f11_ck.TabIndex = 406;
+            this.banner_f11_ck.TabStop = false;
+            this.banner_f11_ck.Click += new System.EventHandler(this.Maximized_Click);
+            this.banner_f11_ck.MouseEnter += new System.EventHandler(this.Maximized_MouseEnter);
+            this.banner_f11_ck.MouseLeave += new System.EventHandler(this.Maximized_MouseLeave);
             // 
             // banner_minus_ck
             // 
@@ -6723,7 +6780,7 @@ namespace plt0_gui
             this.banner_9_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_9_ck.ErrorImage = null;
             this.banner_9_ck.InitialImage = null;
-            this.banner_9_ck.Location = new System.Drawing.Point(526, 0);
+            this.banner_9_ck.Location = new System.Drawing.Point(544, 0);
             this.banner_9_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_9_ck.Name = "banner_9_ck";
             this.banner_9_ck.Size = new System.Drawing.Size(32, 32);
@@ -6739,7 +6796,7 @@ namespace plt0_gui
             this.banner_8_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_8_ck.ErrorImage = null;
             this.banner_8_ck.InitialImage = null;
-            this.banner_8_ck.Location = new System.Drawing.Point(494, 0);
+            this.banner_8_ck.Location = new System.Drawing.Point(512, 0);
             this.banner_8_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_8_ck.Name = "banner_8_ck";
             this.banner_8_ck.Size = new System.Drawing.Size(32, 32);
@@ -6755,7 +6812,7 @@ namespace plt0_gui
             this.banner_7_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_7_ck.ErrorImage = null;
             this.banner_7_ck.InitialImage = null;
-            this.banner_7_ck.Location = new System.Drawing.Point(462, 0);
+            this.banner_7_ck.Location = new System.Drawing.Point(480, 0);
             this.banner_7_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_7_ck.Name = "banner_7_ck";
             this.banner_7_ck.Size = new System.Drawing.Size(32, 32);
@@ -6771,7 +6828,7 @@ namespace plt0_gui
             this.banner_6_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_6_ck.ErrorImage = null;
             this.banner_6_ck.InitialImage = null;
-            this.banner_6_ck.Location = new System.Drawing.Point(558, 0);
+            this.banner_6_ck.Location = new System.Drawing.Point(576, 0);
             this.banner_6_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_6_ck.Name = "banner_6_ck";
             this.banner_6_ck.Size = new System.Drawing.Size(32, 32);
@@ -6787,7 +6844,7 @@ namespace plt0_gui
             this.banner_4_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_4_ck.ErrorImage = null;
             this.banner_4_ck.InitialImage = null;
-            this.banner_4_ck.Location = new System.Drawing.Point(430, 0);
+            this.banner_4_ck.Location = new System.Drawing.Point(448, 0);
             this.banner_4_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_4_ck.Name = "banner_4_ck";
             this.banner_4_ck.Size = new System.Drawing.Size(32, 32);
@@ -6803,7 +6860,7 @@ namespace plt0_gui
             this.banner_3_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_3_ck.ErrorImage = null;
             this.banner_3_ck.InitialImage = null;
-            this.banner_3_ck.Location = new System.Drawing.Point(590, 0);
+            this.banner_3_ck.Location = new System.Drawing.Point(608, 0);
             this.banner_3_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_3_ck.Name = "banner_3_ck";
             this.banner_3_ck.Size = new System.Drawing.Size(32, 32);
@@ -6819,7 +6876,7 @@ namespace plt0_gui
             this.banner_2_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_2_ck.ErrorImage = null;
             this.banner_2_ck.InitialImage = null;
-            this.banner_2_ck.Location = new System.Drawing.Point(622, 0);
+            this.banner_2_ck.Location = new System.Drawing.Point(640, 0);
             this.banner_2_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_2_ck.Name = "banner_2_ck";
             this.banner_2_ck.Size = new System.Drawing.Size(32, 32);
@@ -6835,7 +6892,7 @@ namespace plt0_gui
             this.banner_1_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_1_ck.ErrorImage = null;
             this.banner_1_ck.InitialImage = null;
-            this.banner_1_ck.Location = new System.Drawing.Point(654, 0);
+            this.banner_1_ck.Location = new System.Drawing.Point(672, 0);
             this.banner_1_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_1_ck.Name = "banner_1_ck";
             this.banner_1_ck.Size = new System.Drawing.Size(32, 32);
@@ -7886,7 +7943,7 @@ namespace plt0_gui
             this.version_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.version_ck.ErrorImage = null;
             this.version_ck.InitialImage = null;
-            this.version_ck.Location = new System.Drawing.Point(748, 0);
+            this.version_ck.Location = new System.Drawing.Point(1109, 0);
             this.version_ck.Margin = new System.Windows.Forms.Padding(0);
             this.version_ck.Name = "version_ck";
             this.version_ck.Size = new System.Drawing.Size(64, 32);
@@ -8198,7 +8255,7 @@ namespace plt0_gui
             this.banner_move.Cursor = System.Windows.Forms.Cursors.SizeAll;
             this.banner_move.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.banner_move.ForeColor = System.Drawing.SystemColors.Control;
-            this.banner_move.Location = new System.Drawing.Point(725, 0);
+            this.banner_move.Location = new System.Drawing.Point(723, 0);
             this.banner_move.Margin = new System.Windows.Forms.Padding(0);
             this.banner_move.Name = "banner_move";
             this.banner_move.Padding = new System.Windows.Forms.Padding(880, 6, 0, 6);
@@ -9000,7 +9057,7 @@ namespace plt0_gui
             this.banner_global_move_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_global_move_ck.ErrorImage = null;
             this.banner_global_move_ck.InitialImage = null;
-            this.banner_global_move_ck.Location = new System.Drawing.Point(383, 0);
+            this.banner_global_move_ck.Location = new System.Drawing.Point(396, 0);
             this.banner_global_move_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_global_move_ck.Name = "banner_global_move_ck";
             this.banner_global_move_ck.Size = new System.Drawing.Size(32, 32);
@@ -9010,18 +9067,148 @@ namespace plt0_gui
             this.banner_global_move_ck.MouseEnter += new System.EventHandler(this.banner_global_move_MouseEnter);
             this.banner_global_move_ck.MouseLeave += new System.EventHandler(this.banner_global_move_MouseLeave);
             // 
-            // banner_reset
+            // banner_15_ck
             // 
-            this.banner_reset.BackColor = System.Drawing.Color.Transparent;
-            this.banner_reset.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.banner_reset.ErrorImage = null;
-            this.banner_reset.InitialImage = null;
-            this.banner_reset.Location = new System.Drawing.Point(687, 0);
-            this.banner_reset.Margin = new System.Windows.Forms.Padding(0);
-            this.banner_reset.Name = "banner_reset";
-            this.banner_reset.Size = new System.Drawing.Size(32, 32);
-            this.banner_reset.TabIndex = 700;
-            this.banner_reset.TabStop = false;
+            this.banner_15_ck.BackColor = System.Drawing.Color.Transparent;
+            this.banner_15_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.banner_15_ck.ErrorImage = null;
+            this.banner_15_ck.InitialImage = null;
+            this.banner_15_ck.Location = new System.Drawing.Point(704, 0);
+            this.banner_15_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_15_ck.Name = "banner_15_ck";
+            this.banner_15_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_15_ck.TabIndex = 700;
+            this.banner_15_ck.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pictureBox1.ErrorImage = null;
+            this.pictureBox1.InitialImage = null;
+            this.pictureBox1.Location = new System.Drawing.Point(992, 0);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(32, 32);
+            this.pictureBox1.TabIndex = 709;
+            this.pictureBox1.TabStop = false;
+            // 
+            // banner_11_ck
+            // 
+            this.banner_11_ck.BackColor = System.Drawing.Color.Transparent;
+            this.banner_11_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.banner_11_ck.ErrorImage = null;
+            this.banner_11_ck.InitialImage = null;
+            this.banner_11_ck.Location = new System.Drawing.Point(960, 0);
+            this.banner_11_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_11_ck.Name = "banner_11_ck";
+            this.banner_11_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_11_ck.TabIndex = 708;
+            this.banner_11_ck.TabStop = false;
+            // 
+            // banner_12_ck
+            // 
+            this.banner_12_ck.BackColor = System.Drawing.Color.Transparent;
+            this.banner_12_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.banner_12_ck.ErrorImage = null;
+            this.banner_12_ck.InitialImage = null;
+            this.banner_12_ck.Location = new System.Drawing.Point(928, 0);
+            this.banner_12_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_12_ck.Name = "banner_12_ck";
+            this.banner_12_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_12_ck.TabIndex = 707;
+            this.banner_12_ck.TabStop = false;
+            // 
+            // banner_13_ck
+            // 
+            this.banner_13_ck.BackColor = System.Drawing.Color.Transparent;
+            this.banner_13_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.banner_13_ck.ErrorImage = null;
+            this.banner_13_ck.InitialImage = null;
+            this.banner_13_ck.Location = new System.Drawing.Point(896, 0);
+            this.banner_13_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_13_ck.Name = "banner_13_ck";
+            this.banner_13_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_13_ck.TabIndex = 706;
+            this.banner_13_ck.TabStop = false;
+            // 
+            // banner_14_ck
+            // 
+            this.banner_14_ck.BackColor = System.Drawing.Color.Transparent;
+            this.banner_14_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.banner_14_ck.ErrorImage = null;
+            this.banner_14_ck.InitialImage = null;
+            this.banner_14_ck.Location = new System.Drawing.Point(736, 0);
+            this.banner_14_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_14_ck.Name = "banner_14_ck";
+            this.banner_14_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_14_ck.TabIndex = 705;
+            this.banner_14_ck.TabStop = false;
+            // 
+            // banner_16_ck
+            // 
+            this.banner_16_ck.BackColor = System.Drawing.Color.Transparent;
+            this.banner_16_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.banner_16_ck.ErrorImage = null;
+            this.banner_16_ck.InitialImage = null;
+            this.banner_16_ck.Location = new System.Drawing.Point(864, 0);
+            this.banner_16_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_16_ck.Name = "banner_16_ck";
+            this.banner_16_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_16_ck.TabIndex = 704;
+            this.banner_16_ck.TabStop = false;
+            // 
+            // banner_17_ck
+            // 
+            this.banner_17_ck.BackColor = System.Drawing.Color.Transparent;
+            this.banner_17_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.banner_17_ck.ErrorImage = null;
+            this.banner_17_ck.InitialImage = null;
+            this.banner_17_ck.Location = new System.Drawing.Point(768, 0);
+            this.banner_17_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_17_ck.Name = "banner_17_ck";
+            this.banner_17_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_17_ck.TabIndex = 703;
+            this.banner_17_ck.TabStop = false;
+            // 
+            // banner_18_ck
+            // 
+            this.banner_18_ck.BackColor = System.Drawing.Color.Transparent;
+            this.banner_18_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.banner_18_ck.ErrorImage = null;
+            this.banner_18_ck.InitialImage = null;
+            this.banner_18_ck.Location = new System.Drawing.Point(800, 0);
+            this.banner_18_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_18_ck.Name = "banner_18_ck";
+            this.banner_18_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_18_ck.TabIndex = 702;
+            this.banner_18_ck.TabStop = false;
+            // 
+            // banner_19_ck
+            // 
+            this.banner_19_ck.BackColor = System.Drawing.Color.Transparent;
+            this.banner_19_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.banner_19_ck.ErrorImage = null;
+            this.banner_19_ck.InitialImage = null;
+            this.banner_19_ck.Location = new System.Drawing.Point(832, 0);
+            this.banner_19_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.banner_19_ck.Name = "banner_19_ck";
+            this.banner_19_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_19_ck.TabIndex = 701;
+            this.banner_19_ck.TabStop = false;
+            // 
+            // pictureBox10
+            // 
+            this.pictureBox10.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox10.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pictureBox10.ErrorImage = null;
+            this.pictureBox10.InitialImage = null;
+            this.pictureBox10.Location = new System.Drawing.Point(1024, 0);
+            this.pictureBox10.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBox10.Name = "pictureBox10";
+            this.pictureBox10.Size = new System.Drawing.Size(32, 32);
+            this.pictureBox10.TabIndex = 710;
+            this.pictureBox10.TabStop = false;
             // 
             // cmpr_palette
             // 
@@ -9108,8 +9295,18 @@ namespace plt0_gui
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(3270, 1768);
-            this.Controls.Add(this.banner_reset);
+            this.ClientSize = new System.Drawing.Size(3768, 2033);
+            this.Controls.Add(this.pictureBox10);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.banner_11_ck);
+            this.Controls.Add(this.banner_12_ck);
+            this.Controls.Add(this.banner_13_ck);
+            this.Controls.Add(this.banner_14_ck);
+            this.Controls.Add(this.banner_16_ck);
+            this.Controls.Add(this.banner_17_ck);
+            this.Controls.Add(this.banner_18_ck);
+            this.Controls.Add(this.banner_19_ck);
+            this.Controls.Add(this.banner_15_ck);
             this.Controls.Add(this.banner_global_move_ck);
             this.Controls.Add(this.cmpr_update_preview_ck);
             this.Controls.Add(this.cmpr_update_preview_label);
@@ -9277,7 +9474,7 @@ namespace plt0_gui
             this.Controls.Add(this.banner_8_ck);
             this.Controls.Add(this.banner_9_ck);
             this.Controls.Add(this.banner_minus_ck);
-            this.Controls.Add(this.banner_5_ck);
+            this.Controls.Add(this.banner_f11_ck);
             this.Controls.Add(this.banner_x_ck);
             this.Controls.Add(this.paint_ck);
             this.Controls.Add(this.auto_ck);
@@ -9521,7 +9718,7 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.auto_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.paint_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.banner_x_ck)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.banner_5_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_f11_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.banner_minus_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.banner_9_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.banner_8_ck)).EndInit();
@@ -9562,7 +9759,17 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_hover_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_update_preview_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.banner_global_move_ck)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.banner_reset)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_15_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_11_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_12_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_13_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_14_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_16_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_17_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_18_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.banner_19_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_palette)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_grid_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).EndInit();
@@ -9843,54 +10050,6 @@ namespace plt0_gui
             {
                 banner_global_move_selected = Image.FromFile(execPath + "images/banner_global_move_selected.png");
             }
-            if (File.Exists(execPath + "images/bottom_hover.png"))
-            {
-                bottom_hover = Image.FromFile(execPath + "images/bottom_hover.png");
-            }
-            if (File.Exists(execPath + "images/bottom_left_hover.png"))
-            {
-                bottom_left_hover = Image.FromFile(execPath + "images/bottom_left_hover.png");
-            }
-            if (File.Exists(execPath + "images/bottom_left_off.png"))
-            {
-                bottom_left_off = Image.FromFile(execPath + "images/bottom_left_off.png");
-            }
-            if (File.Exists(execPath + "images/bottom_left_on.png"))
-            {
-                bottom_left_on = Image.FromFile(execPath + "images/bottom_left_on.png");
-            }
-            if (File.Exists(execPath + "images/bottom_left_selected.png"))
-            {
-                bottom_left_selected = Image.FromFile(execPath + "images/bottom_left_selected.png");
-            }
-            if (File.Exists(execPath + "images/bottom_off.png"))
-            {
-                bottom_off = Image.FromFile(execPath + "images/bottom_off.png");
-            }
-            if (File.Exists(execPath + "images/bottom_on.png"))
-            {
-                bottom_on = Image.FromFile(execPath + "images/bottom_on.png");
-            }
-            if (File.Exists(execPath + "images/bottom_right_hover.png"))
-            {
-                bottom_right_hover = Image.FromFile(execPath + "images/bottom_right_hover.png");
-            }
-            if (File.Exists(execPath + "images/bottom_right_off.png"))
-            {
-                bottom_right_off = Image.FromFile(execPath + "images/bottom_right_off.png");
-            }
-            if (File.Exists(execPath + "images/bottom_right_on.png"))
-            {
-                bottom_right_on = Image.FromFile(execPath + "images/bottom_right_on.png");
-            }
-            if (File.Exists(execPath + "images/bottom_right_selected.png"))
-            {
-                bottom_right_selected = Image.FromFile(execPath + "images/bottom_right_selected.png");
-            }
-            if (File.Exists(execPath + "images/bottom_selected.png"))
-            {
-                bottom_selected = Image.FromFile(execPath + "images/bottom_selected.png");
-            }
             if (File.Exists(execPath + "images/cli_textbox.png"))
             {
                 cli_textbox = Image.FromFile(execPath + "images/cli_textbox.png");
@@ -9955,22 +10114,6 @@ namespace plt0_gui
             {
                 github_hover = Image.FromFile(execPath + "images/github_hover.png");
             }
-            if (File.Exists(execPath + "images/left_hover.png"))
-            {
-                left_hover = Image.FromFile(execPath + "images/left_hover.png");
-            }
-            if (File.Exists(execPath + "images/left_off.png"))
-            {
-                left_off = Image.FromFile(execPath + "images/left_off.png");
-            }
-            if (File.Exists(execPath + "images/left_on.png"))
-            {
-                left_on = Image.FromFile(execPath + "images/left_on.png");
-            }
-            if (File.Exists(execPath + "images/left_selected.png"))
-            {
-                left_selected = Image.FromFile(execPath + "images/left_selected.png");
-            }
             if (File.Exists(execPath + "images/maximized_hover.png"))
             {
                 maximized_hover = Image.FromFile(execPath + "images/maximized_hover.png");
@@ -10027,22 +10170,6 @@ namespace plt0_gui
             {
                 preview_selected = Image.FromFile(execPath + "images/preview_selected.png");
             }
-            if (File.Exists(execPath + "images/right_hover.png"))
-            {
-                right_hover = Image.FromFile(execPath + "images/right_hover.png");
-            }
-            if (File.Exists(execPath + "images/right_off.png"))
-            {
-                right_off = Image.FromFile(execPath + "images/right_off.png");
-            }
-            if (File.Exists(execPath + "images/right_on.png"))
-            {
-                right_on = Image.FromFile(execPath + "images/right_on.png");
-            }
-            if (File.Exists(execPath + "images/right_selected.png"))
-            {
-                right_selected = Image.FromFile(execPath + "images/right_selected.png");
-            }
             if (File.Exists(execPath + "images/run_hover.png"))
             {
                 run_hover = Image.FromFile(execPath + "images/run_hover.png");
@@ -10070,6 +10197,102 @@ namespace plt0_gui
             if (File.Exists(execPath + "images/sync_preview_selected.png"))
             {
                 sync_preview_selected = Image.FromFile(execPath + "images/sync_preview_selected.png");
+            }
+            if (File.Exists(execPath + "images/version.png"))
+            {
+                version = Image.FromFile(execPath + "images/version.png");
+            }
+            if (File.Exists(execPath + "images/version_hover.png"))
+            {
+                version_hover = Image.FromFile(execPath + "images/version_hover.png");
+            }
+            if (File.Exists(execPath + "images/youtube.png"))
+            {
+                youtube = Image.FromFile(execPath + "images/youtube.png");
+            }
+            if (File.Exists(execPath + "images/youtube_hover.png"))
+            {
+                youtube_hover = Image.FromFile(execPath + "images/youtube_hover.png");
+            }
+            if (File.Exists(execPath + "images/bottom_hover.png"))
+            {
+                bottom_hover = Image.FromFile(execPath + "images/bottom_hover.png");
+            }
+            if (File.Exists(execPath + "images/bottom_left_hover.png"))
+            {
+                bottom_left_hover = Image.FromFile(execPath + "images/bottom_left_hover.png");
+            }
+            if (File.Exists(execPath + "images/bottom_left_off.png"))
+            {
+                bottom_left_off = Image.FromFile(execPath + "images/bottom_left_off.png");
+            }
+            if (File.Exists(execPath + "images/bottom_left_on.png"))
+            {
+                bottom_left_on = Image.FromFile(execPath + "images/bottom_left_on.png");
+            }
+            if (File.Exists(execPath + "images/bottom_left_selected.png"))
+            {
+                bottom_left_selected = Image.FromFile(execPath + "images/bottom_left_selected.png");
+            }
+            if (File.Exists(execPath + "images/bottom_off.png"))
+            {
+                bottom_off = Image.FromFile(execPath + "images/bottom_off.png");
+            }
+            if (File.Exists(execPath + "images/bottom_on.png"))
+            {
+                bottom_on = Image.FromFile(execPath + "images/bottom_on.png");
+            }
+            if (File.Exists(execPath + "images/bottom_right_hover.png"))
+            {
+                bottom_right_hover = Image.FromFile(execPath + "images/bottom_right_hover.png");
+            }
+            if (File.Exists(execPath + "images/bottom_right_off.png"))
+            {
+                bottom_right_off = Image.FromFile(execPath + "images/bottom_right_off.png");
+            }
+            if (File.Exists(execPath + "images/bottom_right_on.png"))
+            {
+                bottom_right_on = Image.FromFile(execPath + "images/bottom_right_on.png");
+            }
+            if (File.Exists(execPath + "images/bottom_right_selected.png"))
+            {
+                bottom_right_selected = Image.FromFile(execPath + "images/bottom_right_selected.png");
+            }
+            if (File.Exists(execPath + "images/bottom_selected.png"))
+            {
+                bottom_selected = Image.FromFile(execPath + "images/bottom_selected.png");
+            }
+            if (File.Exists(execPath + "images/right_hover.png"))
+            {
+                right_hover = Image.FromFile(execPath + "images/right_hover.png");
+            }
+            if (File.Exists(execPath + "images/right_off.png"))
+            {
+                right_off = Image.FromFile(execPath + "images/right_off.png");
+            }
+            if (File.Exists(execPath + "images/right_on.png"))
+            {
+                right_on = Image.FromFile(execPath + "images/right_on.png");
+            }
+            if (File.Exists(execPath + "images/right_selected.png"))
+            {
+                right_selected = Image.FromFile(execPath + "images/right_selected.png");
+            }
+            if (File.Exists(execPath + "images/left_hover.png"))
+            {
+                left_hover = Image.FromFile(execPath + "images/left_hover.png");
+            }
+            if (File.Exists(execPath + "images/left_off.png"))
+            {
+                left_off = Image.FromFile(execPath + "images/left_off.png");
+            }
+            if (File.Exists(execPath + "images/left_on.png"))
+            {
+                left_on = Image.FromFile(execPath + "images/left_on.png");
+            }
+            if (File.Exists(execPath + "images/left_selected.png"))
+            {
+                left_selected = Image.FromFile(execPath + "images/left_selected.png");
             }
             if (File.Exists(execPath + "images/top_hover.png"))
             {
@@ -10119,21 +10342,149 @@ namespace plt0_gui
             {
                 top_selected = Image.FromFile(execPath + "images/top_selected.png");
             }
-            if (File.Exists(execPath + "images/version.png"))
+            if (File.Exists(execPath + "images/screen2_bottom_hover.png"))
             {
-                version = Image.FromFile(execPath + "images/version.png");
+                screen2_bottom_hover = Image.FromFile(execPath + "images/screen2_bottom_hover.png");
             }
-            if (File.Exists(execPath + "images/version_hover.png"))
+            if (File.Exists(execPath + "images/screen2_bottom_left_hover.png"))
             {
-                version_hover = Image.FromFile(execPath + "images/version_hover.png");
+                screen2_bottom_left_hover = Image.FromFile(execPath + "images/screen2_bottom_left_hover.png");
             }
-            if (File.Exists(execPath + "images/youtube.png"))
+            if (File.Exists(execPath + "images/screen2_bottom_left_off.png"))
             {
-                youtube = Image.FromFile(execPath + "images/youtube.png");
+                screen2_bottom_left_off = Image.FromFile(execPath + "images/screen2_bottom_left_off.png");
             }
-            if (File.Exists(execPath + "images/youtube_hover.png"))
+            if (File.Exists(execPath + "images/screen2_bottom_left_on.png"))
             {
-                youtube_hover = Image.FromFile(execPath + "images/youtube_hover.png");
+                screen2_bottom_left_on = Image.FromFile(execPath + "images/screen2_bottom_left_on.png");
+            }
+            if (File.Exists(execPath + "images/screen2_bottom_left_selected.png"))
+            {
+                screen2_bottom_left_selected = Image.FromFile(execPath + "images/screen2_bottom_left_selected.png");
+            }
+            if (File.Exists(execPath + "images/screen2_bottom_off.png"))
+            {
+                screen2_bottom_off = Image.FromFile(execPath + "images/screen2_bottom_off.png");
+            }
+            if (File.Exists(execPath + "images/screen2_bottom_on.png"))
+            {
+                screen2_bottom_on = Image.FromFile(execPath + "images/screen2_bottom_on.png");
+            }
+            if (File.Exists(execPath + "images/screen2_bottom_right_hover.png"))
+            {
+                screen2_bottom_right_hover = Image.FromFile(execPath + "images/screen2_bottom_right_hover.png");
+            }
+            if (File.Exists(execPath + "images/screen2_bottom_right_off.png"))
+            {
+                screen2_bottom_right_off = Image.FromFile(execPath + "images/screen2_bottom_right_off.png");
+            }
+            if (File.Exists(execPath + "images/screen2_bottom_right_on.png"))
+            {
+                screen2_bottom_right_on = Image.FromFile(execPath + "images/screen2_bottom_right_on.png");
+            }
+            if (File.Exists(execPath + "images/screen2_bottom_right_selected.png"))
+            {
+                screen2_bottom_right_selected = Image.FromFile(execPath + "images/screen2_bottom_right_selected.png");
+            }
+            if (File.Exists(execPath + "images/screen2_bottom_selected.png"))
+            {
+                screen2_bottom_selected = Image.FromFile(execPath + "images/screen2_bottom_selected.png");
+            }
+            if (File.Exists(execPath + "images/screen2_right_hover.png"))
+            {
+                screen2_right_hover = Image.FromFile(execPath + "images/screen2_right_hover.png");
+            }
+            if (File.Exists(execPath + "images/screen2_right_off.png"))
+            {
+                screen2_right_off = Image.FromFile(execPath + "images/screen2_right_off.png");
+            }
+            if (File.Exists(execPath + "images/screen2_right_on.png"))
+            {
+                screen2_right_on = Image.FromFile(execPath + "images/screen2_right_on.png");
+            }
+            if (File.Exists(execPath + "images/screen2_right_selected.png"))
+            {
+                screen2_right_selected = Image.FromFile(execPath + "images/screen2_right_selected.png");
+            }
+            if (File.Exists(execPath + "images/screen2_left_hover.png"))
+            {
+                screen2_left_hover = Image.FromFile(execPath + "images/screen2_left_hover.png");
+            }
+            if (File.Exists(execPath + "images/screen2_left_off.png"))
+            {
+                screen2_left_off = Image.FromFile(execPath + "images/screen2_left_off.png");
+            }
+            if (File.Exists(execPath + "images/screen2_left_on.png"))
+            {
+                screen2_left_on = Image.FromFile(execPath + "images/screen2_left_on.png");
+            }
+            if (File.Exists(execPath + "images/screen2_left_selected.png"))
+            {
+                screen2_left_selected = Image.FromFile(execPath + "images/screen2_left_selected.png");
+            }
+            if (File.Exists(execPath + "images/screen2_top_hover.png"))
+            {
+                screen2_top_hover = Image.FromFile(execPath + "images/screen2_top_hover.png");
+            }
+            if (File.Exists(execPath + "images/screen2_top_left_hover.png"))
+            {
+                screen2_top_left_hover = Image.FromFile(execPath + "images/screen2_top_left_hover.png");
+            }
+            if (File.Exists(execPath + "images/screen2_top_left_off.png"))
+            {
+                screen2_top_left_off = Image.FromFile(execPath + "images/screen2_top_left_off.png");
+            }
+            if (File.Exists(execPath + "images/screen2_top_left_on.png"))
+            {
+                screen2_top_left_on = Image.FromFile(execPath + "images/screen2_top_left_on.png");
+            }
+            if (File.Exists(execPath + "images/screen2_top_left_selected.png"))
+            {
+                screen2_top_left_selected = Image.FromFile(execPath + "images/screen2_top_left_selected.png");
+            }
+            if (File.Exists(execPath + "images/screen2_top_off.png"))
+            {
+                screen2_top_off = Image.FromFile(execPath + "images/screen2_top_off.png");
+            }
+            if (File.Exists(execPath + "images/screen2_top_on.png"))
+            {
+                screen2_top_on = Image.FromFile(execPath + "images/screen2_top_on.png");
+            }
+            if (File.Exists(execPath + "images/screen2_top_right_hover.png"))
+            {
+                screen2_top_right_hover = Image.FromFile(execPath + "images/screen2_top_right_hover.png");
+            }
+            if (File.Exists(execPath + "images/screen2_top_right_off.png"))
+            {
+                screen2_top_right_off = Image.FromFile(execPath + "images/screen2_top_right_off.png");
+            }
+            if (File.Exists(execPath + "images/screen2_top_right_on.png"))
+            {
+                screen2_top_right_on = Image.FromFile(execPath + "images/screen2_top_right_on.png");
+            }
+            if (File.Exists(execPath + "images/screen2_top_right_selected.png"))
+            {
+                screen2_top_right_selected = Image.FromFile(execPath + "images/screen2_top_right_selected.png");
+            }
+            if (File.Exists(execPath + "images/arrow_1080p_hover.png"))
+            {
+                arrow_1080p_hover = Image.FromFile(execPath + "images/arrow_1080p_hover.png");
+            }
+            if (File.Exists(execPath + "images/arrow_1080p_off.png"))
+            {
+                arrow_1080p_off = Image.FromFile(execPath + "images/arrow_1080p_off.png");
+            }
+            if (File.Exists(execPath + "images/arrow_1080p_on.png"))
+            {
+                arrow_1080p_on = Image.FromFile(execPath + "images/arrow_1080p_on.png");
+            }
+            if (File.Exists(execPath + "images/arrow_1080p_selected.png"))
+            {
+                arrow_1080p_selected = Image.FromFile(execPath + "images/arrow_1080p_selected.png");
+            }
+            if (File.Exists(execPath + "images/screen2_top_selected.png"))
+            {
+                screen2_top_selected = Image.FromFile(execPath + "images/screen2_top_selected.png");
             }
         }
         private void bmd_Click(object sender, EventArgs e)
@@ -12719,29 +13070,29 @@ namespace plt0_gui
             if (this.WindowState == FormWindowState.Maximized)
             {
                 this.WindowState = FormWindowState.Normal;
-                banner_5_ck.BackgroundImage = maximized_hover;
+                banner_f11_ck.BackgroundImage = maximized_hover;
             }
             else
             {
                 this.WindowState = FormWindowState.Maximized;
-                banner_5_ck.BackgroundImage = maximized_selected;
+                banner_f11_ck.BackgroundImage = maximized_selected;
             }
         }
         private void Maximized_MouseEnter(object sender, EventArgs e)
         {
             Parse_Markdown(lines[190]);
             if (this.WindowState == FormWindowState.Maximized)
-                banner_5_ck.BackgroundImage = maximized_selected;
+                banner_f11_ck.BackgroundImage = maximized_selected;
             else
-                banner_5_ck.BackgroundImage = maximized_hover;
+                banner_f11_ck.BackgroundImage = maximized_hover;
         }
         private void Maximized_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
             if (this.WindowState == FormWindowState.Maximized)
-                banner_5_ck.BackgroundImage = maximized_on;
+                banner_f11_ck.BackgroundImage = maximized_on;
             else
-                banner_5_ck.BackgroundImage = maximized_off;
+                banner_f11_ck.BackgroundImage = maximized_off;
         }
         private void Close_Click(object sender, EventArgs e)
         {
@@ -12759,33 +13110,7 @@ namespace plt0_gui
         }
         private void Left_Click(object sender, EventArgs e)
         {
-            switch (arrow)
-            {
-                case 4:
-                    unchecked_Left();
-                    break;
-                case 7:
-                    unchecked_Top_left();
-                    break;
-                case 8:
-                    unchecked_Top();
-                    break;
-                case 9:
-                    unchecked_Top_right();
-                    break;
-                case 6:
-                    unchecked_Right();
-                    break;
-                case 3:
-                    unchecked_Bottom_right();
-                    break;
-                case 2:
-                    unchecked_Bottom();
-                    break;
-                case 1:
-                    unchecked_Bottom_left();
-                    break;
-            }
+            Uncheck_Arrow();
             selected_Left();
             arrow = 4;
         }
@@ -12819,39 +13144,19 @@ namespace plt0_gui
         }
         private void selected_Left()
         {
+            for (byte i = 0; i < Screen.AllScreens.Length; i++)
+            {
+                if (Screen.AllScreens[i].Bounds.X == 0)
+                {
+                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Height);
+                    this.Location = Screen.AllScreens[i].Bounds.Location;
+                }
+            }
             banner_4_ck.BackgroundImage = left_selected;
-            this.Size = new Size(960, 1080);
-            this.Location = new Point(0, 0);
         }
         private void Top_left_Click(object sender, EventArgs e)
         {
-            switch (arrow)
-            {
-                case 4:
-                    unchecked_Left();
-                    break;
-                case 7:
-                    unchecked_Top_left();
-                    break;
-                case 8:
-                    unchecked_Top();
-                    break;
-                case 9:
-                    unchecked_Top_right();
-                    break;
-                case 6:
-                    unchecked_Right();
-                    break;
-                case 3:
-                    unchecked_Bottom_right();
-                    break;
-                case 2:
-                    unchecked_Bottom();
-                    break;
-                case 1:
-                    unchecked_Bottom_left();
-                    break;
-            }
+            Uncheck_Arrow();
             selected_Top_left();
             arrow = 7;
         }
@@ -12885,39 +13190,19 @@ namespace plt0_gui
         }
         private void selected_Top_left()
         {
+            for (byte i = 0; i < Screen.AllScreens.Length; i++)
+            {
+                if (Screen.AllScreens[i].Bounds.X == 0)
+                {
+                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Height / 2);
+                    this.Location = Screen.AllScreens[i].Bounds.Location;
+                }
+            }
             banner_7_ck.BackgroundImage = top_left_selected;
-            this.Size = new Size(960, 540);
-            this.Location = new Point(0, 0);
         }
         private void Top_Click(object sender, EventArgs e)
         {
-            switch (arrow)
-            {
-                case 4:
-                    unchecked_Left();
-                    break;
-                case 7:
-                    unchecked_Top_left();
-                    break;
-                case 8:
-                    unchecked_Top();
-                    break;
-                case 9:
-                    unchecked_Top_right();
-                    break;
-                case 6:
-                    unchecked_Right();
-                    break;
-                case 3:
-                    unchecked_Bottom_right();
-                    break;
-                case 2:
-                    unchecked_Bottom();
-                    break;
-                case 1:
-                    unchecked_Bottom_left();
-                    break;
-            }
+            Uncheck_Arrow();
             selected_Top();
             arrow = 8;
         }
@@ -12951,39 +13236,19 @@ namespace plt0_gui
         }
         private void selected_Top()
         {
+            for (byte i = 0; i < Screen.AllScreens.Length; i++)
+            {
+                if (Screen.AllScreens[i].Bounds.X == 0)
+                {
+                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width, Screen.AllScreens[i].Bounds.Height / 2);
+                    this.Location = Screen.AllScreens[i].Bounds.Location;
+                }
+            }
             banner_8_ck.BackgroundImage = top_selected;
-            this.Size = new Size(1920, 540);
-            this.Location = new Point(0, 0);
         }
         private void Top_right_Click(object sender, EventArgs e)
         {
-            switch (arrow)
-            {
-                case 4:
-                    unchecked_Left();
-                    break;
-                case 7:
-                    unchecked_Top_left();
-                    break;
-                case 8:
-                    unchecked_Top();
-                    break;
-                case 9:
-                    unchecked_Top_right();
-                    break;
-                case 6:
-                    unchecked_Right();
-                    break;
-                case 3:
-                    unchecked_Bottom_right();
-                    break;
-                case 2:
-                    unchecked_Bottom();
-                    break;
-                case 1:
-                    unchecked_Bottom_left();
-                    break;
-            }
+            Uncheck_Arrow();
             selected_Top_right();
             arrow = 9;
         }
@@ -13017,39 +13282,19 @@ namespace plt0_gui
         }
         private void selected_Top_right()
         {
+            for (byte i = 0; i < Screen.AllScreens.Length; i++)
+            {
+                if (Screen.AllScreens[i].Bounds.X == 0)
+                {
+                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Height / 2);
+                    this.Location = new Point(Screen.AllScreens[i].Bounds.X + Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Y);
+                }
+            }
             banner_9_ck.BackgroundImage = top_right_selected;
-            this.Size = new Size(960, 540);
-            this.Location = new Point(960, 0);
         }
         private void Right_Click(object sender, EventArgs e)
         {
-            switch (arrow)
-            {
-                case 4:
-                    unchecked_Left();
-                    break;
-                case 7:
-                    unchecked_Top_left();
-                    break;
-                case 8:
-                    unchecked_Top();
-                    break;
-                case 9:
-                    unchecked_Top_right();
-                    break;
-                case 6:
-                    unchecked_Right();
-                    break;
-                case 3:
-                    unchecked_Bottom_right();
-                    break;
-                case 2:
-                    unchecked_Bottom();
-                    break;
-                case 1:
-                    unchecked_Bottom_left();
-                    break;
-            }
+            Uncheck_Arrow();
             selected_Right();
             arrow = 6;
         }
@@ -13083,105 +13328,19 @@ namespace plt0_gui
         }
         private void selected_Right()
         {
+            for (byte i = 0; i < Screen.AllScreens.Length; i++)
+            {
+                if (Screen.AllScreens[i].Bounds.X == 0)
+                {
+                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Height);
+                    this.Location = new Point(Screen.AllScreens[i].Bounds.X + Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Y);
+                }
+            }
             banner_6_ck.BackgroundImage = right_selected;
-            this.Size = new Size(960, 1080);
-            this.Location = new Point(960, 0);
-        }
-        private void Screen2_Left_Click(object sender, EventArgs e)
-        {
-            this.Size = new Size(1920, 2160);
-            if (Screen.AllScreens.Length > 1)
-            {
-                if (Screen.AllScreens[0].Bounds.X == 0)
-                {
-                    this.Location = Screen.AllScreens[1].Bounds.Location;
-                }
-                else
-                {
-                    this.Location = Screen.AllScreens[0].Bounds.Location;
-                }
-            }
-        }
-        private void Screen2_Top_Left_Click(object sender, EventArgs e)
-        {
-            this.Size = new Size(1920, 2160);
-            if (Screen.AllScreens.Length > 1)
-            {
-                if (Screen.AllScreens[0].Bounds.X == 0)
-                {
-                    this.Location = Screen.AllScreens[1].Bounds.Location;
-                }
-                else
-                {
-                    this.Location = Screen.AllScreens[0].Bounds.Location;
-                }
-            }
-        }
-        private void Screen2_Right_Click(object sender, EventArgs e)
-        {
-            this.Size = new Size(1920, 2160);
-            if (Screen.AllScreens.Length > 1)
-            {
-                if (Screen.AllScreens[0].Bounds.X == 0)
-                {
-                    this.Location = new Point(Screen.AllScreens[1].Bounds.X + Screen.AllScreens[1].Bounds.Width / 2, Screen.AllScreens[1].Bounds.Y);
-                }
-                else
-                {
-                    this.Location = new Point(Screen.AllScreens[0].Bounds.X + Screen.AllScreens[0].Bounds.Width / 2, Screen.AllScreens[0].Bounds.Y);
-                }
-            }
-        }
-        private void Screen2_Top_Click(object sender, EventArgs e)
-        {
-            this.Size = new Size(0xf00, 1080);
-            if (Screen.AllScreens.Length > 1)
-            {
-                if (Screen.AllScreens[0].Bounds.X == 0)
-                {
-                    this.Location = Screen.AllScreens[1].Bounds.Location;
-                }
-                else
-                {
-                    this.Location = Screen.AllScreens[0].Bounds.Location;
-                }
-            }
-        }
-        private void Screen2_Bottom_Click(object sender, EventArgs e)
-        {
-            this.Location = Screen.AllScreens[1].WorkingArea.Location;
-            this.Size = new Size(1920, 1080);
-            this.Location = new Point(-99999, -99999);
         }
         private void Bottom_right_Click(object sender, EventArgs e)
         {
-            switch (arrow)
-            {
-                case 4:
-                    unchecked_Left();
-                    break;
-                case 7:
-                    unchecked_Top_left();
-                    break;
-                case 8:
-                    unchecked_Top();
-                    break;
-                case 9:
-                    unchecked_Top_right();
-                    break;
-                case 6:
-                    unchecked_Right();
-                    break;
-                case 3:
-                    unchecked_Bottom_right();
-                    break;
-                case 2:
-                    unchecked_Bottom();
-                    break;
-                case 1:
-                    unchecked_Bottom_left();
-                    break;
-            }
+            Uncheck_Arrow();
             selected_Bottom_right();
             arrow = 3;
         }
@@ -13215,39 +13374,19 @@ namespace plt0_gui
         }
         private void selected_Bottom_right()
         {
+            for (byte i = 0; i < Screen.AllScreens.Length; i++)
+            {
+                if (Screen.AllScreens[i].Bounds.X == 0)
+                {
+                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Height / 2);
+                    this.Location = new Point(Screen.AllScreens[i].Bounds.X + Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Y + Screen.AllScreens[i].Bounds.Height / 2);
+                }
+            }
             banner_3_ck.BackgroundImage = bottom_right_selected;
-            this.Size = new Size(960, 540);
-            this.Location = new Point(960, 540);
         }
         private void Bottom_Click(object sender, EventArgs e)
         {
-            switch (arrow)
-            {
-                case 4:
-                    unchecked_Left();
-                    break;
-                case 7:
-                    unchecked_Top_left();
-                    break;
-                case 8:
-                    unchecked_Top();
-                    break;
-                case 9:
-                    unchecked_Top_right();
-                    break;
-                case 6:
-                    unchecked_Right();
-                    break;
-                case 3:
-                    unchecked_Bottom_right();
-                    break;
-                case 2:
-                    unchecked_Bottom();
-                    break;
-                case 1:
-                    unchecked_Bottom_left();
-                    break;
-            }
+            Uncheck_Arrow();
             selected_Bottom();
             arrow = 2;
         }
@@ -13281,39 +13420,19 @@ namespace plt0_gui
         }
         private void selected_Bottom()
         {
+            for (byte i = 0; i < Screen.AllScreens.Length; i++)
+            {
+                if (Screen.AllScreens[i].Bounds.X == 0)
+                {
+                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width, Screen.AllScreens[i].Bounds.Height / 2);
+                    this.Location = new Point(Screen.AllScreens[i].Bounds.X, Screen.AllScreens[i].Bounds.Y + Screen.AllScreens[i].Bounds.Height / 2);
+                }
+            }
             banner_2_ck.BackgroundImage = bottom_selected;
-            this.Size = new Size(1920, 540);
-            this.Location = new Point(0, 540);
         }
         private void Bottom_left_Click(object sender, EventArgs e)
         {
-            switch (arrow)
-            {
-                case 4:
-                    unchecked_Left();
-                    break;
-                case 7:
-                    unchecked_Top_left();
-                    break;
-                case 8:
-                    unchecked_Top();
-                    break;
-                case 9:
-                    unchecked_Top_right();
-                    break;
-                case 6:
-                    unchecked_Right();
-                    break;
-                case 3:
-                    unchecked_Bottom_right();
-                    break;
-                case 2:
-                    unchecked_Bottom();
-                    break;
-                case 1:
-                    unchecked_Bottom_left();
-                    break;
-            }
+            Uncheck_Arrow();
             selected_Bottom_left();
             arrow = 1;
         }
@@ -13347,9 +13466,429 @@ namespace plt0_gui
         }
         private void selected_Bottom_left()
         {
+            for (byte i = 0; i < Screen.AllScreens.Length; i++)
+            {
+                if (Screen.AllScreens[i].Bounds.X == 0)
+                {
+                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Height / 2);
+                    this.Location = new Point(Screen.AllScreens[i].Bounds.X, Screen.AllScreens[i].Bounds.Y + Screen.AllScreens[i].Bounds.Height / 2);
+                }
+            }
             banner_1_ck.BackgroundImage = bottom_left_selected;
-            this.Size = new Size(960, 540);
-            this.Location = new Point(0, 540);
+        }
+        private void Arrow_1080p_Click(object sender, EventArgs e)
+        {
+            Uncheck_Arrow();
+            selected_Arrow_1080p();
+            arrow = 15;
+        }
+        private void Arrow_1080p_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[200]);
+            if (arrow == 15)
+                selected_Arrow_1080p();
+            else
+                hover_Arrow_1080p();
+        }
+        private void Arrow_1080p_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (arrow == 15)
+                checked_Arrow_1080p();
+            else
+                unchecked_Arrow_1080p();
+        }
+        private void checked_Arrow_1080p()
+        {
+            banner_15_ck.BackgroundImage = arrow_1080p_on;
+        }
+        private void unchecked_Arrow_1080p()
+        {
+            banner_15_ck.BackgroundImage = arrow_1080p_off;
+        }
+        private void hover_Arrow_1080p()
+        {
+            banner_15_ck.BackgroundImage = arrow_1080p_hover;
+        }
+        private void selected_Arrow_1080p()
+        {
+            for (byte i = 0; i < Screen.AllScreens.Length; i++)
+            {
+                if (Screen.AllScreens[i].Bounds.X == 0)
+                {
+                    this.Size = new Size(1920, 1080);
+                    this.Location = Screen.AllScreens[i].Bounds.Location;
+                }
+            }
+            banner_15_ck.BackgroundImage = arrow_1080p_selected;
+        }
+        private void Screen2_Left_Click(object sender, EventArgs e)
+        {
+            Uncheck_Arrow();
+            selected_Screen2_Left();
+            arrow = 14;
+        }
+        private void Screen2_Left_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[201]);
+            if (arrow == 14)
+                selected_Screen2_Left();
+            else
+                hover_Screen2_Left();
+        }
+        private void Screen2_Left_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (arrow == 14)
+                checked_Screen2_Left();
+            else
+                unchecked_Screen2_Left();
+        }
+        private void checked_Screen2_Left()
+        {
+            banner_14_ck.BackgroundImage = screen2_left_on;
+        }
+        private void unchecked_Screen2_Left()
+        {
+            banner_14_ck.BackgroundImage = screen2_left_off;
+        }
+        private void hover_Screen2_Left()
+        {
+            banner_14_ck.BackgroundImage = screen2_left_hover;
+        }
+        private void selected_Screen2_Left()
+        {
+            for (byte i = 0; i < Screen.AllScreens.Length; i++)
+            {
+                if (Screen.AllScreens[i].Bounds.X != 0)
+                {
+                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Height);
+                    this.Location = Screen.AllScreens[i].Bounds.Location;
+                }
+            }
+            banner_14_ck.BackgroundImage = screen2_left_selected;
+        }
+        private void Screen2_Top_left_Click(object sender, EventArgs e)
+        {
+            Uncheck_Arrow();
+            selected_Screen2_Top_left();
+            arrow = 17;
+        }
+        private void Screen2_Top_left_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[202]);
+            if (arrow == 17)
+                selected_Screen2_Top_left();
+            else
+                hover_Screen2_Top_left();
+        }
+        private void Screen2_Top_left_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (arrow == 17)
+                checked_Screen2_Top_left();
+            else
+                unchecked_Screen2_Top_left();
+        }
+        private void checked_Screen2_Top_left()
+        {
+            banner_17_ck.BackgroundImage = screen2_top_left_on;
+        }
+        private void unchecked_Screen2_Top_left()
+        {
+            banner_17_ck.BackgroundImage = screen2_top_left_off;
+        }
+        private void hover_Screen2_Top_left()
+        {
+            banner_17_ck.BackgroundImage = screen2_top_left_hover;
+        }
+        private void selected_Screen2_Top_left()
+        {
+            for (byte i = 0; i < Screen.AllScreens.Length; i++)
+            {
+                if (Screen.AllScreens[i].Bounds.X != 0)
+                {
+                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Height / 2);
+                    this.Location = Screen.AllScreens[i].Bounds.Location;
+                }
+            }
+            banner_17_ck.BackgroundImage = screen2_top_left_selected;
+        }
+        private void Screen2_Top_Click(object sender, EventArgs e)
+        {
+            Uncheck_Arrow();
+            selected_Screen2_Top();
+            arrow = 18;
+        }
+        private void Screen2_Top_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[203]);
+            if (arrow == 18)
+                selected_Screen2_Top();
+            else
+                hover_Screen2_Top();
+        }
+        private void Screen2_Top_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (arrow == 18)
+                checked_Screen2_Top();
+            else
+                unchecked_Screen2_Top();
+        }
+        private void checked_Screen2_Top()
+        {
+            banner_18_ck.BackgroundImage = screen2_top_on;
+        }
+        private void unchecked_Screen2_Top()
+        {
+            banner_18_ck.BackgroundImage = screen2_top_off;
+        }
+        private void hover_Screen2_Top()
+        {
+            banner_18_ck.BackgroundImage = screen2_top_hover;
+        }
+        private void selected_Screen2_Top()
+        {
+            for (byte i = 0; i < Screen.AllScreens.Length; i++)
+            {
+                if (Screen.AllScreens[i].Bounds.X != 0)
+                {
+                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width, Screen.AllScreens[i].Bounds.Height / 2);
+                    this.Location = Screen.AllScreens[i].Bounds.Location;
+                }
+            }
+            banner_18_ck.BackgroundImage = screen2_top_selected;
+        }
+        private void Screen2_Top_right_Click(object sender, EventArgs e)
+        {
+            Uncheck_Arrow();
+            selected_Screen2_Top_right();
+            arrow = 19;
+        }
+        private void Screen2_Top_right_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[204]);
+            if (arrow == 19)
+                selected_Screen2_Top_right();
+            else
+                hover_Screen2_Top_right();
+        }
+        private void Screen2_Top_right_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (arrow == 19)
+                checked_Screen2_Top_right();
+            else
+                unchecked_Screen2_Top_right();
+        }
+        private void checked_Screen2_Top_right()
+        {
+            banner_19_ck.BackgroundImage = screen2_top_right_on;
+        }
+        private void unchecked_Screen2_Top_right()
+        {
+            banner_19_ck.BackgroundImage = screen2_top_right_off;
+        }
+        private void hover_Screen2_Top_right()
+        {
+            banner_19_ck.BackgroundImage = screen2_top_right_hover;
+        }
+        private void selected_Screen2_Top_right()
+        {
+            for (byte i = 0; i < Screen.AllScreens.Length; i++)
+            {
+                if (Screen.AllScreens[i].Bounds.X != 0)
+                {
+                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Height / 2);
+                    this.Location = new Point(Screen.AllScreens[i].Bounds.X + Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Y);
+                }
+            }
+            banner_19_ck.BackgroundImage = screen2_top_right_selected;
+        }
+        private void Screen2_Right_Click(object sender, EventArgs e)
+        {
+            Uncheck_Arrow();
+            selected_Screen2_Right();
+            arrow = 16;
+        }
+        private void Screen2_Right_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[205]);
+            if (arrow == 16)
+                selected_Screen2_Right();
+            else
+                hover_Screen2_Right();
+        }
+        private void Screen2_Right_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (arrow == 16)
+                checked_Screen2_Right();
+            else
+                unchecked_Screen2_Right();
+        }
+        private void checked_Screen2_Right()
+        {
+            banner_16_ck.BackgroundImage = screen2_right_on;
+        }
+        private void unchecked_Screen2_Right()
+        {
+            banner_16_ck.BackgroundImage = screen2_right_off;
+        }
+        private void hover_Screen2_Right()
+        {
+            banner_16_ck.BackgroundImage = screen2_right_hover;
+        }
+        private void selected_Screen2_Right()
+        {
+            for (byte i = 0; i < Screen.AllScreens.Length; i++)
+            {
+                if (Screen.AllScreens[i].Bounds.X != 0)
+                {
+                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Height);
+                    this.Location = new Point(Screen.AllScreens[i].Bounds.X + Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Y);
+                }
+            }
+            banner_16_ck.BackgroundImage = screen2_right_selected;
+        }
+        private void Screen2_Bottom_right_Click(object sender, EventArgs e)
+        {
+            Uncheck_Arrow();
+            selected_Screen2_Bottom_right();
+            arrow = 13;
+        }
+        private void Screen2_Bottom_right_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[206]);
+            if (arrow == 13)
+                selected_Screen2_Bottom_right();
+            else
+                hover_Screen2_Bottom_right();
+        }
+        private void Screen2_Bottom_right_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (arrow == 13)
+                checked_Screen2_Bottom_right();
+            else
+                unchecked_Screen2_Bottom_right();
+        }
+        private void checked_Screen2_Bottom_right()
+        {
+            banner_13_ck.BackgroundImage = screen2_bottom_right_on;
+        }
+        private void unchecked_Screen2_Bottom_right()
+        {
+            banner_13_ck.BackgroundImage = screen2_bottom_right_off;
+        }
+        private void hover_Screen2_Bottom_right()
+        {
+            banner_13_ck.BackgroundImage = screen2_bottom_right_hover;
+        }
+        private void selected_Screen2_Bottom_right()
+        {
+            for (byte i = 0; i < Screen.AllScreens.Length; i++)
+            {
+                if (Screen.AllScreens[i].Bounds.X != 0)
+                {
+                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Height / 2);
+                    this.Location = new Point(Screen.AllScreens[i].Bounds.X + Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Y + Screen.AllScreens[i].Bounds.Height / 2);
+                }
+            }
+            banner_13_ck.BackgroundImage = screen2_bottom_right_selected;
+        }
+        private void Screen2_Bottom_Click(object sender, EventArgs e)
+        {
+            Uncheck_Arrow();
+            selected_Screen2_Bottom();
+            arrow = 12;
+        }
+        private void Screen2_Bottom_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[207]);
+            if (arrow == 12)
+                selected_Screen2_Bottom();
+            else
+                hover_Screen2_Bottom();
+        }
+        private void Screen2_Bottom_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (arrow == 12)
+                checked_Screen2_Bottom();
+            else
+                unchecked_Screen2_Bottom();
+        }
+        private void checked_Screen2_Bottom()
+        {
+            banner_12_ck.BackgroundImage = screen2_bottom_on;
+        }
+        private void unchecked_Screen2_Bottom()
+        {
+            banner_12_ck.BackgroundImage = screen2_bottom_off;
+        }
+        private void hover_Screen2_Bottom()
+        {
+            banner_12_ck.BackgroundImage = screen2_bottom_hover;
+        }
+        private void selected_Screen2_Bottom()
+        {
+            for (byte i = 0; i < Screen.AllScreens.Length; i++)
+            {
+                if (Screen.AllScreens[i].Bounds.X != 0)
+                {
+                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width, Screen.AllScreens[i].Bounds.Height / 2);
+                    this.Location = new Point(Screen.AllScreens[i].Bounds.X, Screen.AllScreens[i].Bounds.Y + Screen.AllScreens[i].Bounds.Height / 2);
+                }
+            }
+            banner_12_ck.BackgroundImage = screen2_bottom_selected;
+        }
+        private void Screen2_Bottom_left_Click(object sender, EventArgs e)
+        {
+            Uncheck_Arrow();
+            selected_Screen2_Bottom_left();
+            arrow = 11;
+        }
+        private void Screen2_Bottom_left_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[208]);
+            if (arrow == 11)
+                selected_Screen2_Bottom_left();
+            else
+                hover_Screen2_Bottom_left();
+        }
+        private void Screen2_Bottom_left_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (arrow == 11)
+                checked_Screen2_Bottom_left();
+            else
+                unchecked_Screen2_Bottom_left();
+        }
+        private void checked_Screen2_Bottom_left()
+        {
+            banner_11_ck.BackgroundImage = screen2_bottom_left_on;
+        }
+        private void unchecked_Screen2_Bottom_left()
+        {
+            banner_11_ck.BackgroundImage = screen2_bottom_left_off;
+        }
+        private void hover_Screen2_Bottom_left()
+        {
+            banner_11_ck.BackgroundImage = screen2_bottom_left_hover;
+        }
+        private void selected_Screen2_Bottom_left()
+        {
+            for (byte i = 0; i < Screen.AllScreens.Length; i++)
+            {
+                if (Screen.AllScreens[i].Bounds.X != 0)
+                {
+                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Height / 2);
+                    this.Location = new Point(Screen.AllScreens[i].Bounds.X, Screen.AllScreens[i].Bounds.Y + Screen.AllScreens[i].Bounds.Height / 2);
+                }
+            }
+            banner_11_ck.BackgroundImage = screen2_bottom_left_selected;
         }
         private void input_file_Click(object sender, EventArgs e)
         {
@@ -13386,7 +13925,7 @@ namespace plt0_gui
         }
         private void input_file_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[200]);
+            Parse_Markdown(lines[209]);
         }
         private void input_file_MouseLeave(object sender, EventArgs e)
         {
@@ -13402,7 +13941,7 @@ namespace plt0_gui
         }
         private void input_file2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[201]);
+            Parse_Markdown(lines[210]);
         }
         private void input_file2_MouseLeave(object sender, EventArgs e)
         {
@@ -13417,7 +13956,7 @@ namespace plt0_gui
         }
         private void output_name_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[202]);
+            Parse_Markdown(lines[211]);
         }
         private void output_name_MouseLeave(object sender, EventArgs e)
         {
@@ -13432,7 +13971,7 @@ namespace plt0_gui
         }
         private void mipmaps_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[203]);
+            Parse_Markdown(lines[212]);
         }
         private void mipmaps_MouseLeave(object sender, EventArgs e)
         {
@@ -13447,7 +13986,7 @@ namespace plt0_gui
         }
         private void cmpr_max_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[204]);
+            Parse_Markdown(lines[213]);
         }
         private void cmpr_max_MouseLeave(object sender, EventArgs e)
         {
@@ -13461,7 +14000,7 @@ namespace plt0_gui
         }
         private void cmpr_min_alpha_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[205]);
+            Parse_Markdown(lines[214]);
         }
         private void cmpr_min_alpha_MouseLeave(object sender, EventArgs e)
         {
@@ -13475,7 +14014,7 @@ namespace plt0_gui
         }
         private void num_colours_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[206]);
+            Parse_Markdown(lines[215]);
         }
         private void num_colours_MouseLeave(object sender, EventArgs e)
         {
@@ -13489,7 +14028,7 @@ namespace plt0_gui
         }
         private void round3_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[207]);
+            Parse_Markdown(lines[216]);
         }
         private void round3_MouseLeave(object sender, EventArgs e)
         {
@@ -13503,7 +14042,7 @@ namespace plt0_gui
         }
         private void round4_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[208]);
+            Parse_Markdown(lines[217]);
         }
         private void round4_MouseLeave(object sender, EventArgs e)
         {
@@ -13517,7 +14056,7 @@ namespace plt0_gui
         }
         private void round5_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[209]);
+            Parse_Markdown(lines[218]);
         }
         private void round5_MouseLeave(object sender, EventArgs e)
         {
@@ -13531,7 +14070,7 @@ namespace plt0_gui
         }
         private void round6_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[210]);
+            Parse_Markdown(lines[219]);
         }
         private void round6_MouseLeave(object sender, EventArgs e)
         {
@@ -13545,7 +14084,7 @@ namespace plt0_gui
         }
         private void diversity_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[211]);
+            Parse_Markdown(lines[220]);
         }
         private void diversity_MouseLeave(object sender, EventArgs e)
         {
@@ -13559,7 +14098,7 @@ namespace plt0_gui
         }
         private void diversity2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[212]);
+            Parse_Markdown(lines[221]);
         }
         private void diversity2_MouseLeave(object sender, EventArgs e)
         {
@@ -13573,7 +14112,7 @@ namespace plt0_gui
         }
         private void percentage_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[213]);
+            Parse_Markdown(lines[222]);
         }
         private void percentage_MouseLeave(object sender, EventArgs e)
         {
@@ -13587,7 +14126,7 @@ namespace plt0_gui
         }
         private void percentage2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[214]);
+            Parse_Markdown(lines[223]);
         }
         private void percentage2_MouseLeave(object sender, EventArgs e)
         {
@@ -13601,7 +14140,7 @@ namespace plt0_gui
         }
         private void custom_r_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[215]);
+            Parse_Markdown(lines[224]);
         }
         private void custom_r_MouseLeave(object sender, EventArgs e)
         {
@@ -13615,7 +14154,7 @@ namespace plt0_gui
         }
         private void custom_g_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[216]);
+            Parse_Markdown(lines[225]);
         }
         private void custom_g_MouseLeave(object sender, EventArgs e)
         {
@@ -13629,7 +14168,7 @@ namespace plt0_gui
         }
         private void custom_b_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[217]);
+            Parse_Markdown(lines[226]);
         }
         private void custom_b_MouseLeave(object sender, EventArgs e)
         {
@@ -13643,7 +14182,7 @@ namespace plt0_gui
         }
         private void custom_a_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[218]);
+            Parse_Markdown(lines[227]);
         }
         private void custom_a_MouseLeave(object sender, EventArgs e)
         {
@@ -13667,7 +14206,7 @@ namespace plt0_gui
         }
         private void palette_AI8_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[219]);
+            Parse_Markdown(lines[228]);
             if (palette_enc == 0)
                 selected_palette(palette_ai8_ck);
             else
@@ -13693,7 +14232,7 @@ namespace plt0_gui
         }
         private void palette_RGB565_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[220]);
+            Parse_Markdown(lines[229]);
             if (palette_enc == 1)
                 selected_palette(palette_rgb565_ck);
             else
@@ -13719,7 +14258,7 @@ namespace plt0_gui
         }
         private void palette_RGB5A3_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[221]);
+            Parse_Markdown(lines[230]);
             if (palette_enc == 2)
                 selected_palette(palette_rgb5a3_ck);
             else
@@ -13740,7 +14279,7 @@ namespace plt0_gui
         }
         private void discord_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[222]);
+            Parse_Markdown(lines[231]);
             discord_ck.BackgroundImage = discord_hover;
         }
         private void discord_MouseLeave(object sender, EventArgs e)
@@ -13755,7 +14294,7 @@ namespace plt0_gui
         }
         private void github_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[223]);
+            Parse_Markdown(lines[232]);
             github_ck.BackgroundImage = github_hover;
         }
         private void github_MouseLeave(object sender, EventArgs e)
@@ -13770,7 +14309,7 @@ namespace plt0_gui
         }
         private void youtube_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[224]);
+            Parse_Markdown(lines[233]);
             youtube_ck.BackgroundImage = youtube_hover;
         }
         private void youtube_MouseLeave(object sender, EventArgs e)
@@ -13793,7 +14332,7 @@ namespace plt0_gui
         }
         private void view_alpha_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[225]);
+            Parse_Markdown(lines[234]);
             if (view_alpha)
                 Category_selected(view_alpha_ck);
             else
@@ -13822,7 +14361,7 @@ namespace plt0_gui
         }
         private void view_algorithm_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[226]);
+            Parse_Markdown(lines[235]);
             if (view_algorithm)
                 Category_selected(view_algorithm_ck);
             else
@@ -13851,7 +14390,7 @@ namespace plt0_gui
         }
         private void view_WrapS_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[227]);
+            Parse_Markdown(lines[236]);
             if (view_WrapS)
                 Category_selected(view_WrapS_ck);
             else
@@ -13880,7 +14419,7 @@ namespace plt0_gui
         }
         private void view_WrapT_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[228]);
+            Parse_Markdown(lines[237]);
             if (view_WrapT)
                 Category_selected(view_WrapT_ck);
             else
@@ -13909,7 +14448,7 @@ namespace plt0_gui
         }
         private void view_min_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[229]);
+            Parse_Markdown(lines[238]);
             if (view_min)
                 Category_selected(view_min_ck);
             else
@@ -13938,7 +14477,7 @@ namespace plt0_gui
         }
         private void view_mag_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[230]);
+            Parse_Markdown(lines[239]);
             if (view_mag)
                 Category_selected(view_mag_ck);
             else
@@ -13967,7 +14506,7 @@ namespace plt0_gui
         }
         private void view_rgba_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[231]);
+            Parse_Markdown(lines[240]);
             if (view_rgba)
                 Category_selected(view_rgba_ck);
             else
@@ -13996,7 +14535,7 @@ namespace plt0_gui
         }
         private void view_palette_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[232]);
+            Parse_Markdown(lines[241]);
             if (view_palette)
                 Category_selected(view_palette_ck);
             else
@@ -14025,7 +14564,7 @@ namespace plt0_gui
         }
         private void view_cmpr_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[233]);
+            Parse_Markdown(lines[242]);
             if (view_cmpr)
                 Category_selected(view_cmpr_ck);
             else
@@ -14054,7 +14593,7 @@ namespace plt0_gui
         }
         private void view_options_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[234]);
+            Parse_Markdown(lines[243]);
             if (view_options)
                 Category_selected(view_options_ck);
             else
@@ -14070,7 +14609,7 @@ namespace plt0_gui
         }
         private void version_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[235]);
+            Parse_Markdown(lines[244]);
             version_ck.BackgroundImage = version_hover;
         }
         private void version_MouseLeave(object sender, EventArgs e)
@@ -14080,7 +14619,7 @@ namespace plt0_gui
         }
         private void cli_textbox_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[236]);
+            Parse_Markdown(lines[245]);
             cli_textbox_ck.BackgroundImage = cli_textbox_hover;
             this.cli_textbox_label.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(4)))), ((int)(((byte)(0)))));
         }
@@ -14092,7 +14631,7 @@ namespace plt0_gui
         }
         private void run_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[237]);
+            Parse_Markdown(lines[246]);
             run_ck.BackgroundImage = run_hover;
         }
         private void run_MouseLeave(object sender, EventArgs e)
@@ -14102,7 +14641,7 @@ namespace plt0_gui
         }
         private void Output_label_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[238]);
+            Parse_Markdown(lines[247]);
         }
         private void Output_label_MouseLeave(object sender, EventArgs e)
         {
@@ -14110,7 +14649,7 @@ namespace plt0_gui
         }
         private void banner_global_move_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[239]);
+            Parse_Markdown(lines[248]);
             if (banner_global_move)
                 banner_global_move_ck.BackgroundImage = banner_global_move_selected;
             else
@@ -14126,7 +14665,7 @@ namespace plt0_gui
         }
         private void banner_move_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[240]);
+            Parse_Markdown(lines[249]);
         }
         private void banner_move_MouseLeave(object sender, EventArgs e)
         {
@@ -14134,7 +14673,7 @@ namespace plt0_gui
         }
         private void banner_resize_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[241]);
+            Parse_Markdown(lines[250]);
         }
         private void banner_resize_MouseLeave(object sender, EventArgs e)
         {
@@ -14142,7 +14681,7 @@ namespace plt0_gui
         }
         private void sync_preview_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[242]);
+            Parse_Markdown(lines[251]);
             if (!preview_changed)
                 sync_preview_ck.BackgroundImage = sync_preview_hover;
             else
@@ -14158,7 +14697,7 @@ namespace plt0_gui
         }
         private void cmpr_save_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[243]);
+            Parse_Markdown(lines[252]);
             cmpr_save_ck.BackgroundImage = cmpr_save_hover;
         }
         private void cmpr_save_MouseLeave(object sender, EventArgs e)
@@ -14168,7 +14707,7 @@ namespace plt0_gui
         }
         private void cmpr_save_as_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[244]);
+            Parse_Markdown(lines[253]);
             cmpr_save_as_ck.BackgroundImage = cmpr_save_as_hover;
         }
         private void cmpr_save_as_MouseLeave(object sender, EventArgs e)
@@ -14178,7 +14717,7 @@ namespace plt0_gui
         }
         private void cmpr_swap_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[245]);
+            Parse_Markdown(lines[254]);
             cmpr_swap_ck.BackgroundImage = cmpr_swap_hover;
         }
         private void cmpr_swap_MouseLeave(object sender, EventArgs e)
@@ -14188,7 +14727,7 @@ namespace plt0_gui
         }
         private void cmpr_swap2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[246]);
+            Parse_Markdown(lines[255]);
             cmpr_swap2_ck.BackgroundImage = cmpr_swap2_hover;
         }
         private void cmpr_swap2_MouseLeave(object sender, EventArgs e)
@@ -14198,7 +14737,7 @@ namespace plt0_gui
         }
         private void cmpr_palette_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[247]);
+            Parse_Markdown(lines[256]);
         }
         private void cmpr_palette_MouseLeave(object sender, EventArgs e)
         {
@@ -14206,7 +14745,7 @@ namespace plt0_gui
         }
         private void cmpr_mouse1_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[248]);
+            Parse_Markdown(lines[257]);
         }
         private void cmpr_mouse1_MouseLeave(object sender, EventArgs e)
         {
@@ -14214,7 +14753,7 @@ namespace plt0_gui
         }
         private void cmpr_mouse2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[249]);
+            Parse_Markdown(lines[258]);
         }
         private void cmpr_mouse2_MouseLeave(object sender, EventArgs e)
         {
@@ -14222,7 +14761,7 @@ namespace plt0_gui
         }
         private void cmpr_mouse3_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[250]);
+            Parse_Markdown(lines[259]);
         }
         private void cmpr_mouse3_MouseLeave(object sender, EventArgs e)
         {
@@ -14230,7 +14769,7 @@ namespace plt0_gui
         }
         private void cmpr_mouse4_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[251]);
+            Parse_Markdown(lines[260]);
         }
         private void cmpr_mouse4_MouseLeave(object sender, EventArgs e)
         {
@@ -14238,7 +14777,7 @@ namespace plt0_gui
         }
         private void cmpr_mouse5_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[252]);
+            Parse_Markdown(lines[261]);
         }
         private void cmpr_mouse5_MouseLeave(object sender, EventArgs e)
         {
@@ -14246,7 +14785,7 @@ namespace plt0_gui
         }
         private void cmpr_sel_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[253]);
+            Parse_Markdown(lines[262]);
         }
         private void cmpr_sel_MouseLeave(object sender, EventArgs e)
         {
@@ -14254,7 +14793,7 @@ namespace plt0_gui
         }
         private void cmpr_c1_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[254]);
+            Parse_Markdown(lines[263]);
         }
         private void cmpr_c1_MouseLeave(object sender, EventArgs e)
         {
@@ -14262,7 +14801,7 @@ namespace plt0_gui
         }
         private void cmpr_c2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[255]);
+            Parse_Markdown(lines[264]);
         }
         private void cmpr_c2_MouseLeave(object sender, EventArgs e)
         {
@@ -14270,7 +14809,7 @@ namespace plt0_gui
         }
         private void cmpr_c3_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[256]);
+            Parse_Markdown(lines[265]);
         }
         private void cmpr_c3_MouseLeave(object sender, EventArgs e)
         {
@@ -14278,7 +14817,7 @@ namespace plt0_gui
         }
         private void cmpr_c4_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[257]);
+            Parse_Markdown(lines[266]);
         }
         private void cmpr_c4_MouseLeave(object sender, EventArgs e)
         {
@@ -14436,7 +14975,7 @@ namespace plt0_gui
         }
         private void cmpr_block_selection_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[258]);
+            Parse_Markdown(lines[267]);
             if (tooltip == 0)
                 selected_tooltip(cmpr_block_selection_ck);
             else
@@ -14458,7 +14997,7 @@ namespace plt0_gui
         }
         private void cmpr_block_paint_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[259]);
+            Parse_Markdown(lines[268]);
             if (tooltip == 1)
                 selected_tooltip(cmpr_block_paint_ck);
             else
@@ -14474,16 +15013,16 @@ namespace plt0_gui
         }
         private void Warn_rgb565_colour_trim()
         {
-            Parse_Markdown(lines[260], cmpr_warning);
+            Parse_Markdown(lines[269], cmpr_warning);
         }
         private void Put_that_damn_cmpr_layout_in_place()
         {
             Check_Paint();
-            Parse_Markdown(lines[261], cmpr_mouse1_label);
-            Parse_Markdown(lines[262], cmpr_mouse2_label);
-            Parse_Markdown(lines[263], cmpr_mouse3_label);
-            Parse_Markdown(lines[264], cmpr_mouse4_label);
-            Parse_Markdown(lines[265], cmpr_mouse5_label);
+            Parse_Markdown(lines[270], cmpr_mouse1_label);
+            Parse_Markdown(lines[271], cmpr_mouse2_label);
+            Parse_Markdown(lines[272], cmpr_mouse3_label);
+            Parse_Markdown(lines[273], cmpr_mouse4_label);
+            Parse_Markdown(lines[274], cmpr_mouse5_label);
             checked_tooltip(cmpr_block_selection_ck);
             unchecked_tooltip(cmpr_block_paint_ck);
         }
@@ -14516,7 +15055,7 @@ namespace plt0_gui
                 cli.Parse_args(cmpr_args);
                 if (cli.texture_format != 0xE)
                 {
-                    Parse_Markdown(lines[266], cmpr_warning);
+                    Parse_Markdown(lines[275], cmpr_warning);
                     return;
                 }
                 if (File.Exists(execPath + "images/preview/" + num + ".bmp"))
@@ -14553,7 +15092,7 @@ namespace plt0_gui
             }
             else
             {
-                Parse_Markdown(lines[266], cmpr_warning);
+                Parse_Markdown(lines[275], cmpr_warning);
             }
         }
         private void cmpr_c2_TextChanged(object sender, EventArgs e)
@@ -14970,7 +15509,8 @@ namespace plt0_gui
         }
         private void cmpr_KeyDown(object sender, KeyEventArgs e)
         {
-            // cmpr_warning.Text = $"KeyDown code: {e.KeyCode}, value: {e.KeyValue}, modifiers: {e.Modifiers}" + "\r\n";
+
+            cmpr_warning.Text = $"KeyDown code: {e.KeyCode}, value: {e.KeyValue}, modifiers: {e.Modifiers}";
             if (e.KeyCode == Keys.F1)
                 All_Click(null, null);
             else if (e.KeyCode == Keys.F2)
@@ -15002,13 +15542,31 @@ namespace plt0_gui
             else if (e.Control && e.KeyCode == Keys.Down)
                 Bottom_Click(null, null);
             else if (e.Alt && e.KeyCode == Keys.Left)
-                Screen2_Left_Click();
+                Screen2_Left_Click(null, null);
             else if (e.Alt && e.KeyCode == Keys.Right)
-                Screen2_Right_Click();
+                Screen2_Right_Click(null, null);
             else if (e.Alt && e.KeyCode == Keys.Up)
-                Screen2_Top_Click();
+                Screen2_Top_Click(null, null);
             else if (e.Alt && e.KeyCode == Keys.Down)
-                Screen2_Bottom_Click();
+                Screen2_Bottom_Click(null, null);
+            else if (e.Alt && (e.KeyCode == Keys.D1 || e.KeyCode == Keys.NumPad1))
+                Bottom_left_Click(null, null);
+            else if (e.Alt && (e.KeyCode == Keys.D2 || e.KeyCode == Keys.NumPad2))
+                Bottom_Click(null, null);
+            else if (e.Alt && (e.KeyCode == Keys.D3 || e.KeyCode == Keys.NumPad3))
+                Bottom_right_Click(null, null);
+            else if (e.Alt && (e.KeyCode == Keys.D4 || e.KeyCode == Keys.NumPad4))
+                Left_Click(null, null);
+            else if (e.Alt && (e.KeyCode == Keys.D5 || e.KeyCode == Keys.NumPad5))
+                Arrow_1080p_Click(null, null);
+            else if (e.Alt && (e.KeyCode == Keys.D6 || e.KeyCode == Keys.NumPad6))
+                Right_Click(null, null);
+            else if (e.Alt && (e.KeyCode == Keys.D7 || e.KeyCode == Keys.NumPad7))
+                Top_left_Click(null, null);
+            else if (e.Alt && (e.KeyCode == Keys.D8 || e.KeyCode == Keys.NumPad8))
+                Top_Click(null, null);
+            else if (e.Alt && (e.KeyCode == Keys.D9 || e.KeyCode == Keys.NumPad9))
+                Top_right_Click(null, null);
             if (layout != 3) // not paint
             {
                 if (e.Control && e.KeyCode == Keys.R)
@@ -15033,24 +15591,6 @@ namespace plt0_gui
                 cmpr_c3_Click(null, null);
             else if (e.Control && (e.KeyCode == Keys.D4 || e.KeyCode == Keys.NumPad4))
                 cmpr_c4_Click(null, null);
-            else if (e.Alt && (e.KeyCode == Keys.D1 || e.KeyCode == Keys.NumPad1))
-                Bottom_left_Click(null, null);
-            else if (e.Alt && (e.KeyCode == Keys.D2 || e.KeyCode == Keys.NumPad2))
-                Bottom_Click(null, null);
-            else if (e.Alt && (e.KeyCode == Keys.D3 || e.KeyCode == Keys.NumPad3))
-                Bottom_right_Click(null, null);
-            else if (e.Alt && (e.KeyCode == Keys.D4 || e.KeyCode == Keys.NumPad4))
-                Left_Click(null, null);
-            else if (e.Alt && (e.KeyCode == Keys.D5 || e.KeyCode == Keys.NumPad5))
-                Maximized_Click(null, null);
-            else if (e.Alt && (e.KeyCode == Keys.D6 || e.KeyCode == Keys.NumPad6))
-                Right_Click(null, null);
-            else if (e.Alt && (e.KeyCode == Keys.D7 || e.KeyCode == Keys.NumPad7))
-                Top_left_Click(null, null);
-            else if (e.Alt && (e.KeyCode == Keys.D8 || e.KeyCode == Keys.NumPad8))
-                Top_Click(null, null);
-            else if (e.Alt && (e.KeyCode == Keys.D9 || e.KeyCode == Keys.NumPad9))
-                Top_right_Click(null, null);
         }
         private void cmpr_KeyUp(object sender, KeyEventArgs e)
         {
@@ -15061,3 +15601,4 @@ namespace plt0_gui
         }
     }
 }
+
