@@ -1303,9 +1303,9 @@ namespace plt0_gui
                 bool isFolder = System.IO.File.GetAttributes(file[0]).HasFlag(System.IO.FileAttributes.Directory);
                 if (!isFolder)  // that means it's a file.
                 {
-                    byte len = (byte)file[0].Split('\\').Length;
+                    //byte len = (byte)file[0].Split('\\').Length;
                     input_file = file[0];
-                    input_file_txt.Text = file[0].Split('\\')[len - 1];// file is actually a full path starting from a drive, but I won't clutter the display
+                    input_file_txt.Text = file[0]; //.Split('\\')[len - 1];// file is actually a full path starting from a drive, but I won't clutter the disp- well, I have to clutter the display since I hardcoded the TextChange function of input_file_txt.Text
                 }
                 else
                 {
@@ -1951,7 +1951,6 @@ namespace plt0_gui
         {
             if (!cmpr_layout_is_in_place)
             {
-                Put_that_damn_cmpr_layout_in_place();
                 cmpr_palette.BackgroundImage = gradient;
                 cmpr_swap_ck.BackgroundImage = cmpr_swap;
                 cmpr_swap2_ck.BackgroundImage = cmpr_swap2;
@@ -2004,6 +2003,7 @@ namespace plt0_gui
             }
             if (!cmpr_layout_is_enabled)
             {
+                Put_that_damn_cmpr_layout_in_place();
                 layout = 1;
                 if (all_layout_is_enabled)
                     Disable_All_Layout();
@@ -2168,7 +2168,6 @@ namespace plt0_gui
                 output_name_txt.Location = new Point(output_name_txt.Location.X - 165, output_name_txt.Location.Y + 14);
                 layout = 3;
             }
-            Check_Paint();
         }
         private void View_alpha(bool secret_mode=false)
         {

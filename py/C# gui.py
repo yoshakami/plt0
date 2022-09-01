@@ -543,8 +543,34 @@ filter = ["*.bmp;*.png;*.jfif;*.jpg;*.jpeg;*.jpg;*.ico;*.gif;*.tif;*.tiff;*.rle;
 filter2 = ["*.bti;*.tex0;*.tpl", "*.bmd;*tpl"]
 file_title = ["Select a picture or a texture", "Select a palette, a bmd file, or a tpl file"]
 w = 7
-for n in range(2):
-    output += """
+n = 0
+output += """
+        private void """ + textbox[n][:-4] + """_Click(object sender, EventArgs e)
+        {
+            FileDialog dialog = new OpenFileDialog
+            {
+                if (layout == 3)
+                {
+                    Title = "Select a CMPR texture"
+                    Filter = \"""" + name2[0] + '|' + filter2[0] + """|All files (*.*)|*.*",
+                }
+                else
+                {
+                    Title = \"""" + file_title[n] + """",
+                    Filter = \"""" + name[n] + '|' + filter[n] + '|' + name2[n] + '|' + filter2[n] + """|All files (*.*)|*.*",
+                }
+                RestoreDirectory = true
+            };
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                """ + textbox[n] + """.Text = dialog.FileName;
+                """ + textbox[n][:-4] + """ = dialog.FileName;
+                Check_run();""" + check_paint[n] + """
+                Organize_args();
+            }
+        }"""
+n = 1
+output += """
         private void """ + textbox[n][:-4] + """_Click(object sender, EventArgs e)
         {
             FileDialog dialog = new OpenFileDialog
@@ -561,10 +587,46 @@ for n in range(2):
                 Organize_args();
             }
         }"""
-for p in range(3):
-    x += 1
-    w += 1
-    output += """
+n = 2
+output += """
+        private void """ + textbox[n][:-4] + """_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Title = "Output File Name (you actually need to click "Run" to save it)",
+                Filter = "All files (*.*)|*.*|Texture|*.bti;*.tex0;*.tpl|Picture|*.bmp;*.png;*.jfif;*.jpg;*.jpeg;*.jpg;*.ico;*.gif;*.tif;*.tiff;*.rle;*.dib",
+                RestoreDirectory = true,
+            };
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                output_name_txt.Text = saveFileDialog.FileName;
+            }
+        }"""
+p = 0
+x += 1
+w += 1
+output += """
+        private void """ + textbox[p][:-4] + """_MouseEnter(object sender, EventArgs e)
+        {
+            if (layout == 3)
+                Parse_Markdown(lines[""" + str(x) + """]);
+            else
+                Parse_Markdown(lines[""" + str(x + 1) + """]);
+        }
+        private void """ + textbox[p][:-4] + """_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();                     
+        }
+        private void """ + textbox[p][:-4] + """_TextChanged(object sender, EventArgs e)
+        {
+            """ + textbox[p][:-4] + """ = """ + textbox[p] + """.Text;""" + check_run[w] + """
+            Organize_args();
+            Preview(true);""" + check_paint[p] + """
+        }"""
+p = 1
+x += 2
+w += 1
+output += """
         private void """ + textbox[p][:-4] + """_MouseEnter(object sender, EventArgs e)
         {
             Parse_Markdown(lines[""" + str(x) + """]);
@@ -579,7 +641,48 @@ for p in range(3):
             Organize_args();
             Preview(true);""" + check_paint[p] + """
         }"""
-for o in range(3, len(textbox)):
+p = 2
+x += 1
+w += 1
+output += """
+        private void """ + textbox[p][:-4] + """_MouseEnter(object sender, EventArgs e)
+        {
+            if (layout == 3)
+                Parse_Markdown(lines[""" + str(x) + """]);
+            else
+                Parse_Markdown(lines[""" + str(x + 1) + """]);
+        }
+        private void """ + textbox[p][:-4] + """_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();                     
+        }
+        private void """ + textbox[p][:-4] + """_TextChanged(object sender, EventArgs e)
+        {
+            """ + textbox[p][:-4] + """ = """ + textbox[p] + """.Text;""" + check_run[w] + """
+            Organize_args();
+            Preview(true);""" + check_paint[p] + """
+        }"""
+o = 3
+x += 2
+output += """
+        private void """ + textbox[o][:-4] + """_MouseEnter(object sender, EventArgs e)
+        {
+            if (layout == 3)
+                Parse_Markdown(lines[""" + str(x) + """]);
+            else
+                Parse_Markdown(lines[""" + str(x + 1) + """]);
+        }
+        private void """ + textbox[o][:-4] + """_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();                     
+        }
+        private void """ + textbox[o][:-4] + """_TextChanged(object sender, EventArgs e)
+        {
+            Parse_""" + var_type[o] + "_text(" + textbox[o] + ", out " + textbox[o][:-4] + ", " + str(max_value[o]) + """);
+            Organize_args();
+            Preview(true);""" + check_paint[o] + """
+        }"""
+for o in range(4, len(textbox)):
     x += 1
     output += """
         private void """ + textbox[o][:-4] + """_MouseEnter(object sender, EventArgs e)
