@@ -381,12 +381,10 @@ same for blue + green*/
                         }
                         else
                         {
-
-
                             y -= ((_plt0.canvas_width << 4)) + 16;  // substract 4 lines and goes one block to the left
                         }
                         // now let's just try to take the most two used colours and use _plt0.diversity I guess
-                        // implementing my own way to find most used colours:
+                        // implementing my own way to find most used colours
                         // let's count the number of exact same colours in Colour_list
                         for (int i = 0; i < 15; i++)  // useless to set it to 16 because of the condition k > i.
                         {
@@ -405,12 +403,12 @@ same for blue + green*/
                         }
                         Colour_list.Sort(new UshortArrayComparer());  // sorts the table by the most used colour first
                         c = 0;
-                        for (int i = 0; i < 16 && c < 4; i++)  // build the colour table with the two most used colours and _plt0.diversityfffffffffffff
+                        for (int i = 0; i < 16 && c < 4; i++)  // build the colour table with the two most used colours and _plt0.diversity
                         {
                             not_similar = true;
                             if (Colour_list[i][0] / 16 < _plt0.percentage / 100)
                             {
-                                // break;  // STOP BREAKING THE F*CKING LOOP
+                                // break;  // THIS IS BREAKING THE LOOP
                                 continue;
                             }
                             if (c == 2)  // checks for _plt0.diversity before adding the second colour ^^
@@ -418,7 +416,7 @@ same for blue + green*/
                                 if (Math.Abs((index[0] & 248) - ((Colour_list[i][1] >> 8) & 248)) < _plt0.diversity && Math.Abs(((index[0] & 7) << 5) + ((index[1] >> 3) & 28) - ((Colour_list[i][1] >> 3) & 252)) < _plt0.diversity && Math.Abs(((index[1] << 3) & 248) - (Colour_list[i][1] << 3) & 248) < _plt0.diversity)
                                 {
                                     not_similar = false;
-                                    // break;  // HOLY SHIT YOU4VE BROKEN THE LOOP
+                                    // break;  // EGAD YOU4VE BROKEN THE LOOP
                                     continue;
                                 }
                             }
@@ -478,39 +476,53 @@ same for blue + green*/
                                 }
                             }
                         }
-                        if (alpha_bitfield == 0)  // put the biggest ushort in second place
+                        if (alpha_bitfield != 0)  // put the biggest ushort in second place
                         {
-                            if (index[0] > index[2] || (index[0] == index[2] && index[1] > index[3]))  // swap
+                            if (Colour_list[diff_min_index][1] > Colour_list[diff_max_index][1])  // put diff_min at the second spot
                             {
-                                index[4] = index[0];
-                                index[5] = index[1];
-                                index[0] = index[2];
-                                index[1] = index[3];
-                                index[2] = index[4];
-                                index[3] = index[5];
+                                index[0] = (byte)(Colour_list[diff_max_index][1] >> 8);
+                                index[1] = (byte)(Colour_list[diff_max_index][1]);
+                                index[2] = (byte)(Colour_list[diff_min_index][1] >> 8);
+                                index[3] = (byte)(Colour_list[diff_min_index][1]);
+                                colour_palette.Add(Colour_list[diff_max_index][1]);
+                                colour_palette.Add(Colour_list[diff_min_index][1]);
                             }
-                            colour_palette.Add((ushort)((index[0] << 8) + index[1]));
-                            colour_palette.Add((ushort)((index[2] << 8) + index[3]));
+                            else
+                            {
+                                index[0] = (byte)(Colour_list[diff_min_index][1] >> 8);
+                                index[1] = (byte)(Colour_list[diff_min_index][1]);
+                                index[2] = (byte)(Colour_list[diff_max_index][1] >> 8);
+                                index[3] = (byte)(Colour_list[diff_max_index][1]);
+                                colour_palette.Add(Colour_list[diff_min_index][1]);
+                                colour_palette.Add(Colour_list[diff_max_index][1]);
+                            }
                             red = (byte)(((index[0] & 248) + (index[2] & 248)) / 2);
                             green = (byte)(((((index[0] & 7) << 5) + ((index[1] >> 3) & 28)) + (((index[2] & 7) << 5) + ((index[3] >> 3) & 28))) / 2);
                             blue = (byte)((((index[1] << 3) & 248) + ((index[3] << 3) & 248)) / 2);
                             colour_palette.Add((ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)));  // the RGB565 third colour
                                                                                                                    // last colour isn't in the palette, it's in _plt0.alpha_bitfield
                         }
-                        else
+                        else  // put biggest ushort in first place
                         {
                             // of course, that's the exact opposite!
-                            if (index[0] < index[2] || (index[0] == index[2] && index[1] < index[3]))  // swap
+                            if (Colour_list[diff_min_index][1] > Colour_list[diff_max_index][1])  // put diff_min at the first spot
                             {
-                                index[4] = index[0];
-                                index[5] = index[1];
-                                index[0] = index[2];
-                                index[1] = index[3];
-                                index[2] = index[4];
-                                index[3] = index[5];  // this is confusing
+                                index[0] = (byte)(Colour_list[diff_min_index][1] >> 8);
+                                index[1] = (byte)(Colour_list[diff_min_index][1]);
+                                index[2] = (byte)(Colour_list[diff_max_index][1] >> 8);
+                                index[3] = (byte)(Colour_list[diff_max_index][1]);
+                                colour_palette.Add(Colour_list[diff_min_index][1]);
+                                colour_palette.Add(Colour_list[diff_max_index][1]);
                             }
-                            colour_palette.Add((ushort)((index[0] << 8) + index[1]));
-                            colour_palette.Add((ushort)((index[2] << 8) + index[3]));
+                            else
+                            {
+                                index[0] = (byte)(Colour_list[diff_max_index][1] >> 8);
+                                index[1] = (byte)(Colour_list[diff_max_index][1]);
+                                index[2] = (byte)(Colour_list[diff_min_index][1] >> 8);
+                                index[3] = (byte)(Colour_list[diff_min_index][1]);
+                                colour_palette.Add(Colour_list[diff_max_index][1]);
+                                colour_palette.Add(Colour_list[diff_min_index][1]);
+                            }
 
                             red = (byte)(index[0] & 248);
                             green = (byte)(((index[0] & 7) << 5) + ((index[1] >> 3) & 28));
@@ -565,6 +577,51 @@ same for blue + green*/
                                     index[7 - h] += (byte)(diff_min_index << (w << 1));
                                 }
                             }
+                            if (_plt0.reverse_y)  // swap
+                            {
+                                red = index[7];
+                                green = index[6];  // it's not the green colour. It's rather a seal
+                                index[7] = index[4];
+                                index[6] = index[5];
+                                index[5] = green;
+                                index[4] = red;
+                            }
+                        }
+                        else if (_plt0.reverse_y)
+                        {
+                            //for (sbyte h = 3; h >= 0; h--)
+                            for (byte h = 0; h < 4; h++)
+                            {
+                                for (byte w = 0; w < 4; w++)  // index_size = number of pixels
+                                {
+                                    if (((alpha_bitfield >> (h * 4) + w) & 1) == 1)
+                                    {
+                                        index[4 + h] += (byte)(3 << (6 - (w << 1)));
+                                        continue;
+                                    }
+                                    diff_min = 500;
+                                    // diff_min_index = w;
+                                    for (byte i = 0; i < colour_palette.Count; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
+                                    {
+                                        if (colour_palette[i] == Colour_rgb565[(h * 4) + w])  // if it's the exact same colour
+                                        {
+                                            diff_min_index = i;  // index is stored on 1 byte, while each colour is stored on 2 bytes
+                                            break;
+                                        }
+                                        else  // calculate difference between each separate colour channel and store the sum
+                                        {
+                                            diff = (short)(Math.Abs(((colour_palette[i] >> 8) & 248) - ((Colour_rgb565[(h * 4) + w] >> 8) & 248)) + Math.Abs(((colour_palette[i] >> 3) & 252) - ((Colour_rgb565[(h * 4) + w] >> 3) & 252)) + Math.Abs(((colour_palette[i] << 3) & 248) - ((Colour_rgb565[(h * 4) + w] << 3) & 248)));
+                                            if (diff < diff_min)
+                                            {
+                                                diff_min = diff;
+                                                diff_min_index = i;
+                                            }
+                                        }
+                                    }
+                                    index[4 + h] += (byte)(diff_min_index << (6 - (w << 1)));
+                                    // Console.WriteLine(index[4 + h]);
+                                }
+                            }
                         }
                         else
                         {
@@ -598,6 +655,7 @@ same for blue + green*/
                                         }
                                     }
                                     index[7 - h] += (byte)(diff_min_index << (6 - (w << 1)));
+                                    // Console.WriteLine(index[4 + h]);
                                 }
                             }
                         }
@@ -687,8 +745,8 @@ same for blue + green*/
 
                             y -= ((_plt0.canvas_width << 4)) + 16;  // substract 4 lines and goes one block to the left
                         }
-                        // now let's just try to take the most two used colours and use _plt0.diversity I guess
-                        // implementing my own way to find most used colours:
+                        // now let's take the darkest and the brightest colour
+                        // implementing my own way to find most used colours
                         // let's count the number of exact same colours in Colour_list
                         for (byte i = 0; i < 15; i++)  // useless to set it to 16 because of the condition k > i.
                         {
@@ -830,7 +888,7 @@ same for blue + green*/
                             if (_plt0.reverse_y)  // swap
                             {
                                 red = index[7];
-                                green = index[6];  // just a random byte
+                                green = index[6];  // it's not the green colour. It's rather a seal
                                 index[7] = index[4];
                                 index[6] = index[5];
                                 index[5] = green;
