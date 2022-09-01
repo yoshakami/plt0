@@ -65,6 +65,8 @@ class Parse_args_class
     //byte g = 1;
     //byte b = 0;
     //byte a = 3;
+    public int bmp_filesize;
+    public int pixel_data_start_offset;
     public byte[] colour_palette;
     public byte[] rgba_channel = { 2, 1, 0, 3 };
     public byte[] palette_format_int32 = { 0, 0, 0, 9 };  // 0 = AI8   1 = RGB565  2 = RGB5A3
@@ -1247,8 +1249,8 @@ class Parse_args_class
         }
         /***** BMP File Process *****/
         // process the bmp file
-        int bmp_filesize = bmp_image[2] | bmp_image[3] << 8 | bmp_image[4] << 16 | bmp_image[5] << 24;
-        int pixel_data_start_offset = bmp_image[10] | bmp_image[11] << 8 | bmp_image[12] << 16 | bmp_image[13] << 24;
+        bmp_filesize = bmp_image[2] | bmp_image[3] << 8 | bmp_image[4] << 16 | bmp_image[5] << 24;
+        pixel_data_start_offset = bmp_image[10] | bmp_image[11] << 8 | bmp_image[12] << 16 | bmp_image[13] << 24;
         // bitmap_width = (ushort)(bmp_image[0x13] << 8 | bmp_image[0x12]);
         // bitmap_height = (ushort)(bmp_image[0x17] << 8 | bmp_image[0x16]);
         if ((palette_format_int32[3] == 9 && texture_format_int32[3] > 7 && texture_format_int32[3] < 11) || (texture_format_int32[3] == 5 && alpha == 9)) // if a colour palette hasn't been selected by the user, this program will set it automatically to the most fitting one
@@ -1426,7 +1428,7 @@ class Parse_args_class
         }
         Create_plt0_class _plt0 = new Create_plt0_class(this);
         List<List<byte[]>> index_list = new List<List<byte[]>>();
-        object v = _plt0.Create_plt0(bmp_image, bmp_filesize, pixel_data_start_offset);
+        object v = _plt0.Create_plt0(bmp_image);
         index_list.Add((List<byte[]>)v);
         if (warn)
         {
@@ -1458,7 +1460,7 @@ class Parse_args_class
                 //bitmap_height = (ushort)(bmp_mipmap[0x17] << 8 | bmp_mipmap[0x16]);
                 //pixel_count = bitmap_width * bitmap_height;
                 user_palette = true; // won't edit palette with mipmaps
-                object w = _plt0.Create_plt0(bmp_mipmap, bmp_size, pixel_start_offset);
+                object w = _plt0.Create_plt0(bmp_mipmap);
                 index_list.Add((List<byte[]>)w);
             }
             else
@@ -1492,7 +1494,7 @@ class Parse_args_class
                 //bitmap_height = (ushort)(bmp_mipmap[0x17] << 8 | bmp_mipmap[0x16]);
                 //pixel_count = bitmap_width * bitmap_height;
                 user_palette = true; // won't edit palette with mipmaps
-                object w = _plt0.Create_plt0(bmp_mipmap, bmp_size, pixel_start_offset);
+                object w = _plt0.Create_plt0(bmp_mipmap);
                 index_list.Add((List<byte[]>)w);
             }
             mipmap_dimensions[2] = canvas_width;

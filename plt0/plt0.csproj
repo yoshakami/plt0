@@ -125,6 +125,17 @@
     <Compile Include="code\Parse_args.cs" />
     <Compile Include="code\Reverse_x.cs" />
     <Compile Include="code\Write_into_tpl.cs" />
+    <Compile Include="encode\AI4.cs" />
+    <Compile Include="encode\AI8.cs" />
+    <Compile Include="encode\CMPR.cs" />
+    <Compile Include="encode\I4.cs" />
+    <Compile Include="encode\I8.cs" />
+    <Compile Include="encode\Palette_AI8.cs" />
+    <Compile Include="encode\Palette_RGB565.cs" />
+    <Compile Include="encode\Palette_RGB5A3.cs" />
+    <Compile Include="encode\RGB565.cs" />
+    <Compile Include="encode\RGB5A3.cs" />
+    <Compile Include="encode\RGBA32.cs" />
     <Compile Include="plt0-v-picturebox.cs">
       <SubType>Component</SubType>
     </Compile>

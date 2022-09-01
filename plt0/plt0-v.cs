@@ -13106,29 +13106,29 @@ namespace plt0_gui
             if (this.WindowState == FormWindowState.Maximized)
             {
                 this.WindowState = FormWindowState.Normal;
-                banner_5_ck.BackgroundImage = maximized_hover;
+                banner_f11_ck.BackgroundImage = maximized_hover;
             }
             else
             {
                 this.WindowState = FormWindowState.Maximized;
-                banner_5_ck.BackgroundImage = maximized_selected;
+                banner_f11_ck.BackgroundImage = maximized_selected;
             }
         }
         private void Maximized_MouseEnter(object sender, EventArgs e)
         {
             Parse_Markdown(lines[190]);
             if (this.WindowState == FormWindowState.Maximized)
-                banner_5_ck.BackgroundImage = maximized_selected;
+                banner_f11_ck.BackgroundImage = maximized_selected;
             else
-                banner_5_ck.BackgroundImage = maximized_hover;
+                banner_f11_ck.BackgroundImage = maximized_hover;
         }
         private void Maximized_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
             if (this.WindowState == FormWindowState.Maximized)
-                banner_5_ck.BackgroundImage = maximized_on;
+                banner_f11_ck.BackgroundImage = maximized_on;
             else
-                banner_5_ck.BackgroundImage = maximized_off;
+                banner_f11_ck.BackgroundImage = maximized_off;
         }
         private void Close_Click(object sender, EventArgs e)
         {

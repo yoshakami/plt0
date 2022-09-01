@@ -1400,6 +1400,24 @@ output += """
                 Top_Click(null, null);
             else if (e.Control && e.KeyCode == Keys.Down)
                 Bottom_Click(null, null);
+            else if (e.Alt && e.Control && (e.KeyCode == Keys.D1 || e.KeyCode == Keys.NumPad1))
+                Screen2_Bottom_left_Click(null, null);
+            else if (e.Alt && e.Control && (e.KeyCode == Keys.D2 || e.KeyCode == Keys.NumPad2))
+                Screen2_Bottom_Click(null, null);
+            else if (e.Alt && e.Control && (e.KeyCode == Keys.D3 || e.KeyCode == Keys.NumPad3))
+                Screen2_Bottom_right_Click(null, null);
+            else if (e.Alt && e.Control && (e.KeyCode == Keys.D4 || e.KeyCode == Keys.NumPad4))
+                Screen2_Left_Click(null, null);
+            else if (e.Alt && e.Control && (e.KeyCode == Keys.D5 || e.KeyCode == Keys.NumPad5))
+                Screen2_Arrow_1080p_Click(null, null);
+            else if (e.Alt && e.Control && (e.KeyCode == Keys.D6 || e.KeyCode == Keys.NumPad6))
+                Screen2_Right_Click(null, null);
+            else if (e.Alt && e.Control && (e.KeyCode == Keys.D7 || e.KeyCode == Keys.NumPad7))
+                Screen2_Top_left_Click(null, null);
+            else if (e.Alt && e.Control && (e.KeyCode == Keys.D8 || e.KeyCode == Keys.NumPad8))
+                Screen2_Top_Click(null, null);
+            else if (e.Alt && e.Control && (e.KeyCode == Keys.D9 || e.KeyCode == Keys.NumPad9))
+                Screen2_Top_right_Click(null, null);
             else if (e.Alt && e.KeyCode == Keys.Left)
                 Screen2_Left_Click(null, null);
             else if (e.Alt && e.KeyCode == Keys.Right)
