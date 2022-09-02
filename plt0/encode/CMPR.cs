@@ -190,9 +190,9 @@ class CMPR_class
                     diff_min = 0x7fff;
                     if (alpha_bitfield != 0)  // put the biggest ushort in second place
                     {
-                        for (byte c = 0; c < 15; c++)  // useless to set it to 16 because of the condition c > i.
+                        for (byte c = 0; c < 16; c++)  // useless to set it to 16 because of the condition c > i.
                         {
-                            for (byte d = 0; d < 16; d++)  // useless to set it to 16 because of the condition d > i.
+                            for (byte d = (byte)(c + 1); d < 16; d++)  // useless to set it to 16 because of the condition d > i.
                             {
                                 colour_palette.Clear();
                                 index[0] = (byte)(Colour_list[c][1] >> 8);
@@ -200,7 +200,7 @@ class CMPR_class
                                 index[2] = (byte)(Colour_list[d][1] >> 8);
                                 index[3] = (byte)(Colour_list[d][1]);
                                 colour_palette.Add(Colour_list[c][1]);
-                                colour_palette.Add(Colour_list[c][1]);
+                                colour_palette.Add(Colour_list[d][1]);
                                 red = (byte)((rgb565[c << 2] + rgb565[d << 2]) / 2);
                                 green = (byte)((rgb565[(c << 2) + 1] + rgb565[(d << 2) + 1]) / 2);
                                 blue = (byte)((rgb565[(c << 2) + 2] + rgb565[(d << 2) + 2]) / 2);
@@ -222,9 +222,9 @@ class CMPR_class
                     }
                     else
                     {
-                        for (byte c = 0; c < 15; c++)  // useless to set it to 16 because of the condition c > i.
+                        for (byte c = 0; c < 16; c++)  // useless to set it to 16 because of the condition c > i.
                         {
-                            for (byte d = 0; d < 16; d++)  // useless to set it to 16 because of the condition d > i.
+                            for (byte d = (byte)(c + 1); d < 16; d++)  // useless to set it to 16 because of the condition d > i.
                             {
                                 colour_palette.Clear();
                                 index[0] = (byte)(Colour_list[c][1] >> 8);
@@ -255,9 +255,9 @@ class CMPR_class
                                 }
                             }
                         }
-                        for (byte c = 0; c < 15; c++)  // useless to set it to 16 because of the condition c > i.
+                        for (byte c = 0; c < 16; c++)  // useless to set it to 16 because of the condition c > i.
                         {
-                            for (byte d = 0; d < 16; d++)  // useless to set it to 16 because of the condition d > i.
+                            for (byte d = (byte)(c + 1); d < 16; d++)  // useless to set it to 16 because of the condition d > i.
                             {
                                 colour_palette.Clear();
                                 index[0] = (byte)(Colour_list[c][1] >> 8);
@@ -265,7 +265,7 @@ class CMPR_class
                                 index[2] = (byte)(Colour_list[d][1] >> 8);
                                 index[3] = (byte)(Colour_list[d][1]);
                                 colour_palette.Add(Colour_list[c][1]);
-                                colour_palette.Add(Colour_list[c][1]);
+                                colour_palette.Add(Colour_list[d][1]);
                                 red = (byte)((rgb565[c << 2] + rgb565[d << 2]) / 2);
                                 green = (byte)((rgb565[(c << 2) + 1] + rgb565[(d << 2) + 1]) / 2);
                                 blue = (byte)((rgb565[(c << 2) + 2] + rgb565[(d << 2) + 2]) / 2);
@@ -323,14 +323,10 @@ class CMPR_class
                         // now let's just try to take the most two used colours and use _plt0.diversity I guess
                         // implementing my own way to find most used colours
                         // let's count the number of exact same colours in Colour_list
-                        for (int i = 0; i < 15; i++)  // useless to set it to 16 because of the condition k > i.
+                        for (int i = 0; i < 16; i++)  // useless to set it to 16 because of the condition k > i.
                         {
-                            for (int k = 0; k < 16; k++)
+                            for (int k = (byte)(i + 1); k < 16; k++)
                             {
-                                if (k == i)
-                                {
-                                    continue;
-                                }
                                 if (Colour_list[k][1] == Colour_list[i][1] && k > i && ((alpha_bitfield >> k) & 1) == 0 && ((alpha_bitfield >> i) & 1) == 0)  // k > i prevents colours occurences from being added twice.
                                 {
                                     Colour_list[k][0]++;
