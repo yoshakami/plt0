@@ -4051,6 +4051,8 @@ namespace plt0_gui
             this.min_max_ck = new System.Windows.Forms.PictureBox();
             this.sooperbmd_ck = new System.Windows.Forms.PictureBox();
             this.weemm_ck = new System.Windows.Forms.PictureBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tpl_ck)).BeginInit();
@@ -4197,6 +4199,7 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.min_max_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sooperbmd_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.weemm_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // output_file_type_label
@@ -8338,7 +8341,7 @@ namespace plt0_gui
             this.preview4k_label.BackColor = System.Drawing.Color.Transparent;
             this.preview4k_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.preview4k_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.preview4k_label.Location = new System.Drawing.Point(677, 1377);
+            this.preview4k_label.Location = new System.Drawing.Point(1160, 1378);
             this.preview4k_label.Margin = new System.Windows.Forms.Padding(0);
             this.preview4k_label.Name = "preview4k_label";
             this.preview4k_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -8355,7 +8358,7 @@ namespace plt0_gui
             this.preview4k_ck.Enabled = false;
             this.preview4k_ck.ErrorImage = null;
             this.preview4k_ck.InitialImage = null;
-            this.preview4k_ck.Location = new System.Drawing.Point(608, 1377);
+            this.preview4k_ck.Location = new System.Drawing.Point(1091, 1378);
             this.preview4k_ck.Margin = new System.Windows.Forms.Padding(0);
             this.preview4k_ck.Name = "preview4k_ck";
             this.preview4k_ck.Size = new System.Drawing.Size(64, 64);
@@ -9373,7 +9376,7 @@ namespace plt0_gui
             this.sooperbmd_label.BackColor = System.Drawing.Color.Transparent;
             this.sooperbmd_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.sooperbmd_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.sooperbmd_label.Location = new System.Drawing.Point(571, 1165);
+            this.sooperbmd_label.Location = new System.Drawing.Point(571, 1232);
             this.sooperbmd_label.Margin = new System.Windows.Forms.Padding(0);
             this.sooperbmd_label.Name = "sooperbmd_label";
             this.sooperbmd_label.Padding = new System.Windows.Forms.Padding(0, 22, 50, 22);
@@ -9381,6 +9384,9 @@ namespace plt0_gui
             this.sooperbmd_label.TabIndex = 714;
             this.sooperbmd_label.Text = "SooperBMD";
             this.sooperbmd_label.Visible = false;
+            this.sooperbmd_label.Click += new System.EventHandler(this.SooperBMD_Click);
+            this.sooperbmd_label.MouseEnter += new System.EventHandler(this.SooperBMD_MouseEnter);
+            this.sooperbmd_label.MouseLeave += new System.EventHandler(this.SooperBMD_MouseLeave);
             // 
             // min_max_label
             // 
@@ -9388,7 +9394,7 @@ namespace plt0_gui
             this.min_max_label.BackColor = System.Drawing.Color.Transparent;
             this.min_max_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.min_max_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.min_max_label.Location = new System.Drawing.Point(571, 1229);
+            this.min_max_label.Location = new System.Drawing.Point(571, 1296);
             this.min_max_label.Margin = new System.Windows.Forms.Padding(0);
             this.min_max_label.Name = "min_max_label";
             this.min_max_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -9396,6 +9402,9 @@ namespace plt0_gui
             this.min_max_label.TabIndex = 716;
             this.min_max_label.Text = "Min/Max";
             this.min_max_label.Visible = false;
+            this.min_max_label.Click += new System.EventHandler(this.Min_Max_Click);
+            this.min_max_label.MouseEnter += new System.EventHandler(this.Min_Max_MouseEnter);
+            this.min_max_label.MouseLeave += new System.EventHandler(this.Min_Max_MouseLeave);
             // 
             // weemm_label
             // 
@@ -9403,7 +9412,7 @@ namespace plt0_gui
             this.weemm_label.BackColor = System.Drawing.Color.Transparent;
             this.weemm_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.weemm_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.weemm_label.Location = new System.Drawing.Point(571, 1101);
+            this.weemm_label.Location = new System.Drawing.Point(571, 1168);
             this.weemm_label.Margin = new System.Windows.Forms.Padding(0);
             this.weemm_label.Name = "weemm_label";
             this.weemm_label.Padding = new System.Windows.Forms.Padding(0, 22, 50, 22);
@@ -9411,6 +9420,9 @@ namespace plt0_gui
             this.weemm_label.TabIndex = 712;
             this.weemm_label.Text = "Weemm";
             this.weemm_label.Visible = false;
+            this.weemm_label.Click += new System.EventHandler(this.Weemm_Click);
+            this.weemm_label.MouseEnter += new System.EventHandler(this.Weemm_MouseEnter);
+            this.weemm_label.MouseLeave += new System.EventHandler(this.Weemm_MouseLeave);
             // 
             // min_max_ck
             // 
@@ -9418,13 +9430,16 @@ namespace plt0_gui
             this.min_max_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.min_max_ck.ErrorImage = null;
             this.min_max_ck.InitialImage = null;
-            this.min_max_ck.Location = new System.Drawing.Point(503, 1229);
+            this.min_max_ck.Location = new System.Drawing.Point(503, 1296);
             this.min_max_ck.Margin = new System.Windows.Forms.Padding(0);
             this.min_max_ck.Name = "min_max_ck";
             this.min_max_ck.Size = new System.Drawing.Size(64, 64);
             this.min_max_ck.TabIndex = 717;
             this.min_max_ck.TabStop = false;
             this.min_max_ck.Visible = false;
+            this.min_max_ck.Click += new System.EventHandler(this.Min_Max_Click);
+            this.min_max_ck.MouseEnter += new System.EventHandler(this.Min_Max_MouseEnter);
+            this.min_max_ck.MouseLeave += new System.EventHandler(this.Min_Max_MouseLeave);
             // 
             // sooperbmd_ck
             // 
@@ -9432,13 +9447,16 @@ namespace plt0_gui
             this.sooperbmd_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.sooperbmd_ck.ErrorImage = null;
             this.sooperbmd_ck.InitialImage = null;
-            this.sooperbmd_ck.Location = new System.Drawing.Point(503, 1165);
+            this.sooperbmd_ck.Location = new System.Drawing.Point(503, 1232);
             this.sooperbmd_ck.Margin = new System.Windows.Forms.Padding(0);
             this.sooperbmd_ck.Name = "sooperbmd_ck";
             this.sooperbmd_ck.Size = new System.Drawing.Size(64, 64);
             this.sooperbmd_ck.TabIndex = 715;
             this.sooperbmd_ck.TabStop = false;
             this.sooperbmd_ck.Visible = false;
+            this.sooperbmd_ck.Click += new System.EventHandler(this.SooperBMD_Click);
+            this.sooperbmd_ck.MouseEnter += new System.EventHandler(this.SooperBMD_MouseEnter);
+            this.sooperbmd_ck.MouseLeave += new System.EventHandler(this.SooperBMD_MouseLeave);
             // 
             // weemm_ck
             // 
@@ -9446,13 +9464,45 @@ namespace plt0_gui
             this.weemm_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.weemm_ck.ErrorImage = null;
             this.weemm_ck.InitialImage = null;
-            this.weemm_ck.Location = new System.Drawing.Point(503, 1101);
+            this.weemm_ck.Location = new System.Drawing.Point(503, 1168);
             this.weemm_ck.Margin = new System.Windows.Forms.Padding(0);
             this.weemm_ck.Name = "weemm_ck";
             this.weemm_ck.Size = new System.Drawing.Size(64, 64);
             this.weemm_ck.TabIndex = 713;
             this.weemm_ck.TabStop = false;
             this.weemm_ck.Visible = false;
+            this.weemm_ck.Click += new System.EventHandler(this.Weemm_Click);
+            this.weemm_ck.MouseEnter += new System.EventHandler(this.Weemm_MouseEnter);
+            this.weemm_ck.MouseLeave += new System.EventHandler(this.Weemm_MouseLeave);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.SystemColors.Window;
+            this.label1.Location = new System.Drawing.Point(571, 1104);
+            this.label1.Margin = new System.Windows.Forms.Padding(0);
+            this.label1.Name = "label1";
+            this.label1.Padding = new System.Windows.Forms.Padding(0, 22, 50, 22);
+            this.label1.Size = new System.Drawing.Size(139, 68);
+            this.label1.TabIndex = 718;
+            this.label1.Text = "Weemm";
+            this.label1.Visible = false;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pictureBox2.ErrorImage = null;
+            this.pictureBox2.InitialImage = null;
+            this.pictureBox2.Location = new System.Drawing.Point(503, 1104);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(64, 64);
+            this.pictureBox2.TabIndex = 719;
+            this.pictureBox2.TabStop = false;
+            this.pictureBox2.Visible = false;
             // 
             // plt0_gui
             // 
@@ -9461,6 +9511,8 @@ namespace plt0_gui
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(3199, 1920);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.sooperbmd_label);
             this.Controls.Add(this.min_max_label);
             this.Controls.Add(this.weemm_label);
@@ -9950,6 +10002,7 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.min_max_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sooperbmd_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.weemm_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

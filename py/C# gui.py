@@ -98,8 +98,8 @@ for z in range(len(encoding)):
             else
                 unchecked_encoding(""" + encoding[z] + """_ck);
         }"""
-algorithm = ["Cie_601", "Cie_709", "Custom", "No_gradient", "Weemm", "SooperBMD", "Min_Max"]
-layout2 = ["","", "\n            View_rgba();", "\n            View_No_Gradient();", "", "", ""]
+algorithm = ["Cie_601", "Cie_709", "Custom", "Darkest_Lightest", "No_gradient", "Weemm", "SooperBMD", "Min_Max"]
+layout2 = ["","", "\n            View_rgba();", "", "\n            View_No_Gradient();", "", "", "", ""]
 for a in range(len(algorithm)):
     x += 1
     output += """
