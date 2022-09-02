@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
+using System.Security.Policy;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
 
 /* hmm, well. let's be honest. this is the harderest encoding to write, and the most efficient one
 * I'll be directly storing sub-blocks here because the rgb565 values can't be added like that lol 
@@ -74,6 +77,7 @@ class CMPR_class
         int j = 0;
         int x = 0;
         int y = 0;
+        ushort current_diff;
         ushort[] Colour_pixel = { 1, 0 };  // case 3
         ushort width = 0;
         ushort[] Colour_array = { 1, 0, 0 };  // default
@@ -89,7 +93,10 @@ class CMPR_class
         // bool done = false;
         switch (_plt0.algorithm)
         {
-            case 2: // custom
+            case 1: // Wiimm
+                // he's storing every colour of the block in a byte[4] inside a sum_t structure named sum
+                // then he's making the interpolated colours for each colour of the 4x4 block and test
+                // which combination is the best one by iterating over the 16 pixels and using calc_distance
                 for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
                 {
                     red = bmp_image[y + _plt0.rgba_channel[0]];
@@ -162,9 +169,8 @@ class CMPR_class
 
                         y -= ((_plt0.canvas_width << 4)) + 16;  // substract 4 lines and goes one block to the left
                     }
-                    // now let's take the darkest and the brightest colour
-                    // implementing my own way to find most used colours
-                    // let's count the number of exact same colours in Colour_list
+                    // now let's take the colour couple with the best result inside the 4x4 block
+
                     for (byte i = 0; i < 15; i++)  // useless to set it to 16 because of the condition k > i.
                     {
                         for (byte k = 0; k < 16; k++)
@@ -197,10 +203,106 @@ class CMPR_class
                             diff_max_index = i;
                         }
                     }
-                    Organize_Colours();
-                    // time to get the "linear interpolation to add third and fourth colour
-                    // CI2 if that's a name lol
-                    Process_Indexes();
+                    Organize_Colours_And_Process_Indexes();
+                    index_list.Add(index.ToArray());
+                    // index is overwritten each time
+                    // the lists need to be cleaned
+                    Colour_list.Clear();
+                    colour_palette.Clear();
+                    Colour_rgb565.Clear();
+                    alpha_bitfield = 0;
+                }
+                break;
+            case 2: // SuperBMD
+                // SuperBMD is calculating the distance between a pixel and his next neighbour in the 4x4 block, and the couple with the max distance is chosen as the two colours
+                for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                {
+                    red = bmp_image[y + _plt0.rgba_channel[0]];
+                    green = bmp_image[y + _plt0.rgba_channel[1]];
+                    blue = bmp_image[y + _plt0.rgba_channel[2]];
+                    if (_plt0.alpha > 0 && bmp_image[y + _plt0.rgba_channel[3]] < _plt0.cmpr_alpha_threshold)
+                    {
+                        alpha_bitfield += (ushort)(1 << (j + (z * 4)));
+                    }
+                    if ((red & 7) > _plt0.round5 && red < 248)  // 5-bit max value on a trimmed byte
+                    {
+                        red += 8;
+                    }
+                    if ((green & _plt0.round6) == _plt0.round6 && green < 252)  // 6-bit max value on a trimmed byte
+                    {
+                        green += 4;
+                    }
+                    if ((blue & 7) > _plt0.round5 && blue < 248)
+                    {
+                        blue += 8;
+                    }
+                    // Colour_pixel[0] = // the number of occurences, though it stays to 1 so that's not really a problem lol
+                    pixel = (ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)); // the RGB565 colour
+                    Colour_array[1] = pixel;
+                    Colour_array[2] = (ushort)(red + green + blue); // best way to find darkest colour :D
+                    Colour_list.Add(Colour_array.ToArray());
+                    Colour_rgb565.Add(pixel);
+                    j++;
+                    if (j != 4)
+                    {
+                        continue;
+                    }
+                    j = 0;
+                    z++;
+                    y += (_plt0.canvas_width << 2) - 16; // returns to the start of the next line  - bitmap width << 2 because it's a 32-bit BGRA bmp file
+                    if (z != 4)
+                    {
+                        continue;  // Still within the same 4x4 block
+                    }
+                    x++;
+                    z = 0;
+                    width += 2;  // triggered 4 times per block
+                    if (width == _plt0.canvas_width)
+                    {
+                        width = 0;
+                        // y -= (_plt0.bitmap_width << 1) - 16;  // this has been driving me nuts
+                        y += (_plt0.canvas_width << 2) - 16;
+                        x = 0;
+                    }
+                    else if (x == 2)
+                    {
+                        // y += (_plt0.bitmap_width << 4) - 4; // adds 4 lines and put the cursor back to the first block in width (I hope)
+                        // y += 16; // hmm, it looks like the cursor warped horizontally to the first block in width 4 lines above
+                        // EDIT: YA DEFINITELY NEED TO CANCEL THE Y OPERATION ABOVE, IT WARPS NORMALLY LIKE IT4S THE PIXEL AFTER
+                        //y -= (_plt0.bitmap_width << 2) - 16;  // this has been driving me nuts
+                        y += 16;  // I can't believe this is right in the mirror and mirrorred mode lol
+                                  // edit: you just need to add 32 everywhere
+                    }
+                    else if (x == 4)
+                    {
+                        //y -= (_plt0.bitmap_width << 5) - 16; // minus 8 lines + point to next block
+                        y -= (_plt0.canvas_width << 5) + 16;
+                        x = 0;
+                    }
+                    else
+                    {
+                        /* y -= (_plt0.bitmap_width << 4) - 16; // on retire 4 lignes et on passe le 1er block héhé
+                         substract 4 lines and jumps over the first block */
+
+
+                        y -= ((_plt0.canvas_width << 4)) + 16;  // substract 4 lines and goes one block to the left
+                    }
+                    // now let's take the darkest and the brightest colour but only by going through neighbours (that's SuperBMD algorithm)
+                    diff_max = 0;
+                    for (byte i = 0; i < 15; i++)
+                    {
+                        if (((alpha_bitfield >> i) & 1) == 0)
+                        {
+                            current_diff = (ushort)Math.Abs(Colour_list[i][2] - Colour_list[i + 1][2]);
+                            if (current_diff > diff_max)
+                            {
+                                diff_max = current_diff;
+                                diff_max_index = i;  // diff_max_index  =  second colour
+                                diff_min_index = (byte)(i + 1); // diff_min_index = first colour
+                            }
+                        }
+                    }
+                    Organize_Colours_And_Process_Indexes();
                     index_list.Add(index.ToArray());
                     // index is overwritten each time
                     // the lists need to be cleaned
@@ -370,10 +472,7 @@ class CMPR_class
                                 }
                             }
                         }
-                        Organize_Colours();
-                        // time to get the "linear interpolation to add third and fourth colour
-                        // CI2 if that's a name lol
-                        Process_Indexes();
+                        Organize_Colours_And_Process_Indexes();
                         index_list.Add(index.ToArray());
                         // index is overwritten each time
                         // the lists need to be cleaned
@@ -494,10 +593,7 @@ class CMPR_class
                             diff_max_index = i;
                         }
                     }
-                    Organize_Colours();
-                    // time to get the "linear interpolation to add third and fourth colour
-                    // CI2 if that's a name lol
-                    Process_Indexes();
+                    Organize_Colours_And_Process_Indexes();
                     index_list.Add(index.ToArray());
                     // index is overwritten each time
                     // the lists need to be cleaned
@@ -507,14 +603,13 @@ class CMPR_class
                     alpha_bitfield = 0;
                 }
                 break;
-
         }
     }
     /*
      * t = (pixel_posN - pixel_pos1) / (pixel_pos2 - pixel_pos1)
        pixelN_red = (t-1)*pixel1_red + (t)*pixel2_red
        same for blue + green*/
-    private void Organize_Colours()
+    private void Organize_Colours_And_Process_Indexes()
     {
         if (alpha_bitfield != 0)  // put the biggest ushort in second place
         {
@@ -577,9 +672,8 @@ class CMPR_class
             pixel = (ushort)(((((red / 3) + (red2 * 2 / 3)) >> 3) << 11) + ((((green / 3) + (green2 * 2 / 3)) >> 2) << 5) + (((blue / 3) + (blue2 * 2 / 3)) >> 3));
             colour_palette.Add(pixel);  // the RGB565 fourth colour
         }
-    }
-    private void Process_Indexes()
-    {
+        // time to get the "linear interpolation to add third and fourth colour
+        // CI2 if that's a name lol
         for (byte i = 4; i < 8; i++)
         {
             index[i] = 0;
