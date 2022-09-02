@@ -65,23 +65,26 @@ class CMPR_class
     byte blue2;
     ushort pixel;
     byte[] index = new byte[8];  // sub block length
+    static readonly byte[] full_alpha_index = {0, 0, 0, 0, 255, 255, 255, 255 };
+    byte[] bmp_image;
     byte diff_min_index = 0;
     byte diff_max_index = 0;
     short diff_min = 500;
     short diff = 0;
-    public void CMPR(List<byte[]> index_list, byte[] bmp_image)
+    bool not_similar;
+    byte c;
+    ushort z = 0;
+    int j = 0;
+    int x = 0;
+    int y = 0;
+    ushort current_diff;
+    ushort[] Colour_pixel = { 1, 0 };  // case 3
+    ushort width = 0;
+    ushort[] Colour_array = { 1, 0, 0 };  // default
+    ushort diff_max;
+    public void CMPR(List<byte[]> index_list, byte[] bmp_image_ref)
     {
-        bool not_similar;
-        byte c;
-        ushort z = 0;
-        int j = 0;
-        int x = 0;
-        int y = 0;
-        ushort current_diff;
-        ushort[] Colour_pixel = { 1, 0 };  // case 3
-        ushort width = 0;
-        ushort[] Colour_array = { 1, 0, 0 };  // default
-        ushort diff_max;
+        bmp_image = bmp_image_ref; // this should reference bmp_image to bmp_image_ref, not copy it.
         // byte[] Colour_count = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };  // 16 pixels, because a block is 4x4
         // byte f;
         // int[] total_diff = {0, 0, 0};  // total_diff, e, f
@@ -99,91 +102,81 @@ class CMPR_class
                 // which combination is the best one by iterating over the 16 pixels and using calc_distance
                 for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
                 {
-                    red = bmp_image[y + _plt0.rgba_channel[0]];
-                    green = bmp_image[y + _plt0.rgba_channel[1]];
-                    blue = bmp_image[y + _plt0.rgba_channel[2]];
-                    if (_plt0.alpha > 0 && bmp_image[y + _plt0.rgba_channel[3]] < _plt0.cmpr_alpha_threshold)
+                    if (!Load_Block())
+                        continue;
+                    if (alpha_bitfield == 0xffff)  // save computation time I guess
                     {
-                        alpha_bitfield += (ushort)(1 << (j + (z * 4)));
-                    }
-                    if ((red & 7) > _plt0.round5 && red < 248)  // 5-bit max value on a trimmed byte
-                    {
-                        red += 8;
-                    }
-                    if ((green & _plt0.round6) == _plt0.round6 && green < 252)  // 6-bit max value on a trimmed byte
-                    {
-                        green += 4;
-                    }
-                    if ((blue & 7) > _plt0.round5 && blue < 248)
-                    {
-                        blue += 8;
-                    }
-                    // Colour_pixel[0] = // the number of occurences, though it stays to 1 so that's not really a problem lol
-                    pixel = (ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)); // the RGB565 colour
-                    Colour_array[1] = pixel;
-                    Colour_array[2] = (ushort)(red + green + blue); // best way to find darkest colour :D
-                    Colour_list.Add(Colour_array.ToArray());
-                    Colour_rgb565.Add(pixel);
-                    j++;
-                    if (j != 4)
-                    {
+                        index_list.Add(full_alpha_index); // this byte won't be changed so no need to copy it
+                        Colour_list.Clear();
+                        colour_palette.Clear();
+                        Colour_rgb565.Clear();
+                        alpha_bitfield = 0;
                         continue;
                     }
-                    j = 0;
-                    z++;
-                    y += (_plt0.canvas_width << 2) - 16; // returns to the start of the next line  - bitmap width << 2 because it's a 32-bit BGRA bmp file
-                    if (z != 4)
-                    {
-                        continue;  // Still within the same 4x4 block
-                    }
-                    x++;
-                    z = 0;
-                    width += 2;  // triggered 4 times per block
-                    if (width == _plt0.canvas_width)
-                    {
-                        width = 0;
-                        // y -= (_plt0.bitmap_width << 1) - 16;  // this has been driving me nuts
-                        y += (_plt0.canvas_width << 2) - 16;
-                        x = 0;
-                    }
-                    else if (x == 2)
-                    {
-                        // y += (_plt0.bitmap_width << 4) - 4; // adds 4 lines and put the cursor back to the first block in width (I hope)
-                        // y += 16; // hmm, it looks like the cursor warped horizontally to the first block in width 4 lines above
-                        // EDIT: YA DEFINITELY NEED TO CANCEL THE Y OPERATION ABOVE, IT WARPS NORMALLY LIKE IT4S THE PIXEL AFTER
-                        //y -= (_plt0.bitmap_width << 2) - 16;  // this has been driving me nuts
-                        y += 16;  // I can't believe this is right in the mirror and mirrorred mode lol
-                                  // edit: you just need to add 32 everywhere
-                    }
-                    else if (x == 4)
-                    {
-                        //y -= (_plt0.bitmap_width << 5) - 16; // minus 8 lines + point to next block
-                        y -= (_plt0.canvas_width << 5) + 16;
-                        x = 0;
-                    }
-                    else
-                    {
-                        /* y -= (_plt0.bitmap_width << 4) - 16; // on retire 4 lignes et on passe le 1er block héhé
-                         substract 4 lines and jumps over the first block */
-
-
-                        y -= ((_plt0.canvas_width << 4)) + 16;  // substract 4 lines and goes one block to the left
-                    }
                     // now let's take the colour couple with the best result inside the 4x4 block
-
-                    for (byte i = 0; i < 15; i++)  // useless to set it to 16 because of the condition k > i.
+                    diff_min = 0x7fff;
+                    for (byte i = 0; i < 16; i++)  // useless to set it to 16 because of the condition k > i.
                     {
-                        for (byte k = 0; k < 16; k++)
+                        if (alpha_bitfield != 0)  // put the biggest ushort in second place
                         {
-                            if (k == i)
+                            if (Colour_list[diff_min_index][1] > Colour_list[diff_max_index][1])  // put diff_min at the second spot
                             {
-                                continue;
+                                index[0] = (byte)(Colour_list[diff_max_index][1] >> 8);
+                                index[1] = (byte)(Colour_list[diff_max_index][1]);
+                                index[2] = (byte)(Colour_list[diff_min_index][1] >> 8);
+                                index[3] = (byte)(Colour_list[diff_min_index][1]);
+                                colour_palette.Add(Colour_list[diff_max_index][1]);
+                                colour_palette.Add(Colour_list[diff_min_index][1]);
                             }
-                            if (Colour_list[k][1] == Colour_list[i][1] && k > i && ((alpha_bitfield >> k) & 1) == 0 && ((alpha_bitfield >> i) & 1) == 0)  // k > i prevents colours occurences from being added twice.
+                            else
                             {
-                                Colour_list[k][0]++;
-                                Colour_list[i][0] = 0; // should set it to zero.
+                                index[0] = (byte)(Colour_list[diff_min_index][1] >> 8);
+                                index[1] = (byte)(Colour_list[diff_min_index][1]);
+                                index[2] = (byte)(Colour_list[diff_max_index][1] >> 8);
+                                index[3] = (byte)(Colour_list[diff_max_index][1]);
+                                colour_palette.Add(Colour_list[diff_min_index][1]);
+                                colour_palette.Add(Colour_list[diff_max_index][1]);
                             }
+                            red = (byte)(((index[0] & 248) + (index[2] & 248)) / 2);
+                            green = (byte)(((((index[0] & 7) << 5) + ((index[1] >> 3) & 28)) + (((index[2] & 7) << 5) + ((index[3] >> 3) & 28))) / 2);
+                            blue = (byte)((((index[1] << 3) & 248) + ((index[3] << 3) & 248)) / 2);
+                            colour_palette.Add((ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)));  // the RGB565 third colour
+                                                                                                                   // last colour isn't in the palette, it's in _plt0.alpha_bitfield
+                        }
+                        else  // put biggest ushort in first place
+                        {
+                            // of course, that's the exact opposite!
+                            if (Colour_list[diff_min_index][1] > Colour_list[diff_max_index][1])  // put diff_min at the first spot
+                            {
+                                index[0] = (byte)(Colour_list[diff_min_index][1] >> 8);
+                                index[1] = (byte)(Colour_list[diff_min_index][1]);
+                                index[2] = (byte)(Colour_list[diff_max_index][1] >> 8);
+                                index[3] = (byte)(Colour_list[diff_max_index][1]);
+                                colour_palette.Add(Colour_list[diff_min_index][1]);
+                                colour_palette.Add(Colour_list[diff_max_index][1]);
+                            }
+                            else
+                            {
+                                index[0] = (byte)(Colour_list[diff_max_index][1] >> 8);
+                                index[1] = (byte)(Colour_list[diff_max_index][1]);
+                                index[2] = (byte)(Colour_list[diff_min_index][1] >> 8);
+                                index[3] = (byte)(Colour_list[diff_min_index][1]);
+                                colour_palette.Add(Colour_list[diff_max_index][1]);
+                                colour_palette.Add(Colour_list[diff_min_index][1]);
+                            }
+
+                            red = (byte)(index[0] & 248);
+                            green = (byte)(((index[0] & 7) << 5) + ((index[1] >> 3) & 28));
+                            blue = (byte)((index[1] << 3) & 248);
+
+                            red2 = (byte)(index[2] & 248);
+                            green2 = (byte)(((index[2] & 7) << 5) + ((index[3] >> 3) & 28));
+                            blue2 = (byte)((index[3] << 3) & 248);
+
+                            pixel = (ushort)(((((red * 2 / 3) + (red2 / 3)) >> 3) << 11) + ((((green * 2 / 3) + (green2 / 3)) >> 2) << 5) + (((blue * 2 / 3) + (blue2 / 3)) >> 3));
+                            colour_palette.Add(pixel);  // the RGB565 third colour
+                            pixel = (ushort)(((((red / 3) + (red2 * 2 / 3)) >> 3) << 11) + ((((green / 3) + (green2 * 2 / 3)) >> 2) << 5) + (((blue / 3) + (blue2 * 2 / 3)) >> 3));
+                            colour_palette.Add(pixel);  // the RGB565 fourth colour
                         }
                     }
                     Colour_list.Sort(new UshortArrayComparer());  // sorts the table by the most used colour first
@@ -205,88 +198,14 @@ class CMPR_class
                     }
                     Organize_Colours_And_Process_Indexes();
                     index_list.Add(index.ToArray());
-                    // index is overwritten each time
-                    // the lists need to be cleaned
-                    Colour_list.Clear();
-                    colour_palette.Clear();
-                    Colour_rgb565.Clear();
-                    alpha_bitfield = 0;
                 }
                 break;
             case 2: // SuperBMD
                 // SuperBMD is calculating the distance between a pixel and his next neighbour in the 4x4 block, and the couple with the max distance is chosen as the two colours
                 for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
                 {
-                    red = bmp_image[y + _plt0.rgba_channel[0]];
-                    green = bmp_image[y + _plt0.rgba_channel[1]];
-                    blue = bmp_image[y + _plt0.rgba_channel[2]];
-                    if (_plt0.alpha > 0 && bmp_image[y + _plt0.rgba_channel[3]] < _plt0.cmpr_alpha_threshold)
-                    {
-                        alpha_bitfield += (ushort)(1 << (j + (z * 4)));
-                    }
-                    if ((red & 7) > _plt0.round5 && red < 248)  // 5-bit max value on a trimmed byte
-                    {
-                        red += 8;
-                    }
-                    if ((green & _plt0.round6) == _plt0.round6 && green < 252)  // 6-bit max value on a trimmed byte
-                    {
-                        green += 4;
-                    }
-                    if ((blue & 7) > _plt0.round5 && blue < 248)
-                    {
-                        blue += 8;
-                    }
-                    // Colour_pixel[0] = // the number of occurences, though it stays to 1 so that's not really a problem lol
-                    pixel = (ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)); // the RGB565 colour
-                    Colour_array[1] = pixel;
-                    Colour_array[2] = (ushort)(red + green + blue); // best way to find darkest colour :D
-                    Colour_list.Add(Colour_array.ToArray());
-                    Colour_rgb565.Add(pixel);
-                    j++;
-                    if (j != 4)
-                    {
+                    if (!Load_Block())
                         continue;
-                    }
-                    j = 0;
-                    z++;
-                    y += (_plt0.canvas_width << 2) - 16; // returns to the start of the next line  - bitmap width << 2 because it's a 32-bit BGRA bmp file
-                    if (z != 4)
-                    {
-                        continue;  // Still within the same 4x4 block
-                    }
-                    x++;
-                    z = 0;
-                    width += 2;  // triggered 4 times per block
-                    if (width == _plt0.canvas_width)
-                    {
-                        width = 0;
-                        // y -= (_plt0.bitmap_width << 1) - 16;  // this has been driving me nuts
-                        y += (_plt0.canvas_width << 2) - 16;
-                        x = 0;
-                    }
-                    else if (x == 2)
-                    {
-                        // y += (_plt0.bitmap_width << 4) - 4; // adds 4 lines and put the cursor back to the first block in width (I hope)
-                        // y += 16; // hmm, it looks like the cursor warped horizontally to the first block in width 4 lines above
-                        // EDIT: YA DEFINITELY NEED TO CANCEL THE Y OPERATION ABOVE, IT WARPS NORMALLY LIKE IT4S THE PIXEL AFTER
-                        //y -= (_plt0.bitmap_width << 2) - 16;  // this has been driving me nuts
-                        y += 16;  // I can't believe this is right in the mirror and mirrorred mode lol
-                                  // edit: you just need to add 32 everywhere
-                    }
-                    else if (x == 4)
-                    {
-                        //y -= (_plt0.bitmap_width << 5) - 16; // minus 8 lines + point to next block
-                        y -= (_plt0.canvas_width << 5) + 16;
-                        x = 0;
-                    }
-                    else
-                    {
-                        /* y -= (_plt0.bitmap_width << 4) - 16; // on retire 4 lignes et on passe le 1er block héhé
-                         substract 4 lines and jumps over the first block */
-
-
-                        y -= ((_plt0.canvas_width << 4)) + 16;  // substract 4 lines and goes one block to the left
-                    }
                     // now let's take the darkest and the brightest colour but only by going through neighbours (that's SuperBMD algorithm)
                     diff_max = 0;
                     for (byte i = 0; i < 15; i++)
@@ -304,81 +223,14 @@ class CMPR_class
                     }
                     Organize_Colours_And_Process_Indexes();
                     index_list.Add(index.ToArray());
-                    // index is overwritten each time
-                    // the lists need to be cleaned
-                    Colour_list.Clear();
-                    colour_palette.Clear();
-                    Colour_rgb565.Clear();
-                    alpha_bitfield = 0;
                 }
                 break;
             case 3:  // most used colours with _plt0.diversity - no gradient - similar - looks pixelated
                 {
                     for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
                     {
-                        red = bmp_image[y + _plt0.rgba_channel[0]];
-                        green = bmp_image[y + _plt0.rgba_channel[1]];
-                        blue = bmp_image[y + _plt0.rgba_channel[2]];
-                        if (_plt0.alpha > 0 && bmp_image[y + 3] < _plt0.cmpr_alpha_threshold)
-                        {
-                            alpha_bitfield += (ushort)(1 << (j + (z * 4)));
-                        }
-                        if ((red & 7) > _plt0.round5 && red < 248)  // 5-bit max value on a trimmed byte
-                        {
-                            red += 8;
-                        }
-                        if ((green & _plt0.round6) == _plt0.round6 && green < 252)  // 6-bit max value on a trimmed byte
-                        {
-                            green += 4;
-                        }
-                        if ((blue & 7) > _plt0.round5 && blue < 248)
-                        {
-                            blue += 8;
-                        }
-                        // Colour_pixel[0] = // the number of occurences, though it stays to 1 so that's not really a problem lol
-                        pixel = (ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)); // the RGB565 colour
-                        Colour_pixel[1] = pixel;
-                        Colour_list.Add(Colour_pixel.ToArray());
-                        Colour_rgb565.Add(pixel);
-                        j++;
-                        if (j != 4)
-                        {
+                        if (!Load_Block())
                             continue;
-                        }
-                        j = 0;
-                        z++;
-                        y += (_plt0.canvas_width << 2) - 16; // returns to the start of the next line  - bitmap width << 2 because it's a 32-bit BGRA bmp file
-                        if (z != 4)
-                        {
-                            continue;  // Still within the same 4x4 block
-                        }
-                        x++;
-                        z = 0;
-                        width += 2;  // triggered 4 times per block
-                        if (width == _plt0.canvas_width)
-                        {
-                            width = 0;
-                            y += (_plt0.canvas_width << 2) - 16; // this has been driving me nuts
-                            x = 0;
-                        }
-                        else if (x == 2)
-                        {
-                            // y += (_plt0.bitmap_width << 4) - 4; // adds 4 lines and put the cursor back to the first block in width (I hope)
-                            // y += 16; // hmm, it looks like the cursor warped horizontally to the first block in width 4 lines above
-                            // EDIT: YA DEFINITELY NEED TO CANCEL THE Y OPERATION ABOVE, IT WARPS NORMALLY LIKE IT4S THE PIXEL AFTER
-                            //y -= (_plt0.bitmap_width << 2) - 16;  // this has been driving me nuts
-                            y += 16;  // I can't believe this is right in the mirror and mirrorred mode lol
-                                      // edit: you just need to add 32 everywhere
-                        }
-                        else if (x == 4)
-                        {
-                            y -= (_plt0.canvas_width << 5) + 16; // minus 8 lines + point to next block
-                            x = 0;
-                        }
-                        else
-                        {
-                            y -= ((_plt0.canvas_width << 4)) + 16;  // substract 4 lines and goes one block to the left
-                        }
                         // now let's just try to take the most two used colours and use _plt0.diversity I guess
                         // implementing my own way to find most used colours
                         // let's count the number of exact same colours in Colour_list
@@ -474,13 +326,6 @@ class CMPR_class
                         }
                         Organize_Colours_And_Process_Indexes();
                         index_list.Add(index.ToArray());
-                        // index is overwritten each time
-                        // the lists need to be cleaned
-                        Colour_list.Clear();
-                        colour_palette.Clear();
-                        Colour_rgb565.Clear();
-                        alpha_bitfield = 0;
-                        // THAT INDEX ARRAY THAT I CAN4T SEE CONTENTS IN THE DEBUGGER ALSO NEEDS TO BE CLEANED
                     }
                 }
                 break;
@@ -488,119 +333,28 @@ class CMPR_class
             case 4: // darkest/lightest
                 for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
                 {
-                    red = bmp_image[y + _plt0.rgba_channel[0]];
-                    green = bmp_image[y + _plt0.rgba_channel[1]];
-                    blue = bmp_image[y + _plt0.rgba_channel[2]];
-                    if (_plt0.alpha > 0 && bmp_image[y + _plt0.rgba_channel[3]] < _plt0.cmpr_alpha_threshold)
-                    {
-                        alpha_bitfield += (ushort)(1 << (j + (z * 4)));
-                    }
-                    if ((red & 7) > _plt0.round5 && red < 248)  // 5-bit max value on a trimmed byte
-                    {
-                        red += 8;
-                    }
-                    if ((green & _plt0.round6) == _plt0.round6 && green < 252)  // 6-bit max value on a trimmed byte
-                    {
-                        green += 4;
-                    }
-                    if ((blue & 7) > _plt0.round5 && blue < 248)
-                    {
-                        blue += 8;
-                    }
-                    // Colour_pixel[0] = // the number of occurences, though it stays to 1 so that's not really a problem lol
-                    pixel = (ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)); // the RGB565 colour
-                    Colour_array[1] = pixel;
-                    Colour_array[2] = (ushort)(red + green + blue); // best way to find darkest colour :D
-                    Colour_list.Add(Colour_array.ToArray());
-                    Colour_rgb565.Add(pixel);
-                    j++;
-                    if (j != 4)
-                    {
+                    if (!Load_Block())
                         continue;
-                    }
-                    j = 0;
-                    z++;
-                    y += (_plt0.canvas_width << 2) - 16; // returns to the start of the next line  - bitmap width << 2 because it's a 32-bit BGRA bmp file
-                    if (z != 4)
-                    {
-                        continue;  // Still within the same 4x4 block
-                    }
-                    x++;
-                    z = 0;
-                    width += 2;  // triggered 4 times per block
-                    if (width == _plt0.canvas_width)
-                    {
-                        width = 0;
-                        // y -= (_plt0.bitmap_width << 1) - 16;  // this has been driving me nuts
-                        y += (_plt0.canvas_width << 2) - 16;
-                        x = 0;
-                    }
-                    else if (x == 2)
-                    {
-                        // y += (_plt0.bitmap_width << 4) - 4; // adds 4 lines and put the cursor back to the first block in width (I hope)
-                        // y += 16; // hmm, it looks like the cursor warped horizontally to the first block in width 4 lines above
-                        // EDIT: YA DEFINITELY NEED TO CANCEL THE Y OPERATION ABOVE, IT WARPS NORMALLY LIKE IT4S THE PIXEL AFTER
-                        //y -= (_plt0.bitmap_width << 2) - 16;  // this has been driving me nuts
-                        y += 16;  // I can't believe this is right in the mirror and mirrorred mode lol
-                                  // edit: you just need to add 32 everywhere
-                    }
-                    else if (x == 4)
-                    {
-                        //y -= (_plt0.bitmap_width << 5) - 16; // minus 8 lines + point to next block
-                        y -= (_plt0.canvas_width << 5) + 16;
-                        x = 0;
-                    }
-                    else
-                    {
-                        /* y -= (_plt0.bitmap_width << 4) - 16; // on retire 4 lignes et on passe le 1er block héhé
-                         substract 4 lines and jumps over the first block */
-
-
-                        y -= ((_plt0.canvas_width << 4)) + 16;  // substract 4 lines and goes one block to the left
-                    }
                     // now let's take the darkest and the brightest colour
-                    // implementing my own way to find most used colours
-                    // let's count the number of exact same colours in Colour_list
-                    for (byte i = 0; i < 15; i++)  // useless to set it to 16 because of the condition k > i.
-                    {
-                        for (byte k = 0; k < 16; k++)
-                        {
-                            if (k == i)
-                            {
-                                continue;
-                            }
-                            if (Colour_list[k][1] == Colour_list[i][1] && k > i && ((alpha_bitfield >> k) & 1) == 0 && ((alpha_bitfield >> i) & 1) == 0)  // k > i prevents colours occurences from being added twice.
-                            {
-                                Colour_list[k][0]++;
-                                Colour_list[i][0] = 0; // should set it to zero.
-                            }
-                        }
-                    }
-                    Colour_list.Sort(new UshortArrayComparer());  // sorts the table by the most used colour first
-                                                                  //now let's take the darkest and the brightest colour from the cmpr_max most used ones
                     diff_min = 1024;
                     diff_max = 0;
-                    for (byte i = 0; i < _plt0.cmpr_max && Colour_list[i][0] != 0; i++)
+                    for (byte i = 0; i < 16; i++)
                     {
+                        if (((alpha_bitfield >> i) & 1) == 0 || Colour_list[i][0] <= _plt0.cmpr_max)
+                            continue;
                         if (Colour_list[i][2] < diff_min)
                         {
                             diff_min = (short)(Colour_list[i][2]);
-                            diff_min_index = i;
+                            diff_min_index = i;  // darkest colour index of Colour_RGB565
                         }
                         if (Colour_list[i][2] > diff_max)
                         {
                             diff_max = Colour_list[i][2];
-                            diff_max_index = i;
+                            diff_max_index = i;  // brightest colour index of Colour_RGB565
                         }
                     }
                     Organize_Colours_And_Process_Indexes();
                     index_list.Add(index.ToArray());
-                    // index is overwritten each time
-                    // the lists need to be cleaned
-                    Colour_list.Clear();
-                    colour_palette.Clear();
-                    Colour_rgb565.Clear();
-                    alpha_bitfield = 0;
                 }
                 break;
         }
@@ -609,6 +363,78 @@ class CMPR_class
      * t = (pixel_posN - pixel_pos1) / (pixel_pos2 - pixel_pos1)
        pixelN_red = (t-1)*pixel1_red + (t)*pixel2_red
        same for blue + green*/
+    private bool Load_Block()
+    {
+        red = bmp_image[y + _plt0.rgba_channel[0]];
+        green = bmp_image[y + _plt0.rgba_channel[1]];
+        blue = bmp_image[y + _plt0.rgba_channel[2]];
+        if (_plt0.alpha > 0 && bmp_image[y + _plt0.rgba_channel[3]] < _plt0.cmpr_alpha_threshold)
+        {
+            alpha_bitfield += (ushort)(1 << (j + (z * 4)));
+        }
+        if ((red & 7) > _plt0.round5 && red < 248)  // 5-bit max value on a trimmed byte
+        {
+            red += 8;
+        }
+        if ((green & _plt0.round6) == _plt0.round6 && green < 252)  // 6-bit max value on a trimmed byte
+        {
+            green += 4;
+        }
+        if ((blue & 7) > _plt0.round5 && blue < 248)
+        {
+            blue += 8;
+        }
+        // Colour_pixel[0] = // the number of occurences, though it stays to 1 so that's not really a problem lol
+        pixel = (ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)); // the RGB565 colour
+        Colour_array[1] = pixel;
+        Colour_array[2] = (ushort)(red + green + blue); // best way to find darkest colour :D
+        Colour_list.Add(Colour_array.ToArray());
+        Colour_rgb565.Add(pixel);
+        j++;
+        if (j != 4)
+        {
+            return false;
+        }
+        j = 0;
+        z++;
+        y += (_plt0.canvas_width << 2) - 16; // returns to the start of the next line  - bitmap width << 2 because it's a 32-bit BGRA bmp file
+        if (z != 4)
+        {
+            return false;  // Still within the same 4x4 block
+        }
+        x++;
+        z = 0;
+        width += 2;  // triggered 4 times per block
+        if (width == _plt0.canvas_width)
+        {
+            width = 0;
+            // y -= (_plt0.bitmap_width << 1) - 16;  // this has been driving me nuts
+            y += (_plt0.canvas_width << 2) - 16;
+            x = 0;
+        }
+        else if (x == 2)
+        {
+            // y += (_plt0.bitmap_width << 4) - 4; // adds 4 lines and put the cursor back to the first block in width (I hope)
+            // y += 16; // hmm, it looks like the cursor warped horizontally to the first block in width 4 lines above
+            // EDIT: YA DEFINITELY NEED TO CANCEL THE Y OPERATION ABOVE, IT WARPS NORMALLY LIKE IT4S THE PIXEL AFTER
+            //y -= (_plt0.bitmap_width << 2) - 16;  // this has been driving me nuts
+            y += 16;  // I can't believe this is right in the mirror and mirrorred mode lol
+                      // edit: you just need to add 32 everywhere
+        }
+        else if (x == 4)
+        {
+            //y -= (_plt0.bitmap_width << 5) - 16; // minus 8 lines + point to next block
+            y -= (_plt0.canvas_width << 5) + 16;
+            x = 0;
+        }
+        else
+        {
+            /* y -= (_plt0.bitmap_width << 4) - 16; // on retire 4 lignes et on passe le 1er block héhé
+             substract 4 lines and jumps over the first block */
+            y -= ((_plt0.canvas_width << 4)) + 16;  // substract 4 lines and goes one block to the left
+        }
+        return true;
+    }
     private void Organize_Colours_And_Process_Indexes()
     {
         if (alpha_bitfield != 0)  // put the biggest ushort in second place
@@ -793,5 +619,11 @@ class CMPR_class
                 }
             }
         }
+        // index is overwritten each time
+        // the lists need to be cleaned
+        Colour_list.Clear();
+        colour_palette.Clear();
+        Colour_rgb565.Clear();
+        alpha_bitfield = 0;
     }
 }
