@@ -44,10 +44,11 @@ class Parse_args_class
     public bool warn = false;
     public bool stfu = false;
     public bool no_warning = false;
-    public byte cmpr_max = 16;  // number of colours that the program should take care in each 4x4 block - should always be set to 16 for better results.  // wimgt's cmpr encoding is better than mine. I gotta admit. 
+    public byte cmpr_max = 0;  // if a color is used X times or less, it will be ignored (for the darkest/lightest algorithm)  // wimgt's cmpr encoding is better than mine. I gotta admit. 
     byte WrapS = 1; // 0 = Clamp   1 = Repeat   2 = Mirror
     byte WrapT = 1; // 0 = Clamp   1 = Repeat   2 = Mirror
     public byte algorithm = 0;  // 0 = CIE 601    1 = CIE 709     2 = custom RGBA     3 = Most Used Colours (No Gradient)
+    // for cmpr : algorithm   0 = smart   1 = Range Fit   2 = Most Used/Furthest   3 = Darkest/Lightest   4 = No Gradient   5 = Wiimm (counterfeit)   6 = SuperBMD (counterfeit)   7 = Min/Max
     public byte alpha = 9;  // 0 = no alpha - 1 = alpha - 2 = mix 
     byte color;
     public byte cmpr_alpha_threshold = 100;
@@ -281,6 +282,15 @@ class Parse_args_class
                         }
                     }
                     break;
+                case "DARKEST/LIGHTEST":
+                case "DL":
+                case "DARKEST LIGHTEST":
+                case "DARKEST-LIGHTEST":
+                case "DARKEST_LIGHTEST":
+                case "DARKEST":
+                case "LIGHTEST":
+                    algorithm = 3;
+                    break;
                 case "EXIT":
                 case "ASK":
                 case "ASK_EXIT":
@@ -304,6 +314,11 @@ class Parse_args_class
                 case "CIE709":
                 case "CIE 709":
                 case "CIE_709":
+                case "RANGE_FIT":
+                case "RANGE":
+                case "FIT":
+                case "RANGE FIT":
+                case "RANGE-FIT":
                     algorithm = 1;
                     break;
                 case "GIF":
@@ -390,6 +405,14 @@ class Parse_args_class
                     minification_filter = 4;
                     magnification_filter = 4;
                     break;
+                case "MOST_USED_FURTHEST":
+                case "MOST USED FURTHEST":
+                case "MOST":
+                case "USED":
+                case "FURTHEST":
+                case "MUF":
+                    algorithm = 2;
+                    break;
                 case "M":
                 case "N-MIPMAPS":
                 case "N-MM":
@@ -474,6 +497,12 @@ class Parse_args_class
                             cmpr_max = 16;
                         }
                     }
+                    break;
+                case "MIN-MAX":
+                case "MIN_MAX":
+                case "MIN MAX":
+                case "MINMAX":
+                    algorithm = 7;
                     break;
                 case "MIN":
 
@@ -564,7 +593,7 @@ class Parse_args_class
                 case "NO_GRADIENT":
                 case "NO-GRADIENT":
                 case "SIMILAR":
-                    algorithm = 3;
+                    algorithm = 4;
                     break;
                 case "NN":
                 case "NEAREST":
@@ -815,6 +844,13 @@ class Parse_args_class
                         }
                     }
                     break;
+                case "SOOPER":
+                case "SUUPERBMD":
+                case "SOOPERBMD":
+                case "SUPERBMD":
+                case "SUPER":
+                    algorithm = 6;
+                    break;
                 case "STFU":
                 case "SHUT":
                     stfu = true;
@@ -835,6 +871,18 @@ class Parse_args_class
                 case "W":
                 case "VERBOSE":
                     warn = true;
+                    break;
+                case "WIIMM":
+                case "WIMGT":
+                case "WEEMM":
+                case "WEE":
+                case "WIM":
+                case "WIMM":
+                case "WIIM":
+                case "WEM":
+                case "WEEM":
+                case "WEMM":
+                    algorithm = 5;
                     break;
                 case "WRAP":
                     if (args.Length < i + 3)

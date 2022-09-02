@@ -323,6 +323,12 @@
         private System.Windows.Forms.PictureBox banner_19_ck;
         private System.Windows.Forms.PictureBox pictureBox10;
         private System.Windows.Forms.PictureBox banner_15_ck;
+        private System.Windows.Forms.Label sooperbmd_label;
+        private System.Windows.Forms.Label min_max_label;
+        private System.Windows.Forms.Label weemm_label;
+        private System.Windows.Forms.PictureBox min_max_ck;
+        private System.Windows.Forms.PictureBox sooperbmd_ck;
+        private System.Windows.Forms.PictureBox weemm_ck;
         /*
 /// <summary>
 /// Required designer variable.
