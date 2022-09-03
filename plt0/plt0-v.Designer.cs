@@ -329,8 +329,8 @@
         private System.Windows.Forms.PictureBox min_max_ck;
         private System.Windows.Forms.PictureBox sooperbmd_ck;
         private System.Windows.Forms.PictureBox weemm_ck;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Label darkest_lightest_label;
+        private System.Windows.Forms.PictureBox darkest_lightest_ck;
         /*
 /// <summary>
 /// Required designer variable.

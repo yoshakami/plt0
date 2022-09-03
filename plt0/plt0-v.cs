@@ -55,7 +55,7 @@ namespace plt0_gui
         byte[] block_depth_array = { 4, 8, 4, 8, 16, 16, 32, 255, 4, 8, 16, 255, 255, 255, 4 };  // for \z
         string[] encoding_array = { "i4", "i8", "ai4", "ai8", "rgb565", "rgb5a3", "rgba32", "", "ci4", "ci8", "ci14x2", "", "", "", "cmpr" };
         string[] wrap_array = { "Clamp", "Repeat", "Mirror", "Clamp" };
-        string[] algorithm_array = { "", "cie709", "custom_rgba", "no gradient" };
+        string[] algorithm_array = { "", "cie709", "custom_rgba", "no gradient", "", "", "", "", "", ""};
         protected internal volatile string[] alpha_array = { "no alpha", "alpha", "mix" }; // imagine putting random keywords
         static readonly private protected string[] rgba_array = { "R", "G", "B", "A" }; // imagine knowing what the keywords do
         string input_file;
@@ -1682,17 +1682,30 @@ namespace plt0_gui
         }
         private void Layout_All()
         {
+            if (encoding == 14)
+                View_cmpr(true);
+            else
+            {
+                Hide_cmpr();
+                View_alpha();
+                round5_label.Visible = true;
+                round5_txt.Visible = true;
+                round6_label.Visible = true;
+                round6_txt.Visible = true;
+                cmpr_max_label.Visible = true;
+                cmpr_max_txt.Visible = true;
+                cmpr_min_alpha_label.Visible = true;
+                cmpr_min_alpha_txt.Visible = true;
+            }
             layout = 1;
-            View_alpha();
             View_algorithm(255);
-            View_cmpr();
             View_palette();
             View_mag();
             View_min();
             View_WrapS();
             View_WrapT();
             View_options();
-            View_rgba();
+            View_rgba(true);
             round3_label.Visible = true;
             round3_txt.Visible = true;
             round4_label.Visible = true;
@@ -1781,17 +1794,30 @@ namespace plt0_gui
         }
         private void Layout_Preview()
         {
+            if (encoding == 14)
+                View_cmpr(true);
+            else
+            {
+                Hide_cmpr();
+                View_alpha();
+                round5_label.Visible = true;
+                round5_txt.Visible = true;
+                round6_label.Visible = true;
+                round6_txt.Visible = true;
+                cmpr_max_label.Visible = true;
+                cmpr_max_txt.Visible = true;
+                cmpr_min_alpha_label.Visible = true;
+                cmpr_min_alpha_txt.Visible = true;
+            }
             layout = 1;
-            View_alpha();
             View_algorithm(255);
-            View_cmpr();
             View_palette();
             Hide_mag();
             Hide_min();
             Hide_WrapS();
             Hide_WrapT();
             View_options();
-            View_rgba();
+            View_rgba(true);
             round3_label.Visible = true;
             round3_txt.Visible = true;
             round4_label.Visible = true;
@@ -2278,11 +2304,11 @@ namespace plt0_gui
             }
             else if (algorithm == 255)
             {
-                for (byte i = 0; i < algorithm_ck.Count; i++)
+                for (byte i = 0; i < 3; i++)
                 {
                     algorithm_ck[i].Visible = true;
                 }
-                no_gradient_label.Visible = true;
+                // no_gradient_label.Visible = true;
                 algorithm_label.Visible = true;
                 cie_601_label.Visible = true;
                 cie_709_label.Visible = true;
@@ -2500,11 +2526,27 @@ namespace plt0_gui
         private void View_cmpr(bool secret_mode = false)
         {
             cie_601_label.Text = "Default";
+            cie_709_label.Text = "Range Fit";
+            custom_label.Text = "Most Used/Furthest";
+            Hide_alpha(true);
+            cie_709_ck.Visible = true;
+            cie_709_label.Visible = true;
+            darkest_lightest_ck.Visible = true;
+            darkest_lightest_label.Visible = true;
+            weemm_ck.Visible = true;
+            weemm_label.Visible = true;
+            no_gradient_ck.Visible = true;
+            no_gradient_label.Visible = true;
+            sooperbmd_ck.Visible = true;
+            sooperbmd_label.Visible = true;
+            min_max_ck.Visible = true;
+            min_max_label.Visible = true;
+            //cie_601_label.Text = "Darkest/Lightest";
+            //cie_601_label.Text = "No Gradient";
+            //cie_601_label.Text = "Default";
             if (layout != 1 && !secret_mode)
                 return;
             View_diversity();
-            no_gradient_ck.Visible = true;
-            no_gradient_label.Visible = true;
             cmpr_max_label.Visible = true;
             cmpr_max_txt.Visible = true;
             cmpr_min_alpha_label.Visible = true;
@@ -2515,8 +2557,29 @@ namespace plt0_gui
             round6_txt.Visible = true;
             view_cmpr = true;
         }
-        private void Hide_cmpr(bool secret_mode = false)
+        private void Hide_cmpr(bool secret_mode = false, bool just_change_list=false)
         {
+            cie_709_label.Text = "CIE 709";
+            custom_label.Text = "Custom RGBA";
+            if (layout != 1)
+                View_alpha(true);
+            if (secret_mode)
+            {
+                cie_709_ck.Visible = false;
+                cie_709_label.Visible = false;
+            }
+            darkest_lightest_ck.Visible = false;
+            darkest_lightest_label.Visible = false;
+            weemm_ck.Visible = false;
+            weemm_label.Visible = false;
+            no_gradient_ck.Visible = false;
+            no_gradient_label.Visible = false;
+            sooperbmd_ck.Visible = false;
+            sooperbmd_label.Visible = false;
+            min_max_ck.Visible = false;
+            min_max_label.Visible = false;
+            if (just_change_list)
+                return;
             if (layout != 1 && !secret_mode)
                 return;
             Hide_diversity();
@@ -2575,7 +2638,7 @@ namespace plt0_gui
         }
         private void View_rgba(bool secret_mode = false)
         {
-            if (layout != 1 && !secret_mode)
+            if ((layout != 1 && !secret_mode) || (encoding == 14 && !secret_mode))
                 return;
             custom_rgba_label.Visible = true;
             custom_r_label.Visible = true;
@@ -2704,7 +2767,11 @@ namespace plt0_gui
         private void Hide_encoding(byte encoding)
         {
             if (layout != 1)
+            {
+                if (encoding == 14)
+                    Hide_cmpr(false, true);
                 return;
+            }
             switch (encoding)
             {
                 case 0:
@@ -2742,7 +2809,7 @@ namespace plt0_gui
                     Hide_palette();
                     break;
                 case 14:
-                    Hide_cmpr();
+                    Hide_cmpr(true);
                     break;
             }
         }
@@ -3578,7 +3645,12 @@ namespace plt0_gui
             algorithm_ck.Add(cie_601_ck);
             algorithm_ck.Add(cie_709_ck);
             algorithm_ck.Add(custom_ck);
+            algorithm_ck.Add(darkest_lightest_ck);
             algorithm_ck.Add(no_gradient_ck);
+            algorithm_ck.Add(weemm_ck);
+            algorithm_ck.Add(sooperbmd_ck);
+            algorithm_ck.Add(min_max_ck);
+            algorithm_ck.Add(cie_601_ck);  // nothing
             algorithm_ck.Add(cie_601_ck);  // nothing
             palette_ck.Add(palette_ai8_ck);
             palette_ck.Add(palette_rgb565_ck);
@@ -3602,6 +3674,14 @@ namespace plt0_gui
             if (load_settings_dot_tee_ekks_tee)
                 Load_settings();
             this.image_ck.Location = new System.Drawing.Point(815, 96);
+            no_gradient_ck.Location = new System.Drawing.Point(500, 384);
+            no_gradient_label.Location = new System.Drawing.Point(564, 384);
+            weemm_ck.Location = new System.Drawing.Point(500, 448);
+            weemm_label.Location = new System.Drawing.Point(564, 448);
+            sooperbmd_ck.Location = new System.Drawing.Point(500, 512);
+            sooperbmd_label.Location = new System.Drawing.Point(564, 512);
+            min_max_ck.Location = new System.Drawing.Point(500, 576);
+            min_max_label.Location = new System.Drawing.Point(564, 576);
             if (Directory.Exists(execPath + "images/preview"))
             {
                 string[] files = Directory.GetFiles(execPath + "images/preview");
@@ -3702,7 +3782,11 @@ namespace plt0_gui
             unchecked_algorithm(cie_601_ck);
             unchecked_algorithm(cie_709_ck);
             unchecked_algorithm(custom_ck);
+            unchecked_algorithm(darkest_lightest_ck);
             unchecked_algorithm(no_gradient_ck);
+            unchecked_algorithm(weemm_ck);
+            unchecked_algorithm(sooperbmd_ck);
+            unchecked_algorithm(min_max_ck);
             Category_checked(view_alpha_ck);
             Category_checked(view_algorithm_ck);
             Category_checked(view_WrapS_ck);
@@ -4051,8 +4135,8 @@ namespace plt0_gui
             this.min_max_ck = new System.Windows.Forms.PictureBox();
             this.sooperbmd_ck = new System.Windows.Forms.PictureBox();
             this.weemm_ck = new System.Windows.Forms.PictureBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.darkest_lightest_label = new System.Windows.Forms.Label();
+            this.darkest_lightest_ck = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tpl_ck)).BeginInit();
@@ -4199,7 +4283,7 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.min_max_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sooperbmd_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.weemm_ck)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.darkest_lightest_ck)).BeginInit();
             this.SuspendLayout();
             // 
             // output_file_type_label
@@ -4233,7 +4317,7 @@ namespace plt0_gui
             this.bmd_label.BackColor = System.Drawing.Color.Transparent;
             this.bmd_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.bmd_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.bmd_label.Location = new System.Drawing.Point(108, 128);
+            this.bmd_label.Location = new System.Drawing.Point(104, 128);
             this.bmd_label.Margin = new System.Windows.Forms.Padding(0);
             this.bmd_label.Name = "bmd_label";
             this.bmd_label.Padding = new System.Windows.Forms.Padding(0, 22, 20, 22);
@@ -4266,7 +4350,7 @@ namespace plt0_gui
             this.bti_label.BackColor = System.Drawing.Color.Transparent;
             this.bti_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.bti_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.bti_label.Location = new System.Drawing.Point(108, 192);
+            this.bti_label.Location = new System.Drawing.Point(104, 192);
             this.bti_label.Margin = new System.Windows.Forms.Padding(0);
             this.bti_label.Name = "bti_label";
             this.bti_label.Padding = new System.Windows.Forms.Padding(0, 22, 40, 22);
@@ -4299,7 +4383,7 @@ namespace plt0_gui
             this.tex0_label.BackColor = System.Drawing.Color.Transparent;
             this.tex0_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.tex0_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.tex0_label.Location = new System.Drawing.Point(108, 257);
+            this.tex0_label.Location = new System.Drawing.Point(104, 257);
             this.tex0_label.Margin = new System.Windows.Forms.Padding(0);
             this.tex0_label.Name = "tex0_label";
             this.tex0_label.Padding = new System.Windows.Forms.Padding(0, 22, 20, 22);
@@ -4332,7 +4416,7 @@ namespace plt0_gui
             this.tpl_label.BackColor = System.Drawing.Color.Transparent;
             this.tpl_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.tpl_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.tpl_label.Location = new System.Drawing.Point(108, 321);
+            this.tpl_label.Location = new System.Drawing.Point(104, 321);
             this.tpl_label.Margin = new System.Windows.Forms.Padding(0);
             this.tpl_label.Name = "tpl_label";
             this.tpl_label.Padding = new System.Windows.Forms.Padding(0, 22, 40, 22);
@@ -4365,7 +4449,7 @@ namespace plt0_gui
             this.bmp_label.BackColor = System.Drawing.Color.Transparent;
             this.bmp_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.bmp_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.bmp_label.Location = new System.Drawing.Point(108, 384);
+            this.bmp_label.Location = new System.Drawing.Point(104, 384);
             this.bmp_label.Margin = new System.Windows.Forms.Padding(0);
             this.bmp_label.Name = "bmp_label";
             this.bmp_label.Padding = new System.Windows.Forms.Padding(0, 22, 30, 22);
@@ -4398,7 +4482,7 @@ namespace plt0_gui
             this.png_label.BackColor = System.Drawing.Color.Transparent;
             this.png_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.png_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.png_label.Location = new System.Drawing.Point(108, 449);
+            this.png_label.Location = new System.Drawing.Point(104, 449);
             this.png_label.Margin = new System.Windows.Forms.Padding(0);
             this.png_label.Name = "png_label";
             this.png_label.Padding = new System.Windows.Forms.Padding(0, 22, 30, 22);
@@ -4431,7 +4515,7 @@ namespace plt0_gui
             this.jpg_label.BackColor = System.Drawing.Color.Transparent;
             this.jpg_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.jpg_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.jpg_label.Location = new System.Drawing.Point(108, 513);
+            this.jpg_label.Location = new System.Drawing.Point(104, 513);
             this.jpg_label.Margin = new System.Windows.Forms.Padding(0);
             this.jpg_label.Name = "jpg_label";
             this.jpg_label.Padding = new System.Windows.Forms.Padding(0, 22, 30, 22);
@@ -4464,7 +4548,7 @@ namespace plt0_gui
             this.tiff_label.BackColor = System.Drawing.Color.Transparent;
             this.tiff_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.tiff_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.tiff_label.Location = new System.Drawing.Point(108, 834);
+            this.tiff_label.Location = new System.Drawing.Point(104, 834);
             this.tiff_label.Margin = new System.Windows.Forms.Padding(0);
             this.tiff_label.Name = "tiff_label";
             this.tiff_label.Padding = new System.Windows.Forms.Padding(0, 22, 30, 22);
@@ -4497,7 +4581,7 @@ namespace plt0_gui
             this.tif_label.BackColor = System.Drawing.Color.Transparent;
             this.tif_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.tif_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.tif_label.Location = new System.Drawing.Point(108, 770);
+            this.tif_label.Location = new System.Drawing.Point(104, 770);
             this.tif_label.Margin = new System.Windows.Forms.Padding(0);
             this.tif_label.Name = "tif_label";
             this.tif_label.Padding = new System.Windows.Forms.Padding(0, 22, 40, 22);
@@ -4530,7 +4614,7 @@ namespace plt0_gui
             this.ico_label.BackColor = System.Drawing.Color.Transparent;
             this.ico_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.ico_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.ico_label.Location = new System.Drawing.Point(108, 705);
+            this.ico_label.Location = new System.Drawing.Point(104, 705);
             this.ico_label.Margin = new System.Windows.Forms.Padding(0);
             this.ico_label.Name = "ico_label";
             this.ico_label.Padding = new System.Windows.Forms.Padding(0, 22, 40, 22);
@@ -4563,7 +4647,7 @@ namespace plt0_gui
             this.gif_label.BackColor = System.Drawing.Color.Transparent;
             this.gif_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.gif_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.gif_label.Location = new System.Drawing.Point(108, 642);
+            this.gif_label.Location = new System.Drawing.Point(104, 642);
             this.gif_label.Margin = new System.Windows.Forms.Padding(0);
             this.gif_label.Name = "gif_label";
             this.gif_label.Padding = new System.Windows.Forms.Padding(0, 22, 40, 22);
@@ -4596,7 +4680,7 @@ namespace plt0_gui
             this.jpeg_label.BackColor = System.Drawing.Color.Transparent;
             this.jpeg_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.jpeg_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.jpeg_label.Location = new System.Drawing.Point(108, 578);
+            this.jpeg_label.Location = new System.Drawing.Point(104, 578);
             this.jpeg_label.Margin = new System.Windows.Forms.Padding(0);
             this.jpeg_label.Name = "jpeg_label";
             this.jpeg_label.Padding = new System.Windows.Forms.Padding(0, 22, 20, 22);
@@ -4626,7 +4710,7 @@ namespace plt0_gui
             this.warn_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.warn_ck.ErrorImage = null;
             this.warn_ck.InitialImage = null;
-            this.warn_ck.Location = new System.Drawing.Point(1647, 704);
+            this.warn_ck.Location = new System.Drawing.Point(1648, 704);
             this.warn_ck.Margin = new System.Windows.Forms.Padding(0);
             this.warn_ck.Name = "warn_ck";
             this.warn_ck.Size = new System.Drawing.Size(64, 64);
@@ -4659,7 +4743,7 @@ namespace plt0_gui
             this.stfu_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.stfu_ck.ErrorImage = null;
             this.stfu_ck.InitialImage = null;
-            this.stfu_ck.Location = new System.Drawing.Point(1647, 640);
+            this.stfu_ck.Location = new System.Drawing.Point(1648, 640);
             this.stfu_ck.Margin = new System.Windows.Forms.Padding(0);
             this.stfu_ck.Name = "stfu_ck";
             this.stfu_ck.Size = new System.Drawing.Size(64, 64);
@@ -4692,7 +4776,7 @@ namespace plt0_gui
             this.safe_mode_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.safe_mode_ck.ErrorImage = null;
             this.safe_mode_ck.InitialImage = null;
-            this.safe_mode_ck.Location = new System.Drawing.Point(1647, 576);
+            this.safe_mode_ck.Location = new System.Drawing.Point(1648, 576);
             this.safe_mode_ck.Margin = new System.Windows.Forms.Padding(0);
             this.safe_mode_ck.Name = "safe_mode_ck";
             this.safe_mode_ck.Size = new System.Drawing.Size(64, 64);
@@ -4725,7 +4809,7 @@ namespace plt0_gui
             this.reversey_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.reversey_ck.ErrorImage = null;
             this.reversey_ck.InitialImage = null;
-            this.reversey_ck.Location = new System.Drawing.Point(1647, 512);
+            this.reversey_ck.Location = new System.Drawing.Point(1648, 512);
             this.reversey_ck.Margin = new System.Windows.Forms.Padding(0);
             this.reversey_ck.Name = "reversey_ck";
             this.reversey_ck.Size = new System.Drawing.Size(64, 64);
@@ -4758,7 +4842,7 @@ namespace plt0_gui
             this.random_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.random_ck.ErrorImage = null;
             this.random_ck.InitialImage = null;
-            this.random_ck.Location = new System.Drawing.Point(1647, 384);
+            this.random_ck.Location = new System.Drawing.Point(1648, 384);
             this.random_ck.Margin = new System.Windows.Forms.Padding(0);
             this.random_ck.Name = "random_ck";
             this.random_ck.Size = new System.Drawing.Size(64, 64);
@@ -4791,7 +4875,7 @@ namespace plt0_gui
             this.no_warning_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.no_warning_ck.ErrorImage = null;
             this.no_warning_ck.InitialImage = null;
-            this.no_warning_ck.Location = new System.Drawing.Point(1647, 1131);
+            this.no_warning_ck.Location = new System.Drawing.Point(1648, 1131);
             this.no_warning_ck.Margin = new System.Windows.Forms.Padding(0);
             this.no_warning_ck.Name = "no_warning_ck";
             this.no_warning_ck.Size = new System.Drawing.Size(64, 64);
@@ -4824,7 +4908,7 @@ namespace plt0_gui
             this.funky_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.funky_ck.ErrorImage = null;
             this.funky_ck.InitialImage = null;
-            this.funky_ck.Location = new System.Drawing.Point(1647, 256);
+            this.funky_ck.Location = new System.Drawing.Point(1648, 256);
             this.funky_ck.Margin = new System.Windows.Forms.Padding(0);
             this.funky_ck.Name = "funky_ck";
             this.funky_ck.Size = new System.Drawing.Size(64, 64);
@@ -4857,7 +4941,7 @@ namespace plt0_gui
             this.FORCE_ALPHA_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.FORCE_ALPHA_ck.ErrorImage = null;
             this.FORCE_ALPHA_ck.InitialImage = null;
-            this.FORCE_ALPHA_ck.Location = new System.Drawing.Point(1647, 192);
+            this.FORCE_ALPHA_ck.Location = new System.Drawing.Point(1648, 192);
             this.FORCE_ALPHA_ck.Margin = new System.Windows.Forms.Padding(0);
             this.FORCE_ALPHA_ck.Name = "FORCE_ALPHA_ck";
             this.FORCE_ALPHA_ck.Size = new System.Drawing.Size(64, 64);
@@ -4890,7 +4974,7 @@ namespace plt0_gui
             this.bmp_32_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.bmp_32_ck.ErrorImage = null;
             this.bmp_32_ck.InitialImage = null;
-            this.bmp_32_ck.Location = new System.Drawing.Point(1647, 128);
+            this.bmp_32_ck.Location = new System.Drawing.Point(1648, 128);
             this.bmp_32_ck.Margin = new System.Windows.Forms.Padding(0);
             this.bmp_32_ck.Name = "bmp_32_ck";
             this.bmp_32_ck.Size = new System.Drawing.Size(64, 64);
@@ -4923,7 +5007,7 @@ namespace plt0_gui
             this.ask_exit_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ask_exit_ck.ErrorImage = null;
             this.ask_exit_ck.InitialImage = null;
-            this.ask_exit_ck.Location = new System.Drawing.Point(1647, 64);
+            this.ask_exit_ck.Location = new System.Drawing.Point(1648, 64);
             this.ask_exit_ck.Margin = new System.Windows.Forms.Padding(0);
             this.ask_exit_ck.Name = "ask_exit_ck";
             this.ask_exit_ck.Size = new System.Drawing.Size(64, 64);
@@ -4958,7 +5042,7 @@ namespace plt0_gui
             this.cmpr_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.cmpr_ck.ErrorImage = null;
             this.cmpr_ck.InitialImage = null;
-            this.cmpr_ck.Location = new System.Drawing.Point(255, 769);
+            this.cmpr_ck.Location = new System.Drawing.Point(256, 769);
             this.cmpr_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_ck.Name = "cmpr_ck";
             this.cmpr_ck.Size = new System.Drawing.Size(64, 64);
@@ -4974,7 +5058,7 @@ namespace plt0_gui
             this.cmpr_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.cmpr_label.Location = new System.Drawing.Point(323, 770);
+            this.cmpr_label.Location = new System.Drawing.Point(320, 770);
             this.cmpr_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_label.Name = "cmpr_label";
             this.cmpr_label.Padding = new System.Windows.Forms.Padding(0, 22, 30, 22);
@@ -4991,7 +5075,7 @@ namespace plt0_gui
             this.ci14x2_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ci14x2_ck.ErrorImage = null;
             this.ci14x2_ck.InitialImage = null;
-            this.ci14x2_ck.Location = new System.Drawing.Point(255, 705);
+            this.ci14x2_ck.Location = new System.Drawing.Point(256, 705);
             this.ci14x2_ck.Margin = new System.Windows.Forms.Padding(0);
             this.ci14x2_ck.Name = "ci14x2_ck";
             this.ci14x2_ck.Size = new System.Drawing.Size(64, 64);
@@ -5007,7 +5091,7 @@ namespace plt0_gui
             this.ci14x2_label.BackColor = System.Drawing.Color.Transparent;
             this.ci14x2_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.ci14x2_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.ci14x2_label.Location = new System.Drawing.Point(323, 705);
+            this.ci14x2_label.Location = new System.Drawing.Point(320, 705);
             this.ci14x2_label.Margin = new System.Windows.Forms.Padding(0);
             this.ci14x2_label.Name = "ci14x2_label";
             this.ci14x2_label.Padding = new System.Windows.Forms.Padding(0, 22, 20, 22);
@@ -5024,7 +5108,7 @@ namespace plt0_gui
             this.ci8_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ci8_ck.ErrorImage = null;
             this.ci8_ck.InitialImage = null;
-            this.ci8_ck.Location = new System.Drawing.Point(255, 641);
+            this.ci8_ck.Location = new System.Drawing.Point(256, 641);
             this.ci8_ck.Margin = new System.Windows.Forms.Padding(0);
             this.ci8_ck.Name = "ci8_ck";
             this.ci8_ck.Size = new System.Drawing.Size(64, 64);
@@ -5040,7 +5124,7 @@ namespace plt0_gui
             this.ci8_label.BackColor = System.Drawing.Color.Transparent;
             this.ci8_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.ci8_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.ci8_label.Location = new System.Drawing.Point(323, 642);
+            this.ci8_label.Location = new System.Drawing.Point(320, 642);
             this.ci8_label.Margin = new System.Windows.Forms.Padding(0);
             this.ci8_label.Name = "ci8_label";
             this.ci8_label.Padding = new System.Windows.Forms.Padding(0, 22, 60, 22);
@@ -5057,7 +5141,7 @@ namespace plt0_gui
             this.ci4_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ci4_ck.ErrorImage = null;
             this.ci4_ck.InitialImage = null;
-            this.ci4_ck.Location = new System.Drawing.Point(255, 577);
+            this.ci4_ck.Location = new System.Drawing.Point(256, 577);
             this.ci4_ck.Margin = new System.Windows.Forms.Padding(0);
             this.ci4_ck.Name = "ci4_ck";
             this.ci4_ck.Size = new System.Drawing.Size(64, 64);
@@ -5073,7 +5157,7 @@ namespace plt0_gui
             this.ci4_label.BackColor = System.Drawing.Color.Transparent;
             this.ci4_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.ci4_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.ci4_label.Location = new System.Drawing.Point(323, 578);
+            this.ci4_label.Location = new System.Drawing.Point(320, 578);
             this.ci4_label.Margin = new System.Windows.Forms.Padding(0);
             this.ci4_label.Name = "ci4_label";
             this.ci4_label.Padding = new System.Windows.Forms.Padding(0, 22, 60, 22);
@@ -5090,7 +5174,7 @@ namespace plt0_gui
             this.rgba32_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.rgba32_ck.ErrorImage = null;
             this.rgba32_ck.InitialImage = null;
-            this.rgba32_ck.Location = new System.Drawing.Point(255, 512);
+            this.rgba32_ck.Location = new System.Drawing.Point(256, 512);
             this.rgba32_ck.Margin = new System.Windows.Forms.Padding(0);
             this.rgba32_ck.Name = "rgba32_ck";
             this.rgba32_ck.Size = new System.Drawing.Size(64, 64);
@@ -5106,7 +5190,7 @@ namespace plt0_gui
             this.rgba32_label.BackColor = System.Drawing.Color.Transparent;
             this.rgba32_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.rgba32_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.rgba32_label.Location = new System.Drawing.Point(323, 513);
+            this.rgba32_label.Location = new System.Drawing.Point(320, 513);
             this.rgba32_label.Margin = new System.Windows.Forms.Padding(0);
             this.rgba32_label.Name = "rgba32_label";
             this.rgba32_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -5123,7 +5207,7 @@ namespace plt0_gui
             this.rgb5a3_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.rgb5a3_ck.ErrorImage = null;
             this.rgb5a3_ck.InitialImage = null;
-            this.rgb5a3_ck.Location = new System.Drawing.Point(255, 448);
+            this.rgb5a3_ck.Location = new System.Drawing.Point(256, 448);
             this.rgb5a3_ck.Margin = new System.Windows.Forms.Padding(0);
             this.rgb5a3_ck.Name = "rgb5a3_ck";
             this.rgb5a3_ck.Size = new System.Drawing.Size(64, 64);
@@ -5139,7 +5223,7 @@ namespace plt0_gui
             this.rgb5a3_label.BackColor = System.Drawing.Color.Transparent;
             this.rgb5a3_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.rgb5a3_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.rgb5a3_label.Location = new System.Drawing.Point(323, 449);
+            this.rgb5a3_label.Location = new System.Drawing.Point(320, 449);
             this.rgb5a3_label.Margin = new System.Windows.Forms.Padding(0);
             this.rgb5a3_label.Name = "rgb5a3_label";
             this.rgb5a3_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -5156,7 +5240,7 @@ namespace plt0_gui
             this.rgb565_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.rgb565_ck.ErrorImage = null;
             this.rgb565_ck.InitialImage = null;
-            this.rgb565_ck.Location = new System.Drawing.Point(255, 384);
+            this.rgb565_ck.Location = new System.Drawing.Point(256, 384);
             this.rgb565_ck.Margin = new System.Windows.Forms.Padding(0);
             this.rgb565_ck.Name = "rgb565_ck";
             this.rgb565_ck.Size = new System.Drawing.Size(64, 64);
@@ -5172,7 +5256,7 @@ namespace plt0_gui
             this.rgb565_label.BackColor = System.Drawing.Color.Transparent;
             this.rgb565_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.rgb565_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.rgb565_label.Location = new System.Drawing.Point(323, 384);
+            this.rgb565_label.Location = new System.Drawing.Point(320, 384);
             this.rgb565_label.Margin = new System.Windows.Forms.Padding(0);
             this.rgb565_label.Name = "rgb565_label";
             this.rgb565_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -5189,7 +5273,7 @@ namespace plt0_gui
             this.ai8_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ai8_ck.ErrorImage = null;
             this.ai8_ck.InitialImage = null;
-            this.ai8_ck.Location = new System.Drawing.Point(255, 320);
+            this.ai8_ck.Location = new System.Drawing.Point(256, 320);
             this.ai8_ck.Margin = new System.Windows.Forms.Padding(0);
             this.ai8_ck.Name = "ai8_ck";
             this.ai8_ck.Size = new System.Drawing.Size(64, 64);
@@ -5205,7 +5289,7 @@ namespace plt0_gui
             this.ai8_label.BackColor = System.Drawing.Color.Transparent;
             this.ai8_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.ai8_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.ai8_label.Location = new System.Drawing.Point(323, 321);
+            this.ai8_label.Location = new System.Drawing.Point(320, 321);
             this.ai8_label.Margin = new System.Windows.Forms.Padding(0);
             this.ai8_label.Name = "ai8_label";
             this.ai8_label.Padding = new System.Windows.Forms.Padding(0, 22, 60, 22);
@@ -5222,7 +5306,7 @@ namespace plt0_gui
             this.ai4_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ai4_ck.ErrorImage = null;
             this.ai4_ck.InitialImage = null;
-            this.ai4_ck.Location = new System.Drawing.Point(255, 256);
+            this.ai4_ck.Location = new System.Drawing.Point(256, 256);
             this.ai4_ck.Margin = new System.Windows.Forms.Padding(0);
             this.ai4_ck.Name = "ai4_ck";
             this.ai4_ck.Size = new System.Drawing.Size(64, 64);
@@ -5238,7 +5322,7 @@ namespace plt0_gui
             this.ai4_label.BackColor = System.Drawing.Color.Transparent;
             this.ai4_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.ai4_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.ai4_label.Location = new System.Drawing.Point(323, 257);
+            this.ai4_label.Location = new System.Drawing.Point(320, 257);
             this.ai4_label.Margin = new System.Windows.Forms.Padding(0);
             this.ai4_label.Name = "ai4_label";
             this.ai4_label.Padding = new System.Windows.Forms.Padding(0, 22, 60, 22);
@@ -5255,7 +5339,7 @@ namespace plt0_gui
             this.i8_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.i8_ck.ErrorImage = null;
             this.i8_ck.InitialImage = null;
-            this.i8_ck.Location = new System.Drawing.Point(255, 192);
+            this.i8_ck.Location = new System.Drawing.Point(256, 192);
             this.i8_ck.Margin = new System.Windows.Forms.Padding(0);
             this.i8_ck.Name = "i8_ck";
             this.i8_ck.Size = new System.Drawing.Size(64, 64);
@@ -5271,7 +5355,7 @@ namespace plt0_gui
             this.i8_label.BackColor = System.Drawing.Color.Transparent;
             this.i8_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.i8_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.i8_label.Location = new System.Drawing.Point(323, 192);
+            this.i8_label.Location = new System.Drawing.Point(320, 192);
             this.i8_label.Margin = new System.Windows.Forms.Padding(0);
             this.i8_label.Name = "i8_label";
             this.i8_label.Padding = new System.Windows.Forms.Padding(0, 22, 80, 22);
@@ -5288,7 +5372,7 @@ namespace plt0_gui
             this.i4_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.i4_ck.ErrorImage = null;
             this.i4_ck.InitialImage = null;
-            this.i4_ck.Location = new System.Drawing.Point(255, 128);
+            this.i4_ck.Location = new System.Drawing.Point(256, 128);
             this.i4_ck.Margin = new System.Windows.Forms.Padding(0);
             this.i4_ck.Name = "i4_ck";
             this.i4_ck.Size = new System.Drawing.Size(64, 64);
@@ -5304,7 +5388,7 @@ namespace plt0_gui
             this.i4_label.BackColor = System.Drawing.Color.Transparent;
             this.i4_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.i4_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.i4_label.Location = new System.Drawing.Point(323, 128);
+            this.i4_label.Location = new System.Drawing.Point(320, 128);
             this.i4_label.Margin = new System.Windows.Forms.Padding(0);
             this.i4_label.Name = "i4_label";
             this.i4_label.Padding = new System.Windows.Forms.Padding(0, 22, 80, 22);
@@ -5347,12 +5431,13 @@ namespace plt0_gui
             this.no_gradient_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.no_gradient_ck.ErrorImage = null;
             this.no_gradient_ck.InitialImage = null;
-            this.no_gradient_ck.Location = new System.Drawing.Point(503, 320);
+            this.no_gradient_ck.Location = new System.Drawing.Point(500, 1104);
             this.no_gradient_ck.Margin = new System.Windows.Forms.Padding(0);
             this.no_gradient_ck.Name = "no_gradient_ck";
             this.no_gradient_ck.Size = new System.Drawing.Size(64, 64);
             this.no_gradient_ck.TabIndex = 247;
             this.no_gradient_ck.TabStop = false;
+            this.no_gradient_ck.Visible = false;
             this.no_gradient_ck.Click += new System.EventHandler(this.No_gradient_Click);
             this.no_gradient_ck.MouseEnter += new System.EventHandler(this.No_gradient_MouseEnter);
             this.no_gradient_ck.MouseLeave += new System.EventHandler(this.No_gradient_MouseLeave);
@@ -5363,13 +5448,14 @@ namespace plt0_gui
             this.no_gradient_label.BackColor = System.Drawing.Color.Transparent;
             this.no_gradient_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.no_gradient_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.no_gradient_label.Location = new System.Drawing.Point(571, 320);
+            this.no_gradient_label.Location = new System.Drawing.Point(571, 1104);
             this.no_gradient_label.Margin = new System.Windows.Forms.Padding(0);
             this.no_gradient_label.Name = "no_gradient_label";
             this.no_gradient_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
             this.no_gradient_label.Size = new System.Drawing.Size(132, 68);
             this.no_gradient_label.TabIndex = 245;
             this.no_gradient_label.Text = "No Gradient";
+            this.no_gradient_label.Visible = false;
             this.no_gradient_label.Click += new System.EventHandler(this.No_gradient_Click);
             this.no_gradient_label.MouseEnter += new System.EventHandler(this.No_gradient_MouseEnter);
             this.no_gradient_label.MouseLeave += new System.EventHandler(this.No_gradient_MouseLeave);
@@ -5380,7 +5466,7 @@ namespace plt0_gui
             this.custom_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.custom_ck.ErrorImage = null;
             this.custom_ck.InitialImage = null;
-            this.custom_ck.Location = new System.Drawing.Point(503, 256);
+            this.custom_ck.Location = new System.Drawing.Point(500, 256);
             this.custom_ck.Margin = new System.Windows.Forms.Padding(0);
             this.custom_ck.Name = "custom_ck";
             this.custom_ck.Size = new System.Drawing.Size(64, 64);
@@ -5396,7 +5482,7 @@ namespace plt0_gui
             this.custom_label.BackColor = System.Drawing.Color.Transparent;
             this.custom_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.custom_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.custom_label.Location = new System.Drawing.Point(571, 256);
+            this.custom_label.Location = new System.Drawing.Point(564, 256);
             this.custom_label.Margin = new System.Windows.Forms.Padding(0);
             this.custom_label.Name = "custom_label";
             this.custom_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -5413,7 +5499,7 @@ namespace plt0_gui
             this.cie_709_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.cie_709_ck.ErrorImage = null;
             this.cie_709_ck.InitialImage = null;
-            this.cie_709_ck.Location = new System.Drawing.Point(503, 192);
+            this.cie_709_ck.Location = new System.Drawing.Point(500, 192);
             this.cie_709_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cie_709_ck.Name = "cie_709_ck";
             this.cie_709_ck.Size = new System.Drawing.Size(64, 64);
@@ -5429,7 +5515,7 @@ namespace plt0_gui
             this.cie_709_label.BackColor = System.Drawing.Color.Transparent;
             this.cie_709_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cie_709_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.cie_709_label.Location = new System.Drawing.Point(571, 192);
+            this.cie_709_label.Location = new System.Drawing.Point(564, 192);
             this.cie_709_label.Margin = new System.Windows.Forms.Padding(0);
             this.cie_709_label.Name = "cie_709_label";
             this.cie_709_label.Padding = new System.Windows.Forms.Padding(0, 22, 50, 22);
@@ -5446,7 +5532,7 @@ namespace plt0_gui
             this.cie_601_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.cie_601_ck.ErrorImage = null;
             this.cie_601_ck.InitialImage = null;
-            this.cie_601_ck.Location = new System.Drawing.Point(503, 128);
+            this.cie_601_ck.Location = new System.Drawing.Point(500, 128);
             this.cie_601_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cie_601_ck.Name = "cie_601_ck";
             this.cie_601_ck.Size = new System.Drawing.Size(64, 64);
@@ -5462,7 +5548,7 @@ namespace plt0_gui
             this.cie_601_label.BackColor = System.Drawing.Color.Transparent;
             this.cie_601_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cie_601_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.cie_601_label.Location = new System.Drawing.Point(571, 128);
+            this.cie_601_label.Location = new System.Drawing.Point(564, 128);
             this.cie_601_label.Margin = new System.Windows.Forms.Padding(0);
             this.cie_601_label.Name = "cie_601_label";
             this.cie_601_label.Padding = new System.Windows.Forms.Padding(0, 22, 50, 22);
@@ -5491,7 +5577,7 @@ namespace plt0_gui
             this.mix_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.mix_ck.ErrorImage = null;
             this.mix_ck.InitialImage = null;
-            this.mix_ck.Location = new System.Drawing.Point(503, 557);
+            this.mix_ck.Location = new System.Drawing.Point(500, 558);
             this.mix_ck.Margin = new System.Windows.Forms.Padding(0);
             this.mix_ck.Name = "mix_ck";
             this.mix_ck.Size = new System.Drawing.Size(64, 64);
@@ -5507,7 +5593,7 @@ namespace plt0_gui
             this.mix_label.BackColor = System.Drawing.Color.Transparent;
             this.mix_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.mix_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.mix_label.Location = new System.Drawing.Point(571, 557);
+            this.mix_label.Location = new System.Drawing.Point(564, 558);
             this.mix_label.Margin = new System.Windows.Forms.Padding(0);
             this.mix_label.Name = "mix_label";
             this.mix_label.Padding = new System.Windows.Forms.Padding(0, 22, 60, 22);
@@ -5524,7 +5610,7 @@ namespace plt0_gui
             this.alpha_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.alpha_ck.ErrorImage = null;
             this.alpha_ck.InitialImage = null;
-            this.alpha_ck.Location = new System.Drawing.Point(503, 493);
+            this.alpha_ck.Location = new System.Drawing.Point(500, 494);
             this.alpha_ck.Margin = new System.Windows.Forms.Padding(0);
             this.alpha_ck.Name = "alpha_ck";
             this.alpha_ck.Size = new System.Drawing.Size(64, 64);
@@ -5540,7 +5626,7 @@ namespace plt0_gui
             this.alpha_label.BackColor = System.Drawing.Color.Transparent;
             this.alpha_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.alpha_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.alpha_label.Location = new System.Drawing.Point(571, 493);
+            this.alpha_label.Location = new System.Drawing.Point(564, 494);
             this.alpha_label.Margin = new System.Windows.Forms.Padding(0);
             this.alpha_label.Name = "alpha_label";
             this.alpha_label.Padding = new System.Windows.Forms.Padding(0, 22, 40, 22);
@@ -5557,7 +5643,7 @@ namespace plt0_gui
             this.no_alpha_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.no_alpha_ck.ErrorImage = null;
             this.no_alpha_ck.InitialImage = null;
-            this.no_alpha_ck.Location = new System.Drawing.Point(503, 429);
+            this.no_alpha_ck.Location = new System.Drawing.Point(500, 430);
             this.no_alpha_ck.Margin = new System.Windows.Forms.Padding(0);
             this.no_alpha_ck.Name = "no_alpha_ck";
             this.no_alpha_ck.Size = new System.Drawing.Size(64, 64);
@@ -5573,7 +5659,7 @@ namespace plt0_gui
             this.no_alpha_label.BackColor = System.Drawing.Color.Transparent;
             this.no_alpha_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.no_alpha_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.no_alpha_label.Location = new System.Drawing.Point(571, 429);
+            this.no_alpha_label.Location = new System.Drawing.Point(564, 430);
             this.no_alpha_label.Margin = new System.Windows.Forms.Padding(0);
             this.no_alpha_label.Name = "no_alpha_label";
             this.no_alpha_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -5619,7 +5705,7 @@ namespace plt0_gui
             this.Tmirror_label.BackColor = System.Drawing.Color.Transparent;
             this.Tmirror_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.Tmirror_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.Tmirror_label.Location = new System.Drawing.Point(1508, 705);
+            this.Tmirror_label.Location = new System.Drawing.Point(1504, 704);
             this.Tmirror_label.Margin = new System.Windows.Forms.Padding(0);
             this.Tmirror_label.Name = "Tmirror_label";
             this.Tmirror_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -5652,7 +5738,7 @@ namespace plt0_gui
             this.Trepeat_label.BackColor = System.Drawing.Color.Transparent;
             this.Trepeat_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.Trepeat_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.Trepeat_label.Location = new System.Drawing.Point(1508, 640);
+            this.Trepeat_label.Location = new System.Drawing.Point(1504, 640);
             this.Trepeat_label.Margin = new System.Windows.Forms.Padding(0);
             this.Trepeat_label.Name = "Trepeat_label";
             this.Trepeat_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -5685,7 +5771,7 @@ namespace plt0_gui
             this.Tclamp_label.BackColor = System.Drawing.Color.Transparent;
             this.Tclamp_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.Tclamp_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.Tclamp_label.Location = new System.Drawing.Point(1508, 576);
+            this.Tclamp_label.Location = new System.Drawing.Point(1504, 576);
             this.Tclamp_label.Margin = new System.Windows.Forms.Padding(0);
             this.Tclamp_label.Name = "Tclamp_label";
             this.Tclamp_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -5714,7 +5800,7 @@ namespace plt0_gui
             this.Smirror_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.Smirror_ck.ErrorImage = null;
             this.Smirror_ck.InitialImage = null;
-            this.Smirror_ck.Location = new System.Drawing.Point(1225, 704);
+            this.Smirror_ck.Location = new System.Drawing.Point(1224, 704);
             this.Smirror_ck.Margin = new System.Windows.Forms.Padding(0);
             this.Smirror_ck.Name = "Smirror_ck";
             this.Smirror_ck.Size = new System.Drawing.Size(64, 64);
@@ -5730,7 +5816,7 @@ namespace plt0_gui
             this.Smirror_label.BackColor = System.Drawing.Color.Transparent;
             this.Smirror_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.Smirror_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.Smirror_label.Location = new System.Drawing.Point(1293, 705);
+            this.Smirror_label.Location = new System.Drawing.Point(1288, 704);
             this.Smirror_label.Margin = new System.Windows.Forms.Padding(0);
             this.Smirror_label.Name = "Smirror_label";
             this.Smirror_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -5747,7 +5833,7 @@ namespace plt0_gui
             this.Srepeat_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.Srepeat_ck.ErrorImage = null;
             this.Srepeat_ck.InitialImage = null;
-            this.Srepeat_ck.Location = new System.Drawing.Point(1225, 640);
+            this.Srepeat_ck.Location = new System.Drawing.Point(1224, 640);
             this.Srepeat_ck.Margin = new System.Windows.Forms.Padding(0);
             this.Srepeat_ck.Name = "Srepeat_ck";
             this.Srepeat_ck.Size = new System.Drawing.Size(64, 64);
@@ -5763,7 +5849,7 @@ namespace plt0_gui
             this.Srepeat_label.BackColor = System.Drawing.Color.Transparent;
             this.Srepeat_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.Srepeat_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.Srepeat_label.Location = new System.Drawing.Point(1293, 640);
+            this.Srepeat_label.Location = new System.Drawing.Point(1288, 640);
             this.Srepeat_label.Margin = new System.Windows.Forms.Padding(0);
             this.Srepeat_label.Name = "Srepeat_label";
             this.Srepeat_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -5780,7 +5866,7 @@ namespace plt0_gui
             this.Sclamp_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.Sclamp_ck.ErrorImage = null;
             this.Sclamp_ck.InitialImage = null;
-            this.Sclamp_ck.Location = new System.Drawing.Point(1225, 576);
+            this.Sclamp_ck.Location = new System.Drawing.Point(1224, 576);
             this.Sclamp_ck.Margin = new System.Windows.Forms.Padding(0);
             this.Sclamp_ck.Name = "Sclamp_ck";
             this.Sclamp_ck.Size = new System.Drawing.Size(64, 64);
@@ -5796,7 +5882,7 @@ namespace plt0_gui
             this.Sclamp_label.BackColor = System.Drawing.Color.Transparent;
             this.Sclamp_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.Sclamp_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.Sclamp_label.Location = new System.Drawing.Point(1293, 576);
+            this.Sclamp_label.Location = new System.Drawing.Point(1288, 576);
             this.Sclamp_label.Margin = new System.Windows.Forms.Padding(0);
             this.Sclamp_label.Name = "Sclamp_label";
             this.Sclamp_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -5849,7 +5935,7 @@ namespace plt0_gui
             this.min_linearmipmaplinear_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.min_linearmipmaplinear_ck.ErrorImage = null;
             this.min_linearmipmaplinear_ck.InitialImage = null;
-            this.min_linearmipmaplinear_ck.Location = new System.Drawing.Point(825, 448);
+            this.min_linearmipmaplinear_ck.Location = new System.Drawing.Point(824, 448);
             this.min_linearmipmaplinear_ck.Margin = new System.Windows.Forms.Padding(0);
             this.min_linearmipmaplinear_ck.Name = "min_linearmipmaplinear_ck";
             this.min_linearmipmaplinear_ck.Size = new System.Drawing.Size(64, 64);
@@ -5865,7 +5951,7 @@ namespace plt0_gui
             this.min_linearmipmaplinear_label.BackColor = System.Drawing.Color.Transparent;
             this.min_linearmipmaplinear_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.min_linearmipmaplinear_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.min_linearmipmaplinear_label.Location = new System.Drawing.Point(893, 448);
+            this.min_linearmipmaplinear_label.Location = new System.Drawing.Point(888, 448);
             this.min_linearmipmaplinear_label.Margin = new System.Windows.Forms.Padding(0);
             this.min_linearmipmaplinear_label.Name = "min_linearmipmaplinear_label";
             this.min_linearmipmaplinear_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -5882,7 +5968,7 @@ namespace plt0_gui
             this.min_linearmipmapnearest_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.min_linearmipmapnearest_ck.ErrorImage = null;
             this.min_linearmipmapnearest_ck.InitialImage = null;
-            this.min_linearmipmapnearest_ck.Location = new System.Drawing.Point(825, 384);
+            this.min_linearmipmapnearest_ck.Location = new System.Drawing.Point(824, 384);
             this.min_linearmipmapnearest_ck.Margin = new System.Windows.Forms.Padding(0);
             this.min_linearmipmapnearest_ck.Name = "min_linearmipmapnearest_ck";
             this.min_linearmipmapnearest_ck.Size = new System.Drawing.Size(64, 64);
@@ -5898,7 +5984,7 @@ namespace plt0_gui
             this.min_linearmipmapnearest_label.BackColor = System.Drawing.Color.Transparent;
             this.min_linearmipmapnearest_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.min_linearmipmapnearest_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.min_linearmipmapnearest_label.Location = new System.Drawing.Point(893, 385);
+            this.min_linearmipmapnearest_label.Location = new System.Drawing.Point(888, 384);
             this.min_linearmipmapnearest_label.Margin = new System.Windows.Forms.Padding(0);
             this.min_linearmipmapnearest_label.Name = "min_linearmipmapnearest_label";
             this.min_linearmipmapnearest_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -5915,7 +6001,7 @@ namespace plt0_gui
             this.min_nearestmipmaplinear_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.min_nearestmipmaplinear_ck.ErrorImage = null;
             this.min_nearestmipmaplinear_ck.InitialImage = null;
-            this.min_nearestmipmaplinear_ck.Location = new System.Drawing.Point(825, 320);
+            this.min_nearestmipmaplinear_ck.Location = new System.Drawing.Point(824, 320);
             this.min_nearestmipmaplinear_ck.Margin = new System.Windows.Forms.Padding(0);
             this.min_nearestmipmaplinear_ck.Name = "min_nearestmipmaplinear_ck";
             this.min_nearestmipmaplinear_ck.Size = new System.Drawing.Size(64, 64);
@@ -5931,7 +6017,7 @@ namespace plt0_gui
             this.min_nearestmipmaplinear_label.BackColor = System.Drawing.Color.Transparent;
             this.min_nearestmipmaplinear_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.min_nearestmipmaplinear_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.min_nearestmipmaplinear_label.Location = new System.Drawing.Point(893, 321);
+            this.min_nearestmipmaplinear_label.Location = new System.Drawing.Point(888, 320);
             this.min_nearestmipmaplinear_label.Margin = new System.Windows.Forms.Padding(0);
             this.min_nearestmipmaplinear_label.Name = "min_nearestmipmaplinear_label";
             this.min_nearestmipmaplinear_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -5948,7 +6034,7 @@ namespace plt0_gui
             this.min_nearestmipmapnearest_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.min_nearestmipmapnearest_ck.ErrorImage = null;
             this.min_nearestmipmapnearest_ck.InitialImage = null;
-            this.min_nearestmipmapnearest_ck.Location = new System.Drawing.Point(825, 256);
+            this.min_nearestmipmapnearest_ck.Location = new System.Drawing.Point(824, 256);
             this.min_nearestmipmapnearest_ck.Margin = new System.Windows.Forms.Padding(0);
             this.min_nearestmipmapnearest_ck.Name = "min_nearestmipmapnearest_ck";
             this.min_nearestmipmapnearest_ck.Size = new System.Drawing.Size(64, 64);
@@ -5964,7 +6050,7 @@ namespace plt0_gui
             this.min_nearestmipmapnearest_label.BackColor = System.Drawing.Color.Transparent;
             this.min_nearestmipmapnearest_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.min_nearestmipmapnearest_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.min_nearestmipmapnearest_label.Location = new System.Drawing.Point(893, 257);
+            this.min_nearestmipmapnearest_label.Location = new System.Drawing.Point(888, 256);
             this.min_nearestmipmapnearest_label.Margin = new System.Windows.Forms.Padding(0);
             this.min_nearestmipmapnearest_label.Name = "min_nearestmipmapnearest_label";
             this.min_nearestmipmapnearest_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -5981,7 +6067,7 @@ namespace plt0_gui
             this.min_linear_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.min_linear_ck.ErrorImage = null;
             this.min_linear_ck.InitialImage = null;
-            this.min_linear_ck.Location = new System.Drawing.Point(825, 192);
+            this.min_linear_ck.Location = new System.Drawing.Point(824, 192);
             this.min_linear_ck.Margin = new System.Windows.Forms.Padding(0);
             this.min_linear_ck.Name = "min_linear_ck";
             this.min_linear_ck.Size = new System.Drawing.Size(64, 64);
@@ -5997,7 +6083,7 @@ namespace plt0_gui
             this.min_linear_label.BackColor = System.Drawing.Color.Transparent;
             this.min_linear_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.min_linear_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.min_linear_label.Location = new System.Drawing.Point(893, 192);
+            this.min_linear_label.Location = new System.Drawing.Point(888, 192);
             this.min_linear_label.Margin = new System.Windows.Forms.Padding(0);
             this.min_linear_label.Name = "min_linear_label";
             this.min_linear_label.Padding = new System.Windows.Forms.Padding(0, 22, 200, 22);
@@ -6014,7 +6100,7 @@ namespace plt0_gui
             this.min_nearest_neighbour_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.min_nearest_neighbour_ck.ErrorImage = null;
             this.min_nearest_neighbour_ck.InitialImage = null;
-            this.min_nearest_neighbour_ck.Location = new System.Drawing.Point(825, 128);
+            this.min_nearest_neighbour_ck.Location = new System.Drawing.Point(824, 128);
             this.min_nearest_neighbour_ck.Margin = new System.Windows.Forms.Padding(0);
             this.min_nearest_neighbour_ck.Name = "min_nearest_neighbour_ck";
             this.min_nearest_neighbour_ck.Size = new System.Drawing.Size(64, 64);
@@ -6030,7 +6116,7 @@ namespace plt0_gui
             this.min_nearest_neighbour_label.BackColor = System.Drawing.Color.Transparent;
             this.min_nearest_neighbour_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.min_nearest_neighbour_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.min_nearest_neighbour_label.Location = new System.Drawing.Point(893, 128);
+            this.min_nearest_neighbour_label.Location = new System.Drawing.Point(888, 128);
             this.min_nearest_neighbour_label.Margin = new System.Windows.Forms.Padding(0);
             this.min_nearest_neighbour_label.Name = "min_nearest_neighbour_label";
             this.min_nearest_neighbour_label.Padding = new System.Windows.Forms.Padding(0, 22, 60, 22);
@@ -6047,7 +6133,7 @@ namespace plt0_gui
             this.mag_linearmipmaplinear_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.mag_linearmipmaplinear_ck.ErrorImage = null;
             this.mag_linearmipmaplinear_ck.InitialImage = null;
-            this.mag_linearmipmaplinear_ck.Location = new System.Drawing.Point(1225, 448);
+            this.mag_linearmipmaplinear_ck.Location = new System.Drawing.Point(1224, 448);
             this.mag_linearmipmaplinear_ck.Margin = new System.Windows.Forms.Padding(0);
             this.mag_linearmipmaplinear_ck.Name = "mag_linearmipmaplinear_ck";
             this.mag_linearmipmaplinear_ck.Size = new System.Drawing.Size(64, 64);
@@ -6063,7 +6149,7 @@ namespace plt0_gui
             this.mag_linearmipmaplinear_label.BackColor = System.Drawing.Color.Transparent;
             this.mag_linearmipmaplinear_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.mag_linearmipmaplinear_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.mag_linearmipmaplinear_label.Location = new System.Drawing.Point(1293, 448);
+            this.mag_linearmipmaplinear_label.Location = new System.Drawing.Point(1288, 448);
             this.mag_linearmipmaplinear_label.Margin = new System.Windows.Forms.Padding(0);
             this.mag_linearmipmaplinear_label.Name = "mag_linearmipmaplinear_label";
             this.mag_linearmipmaplinear_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -6080,7 +6166,7 @@ namespace plt0_gui
             this.mag_linearmipmapnearest_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.mag_linearmipmapnearest_ck.ErrorImage = null;
             this.mag_linearmipmapnearest_ck.InitialImage = null;
-            this.mag_linearmipmapnearest_ck.Location = new System.Drawing.Point(1225, 384);
+            this.mag_linearmipmapnearest_ck.Location = new System.Drawing.Point(1224, 384);
             this.mag_linearmipmapnearest_ck.Margin = new System.Windows.Forms.Padding(0);
             this.mag_linearmipmapnearest_ck.Name = "mag_linearmipmapnearest_ck";
             this.mag_linearmipmapnearest_ck.Size = new System.Drawing.Size(64, 64);
@@ -6096,7 +6182,7 @@ namespace plt0_gui
             this.mag_linearmipmapnearest_label.BackColor = System.Drawing.Color.Transparent;
             this.mag_linearmipmapnearest_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.mag_linearmipmapnearest_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.mag_linearmipmapnearest_label.Location = new System.Drawing.Point(1293, 385);
+            this.mag_linearmipmapnearest_label.Location = new System.Drawing.Point(1288, 384);
             this.mag_linearmipmapnearest_label.Margin = new System.Windows.Forms.Padding(0);
             this.mag_linearmipmapnearest_label.Name = "mag_linearmipmapnearest_label";
             this.mag_linearmipmapnearest_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -6113,7 +6199,7 @@ namespace plt0_gui
             this.mag_nearestmipmaplinear_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.mag_nearestmipmaplinear_ck.ErrorImage = null;
             this.mag_nearestmipmaplinear_ck.InitialImage = null;
-            this.mag_nearestmipmaplinear_ck.Location = new System.Drawing.Point(1225, 320);
+            this.mag_nearestmipmaplinear_ck.Location = new System.Drawing.Point(1224, 320);
             this.mag_nearestmipmaplinear_ck.Margin = new System.Windows.Forms.Padding(0);
             this.mag_nearestmipmaplinear_ck.Name = "mag_nearestmipmaplinear_ck";
             this.mag_nearestmipmaplinear_ck.Size = new System.Drawing.Size(64, 64);
@@ -6129,7 +6215,7 @@ namespace plt0_gui
             this.mag_nearestmipmaplinear_label.BackColor = System.Drawing.Color.Transparent;
             this.mag_nearestmipmaplinear_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.mag_nearestmipmaplinear_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.mag_nearestmipmaplinear_label.Location = new System.Drawing.Point(1293, 321);
+            this.mag_nearestmipmaplinear_label.Location = new System.Drawing.Point(1288, 320);
             this.mag_nearestmipmaplinear_label.Margin = new System.Windows.Forms.Padding(0);
             this.mag_nearestmipmaplinear_label.Name = "mag_nearestmipmaplinear_label";
             this.mag_nearestmipmaplinear_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -6146,7 +6232,7 @@ namespace plt0_gui
             this.mag_nearestmipmapnearest_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.mag_nearestmipmapnearest_ck.ErrorImage = null;
             this.mag_nearestmipmapnearest_ck.InitialImage = null;
-            this.mag_nearestmipmapnearest_ck.Location = new System.Drawing.Point(1225, 256);
+            this.mag_nearestmipmapnearest_ck.Location = new System.Drawing.Point(1224, 256);
             this.mag_nearestmipmapnearest_ck.Margin = new System.Windows.Forms.Padding(0);
             this.mag_nearestmipmapnearest_ck.Name = "mag_nearestmipmapnearest_ck";
             this.mag_nearestmipmapnearest_ck.Size = new System.Drawing.Size(64, 64);
@@ -6162,7 +6248,7 @@ namespace plt0_gui
             this.mag_nearestmipmapnearest_label.BackColor = System.Drawing.Color.Transparent;
             this.mag_nearestmipmapnearest_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.mag_nearestmipmapnearest_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.mag_nearestmipmapnearest_label.Location = new System.Drawing.Point(1293, 257);
+            this.mag_nearestmipmapnearest_label.Location = new System.Drawing.Point(1288, 256);
             this.mag_nearestmipmapnearest_label.Margin = new System.Windows.Forms.Padding(0);
             this.mag_nearestmipmapnearest_label.Name = "mag_nearestmipmapnearest_label";
             this.mag_nearestmipmapnearest_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -6179,7 +6265,7 @@ namespace plt0_gui
             this.mag_linear_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.mag_linear_ck.ErrorImage = null;
             this.mag_linear_ck.InitialImage = null;
-            this.mag_linear_ck.Location = new System.Drawing.Point(1225, 192);
+            this.mag_linear_ck.Location = new System.Drawing.Point(1224, 192);
             this.mag_linear_ck.Margin = new System.Windows.Forms.Padding(0);
             this.mag_linear_ck.Name = "mag_linear_ck";
             this.mag_linear_ck.Size = new System.Drawing.Size(64, 64);
@@ -6195,7 +6281,7 @@ namespace plt0_gui
             this.mag_linear_label.BackColor = System.Drawing.Color.Transparent;
             this.mag_linear_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.mag_linear_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.mag_linear_label.Location = new System.Drawing.Point(1293, 192);
+            this.mag_linear_label.Location = new System.Drawing.Point(1288, 192);
             this.mag_linear_label.Margin = new System.Windows.Forms.Padding(0);
             this.mag_linear_label.Name = "mag_linear_label";
             this.mag_linear_label.Padding = new System.Windows.Forms.Padding(0, 22, 200, 22);
@@ -6212,7 +6298,7 @@ namespace plt0_gui
             this.mag_nearest_neighbour_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.mag_nearest_neighbour_ck.ErrorImage = null;
             this.mag_nearest_neighbour_ck.InitialImage = null;
-            this.mag_nearest_neighbour_ck.Location = new System.Drawing.Point(1225, 128);
+            this.mag_nearest_neighbour_ck.Location = new System.Drawing.Point(1224, 128);
             this.mag_nearest_neighbour_ck.Margin = new System.Windows.Forms.Padding(0);
             this.mag_nearest_neighbour_ck.Name = "mag_nearest_neighbour_ck";
             this.mag_nearest_neighbour_ck.Size = new System.Drawing.Size(64, 64);
@@ -6228,7 +6314,7 @@ namespace plt0_gui
             this.mag_nearest_neighbour_label.BackColor = System.Drawing.Color.Transparent;
             this.mag_nearest_neighbour_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.mag_nearest_neighbour_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.mag_nearest_neighbour_label.Location = new System.Drawing.Point(1293, 128);
+            this.mag_nearest_neighbour_label.Location = new System.Drawing.Point(1288, 128);
             this.mag_nearest_neighbour_label.Margin = new System.Windows.Forms.Padding(0);
             this.mag_nearest_neighbour_label.Name = "mag_nearest_neighbour_label";
             this.mag_nearest_neighbour_label.Padding = new System.Windows.Forms.Padding(0, 22, 60, 22);
@@ -6245,7 +6331,7 @@ namespace plt0_gui
             this.r_r_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.r_r_ck.ErrorImage = null;
             this.r_r_ck.InitialImage = null;
-            this.r_r_ck.Location = new System.Drawing.Point(1647, 813);
+            this.r_r_ck.Location = new System.Drawing.Point(1648, 813);
             this.r_r_ck.Margin = new System.Windows.Forms.Padding(0);
             this.r_r_ck.Name = "r_r_ck";
             this.r_r_ck.Size = new System.Drawing.Size(64, 64);
@@ -6261,7 +6347,7 @@ namespace plt0_gui
             this.r_g_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.r_g_ck.ErrorImage = null;
             this.r_g_ck.InitialImage = null;
-            this.r_g_ck.Location = new System.Drawing.Point(1647, 877);
+            this.r_g_ck.Location = new System.Drawing.Point(1648, 877);
             this.r_g_ck.Margin = new System.Windows.Forms.Padding(0);
             this.r_g_ck.Name = "r_g_ck";
             this.r_g_ck.Size = new System.Drawing.Size(64, 64);
@@ -6277,7 +6363,7 @@ namespace plt0_gui
             this.g_r_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.g_r_ck.ErrorImage = null;
             this.g_r_ck.InitialImage = null;
-            this.g_r_ck.Location = new System.Drawing.Point(1711, 813);
+            this.g_r_ck.Location = new System.Drawing.Point(1712, 813);
             this.g_r_ck.Margin = new System.Windows.Forms.Padding(0);
             this.g_r_ck.Name = "g_r_ck";
             this.g_r_ck.Size = new System.Drawing.Size(64, 64);
@@ -6293,7 +6379,7 @@ namespace plt0_gui
             this.g_g_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.g_g_ck.ErrorImage = null;
             this.g_g_ck.InitialImage = null;
-            this.g_g_ck.Location = new System.Drawing.Point(1711, 877);
+            this.g_g_ck.Location = new System.Drawing.Point(1712, 877);
             this.g_g_ck.Margin = new System.Windows.Forms.Padding(0);
             this.g_g_ck.Name = "g_g_ck";
             this.g_g_ck.Size = new System.Drawing.Size(64, 64);
@@ -6309,7 +6395,7 @@ namespace plt0_gui
             this.a_g_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.a_g_ck.ErrorImage = null;
             this.a_g_ck.InitialImage = null;
-            this.a_g_ck.Location = new System.Drawing.Point(1839, 877);
+            this.a_g_ck.Location = new System.Drawing.Point(1840, 877);
             this.a_g_ck.Margin = new System.Windows.Forms.Padding(0);
             this.a_g_ck.Name = "a_g_ck";
             this.a_g_ck.Size = new System.Drawing.Size(64, 64);
@@ -6325,7 +6411,7 @@ namespace plt0_gui
             this.a_r_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.a_r_ck.ErrorImage = null;
             this.a_r_ck.InitialImage = null;
-            this.a_r_ck.Location = new System.Drawing.Point(1839, 813);
+            this.a_r_ck.Location = new System.Drawing.Point(1840, 813);
             this.a_r_ck.Margin = new System.Windows.Forms.Padding(0);
             this.a_r_ck.Name = "a_r_ck";
             this.a_r_ck.Size = new System.Drawing.Size(64, 64);
@@ -6341,7 +6427,7 @@ namespace plt0_gui
             this.b_g_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.b_g_ck.ErrorImage = null;
             this.b_g_ck.InitialImage = null;
-            this.b_g_ck.Location = new System.Drawing.Point(1775, 877);
+            this.b_g_ck.Location = new System.Drawing.Point(1776, 877);
             this.b_g_ck.Margin = new System.Windows.Forms.Padding(0);
             this.b_g_ck.Name = "b_g_ck";
             this.b_g_ck.Size = new System.Drawing.Size(64, 64);
@@ -6357,7 +6443,7 @@ namespace plt0_gui
             this.b_r_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.b_r_ck.ErrorImage = null;
             this.b_r_ck.InitialImage = null;
-            this.b_r_ck.Location = new System.Drawing.Point(1775, 813);
+            this.b_r_ck.Location = new System.Drawing.Point(1776, 813);
             this.b_r_ck.Margin = new System.Windows.Forms.Padding(0);
             this.b_r_ck.Name = "b_r_ck";
             this.b_r_ck.Size = new System.Drawing.Size(64, 64);
@@ -6373,7 +6459,7 @@ namespace plt0_gui
             this.g_a_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.g_a_ck.ErrorImage = null;
             this.g_a_ck.InitialImage = null;
-            this.g_a_ck.Location = new System.Drawing.Point(1711, 1005);
+            this.g_a_ck.Location = new System.Drawing.Point(1712, 1005);
             this.g_a_ck.Margin = new System.Windows.Forms.Padding(0);
             this.g_a_ck.Name = "g_a_ck";
             this.g_a_ck.Size = new System.Drawing.Size(64, 64);
@@ -6389,7 +6475,7 @@ namespace plt0_gui
             this.g_b_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.g_b_ck.ErrorImage = null;
             this.g_b_ck.InitialImage = null;
-            this.g_b_ck.Location = new System.Drawing.Point(1711, 941);
+            this.g_b_ck.Location = new System.Drawing.Point(1712, 941);
             this.g_b_ck.Margin = new System.Windows.Forms.Padding(0);
             this.g_b_ck.Name = "g_b_ck";
             this.g_b_ck.Size = new System.Drawing.Size(64, 64);
@@ -6405,7 +6491,7 @@ namespace plt0_gui
             this.r_a_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.r_a_ck.ErrorImage = null;
             this.r_a_ck.InitialImage = null;
-            this.r_a_ck.Location = new System.Drawing.Point(1647, 1005);
+            this.r_a_ck.Location = new System.Drawing.Point(1648, 1005);
             this.r_a_ck.Margin = new System.Windows.Forms.Padding(0);
             this.r_a_ck.Name = "r_a_ck";
             this.r_a_ck.Size = new System.Drawing.Size(64, 64);
@@ -6421,7 +6507,7 @@ namespace plt0_gui
             this.r_b_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.r_b_ck.ErrorImage = null;
             this.r_b_ck.InitialImage = null;
-            this.r_b_ck.Location = new System.Drawing.Point(1647, 941);
+            this.r_b_ck.Location = new System.Drawing.Point(1648, 941);
             this.r_b_ck.Margin = new System.Windows.Forms.Padding(0);
             this.r_b_ck.Name = "r_b_ck";
             this.r_b_ck.Size = new System.Drawing.Size(64, 64);
@@ -6437,7 +6523,7 @@ namespace plt0_gui
             this.a_a_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.a_a_ck.ErrorImage = null;
             this.a_a_ck.InitialImage = null;
-            this.a_a_ck.Location = new System.Drawing.Point(1839, 1005);
+            this.a_a_ck.Location = new System.Drawing.Point(1840, 1005);
             this.a_a_ck.Margin = new System.Windows.Forms.Padding(0);
             this.a_a_ck.Name = "a_a_ck";
             this.a_a_ck.Size = new System.Drawing.Size(64, 64);
@@ -6453,7 +6539,7 @@ namespace plt0_gui
             this.a_b_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.a_b_ck.ErrorImage = null;
             this.a_b_ck.InitialImage = null;
-            this.a_b_ck.Location = new System.Drawing.Point(1839, 941);
+            this.a_b_ck.Location = new System.Drawing.Point(1840, 941);
             this.a_b_ck.Margin = new System.Windows.Forms.Padding(0);
             this.a_b_ck.Name = "a_b_ck";
             this.a_b_ck.Size = new System.Drawing.Size(64, 64);
@@ -6469,7 +6555,7 @@ namespace plt0_gui
             this.b_a_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.b_a_ck.ErrorImage = null;
             this.b_a_ck.InitialImage = null;
-            this.b_a_ck.Location = new System.Drawing.Point(1775, 1005);
+            this.b_a_ck.Location = new System.Drawing.Point(1776, 1005);
             this.b_a_ck.Margin = new System.Windows.Forms.Padding(0);
             this.b_a_ck.Name = "b_a_ck";
             this.b_a_ck.Size = new System.Drawing.Size(64, 64);
@@ -6485,7 +6571,7 @@ namespace plt0_gui
             this.b_b_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.b_b_ck.ErrorImage = null;
             this.b_b_ck.InitialImage = null;
-            this.b_b_ck.Location = new System.Drawing.Point(1775, 941);
+            this.b_b_ck.Location = new System.Drawing.Point(1776, 941);
             this.b_b_ck.Margin = new System.Windows.Forms.Padding(0);
             this.b_b_ck.Name = "b_b_ck";
             this.b_b_ck.Size = new System.Drawing.Size(64, 64);
@@ -6530,7 +6616,7 @@ namespace plt0_gui
             this.view_alpha_label.BackColor = System.Drawing.Color.Transparent;
             this.view_alpha_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.view_alpha_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.view_alpha_label.Location = new System.Drawing.Point(108, 1131);
+            this.view_alpha_label.Location = new System.Drawing.Point(104, 1131);
             this.view_alpha_label.Margin = new System.Windows.Forms.Padding(0);
             this.view_alpha_label.Name = "view_alpha_label";
             this.view_alpha_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -6600,7 +6686,7 @@ namespace plt0_gui
             this.view_WrapS_label.BackColor = System.Drawing.Color.Transparent;
             this.view_WrapS_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.view_WrapS_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.view_WrapS_label.Location = new System.Drawing.Point(108, 1195);
+            this.view_WrapS_label.Location = new System.Drawing.Point(104, 1195);
             this.view_WrapS_label.Margin = new System.Windows.Forms.Padding(0);
             this.view_WrapS_label.Name = "view_WrapS_label";
             this.view_WrapS_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -6705,7 +6791,7 @@ namespace plt0_gui
             this.view_min_label.BackColor = System.Drawing.Color.Transparent;
             this.view_min_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.view_min_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.view_min_label.Location = new System.Drawing.Point(108, 1259);
+            this.view_min_label.Location = new System.Drawing.Point(104, 1259);
             this.view_min_label.Margin = new System.Windows.Forms.Padding(0);
             this.view_min_label.Name = "view_min_label";
             this.view_min_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -7484,7 +7570,7 @@ namespace plt0_gui
             this.round6_label.BackColor = System.Drawing.Color.Transparent;
             this.round6_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.round6_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.round6_label.Location = new System.Drawing.Point(1508, 941);
+            this.round6_label.Location = new System.Drawing.Point(1504, 941);
             this.round6_label.Margin = new System.Windows.Forms.Padding(0);
             this.round6_label.Name = "round6_label";
             this.round6_label.Size = new System.Drawing.Size(83, 24);
@@ -7712,7 +7798,7 @@ namespace plt0_gui
             this.palette_rgb5a3_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.palette_rgb5a3_ck.ErrorImage = null;
             this.palette_rgb5a3_ck.InitialImage = null;
-            this.palette_rgb5a3_ck.Location = new System.Drawing.Point(503, 800);
+            this.palette_rgb5a3_ck.Location = new System.Drawing.Point(500, 800);
             this.palette_rgb5a3_ck.Margin = new System.Windows.Forms.Padding(0);
             this.palette_rgb5a3_ck.Name = "palette_rgb5a3_ck";
             this.palette_rgb5a3_ck.Size = new System.Drawing.Size(64, 64);
@@ -7728,7 +7814,7 @@ namespace plt0_gui
             this.palette_rgb5a3_label.BackColor = System.Drawing.Color.Transparent;
             this.palette_rgb5a3_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.palette_rgb5a3_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.palette_rgb5a3_label.Location = new System.Drawing.Point(571, 800);
+            this.palette_rgb5a3_label.Location = new System.Drawing.Point(564, 800);
             this.palette_rgb5a3_label.Margin = new System.Windows.Forms.Padding(0);
             this.palette_rgb5a3_label.Name = "palette_rgb5a3_label";
             this.palette_rgb5a3_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -7745,7 +7831,7 @@ namespace plt0_gui
             this.palette_rgb565_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.palette_rgb565_ck.ErrorImage = null;
             this.palette_rgb565_ck.InitialImage = null;
-            this.palette_rgb565_ck.Location = new System.Drawing.Point(503, 736);
+            this.palette_rgb565_ck.Location = new System.Drawing.Point(500, 736);
             this.palette_rgb565_ck.Margin = new System.Windows.Forms.Padding(0);
             this.palette_rgb565_ck.Name = "palette_rgb565_ck";
             this.palette_rgb565_ck.Size = new System.Drawing.Size(64, 64);
@@ -7761,7 +7847,7 @@ namespace plt0_gui
             this.palette_rgb565_label.BackColor = System.Drawing.Color.Transparent;
             this.palette_rgb565_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.palette_rgb565_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.palette_rgb565_label.Location = new System.Drawing.Point(571, 736);
+            this.palette_rgb565_label.Location = new System.Drawing.Point(564, 736);
             this.palette_rgb565_label.Margin = new System.Windows.Forms.Padding(0);
             this.palette_rgb565_label.Name = "palette_rgb565_label";
             this.palette_rgb565_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -7778,7 +7864,7 @@ namespace plt0_gui
             this.palette_ai8_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.palette_ai8_ck.ErrorImage = null;
             this.palette_ai8_ck.InitialImage = null;
-            this.palette_ai8_ck.Location = new System.Drawing.Point(503, 672);
+            this.palette_ai8_ck.Location = new System.Drawing.Point(500, 672);
             this.palette_ai8_ck.Margin = new System.Windows.Forms.Padding(0);
             this.palette_ai8_ck.Name = "palette_ai8_ck";
             this.palette_ai8_ck.Size = new System.Drawing.Size(64, 64);
@@ -7794,7 +7880,7 @@ namespace plt0_gui
             this.palette_ai8_label.BackColor = System.Drawing.Color.Transparent;
             this.palette_ai8_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.palette_ai8_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.palette_ai8_label.Location = new System.Drawing.Point(571, 672);
+            this.palette_ai8_label.Location = new System.Drawing.Point(564, 672);
             this.palette_ai8_label.Margin = new System.Windows.Forms.Padding(0);
             this.palette_ai8_label.Name = "palette_ai8_label";
             this.palette_ai8_label.Padding = new System.Windows.Forms.Padding(0, 22, 60, 22);
@@ -7824,7 +7910,7 @@ namespace plt0_gui
             this.github_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.github_ck.ErrorImage = null;
             this.github_ck.InitialImage = null;
-            this.github_ck.Location = new System.Drawing.Point(1711, 0);
+            this.github_ck.Location = new System.Drawing.Point(1712, 0);
             this.github_ck.Margin = new System.Windows.Forms.Padding(0);
             this.github_ck.Name = "github_ck";
             this.github_ck.Size = new System.Drawing.Size(32, 32);
@@ -8165,7 +8251,7 @@ namespace plt0_gui
             this.view_options_label.BackColor = System.Drawing.Color.Transparent;
             this.view_options_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.view_options_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.view_options_label.Location = new System.Drawing.Point(108, 1388);
+            this.view_options_label.Location = new System.Drawing.Point(104, 1388);
             this.view_options_label.Margin = new System.Windows.Forms.Padding(0);
             this.view_options_label.Name = "view_options_label";
             this.view_options_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -8201,7 +8287,7 @@ namespace plt0_gui
             this.textchange_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.textchange_ck.ErrorImage = null;
             this.textchange_ck.InitialImage = null;
-            this.textchange_ck.Location = new System.Drawing.Point(503, 32);
+            this.textchange_ck.Location = new System.Drawing.Point(500, 32);
             this.textchange_ck.Margin = new System.Windows.Forms.Padding(0);
             this.textchange_ck.Name = "textchange_ck";
             this.textchange_ck.Size = new System.Drawing.Size(64, 64);
@@ -8218,7 +8304,7 @@ namespace plt0_gui
             this.textchange_label.BackColor = System.Drawing.Color.Transparent;
             this.textchange_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.textchange_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.textchange_label.Location = new System.Drawing.Point(572, 32);
+            this.textchange_label.Location = new System.Drawing.Point(564, 32);
             this.textchange_label.Margin = new System.Windows.Forms.Padding(0);
             this.textchange_label.Name = "textchange_label";
             this.textchange_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -8253,7 +8339,7 @@ namespace plt0_gui
             this.auto_update_label.BackColor = System.Drawing.Color.Transparent;
             this.auto_update_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.auto_update_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.auto_update_label.Location = new System.Drawing.Point(1037, 32);
+            this.auto_update_label.Location = new System.Drawing.Point(1032, 32);
             this.auto_update_label.Margin = new System.Windows.Forms.Padding(0);
             this.auto_update_label.Name = "auto_update_label";
             this.auto_update_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -8271,7 +8357,7 @@ namespace plt0_gui
             this.sync_preview_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.sync_preview_ck.ErrorImage = null;
             this.sync_preview_ck.InitialImage = null;
-            this.sync_preview_ck.Location = new System.Drawing.Point(1647, 40);
+            this.sync_preview_ck.Location = new System.Drawing.Point(1648, 40);
             this.sync_preview_ck.Margin = new System.Windows.Forms.Padding(0);
             this.sync_preview_ck.Name = "sync_preview_ck";
             this.sync_preview_ck.Size = new System.Drawing.Size(256, 48);
@@ -8288,7 +8374,7 @@ namespace plt0_gui
             this.upscale_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.upscale_ck.ErrorImage = null;
             this.upscale_ck.InitialImage = null;
-            this.upscale_ck.Location = new System.Drawing.Point(1321, 32);
+            this.upscale_ck.Location = new System.Drawing.Point(1320, 32);
             this.upscale_ck.Margin = new System.Windows.Forms.Padding(0);
             this.upscale_ck.Name = "upscale_ck";
             this.upscale_ck.Size = new System.Drawing.Size(64, 64);
@@ -8305,7 +8391,7 @@ namespace plt0_gui
             this.upscale_label.BackColor = System.Drawing.Color.Transparent;
             this.upscale_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.upscale_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.upscale_label.Location = new System.Drawing.Point(1390, 32);
+            this.upscale_label.Location = new System.Drawing.Point(1384, 32);
             this.upscale_label.Margin = new System.Windows.Forms.Padding(0);
             this.upscale_label.Name = "upscale_label";
             this.upscale_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -8371,7 +8457,7 @@ namespace plt0_gui
             this.reversex_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.reversex_ck.ErrorImage = null;
             this.reversex_ck.InitialImage = null;
-            this.reversex_ck.Location = new System.Drawing.Point(1647, 448);
+            this.reversex_ck.Location = new System.Drawing.Point(1648, 448);
             this.reversex_ck.Margin = new System.Windows.Forms.Padding(0);
             this.reversex_ck.Name = "reversex_ck";
             this.reversex_ck.Size = new System.Drawing.Size(64, 64);
@@ -8620,7 +8706,7 @@ namespace plt0_gui
             this.cmpr_swap_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_swap_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_swap_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.cmpr_swap_label.Location = new System.Drawing.Point(2055, 512);
+            this.cmpr_swap_label.Location = new System.Drawing.Point(2050, 512);
             this.cmpr_swap_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_swap_label.Name = "cmpr_swap_label";
             this.cmpr_swap_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -8637,7 +8723,7 @@ namespace plt0_gui
             this.cmpr_block_paint_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.cmpr_block_paint_ck.ErrorImage = null;
             this.cmpr_block_paint_ck.InitialImage = null;
-            this.cmpr_block_paint_ck.Location = new System.Drawing.Point(2532, 159);
+            this.cmpr_block_paint_ck.Location = new System.Drawing.Point(2532, 160);
             this.cmpr_block_paint_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_block_paint_ck.Name = "cmpr_block_paint_ck";
             this.cmpr_block_paint_ck.Size = new System.Drawing.Size(64, 64);
@@ -8654,7 +8740,7 @@ namespace plt0_gui
             this.cmpr_block_paint_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_block_paint_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_block_paint_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.cmpr_block_paint_label.Location = new System.Drawing.Point(2600, 159);
+            this.cmpr_block_paint_label.Location = new System.Drawing.Point(2596, 160);
             this.cmpr_block_paint_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_block_paint_label.Name = "cmpr_block_paint_label";
             this.cmpr_block_paint_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -8672,7 +8758,7 @@ namespace plt0_gui
             this.cmpr_block_selection_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.cmpr_block_selection_ck.ErrorImage = null;
             this.cmpr_block_selection_ck.InitialImage = null;
-            this.cmpr_block_selection_ck.Location = new System.Drawing.Point(2532, 95);
+            this.cmpr_block_selection_ck.Location = new System.Drawing.Point(2532, 96);
             this.cmpr_block_selection_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_block_selection_ck.Name = "cmpr_block_selection_ck";
             this.cmpr_block_selection_ck.Size = new System.Drawing.Size(64, 64);
@@ -8689,7 +8775,7 @@ namespace plt0_gui
             this.cmpr_block_selection_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_block_selection_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_block_selection_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.cmpr_block_selection_label.Location = new System.Drawing.Point(2601, 94);
+            this.cmpr_block_selection_label.Location = new System.Drawing.Point(2596, 96);
             this.cmpr_block_selection_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_block_selection_label.Name = "cmpr_block_selection_label";
             this.cmpr_block_selection_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -8707,7 +8793,7 @@ namespace plt0_gui
             this.cmpr_picture_tooltip_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_picture_tooltip_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_picture_tooltip_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_picture_tooltip_label.Location = new System.Drawing.Point(2555, 58);
+            this.cmpr_picture_tooltip_label.Location = new System.Drawing.Point(2565, 58);
             this.cmpr_picture_tooltip_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_picture_tooltip_label.Name = "cmpr_picture_tooltip_label";
             this.cmpr_picture_tooltip_label.Size = new System.Drawing.Size(157, 24);
@@ -8749,7 +8835,7 @@ namespace plt0_gui
             this.cmpr_save_as_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.cmpr_save_as_ck.ErrorImage = null;
             this.cmpr_save_as_ck.InitialImage = null;
-            this.cmpr_save_as_ck.Location = new System.Drawing.Point(2550, 941);
+            this.cmpr_save_as_ck.Location = new System.Drawing.Point(2560, 941);
             this.cmpr_save_as_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_save_as_ck.Name = "cmpr_save_as_ck";
             this.cmpr_save_as_ck.Size = new System.Drawing.Size(256, 64);
@@ -8908,7 +8994,7 @@ namespace plt0_gui
             this.cmpr_hover_colour.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_hover_colour.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_hover_colour.ForeColor = System.Drawing.SystemColors.Window;
-            this.cmpr_hover_colour.Location = new System.Drawing.Point(2555, 344);
+            this.cmpr_hover_colour.Location = new System.Drawing.Point(2564, 344);
             this.cmpr_hover_colour.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_hover_colour.Name = "cmpr_hover_colour";
             this.cmpr_hover_colour.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
@@ -8921,7 +9007,7 @@ namespace plt0_gui
             this.cmpr_hover_colour_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_hover_colour_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_hover_colour_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_hover_colour_label.Location = new System.Drawing.Point(2601, 320);
+            this.cmpr_hover_colour_label.Location = new System.Drawing.Point(2596, 320);
             this.cmpr_hover_colour_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_hover_colour_label.Name = "cmpr_hover_colour_label";
             this.cmpr_hover_colour_label.Padding = new System.Windows.Forms.Padding(0, 15, 0, 10);
@@ -8935,7 +9021,7 @@ namespace plt0_gui
             this.cmpr_hover_colour_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.cmpr_hover_colour_txt.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_hover_colour_txt.ForeColor = System.Drawing.SystemColors.Window;
-            this.cmpr_hover_colour_txt.Location = new System.Drawing.Point(2605, 365);
+            this.cmpr_hover_colour_txt.Location = new System.Drawing.Point(2596, 365);
             this.cmpr_hover_colour_txt.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_hover_colour_txt.Name = "cmpr_hover_colour_txt";
             this.cmpr_hover_colour_txt.Size = new System.Drawing.Size(141, 24);
@@ -8951,7 +9037,7 @@ namespace plt0_gui
             this.cmpr_edited_colour.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_edited_colour.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_edited_colour.ForeColor = System.Drawing.SystemColors.Window;
-            this.cmpr_edited_colour.Location = new System.Drawing.Point(2555, 1325);
+            this.cmpr_edited_colour.Location = new System.Drawing.Point(2565, 1325);
             this.cmpr_edited_colour.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_edited_colour.Name = "cmpr_edited_colour";
             this.cmpr_edited_colour.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
@@ -8994,7 +9080,7 @@ namespace plt0_gui
             this.name_string_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.name_string_ck.ErrorImage = null;
             this.name_string_ck.InitialImage = null;
-            this.name_string_ck.Location = new System.Drawing.Point(1647, 320);
+            this.name_string_ck.Location = new System.Drawing.Point(1648, 320);
             this.name_string_ck.Margin = new System.Windows.Forms.Padding(0);
             this.name_string_ck.Name = "name_string_ck";
             this.name_string_ck.Size = new System.Drawing.Size(64, 64);
@@ -9043,7 +9129,7 @@ namespace plt0_gui
             this.cmpr_swap2_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_swap2_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_swap2_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.cmpr_swap2_label.Location = new System.Drawing.Point(2601, 512);
+            this.cmpr_swap2_label.Location = new System.Drawing.Point(2596, 512);
             this.cmpr_swap2_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_swap2_label.Name = "cmpr_swap2_label";
             this.cmpr_swap2_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -9076,7 +9162,7 @@ namespace plt0_gui
             this.cmpr_hover_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_hover_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_hover_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.cmpr_hover_label.Location = new System.Drawing.Point(2601, 241);
+            this.cmpr_hover_label.Location = new System.Drawing.Point(2596, 241);
             this.cmpr_hover_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_hover_label.Name = "cmpr_hover_label";
             this.cmpr_hover_label.Padding = new System.Windows.Forms.Padding(0, 22, 30, 22);
@@ -9093,7 +9179,7 @@ namespace plt0_gui
             this.cmpr_update_preview_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.cmpr_update_preview_ck.ErrorImage = null;
             this.cmpr_update_preview_ck.InitialImage = null;
-            this.cmpr_update_preview_ck.Location = new System.Drawing.Point(2532, 419);
+            this.cmpr_update_preview_ck.Location = new System.Drawing.Point(2532, 420);
             this.cmpr_update_preview_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_update_preview_ck.Name = "cmpr_update_preview_ck";
             this.cmpr_update_preview_ck.Size = new System.Drawing.Size(64, 64);
@@ -9109,7 +9195,7 @@ namespace plt0_gui
             this.cmpr_update_preview_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_update_preview_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_update_preview_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.cmpr_update_preview_label.Location = new System.Drawing.Point(2601, 419);
+            this.cmpr_update_preview_label.Location = new System.Drawing.Point(2596, 420);
             this.cmpr_update_preview_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_update_preview_label.Name = "cmpr_update_preview_label";
             this.cmpr_update_preview_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -9464,7 +9550,7 @@ namespace plt0_gui
             this.weemm_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.weemm_ck.ErrorImage = null;
             this.weemm_ck.InitialImage = null;
-            this.weemm_ck.Location = new System.Drawing.Point(503, 1168);
+            this.weemm_ck.Location = new System.Drawing.Point(500, 1168);
             this.weemm_ck.Margin = new System.Windows.Forms.Padding(0);
             this.weemm_ck.Name = "weemm_ck";
             this.weemm_ck.Size = new System.Drawing.Size(64, 64);
@@ -9475,34 +9561,40 @@ namespace plt0_gui
             this.weemm_ck.MouseEnter += new System.EventHandler(this.Weemm_MouseEnter);
             this.weemm_ck.MouseLeave += new System.EventHandler(this.Weemm_MouseLeave);
             // 
-            // label1
+            // darkest_lightest_label
             // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.SystemColors.Window;
-            this.label1.Location = new System.Drawing.Point(571, 1104);
-            this.label1.Margin = new System.Windows.Forms.Padding(0);
-            this.label1.Name = "label1";
-            this.label1.Padding = new System.Windows.Forms.Padding(0, 22, 50, 22);
-            this.label1.Size = new System.Drawing.Size(139, 68);
-            this.label1.TabIndex = 718;
-            this.label1.Text = "Weemm";
-            this.label1.Visible = false;
+            this.darkest_lightest_label.AutoSize = true;
+            this.darkest_lightest_label.BackColor = System.Drawing.Color.Transparent;
+            this.darkest_lightest_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.darkest_lightest_label.ForeColor = System.Drawing.SystemColors.Window;
+            this.darkest_lightest_label.Location = new System.Drawing.Point(564, 320);
+            this.darkest_lightest_label.Margin = new System.Windows.Forms.Padding(0);
+            this.darkest_lightest_label.Name = "darkest_lightest_label";
+            this.darkest_lightest_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.darkest_lightest_label.Size = new System.Drawing.Size(182, 68);
+            this.darkest_lightest_label.TabIndex = 718;
+            this.darkest_lightest_label.Text = "Darkest/Lightest";
+            this.darkest_lightest_label.Visible = false;
+            this.darkest_lightest_label.Click += new System.EventHandler(this.Darkest_Lightest_Click);
+            this.darkest_lightest_label.MouseEnter += new System.EventHandler(this.Darkest_Lightest_MouseEnter);
+            this.darkest_lightest_label.MouseLeave += new System.EventHandler(this.Darkest_Lightest_MouseLeave);
             // 
-            // pictureBox2
+            // darkest_lightest_ck
             // 
-            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.pictureBox2.ErrorImage = null;
-            this.pictureBox2.InitialImage = null;
-            this.pictureBox2.Location = new System.Drawing.Point(503, 1104);
-            this.pictureBox2.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(64, 64);
-            this.pictureBox2.TabIndex = 719;
-            this.pictureBox2.TabStop = false;
-            this.pictureBox2.Visible = false;
+            this.darkest_lightest_ck.BackColor = System.Drawing.Color.Transparent;
+            this.darkest_lightest_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.darkest_lightest_ck.ErrorImage = null;
+            this.darkest_lightest_ck.InitialImage = null;
+            this.darkest_lightest_ck.Location = new System.Drawing.Point(500, 320);
+            this.darkest_lightest_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.darkest_lightest_ck.Name = "darkest_lightest_ck";
+            this.darkest_lightest_ck.Size = new System.Drawing.Size(64, 64);
+            this.darkest_lightest_ck.TabIndex = 719;
+            this.darkest_lightest_ck.TabStop = false;
+            this.darkest_lightest_ck.Visible = false;
+            this.darkest_lightest_ck.Click += new System.EventHandler(this.Darkest_Lightest_Click);
+            this.darkest_lightest_ck.MouseEnter += new System.EventHandler(this.Darkest_Lightest_MouseEnter);
+            this.darkest_lightest_ck.MouseLeave += new System.EventHandler(this.Darkest_Lightest_MouseLeave);
             // 
             // plt0_gui
             // 
@@ -9511,8 +9603,8 @@ namespace plt0_gui
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(3199, 1920);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.pictureBox2);
+            this.Controls.Add(this.darkest_lightest_label);
+            this.Controls.Add(this.darkest_lightest_ck);
             this.Controls.Add(this.sooperbmd_label);
             this.Controls.Add(this.min_max_label);
             this.Controls.Add(this.weemm_label);
@@ -10002,7 +10094,7 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.min_max_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sooperbmd_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.weemm_ck)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.darkest_lightest_ck)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -11890,7 +11982,11 @@ namespace plt0_gui
         }
         private void Cie_601_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[156]);
+
+            if (encoding == 14)
+                Parse_Markdown(lines[156]);
+            else
+                Parse_Markdown(lines[159]);
             if (algorithm == 0)
                 selected_algorithm(cie_601_ck);
             else
@@ -11915,7 +12011,11 @@ namespace plt0_gui
         }
         private void Cie_709_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[157]);
+
+            if (encoding == 14)
+                Parse_Markdown(lines[157]);
+            else
+                Parse_Markdown(lines[160]);
             if (algorithm == 1)
                 selected_algorithm(cie_709_ck);
             else
@@ -11941,7 +12041,11 @@ namespace plt0_gui
         }
         private void Custom_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[158]);
+
+            if (encoding == 14)
+                Parse_Markdown(lines[158]);
+            else
+                Parse_Markdown(lines[161]);
             if (algorithm == 2)
                 selected_algorithm(custom_ck);
             else
@@ -11955,20 +12059,45 @@ namespace plt0_gui
             else
                 unchecked_algorithm(custom_ck);
         }
+        private void Darkest_Lightest_Click(object sender, EventArgs e)
+        {
+            unchecked_algorithm(algorithm_ck[algorithm]);
+            Hide_algorithm(algorithm);
+            selected_algorithm(darkest_lightest_ck);
+            algorithm = 3; // Darkest_Lightest
+            Organize_args();
+            Preview(false);
+        }
+        private void Darkest_Lightest_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(lines[162]);
+            if (algorithm == 3)
+                selected_algorithm(darkest_lightest_ck);
+            else
+                hover_algorithm(darkest_lightest_ck);
+        }
+        private void Darkest_Lightest_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (algorithm == 3)
+                checked_algorithm(darkest_lightest_ck);
+            else
+                unchecked_algorithm(darkest_lightest_ck);
+        }
         private void No_gradient_Click(object sender, EventArgs e)
         {
             unchecked_algorithm(algorithm_ck[algorithm]);
             Hide_algorithm(algorithm);
             selected_algorithm(no_gradient_ck);
-            algorithm = 3; // No_gradient
+            algorithm = 4; // No_gradient
             Organize_args();
             View_No_Gradient();
             Preview(false);
         }
         private void No_gradient_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[159]);
-            if (algorithm == 3)
+            Parse_Markdown(lines[163]);
+            if (algorithm == 4)
                 selected_algorithm(no_gradient_ck);
             else
                 hover_algorithm(no_gradient_ck);
@@ -11976,7 +12105,7 @@ namespace plt0_gui
         private void No_gradient_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
-            if (algorithm == 3)
+            if (algorithm == 4)
                 checked_algorithm(no_gradient_ck);
             else
                 unchecked_algorithm(no_gradient_ck);
@@ -11986,14 +12115,14 @@ namespace plt0_gui
             unchecked_algorithm(algorithm_ck[algorithm]);
             Hide_algorithm(algorithm);
             selected_algorithm(weemm_ck);
-            algorithm = 4; // Weemm
+            algorithm = 5; // Weemm
             Organize_args();
             Preview(false);
         }
         private void Weemm_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[160]);
-            if (algorithm == 4)
+            Parse_Markdown(lines[164]);
+            if (algorithm == 5)
                 selected_algorithm(weemm_ck);
             else
                 hover_algorithm(weemm_ck);
@@ -12001,7 +12130,7 @@ namespace plt0_gui
         private void Weemm_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
-            if (algorithm == 4)
+            if (algorithm == 5)
                 checked_algorithm(weemm_ck);
             else
                 unchecked_algorithm(weemm_ck);
@@ -12011,14 +12140,14 @@ namespace plt0_gui
             unchecked_algorithm(algorithm_ck[algorithm]);
             Hide_algorithm(algorithm);
             selected_algorithm(sooperbmd_ck);
-            algorithm = 5; // SooperBMD
+            algorithm = 6; // SooperBMD
             Organize_args();
             Preview(false);
         }
         private void SooperBMD_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[161]);
-            if (algorithm == 5)
+            Parse_Markdown(lines[165]);
+            if (algorithm == 6)
                 selected_algorithm(sooperbmd_ck);
             else
                 hover_algorithm(sooperbmd_ck);
@@ -12026,7 +12155,7 @@ namespace plt0_gui
         private void SooperBMD_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
-            if (algorithm == 5)
+            if (algorithm == 6)
                 checked_algorithm(sooperbmd_ck);
             else
                 unchecked_algorithm(sooperbmd_ck);
@@ -12036,14 +12165,14 @@ namespace plt0_gui
             unchecked_algorithm(algorithm_ck[algorithm]);
             Hide_algorithm(algorithm);
             selected_algorithm(min_max_ck);
-            algorithm = 6; // Min_Max
+            algorithm = 7; // Min_Max
             Organize_args();
             Preview(false);
         }
         private void Min_Max_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[162]);
-            if (algorithm == 6)
+            Parse_Markdown(lines[166]);
+            if (algorithm == 7)
                 selected_algorithm(min_max_ck);
             else
                 hover_algorithm(min_max_ck);
@@ -12051,7 +12180,7 @@ namespace plt0_gui
         private void Min_Max_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
-            if (algorithm == 6)
+            if (algorithm == 7)
                 checked_algorithm(min_max_ck);
             else
                 unchecked_algorithm(min_max_ck);
@@ -12066,7 +12195,7 @@ namespace plt0_gui
         }
         private void No_alpha_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[163]);
+            Parse_Markdown(lines[167]);
             if (alpha == 0)
                 selected_alpha(no_alpha_ck);
             else
@@ -12090,7 +12219,7 @@ namespace plt0_gui
         }
         private void Alpha_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[164]);
+            Parse_Markdown(lines[168]);
             if (alpha == 1)
                 selected_alpha(alpha_ck);
             else
@@ -12114,7 +12243,7 @@ namespace plt0_gui
         }
         private void Mix_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[165]);
+            Parse_Markdown(lines[169]);
             if (alpha == 2)
                 selected_alpha(mix_ck);
             else
@@ -12137,7 +12266,7 @@ namespace plt0_gui
         }
         private void WrapS_Clamp_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[166]);
+            Parse_Markdown(lines[170]);
             if (WrapS == 0)
                 selected_WrapS(Sclamp_ck);
             else
@@ -12160,7 +12289,7 @@ namespace plt0_gui
         }
         private void WrapS_Repeat_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[167]);
+            Parse_Markdown(lines[171]);
             if (WrapS == 1)
                 selected_WrapS(Srepeat_ck);
             else
@@ -12183,7 +12312,7 @@ namespace plt0_gui
         }
         private void WrapS_Mirror_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[168]);
+            Parse_Markdown(lines[172]);
             if (WrapS == 2)
                 selected_WrapS(Smirror_ck);
             else
@@ -12206,7 +12335,7 @@ namespace plt0_gui
         }
         private void WrapT_Clamp_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[169]);
+            Parse_Markdown(lines[173]);
             if (WrapT == 0)
                 selected_WrapT(Tclamp_ck);
             else
@@ -12229,7 +12358,7 @@ namespace plt0_gui
         }
         private void WrapT_Repeat_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[170]);
+            Parse_Markdown(lines[174]);
             if (WrapT == 1)
                 selected_WrapT(Trepeat_ck);
             else
@@ -12252,7 +12381,7 @@ namespace plt0_gui
         }
         private void WrapT_Mirror_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[171]);
+            Parse_Markdown(lines[175]);
             if (WrapT == 2)
                 selected_WrapT(Tmirror_ck);
             else
@@ -12275,7 +12404,7 @@ namespace plt0_gui
         }
         private void Minification_Nearest_Neighbour_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[172]);
+            Parse_Markdown(lines[176]);
             if (minification_filter == 0)
                 selected_Minification(min_nearest_neighbour_ck);
             else
@@ -12298,7 +12427,7 @@ namespace plt0_gui
         }
         private void Minification_Linear_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[173]);
+            Parse_Markdown(lines[177]);
             if (minification_filter == 1)
                 selected_Minification(min_linear_ck);
             else
@@ -12321,7 +12450,7 @@ namespace plt0_gui
         }
         private void Minification_NearestMipmapNearest_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[174]);
+            Parse_Markdown(lines[178]);
             if (minification_filter == 2)
                 selected_Minification(min_nearestmipmapnearest_ck);
             else
@@ -12344,7 +12473,7 @@ namespace plt0_gui
         }
         private void Minification_NearestMipmapLinear_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[175]);
+            Parse_Markdown(lines[179]);
             if (minification_filter == 3)
                 selected_Minification(min_nearestmipmaplinear_ck);
             else
@@ -12367,7 +12496,7 @@ namespace plt0_gui
         }
         private void Minification_LinearMipmapNearest_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[176]);
+            Parse_Markdown(lines[180]);
             if (minification_filter == 4)
                 selected_Minification(min_linearmipmapnearest_ck);
             else
@@ -12390,7 +12519,7 @@ namespace plt0_gui
         }
         private void Minification_LinearMipmapLinear_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[177]);
+            Parse_Markdown(lines[181]);
             if (minification_filter == 5)
                 selected_Minification(min_linearmipmaplinear_ck);
             else
@@ -12413,7 +12542,7 @@ namespace plt0_gui
         }
         private void Magnification_Nearest_Neighbour_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[178]);
+            Parse_Markdown(lines[182]);
             if (magnification_filter == 0)
                 selected_Magnification(mag_nearest_neighbour_ck);
             else
@@ -12436,7 +12565,7 @@ namespace plt0_gui
         }
         private void Magnification_Linear_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[179]);
+            Parse_Markdown(lines[183]);
             if (magnification_filter == 1)
                 selected_Magnification(mag_linear_ck);
             else
@@ -12459,7 +12588,7 @@ namespace plt0_gui
         }
         private void Magnification_NearestMipmapNearest_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[180]);
+            Parse_Markdown(lines[184]);
             if (magnification_filter == 2)
                 selected_Magnification(mag_nearestmipmapnearest_ck);
             else
@@ -12482,7 +12611,7 @@ namespace plt0_gui
         }
         private void Magnification_NearestMipmapLinear_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[181]);
+            Parse_Markdown(lines[185]);
             if (magnification_filter == 3)
                 selected_Magnification(mag_nearestmipmaplinear_ck);
             else
@@ -12505,7 +12634,7 @@ namespace plt0_gui
         }
         private void Magnification_LinearMipmapNearest_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[182]);
+            Parse_Markdown(lines[186]);
             if (magnification_filter == 4)
                 selected_Magnification(mag_linearmipmapnearest_ck);
             else
@@ -12528,7 +12657,7 @@ namespace plt0_gui
         }
         private void Magnification_LinearMipmapLinear_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[183]);
+            Parse_Markdown(lines[187]);
             if (magnification_filter == 5)
                 selected_Magnification(mag_linearmipmaplinear_ck);
             else
@@ -12566,7 +12695,7 @@ namespace plt0_gui
         }
         private void R_R_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[184]);
+            Parse_Markdown(lines[188]);
             if (r == 0)
                 selected_R(r_r_ck);
             else
@@ -12604,7 +12733,7 @@ namespace plt0_gui
         }
         private void R_G_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[184]);
+            Parse_Markdown(lines[188]);
             if (r == 1)
                 selected_G(r_g_ck);
             else
@@ -12642,7 +12771,7 @@ namespace plt0_gui
         }
         private void R_B_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[184]);
+            Parse_Markdown(lines[188]);
             if (r == 2)
                 selected_B(r_b_ck);
             else
@@ -12680,7 +12809,7 @@ namespace plt0_gui
         }
         private void R_A_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[184]);
+            Parse_Markdown(lines[188]);
             if (r == 3)
                 selected_A(r_a_ck);
             else
@@ -12718,7 +12847,7 @@ namespace plt0_gui
         }
         private void G_R_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[185]);
+            Parse_Markdown(lines[189]);
             if (g == 0)
                 selected_R(g_r_ck);
             else
@@ -12756,7 +12885,7 @@ namespace plt0_gui
         }
         private void G_G_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[185]);
+            Parse_Markdown(lines[189]);
             if (g == 1)
                 selected_G(g_g_ck);
             else
@@ -12794,7 +12923,7 @@ namespace plt0_gui
         }
         private void G_B_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[185]);
+            Parse_Markdown(lines[189]);
             if (g == 2)
                 selected_B(g_b_ck);
             else
@@ -12832,7 +12961,7 @@ namespace plt0_gui
         }
         private void G_A_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[185]);
+            Parse_Markdown(lines[189]);
             if (g == 3)
                 selected_A(g_a_ck);
             else
@@ -12870,7 +12999,7 @@ namespace plt0_gui
         }
         private void B_R_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[186]);
+            Parse_Markdown(lines[190]);
             if (b == 0)
                 selected_R(b_r_ck);
             else
@@ -12908,7 +13037,7 @@ namespace plt0_gui
         }
         private void B_G_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[186]);
+            Parse_Markdown(lines[190]);
             if (b == 1)
                 selected_G(b_g_ck);
             else
@@ -12946,7 +13075,7 @@ namespace plt0_gui
         }
         private void B_B_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[186]);
+            Parse_Markdown(lines[190]);
             if (b == 2)
                 selected_B(b_b_ck);
             else
@@ -12984,7 +13113,7 @@ namespace plt0_gui
         }
         private void B_A_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[186]);
+            Parse_Markdown(lines[190]);
             if (b == 3)
                 selected_A(b_a_ck);
             else
@@ -13022,7 +13151,7 @@ namespace plt0_gui
         }
         private void A_R_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[187]);
+            Parse_Markdown(lines[191]);
             if (a == 0)
                 selected_R(a_r_ck);
             else
@@ -13060,7 +13189,7 @@ namespace plt0_gui
         }
         private void A_G_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[187]);
+            Parse_Markdown(lines[191]);
             if (a == 1)
                 selected_G(a_g_ck);
             else
@@ -13098,7 +13227,7 @@ namespace plt0_gui
         }
         private void A_B_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[187]);
+            Parse_Markdown(lines[191]);
             if (a == 2)
                 selected_B(a_b_ck);
             else
@@ -13136,7 +13265,7 @@ namespace plt0_gui
         }
         private void A_A_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[187]);
+            Parse_Markdown(lines[191]);
             if (a == 3)
                 selected_A(a_a_ck);
             else
@@ -13172,7 +13301,7 @@ namespace plt0_gui
         }
         private void All_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[188]);
+            Parse_Markdown(lines[192]);
             if (layout == 0)
                 selected_All();
             else
@@ -13224,7 +13353,7 @@ namespace plt0_gui
         }
         private void Auto_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[189]);
+            Parse_Markdown(lines[193]);
             if (layout == 1)
                 selected_Auto();
             else
@@ -13276,7 +13405,7 @@ namespace plt0_gui
         }
         private void Preview_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[190]);
+            Parse_Markdown(lines[194]);
             if (layout == 2)
                 selected_Preview();
             else
@@ -13328,7 +13457,7 @@ namespace plt0_gui
         }
         private void Paint_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[191]);
+            Parse_Markdown(lines[195]);
             if (layout == 3)
                 selected_Paint();
             else
@@ -13377,7 +13506,7 @@ namespace plt0_gui
         }
         private void Minimized_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[192]);
+            Parse_Markdown(lines[196]);
             banner_minus_ck.BackgroundImage = minimized_hover;
         }
         private void Minimized_MouseLeave(object sender, EventArgs e)
@@ -13400,7 +13529,7 @@ namespace plt0_gui
         }
         private void Maximized_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[193]);
+            Parse_Markdown(lines[197]);
             if (this.WindowState == FormWindowState.Maximized)
                 banner_f11_ck.BackgroundImage = maximized_selected;
             else
@@ -13420,7 +13549,7 @@ namespace plt0_gui
         }
         private void Close_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[194]);
+            Parse_Markdown(lines[198]);
             banner_x_ck.BackgroundImage = close_hover;
         }
         private void Close_MouseLeave(object sender, EventArgs e)
@@ -13436,7 +13565,7 @@ namespace plt0_gui
         }
         private void Left_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[195]);
+            Parse_Markdown(lines[199]);
             if (arrow == 4)
                 selected_Left();
             else
@@ -13482,7 +13611,7 @@ namespace plt0_gui
         }
         private void Top_left_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[196]);
+            Parse_Markdown(lines[200]);
             if (arrow == 7)
                 selected_Top_left();
             else
@@ -13528,7 +13657,7 @@ namespace plt0_gui
         }
         private void Top_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[197]);
+            Parse_Markdown(lines[201]);
             if (arrow == 8)
                 selected_Top();
             else
@@ -13574,7 +13703,7 @@ namespace plt0_gui
         }
         private void Top_right_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[198]);
+            Parse_Markdown(lines[202]);
             if (arrow == 9)
                 selected_Top_right();
             else
@@ -13620,7 +13749,7 @@ namespace plt0_gui
         }
         private void Right_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[199]);
+            Parse_Markdown(lines[203]);
             if (arrow == 6)
                 selected_Right();
             else
@@ -13666,7 +13795,7 @@ namespace plt0_gui
         }
         private void Bottom_right_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[200]);
+            Parse_Markdown(lines[204]);
             if (arrow == 3)
                 selected_Bottom_right();
             else
@@ -13712,7 +13841,7 @@ namespace plt0_gui
         }
         private void Bottom_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[201]);
+            Parse_Markdown(lines[205]);
             if (arrow == 2)
                 selected_Bottom();
             else
@@ -13758,7 +13887,7 @@ namespace plt0_gui
         }
         private void Bottom_left_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[202]);
+            Parse_Markdown(lines[206]);
             if (arrow == 1)
                 selected_Bottom_left();
             else
@@ -13804,7 +13933,7 @@ namespace plt0_gui
         }
         private void Arrow_1080p_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[203]);
+            Parse_Markdown(lines[207]);
             if (arrow == 5)
                 selected_Arrow_1080p();
             else
@@ -13850,7 +13979,7 @@ namespace plt0_gui
         }
         private void Screen2_Left_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[204]);
+            Parse_Markdown(lines[208]);
             if (arrow == 14)
                 selected_Screen2_Left();
             else
@@ -13896,7 +14025,7 @@ namespace plt0_gui
         }
         private void Screen2_Top_left_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[205]);
+            Parse_Markdown(lines[209]);
             if (arrow == 17)
                 selected_Screen2_Top_left();
             else
@@ -13942,7 +14071,7 @@ namespace plt0_gui
         }
         private void Screen2_Top_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[206]);
+            Parse_Markdown(lines[210]);
             if (arrow == 18)
                 selected_Screen2_Top();
             else
@@ -13988,7 +14117,7 @@ namespace plt0_gui
         }
         private void Screen2_Top_right_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[207]);
+            Parse_Markdown(lines[211]);
             if (arrow == 19)
                 selected_Screen2_Top_right();
             else
@@ -14034,7 +14163,7 @@ namespace plt0_gui
         }
         private void Screen2_Right_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[208]);
+            Parse_Markdown(lines[212]);
             if (arrow == 16)
                 selected_Screen2_Right();
             else
@@ -14080,7 +14209,7 @@ namespace plt0_gui
         }
         private void Screen2_Bottom_right_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[209]);
+            Parse_Markdown(lines[213]);
             if (arrow == 13)
                 selected_Screen2_Bottom_right();
             else
@@ -14126,7 +14255,7 @@ namespace plt0_gui
         }
         private void Screen2_Bottom_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[210]);
+            Parse_Markdown(lines[214]);
             if (arrow == 12)
                 selected_Screen2_Bottom();
             else
@@ -14172,7 +14301,7 @@ namespace plt0_gui
         }
         private void Screen2_Bottom_left_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[211]);
+            Parse_Markdown(lines[215]);
             if (arrow == 11)
                 selected_Screen2_Bottom_left();
             else
@@ -14218,7 +14347,7 @@ namespace plt0_gui
         }
         private void Screen2_Arrow_1080p_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[212]);
+            Parse_Markdown(lines[216]);
             if (arrow == 15)
                 selected_Screen2_Arrow_1080p();
             else
@@ -14281,9 +14410,9 @@ namespace plt0_gui
         private void input_file_MouseEnter(object sender, EventArgs e)
         {
             if (layout == 3)
-                Parse_Markdown(lines[213]);
+                Parse_Markdown(lines[217]);
             else
-                Parse_Markdown(lines[214]);
+                Parse_Markdown(lines[218]);
         }
         private void input_file_MouseLeave(object sender, EventArgs e)
         {
@@ -14315,7 +14444,7 @@ namespace plt0_gui
         }
         private void input_file2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[215]);
+            Parse_Markdown(lines[219]);
         }
         private void input_file2_MouseLeave(object sender, EventArgs e)
         {
@@ -14344,9 +14473,9 @@ namespace plt0_gui
         private void output_name_MouseEnter(object sender, EventArgs e)
         {
             if (layout == 3)
-                Parse_Markdown(lines[216]);
+                Parse_Markdown(lines[220]);
             else
-                Parse_Markdown(lines[217]);
+                Parse_Markdown(lines[221]);
         }
         private void output_name_MouseLeave(object sender, EventArgs e)
         {
@@ -14362,9 +14491,9 @@ namespace plt0_gui
         private void mipmaps_MouseEnter(object sender, EventArgs e)
         {
             if (layout == 3)
-                Parse_Markdown(lines[218]);
+                Parse_Markdown(lines[222]);
             else
-                Parse_Markdown(lines[219]);
+                Parse_Markdown(lines[223]);
         }
         private void mipmaps_MouseLeave(object sender, EventArgs e)
         {
@@ -14379,7 +14508,7 @@ namespace plt0_gui
         }
         private void cmpr_max_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[220]);
+            Parse_Markdown(lines[224]);
         }
         private void cmpr_max_MouseLeave(object sender, EventArgs e)
         {
@@ -14393,7 +14522,7 @@ namespace plt0_gui
         }
         private void cmpr_min_alpha_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[221]);
+            Parse_Markdown(lines[225]);
         }
         private void cmpr_min_alpha_MouseLeave(object sender, EventArgs e)
         {
@@ -14407,7 +14536,7 @@ namespace plt0_gui
         }
         private void num_colours_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[222]);
+            Parse_Markdown(lines[226]);
         }
         private void num_colours_MouseLeave(object sender, EventArgs e)
         {
@@ -14421,7 +14550,7 @@ namespace plt0_gui
         }
         private void round3_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[223]);
+            Parse_Markdown(lines[227]);
         }
         private void round3_MouseLeave(object sender, EventArgs e)
         {
@@ -14435,7 +14564,7 @@ namespace plt0_gui
         }
         private void round4_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[224]);
+            Parse_Markdown(lines[228]);
         }
         private void round4_MouseLeave(object sender, EventArgs e)
         {
@@ -14449,7 +14578,7 @@ namespace plt0_gui
         }
         private void round5_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[225]);
+            Parse_Markdown(lines[229]);
         }
         private void round5_MouseLeave(object sender, EventArgs e)
         {
@@ -14463,7 +14592,7 @@ namespace plt0_gui
         }
         private void round6_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[226]);
+            Parse_Markdown(lines[230]);
         }
         private void round6_MouseLeave(object sender, EventArgs e)
         {
@@ -14477,7 +14606,7 @@ namespace plt0_gui
         }
         private void diversity_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[227]);
+            Parse_Markdown(lines[231]);
         }
         private void diversity_MouseLeave(object sender, EventArgs e)
         {
@@ -14491,7 +14620,7 @@ namespace plt0_gui
         }
         private void diversity2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[228]);
+            Parse_Markdown(lines[232]);
         }
         private void diversity2_MouseLeave(object sender, EventArgs e)
         {
@@ -14505,7 +14634,7 @@ namespace plt0_gui
         }
         private void percentage_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[229]);
+            Parse_Markdown(lines[233]);
         }
         private void percentage_MouseLeave(object sender, EventArgs e)
         {
@@ -14519,7 +14648,7 @@ namespace plt0_gui
         }
         private void percentage2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[230]);
+            Parse_Markdown(lines[234]);
         }
         private void percentage2_MouseLeave(object sender, EventArgs e)
         {
@@ -14533,7 +14662,7 @@ namespace plt0_gui
         }
         private void custom_r_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[231]);
+            Parse_Markdown(lines[235]);
         }
         private void custom_r_MouseLeave(object sender, EventArgs e)
         {
@@ -14547,7 +14676,7 @@ namespace plt0_gui
         }
         private void custom_g_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[232]);
+            Parse_Markdown(lines[236]);
         }
         private void custom_g_MouseLeave(object sender, EventArgs e)
         {
@@ -14561,7 +14690,7 @@ namespace plt0_gui
         }
         private void custom_b_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[233]);
+            Parse_Markdown(lines[237]);
         }
         private void custom_b_MouseLeave(object sender, EventArgs e)
         {
@@ -14575,7 +14704,7 @@ namespace plt0_gui
         }
         private void custom_a_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[234]);
+            Parse_Markdown(lines[238]);
         }
         private void custom_a_MouseLeave(object sender, EventArgs e)
         {
@@ -14599,7 +14728,7 @@ namespace plt0_gui
         }
         private void palette_AI8_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[235]);
+            Parse_Markdown(lines[239]);
             if (palette_enc == 0)
                 selected_palette(palette_ai8_ck);
             else
@@ -14625,7 +14754,7 @@ namespace plt0_gui
         }
         private void palette_RGB565_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[236]);
+            Parse_Markdown(lines[240]);
             if (palette_enc == 1)
                 selected_palette(palette_rgb565_ck);
             else
@@ -14651,7 +14780,7 @@ namespace plt0_gui
         }
         private void palette_RGB5A3_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[237]);
+            Parse_Markdown(lines[241]);
             if (palette_enc == 2)
                 selected_palette(palette_rgb5a3_ck);
             else
@@ -14672,7 +14801,7 @@ namespace plt0_gui
         }
         private void discord_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[238]);
+            Parse_Markdown(lines[242]);
             discord_ck.BackgroundImage = discord_hover;
         }
         private void discord_MouseLeave(object sender, EventArgs e)
@@ -14687,7 +14816,7 @@ namespace plt0_gui
         }
         private void github_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[239]);
+            Parse_Markdown(lines[243]);
             github_ck.BackgroundImage = github_hover;
         }
         private void github_MouseLeave(object sender, EventArgs e)
@@ -14702,7 +14831,7 @@ namespace plt0_gui
         }
         private void youtube_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[240]);
+            Parse_Markdown(lines[244]);
             youtube_ck.BackgroundImage = youtube_hover;
         }
         private void youtube_MouseLeave(object sender, EventArgs e)
@@ -14725,7 +14854,7 @@ namespace plt0_gui
         }
         private void view_alpha_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[241]);
+            Parse_Markdown(lines[245]);
             if (view_alpha)
                 Category_selected(view_alpha_ck);
             else
@@ -14754,7 +14883,7 @@ namespace plt0_gui
         }
         private void view_algorithm_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[242]);
+            Parse_Markdown(lines[246]);
             if (view_algorithm)
                 Category_selected(view_algorithm_ck);
             else
@@ -14783,7 +14912,7 @@ namespace plt0_gui
         }
         private void view_WrapS_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[243]);
+            Parse_Markdown(lines[247]);
             if (view_WrapS)
                 Category_selected(view_WrapS_ck);
             else
@@ -14812,7 +14941,7 @@ namespace plt0_gui
         }
         private void view_WrapT_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[244]);
+            Parse_Markdown(lines[248]);
             if (view_WrapT)
                 Category_selected(view_WrapT_ck);
             else
@@ -14841,7 +14970,7 @@ namespace plt0_gui
         }
         private void view_min_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[245]);
+            Parse_Markdown(lines[249]);
             if (view_min)
                 Category_selected(view_min_ck);
             else
@@ -14870,7 +14999,7 @@ namespace plt0_gui
         }
         private void view_mag_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[246]);
+            Parse_Markdown(lines[250]);
             if (view_mag)
                 Category_selected(view_mag_ck);
             else
@@ -14899,7 +15028,7 @@ namespace plt0_gui
         }
         private void view_rgba_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[247]);
+            Parse_Markdown(lines[251]);
             if (view_rgba)
                 Category_selected(view_rgba_ck);
             else
@@ -14928,7 +15057,7 @@ namespace plt0_gui
         }
         private void view_palette_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[248]);
+            Parse_Markdown(lines[252]);
             if (view_palette)
                 Category_selected(view_palette_ck);
             else
@@ -14957,7 +15086,7 @@ namespace plt0_gui
         }
         private void view_cmpr_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[249]);
+            Parse_Markdown(lines[253]);
             if (view_cmpr)
                 Category_selected(view_cmpr_ck);
             else
@@ -14986,7 +15115,7 @@ namespace plt0_gui
         }
         private void view_options_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[250]);
+            Parse_Markdown(lines[254]);
             if (view_options)
                 Category_selected(view_options_ck);
             else
@@ -15002,7 +15131,7 @@ namespace plt0_gui
         }
         private void version_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[251]);
+            Parse_Markdown(lines[255]);
             version_ck.BackgroundImage = version_hover;
         }
         private void version_MouseLeave(object sender, EventArgs e)
@@ -15012,7 +15141,7 @@ namespace plt0_gui
         }
         private void cli_textbox_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[252]);
+            Parse_Markdown(lines[256]);
             cli_textbox_ck.BackgroundImage = cli_textbox_hover;
             this.cli_textbox_label.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(4)))), ((int)(((byte)(0)))));
         }
@@ -15024,7 +15153,7 @@ namespace plt0_gui
         }
         private void run_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[253]);
+            Parse_Markdown(lines[257]);
             run_ck.BackgroundImage = run_hover;
         }
         private void run_MouseLeave(object sender, EventArgs e)
@@ -15034,7 +15163,7 @@ namespace plt0_gui
         }
         private void Output_label_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[254]);
+            Parse_Markdown(lines[258]);
         }
         private void Output_label_MouseLeave(object sender, EventArgs e)
         {
@@ -15042,7 +15171,7 @@ namespace plt0_gui
         }
         private void banner_global_move_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[255]);
+            Parse_Markdown(lines[259]);
             if (banner_global_move)
                 banner_global_move_ck.BackgroundImage = banner_global_move_selected;
             else
@@ -15058,7 +15187,7 @@ namespace plt0_gui
         }
         private void banner_move_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[256]);
+            Parse_Markdown(lines[260]);
         }
         private void banner_move_MouseLeave(object sender, EventArgs e)
         {
@@ -15066,7 +15195,7 @@ namespace plt0_gui
         }
         private void banner_resize_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[257]);
+            Parse_Markdown(lines[261]);
         }
         private void banner_resize_MouseLeave(object sender, EventArgs e)
         {
@@ -15074,7 +15203,7 @@ namespace plt0_gui
         }
         private void sync_preview_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[258]);
+            Parse_Markdown(lines[262]);
             if (!preview_changed)
                 sync_preview_ck.BackgroundImage = sync_preview_hover;
             else
@@ -15090,7 +15219,7 @@ namespace plt0_gui
         }
         private void cmpr_save_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[259]);
+            Parse_Markdown(lines[263]);
             cmpr_save_ck.BackgroundImage = cmpr_save_hover;
         }
         private void cmpr_save_MouseLeave(object sender, EventArgs e)
@@ -15100,7 +15229,7 @@ namespace plt0_gui
         }
         private void cmpr_save_as_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[260]);
+            Parse_Markdown(lines[264]);
             cmpr_save_as_ck.BackgroundImage = cmpr_save_as_hover;
         }
         private void cmpr_save_as_MouseLeave(object sender, EventArgs e)
@@ -15110,7 +15239,7 @@ namespace plt0_gui
         }
         private void cmpr_swap_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[261]);
+            Parse_Markdown(lines[265]);
             cmpr_swap_ck.BackgroundImage = cmpr_swap_hover;
         }
         private void cmpr_swap_MouseLeave(object sender, EventArgs e)
@@ -15120,7 +15249,7 @@ namespace plt0_gui
         }
         private void cmpr_swap2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[262]);
+            Parse_Markdown(lines[266]);
             cmpr_swap2_ck.BackgroundImage = cmpr_swap2_hover;
         }
         private void cmpr_swap2_MouseLeave(object sender, EventArgs e)
@@ -15130,7 +15259,7 @@ namespace plt0_gui
         }
         private void cmpr_palette_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[263]);
+            Parse_Markdown(lines[267]);
         }
         private void cmpr_palette_MouseLeave(object sender, EventArgs e)
         {
@@ -15138,7 +15267,7 @@ namespace plt0_gui
         }
         private void cmpr_mouse1_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[264]);
+            Parse_Markdown(lines[268]);
         }
         private void cmpr_mouse1_MouseLeave(object sender, EventArgs e)
         {
@@ -15146,7 +15275,7 @@ namespace plt0_gui
         }
         private void cmpr_mouse2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[265]);
+            Parse_Markdown(lines[269]);
         }
         private void cmpr_mouse2_MouseLeave(object sender, EventArgs e)
         {
@@ -15154,7 +15283,7 @@ namespace plt0_gui
         }
         private void cmpr_mouse3_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[266]);
+            Parse_Markdown(lines[270]);
         }
         private void cmpr_mouse3_MouseLeave(object sender, EventArgs e)
         {
@@ -15162,7 +15291,7 @@ namespace plt0_gui
         }
         private void cmpr_mouse4_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[267]);
+            Parse_Markdown(lines[271]);
         }
         private void cmpr_mouse4_MouseLeave(object sender, EventArgs e)
         {
@@ -15170,7 +15299,7 @@ namespace plt0_gui
         }
         private void cmpr_mouse5_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[268]);
+            Parse_Markdown(lines[272]);
         }
         private void cmpr_mouse5_MouseLeave(object sender, EventArgs e)
         {
@@ -15178,7 +15307,7 @@ namespace plt0_gui
         }
         private void cmpr_sel_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[269]);
+            Parse_Markdown(lines[273]);
         }
         private void cmpr_sel_MouseLeave(object sender, EventArgs e)
         {
@@ -15186,7 +15315,7 @@ namespace plt0_gui
         }
         private void cmpr_c1_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[270]);
+            Parse_Markdown(lines[274]);
         }
         private void cmpr_c1_MouseLeave(object sender, EventArgs e)
         {
@@ -15194,7 +15323,7 @@ namespace plt0_gui
         }
         private void cmpr_c2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[271]);
+            Parse_Markdown(lines[275]);
         }
         private void cmpr_c2_MouseLeave(object sender, EventArgs e)
         {
@@ -15202,7 +15331,7 @@ namespace plt0_gui
         }
         private void cmpr_c3_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[272]);
+            Parse_Markdown(lines[276]);
         }
         private void cmpr_c3_MouseLeave(object sender, EventArgs e)
         {
@@ -15210,7 +15339,7 @@ namespace plt0_gui
         }
         private void cmpr_c4_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[273]);
+            Parse_Markdown(lines[277]);
         }
         private void cmpr_c4_MouseLeave(object sender, EventArgs e)
         {
@@ -15368,7 +15497,7 @@ namespace plt0_gui
         }
         private void cmpr_block_selection_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[274]);
+            Parse_Markdown(lines[278]);
             if (tooltip == 0)
                 selected_tooltip(cmpr_block_selection_ck);
             else
@@ -15390,7 +15519,7 @@ namespace plt0_gui
         }
         private void cmpr_block_paint_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[275]);
+            Parse_Markdown(lines[279]);
             if (tooltip == 1)
                 selected_tooltip(cmpr_block_paint_ck);
             else
@@ -15406,16 +15535,16 @@ namespace plt0_gui
         }
         private void Warn_rgb565_colour_trim()
         {
-            Parse_Markdown(lines[276], cmpr_warning);
+            Parse_Markdown(lines[280], cmpr_warning);
         }
         private void Put_that_damn_cmpr_layout_in_place()
         {
             Check_Paint();
-            Parse_Markdown(lines[277], cmpr_mouse1_label);
-            Parse_Markdown(lines[278], cmpr_mouse2_label);
-            Parse_Markdown(lines[279], cmpr_mouse3_label);
-            Parse_Markdown(lines[280], cmpr_mouse4_label);
-            Parse_Markdown(lines[281], cmpr_mouse5_label);
+            Parse_Markdown(lines[281], cmpr_mouse1_label);
+            Parse_Markdown(lines[282], cmpr_mouse2_label);
+            Parse_Markdown(lines[283], cmpr_mouse3_label);
+            Parse_Markdown(lines[284], cmpr_mouse4_label);
+            Parse_Markdown(lines[285], cmpr_mouse5_label);
             checked_tooltip(cmpr_block_selection_ck);
             unchecked_tooltip(cmpr_block_paint_ck);
         }
@@ -15448,7 +15577,7 @@ namespace plt0_gui
                 cli.Parse_args(cmpr_args);
                 if (cli.texture_format != 0xE)
                 {
-                    Parse_Markdown(lines[282], cmpr_warning);
+                    Parse_Markdown(lines[286], cmpr_warning);
                     return;
                 }
                 if (File.Exists(execPath + "images/preview/" + num + ".bmp"))
@@ -15485,7 +15614,7 @@ namespace plt0_gui
             }
             else
             {
-                Parse_Markdown(lines[282], cmpr_warning);
+                Parse_Markdown(lines[286], cmpr_warning);
             }
         }
         private void cmpr_c2_TextChanged(object sender, EventArgs e)
@@ -15574,7 +15703,7 @@ namespace plt0_gui
         {
             if (cmpr_colour_index > 2)
             {
-                Parse_Markdown(lines[283], cmpr_warning);
+                Parse_Markdown(lines[287], cmpr_warning);
             }
             cmpr_index_i = (byte)((cmpr_file[cmpr_data_start_offset + (current_block << 3) + 4 + cmpr_y] >> (6 - (cmpr_x << 1))) & 3);
             if (cmpr_index_i < 2)
@@ -15622,7 +15751,7 @@ namespace plt0_gui
                     }
                     else
                     {
-                        Parse_Markdown(lines[284], cmpr_warning);
+                        Parse_Markdown(lines[288], cmpr_warning);
                     }
                 }
             }
@@ -15867,14 +15996,14 @@ namespace plt0_gui
                 {
                     fs.Write(cmpr_file, 0, cmpr_file.Length);
                 }
-                Parse_Markdown(lines[285], description);
+                Parse_Markdown(lines[289], description);
             }
             catch (Exception ex)
             {
                 description.Text = ex.Message;
                 if (ex.Message.Substring(0, 34) == "The process cannot access the file")  // because it is being used by another process
                 {
-                    Parse_Markdown(lines[286], description);
+                    Parse_Markdown(lines[290], description);
                 }
             }
         }

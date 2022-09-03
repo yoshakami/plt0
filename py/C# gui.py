@@ -98,8 +98,23 @@ for z in range(len(encoding)):
             else
                 unchecked_encoding(""" + encoding[z] + """_ck);
         }"""
+x += 1
 algorithm = ["Cie_601", "Cie_709", "Custom", "Darkest_Lightest", "No_gradient", "Weemm", "SooperBMD", "Min_Max"]
 layout2 = ["","", "\n            View_rgba();", "", "\n            View_No_Gradient();", "", "", "", ""]
+rgba = ["""
+            if (encoding == 14)
+                Parse_Markdown(lines[""" + str(x) + """]);
+            else
+                """, """
+            if (encoding == 14)
+                Parse_Markdown(lines[""" + str(x + 1) + """]);
+            else
+                """, """
+            if (encoding == 14)
+                Parse_Markdown(lines[""" + str(x + 2) + """]);
+            else
+                """, "", "", "", "", "", "",""]
+x += 2
 for a in range(len(algorithm)):
     x += 1
     output += """
@@ -114,7 +129,7 @@ for a in range(len(algorithm)):
         }
         private void """ + algorithm[a] + """_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[""" + str(x) + """]);
+            """ + rgba[a] + """Parse_Markdown(lines[""" + str(x) + """]);
             if (algorithm == """ + str(a) + """)
                 selected_algorithm(""" + algorithm[a].lower() + """_ck);
             else
