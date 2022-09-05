@@ -118,7 +118,7 @@ rgba = ["""
                 Parse_Markdown(lines[""" + str(x + 3) + """]);
             else
                 """, "", "", "", "", "", "", ""]
-x += 2
+x += 3
 for a in range(len(algorithm)):
     x += 1
     output += """

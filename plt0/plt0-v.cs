@@ -4147,7 +4147,6 @@ namespace plt0_gui
             this.cmpr_update_preview_label = new System.Windows.Forms.Label();
             this.banner_global_move_ck = new System.Windows.Forms.PictureBox();
             this.banner_5_ck = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.banner_11_ck = new System.Windows.Forms.PictureBox();
             this.banner_12_ck = new System.Windows.Forms.PictureBox();
             this.banner_13_ck = new System.Windows.Forms.PictureBox();
@@ -4156,7 +4155,6 @@ namespace plt0_gui
             this.banner_17_ck = new System.Windows.Forms.PictureBox();
             this.banner_18_ck = new System.Windows.Forms.PictureBox();
             this.banner_19_ck = new System.Windows.Forms.PictureBox();
-            this.pictureBox10 = new System.Windows.Forms.PictureBox();
             this.banner_15_ck = new System.Windows.Forms.PictureBox();
             this.sooperbmd_label = new System.Windows.Forms.Label();
             this.min_max_label = new System.Windows.Forms.Label();
@@ -4298,7 +4296,6 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_update_preview_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.banner_global_move_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.banner_5_ck)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.banner_11_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.banner_12_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.banner_13_ck)).BeginInit();
@@ -4307,7 +4304,6 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.banner_17_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.banner_18_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.banner_19_ck)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.banner_15_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.min_max_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sooperbmd_ck)).BeginInit();
@@ -9267,19 +9263,9 @@ namespace plt0_gui
             this.banner_5_ck.Size = new System.Drawing.Size(32, 32);
             this.banner_5_ck.TabIndex = 700;
             this.banner_5_ck.TabStop = false;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.pictureBox1.ErrorImage = null;
-            this.pictureBox1.InitialImage = null;
-            this.pictureBox1.Location = new System.Drawing.Point(992, 0);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(32, 32);
-            this.pictureBox1.TabIndex = 709;
-            this.pictureBox1.TabStop = false;
+            this.banner_5_ck.Click += new System.EventHandler(this.Arrow_1080p_Click);
+            this.banner_5_ck.MouseEnter += new System.EventHandler(this.Arrow_1080p_MouseEnter);
+            this.banner_5_ck.MouseLeave += new System.EventHandler(this.Arrow_1080p_MouseLeave);
             // 
             // banner_11_ck
             // 
@@ -9293,6 +9279,9 @@ namespace plt0_gui
             this.banner_11_ck.Size = new System.Drawing.Size(32, 32);
             this.banner_11_ck.TabIndex = 708;
             this.banner_11_ck.TabStop = false;
+            this.banner_11_ck.Click += new System.EventHandler(this.Screen2_Bottom_left_Click);
+            this.banner_11_ck.MouseEnter += new System.EventHandler(this.Screen2_Bottom_left_MouseEnter);
+            this.banner_11_ck.MouseLeave += new System.EventHandler(this.Screen2_Bottom_left_MouseLeave);
             // 
             // banner_12_ck
             // 
@@ -9306,6 +9295,9 @@ namespace plt0_gui
             this.banner_12_ck.Size = new System.Drawing.Size(32, 32);
             this.banner_12_ck.TabIndex = 707;
             this.banner_12_ck.TabStop = false;
+            this.banner_12_ck.Click += new System.EventHandler(this.Screen2_Bottom_Click);
+            this.banner_12_ck.MouseEnter += new System.EventHandler(this.Screen2_Bottom_MouseEnter);
+            this.banner_12_ck.MouseLeave += new System.EventHandler(this.Screen2_Bottom_MouseLeave);
             // 
             // banner_13_ck
             // 
@@ -9319,6 +9311,9 @@ namespace plt0_gui
             this.banner_13_ck.Size = new System.Drawing.Size(32, 32);
             this.banner_13_ck.TabIndex = 706;
             this.banner_13_ck.TabStop = false;
+            this.banner_13_ck.Click += new System.EventHandler(this.Screen2_Bottom_right_Click);
+            this.banner_13_ck.MouseEnter += new System.EventHandler(this.Screen2_Bottom_right_MouseEnter);
+            this.banner_13_ck.MouseLeave += new System.EventHandler(this.Screen2_Bottom_right_MouseLeave);
             // 
             // banner_14_ck
             // 
@@ -9332,6 +9327,9 @@ namespace plt0_gui
             this.banner_14_ck.Size = new System.Drawing.Size(32, 32);
             this.banner_14_ck.TabIndex = 705;
             this.banner_14_ck.TabStop = false;
+            this.banner_14_ck.Click += new System.EventHandler(this.Screen2_Left_Click);
+            this.banner_14_ck.MouseEnter += new System.EventHandler(this.Screen2_Left_MouseEnter);
+            this.banner_14_ck.MouseLeave += new System.EventHandler(this.Screen2_Left_MouseLeave);
             // 
             // banner_16_ck
             // 
@@ -9345,6 +9343,9 @@ namespace plt0_gui
             this.banner_16_ck.Size = new System.Drawing.Size(32, 32);
             this.banner_16_ck.TabIndex = 704;
             this.banner_16_ck.TabStop = false;
+            this.banner_16_ck.Click += new System.EventHandler(this.Screen2_Right_Click);
+            this.banner_16_ck.MouseEnter += new System.EventHandler(this.Screen2_Right_MouseEnter);
+            this.banner_16_ck.MouseLeave += new System.EventHandler(this.Screen2_Right_MouseLeave);
             // 
             // banner_17_ck
             // 
@@ -9358,6 +9359,9 @@ namespace plt0_gui
             this.banner_17_ck.Size = new System.Drawing.Size(32, 32);
             this.banner_17_ck.TabIndex = 703;
             this.banner_17_ck.TabStop = false;
+            this.banner_17_ck.Click += new System.EventHandler(this.Screen2_Top_left_Click);
+            this.banner_17_ck.MouseEnter += new System.EventHandler(this.Screen2_Top_left_MouseEnter);
+            this.banner_17_ck.MouseLeave += new System.EventHandler(this.Screen2_Top_left_MouseLeave);
             // 
             // banner_18_ck
             // 
@@ -9371,6 +9375,9 @@ namespace plt0_gui
             this.banner_18_ck.Size = new System.Drawing.Size(32, 32);
             this.banner_18_ck.TabIndex = 702;
             this.banner_18_ck.TabStop = false;
+            this.banner_18_ck.Click += new System.EventHandler(this.Screen2_Top_Click);
+            this.banner_18_ck.MouseEnter += new System.EventHandler(this.Screen2_Top_MouseEnter);
+            this.banner_18_ck.MouseLeave += new System.EventHandler(this.Screen2_Top_MouseLeave);
             // 
             // banner_19_ck
             // 
@@ -9384,19 +9391,9 @@ namespace plt0_gui
             this.banner_19_ck.Size = new System.Drawing.Size(32, 32);
             this.banner_19_ck.TabIndex = 701;
             this.banner_19_ck.TabStop = false;
-            // 
-            // pictureBox10
-            // 
-            this.pictureBox10.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox10.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.pictureBox10.ErrorImage = null;
-            this.pictureBox10.InitialImage = null;
-            this.pictureBox10.Location = new System.Drawing.Point(1024, 0);
-            this.pictureBox10.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBox10.Name = "pictureBox10";
-            this.pictureBox10.Size = new System.Drawing.Size(32, 32);
-            this.pictureBox10.TabIndex = 710;
-            this.pictureBox10.TabStop = false;
+            this.banner_19_ck.Click += new System.EventHandler(this.Screen2_Top_right_Click);
+            this.banner_19_ck.MouseEnter += new System.EventHandler(this.Screen2_Top_right_MouseEnter);
+            this.banner_19_ck.MouseLeave += new System.EventHandler(this.Screen2_Top_right_MouseLeave);
             // 
             // banner_15_ck
             // 
@@ -9404,12 +9401,15 @@ namespace plt0_gui
             this.banner_15_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_15_ck.ErrorImage = null;
             this.banner_15_ck.InitialImage = null;
-            this.banner_15_ck.Location = new System.Drawing.Point(1056, 0);
+            this.banner_15_ck.Location = new System.Drawing.Point(992, 0);
             this.banner_15_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_15_ck.Name = "banner_15_ck";
             this.banner_15_ck.Size = new System.Drawing.Size(32, 32);
             this.banner_15_ck.TabIndex = 711;
             this.banner_15_ck.TabStop = false;
+            this.banner_15_ck.Click += new System.EventHandler(this.Screen2_Arrow_1080p_Click);
+            this.banner_15_ck.MouseEnter += new System.EventHandler(this.Screen2_Arrow_1080p_MouseEnter);
+            this.banner_15_ck.MouseLeave += new System.EventHandler(this.Screen2_Arrow_1080p_MouseLeave);
             // 
             // sooperbmd_label
             // 
@@ -9645,8 +9645,6 @@ namespace plt0_gui
             this.Controls.Add(this.sooperbmd_ck);
             this.Controls.Add(this.weemm_ck);
             this.Controls.Add(this.banner_15_ck);
-            this.Controls.Add(this.pictureBox10);
-            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.banner_11_ck);
             this.Controls.Add(this.banner_12_ck);
             this.Controls.Add(this.banner_13_ck);
@@ -10109,7 +10107,6 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_update_preview_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.banner_global_move_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.banner_5_ck)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.banner_11_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.banner_12_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.banner_13_ck)).EndInit();
@@ -10118,7 +10115,6 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.banner_17_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.banner_18_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.banner_19_ck)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.banner_15_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.min_max_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sooperbmd_ck)).EndInit();
