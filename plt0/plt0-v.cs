@@ -55,7 +55,7 @@ namespace plt0_gui
         byte[] block_depth_array = { 4, 8, 4, 8, 16, 16, 32, 255, 4, 8, 16, 255, 255, 255, 4 };  // for \z
         string[] encoding_array = { "i4", "i8", "ai4", "ai8", "rgb565", "rgb5a3", "rgba32", "", "ci4", "ci8", "ci14x2", "", "", "", "cmpr" };
         string[] wrap_array = { "Clamp", "Repeat", "Mirror", "Clamp" };
-        string[] algorithm_array = { "", "cie709", "custom_rgba", "no gradient", "", "", "", "", "", "" };
+        string[] algorithm_array = { "", "cie709", "custom_rgba", "gamma", "", "", "", "", "", "" };
         protected internal volatile string[] alpha_array = { "no alpha", "alpha", "mix" }; // imagine putting random keywords
         static readonly private protected string[] rgba_array = { "R", "G", "B", "A" }; // imagine knowing what the keywords do
         string input_file;
@@ -1696,6 +1696,8 @@ namespace plt0_gui
                 cmpr_max_txt.Visible = true;
                 cmpr_min_alpha_label.Visible = true;
                 cmpr_min_alpha_txt.Visible = true;
+                darkest_lightest_ck.Visible = true;
+                darkest_lightest_label.Visible = true;
             }
             layout = 1;
             View_algorithm(255);
@@ -1808,6 +1810,8 @@ namespace plt0_gui
                 cmpr_max_txt.Visible = true;
                 cmpr_min_alpha_label.Visible = true;
                 cmpr_min_alpha_txt.Visible = true;
+                darkest_lightest_ck.Visible = true;
+                darkest_lightest_label.Visible = true;
             }
             layout = 1;
             View_algorithm(255);
@@ -2527,6 +2531,7 @@ namespace plt0_gui
         {
             cie_601_label.Text = "Default";
             cie_709_label.Text = "Range Fit";
+            darkest_lightest_label.Text = "Darkest/Lightest";
             custom_label.Text = "Most Used/Furthest";
             Hide_alpha(true);
             cie_709_ck.Visible = true;
@@ -2568,8 +2573,6 @@ namespace plt0_gui
                 cie_709_ck.Visible = false;
                 cie_709_label.Visible = false;
             }
-            darkest_lightest_ck.Visible = false;
-            darkest_lightest_label.Visible = false;
             weemm_ck.Visible = false;
             weemm_label.Visible = false;
             no_gradient_ck.Visible = false;
@@ -2583,6 +2586,8 @@ namespace plt0_gui
             if (layout != 1 && !secret_mode)
                 return;
             Hide_diversity();
+            darkest_lightest_ck.Visible = false;
+            darkest_lightest_label.Visible = false;
             no_gradient_ck.Visible = false;
             no_gradient_label.Visible = false;
             cmpr_max_label.Visible = false;
@@ -2669,8 +2674,11 @@ namespace plt0_gui
         private void View_i4()
         {
             cie_601_label.Text = "CIE 601";
+            darkest_lightest_label.Text = "Gamma";
             if (layout != 1)
                 return;
+            darkest_lightest_ck.Visible = true;
+            darkest_lightest_label.Visible = true;
             cie_709_ck.Visible = true;
             cie_709_label.Visible = true;
             round4_label.Visible = true;
@@ -2680,8 +2688,11 @@ namespace plt0_gui
         private void View_i8()
         {
             cie_601_label.Text = "CIE 601";
+            darkest_lightest_label.Text = "Gamma";
             if (layout != 1)
                 return;
+            darkest_lightest_ck.Visible = true;
+            darkest_lightest_label.Visible = true;
             cie_709_ck.Visible = true;
             cie_709_label.Visible = true;
             //view_rgba = true;
@@ -2689,8 +2700,11 @@ namespace plt0_gui
         private void View_ai4()
         {
             cie_601_label.Text = "CIE 601";
+            darkest_lightest_label.Text = "Gamma";
             if (layout != 1)
                 return;
+            darkest_lightest_ck.Visible = true;
+            darkest_lightest_label.Visible = true;
             cie_709_ck.Visible = true;
             cie_709_label.Visible = true;
             round4_label.Visible = true;
@@ -2700,8 +2714,11 @@ namespace plt0_gui
         private void View_ai8()
         {
             cie_601_label.Text = "CIE 601";
+            darkest_lightest_label.Text = "Gamma";
             if (layout != 1)
                 return;
+            darkest_lightest_ck.Visible = true;
+            darkest_lightest_label.Visible = true;
             cie_709_ck.Visible = true;
             cie_709_label.Visible = true;
             //view_rgba = true;
@@ -2778,6 +2795,8 @@ namespace plt0_gui
                 case 2:
                     cie_709_ck.Visible = false;
                     cie_709_label.Visible = false;
+                    darkest_lightest_ck.Visible = false;
+                    darkest_lightest_label.Visible = false;
                     round4_label.Visible = false;
                     round4_txt.Visible = false;
                     break;
@@ -2785,6 +2804,8 @@ namespace plt0_gui
                 case 3:
                     cie_709_ck.Visible = false;
                     cie_709_label.Visible = false;
+                    darkest_lightest_ck.Visible = false;
+                    darkest_lightest_label.Visible = false;
                     break;
                 case 4:
                     round5_label.Visible = false;
@@ -4137,10 +4158,6 @@ namespace plt0_gui
             this.banner_19_ck = new System.Windows.Forms.PictureBox();
             this.pictureBox10 = new System.Windows.Forms.PictureBox();
             this.banner_15_ck = new System.Windows.Forms.PictureBox();
-            this.cmpr_palette = new PictureBoxWithInterpolationMode();
-            this.cmpr_grid_ck = new PictureBoxWithInterpolationMode();
-            this.cmpr_preview_ck = new PictureBoxWithInterpolationMode();
-            this.image_ck = new PictureBoxWithInterpolationMode();
             this.sooperbmd_label = new System.Windows.Forms.Label();
             this.min_max_label = new System.Windows.Forms.Label();
             this.weemm_label = new System.Windows.Forms.Label();
@@ -4149,6 +4166,10 @@ namespace plt0_gui
             this.weemm_ck = new System.Windows.Forms.PictureBox();
             this.darkest_lightest_label = new System.Windows.Forms.Label();
             this.darkest_lightest_ck = new System.Windows.Forms.PictureBox();
+            this.cmpr_palette = new PictureBoxWithInterpolationMode();
+            this.cmpr_grid_ck = new PictureBoxWithInterpolationMode();
+            this.cmpr_preview_ck = new PictureBoxWithInterpolationMode();
+            this.image_ck = new PictureBoxWithInterpolationMode();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tpl_ck)).BeginInit();
@@ -4288,14 +4309,14 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.banner_19_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.banner_15_ck)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cmpr_palette)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cmpr_grid_ck)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.image_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.min_max_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sooperbmd_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.weemm_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.darkest_lightest_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmpr_palette)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmpr_grid_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.image_ck)).BeginInit();
             this.SuspendLayout();
             // 
             // output_file_type_label
@@ -9390,84 +9411,6 @@ namespace plt0_gui
             this.banner_15_ck.TabIndex = 711;
             this.banner_15_ck.TabStop = false;
             // 
-            // cmpr_palette
-            // 
-            this.cmpr_palette.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_palette.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.cmpr_palette.ErrorImage = null;
-            this.cmpr_palette.InitialImage = null;
-            this.cmpr_palette.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-            this.cmpr_palette.Location = new System.Drawing.Point(1920, 1016);
-            this.cmpr_palette.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_palette.Name = "cmpr_palette";
-            this.cmpr_palette.Size = new System.Drawing.Size(896, 64);
-            this.cmpr_palette.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.cmpr_palette.TabIndex = 694;
-            this.cmpr_palette.TabStop = false;
-            this.cmpr_palette.Visible = false;
-            this.cmpr_palette.MouseEnter += new System.EventHandler(this.cmpr_palette_MouseEnter);
-            this.cmpr_palette.MouseLeave += new System.EventHandler(this.cmpr_palette_MouseLeave);
-            // 
-            // cmpr_grid_ck
-            // 
-            this.cmpr_grid_ck.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_grid_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.cmpr_grid_ck.ErrorImage = null;
-            this.cmpr_grid_ck.InitialImage = null;
-            this.cmpr_grid_ck.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-            this.cmpr_grid_ck.Location = new System.Drawing.Point(1986, 661);
-            this.cmpr_grid_ck.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_grid_ck.MaximumSize = new System.Drawing.Size(256, 256);
-            this.cmpr_grid_ck.MinimumSize = new System.Drawing.Size(256, 256);
-            this.cmpr_grid_ck.Name = "cmpr_grid_ck";
-            this.cmpr_grid_ck.Size = new System.Drawing.Size(256, 256);
-            this.cmpr_grid_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.cmpr_grid_ck.TabIndex = 683;
-            this.cmpr_grid_ck.TabStop = false;
-            this.cmpr_grid_ck.Visible = false;
-            this.cmpr_grid_ck.MouseDown += new System.Windows.Forms.MouseEventHandler(this.cmpr_grid_ck_MouseMove);
-            this.cmpr_grid_ck.MouseMove += new System.Windows.Forms.MouseEventHandler(this.cmpr_grid_ck_MouseMove);
-            // 
-            // cmpr_preview_ck
-            // 
-            this.cmpr_preview_ck.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_preview_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.cmpr_preview_ck.ErrorImage = null;
-            this.cmpr_preview_ck.InitialImage = null;
-            this.cmpr_preview_ck.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-            this.cmpr_preview_ck.Location = new System.Drawing.Point(2816, 56);
-            this.cmpr_preview_ck.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_preview_ck.MaximumSize = new System.Drawing.Size(1024, 1024);
-            this.cmpr_preview_ck.MinimumSize = new System.Drawing.Size(1024, 1024);
-            this.cmpr_preview_ck.Name = "cmpr_preview_ck";
-            this.cmpr_preview_ck.Size = new System.Drawing.Size(1024, 1024);
-            this.cmpr_preview_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.cmpr_preview_ck.TabIndex = 666;
-            this.cmpr_preview_ck.TabStop = false;
-            this.cmpr_preview_ck.Visible = false;
-            this.cmpr_preview_ck.MouseDown += new System.Windows.Forms.MouseEventHandler(this.cmpr_preview_ck_MouseDown);
-            this.cmpr_preview_ck.MouseLeave += new System.EventHandler(this.cmpr_preview_ck_MouseLeave);
-            this.cmpr_preview_ck.MouseMove += new System.Windows.Forms.MouseEventHandler(this.cmpr_preview_ck_MouseMove);
-            // 
-            // image_ck
-            // 
-            this.image_ck.BackColor = System.Drawing.Color.Transparent;
-            this.image_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.image_ck.Enabled = false;
-            this.image_ck.ErrorImage = null;
-            this.image_ck.InitialImage = null;
-            this.image_ck.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-            this.image_ck.Location = new System.Drawing.Point(815, 1596);
-            this.image_ck.Margin = new System.Windows.Forms.Padding(0);
-            this.image_ck.MaximumSize = new System.Drawing.Size(768, 768);
-            this.image_ck.MinimumSize = new System.Drawing.Size(768, 768);
-            this.image_ck.Name = "image_ck";
-            this.image_ck.Size = new System.Drawing.Size(768, 768);
-            this.image_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.image_ck.TabIndex = 602;
-            this.image_ck.TabStop = false;
-            this.image_ck.Visible = false;
-            // 
             // sooperbmd_label
             // 
             this.sooperbmd_label.AutoSize = true;
@@ -9583,9 +9526,9 @@ namespace plt0_gui
             this.darkest_lightest_label.Margin = new System.Windows.Forms.Padding(0);
             this.darkest_lightest_label.Name = "darkest_lightest_label";
             this.darkest_lightest_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.darkest_lightest_label.Size = new System.Drawing.Size(182, 68);
+            this.darkest_lightest_label.Size = new System.Drawing.Size(85, 68);
             this.darkest_lightest_label.TabIndex = 718;
-            this.darkest_lightest_label.Text = "Darkest/Lightest";
+            this.darkest_lightest_label.Text = "Gamma";
             this.darkest_lightest_label.Visible = false;
             this.darkest_lightest_label.Click += new System.EventHandler(this.Darkest_Lightest_Click);
             this.darkest_lightest_label.MouseEnter += new System.EventHandler(this.Darkest_Lightest_MouseEnter);
@@ -9607,6 +9550,84 @@ namespace plt0_gui
             this.darkest_lightest_ck.Click += new System.EventHandler(this.Darkest_Lightest_Click);
             this.darkest_lightest_ck.MouseEnter += new System.EventHandler(this.Darkest_Lightest_MouseEnter);
             this.darkest_lightest_ck.MouseLeave += new System.EventHandler(this.Darkest_Lightest_MouseLeave);
+            // 
+            // cmpr_palette
+            // 
+            this.cmpr_palette.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_palette.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.cmpr_palette.ErrorImage = null;
+            this.cmpr_palette.InitialImage = null;
+            this.cmpr_palette.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+            this.cmpr_palette.Location = new System.Drawing.Point(1920, 1016);
+            this.cmpr_palette.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_palette.Name = "cmpr_palette";
+            this.cmpr_palette.Size = new System.Drawing.Size(896, 64);
+            this.cmpr_palette.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.cmpr_palette.TabIndex = 694;
+            this.cmpr_palette.TabStop = false;
+            this.cmpr_palette.Visible = false;
+            this.cmpr_palette.MouseEnter += new System.EventHandler(this.cmpr_palette_MouseEnter);
+            this.cmpr_palette.MouseLeave += new System.EventHandler(this.cmpr_palette_MouseLeave);
+            // 
+            // cmpr_grid_ck
+            // 
+            this.cmpr_grid_ck.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_grid_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.cmpr_grid_ck.ErrorImage = null;
+            this.cmpr_grid_ck.InitialImage = null;
+            this.cmpr_grid_ck.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+            this.cmpr_grid_ck.Location = new System.Drawing.Point(1986, 661);
+            this.cmpr_grid_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_grid_ck.MaximumSize = new System.Drawing.Size(256, 256);
+            this.cmpr_grid_ck.MinimumSize = new System.Drawing.Size(256, 256);
+            this.cmpr_grid_ck.Name = "cmpr_grid_ck";
+            this.cmpr_grid_ck.Size = new System.Drawing.Size(256, 256);
+            this.cmpr_grid_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.cmpr_grid_ck.TabIndex = 683;
+            this.cmpr_grid_ck.TabStop = false;
+            this.cmpr_grid_ck.Visible = false;
+            this.cmpr_grid_ck.MouseDown += new System.Windows.Forms.MouseEventHandler(this.cmpr_grid_ck_MouseMove);
+            this.cmpr_grid_ck.MouseMove += new System.Windows.Forms.MouseEventHandler(this.cmpr_grid_ck_MouseMove);
+            // 
+            // cmpr_preview_ck
+            // 
+            this.cmpr_preview_ck.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_preview_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.cmpr_preview_ck.ErrorImage = null;
+            this.cmpr_preview_ck.InitialImage = null;
+            this.cmpr_preview_ck.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+            this.cmpr_preview_ck.Location = new System.Drawing.Point(2816, 56);
+            this.cmpr_preview_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_preview_ck.MaximumSize = new System.Drawing.Size(1024, 1024);
+            this.cmpr_preview_ck.MinimumSize = new System.Drawing.Size(1024, 1024);
+            this.cmpr_preview_ck.Name = "cmpr_preview_ck";
+            this.cmpr_preview_ck.Size = new System.Drawing.Size(1024, 1024);
+            this.cmpr_preview_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.cmpr_preview_ck.TabIndex = 666;
+            this.cmpr_preview_ck.TabStop = false;
+            this.cmpr_preview_ck.Visible = false;
+            this.cmpr_preview_ck.MouseDown += new System.Windows.Forms.MouseEventHandler(this.cmpr_preview_ck_MouseDown);
+            this.cmpr_preview_ck.MouseLeave += new System.EventHandler(this.cmpr_preview_ck_MouseLeave);
+            this.cmpr_preview_ck.MouseMove += new System.Windows.Forms.MouseEventHandler(this.cmpr_preview_ck_MouseMove);
+            // 
+            // image_ck
+            // 
+            this.image_ck.BackColor = System.Drawing.Color.Transparent;
+            this.image_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.image_ck.Enabled = false;
+            this.image_ck.ErrorImage = null;
+            this.image_ck.InitialImage = null;
+            this.image_ck.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+            this.image_ck.Location = new System.Drawing.Point(815, 1596);
+            this.image_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.image_ck.MaximumSize = new System.Drawing.Size(768, 768);
+            this.image_ck.MinimumSize = new System.Drawing.Size(768, 768);
+            this.image_ck.Name = "image_ck";
+            this.image_ck.Size = new System.Drawing.Size(768, 768);
+            this.image_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.image_ck.TabIndex = 602;
+            this.image_ck.TabStop = false;
+            this.image_ck.Visible = false;
             // 
             // plt0_gui
             // 
@@ -10099,14 +10120,14 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.banner_19_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.banner_15_ck)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cmpr_palette)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cmpr_grid_ck)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.image_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.min_max_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sooperbmd_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.weemm_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.darkest_lightest_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmpr_palette)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmpr_grid_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.image_ck)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

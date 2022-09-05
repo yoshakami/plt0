@@ -129,6 +129,7 @@
     <Compile Include="encode\AI4.cs" />
     <Compile Include="encode\AI8.cs" />
     <Compile Include="encode\CMPR.cs" />
+    <Compile Include="code\Perceptual_Brightness.cs" />
     <Compile Include="encode\I4.cs" />
     <Compile Include="encode\I8.cs" />
     <Compile Include="encode\Palette_AI8.cs" />

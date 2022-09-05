@@ -48,7 +48,7 @@ class Parse_args_class
     byte WrapS = 1; // 0 = Clamp   1 = Repeat   2 = Mirror
     byte WrapT = 1; // 0 = Clamp   1 = Repeat   2 = Mirror
     public byte algorithm = 0;  // 0 = CIE 601    1 = CIE 709     2 = custom RGBA     3 = Most Used Colours (No Gradient)
-    // for cmpr : algorithm   0 = smart   1 = Range Fit   2 = Most Used/Furthest   3 = Darkest/Lightest   4 = No Gradient   5 = Wiimm (counterfeit)   6 = SuperBMD (counterfeit)   7 = Min/Max
+    // for cmpr : algorithm   0 = re-encode (CIE 709)   1 = Range Fit   2 = Most Used/Furthest   3 = Darkest/Lightest   4 = No Gradient   5 = Wiimm (counterfeit)   6 = SuperBMD (counterfeit)   7 = Min/Max
     public byte alpha = 9;  // 0 = no alpha - 1 = alpha - 2 = mix 
     byte color;
     public byte cmpr_alpha_threshold = 100;
@@ -289,6 +289,16 @@ class Parse_args_class
                 case "DARKEST_LIGHTEST":
                 case "DARKEST":
                 case "LIGHTEST":
+                case "INVERSE SRGB GAMMA":
+                case "INVERSE_SRGB_GAMMA":
+                case "INVERSE-SRGB-GAMMA":
+                case "GAMMA":
+                case "LUMINANCE":
+                case "PERCEPTUAL":
+                case "BRIGHTNESS":
+                case "PERCEPTUAL BRIGHTNESS":
+                case "PERCEPTUAL-BRIGHTNESS":
+                case "PERCEPTUAL_BRIGHTNESS":
                     algorithm = 3;
                     break;
                 case "EXIT":

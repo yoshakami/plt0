@@ -55,6 +55,19 @@ class I8_class
                     }
                     break;
                 }
+            case 3:  // inverse of the gamma function
+                Preceptual_Brightness_class gray_class = new Preceptual_Brightness_class();
+                for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 4)
+                {
+                    index[j] = (byte)gray_class.Preceptual_Brightness(bmp_image[i + _plt0.rgba_channel[0]], bmp_image[i + _plt0.rgba_channel[1]], bmp_image[i + _plt0.rgba_channel[2]]);
+                    j++;
+                    if (j == _plt0.canvas_width)
+                    {
+                        j = 0;
+                        index_list.Add(index.ToArray());
+                    }
+                }
+                break;
         }
     }
 }

@@ -113,7 +113,11 @@ rgba = ["""
             if (encoding == 14)
                 Parse_Markdown(lines[""" + str(x + 2) + """]);
             else
-                """, "", "", "", "", "", "",""]
+                """, """
+            if (encoding == 14)
+                Parse_Markdown(lines[""" + str(x + 3) + """]);
+            else
+                """, "", "", "", "", "", "", ""]
 x += 2
 for a in range(len(algorithm)):
     x += 1

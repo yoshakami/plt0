@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -87,6 +88,29 @@ class I4_class
                     }
                     break;
                 }
+            case 3:  // inverse of the gamma function
+                Preceptual_Brightness_class gray_class = new Preceptual_Brightness_class();
+                for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 8)
+                {
+                    a = (byte)(gray_class.Preceptual_Brightness(bmp_image[i + _plt0.rgba_channel[0]], bmp_image[i + _plt0.rgba_channel[1]], bmp_image[i + _plt0.rgba_channel[2]]));
+                    if ((a & 0xf) > _plt0.round4 && a < 240)
+                    {
+                        a += 16;
+                    }
+                    grey = (byte)(gray_class.Preceptual_Brightness(bmp_image[i + 4 + _plt0.rgba_channel[0]], bmp_image[i + 4 + _plt0.rgba_channel[1]], bmp_image[i + 4 + _plt0.rgba_channel[2]]));
+                    if ((grey & 0xf) > _plt0.round4 && grey < 240)
+                    {
+                        grey += 16;
+                    }
+                    index[j] = (byte)((a & 0xf0) + (grey >> 4));
+                    j++;
+                    if (j == index.Length)
+                    {
+                        j = 0;
+                        index_list.Add(index.ToArray());
+                    }
+                }
+                break;
         }
     }
 }
