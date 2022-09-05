@@ -12103,7 +12103,11 @@ namespace plt0_gui
         }
         private void Darkest_Lightest_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[162]);
+
+            if (encoding == 14)
+                Parse_Markdown(lines[159]);
+            else
+                Parse_Markdown(lines[162]);
             if (algorithm == 3)
                 selected_algorithm(darkest_lightest_ck);
             else
