@@ -55,7 +55,7 @@ namespace plt0_gui
         byte[] block_depth_array = { 4, 8, 4, 8, 16, 16, 32, 255, 4, 8, 16, 255, 255, 255, 4 };  // for \z
         string[] encoding_array = { "i4", "i8", "ai4", "ai8", "rgb565", "rgb5a3", "rgba32", "", "ci4", "ci8", "ci14x2", "", "", "", "cmpr" };
         string[] wrap_array = { "Clamp", "Repeat", "Mirror", "Clamp" };
-        string[] algorithm_array = { "", "cie709", "custom_rgba", "no gradient", "", "", "", "", "", ""};
+        string[] algorithm_array = { "", "cie709", "custom_rgba", "no gradient", "", "", "", "", "", "" };
         protected internal volatile string[] alpha_array = { "no alpha", "alpha", "mix" }; // imagine putting random keywords
         static readonly private protected string[] rgba_array = { "R", "G", "B", "A" }; // imagine knowing what the keywords do
         string input_file;
@@ -2557,7 +2557,7 @@ namespace plt0_gui
             round6_txt.Visible = true;
             view_cmpr = true;
         }
-        private void Hide_cmpr(bool secret_mode = false, bool just_change_list=false)
+        private void Hide_cmpr(bool secret_mode = false, bool just_change_list = false)
         {
             cie_709_label.Text = "CIE 709";
             custom_label.Text = "Custom RGBA";
@@ -3682,13 +3682,26 @@ namespace plt0_gui
             sooperbmd_label.Location = new System.Drawing.Point(564, 512);
             min_max_ck.Location = new System.Drawing.Point(500, 576);
             min_max_label.Location = new System.Drawing.Point(564, 576);
+            bool delete_preview = true;
             if (Directory.Exists(execPath + "images/preview"))
             {
-                string[] files = Directory.GetFiles(execPath + "images/preview");
-                for (int i = 0; i < files.Length; i++)
-                    File.Delete(files[i]);
-                Directory.Delete(execPath + "images/preview");
+                try
+                {
+                    string[] files = Directory.GetFiles(execPath + "images/preview");
+                    for (int i = 0; i < files.Length; i++)
+                        File.Delete(files[i]);
+                    Directory.Delete(execPath + "images/preview");
+                }
+                catch (Exception ex)
+                {
+                    if (ex.Message.Substring(0, 34) == "The process cannot access the file")  // because it is being used by another process
+                    {
+                        delete_preview = false;
+                    }
+                }
             }
+            if (delete_preview)
+                Directory.CreateDirectory(execPath + "images/preview");
             banner_ck.BackgroundImage = banner;
             surrounding_ck.BackgroundImage = surrounding;
             banner_minus_ck.BackgroundImage = minimized;
@@ -3800,7 +3813,6 @@ namespace plt0_gui
             unchecked_palette(palette_ai8_ck);
             unchecked_palette(palette_rgb565_ck);
             unchecked_palette(palette_rgb5a3_ck);
-            Directory.CreateDirectory(execPath + "images/preview");
             //
             // NativeMethods.AllocConsole();
             plt0.NativeMethods.FreeConsole();

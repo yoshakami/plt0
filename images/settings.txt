@@ -1,7 +1,7 @@
 plt0 config v1.0
 Layout (change next line with one of these: "All", "Auto", "Preview", "Paint")
 Paint
-Window Location ("Normal", "Maximized", "Bottom_left", "Left", "Top_left", "Top", "Top_right", "Right", "Bottom_right", "Bottom")
+Window Location ("Normal", "Maximized", "Bottom_left", "Left", "Top_left", "Top", "Top_right", "Right", "Bottom_right", "Bottom", "Screen2_Bottom_left", "Screen2_Left", "Screen2_Top_left", "Screen2_Top", "Screen2_Top_right", "Screen2_Right", "Screen2_Bottom_right", "Screen2_Bottom")
 Maximized
 Textboxes text color (System.Drawing.Color)
 White
@@ -153,11 +153,18 @@ color, 32 bits per pixel - alpha (this encoding is the only one that isn't lossy
 palette, 4 bits per pixel (CI4 palette has a capacity of 16 colours)
 palette, 8 bits per pixel (CI8 palette has a capacity of 256 colours)
 palette, 14 bits per pixel (CI14x2\j palette has a capacity of\j 16384 colours)\n\j\j\j\c Red slow to encode, the gui may freeze.
-color, 2 RGB565 colours per 4x4 block + 2 interpolated colours\n (which results in a "4-bit per pixel") - use the Paint layout to edit CMPR textures - default algorithm cares about CMPR Max colours in each 4x4 block and every pixel with alpha < CMPR Min alpha will be zero, else it's 255
+color, DXT1 BC1 2 RGB565 colours\jper 4x4 block + 2 interpolated colours\j(which results in a "4-bit per pixel")\j\j\c LightGreen - use the Paint layout to edit\j\c LightGreen All CMPR textures -\j\jevery pixel with alpha < CMPR Min alpha will be zero, else it's 255
+Default CMPR Algorithm (theorytically the best one)
+take the most used channel(s), and pick the two colours matching linear interpolation that are the furthest away\nvariant: calculate colours not in the 4x4 block but still in the linear interpolation that could make better results
+Take the Most used colour and the furthest away from it for each 4x4 block
 An algorithm to convert 24-bit RGB to 8-bit grey.
 An algorithm to convert 24-bit RGB to 8-bit grey.
 Multiplies each channel by its value in the textbox "Custom RGBA"
+Take darkest and lightest colour of each block but ONLY take the second colour if it's used more than CMPR MAX times in the 4x4 block
 Make the encoding of CMPR textures to only care about the two most used colours with diversity and percentage parameters
+Process all colour couples of the palette and take the one that produces the least "difference" calculated by adding channel differences
+a single loop going through colours once and taking the couple that has the most difference with his neighbour
+set cmpr max to zero and this is the fastest lossless algorithm to re-encode an image that has gone through the cmpr/dxt1/bc1 process.\n\ntakes the colour composed of the lowest red channel value, lowest blue channel, and lowest green one, no matter if it's not from the same pixel (then take the highest one)
 States that the picture has No alpha and that every pixel of RGB5A3 must be 1RRR RRGG GGGB BBBB(used in RGB5A3's smart alpha and for choosing palette encoding if none were selected)
 States that the picture has Alpha and that every pixel of RGB5A3 must be 0AAA RRRR GGGG BBBB
 Picture has alpha and RGB5A3 can use any of the two options for each pixel
@@ -190,17 +197,30 @@ Layout - CMPR Image Editor\j\j\c GreenYellow Shortcut: F4
 Minimize\j\j\c GreenYellow Shortcut: F10
 Maximize\j\j\c GreenYellow Shortcut: F11
 Close\j\j\c GreenYellow Shortcut: Escape
-Scale the window to the left with half of your screen's width (implementation of win + left arrow)
-Scale the window to the Upper Left Corner with 1/4 screen width and 1/2 screen height (win + left arrow then win + up arrow)
-Scale the window to the top with half of your screen's height (no native shortcut)
-Scale the window to the Upper Right Corner with 1/4 screen width and 1/2 screen height
-Scale the window to the Right with half of your screen's width 
-Scale the window to the Lower Right Corner of your screen
-Scale the window to the Bottom of your screen with half of your screen's height
-Scale the window to the Lower Left Corner of your screen
-Double Click to open explorer\n \c red if input file is a texture, it will be decoded.\nif input file is a picture, it will be encoded
-Double Click to open explorer\n \c red can be a palette (picture, plt0), a bmd (replace a texture with input file), or a tpl (to append the texture to)
-Name of the output file \n\n(without extension, because you have to check the extension yourself)
+Scale the window to the Left\jwith half of your screen's width\j\j\c GreenYellow Shortcut: Alt + 4\j(look at the numpad layout\jfor the reason of this shortcut)
+Scale the window to the Upper Left\jCorner with 1/4 screen width\jand 1/2 screen height\j\j\c GreenYellow Shortcut: Alt + 7\j(both 7 and numpad7 keys work)
+Scale the window to the Top\jwith half of your screen's height\j\j\c GreenYellow Shortcut: Alt + 8
+Scale the window to the Upper Right\jCorner with 1/4 screen width\jand 1/2 screen height\j\j\c GreenYellow Shortcut: Alt + 9
+Scale the window to the Right\jwith half of your screen's width\j\j\c GreenYellow Shortcut: Alt + 6
+Scale the window to the Lower Right\jCorner of your screen\j\j\c GreenYellow Shortcut: Alt + 3
+Scale the window to the Bottom\jof your screen with half\jof your screen's height\j\j\c GreenYellow Shortcut: Alt + 2
+Scale the window to the Lower Left\jCorner of your screen\j\j\c GreenYellow Shortcut: Alt + 1
+Reset the Window state to 1080p\jand place it on your first screen\j(1080p = 1920x1080)\j\j\c GreenYellow Shortcut: Alt + 5
+Scale the window to the Left\jof your Second Screen\j\j\c GreenYellow Shortcut: Alt Gr + 4\j(Alt Gr = Ctrl + Alt)
+Scale the window to the Upper Left\jCorner of your Second Screen\j\j\c GreenYellow Shortcut: Alt Gr + 7
+Scale the window to the Top\jof your Second Screen\j\j\c GreenYellow Shortcut: Alt Gr + 8
+Scale the window to the Upper Right\jCorner of your Second Screen\j\j\c GreenYellow Shortcut: Alt Gr + 9
+Scale the window to the Right\jof your Second Screen\j\j\c GreenYellow Shortcut: Alt Gr + 6
+Scale the window to the Lower Right\jCorner of your Second Screen\j\j\c GreenYellow Shortcut: Alt Gr + 3
+Scale the window to the Bottom\jof your Second Screen\j\j\c GreenYellow Shortcut: Alt Gr + 2
+Scale the window to the Lower Left\jCorner of your Second Screen\j\j\c GreenYellow Shortcut: Alt Gr + 1
+Reset the Window state to 1080p\jand place it on your Secobd Screen\j(1080p = 1920x1080)\j\j\c GreenYellow Shortcut: Alt Gr + 5
+Double Click to open explorer\j\j\c Violet Must be a CMPR texture\n(bti, tex0, or tpl)
+Double Click to open explorer\j\j\c salmon if input file is a texture,\jit will be decoded.\j\jif input file is a picture, it will be encoded
+Double Click to open explorer\j\c coral can be a palette (picture, plt0),\j\c coral a bmd (replace a texture with input file),\j or a tpl (to append the texture to)
+Double Click to open explorer\jName of the output file
+Double Click to open explorer\jName of the output file\j\j(without extension, because you have to check the extension yourself)
+Mipmap Currently Displayed.
 Number of mipmaps\n\n(these are 'thumbnails' of the texture, with half the witdh and half the height. this is why "dimensions should be power of 2" is a thing)
 Number of most used colours the tool should take of in each 4x4 block
 Threshold. every pixel with an alpha value below it are set to zero -> transparent (strict inferior), otherwise alpha is set to 255\n\n
@@ -237,9 +257,10 @@ The version of this tool
 full command if you wanted to run the app with the current parameters from a command line
 Launch the application\j\j\c GreenYellow Shortcut: Ctrl + R
 The output text after you click on >Run
+Allow the app to be moved by dragging the background
 Move this window
 Resize this window
-Refresh the preview\j(you can't see this text though)\j\j\c GreenYellow Unless you have a 4k screeeeeen :D\jWelcome to the creew !!!\jgnow you can develop with windows.forms
+Refresh the preview\j(you can't see this text though)\j\j\c GreenYellow Unless you have a 4k screeeeeen :D\jWelcome to the creew !!!\jnow you can develop with windows.forms
 Save the texture to what\jyou've written in output name\j\j\c GreenYellow Shortcut: Ctrl + S
 Open a save prompt\j(with the file explorer)\j\j\c GreenYellow Shortcut: Ctrl + Shift + S
 Swap Colour1 and Colour2 \j\c MediumVioletRed (toogle transparency)

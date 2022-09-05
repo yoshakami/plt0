@@ -108,6 +108,33 @@ class CMPR_class
         // bool done = false;
         switch (_plt0.algorithm)
         {
+            case 0: // default: used to re-encode
+                for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                {
+                    if (!Load_Block_CIE_709())
+                        continue;
+                    // now let's take the darkest and the brightest colour
+                    diff_min = 1024;
+                    diff_max = 0;
+                    for (byte i = 0; i < 16; i++)
+                    {
+                        if (((alpha_bitfield >> i) & 1) == 1 || Colour_list[i][0] <= _plt0.cmpr_max)
+                            continue;
+                        if (Colour_list[i][2] < diff_min)
+                        {
+                            diff_min = Colour_list[i][2];
+                            diff_min_index = i;  // darkest colour index of Colour_RGB565
+                        }
+                        if (Colour_list[i][2] > diff_max)
+                        {
+                            diff_max = Colour_list[i][2];
+                            diff_max_index = i;  // brightest colour index of Colour_RGB565
+                        }
+                    }
+                    Organize_Colours_And_Process_Indexes();
+                    index_list.Add(index.ToArray());
+                }
+                break;
             case 2: // Most Used/Furthest
                 for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
                 {
@@ -391,6 +418,8 @@ class CMPR_class
                         {
                             for (byte d = (byte)(c + 1); d < 16; d++)  // useless to set it to 16 because of the condition d > i.
                             {
+                                if (((alpha_bitfield >> c) & 1) == 1 || ((alpha_bitfield >> d) & 1) == 1)
+                                    continue;
                                 //colour_palette.Clear();
                                 index[0] = (byte)(Colour_list[c][1] >> 8);
                                 index[1] = (byte)(Colour_list[c][1]);
@@ -436,6 +465,8 @@ class CMPR_class
                         {
                             for (byte d = (byte)(c + 1); d < 16; d++)  // useless to set it to 16 because of the condition d > i.
                             {
+                                if (((alpha_bitfield >> c) & 1) == 1 || ((alpha_bitfield >> d) & 1) == 1)
+                                    continue;
                                 index[0] = (byte)(Colour_list[c][1] >> 8);
                                 index[1] = (byte)(Colour_list[c][1]);
                                 index[2] = (byte)(Colour_list[d][1] >> 8);
@@ -474,6 +505,8 @@ class CMPR_class
                         {
                             for (byte d = (byte)(c + 1); d < 16; d++)
                             {
+                                if (((alpha_bitfield >> c) & 1) == 1 || ((alpha_bitfield >> d) & 1) == 1)
+                                    continue;
                                 index[0] = (byte)(Colour_list[c][1] >> 8);
                                 index[1] = (byte)(Colour_list[c][1]);
                                 index[2] = (byte)(Colour_list[d][1] >> 8);
@@ -629,6 +662,82 @@ class CMPR_class
         Colour_array[1] = pixel;
         // it's not used here
         Colour_array[2] = (ushort)((z << 4) + (j << 2)); // link to rgb565 array
+        Colour_list.Add(Colour_array.ToArray());
+        // Colour_rgb565.Add(pixel);
+        j++;
+        if (j != 4)
+        {
+            return false;
+        }
+        j = 0;
+        z++;
+        y += (_plt0.canvas_width << 2) - 16; // returns to the start of the next line  - bitmap width << 2 because it's a 32-bit BGRA bmp file
+        if (z != 4)
+        {
+            return false;  // Still within the same 4x4 block
+        }
+        x++;
+        z = 0;
+        width += 2;  // triggered 4 times per block
+        if (width == _plt0.canvas_width)
+        {
+            width = 0;
+            // y -= (_plt0.bitmap_width << 1) - 16;  // this has been driving me nuts
+            y += (_plt0.canvas_width << 2) - 16;
+            x = 0;
+        }
+        else if (x == 2)
+        {
+            // y += (_plt0.bitmap_width << 4) - 4; // adds 4 lines and put the cursor back to the first block in width (I hope)
+            // y += 16; // hmm, it looks like the cursor warped horizontally to the first block in width 4 lines above
+            // EDIT: YA DEFINITELY NEED TO CANCEL THE Y OPERATION ABOVE, IT WARPS NORMALLY LIKE IT4S THE PIXEL AFTER
+            //y -= (_plt0.bitmap_width << 2) - 16;  // this has been driving me nuts
+            y += 16;  // I can't believe this is right in the mirror and mirrorred mode lol
+                      // edit: you just need to add 32 everywhere
+        }
+        else if (x == 4)
+        {
+            //y -= (_plt0.bitmap_width << 5) - 16; // minus 8 lines + point to next block
+            y -= (_plt0.canvas_width << 5) + 16;
+            x = 0;
+        }
+        else
+        {
+            /* y -= (_plt0.bitmap_width << 4) - 16; // on retire 4 lignes et on passe le 1er block héhé
+             substract 4 lines and jumps over the first block */
+            y -= ((_plt0.canvas_width << 4)) + 16;  // substract 4 lines and goes one block to the left
+        }
+        return true;
+    }
+    private bool Load_Block_CIE_709()  // Colour list [i][0] == number of occurences   [i][1] == the colour itself  [i][2] == red + green + blue
+    {
+        red = bmp_image[y + _plt0.rgba_channel[0]];
+        green = bmp_image[y + _plt0.rgba_channel[1]];
+        blue = bmp_image[y + _plt0.rgba_channel[2]];
+        if (_plt0.alpha > 0 && bmp_image[y + _plt0.rgba_channel[3]] < _plt0.cmpr_alpha_threshold)
+        {
+            alpha_bitfield += (ushort)(1 << (j + (z * 4)));
+        }
+        if ((red & 7) > _plt0.round5 && red < 248)  // 5-bit max value on a trimmed byte
+        {
+            red += 8;
+        }
+        if ((green & _plt0.round6) == _plt0.round6 && green < 252)  // 6-bit max value on a trimmed byte
+        {
+            green += 4;
+        }
+        if ((blue & 7) > _plt0.round5 && blue < 248)
+        {
+            blue += 8;
+        }
+        // Colour_pixel[0] = // the number of occurences, though it stays to 1 so that's not really a problem lol
+        rgb565[(z << 4) + (j << 2)] = (byte)(red & 0xf8);
+        rgb565[(z << 4) + (j << 2) + 1] = (byte)(green & 0xfc);
+        rgb565[(z << 4) + (j << 2) + 2] = (byte)(blue & 0xf8);
+        pixel = (ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)); // the RGB565 colour
+        Colour_array[1] = pixel;
+        //Colour_array[2] = (byte)(red * 0.114 + green * 0.587 + blue * 0.299);  // grey colour trimmed to 4 bit - CIE 601 produces a bad result
+        Colour_array[2] = (byte)(red*0.0721 + green * 0.7154 + blue * 0.2125);  // CIE 709 recreated the perfect re-encoding
         Colour_list.Add(Colour_array.ToArray());
         // Colour_rgb565.Add(pixel);
         j++;

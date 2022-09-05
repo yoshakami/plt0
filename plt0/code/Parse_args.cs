@@ -117,7 +117,7 @@ class Parse_args_class
                 pass--;
                 continue;
             }
-            for (int j = 0; j < 10;)
+            for (int j = 0; j < args[i].Length;)
             {
                 if (args[i][j] == '-')
                 {
