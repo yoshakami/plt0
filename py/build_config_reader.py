@@ -11,6 +11,7 @@ for a in big_array:
             if (config[""" + str(w) + """].ToLower() == "true")
             {
                 checked_checkbox(""" + a + """_ck);
+                """ + a + """ = true;
             }
             else
             {

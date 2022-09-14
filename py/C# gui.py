@@ -3,20 +3,22 @@ import pyperclip
 scrapped = "" # for scrapped functions
 output = """        private void Load_Images()
         {"""
-x = 118  # settings start line minus two
+x = -1  # settings start line minus two
 with open("X:\\yoshi\\3D Objects\\C#\\plt0\\plt0\\plt0-v.cs", "r") as cs:
     text = cs.read()
     text = text.splitlines()
 w = 0
-while (text[w][:14] != "        Image "):
-    w += 1
-while (text[w][:14] == "        Image "):
-    output += """
-            if (File.Exists(execPath + "images/""" + text[w][14:-1] + """.png"))
-            {
-                """ + text[w][14:-1] + """ = Image.FromFile(execPath + "images/""" + text[w][14:-1] + """.png");
-            }"""
-    w += 1
+for a in ["", "arrows/", "banner/", "circles/", "graphics/", "rgba/"]:
+    while (text[w][:14] != "        Image "):
+        w += 1
+    while (text[w][:14] == "        Image "):
+        output += """
+                if (File.Exists(execPath + "plt0 content/""" + a  + text[w][14:-1] + """.png"))
+                {
+                    """ + text[w][14:-1] + """ = Image.FromFile(execPath + "plt0 content/""" + a + text[w][14:-1] + """.png");
+                }"""
+        w += 1
+
 output += """
         }"""
 w = -1
@@ -51,7 +53,7 @@ for y in booleans:
         }
         private void """ + y + """_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[""" + str(x) + """]);
+            Parse_Markdown(d[""" + str(x) + """]);
             if (""" + y + """)
                 selected_checkbox(""" + y + """_ck);
             else
@@ -84,7 +86,7 @@ for z in range(len(encoding)):
         }
         private void """ + encoding[z].upper() + """_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[""" + str(x) + """]);
+            Parse_Markdown(d[""" + str(x) + """]);
             if (encoding == """ + str(z) + """)
                 selected_encoding(""" + encoding[z] + """_ck);
             else
@@ -103,19 +105,19 @@ algorithm = ["Cie_601", "Cie_709", "Custom", "Darkest_Lightest", "No_gradient", 
 layout2 = ["","", "\n            View_rgba();", "", "\n            View_No_Gradient();", "", "", "", ""]
 rgba = ["""
             if (encoding == 14)
-                Parse_Markdown(lines[""" + str(x) + """]);
+                Parse_Markdown(d[""" + str(x) + """]);
             else
                 """, """
             if (encoding == 14)
-                Parse_Markdown(lines[""" + str(x + 1) + """]);
+                Parse_Markdown(d[""" + str(x + 1) + """]);
             else
                 """, """
             if (encoding == 14)
-                Parse_Markdown(lines[""" + str(x + 2) + """]);
+                Parse_Markdown(d[""" + str(x + 2) + """]);
             else
                 """, """
             if (encoding == 14)
-                Parse_Markdown(lines[""" + str(x + 3) + """]);
+                Parse_Markdown(d[""" + str(x + 3) + """]);
             else
                 """, "", "", "", "", "", "", ""]
 x += 3
@@ -133,7 +135,7 @@ for a in range(len(algorithm)):
         }
         private void """ + algorithm[a] + """_MouseEnter(object sender, EventArgs e)
         {
-            """ + rgba[a] + """Parse_Markdown(lines[""" + str(x) + """]);
+            """ + rgba[a] + """Parse_Markdown(d[""" + str(x) + """]);
             if (algorithm == """ + str(a) + """)
                 selected_algorithm(""" + algorithm[a].lower() + """_ck);
             else
@@ -161,7 +163,7 @@ for b in range(len(alpha)):
         }
         private void """ + alpha[b] + """_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[""" + str(x) + """]);
+            Parse_Markdown(d[""" + str(x) + """]);
             if (alpha == """ + str(b) + """)
                 selected_alpha(""" + alpha[b].lower() + """_ck);
             else
@@ -188,7 +190,7 @@ for c in range(3):
         }
         private void WrapS_""" + wrap[c] + """_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[""" + str(x) + """]);
+            Parse_Markdown(d[""" + str(x) + """]);
             if (WrapS == """ + str(c) + """)
                 selected_WrapS(S""" + wrap[c].lower() + """_ck);
             else
@@ -214,7 +216,7 @@ for d in range(3):
         }
         private void WrapT_""" + wrap[d] + """_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[""" + str(x) + """]);
+            Parse_Markdown(d[""" + str(x) + """]);
             if (WrapT == """ + str(d) + """)
                 selected_WrapT(T""" + wrap[d].lower() + """_ck);
             else
@@ -241,7 +243,7 @@ for e in range(6):
         }
         private void Minification_""" + filter[e] + """_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[""" + str(x) + """]);
+            Parse_Markdown(d[""" + str(x) + """]);
             if (minification_filter == """ + str(e) + """)
                 selected_Minification(min_""" + filter[e].lower() + """_ck);
             else
@@ -267,7 +269,7 @@ for f in range(6):
         }
         private void Magnification_""" + filter[f] + """_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[""" + str(x) + """]);
+            Parse_Markdown(d[""" + str(x) + """]);
             if (magnification_filter == """ + str(f) + """)
                 selected_Magnification(mag_""" + filter[f].lower() + """_ck);
             else
@@ -313,7 +315,7 @@ for g in channel:  # this looks unreadable because it's packed up instead of pas
         }
         private void """ + g + '_' + channel[h] + """_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[""" + str(x) + """]);
+            Parse_Markdown(d[""" + str(x) + """]);
             if (""" + g.lower() + " == " + str(h) + """)
                 selected_""" + channel[h] + "(" + g.lower() + '_' + channel[h].lower() + """_ck);
             else
@@ -354,7 +356,7 @@ for k in range(len(lyt)):
         }
         private void """ + Lyt[k] + """_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[""" + str(x) + """]);
+            Parse_Markdown(d[""" + str(x) + """]);
             if (layout == """ + str(k) + """)
                 selected_""" + Lyt[k] + """();
             else
@@ -420,7 +422,7 @@ for l in range(len(banner_common)):
         }
         private void Maximized_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[""" + str(x) + """]);
+            Parse_Markdown(d[""" + str(x) + """]);
             if (this.WindowState == FormWindowState.Maximized)
                 banner_f11_ck.BackgroundImage = maximized_selected;
             else
@@ -442,7 +444,7 @@ for l in range(len(banner_common)):
         }
         private void """ + banner_common[l] + """_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[""" + str(x) + """]);
+            Parse_Markdown(d[""" + str(x) + """]);
             banner_""" + banner_short[l] + """_ck.BackgroundImage = """ + banner_common[l].lower() + """_hover;
         }
         private void """ + banner_common[l] + """_MouseLeave(object sender, EventArgs e)
@@ -492,7 +494,7 @@ for m in range(len(banner)):
         }
         private void """ + banner_long[m] + """_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[""" + str(x) + """]);
+            Parse_Markdown(d[""" + str(x) + """]);
             if (arrow == """ + banner[m] + """)
                 selected_""" + banner_long[m] + """();
             else
@@ -557,9 +559,9 @@ output += """
         private void input_file_MouseEnter(object sender, EventArgs e)
         {
             if (layout == 3)
-                Parse_Markdown(lines[""" + str(x) + """]);
+                Parse_Markdown(d[""" + str(x) + """]);
             else
-                Parse_Markdown(lines[""" + str(x + 1) + """]);
+                Parse_Markdown(d[""" + str(x + 1) + """]);
         }
         private void input_file_MouseLeave(object sender, EventArgs e)
         {
@@ -591,7 +593,7 @@ output += """
         }
         private void input_file2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[""" + str(x + 2) + """]);
+            Parse_Markdown(d[""" + str(x + 2) + """]);
         }
         private void input_file2_MouseLeave(object sender, EventArgs e)
         {
@@ -620,9 +622,9 @@ output += """
         private void output_name_MouseEnter(object sender, EventArgs e)
         {
             if (layout == 3)
-                Parse_Markdown(lines[""" + str(x + 3) + """]);
+                Parse_Markdown(d[""" + str(x + 3) + """]);
             else
-                Parse_Markdown(lines[""" + str(x + 4) + """]);
+                Parse_Markdown(d[""" + str(x + 4) + """]);
         }
         private void output_name_MouseLeave(object sender, EventArgs e)
         {
@@ -638,9 +640,9 @@ output += """
         private void mipmaps_MouseEnter(object sender, EventArgs e)
         {
             if (layout == 3)
-                Parse_Markdown(lines[""" + str(x + 5) + """]);
+                Parse_Markdown(d[""" + str(x + 5) + """]);
             else
-                Parse_Markdown(lines[""" + str(x + 6) + """]);
+                Parse_Markdown(d[""" + str(x + 6) + """]);
         }
         private void mipmaps_MouseLeave(object sender, EventArgs e)
         {
@@ -693,7 +695,7 @@ w = 7
 scrapped += """
         private void """ + textbox[p][:-4] + """_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[""" + str(x) + """]);
+            Parse_Markdown(d[""" + str(x) + """]);
         }
         private void """ + textbox[p][:-4] + """_MouseLeave(object sender, EventArgs e)
         {
@@ -710,7 +712,7 @@ for o in range(4, len(textbox)):
     output += """
         private void """ + textbox[o][:-4] + """_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[""" + str(x) + """]);
+            Parse_Markdown(d[""" + str(x) + """]);
         }
         private void """ + textbox[o][:-4] + """_MouseLeave(object sender, EventArgs e)
         {
@@ -738,7 +740,7 @@ for q in range(len(palette_enc)):
         }
         private void palette_""" + palette_enc[q] + """_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[""" + str(x) + """]);
+            Parse_Markdown(d[""" + str(x) + """]);
             if (palette_enc == """ + str(q) + """)
                 selected_palette(palette_""" + palette_enc[q].lower() + """_ck);
             else
@@ -764,7 +766,7 @@ for r in range(3):
         }
         private void """ + banner_icon[r] + """_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[""" + str(x) + """]);
+            Parse_Markdown(d[""" + str(x) + """]);
             """ + banner_icon[r] + "_ck.BackgroundImage = " + banner_icon[r] + """_hover;
         }
         private void """ + banner_icon[r] + """_MouseLeave(object sender, EventArgs e)
@@ -793,7 +795,7 @@ for j in range(len(view)):
         }
         private void """ + view[j] + """_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[""" + str(x) + """]);
+            Parse_Markdown(d[""" + str(x) + """]);
             if (""" + view[j] + """)
                 Category_selected(""" + view[j] + """_ck);
             else
@@ -841,7 +843,7 @@ for s in range(len(text_icon)):
     output += """
         private void """ + text_icon[s] + """_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[""" + str(x) + """]);""" + line2[s] + """
+            Parse_Markdown(d[""" + str(x) + """]);""" + line2[s] + """
         }
         private void """ + text_icon[s] + """_MouseLeave(object sender, EventArgs e)
         {
@@ -915,7 +917,7 @@ for v in range(2):
         }
         private void """ + tooltip[v] + """_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(lines[""" + str(x) + """]);
+            Parse_Markdown(d[""" + str(x) + """]);
             if (tooltip == """ + str(v) + """)
                 selected_tooltip(""" + tooltip[v] + """_ck);
             else
@@ -964,7 +966,7 @@ x += 1
 output += """
         private void Warn_rgb565_colour_trim()
         {
-            Parse_Markdown(lines[""" + str(x) + """], cmpr_warning);
+            Parse_Markdown(d[""" + str(x) + """], cmpr_warning);
         }
         private void Put_that_damn_cmpr_layout_in_place()
         {
@@ -972,7 +974,7 @@ output += """
 for y in range(5):
     x += 1
     output += """
-            Parse_Markdown(lines[""" + str(x) + "], cmpr_mouse" + str(y + 1) + "_label);"
+            Parse_Markdown(d[""" + str(x) + "], cmpr_mouse" + str(y + 1) + "_label);"
 output += """
             checked_tooltip(cmpr_block_selection_ck);
             unchecked_tooltip(cmpr_block_paint_ck);
@@ -1004,7 +1006,7 @@ output += """
 #        }
 #        private void cmpr_block""" + block_name[z] + """_MouseEnter(object sender, EventArgs e)
 #        {
-#            Parse_Markdown(lines[""" + str(x) + """]);
+#            Parse_Markdown(d[""" + str(x) + """]);
 #        }
 #        private void cmpr_block""" + block_name[z] + """_MouseLeave(object sender, EventArgs e)
 #        {
@@ -1040,7 +1042,7 @@ output += """
                 cli.Parse_args(cmpr_args);
                 if (cli.texture_format != 0xE)
                 { 
-                    Parse_Markdown(lines[""" + str(x + 1) + """], cmpr_warning);
+                    Parse_Markdown(d[""" + str(x + 1) + """], cmpr_warning);
                     return;
                 }
                 if (File.Exists(execPath + "images/preview/" + num + ".bmp"))
@@ -1077,7 +1079,7 @@ output += """
             }
             else
             {
-                Parse_Markdown(lines[""" + str(x + 1) + """], cmpr_warning);
+                Parse_Markdown(d[""" + str(x + 1) + """], cmpr_warning);
             }
         }
         private void cmpr_c2_TextChanged(object sender, EventArgs e)
@@ -1166,7 +1168,7 @@ output += """
         {
             if (cmpr_colour_index > 2)
             {
-                Parse_Markdown(lines[""" + str(x + 2) + """], cmpr_warning);
+                Parse_Markdown(d[""" + str(x + 2) + """], cmpr_warning);
             }
             cmpr_index_i = (byte)((cmpr_file[cmpr_data_start_offset + (current_block << 3) + 4 + cmpr_y] >> (6 - (cmpr_x << 1))) & 3);
             if (cmpr_index_i < 2)
@@ -1214,7 +1216,7 @@ output += """
                     }
                     else
                     {
-                        Parse_Markdown(lines[""" + str(x + 3) + """], cmpr_warning);
+                        Parse_Markdown(d[""" + str(x + 3) + """], cmpr_warning);
                     }
                 }
             }
@@ -1459,14 +1461,14 @@ output += """
                 {
                     fs.Write(cmpr_file, 0, cmpr_file.Length);
                 }
-                Parse_Markdown(lines[""" + str(x + 4) + """], description);
+                Parse_Markdown(d[""" + str(x + 4) + """], description);
             }
             catch (Exception ex)
             {
                 description.Text = ex.Message;
                 if (ex.Message.Substring(0, 34) == "The process cannot access the file")  // because it is being used by another process
                 {
-                    Parse_Markdown(lines[""" + str(x + 5) + """], description);
+                    Parse_Markdown(d[""" + str(x + 5) + """], description);
                 }
             }
         }
@@ -1608,5 +1610,5 @@ output += """
 """
 pyperclip.copy(output)
 print(output)
-print("Generated " + str(output.count('\n')) + " lines of C# code")
+print("Generated " + str(output.count('\n')) + " d of C# code")
 input("Press enter to exit...")

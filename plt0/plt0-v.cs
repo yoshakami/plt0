@@ -43,8 +43,9 @@ namespace plt0_gui
         // the 4x4 grid for the Paint Layout is a 4x4 bmp file
         byte[] cmpr_4x4 = { 66, 77, 186, 0, 0, 0, 121, 111, 115, 104, 122, 0, 0, 0, 108, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0, 1, 0, 32, 0, 3, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 0, 0, 255, 0, 0, 255, 0, 0, 0, 0, 0, 0, 255, 32, 110, 105, 87, 0, 104, 116, 116, 112, 115, 58, 47, 47, 100, 105, 115, 99, 111, 114, 100, 46, 103, 103, 47, 118, 57, 86, 112, 68, 90, 57, 0, 116, 104, 105, 115, 32, 105, 115, 32, 112, 97, 100, 100, 105, 110, 103, 32, 100, 97, 116, 97, 0, 0, 240, 255, 72, 242, 64, 255, 72, 66, 240, 255, 0, 255, 0, 255, 200, 254, 200, 255, 32, 57, 240, 255, 32, 249, 56, 255, 200, 206, 240, 255, 16, 16, 240, 255, 32, 241, 56, 255, 48, 49, 255, 255, 72, 250, 64, 255, 16, 255, 16, 255, 32, 57, 255, 255, 48, 241, 48, 255, 72, 66, 240, 255 };
         string[] cmpr_args = new string[] { "gui", "i", "i", execPath + "images/preview/1" };
-        string[] config = new string[255];
-        string[] layout_name = { "All", "Auto", "Preview", "Paint" };
+        static string[] config = new string[150];
+        static string[] d = new string[255];
+        static string[] layout_name = { "All", "Auto", "Preview", "Paint" };
         string cmpr_colours_hex;
         byte[] cmpr_file;
         byte[] cmpr_colours_argb = new byte[16];
@@ -63,6 +64,7 @@ namespace plt0_gui
         string output_name = "";
         string input_file2;
         static char separator;
+        static string config_version = "";
         static string font_name = "";
         static string font_colour = "";
         static string font_encoding = "";
@@ -81,11 +83,11 @@ namespace plt0_gui
         byte blue2;
         byte alpha2;
         bool banner_global_move = false;
-        bool cmpr_update_preview = true;
+        bool cmpr_update_preview = false;
         bool sync_preview_is_on = false;
         bool the_program_is_loading_a_cmpr_block = false;
         bool cmpr_swap2_enabled = false;
-        bool cmpr_hover = true;
+        bool cmpr_hover = false;
         byte cmpr_index_i = 0;
         byte cmpr_hover_red = 255;
         byte cmpr_hover_green = 255;
@@ -134,8 +136,8 @@ namespace plt0_gui
         bool vertical;
         bool preview_layout_is_enabled = false;
         bool preview_changed = false;
-        bool upscale = true;
-        bool auto_update = true;
+        bool upscale = false;
+        bool auto_update = false;
         bool textchange = false;
         bool all_layout_is_enabled = true;
         bool cmpr_layout_is_in_place = false;
@@ -238,14 +240,124 @@ namespace plt0_gui
         List<PictureBox> WrapT_ck = new List<PictureBox>();
         List<PictureBox> alpha_ck_array = new List<PictureBox>();
         List<PictureBox> algorithm_ck = new List<PictureBox>();
+
+        // the most important graphic
+        Image background;  
+
+        /* == arrows == */
+        Image bottom_hover;
+        Image bottom_left_hover;
+        Image bottom_left_off;
+        Image bottom_left_on;
+        Image bottom_left_selected;
+        Image bottom_off;
+        Image bottom_on;
+        Image bottom_right_hover;
+        Image bottom_right_off;
+        Image bottom_right_on;
+        Image bottom_right_selected;
+        Image bottom_selected;
+        Image right_hover;
+        Image right_off;
+        Image right_on;
+        Image right_selected;
+        Image left_hover;
+        Image left_off;
+        Image left_on;
+        Image left_selected;
+        Image top_left_hover;
+        Image top_left_off;
+        Image top_left_on;
+        Image top_left_selected;
+        Image top_off;
+        Image top_on;
+        Image top_hover;
+        Image top_selected;
+        Image top_right_hover;
+        Image top_right_off;
+        Image top_right_on;
+        Image top_right_selected;
+        Image screen2_bottom_hover;
+        Image screen2_bottom_left_hover;
+        Image screen2_bottom_left_off;
+        Image screen2_bottom_left_on;
+        Image screen2_bottom_left_selected;
+        Image screen2_bottom_off;
+        Image screen2_bottom_on;
+        Image screen2_bottom_right_hover;
+        Image screen2_bottom_right_off;
+        Image screen2_bottom_right_on;
+        Image screen2_bottom_right_selected;
+        Image screen2_bottom_selected;
+        Image screen2_right_hover;
+        Image screen2_right_off;
+        Image screen2_right_on;
+        Image screen2_right_selected;
+        Image screen2_left_hover;
+        Image screen2_left_off;
+        Image screen2_left_on;
+        Image screen2_left_selected;
+        Image screen2_top_left_hover;
+        Image screen2_top_left_off;
+        Image screen2_top_left_on;
+        Image screen2_top_left_selected;
+        Image screen2_top_off;
+        Image screen2_top_on;
+        Image screen2_top_hover;
+        Image screen2_top_selected;
+        Image screen2_top_right_hover;
+        Image screen2_top_right_off;
+        Image screen2_top_right_on;
+        Image screen2_top_right_selected;
+        Image screen2_arrow_1080p_hover;
+        Image screen2_arrow_1080p_off;
+        Image screen2_arrow_1080p_on;
+        Image screen2_arrow_1080p_selected;
+        Image arrow_1080p_hover;
+        Image arrow_1080p_off;
+        Image arrow_1080p_on;
+        Image arrow_1080p_selected;
+
+        /* == banner == */
         Image banner;
-        Image background;
-        Image gradient;
-        Image surrounding;
-        Image check;
-        Image white_box;
-        Image light_blue_box;
-        Image light_blue_check;
+        Image all_hover;
+        Image all_off;
+        Image all_on;
+        Image all_selected;
+        Image auto_hover;
+        Image auto_off;
+        Image auto_on;
+        Image auto_selected;
+        Image banner_global_move_hover;
+        Image banner_global_move_off;
+        Image banner_global_move_on;
+        Image banner_global_move_selected;
+        Image close;
+        Image close_hover;
+        Image discord;
+        Image discord_hover;
+        Image github;
+        Image github_hover;
+        Image maximized_hover;
+        Image maximized_off;
+        Image maximized_on;
+        Image maximized_selected;
+        Image minimized;
+        Image minimized_hover;
+        Image paint_hover;
+        Image paint_off;
+        Image paint_on;
+        Image paint_selected;
+        Image preview_hover;
+        Image preview_off;
+        Image preview_on;
+        Image preview_selected;
+        Image version;
+        Image version_hover;
+        Image youtube;
+        Image youtube_hover;
+
+        /* == circles == */
         Image pink_circle;
         Image pink_circle_on;
         Image violet_circle;
@@ -276,6 +388,33 @@ namespace plt0_gui
         Image purple_circle_on;
         Image chartreuse_circle;
         Image chartreuse_circle_on;
+
+        /* == graphics == */
+        Image gradient;
+        Image surrounding;
+        Image check;
+        Image white_box;
+        Image light_blue_box;
+        Image light_blue_check;
+        Image cli_textbox;
+        Image cli_textbox_hover;
+        Image cmpr_save;
+        Image cmpr_save_as;
+        Image cmpr_save_as_hover;
+        Image cmpr_save_hover;
+        Image cmpr_swap2;
+        Image cmpr_swap2_hover;
+        Image cmpr_swap;
+        Image cmpr_swap_hover;
+        Image run_hover;
+        Image run_off;
+        Image run_on;
+        Image sync_preview_hover;
+        Image sync_preview_off;
+        Image sync_preview_on;
+        Image sync_preview_selected;
+
+        /* == rgba == */
         Image a_on;
         Image a_off;
         Image a_hover;
@@ -292,131 +431,6 @@ namespace plt0_gui
         Image r_off;
         Image r_hover;
         Image r_selected;
-        Image all_hover;
-        Image all_off;
-        Image all_on;
-        Image all_selected;
-        Image auto_hover;
-        Image auto_off;
-        Image auto_on;
-        Image auto_selected;
-        Image banner_global_move_hover;
-        Image banner_global_move_off;
-        Image banner_global_move_on;
-        Image banner_global_move_selected;
-        Image cli_textbox;
-        Image cli_textbox_hover;
-        Image close;
-        Image close_hover;
-        Image cmpr_save;
-        Image cmpr_save_as;
-        Image cmpr_save_as_hover;
-        Image cmpr_save_hover;
-        Image cmpr_swap2;
-        Image cmpr_swap2_hover;
-        Image cmpr_swap;
-        Image cmpr_swap_hover;
-        Image discord;
-        Image discord_hover;
-        Image github;
-        Image github_hover;
-        Image maximized_hover;
-        Image maximized_off;
-        Image maximized_on;
-        Image maximized_selected;
-        Image minimized;
-        Image minimized_hover;
-        Image paint_hover;
-        Image paint_off;
-        Image paint_on;
-        Image paint_selected;
-        Image preview_hover;
-        Image preview_off;
-        Image preview_on;
-        Image preview_selected;
-        Image run_hover;
-        Image run_off;
-        Image run_on;
-        Image sync_preview_hover;
-        Image sync_preview_off;
-        Image sync_preview_on;
-        Image sync_preview_selected;
-        Image version;
-        Image version_hover;
-        Image youtube;
-        Image youtube_hover;
-        Image bottom_hover;
-        Image bottom_left_hover;
-        Image bottom_left_off;
-        Image bottom_left_on;
-        Image bottom_left_selected;
-        Image bottom_off;
-        Image bottom_on;
-        Image bottom_right_hover;
-        Image bottom_right_off;
-        Image bottom_right_on;
-        Image bottom_right_selected;
-        Image bottom_selected;
-        Image right_hover;
-        Image right_off;
-        Image right_on;
-        Image right_selected;
-        Image left_hover;
-        Image left_off;
-        Image left_on;
-        Image left_selected;
-        Image top_hover;
-        Image top_left_hover;
-        Image top_left_off;
-        Image top_left_on;
-        Image top_left_selected;
-        Image top_off;
-        Image top_on;
-        Image top_right_hover;
-        Image top_right_off;
-        Image top_right_on;
-        Image top_right_selected;
-        Image top_selected;
-        Image screen2_bottom_hover;
-        Image screen2_bottom_left_hover;
-        Image screen2_bottom_left_off;
-        Image screen2_bottom_left_on;
-        Image screen2_bottom_left_selected;
-        Image screen2_bottom_off;
-        Image screen2_bottom_on;
-        Image screen2_bottom_right_hover;
-        Image screen2_bottom_right_off;
-        Image screen2_bottom_right_on;
-        Image screen2_bottom_right_selected;
-        Image screen2_bottom_selected;
-        Image screen2_right_hover;
-        Image screen2_right_off;
-        Image screen2_right_on;
-        Image screen2_right_selected;
-        Image screen2_left_hover;
-        Image screen2_left_off;
-        Image screen2_left_on;
-        Image screen2_left_selected;
-        Image screen2_top_hover;
-        Image screen2_top_left_hover;
-        Image screen2_top_left_off;
-        Image screen2_top_left_on;
-        Image screen2_top_left_selected;
-        Image screen2_top_off;
-        Image screen2_top_on;
-        Image screen2_top_right_hover;
-        Image screen2_top_right_off;
-        Image screen2_top_right_on;
-        Image screen2_top_right_selected;
-        Image screen2_arrow_1080p_hover;
-        Image screen2_arrow_1080p_off;
-        Image screen2_arrow_1080p_on;
-        Image screen2_arrow_1080p_selected;
-        Image arrow_1080p_hover;
-        Image arrow_1080p_off;
-        Image arrow_1080p_on;
-        Image arrow_1080p_selected;
-        Image screen2_top_selected;
 
         // I couldn't manage to get external fonts working. this needs to be specified within the app itself :/
         // static string fontname = "Segoe UI";
@@ -913,7 +927,7 @@ namespace plt0_gui
             else
                 txt.Text = txt.Text.Substring(0, len - 1);
         }
-        private void Parse_double_text(TextBox txt, out double output, double max)
+        private void Parse_double_text(TextBox txt, out double output, double max, bool is_percentage = false)
         {
             output = 69420F;
             if (txt.Text == "")
@@ -934,7 +948,10 @@ namespace plt0_gui
                 if (output > max)
                 {
                     output = max;
-                    txt.Text = max.ToString();
+                    if (is_percentage)
+                        txt.Text = max.ToString() + '%';
+                    else
+                        txt.Text = max.ToString();
                 }
             }
             else
@@ -986,7 +1003,7 @@ namespace plt0_gui
             if (Check_run())
             {
                 int num = 1;
-                while (File.Exists(execPath + "images/preview/" + num + ".bmp"))
+                while (File.Exists(execPath + "plt0 content/preview/" + num + ".bmp"))
                 {
                     num++;
                 }
@@ -1012,7 +1029,7 @@ namespace plt0_gui
                     }
                 }
                 arg_array.Add("bmp");
-                arg_array.Add(execPath + "images/preview/" + num + ".bmp");  // even if there's an output file in the args, the last one is th eoutput file :) that's how I made it
+                arg_array.Add(execPath + "plt0 content/preview/" + num + ".bmp");  // even if there's an output file in the args, the last one is th eoutput file :) that's how I made it
                 Parse_args_class cli = new Parse_args_class();
                 cli.Parse_args(arg_array.ToArray());
                 input_file2 = cli.Check_exit();
@@ -1026,9 +1043,9 @@ namespace plt0_gui
                 //image_ck.InterpolationMode = InterpolationMode.NearestNeighbor;
                 //if (image_ck.BackgroundImage != null)
                 //    image_ck.BackgroundImage.Dispose();
-                if (File.Exists(execPath + "images/preview/" + num + ".bmp"))
+                if (File.Exists(execPath + "plt0 content/preview/" + num + ".bmp"))
                 {
-                    image_ck.Image = Image.FromFile(execPath + "images/preview/" + num + ".bmp");
+                    image_ck.Image = Image.FromFile(execPath + "plt0 content/preview/" + num + ".bmp");
                     preview_changed = false;
                     sync_preview_ck.BackgroundImage = sync_preview_off;
                     sync_preview_is_on = false;
@@ -3362,19 +3379,17 @@ namespace plt0_gui
             banner_17_ck.BackgroundImage = screen2_top_left_off;
             banner_18_ck.BackgroundImage = screen2_top_off;
             banner_19_ck.BackgroundImage = screen2_top_right_off;
-            if (System.IO.File.Exists(execPath + "images/settings.txt"))
+            if (System.IO.File.Exists(execPath + "plt0 content/description.txt"))
             {
-                string version = "";
-                config = System.IO.File.ReadAllLines(execPath + "images/settings.txt");
-                if (config.Length > 0)
+                d = System.IO.File.ReadAllLines(execPath + "plt0 content/description.txt");
+                if (d.Length > 0)
                 {
-                    version = config[0].Substring(12);
+                    config_version = d[0].Substring(12);
                 }
-
-                switch (version)
+                switch (config_version)
                 {
                     case "v1.0":
-                        if (version == "v1.0" && config.Length < 200)  // incorrect v1.0 config file
+                        if (config_version == "v1.0" && d.Length < 200)  // incorrect v1.0 config file
                         {
                             //  System.Diagnostics.Debug.WriteLine("some tetttttttttt23423423423423423ttttttttttttttttttttttt");
                             Console.WriteLine("plt0 v1.0 config file should have EXACTLY 200 lines");
@@ -3384,11 +3399,36 @@ namespace plt0_gui
                         break; // in case it needs to get out of this switch
                                // sarcarm++;
                     default:
-                        Console.WriteLine("incorrect config version. " + execPath + "images/settings.txt's First line isn't recognized by this tool");
+                        Console.WriteLine("incorrect config version. " + execPath + "plt0 content/description.txt's First line isn't recognized by this tool");
                         Console.ReadLine();
                         Environment.Exit(2);
                         break; // idk what happens if you don't put a break on a case, but it won't compile otherwise
-
+                }
+            }
+            if (System.IO.File.Exists(execPath + "plt0 content/config.txt"))
+            { 
+                config = System.IO.File.ReadAllLines(execPath + "plt0 content/config.txt");
+                if (config.Length > 0)
+                {
+                    config_version = config[0].Substring(12);
+                }
+                switch (config_version)
+                {
+                    case "v1.0":
+                        if (config_version == "v1.0" && config.Length < 129)  // incorrect v1.0 config file
+                        {
+                            //  System.Diagnostics.Debug.WriteLine("some tetttttttttt23423423423423423ttttttttttttttttttttttt");
+                            Console.WriteLine("plt0 v1.0 config file should have EXACTLY 129 lines");
+                            Console.ReadLine();
+                            Environment.Exit(1);
+                        }
+                        break; // in case it needs to get out of this switch
+                               // sarcarm++;
+                    default:
+                        Console.WriteLine("incorrect config version. " + execPath + "plt0 content/config.txt's First line isn't recognized by this tool");
+                        Console.ReadLine();
+                        Environment.Exit(2);
+                        break; // idk what happens if you don't put a break on a case, but it won't compile otherwise
                 }
                 switch (config[2].ToUpper())
                 {
@@ -3596,10 +3636,6 @@ namespace plt0_gui
                         checked_encoding(rgba32_ck);
                         encoding = 6;
                         break;
-                    case "":
-                        checked_encoding(_ck);
-                        encoding = 7;
-                        break;
                     case "ci4":
                         checked_encoding(ci4_ck);
                         encoding = 8;
@@ -3612,18 +3648,6 @@ namespace plt0_gui
                         checked_encoding(ci14x2_ck);
                         encoding = 10;
                         break;
-                    case "":
-                        checked_encoding(_ck);
-                        encoding = 11;
-                        break;
-                    case "":
-                        checked_encoding(_ck);
-                        encoding = 12;
-                        break;
-                    case "":
-                        checked_encoding(_ck);
-                        encoding = 13;
-                        break;
                     case "cmpr":
                         checked_encoding(cmpr_ck);
                         encoding = 14;
@@ -3631,22 +3655,23 @@ namespace plt0_gui
                 }
                 switch (config[22].ToLower())
                 {
+                    case "default":
                     case "cie 601":
-                        case "default":
                         checked_algorithm(cie_601_ck);
                         algorithm = 0;
                         break;
-                        case "range fit":
+                    case "range fit":
                     case "cie 709":
                         checked_algorithm(cie_709_ck);
                         algorithm = 1;
                         break;
+                    case "most used/furthest":
                     case "custom rgba":
                         checked_algorithm(custom_ck);
                         algorithm = 2;
                         break;
-                        case "gamma":
                     case "darkest_lightest":
+                    case "gamma":
                         checked_algorithm(darkest_lightest_ck);
                         algorithm = 3;
                         break;
@@ -3700,54 +3725,54 @@ namespace plt0_gui
                 switch (config[28].ToLower())
                 {
                     case "nearest_neighbour":
-                        checked_Minification(nearest_neighbour_ck);
+                        checked_Minification(min_nearest_neighbour_ck);
                         minification_filter = 0;
                         break;
                     case "linear":
-                        checked_Minification(linear_ck);
+                        checked_Minification(min_linear_ck);
                         minification_filter = 1;
                         break;
                     case "nearestmipmapnearest":
-                        checked_Minification(nearestmipmapnearest_ck);
+                        checked_Minification(min_nearestmipmapnearest_ck);
                         minification_filter = 2;
                         break;
                     case "nearestmipmaplinear":
-                        checked_Minification(nearestmipmaplinear_ck);
+                        checked_Minification(min_nearestmipmaplinear_ck);
                         minification_filter = 3;
                         break;
                     case "linearmipmapnearest":
-                        checked_Minification(linearmipmapnearest_ck);
+                        checked_Minification(min_linearmipmapnearest_ck);
                         minification_filter = 4;
                         break;
                     case "linearmipmaplinear":
-                        checked_Minification(linearmipmaplinear_ck);
+                        checked_Minification(min_linearmipmaplinear_ck);
                         minification_filter = 5;
                         break;
                 }
                 switch (config[30].ToLower())
                 {
                     case "nearest_neighbour":
-                        checked_Magnification(nearest_neighbour_ck);
+                        checked_Magnification(mag_nearest_neighbour_ck);
                         magnification_filter = 0;
                         break;
                     case "linear":
-                        checked_Magnification(linear_ck);
+                        checked_Magnification(mag_linear_ck);
                         magnification_filter = 1;
                         break;
                     case "nearestmipmapnearest":
-                        checked_Magnification(nearestmipmapnearest_ck);
+                        checked_Magnification(mag_nearestmipmapnearest_ck);
                         magnification_filter = 2;
                         break;
                     case "nearestmipmaplinear":
-                        checked_Magnification(nearestmipmaplinear_ck);
+                        checked_Magnification(mag_nearestmipmaplinear_ck);
                         magnification_filter = 3;
                         break;
                     case "linearmipmapnearest":
-                        checked_Magnification(linearmipmapnearest_ck);
+                        checked_Magnification(mag_linearmipmapnearest_ck);
                         magnification_filter = 4;
                         break;
                     case "linearmipmaplinear":
-                        checked_Magnification(linearmipmaplinear_ck);
+                        checked_Magnification(mag_linearmipmaplinear_ck);
                         magnification_filter = 5;
                         break;
                 }
@@ -3781,10 +3806,121 @@ namespace plt0_gui
                         WrapT = 2;
                         break;
                 }
+                if (config[36].Length > 0)
+                    switch (config[36].ToUpper().Substring(0, 1))
+                    {
+                        case "R":
 
+                            checked_R(r_ck[0]);
+                            break;
+
+                        case "G":
+
+                            checked_G(r_ck[1]);
+                            break;
+
+                        case "B":
+                            checked_B(r_ck[2]);
+                            break;
+
+                        case "A":
+                            checked_A(r_ck[3]);
+                            break;
+
+                    }
+                if (config[36].Length > 1)
+                    switch (config[36].ToUpper().Substring(1, 1))
+                    {
+                        case "R":
+
+                            checked_R(g_ck[0]);
+                            break;
+
+                        case "G":
+
+                            checked_G(g_ck[1]);
+                            break;
+
+                        case "B":
+                            {
+                                checked_B(g_ck[2]);
+                                break;
+                            }
+                        case "A":
+
+                            checked_A(g_ck[3]);
+                            break;
+
+                    }
+                if (config[36].Length > 2)
+                    switch (config[36].ToUpper().Substring(2, 1))
+                    {
+                        case "R":
+
+                            checked_R(b_ck[0]);
+                            break;
+
+                        case "G":
+
+                            checked_G(b_ck[1]);
+                            break;
+
+                        case "B":
+
+                            checked_B(b_ck[2]);
+                            break;
+
+                        case "A":
+
+                            checked_A(b_ck[3]);
+                            break;
+
+                    }
+                if (config[36].Length > 3)
+                    switch (config[36].ToUpper().Substring(3, 1))
+                    {
+                        case "R":
+
+                            checked_R(a_ck[0]);
+                            break;
+
+                        case "G":
+
+                            checked_G(a_ck[1]);
+                            break;
+
+                        case "B":
+
+                            checked_B(a_ck[2]);
+                            break;
+
+                        case "A":
+
+                            checked_A(a_ck[3]);
+                            break;
+
+                    }
+                mipmaps_txt.Text = config[38];
+                cmpr_max_txt.Text = config[40];
+                cmpr_min_alpha_txt.Text = config[42];
+                num_colours_txt.Text = config[44];
+                round3_txt.Text = config[46];
+                round4_txt.Text = config[48];
+                round5_txt.Text = config[50];
+                round6_txt.Text = config[52];
+                diversity_txt.Text = config[54];
+                diversity2_txt.Text = config[56];
+                percentage_txt.Text = config[58];
+                percentage2_txt.Text = config[60];
+                custom_r_txt.Text = config[62];
+                custom_g_txt.Text = config[64];
+                custom_b_txt.Text = config[66];
+                custom_a_txt.Text = config[68];
+                cmpr_hover_colour.Text = config[70];
                 if (config[72].ToLower() == "true")
                 {
                     checked_checkbox(banner_global_move_ck);
+                    banner_global_move = true;
                 }
                 else
                 {
@@ -3793,6 +3929,7 @@ namespace plt0_gui
                 if (config[74].ToLower() == "true")
                 {
                     checked_checkbox(textchange_ck);
+                    textchange = true;
                 }
                 else
                 {
@@ -3801,6 +3938,7 @@ namespace plt0_gui
                 if (config[76].ToLower() == "true")
                 {
                     checked_checkbox(auto_update_ck);
+                    auto_update = true;
                 }
                 else
                 {
@@ -3809,6 +3947,7 @@ namespace plt0_gui
                 if (config[78].ToLower() == "true")
                 {
                     checked_checkbox(upscale_ck);
+                    upscale = true;
                 }
                 else
                 {
@@ -3817,6 +3956,7 @@ namespace plt0_gui
                 if (config[80].ToLower() == "true")
                 {
                     checked_checkbox(cmpr_hover_ck);
+                    cmpr_hover = true;
                 }
                 else
                 {
@@ -3825,6 +3965,7 @@ namespace plt0_gui
                 if (config[82].ToLower() == "true")
                 {
                     checked_checkbox(cmpr_update_preview_ck);
+                    cmpr_update_preview = true;
                 }
                 else
                 {
@@ -3833,6 +3974,7 @@ namespace plt0_gui
                 if (config[84].ToLower() == "true")
                 {
                     checked_checkbox(bmd_ck);
+                    bmd = true;
                 }
                 else
                 {
@@ -3841,6 +3983,7 @@ namespace plt0_gui
                 if (config[86].ToLower() == "true")
                 {
                     checked_checkbox(bti_ck);
+                    bti = true;
                 }
                 else
                 {
@@ -3849,6 +3992,7 @@ namespace plt0_gui
                 if (config[88].ToLower() == "true")
                 {
                     checked_checkbox(tex0_ck);
+                    tex0 = true;
                 }
                 else
                 {
@@ -3857,6 +4001,7 @@ namespace plt0_gui
                 if (config[90].ToLower() == "true")
                 {
                     checked_checkbox(tpl_ck);
+                    tpl = true;
                 }
                 else
                 {
@@ -3865,6 +4010,7 @@ namespace plt0_gui
                 if (config[92].ToLower() == "true")
                 {
                     checked_checkbox(bmp_ck);
+                    bmp = true;
                 }
                 else
                 {
@@ -3873,6 +4019,7 @@ namespace plt0_gui
                 if (config[94].ToLower() == "true")
                 {
                     checked_checkbox(png_ck);
+                    png = true;
                 }
                 else
                 {
@@ -3881,6 +4028,7 @@ namespace plt0_gui
                 if (config[96].ToLower() == "true")
                 {
                     checked_checkbox(jpg_ck);
+                    jpg = true;
                 }
                 else
                 {
@@ -3889,6 +4037,7 @@ namespace plt0_gui
                 if (config[98].ToLower() == "true")
                 {
                     checked_checkbox(jpeg_ck);
+                    jpeg = true;
                 }
                 else
                 {
@@ -3897,6 +4046,7 @@ namespace plt0_gui
                 if (config[100].ToLower() == "true")
                 {
                     checked_checkbox(gif_ck);
+                    gif = true;
                 }
                 else
                 {
@@ -3905,6 +4055,7 @@ namespace plt0_gui
                 if (config[102].ToLower() == "true")
                 {
                     checked_checkbox(ico_ck);
+                    ico = true;
                 }
                 else
                 {
@@ -3913,6 +4064,7 @@ namespace plt0_gui
                 if (config[104].ToLower() == "true")
                 {
                     checked_checkbox(tif_ck);
+                    tif = true;
                 }
                 else
                 {
@@ -3921,6 +4073,7 @@ namespace plt0_gui
                 if (config[106].ToLower() == "true")
                 {
                     checked_checkbox(tiff_ck);
+                    tiff = true;
                 }
                 else
                 {
@@ -3929,6 +4082,7 @@ namespace plt0_gui
                 if (config[108].ToLower() == "true")
                 {
                     checked_checkbox(ask_exit_ck);
+                    ask_exit = true;
                 }
                 else
                 {
@@ -3937,6 +4091,7 @@ namespace plt0_gui
                 if (config[110].ToLower() == "true")
                 {
                     checked_checkbox(bmp_32_ck);
+                    bmp_32 = true;
                 }
                 else
                 {
@@ -3945,6 +4100,7 @@ namespace plt0_gui
                 if (config[112].ToLower() == "true")
                 {
                     checked_checkbox(FORCE_ALPHA_ck);
+                    FORCE_ALPHA = true;
                 }
                 else
                 {
@@ -3953,6 +4109,7 @@ namespace plt0_gui
                 if (config[114].ToLower() == "true")
                 {
                     checked_checkbox(funky_ck);
+                    funky = true;
                 }
                 else
                 {
@@ -3961,6 +4118,7 @@ namespace plt0_gui
                 if (config[116].ToLower() == "true")
                 {
                     checked_checkbox(name_string_ck);
+                    name_string = true;
                 }
                 else
                 {
@@ -3969,6 +4127,7 @@ namespace plt0_gui
                 if (config[118].ToLower() == "true")
                 {
                     checked_checkbox(random_ck);
+                    random = true;
                 }
                 else
                 {
@@ -3977,6 +4136,7 @@ namespace plt0_gui
                 if (config[120].ToLower() == "true")
                 {
                     checked_checkbox(reversex_ck);
+                    reversex = true;
                 }
                 else
                 {
@@ -3985,6 +4145,7 @@ namespace plt0_gui
                 if (config[122].ToLower() == "true")
                 {
                     checked_checkbox(reversey_ck);
+                    reversey = true;
                 }
                 else
                 {
@@ -3993,6 +4154,7 @@ namespace plt0_gui
                 if (config[124].ToLower() == "true")
                 {
                     checked_checkbox(safe_mode_ck);
+                    safe_mode = true;
                 }
                 else
                 {
@@ -4001,6 +4163,7 @@ namespace plt0_gui
                 if (config[126].ToLower() == "true")
                 {
                     checked_checkbox(stfu_ck);
+                    stfu = true;
                 }
                 else
                 {
@@ -4009,6 +4172,7 @@ namespace plt0_gui
                 if (config[128].ToLower() == "true")
                 {
                     checked_checkbox(warn_ck);
+                    warn = true;
                 }
                 else
                 {
@@ -4026,7 +4190,7 @@ namespace plt0_gui
                         new_lines[i - 1] = i.ToString();
                     }
 
-                    System.IO.File.WriteAllLines(execPath + "images/settings.txt", new_lines);
+                    System.IO.File.WriteAllLines(execPath + "plt0 content/config.txt", new_lines);
                 }
                 catch
                 {
@@ -4208,14 +4372,14 @@ namespace plt0_gui
             min_max_ck.Location = new System.Drawing.Point(500, 576);
             min_max_label.Location = new System.Drawing.Point(564, 576);
             bool delete_preview = true;
-            if (Directory.Exists(execPath + "images/preview"))
+            if (Directory.Exists(execPath + "plt0 content/preview"))
             {
                 try
                 {
-                    string[] files = Directory.GetFiles(execPath + "images/preview");
+                    string[] files = Directory.GetFiles(execPath + "plt0 content/preview");
                     for (int i = 0; i < files.Length; i++)
                         File.Delete(files[i]);
-                    Directory.Delete(execPath + "images/preview");
+                    Directory.Delete(execPath + "plt0 content/preview");
                 }
                 catch (Exception ex)
                 {
@@ -4226,7 +4390,7 @@ namespace plt0_gui
                 }
             }
             if (delete_preview)
-                Directory.CreateDirectory(execPath + "images/preview");
+                Directory.CreateDirectory(execPath + "plt0 content/preview");
             banner_ck.BackgroundImage = banner;
             surrounding_ck.BackgroundImage = surrounding;
             banner_minus_ck.BackgroundImage = minimized;
@@ -8868,7 +9032,7 @@ namespace plt0_gui
             this.preview4k_label.Size = new System.Drawing.Size(849, 68);
             this.preview4k_label.TabIndex = 603;
             this.preview4k_label.Text = "4k screen Preview input file (because why not using that space on fullscreen mode" +
-    ")";
+        ")";
             this.preview4k_label.Visible = false;
             // 
             // preview4k_ck
@@ -10541,721 +10705,721 @@ namespace plt0_gui
 
         private void Load_Images()
         {
-            if (File.Exists(execPath + "images/banner.png"))
+            if (File.Exists(execPath + "plt0 content/background.png"))
             {
-                banner = Image.FromFile(execPath + "images/banner.png");
+                background = Image.FromFile(execPath + "plt0 content/background.png");
             }
-            if (File.Exists(execPath + "images/background.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/bottom_hover.png"))
             {
-                background = Image.FromFile(execPath + "images/background.png");
+                bottom_hover = Image.FromFile(execPath + "plt0 content/arrows/bottom_hover.png");
             }
-            if (File.Exists(execPath + "images/gradient.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/bottom_left_hover.png"))
             {
-                gradient = Image.FromFile(execPath + "images/gradient.png");
+                bottom_left_hover = Image.FromFile(execPath + "plt0 content/arrows/bottom_left_hover.png");
             }
-            if (File.Exists(execPath + "images/surrounding.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/bottom_left_off.png"))
             {
-                surrounding = Image.FromFile(execPath + "images/surrounding.png");
+                bottom_left_off = Image.FromFile(execPath + "plt0 content/arrows/bottom_left_off.png");
             }
-            if (File.Exists(execPath + "images/check.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/bottom_left_on.png"))
             {
-                check = Image.FromFile(execPath + "images/check.png");
+                bottom_left_on = Image.FromFile(execPath + "plt0 content/arrows/bottom_left_on.png");
             }
-            if (File.Exists(execPath + "images/white_box.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/bottom_left_selected.png"))
             {
-                white_box = Image.FromFile(execPath + "images/white_box.png");
+                bottom_left_selected = Image.FromFile(execPath + "plt0 content/arrows/bottom_left_selected.png");
             }
-            if (File.Exists(execPath + "images/light_blue_box.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/bottom_off.png"))
             {
-                light_blue_box = Image.FromFile(execPath + "images/light_blue_box.png");
+                bottom_off = Image.FromFile(execPath + "plt0 content/arrows/bottom_off.png");
             }
-            if (File.Exists(execPath + "images/light_blue_check.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/bottom_on.png"))
             {
-                light_blue_check = Image.FromFile(execPath + "images/light_blue_check.png");
+                bottom_on = Image.FromFile(execPath + "plt0 content/arrows/bottom_on.png");
             }
-            if (File.Exists(execPath + "images/pink_circle.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/bottom_right_hover.png"))
             {
-                pink_circle = Image.FromFile(execPath + "images/pink_circle.png");
+                bottom_right_hover = Image.FromFile(execPath + "plt0 content/arrows/bottom_right_hover.png");
             }
-            if (File.Exists(execPath + "images/pink_circle_on.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/bottom_right_off.png"))
             {
-                pink_circle_on = Image.FromFile(execPath + "images/pink_circle_on.png");
+                bottom_right_off = Image.FromFile(execPath + "plt0 content/arrows/bottom_right_off.png");
             }
-            if (File.Exists(execPath + "images/violet_circle.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/bottom_right_on.png"))
             {
-                violet_circle = Image.FromFile(execPath + "images/violet_circle.png");
+                bottom_right_on = Image.FromFile(execPath + "plt0 content/arrows/bottom_right_on.png");
             }
-            if (File.Exists(execPath + "images/violet_circle_on.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/bottom_right_selected.png"))
             {
-                violet_circle_on = Image.FromFile(execPath + "images/violet_circle_on.png");
+                bottom_right_selected = Image.FromFile(execPath + "plt0 content/arrows/bottom_right_selected.png");
             }
-            if (File.Exists(execPath + "images/white_circle.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/bottom_selected.png"))
             {
-                white_circle = Image.FromFile(execPath + "images/white_circle.png");
+                bottom_selected = Image.FromFile(execPath + "plt0 content/arrows/bottom_selected.png");
             }
-            if (File.Exists(execPath + "images/white_circle_on.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/right_hover.png"))
             {
-                white_circle_on = Image.FromFile(execPath + "images/white_circle_on.png");
+                right_hover = Image.FromFile(execPath + "plt0 content/arrows/right_hover.png");
             }
-            if (File.Exists(execPath + "images/green_circle.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/right_off.png"))
             {
-                green_circle = Image.FromFile(execPath + "images/green_circle.png");
+                right_off = Image.FromFile(execPath + "plt0 content/arrows/right_off.png");
             }
-            if (File.Exists(execPath + "images/green_circle_on.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/right_on.png"))
             {
-                green_circle_on = Image.FromFile(execPath + "images/green_circle_on.png");
+                right_on = Image.FromFile(execPath + "plt0 content/arrows/right_on.png");
             }
-            if (File.Exists(execPath + "images/light_blue_circle.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/right_selected.png"))
             {
-                light_blue_circle = Image.FromFile(execPath + "images/light_blue_circle.png");
+                right_selected = Image.FromFile(execPath + "plt0 content/arrows/right_selected.png");
             }
-            if (File.Exists(execPath + "images/light_blue_circle_on.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/left_hover.png"))
             {
-                light_blue_circle_on = Image.FromFile(execPath + "images/light_blue_circle_on.png");
+                left_hover = Image.FromFile(execPath + "plt0 content/arrows/left_hover.png");
             }
-            if (File.Exists(execPath + "images/blue_circle.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/left_off.png"))
             {
-                blue_circle = Image.FromFile(execPath + "images/blue_circle.png");
+                left_off = Image.FromFile(execPath + "plt0 content/arrows/left_off.png");
             }
-            if (File.Exists(execPath + "images/blue_circle_on.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/left_on.png"))
             {
-                blue_circle_on = Image.FromFile(execPath + "images/blue_circle_on.png");
+                left_on = Image.FromFile(execPath + "plt0 content/arrows/left_on.png");
             }
-            if (File.Exists(execPath + "images/light_red_circle.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/left_selected.png"))
             {
-                light_red_circle = Image.FromFile(execPath + "images/light_red_circle.png");
+                left_selected = Image.FromFile(execPath + "plt0 content/arrows/left_selected.png");
             }
-            if (File.Exists(execPath + "images/light_red_circle_on.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/top_left_hover.png"))
             {
-                light_red_circle_on = Image.FromFile(execPath + "images/light_red_circle_on.png");
+                top_left_hover = Image.FromFile(execPath + "plt0 content/arrows/top_left_hover.png");
             }
-            if (File.Exists(execPath + "images/red_circle.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/top_left_off.png"))
             {
-                red_circle = Image.FromFile(execPath + "images/red_circle.png");
+                top_left_off = Image.FromFile(execPath + "plt0 content/arrows/top_left_off.png");
             }
-            if (File.Exists(execPath + "images/red_circle_on.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/top_left_on.png"))
             {
-                red_circle_on = Image.FromFile(execPath + "images/red_circle_on.png");
+                top_left_on = Image.FromFile(execPath + "plt0 content/arrows/top_left_on.png");
             }
-            if (File.Exists(execPath + "images/yellow_circle.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/top_left_selected.png"))
             {
-                yellow_circle = Image.FromFile(execPath + "images/yellow_circle.png");
+                top_left_selected = Image.FromFile(execPath + "plt0 content/arrows/top_left_selected.png");
             }
-            if (File.Exists(execPath + "images/yellow_circle_on.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/top_off.png"))
             {
-                yellow_circle_on = Image.FromFile(execPath + "images/yellow_circle_on.png");
+                top_off = Image.FromFile(execPath + "plt0 content/arrows/top_off.png");
             }
-            if (File.Exists(execPath + "images/orange_circle.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/top_on.png"))
             {
-                orange_circle = Image.FromFile(execPath + "images/orange_circle.png");
+                top_on = Image.FromFile(execPath + "plt0 content/arrows/top_on.png");
             }
-            if (File.Exists(execPath + "images/orange_circle_on.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/top_hover.png"))
             {
-                orange_circle_on = Image.FromFile(execPath + "images/orange_circle_on.png");
+                top_hover = Image.FromFile(execPath + "plt0 content/arrows/top_hover.png");
             }
-            if (File.Exists(execPath + "images/fushia_circle.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/top_selected.png"))
             {
-                fushia_circle = Image.FromFile(execPath + "images/fushia_circle.png");
+                top_selected = Image.FromFile(execPath + "plt0 content/arrows/top_selected.png");
             }
-            if (File.Exists(execPath + "images/fushia_circle_on.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/top_right_hover.png"))
             {
-                fushia_circle_on = Image.FromFile(execPath + "images/fushia_circle_on.png");
+                top_right_hover = Image.FromFile(execPath + "plt0 content/arrows/top_right_hover.png");
             }
-            if (File.Exists(execPath + "images/cyan_circle.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/top_right_off.png"))
             {
-                cyan_circle = Image.FromFile(execPath + "images/cyan_circle.png");
+                top_right_off = Image.FromFile(execPath + "plt0 content/arrows/top_right_off.png");
             }
-            if (File.Exists(execPath + "images/cyan_circle_on.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/top_right_on.png"))
             {
-                cyan_circle_on = Image.FromFile(execPath + "images/cyan_circle_on.png");
+                top_right_on = Image.FromFile(execPath + "plt0 content/arrows/top_right_on.png");
             }
-            if (File.Exists(execPath + "images/cherry_circle.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/top_right_selected.png"))
             {
-                cherry_circle = Image.FromFile(execPath + "images/cherry_circle.png");
+                top_right_selected = Image.FromFile(execPath + "plt0 content/arrows/top_right_selected.png");
             }
-            if (File.Exists(execPath + "images/cherry_circle_on.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_bottom_hover.png"))
             {
-                cherry_circle_on = Image.FromFile(execPath + "images/cherry_circle_on.png");
+                screen2_bottom_hover = Image.FromFile(execPath + "plt0 content/arrows/screen2_bottom_hover.png");
             }
-            if (File.Exists(execPath + "images/purple_circle.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_bottom_left_hover.png"))
             {
-                purple_circle = Image.FromFile(execPath + "images/purple_circle.png");
+                screen2_bottom_left_hover = Image.FromFile(execPath + "plt0 content/arrows/screen2_bottom_left_hover.png");
             }
-            if (File.Exists(execPath + "images/purple_circle_on.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_bottom_left_off.png"))
             {
-                purple_circle_on = Image.FromFile(execPath + "images/purple_circle_on.png");
+                screen2_bottom_left_off = Image.FromFile(execPath + "plt0 content/arrows/screen2_bottom_left_off.png");
             }
-            if (File.Exists(execPath + "images/chartreuse_circle.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_bottom_left_on.png"))
             {
-                chartreuse_circle = Image.FromFile(execPath + "images/chartreuse_circle.png");
+                screen2_bottom_left_on = Image.FromFile(execPath + "plt0 content/arrows/screen2_bottom_left_on.png");
             }
-            if (File.Exists(execPath + "images/chartreuse_circle_on.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_bottom_left_selected.png"))
             {
-                chartreuse_circle_on = Image.FromFile(execPath + "images/chartreuse_circle_on.png");
+                screen2_bottom_left_selected = Image.FromFile(execPath + "plt0 content/arrows/screen2_bottom_left_selected.png");
             }
-            if (File.Exists(execPath + "images/a_on.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_bottom_off.png"))
             {
-                a_on = Image.FromFile(execPath + "images/a_on.png");
+                screen2_bottom_off = Image.FromFile(execPath + "plt0 content/arrows/screen2_bottom_off.png");
             }
-            if (File.Exists(execPath + "images/a_off.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_bottom_on.png"))
             {
-                a_off = Image.FromFile(execPath + "images/a_off.png");
+                screen2_bottom_on = Image.FromFile(execPath + "plt0 content/arrows/screen2_bottom_on.png");
             }
-            if (File.Exists(execPath + "images/a_hover.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_bottom_right_hover.png"))
             {
-                a_hover = Image.FromFile(execPath + "images/a_hover.png");
+                screen2_bottom_right_hover = Image.FromFile(execPath + "plt0 content/arrows/screen2_bottom_right_hover.png");
             }
-            if (File.Exists(execPath + "images/a_selected.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_bottom_right_off.png"))
             {
-                a_selected = Image.FromFile(execPath + "images/a_selected.png");
+                screen2_bottom_right_off = Image.FromFile(execPath + "plt0 content/arrows/screen2_bottom_right_off.png");
             }
-            if (File.Exists(execPath + "images/b_on.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_bottom_right_on.png"))
             {
-                b_on = Image.FromFile(execPath + "images/b_on.png");
+                screen2_bottom_right_on = Image.FromFile(execPath + "plt0 content/arrows/screen2_bottom_right_on.png");
             }
-            if (File.Exists(execPath + "images/b_off.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_bottom_right_selected.png"))
             {
-                b_off = Image.FromFile(execPath + "images/b_off.png");
+                screen2_bottom_right_selected = Image.FromFile(execPath + "plt0 content/arrows/screen2_bottom_right_selected.png");
             }
-            if (File.Exists(execPath + "images/b_hover.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_bottom_selected.png"))
             {
-                b_hover = Image.FromFile(execPath + "images/b_hover.png");
+                screen2_bottom_selected = Image.FromFile(execPath + "plt0 content/arrows/screen2_bottom_selected.png");
             }
-            if (File.Exists(execPath + "images/b_selected.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_right_hover.png"))
             {
-                b_selected = Image.FromFile(execPath + "images/b_selected.png");
+                screen2_right_hover = Image.FromFile(execPath + "plt0 content/arrows/screen2_right_hover.png");
             }
-            if (File.Exists(execPath + "images/g_on.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_right_off.png"))
             {
-                g_on = Image.FromFile(execPath + "images/g_on.png");
+                screen2_right_off = Image.FromFile(execPath + "plt0 content/arrows/screen2_right_off.png");
             }
-            if (File.Exists(execPath + "images/g_off.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_right_on.png"))
             {
-                g_off = Image.FromFile(execPath + "images/g_off.png");
+                screen2_right_on = Image.FromFile(execPath + "plt0 content/arrows/screen2_right_on.png");
             }
-            if (File.Exists(execPath + "images/g_hover.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_right_selected.png"))
             {
-                g_hover = Image.FromFile(execPath + "images/g_hover.png");
+                screen2_right_selected = Image.FromFile(execPath + "plt0 content/arrows/screen2_right_selected.png");
             }
-            if (File.Exists(execPath + "images/g_selected.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_left_hover.png"))
             {
-                g_selected = Image.FromFile(execPath + "images/g_selected.png");
+                screen2_left_hover = Image.FromFile(execPath + "plt0 content/arrows/screen2_left_hover.png");
             }
-            if (File.Exists(execPath + "images/r_on.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_left_off.png"))
             {
-                r_on = Image.FromFile(execPath + "images/r_on.png");
+                screen2_left_off = Image.FromFile(execPath + "plt0 content/arrows/screen2_left_off.png");
             }
-            if (File.Exists(execPath + "images/r_off.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_left_on.png"))
             {
-                r_off = Image.FromFile(execPath + "images/r_off.png");
+                screen2_left_on = Image.FromFile(execPath + "plt0 content/arrows/screen2_left_on.png");
             }
-            if (File.Exists(execPath + "images/r_hover.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_left_selected.png"))
             {
-                r_hover = Image.FromFile(execPath + "images/r_hover.png");
+                screen2_left_selected = Image.FromFile(execPath + "plt0 content/arrows/screen2_left_selected.png");
             }
-            if (File.Exists(execPath + "images/r_selected.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_top_left_hover.png"))
             {
-                r_selected = Image.FromFile(execPath + "images/r_selected.png");
+                screen2_top_left_hover = Image.FromFile(execPath + "plt0 content/arrows/screen2_top_left_hover.png");
             }
-            if (File.Exists(execPath + "images/all_hover.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_top_left_off.png"))
             {
-                all_hover = Image.FromFile(execPath + "images/all_hover.png");
+                screen2_top_left_off = Image.FromFile(execPath + "plt0 content/arrows/screen2_top_left_off.png");
             }
-            if (File.Exists(execPath + "images/all_off.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_top_left_on.png"))
             {
-                all_off = Image.FromFile(execPath + "images/all_off.png");
+                screen2_top_left_on = Image.FromFile(execPath + "plt0 content/arrows/screen2_top_left_on.png");
             }
-            if (File.Exists(execPath + "images/all_on.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_top_left_selected.png"))
             {
-                all_on = Image.FromFile(execPath + "images/all_on.png");
+                screen2_top_left_selected = Image.FromFile(execPath + "plt0 content/arrows/screen2_top_left_selected.png");
             }
-            if (File.Exists(execPath + "images/all_selected.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_top_off.png"))
             {
-                all_selected = Image.FromFile(execPath + "images/all_selected.png");
+                screen2_top_off = Image.FromFile(execPath + "plt0 content/arrows/screen2_top_off.png");
             }
-            if (File.Exists(execPath + "images/auto_hover.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_top_on.png"))
             {
-                auto_hover = Image.FromFile(execPath + "images/auto_hover.png");
+                screen2_top_on = Image.FromFile(execPath + "plt0 content/arrows/screen2_top_on.png");
             }
-            if (File.Exists(execPath + "images/auto_off.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_top_hover.png"))
             {
-                auto_off = Image.FromFile(execPath + "images/auto_off.png");
+                screen2_top_hover = Image.FromFile(execPath + "plt0 content/arrows/screen2_top_hover.png");
             }
-            if (File.Exists(execPath + "images/auto_on.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_top_selected.png"))
             {
-                auto_on = Image.FromFile(execPath + "images/auto_on.png");
+                screen2_top_selected = Image.FromFile(execPath + "plt0 content/arrows/screen2_top_selected.png");
             }
-            if (File.Exists(execPath + "images/auto_selected.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_top_right_hover.png"))
             {
-                auto_selected = Image.FromFile(execPath + "images/auto_selected.png");
+                screen2_top_right_hover = Image.FromFile(execPath + "plt0 content/arrows/screen2_top_right_hover.png");
             }
-            if (File.Exists(execPath + "images/banner_global_move_hover.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_top_right_off.png"))
             {
-                banner_global_move_hover = Image.FromFile(execPath + "images/banner_global_move_hover.png");
+                screen2_top_right_off = Image.FromFile(execPath + "plt0 content/arrows/screen2_top_right_off.png");
             }
-            if (File.Exists(execPath + "images/banner_global_move_off.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_top_right_on.png"))
             {
-                banner_global_move_off = Image.FromFile(execPath + "images/banner_global_move_off.png");
+                screen2_top_right_on = Image.FromFile(execPath + "plt0 content/arrows/screen2_top_right_on.png");
             }
-            if (File.Exists(execPath + "images/banner_global_move_on.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_top_right_selected.png"))
             {
-                banner_global_move_on = Image.FromFile(execPath + "images/banner_global_move_on.png");
+                screen2_top_right_selected = Image.FromFile(execPath + "plt0 content/arrows/screen2_top_right_selected.png");
             }
-            if (File.Exists(execPath + "images/banner_global_move_selected.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_arrow_1080p_hover.png"))
             {
-                banner_global_move_selected = Image.FromFile(execPath + "images/banner_global_move_selected.png");
+                screen2_arrow_1080p_hover = Image.FromFile(execPath + "plt0 content/arrows/screen2_arrow_1080p_hover.png");
             }
-            if (File.Exists(execPath + "images/cli_textbox.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_arrow_1080p_off.png"))
             {
-                cli_textbox = Image.FromFile(execPath + "images/cli_textbox.png");
+                screen2_arrow_1080p_off = Image.FromFile(execPath + "plt0 content/arrows/screen2_arrow_1080p_off.png");
             }
-            if (File.Exists(execPath + "images/cli_textbox_hover.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_arrow_1080p_on.png"))
             {
-                cli_textbox_hover = Image.FromFile(execPath + "images/cli_textbox_hover.png");
+                screen2_arrow_1080p_on = Image.FromFile(execPath + "plt0 content/arrows/screen2_arrow_1080p_on.png");
             }
-            if (File.Exists(execPath + "images/close.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/screen2_arrow_1080p_selected.png"))
             {
-                close = Image.FromFile(execPath + "images/close.png");
+                screen2_arrow_1080p_selected = Image.FromFile(execPath + "plt0 content/arrows/screen2_arrow_1080p_selected.png");
             }
-            if (File.Exists(execPath + "images/close_hover.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/arrow_1080p_hover.png"))
             {
-                close_hover = Image.FromFile(execPath + "images/close_hover.png");
+                arrow_1080p_hover = Image.FromFile(execPath + "plt0 content/arrows/arrow_1080p_hover.png");
             }
-            if (File.Exists(execPath + "images/cmpr_save.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/arrow_1080p_off.png"))
             {
-                cmpr_save = Image.FromFile(execPath + "images/cmpr_save.png");
+                arrow_1080p_off = Image.FromFile(execPath + "plt0 content/arrows/arrow_1080p_off.png");
             }
-            if (File.Exists(execPath + "images/cmpr_save_as.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/arrow_1080p_on.png"))
             {
-                cmpr_save_as = Image.FromFile(execPath + "images/cmpr_save_as.png");
+                arrow_1080p_on = Image.FromFile(execPath + "plt0 content/arrows/arrow_1080p_on.png");
             }
-            if (File.Exists(execPath + "images/cmpr_save_as_hover.png"))
+            if (File.Exists(execPath + "plt0 content/arrows/arrow_1080p_selected.png"))
             {
-                cmpr_save_as_hover = Image.FromFile(execPath + "images/cmpr_save_as_hover.png");
+                arrow_1080p_selected = Image.FromFile(execPath + "plt0 content/arrows/arrow_1080p_selected.png");
             }
-            if (File.Exists(execPath + "images/cmpr_save_hover.png"))
+            if (File.Exists(execPath + "plt0 content/banner/banner.png"))
             {
-                cmpr_save_hover = Image.FromFile(execPath + "images/cmpr_save_hover.png");
+                banner = Image.FromFile(execPath + "plt0 content/banner/banner.png");
             }
-            if (File.Exists(execPath + "images/cmpr_swap2.png"))
+            if (File.Exists(execPath + "plt0 content/banner/all_hover.png"))
             {
-                cmpr_swap2 = Image.FromFile(execPath + "images/cmpr_swap2.png");
+                all_hover = Image.FromFile(execPath + "plt0 content/banner/all_hover.png");
             }
-            if (File.Exists(execPath + "images/cmpr_swap2_hover.png"))
+            if (File.Exists(execPath + "plt0 content/banner/all_off.png"))
             {
-                cmpr_swap2_hover = Image.FromFile(execPath + "images/cmpr_swap2_hover.png");
+                all_off = Image.FromFile(execPath + "plt0 content/banner/all_off.png");
             }
-            if (File.Exists(execPath + "images/cmpr_swap.png"))
+            if (File.Exists(execPath + "plt0 content/banner/all_on.png"))
             {
-                cmpr_swap = Image.FromFile(execPath + "images/cmpr_swap.png");
+                all_on = Image.FromFile(execPath + "plt0 content/banner/all_on.png");
             }
-            if (File.Exists(execPath + "images/cmpr_swap_hover.png"))
+            if (File.Exists(execPath + "plt0 content/banner/all_selected.png"))
             {
-                cmpr_swap_hover = Image.FromFile(execPath + "images/cmpr_swap_hover.png");
+                all_selected = Image.FromFile(execPath + "plt0 content/banner/all_selected.png");
             }
-            if (File.Exists(execPath + "images/discord.png"))
+            if (File.Exists(execPath + "plt0 content/banner/auto_hover.png"))
             {
-                discord = Image.FromFile(execPath + "images/discord.png");
+                auto_hover = Image.FromFile(execPath + "plt0 content/banner/auto_hover.png");
             }
-            if (File.Exists(execPath + "images/discord_hover.png"))
+            if (File.Exists(execPath + "plt0 content/banner/auto_off.png"))
             {
-                discord_hover = Image.FromFile(execPath + "images/discord_hover.png");
+                auto_off = Image.FromFile(execPath + "plt0 content/banner/auto_off.png");
             }
-            if (File.Exists(execPath + "images/github.png"))
+            if (File.Exists(execPath + "plt0 content/banner/auto_on.png"))
             {
-                github = Image.FromFile(execPath + "images/github.png");
+                auto_on = Image.FromFile(execPath + "plt0 content/banner/auto_on.png");
             }
-            if (File.Exists(execPath + "images/github_hover.png"))
+            if (File.Exists(execPath + "plt0 content/banner/auto_selected.png"))
             {
-                github_hover = Image.FromFile(execPath + "images/github_hover.png");
+                auto_selected = Image.FromFile(execPath + "plt0 content/banner/auto_selected.png");
             }
-            if (File.Exists(execPath + "images/maximized_hover.png"))
+            if (File.Exists(execPath + "plt0 content/banner/banner_global_move_hover.png"))
             {
-                maximized_hover = Image.FromFile(execPath + "images/maximized_hover.png");
+                banner_global_move_hover = Image.FromFile(execPath + "plt0 content/banner/banner_global_move_hover.png");
             }
-            if (File.Exists(execPath + "images/maximized_off.png"))
+            if (File.Exists(execPath + "plt0 content/banner/banner_global_move_off.png"))
             {
-                maximized_off = Image.FromFile(execPath + "images/maximized_off.png");
+                banner_global_move_off = Image.FromFile(execPath + "plt0 content/banner/banner_global_move_off.png");
             }
-            if (File.Exists(execPath + "images/maximized_on.png"))
+            if (File.Exists(execPath + "plt0 content/banner/banner_global_move_on.png"))
             {
-                maximized_on = Image.FromFile(execPath + "images/maximized_on.png");
+                banner_global_move_on = Image.FromFile(execPath + "plt0 content/banner/banner_global_move_on.png");
             }
-            if (File.Exists(execPath + "images/maximized_selected.png"))
+            if (File.Exists(execPath + "plt0 content/banner/banner_global_move_selected.png"))
             {
-                maximized_selected = Image.FromFile(execPath + "images/maximized_selected.png");
+                banner_global_move_selected = Image.FromFile(execPath + "plt0 content/banner/banner_global_move_selected.png");
             }
-            if (File.Exists(execPath + "images/minimized.png"))
+            if (File.Exists(execPath + "plt0 content/banner/close.png"))
             {
-                minimized = Image.FromFile(execPath + "images/minimized.png");
+                close = Image.FromFile(execPath + "plt0 content/banner/close.png");
             }
-            if (File.Exists(execPath + "images/minimized_hover.png"))
+            if (File.Exists(execPath + "plt0 content/banner/close_hover.png"))
             {
-                minimized_hover = Image.FromFile(execPath + "images/minimized_hover.png");
+                close_hover = Image.FromFile(execPath + "plt0 content/banner/close_hover.png");
             }
-            if (File.Exists(execPath + "images/paint_hover.png"))
+            if (File.Exists(execPath + "plt0 content/banner/discord.png"))
             {
-                paint_hover = Image.FromFile(execPath + "images/paint_hover.png");
+                discord = Image.FromFile(execPath + "plt0 content/banner/discord.png");
             }
-            if (File.Exists(execPath + "images/paint_off.png"))
+            if (File.Exists(execPath + "plt0 content/banner/discord_hover.png"))
             {
-                paint_off = Image.FromFile(execPath + "images/paint_off.png");
+                discord_hover = Image.FromFile(execPath + "plt0 content/banner/discord_hover.png");
             }
-            if (File.Exists(execPath + "images/paint_on.png"))
+            if (File.Exists(execPath + "plt0 content/banner/github.png"))
             {
-                paint_on = Image.FromFile(execPath + "images/paint_on.png");
+                github = Image.FromFile(execPath + "plt0 content/banner/github.png");
             }
-            if (File.Exists(execPath + "images/paint_selected.png"))
+            if (File.Exists(execPath + "plt0 content/banner/github_hover.png"))
             {
-                paint_selected = Image.FromFile(execPath + "images/paint_selected.png");
+                github_hover = Image.FromFile(execPath + "plt0 content/banner/github_hover.png");
             }
-            if (File.Exists(execPath + "images/preview_hover.png"))
+            if (File.Exists(execPath + "plt0 content/banner/maximized_hover.png"))
             {
-                preview_hover = Image.FromFile(execPath + "images/preview_hover.png");
+                maximized_hover = Image.FromFile(execPath + "plt0 content/banner/maximized_hover.png");
             }
-            if (File.Exists(execPath + "images/preview_off.png"))
+            if (File.Exists(execPath + "plt0 content/banner/maximized_off.png"))
             {
-                preview_off = Image.FromFile(execPath + "images/preview_off.png");
+                maximized_off = Image.FromFile(execPath + "plt0 content/banner/maximized_off.png");
             }
-            if (File.Exists(execPath + "images/preview_on.png"))
+            if (File.Exists(execPath + "plt0 content/banner/maximized_on.png"))
             {
-                preview_on = Image.FromFile(execPath + "images/preview_on.png");
+                maximized_on = Image.FromFile(execPath + "plt0 content/banner/maximized_on.png");
             }
-            if (File.Exists(execPath + "images/preview_selected.png"))
+            if (File.Exists(execPath + "plt0 content/banner/maximized_selected.png"))
             {
-                preview_selected = Image.FromFile(execPath + "images/preview_selected.png");
+                maximized_selected = Image.FromFile(execPath + "plt0 content/banner/maximized_selected.png");
             }
-            if (File.Exists(execPath + "images/run_hover.png"))
+            if (File.Exists(execPath + "plt0 content/banner/minimized.png"))
             {
-                run_hover = Image.FromFile(execPath + "images/run_hover.png");
+                minimized = Image.FromFile(execPath + "plt0 content/banner/minimized.png");
             }
-            if (File.Exists(execPath + "images/run_off.png"))
+            if (File.Exists(execPath + "plt0 content/banner/minimized_hover.png"))
             {
-                run_off = Image.FromFile(execPath + "images/run_off.png");
+                minimized_hover = Image.FromFile(execPath + "plt0 content/banner/minimized_hover.png");
             }
-            if (File.Exists(execPath + "images/run_on.png"))
+            if (File.Exists(execPath + "plt0 content/banner/paint_hover.png"))
             {
-                run_on = Image.FromFile(execPath + "images/run_on.png");
+                paint_hover = Image.FromFile(execPath + "plt0 content/banner/paint_hover.png");
             }
-            if (File.Exists(execPath + "images/sync_preview_hover.png"))
+            if (File.Exists(execPath + "plt0 content/banner/paint_off.png"))
             {
-                sync_preview_hover = Image.FromFile(execPath + "images/sync_preview_hover.png");
+                paint_off = Image.FromFile(execPath + "plt0 content/banner/paint_off.png");
             }
-            if (File.Exists(execPath + "images/sync_preview_off.png"))
+            if (File.Exists(execPath + "plt0 content/banner/paint_on.png"))
             {
-                sync_preview_off = Image.FromFile(execPath + "images/sync_preview_off.png");
+                paint_on = Image.FromFile(execPath + "plt0 content/banner/paint_on.png");
             }
-            if (File.Exists(execPath + "images/sync_preview_on.png"))
+            if (File.Exists(execPath + "plt0 content/banner/paint_selected.png"))
             {
-                sync_preview_on = Image.FromFile(execPath + "images/sync_preview_on.png");
+                paint_selected = Image.FromFile(execPath + "plt0 content/banner/paint_selected.png");
             }
-            if (File.Exists(execPath + "images/sync_preview_selected.png"))
+            if (File.Exists(execPath + "plt0 content/banner/preview_hover.png"))
             {
-                sync_preview_selected = Image.FromFile(execPath + "images/sync_preview_selected.png");
+                preview_hover = Image.FromFile(execPath + "plt0 content/banner/preview_hover.png");
             }
-            if (File.Exists(execPath + "images/version.png"))
+            if (File.Exists(execPath + "plt0 content/banner/preview_off.png"))
             {
-                version = Image.FromFile(execPath + "images/version.png");
+                preview_off = Image.FromFile(execPath + "plt0 content/banner/preview_off.png");
             }
-            if (File.Exists(execPath + "images/version_hover.png"))
+            if (File.Exists(execPath + "plt0 content/banner/preview_on.png"))
             {
-                version_hover = Image.FromFile(execPath + "images/version_hover.png");
+                preview_on = Image.FromFile(execPath + "plt0 content/banner/preview_on.png");
             }
-            if (File.Exists(execPath + "images/youtube.png"))
+            if (File.Exists(execPath + "plt0 content/banner/preview_selected.png"))
             {
-                youtube = Image.FromFile(execPath + "images/youtube.png");
+                preview_selected = Image.FromFile(execPath + "plt0 content/banner/preview_selected.png");
             }
-            if (File.Exists(execPath + "images/youtube_hover.png"))
+            if (File.Exists(execPath + "plt0 content/banner/version.png"))
             {
-                youtube_hover = Image.FromFile(execPath + "images/youtube_hover.png");
+                version = Image.FromFile(execPath + "plt0 content/banner/version.png");
             }
-            if (File.Exists(execPath + "images/bottom_hover.png"))
+            if (File.Exists(execPath + "plt0 content/banner/version_hover.png"))
             {
-                bottom_hover = Image.FromFile(execPath + "images/bottom_hover.png");
+                version_hover = Image.FromFile(execPath + "plt0 content/banner/version_hover.png");
             }
-            if (File.Exists(execPath + "images/bottom_left_hover.png"))
+            if (File.Exists(execPath + "plt0 content/banner/youtube.png"))
             {
-                bottom_left_hover = Image.FromFile(execPath + "images/bottom_left_hover.png");
+                youtube = Image.FromFile(execPath + "plt0 content/banner/youtube.png");
             }
-            if (File.Exists(execPath + "images/bottom_left_off.png"))
+            if (File.Exists(execPath + "plt0 content/banner/youtube_hover.png"))
             {
-                bottom_left_off = Image.FromFile(execPath + "images/bottom_left_off.png");
+                youtube_hover = Image.FromFile(execPath + "plt0 content/banner/youtube_hover.png");
             }
-            if (File.Exists(execPath + "images/bottom_left_on.png"))
+            if (File.Exists(execPath + "plt0 content/circles/pink_circle.png"))
             {
-                bottom_left_on = Image.FromFile(execPath + "images/bottom_left_on.png");
+                pink_circle = Image.FromFile(execPath + "plt0 content/circles/pink_circle.png");
             }
-            if (File.Exists(execPath + "images/bottom_left_selected.png"))
+            if (File.Exists(execPath + "plt0 content/circles/pink_circle_on.png"))
             {
-                bottom_left_selected = Image.FromFile(execPath + "images/bottom_left_selected.png");
+                pink_circle_on = Image.FromFile(execPath + "plt0 content/circles/pink_circle_on.png");
             }
-            if (File.Exists(execPath + "images/bottom_off.png"))
+            if (File.Exists(execPath + "plt0 content/circles/violet_circle.png"))
             {
-                bottom_off = Image.FromFile(execPath + "images/bottom_off.png");
+                violet_circle = Image.FromFile(execPath + "plt0 content/circles/violet_circle.png");
             }
-            if (File.Exists(execPath + "images/bottom_on.png"))
+            if (File.Exists(execPath + "plt0 content/circles/violet_circle_on.png"))
             {
-                bottom_on = Image.FromFile(execPath + "images/bottom_on.png");
+                violet_circle_on = Image.FromFile(execPath + "plt0 content/circles/violet_circle_on.png");
             }
-            if (File.Exists(execPath + "images/bottom_right_hover.png"))
+            if (File.Exists(execPath + "plt0 content/circles/white_circle.png"))
             {
-                bottom_right_hover = Image.FromFile(execPath + "images/bottom_right_hover.png");
+                white_circle = Image.FromFile(execPath + "plt0 content/circles/white_circle.png");
             }
-            if (File.Exists(execPath + "images/bottom_right_off.png"))
+            if (File.Exists(execPath + "plt0 content/circles/white_circle_on.png"))
             {
-                bottom_right_off = Image.FromFile(execPath + "images/bottom_right_off.png");
+                white_circle_on = Image.FromFile(execPath + "plt0 content/circles/white_circle_on.png");
             }
-            if (File.Exists(execPath + "images/bottom_right_on.png"))
+            if (File.Exists(execPath + "plt0 content/circles/green_circle.png"))
             {
-                bottom_right_on = Image.FromFile(execPath + "images/bottom_right_on.png");
+                green_circle = Image.FromFile(execPath + "plt0 content/circles/green_circle.png");
             }
-            if (File.Exists(execPath + "images/bottom_right_selected.png"))
+            if (File.Exists(execPath + "plt0 content/circles/green_circle_on.png"))
             {
-                bottom_right_selected = Image.FromFile(execPath + "images/bottom_right_selected.png");
+                green_circle_on = Image.FromFile(execPath + "plt0 content/circles/green_circle_on.png");
             }
-            if (File.Exists(execPath + "images/bottom_selected.png"))
+            if (File.Exists(execPath + "plt0 content/circles/light_blue_circle.png"))
             {
-                bottom_selected = Image.FromFile(execPath + "images/bottom_selected.png");
+                light_blue_circle = Image.FromFile(execPath + "plt0 content/circles/light_blue_circle.png");
             }
-            if (File.Exists(execPath + "images/right_hover.png"))
+            if (File.Exists(execPath + "plt0 content/circles/light_blue_circle_on.png"))
             {
-                right_hover = Image.FromFile(execPath + "images/right_hover.png");
+                light_blue_circle_on = Image.FromFile(execPath + "plt0 content/circles/light_blue_circle_on.png");
             }
-            if (File.Exists(execPath + "images/right_off.png"))
+            if (File.Exists(execPath + "plt0 content/circles/blue_circle.png"))
             {
-                right_off = Image.FromFile(execPath + "images/right_off.png");
+                blue_circle = Image.FromFile(execPath + "plt0 content/circles/blue_circle.png");
             }
-            if (File.Exists(execPath + "images/right_on.png"))
+            if (File.Exists(execPath + "plt0 content/circles/blue_circle_on.png"))
             {
-                right_on = Image.FromFile(execPath + "images/right_on.png");
+                blue_circle_on = Image.FromFile(execPath + "plt0 content/circles/blue_circle_on.png");
             }
-            if (File.Exists(execPath + "images/right_selected.png"))
+            if (File.Exists(execPath + "plt0 content/circles/light_red_circle.png"))
             {
-                right_selected = Image.FromFile(execPath + "images/right_selected.png");
+                light_red_circle = Image.FromFile(execPath + "plt0 content/circles/light_red_circle.png");
             }
-            if (File.Exists(execPath + "images/left_hover.png"))
+            if (File.Exists(execPath + "plt0 content/circles/light_red_circle_on.png"))
             {
-                left_hover = Image.FromFile(execPath + "images/left_hover.png");
+                light_red_circle_on = Image.FromFile(execPath + "plt0 content/circles/light_red_circle_on.png");
             }
-            if (File.Exists(execPath + "images/left_off.png"))
+            if (File.Exists(execPath + "plt0 content/circles/red_circle.png"))
             {
-                left_off = Image.FromFile(execPath + "images/left_off.png");
+                red_circle = Image.FromFile(execPath + "plt0 content/circles/red_circle.png");
             }
-            if (File.Exists(execPath + "images/left_on.png"))
+            if (File.Exists(execPath + "plt0 content/circles/red_circle_on.png"))
             {
-                left_on = Image.FromFile(execPath + "images/left_on.png");
+                red_circle_on = Image.FromFile(execPath + "plt0 content/circles/red_circle_on.png");
             }
-            if (File.Exists(execPath + "images/left_selected.png"))
+            if (File.Exists(execPath + "plt0 content/circles/yellow_circle.png"))
             {
-                left_selected = Image.FromFile(execPath + "images/left_selected.png");
+                yellow_circle = Image.FromFile(execPath + "plt0 content/circles/yellow_circle.png");
             }
-            if (File.Exists(execPath + "images/top_hover.png"))
+            if (File.Exists(execPath + "plt0 content/circles/yellow_circle_on.png"))
             {
-                top_hover = Image.FromFile(execPath + "images/top_hover.png");
+                yellow_circle_on = Image.FromFile(execPath + "plt0 content/circles/yellow_circle_on.png");
             }
-            if (File.Exists(execPath + "images/top_left_hover.png"))
+            if (File.Exists(execPath + "plt0 content/circles/orange_circle.png"))
             {
-                top_left_hover = Image.FromFile(execPath + "images/top_left_hover.png");
+                orange_circle = Image.FromFile(execPath + "plt0 content/circles/orange_circle.png");
             }
-            if (File.Exists(execPath + "images/top_left_off.png"))
+            if (File.Exists(execPath + "plt0 content/circles/orange_circle_on.png"))
             {
-                top_left_off = Image.FromFile(execPath + "images/top_left_off.png");
+                orange_circle_on = Image.FromFile(execPath + "plt0 content/circles/orange_circle_on.png");
             }
-            if (File.Exists(execPath + "images/top_left_on.png"))
+            if (File.Exists(execPath + "plt0 content/circles/fushia_circle.png"))
             {
-                top_left_on = Image.FromFile(execPath + "images/top_left_on.png");
+                fushia_circle = Image.FromFile(execPath + "plt0 content/circles/fushia_circle.png");
             }
-            if (File.Exists(execPath + "images/top_left_selected.png"))
+            if (File.Exists(execPath + "plt0 content/circles/fushia_circle_on.png"))
             {
-                top_left_selected = Image.FromFile(execPath + "images/top_left_selected.png");
+                fushia_circle_on = Image.FromFile(execPath + "plt0 content/circles/fushia_circle_on.png");
             }
-            if (File.Exists(execPath + "images/top_off.png"))
+            if (File.Exists(execPath + "plt0 content/circles/cyan_circle.png"))
             {
-                top_off = Image.FromFile(execPath + "images/top_off.png");
+                cyan_circle = Image.FromFile(execPath + "plt0 content/circles/cyan_circle.png");
             }
-            if (File.Exists(execPath + "images/top_on.png"))
+            if (File.Exists(execPath + "plt0 content/circles/cyan_circle_on.png"))
             {
-                top_on = Image.FromFile(execPath + "images/top_on.png");
+                cyan_circle_on = Image.FromFile(execPath + "plt0 content/circles/cyan_circle_on.png");
             }
-            if (File.Exists(execPath + "images/top_right_hover.png"))
+            if (File.Exists(execPath + "plt0 content/circles/cherry_circle.png"))
             {
-                top_right_hover = Image.FromFile(execPath + "images/top_right_hover.png");
+                cherry_circle = Image.FromFile(execPath + "plt0 content/circles/cherry_circle.png");
             }
-            if (File.Exists(execPath + "images/top_right_off.png"))
+            if (File.Exists(execPath + "plt0 content/circles/cherry_circle_on.png"))
             {
-                top_right_off = Image.FromFile(execPath + "images/top_right_off.png");
+                cherry_circle_on = Image.FromFile(execPath + "plt0 content/circles/cherry_circle_on.png");
             }
-            if (File.Exists(execPath + "images/top_right_on.png"))
+            if (File.Exists(execPath + "plt0 content/circles/purple_circle.png"))
             {
-                top_right_on = Image.FromFile(execPath + "images/top_right_on.png");
+                purple_circle = Image.FromFile(execPath + "plt0 content/circles/purple_circle.png");
             }
-            if (File.Exists(execPath + "images/top_right_selected.png"))
+            if (File.Exists(execPath + "plt0 content/circles/purple_circle_on.png"))
             {
-                top_right_selected = Image.FromFile(execPath + "images/top_right_selected.png");
+                purple_circle_on = Image.FromFile(execPath + "plt0 content/circles/purple_circle_on.png");
             }
-            if (File.Exists(execPath + "images/top_selected.png"))
+            if (File.Exists(execPath + "plt0 content/circles/chartreuse_circle.png"))
             {
-                top_selected = Image.FromFile(execPath + "images/top_selected.png");
+                chartreuse_circle = Image.FromFile(execPath + "plt0 content/circles/chartreuse_circle.png");
             }
-            if (File.Exists(execPath + "images/screen2_bottom_hover.png"))
+            if (File.Exists(execPath + "plt0 content/circles/chartreuse_circle_on.png"))
             {
-                screen2_bottom_hover = Image.FromFile(execPath + "images/screen2_bottom_hover.png");
+                chartreuse_circle_on = Image.FromFile(execPath + "plt0 content/circles/chartreuse_circle_on.png");
             }
-            if (File.Exists(execPath + "images/screen2_bottom_left_hover.png"))
+            if (File.Exists(execPath + "plt0 content/graphics/gradient.png"))
             {
-                screen2_bottom_left_hover = Image.FromFile(execPath + "images/screen2_bottom_left_hover.png");
+                gradient = Image.FromFile(execPath + "plt0 content/graphics/gradient.png");
             }
-            if (File.Exists(execPath + "images/screen2_bottom_left_off.png"))
+            if (File.Exists(execPath + "plt0 content/graphics/surrounding.png"))
             {
-                screen2_bottom_left_off = Image.FromFile(execPath + "images/screen2_bottom_left_off.png");
+                surrounding = Image.FromFile(execPath + "plt0 content/graphics/surrounding.png");
             }
-            if (File.Exists(execPath + "images/screen2_bottom_left_on.png"))
+            if (File.Exists(execPath + "plt0 content/graphics/check.png"))
             {
-                screen2_bottom_left_on = Image.FromFile(execPath + "images/screen2_bottom_left_on.png");
+                check = Image.FromFile(execPath + "plt0 content/graphics/check.png");
             }
-            if (File.Exists(execPath + "images/screen2_bottom_left_selected.png"))
+            if (File.Exists(execPath + "plt0 content/graphics/white_box.png"))
             {
-                screen2_bottom_left_selected = Image.FromFile(execPath + "images/screen2_bottom_left_selected.png");
+                white_box = Image.FromFile(execPath + "plt0 content/graphics/white_box.png");
             }
-            if (File.Exists(execPath + "images/screen2_bottom_off.png"))
+            if (File.Exists(execPath + "plt0 content/graphics/light_blue_box.png"))
             {
-                screen2_bottom_off = Image.FromFile(execPath + "images/screen2_bottom_off.png");
+                light_blue_box = Image.FromFile(execPath + "plt0 content/graphics/light_blue_box.png");
             }
-            if (File.Exists(execPath + "images/screen2_bottom_on.png"))
+            if (File.Exists(execPath + "plt0 content/graphics/light_blue_check.png"))
             {
-                screen2_bottom_on = Image.FromFile(execPath + "images/screen2_bottom_on.png");
+                light_blue_check = Image.FromFile(execPath + "plt0 content/graphics/light_blue_check.png");
             }
-            if (File.Exists(execPath + "images/screen2_bottom_right_hover.png"))
+            if (File.Exists(execPath + "plt0 content/graphics/cli_textbox.png"))
             {
-                screen2_bottom_right_hover = Image.FromFile(execPath + "images/screen2_bottom_right_hover.png");
+                cli_textbox = Image.FromFile(execPath + "plt0 content/graphics/cli_textbox.png");
             }
-            if (File.Exists(execPath + "images/screen2_bottom_right_off.png"))
+            if (File.Exists(execPath + "plt0 content/graphics/cli_textbox_hover.png"))
             {
-                screen2_bottom_right_off = Image.FromFile(execPath + "images/screen2_bottom_right_off.png");
+                cli_textbox_hover = Image.FromFile(execPath + "plt0 content/graphics/cli_textbox_hover.png");
             }
-            if (File.Exists(execPath + "images/screen2_bottom_right_on.png"))
+            if (File.Exists(execPath + "plt0 content/graphics/cmpr_save.png"))
             {
-                screen2_bottom_right_on = Image.FromFile(execPath + "images/screen2_bottom_right_on.png");
+                cmpr_save = Image.FromFile(execPath + "plt0 content/graphics/cmpr_save.png");
             }
-            if (File.Exists(execPath + "images/screen2_bottom_right_selected.png"))
+            if (File.Exists(execPath + "plt0 content/graphics/cmpr_save_as.png"))
             {
-                screen2_bottom_right_selected = Image.FromFile(execPath + "images/screen2_bottom_right_selected.png");
+                cmpr_save_as = Image.FromFile(execPath + "plt0 content/graphics/cmpr_save_as.png");
             }
-            if (File.Exists(execPath + "images/screen2_bottom_selected.png"))
+            if (File.Exists(execPath + "plt0 content/graphics/cmpr_save_as_hover.png"))
             {
-                screen2_bottom_selected = Image.FromFile(execPath + "images/screen2_bottom_selected.png");
+                cmpr_save_as_hover = Image.FromFile(execPath + "plt0 content/graphics/cmpr_save_as_hover.png");
             }
-            if (File.Exists(execPath + "images/screen2_right_hover.png"))
+            if (File.Exists(execPath + "plt0 content/graphics/cmpr_save_hover.png"))
             {
-                screen2_right_hover = Image.FromFile(execPath + "images/screen2_right_hover.png");
+                cmpr_save_hover = Image.FromFile(execPath + "plt0 content/graphics/cmpr_save_hover.png");
             }
-            if (File.Exists(execPath + "images/screen2_right_off.png"))
+            if (File.Exists(execPath + "plt0 content/graphics/cmpr_swap2.png"))
             {
-                screen2_right_off = Image.FromFile(execPath + "images/screen2_right_off.png");
+                cmpr_swap2 = Image.FromFile(execPath + "plt0 content/graphics/cmpr_swap2.png");
             }
-            if (File.Exists(execPath + "images/screen2_right_on.png"))
+            if (File.Exists(execPath + "plt0 content/graphics/cmpr_swap2_hover.png"))
             {
-                screen2_right_on = Image.FromFile(execPath + "images/screen2_right_on.png");
+                cmpr_swap2_hover = Image.FromFile(execPath + "plt0 content/graphics/cmpr_swap2_hover.png");
             }
-            if (File.Exists(execPath + "images/screen2_right_selected.png"))
+            if (File.Exists(execPath + "plt0 content/graphics/cmpr_swap.png"))
             {
-                screen2_right_selected = Image.FromFile(execPath + "images/screen2_right_selected.png");
+                cmpr_swap = Image.FromFile(execPath + "plt0 content/graphics/cmpr_swap.png");
             }
-            if (File.Exists(execPath + "images/screen2_left_hover.png"))
+            if (File.Exists(execPath + "plt0 content/graphics/cmpr_swap_hover.png"))
             {
-                screen2_left_hover = Image.FromFile(execPath + "images/screen2_left_hover.png");
+                cmpr_swap_hover = Image.FromFile(execPath + "plt0 content/graphics/cmpr_swap_hover.png");
             }
-            if (File.Exists(execPath + "images/screen2_left_off.png"))
+            if (File.Exists(execPath + "plt0 content/graphics/run_hover.png"))
             {
-                screen2_left_off = Image.FromFile(execPath + "images/screen2_left_off.png");
+                run_hover = Image.FromFile(execPath + "plt0 content/graphics/run_hover.png");
             }
-            if (File.Exists(execPath + "images/screen2_left_on.png"))
+            if (File.Exists(execPath + "plt0 content/graphics/run_off.png"))
             {
-                screen2_left_on = Image.FromFile(execPath + "images/screen2_left_on.png");
+                run_off = Image.FromFile(execPath + "plt0 content/graphics/run_off.png");
             }
-            if (File.Exists(execPath + "images/screen2_left_selected.png"))
+            if (File.Exists(execPath + "plt0 content/graphics/run_on.png"))
             {
-                screen2_left_selected = Image.FromFile(execPath + "images/screen2_left_selected.png");
+                run_on = Image.FromFile(execPath + "plt0 content/graphics/run_on.png");
             }
-            if (File.Exists(execPath + "images/screen2_top_hover.png"))
+            if (File.Exists(execPath + "plt0 content/graphics/sync_preview_hover.png"))
             {
-                screen2_top_hover = Image.FromFile(execPath + "images/screen2_top_hover.png");
+                sync_preview_hover = Image.FromFile(execPath + "plt0 content/graphics/sync_preview_hover.png");
             }
-            if (File.Exists(execPath + "images/screen2_top_left_hover.png"))
+            if (File.Exists(execPath + "plt0 content/graphics/sync_preview_off.png"))
             {
-                screen2_top_left_hover = Image.FromFile(execPath + "images/screen2_top_left_hover.png");
+                sync_preview_off = Image.FromFile(execPath + "plt0 content/graphics/sync_preview_off.png");
             }
-            if (File.Exists(execPath + "images/screen2_top_left_off.png"))
+            if (File.Exists(execPath + "plt0 content/graphics/sync_preview_on.png"))
             {
-                screen2_top_left_off = Image.FromFile(execPath + "images/screen2_top_left_off.png");
+                sync_preview_on = Image.FromFile(execPath + "plt0 content/graphics/sync_preview_on.png");
             }
-            if (File.Exists(execPath + "images/screen2_top_left_on.png"))
+            if (File.Exists(execPath + "plt0 content/graphics/sync_preview_selected.png"))
             {
-                screen2_top_left_on = Image.FromFile(execPath + "images/screen2_top_left_on.png");
+                sync_preview_selected = Image.FromFile(execPath + "plt0 content/graphics/sync_preview_selected.png");
             }
-            if (File.Exists(execPath + "images/screen2_top_left_selected.png"))
+            if (File.Exists(execPath + "plt0 content/rgba/a_on.png"))
             {
-                screen2_top_left_selected = Image.FromFile(execPath + "images/screen2_top_left_selected.png");
+                a_on = Image.FromFile(execPath + "plt0 content/rgba/a_on.png");
             }
-            if (File.Exists(execPath + "images/screen2_top_off.png"))
+            if (File.Exists(execPath + "plt0 content/rgba/a_off.png"))
             {
-                screen2_top_off = Image.FromFile(execPath + "images/screen2_top_off.png");
+                a_off = Image.FromFile(execPath + "plt0 content/rgba/a_off.png");
             }
-            if (File.Exists(execPath + "images/screen2_top_on.png"))
+            if (File.Exists(execPath + "plt0 content/rgba/a_hover.png"))
             {
-                screen2_top_on = Image.FromFile(execPath + "images/screen2_top_on.png");
+                a_hover = Image.FromFile(execPath + "plt0 content/rgba/a_hover.png");
             }
-            if (File.Exists(execPath + "images/screen2_top_right_hover.png"))
+            if (File.Exists(execPath + "plt0 content/rgba/a_selected.png"))
             {
-                screen2_top_right_hover = Image.FromFile(execPath + "images/screen2_top_right_hover.png");
+                a_selected = Image.FromFile(execPath + "plt0 content/rgba/a_selected.png");
             }
-            if (File.Exists(execPath + "images/screen2_top_right_off.png"))
+            if (File.Exists(execPath + "plt0 content/rgba/b_on.png"))
             {
-                screen2_top_right_off = Image.FromFile(execPath + "images/screen2_top_right_off.png");
+                b_on = Image.FromFile(execPath + "plt0 content/rgba/b_on.png");
             }
-            if (File.Exists(execPath + "images/screen2_top_right_on.png"))
+            if (File.Exists(execPath + "plt0 content/rgba/b_off.png"))
             {
-                screen2_top_right_on = Image.FromFile(execPath + "images/screen2_top_right_on.png");
+                b_off = Image.FromFile(execPath + "plt0 content/rgba/b_off.png");
             }
-            if (File.Exists(execPath + "images/screen2_top_right_selected.png"))
+            if (File.Exists(execPath + "plt0 content/rgba/b_hover.png"))
             {
-                screen2_top_right_selected = Image.FromFile(execPath + "images/screen2_top_right_selected.png");
+                b_hover = Image.FromFile(execPath + "plt0 content/rgba/b_hover.png");
             }
-            if (File.Exists(execPath + "images/screen2_arrow_1080p_hover.png"))
+            if (File.Exists(execPath + "plt0 content/rgba/b_selected.png"))
             {
-                screen2_arrow_1080p_hover = Image.FromFile(execPath + "images/screen2_arrow_1080p_hover.png");
+                b_selected = Image.FromFile(execPath + "plt0 content/rgba/b_selected.png");
             }
-            if (File.Exists(execPath + "images/screen2_arrow_1080p_off.png"))
+            if (File.Exists(execPath + "plt0 content/rgba/g_on.png"))
             {
-                screen2_arrow_1080p_off = Image.FromFile(execPath + "images/screen2_arrow_1080p_off.png");
+                g_on = Image.FromFile(execPath + "plt0 content/rgba/g_on.png");
             }
-            if (File.Exists(execPath + "images/screen2_arrow_1080p_on.png"))
+            if (File.Exists(execPath + "plt0 content/rgba/g_off.png"))
             {
-                screen2_arrow_1080p_on = Image.FromFile(execPath + "images/screen2_arrow_1080p_on.png");
+                g_off = Image.FromFile(execPath + "plt0 content/rgba/g_off.png");
             }
-            if (File.Exists(execPath + "images/screen2_arrow_1080p_selected.png"))
+            if (File.Exists(execPath + "plt0 content/rgba/g_hover.png"))
             {
-                screen2_arrow_1080p_selected = Image.FromFile(execPath + "images/screen2_arrow_1080p_selected.png");
+                g_hover = Image.FromFile(execPath + "plt0 content/rgba/g_hover.png");
             }
-            if (File.Exists(execPath + "images/arrow_1080p_hover.png"))
+            if (File.Exists(execPath + "plt0 content/rgba/g_selected.png"))
             {
-                arrow_1080p_hover = Image.FromFile(execPath + "images/arrow_1080p_hover.png");
+                g_selected = Image.FromFile(execPath + "plt0 content/rgba/g_selected.png");
             }
-            if (File.Exists(execPath + "images/arrow_1080p_off.png"))
+            if (File.Exists(execPath + "plt0 content/rgba/r_on.png"))
             {
-                arrow_1080p_off = Image.FromFile(execPath + "images/arrow_1080p_off.png");
+                r_on = Image.FromFile(execPath + "plt0 content/rgba/r_on.png");
             }
-            if (File.Exists(execPath + "images/arrow_1080p_on.png"))
+            if (File.Exists(execPath + "plt0 content/rgba/r_off.png"))
             {
-                arrow_1080p_on = Image.FromFile(execPath + "images/arrow_1080p_on.png");
+                r_off = Image.FromFile(execPath + "plt0 content/rgba/r_off.png");
             }
-            if (File.Exists(execPath + "images/arrow_1080p_selected.png"))
+            if (File.Exists(execPath + "plt0 content/rgba/r_hover.png"))
             {
-                arrow_1080p_selected = Image.FromFile(execPath + "images/arrow_1080p_selected.png");
+                r_hover = Image.FromFile(execPath + "plt0 content/rgba/r_hover.png");
             }
-            if (File.Exists(execPath + "images/screen2_top_selected.png"))
+            if (File.Exists(execPath + "plt0 content/rgba/r_selected.png"))
             {
-                screen2_top_selected = Image.FromFile(execPath + "images/screen2_top_selected.png");
+                r_selected = Image.FromFile(execPath + "plt0 content/rgba/r_selected.png");
             }
         }
         private void bmd_Click(object sender, EventArgs e)
@@ -11276,7 +11440,7 @@ namespace plt0_gui
         }
         private void bmd_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[119]);
+            Parse_Markdown(d[0]);
             if (bmd)
                 selected_checkbox(bmd_ck);
             else
@@ -11316,7 +11480,7 @@ namespace plt0_gui
         }
         private void bti_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[120]);
+            Parse_Markdown(d[1]);
             if (bti)
                 selected_checkbox(bti_ck);
             else
@@ -11348,7 +11512,7 @@ namespace plt0_gui
         }
         private void tex0_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[121]);
+            Parse_Markdown(d[2]);
             if (tex0)
                 selected_checkbox(tex0_ck);
             else
@@ -11388,7 +11552,7 @@ namespace plt0_gui
         }
         private void tpl_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[122]);
+            Parse_Markdown(d[3]);
             if (tpl)
                 selected_checkbox(tpl_ck);
             else
@@ -11420,7 +11584,7 @@ namespace plt0_gui
         }
         private void bmp_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[123]);
+            Parse_Markdown(d[4]);
             if (bmp)
                 selected_checkbox(bmp_ck);
             else
@@ -11452,7 +11616,7 @@ namespace plt0_gui
         }
         private void png_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[124]);
+            Parse_Markdown(d[5]);
             if (png)
                 selected_checkbox(png_ck);
             else
@@ -11484,7 +11648,7 @@ namespace plt0_gui
         }
         private void jpg_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[125]);
+            Parse_Markdown(d[6]);
             if (jpg)
                 selected_checkbox(jpg_ck);
             else
@@ -11516,7 +11680,7 @@ namespace plt0_gui
         }
         private void jpeg_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[126]);
+            Parse_Markdown(d[7]);
             if (jpeg)
                 selected_checkbox(jpeg_ck);
             else
@@ -11548,7 +11712,7 @@ namespace plt0_gui
         }
         private void gif_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[127]);
+            Parse_Markdown(d[8]);
             if (gif)
                 selected_checkbox(gif_ck);
             else
@@ -11580,7 +11744,7 @@ namespace plt0_gui
         }
         private void ico_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[128]);
+            Parse_Markdown(d[9]);
             if (ico)
                 selected_checkbox(ico_ck);
             else
@@ -11612,7 +11776,7 @@ namespace plt0_gui
         }
         private void tif_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[129]);
+            Parse_Markdown(d[10]);
             if (tif)
                 selected_checkbox(tif_ck);
             else
@@ -11644,7 +11808,7 @@ namespace plt0_gui
         }
         private void tiff_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[130]);
+            Parse_Markdown(d[11]);
             if (tiff)
                 selected_checkbox(tiff_ck);
             else
@@ -11675,7 +11839,7 @@ namespace plt0_gui
         }
         private void ask_exit_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[131]);
+            Parse_Markdown(d[12]);
             if (ask_exit)
                 selected_checkbox(ask_exit_ck);
             else
@@ -11706,7 +11870,7 @@ namespace plt0_gui
         }
         private void bmp_32_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[132]);
+            Parse_Markdown(d[13]);
             if (bmp_32)
                 selected_checkbox(bmp_32_ck);
             else
@@ -11739,7 +11903,7 @@ namespace plt0_gui
         }
         private void FORCE_ALPHA_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[133]);
+            Parse_Markdown(d[14]);
             if (FORCE_ALPHA)
                 selected_checkbox(FORCE_ALPHA_ck);
             else
@@ -11772,7 +11936,7 @@ namespace plt0_gui
         }
         private void funky_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[134]);
+            Parse_Markdown(d[15]);
             if (funky)
                 selected_checkbox(funky_ck);
             else
@@ -11805,7 +11969,7 @@ namespace plt0_gui
         }
         private void name_string_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[135]);
+            Parse_Markdown(d[16]);
             if (name_string)
                 selected_checkbox(name_string_ck);
             else
@@ -11838,7 +12002,7 @@ namespace plt0_gui
         }
         private void no_warning_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[136]);
+            Parse_Markdown(d[17]);
             if (no_warning)
                 selected_checkbox(no_warning_ck);
             else
@@ -11871,7 +12035,7 @@ namespace plt0_gui
         }
         private void random_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[137]);
+            Parse_Markdown(d[18]);
             if (random)
                 selected_checkbox(random_ck);
             else
@@ -11904,7 +12068,7 @@ namespace plt0_gui
         }
         private void reversex_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[138]);
+            Parse_Markdown(d[19]);
             if (reversex)
                 selected_checkbox(reversex_ck);
             else
@@ -11937,7 +12101,7 @@ namespace plt0_gui
         }
         private void reversey_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[139]);
+            Parse_Markdown(d[20]);
             if (reversey)
                 selected_checkbox(reversey_ck);
             else
@@ -11968,7 +12132,7 @@ namespace plt0_gui
         }
         private void safe_mode_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[140]);
+            Parse_Markdown(d[21]);
             if (safe_mode)
                 selected_checkbox(safe_mode_ck);
             else
@@ -11999,7 +12163,7 @@ namespace plt0_gui
         }
         private void stfu_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[141]);
+            Parse_Markdown(d[22]);
             if (stfu)
                 selected_checkbox(stfu_ck);
             else
@@ -12030,7 +12194,7 @@ namespace plt0_gui
         }
         private void warn_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[142]);
+            Parse_Markdown(d[23]);
             if (warn)
                 selected_checkbox(warn_ck);
             else
@@ -12065,7 +12229,7 @@ namespace plt0_gui
         }
         private void cmpr_hover_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[143]);
+            Parse_Markdown(d[24]);
             if (cmpr_hover)
                 selected_checkbox(cmpr_hover_ck);
             else
@@ -12095,7 +12259,7 @@ namespace plt0_gui
         }
         private void cmpr_update_preview_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[144]);
+            Parse_Markdown(d[25]);
             if (cmpr_update_preview)
                 selected_checkbox(cmpr_update_preview_ck);
             else
@@ -12122,7 +12286,7 @@ namespace plt0_gui
         }
         private void I4_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[145]);
+            Parse_Markdown(d[26]);
             if (encoding == 0)
                 selected_encoding(i4_ck);
             else
@@ -12149,7 +12313,7 @@ namespace plt0_gui
         }
         private void I8_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[146]);
+            Parse_Markdown(d[27]);
             if (encoding == 1)
                 selected_encoding(i8_ck);
             else
@@ -12176,7 +12340,7 @@ namespace plt0_gui
         }
         private void AI4_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[147]);
+            Parse_Markdown(d[28]);
             if (encoding == 2)
                 selected_encoding(ai4_ck);
             else
@@ -12203,7 +12367,7 @@ namespace plt0_gui
         }
         private void AI8_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[148]);
+            Parse_Markdown(d[29]);
             if (encoding == 3)
                 selected_encoding(ai8_ck);
             else
@@ -12230,7 +12394,7 @@ namespace plt0_gui
         }
         private void RGB565_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[149]);
+            Parse_Markdown(d[30]);
             if (encoding == 4)
                 selected_encoding(rgb565_ck);
             else
@@ -12257,7 +12421,7 @@ namespace plt0_gui
         }
         private void RGB5A3_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[150]);
+            Parse_Markdown(d[31]);
             if (encoding == 5)
                 selected_encoding(rgb5a3_ck);
             else
@@ -12284,7 +12448,7 @@ namespace plt0_gui
         }
         private void RGBA32_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[151]);
+            Parse_Markdown(d[32]);
             if (encoding == 6)
                 selected_encoding(rgba32_ck);
             else
@@ -12311,7 +12475,7 @@ namespace plt0_gui
         }
         private void CI4_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[152]);
+            Parse_Markdown(d[33]);
             if (encoding == 8)
                 selected_encoding(ci4_ck);
             else
@@ -12338,7 +12502,7 @@ namespace plt0_gui
         }
         private void CI8_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[153]);
+            Parse_Markdown(d[34]);
             if (encoding == 9)
                 selected_encoding(ci8_ck);
             else
@@ -12365,7 +12529,7 @@ namespace plt0_gui
         }
         private void CI14X2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[154]);
+            Parse_Markdown(d[35]);
             if (encoding == 10)
                 selected_encoding(ci14x2_ck);
             else
@@ -12391,7 +12555,7 @@ namespace plt0_gui
         }
         private void CMPR_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[155]);
+            Parse_Markdown(d[36]);
             if (encoding == 14)
                 selected_encoding(cmpr_ck);
             else
@@ -12418,9 +12582,9 @@ namespace plt0_gui
         {
 
             if (encoding == 14)
-                Parse_Markdown(config[156]);
+                Parse_Markdown(d[37]);
             else
-                Parse_Markdown(config[159]);
+                Parse_Markdown(d[41]);
             if (algorithm == 0)
                 selected_algorithm(cie_601_ck);
             else
@@ -12447,9 +12611,9 @@ namespace plt0_gui
         {
 
             if (encoding == 14)
-                Parse_Markdown(config[157]);
+                Parse_Markdown(d[38]);
             else
-                Parse_Markdown(config[160]);
+                Parse_Markdown(d[42]);
             if (algorithm == 1)
                 selected_algorithm(cie_709_ck);
             else
@@ -12477,9 +12641,9 @@ namespace plt0_gui
         {
 
             if (encoding == 14)
-                Parse_Markdown(config[158]);
+                Parse_Markdown(d[39]);
             else
-                Parse_Markdown(config[161]);
+                Parse_Markdown(d[43]);
             if (algorithm == 2)
                 selected_algorithm(custom_ck);
             else
@@ -12506,9 +12670,9 @@ namespace plt0_gui
         {
 
             if (encoding == 14)
-                Parse_Markdown(config[159]);
+                Parse_Markdown(d[40]);
             else
-                Parse_Markdown(config[162]);
+                Parse_Markdown(d[44]);
             if (algorithm == 3)
                 selected_algorithm(darkest_lightest_ck);
             else
@@ -12534,7 +12698,7 @@ namespace plt0_gui
         }
         private void No_gradient_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[163]);
+            Parse_Markdown(d[45]);
             if (algorithm == 4)
                 selected_algorithm(no_gradient_ck);
             else
@@ -12559,7 +12723,7 @@ namespace plt0_gui
         }
         private void Weemm_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[164]);
+            Parse_Markdown(d[46]);
             if (algorithm == 5)
                 selected_algorithm(weemm_ck);
             else
@@ -12584,7 +12748,7 @@ namespace plt0_gui
         }
         private void SooperBMD_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[165]);
+            Parse_Markdown(d[47]);
             if (algorithm == 6)
                 selected_algorithm(sooperbmd_ck);
             else
@@ -12609,7 +12773,7 @@ namespace plt0_gui
         }
         private void Min_Max_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[166]);
+            Parse_Markdown(d[48]);
             if (algorithm == 7)
                 selected_algorithm(min_max_ck);
             else
@@ -12633,7 +12797,7 @@ namespace plt0_gui
         }
         private void No_alpha_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[167]);
+            Parse_Markdown(d[49]);
             if (alpha == 0)
                 selected_alpha(no_alpha_ck);
             else
@@ -12657,7 +12821,7 @@ namespace plt0_gui
         }
         private void Alpha_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[168]);
+            Parse_Markdown(d[50]);
             if (alpha == 1)
                 selected_alpha(alpha_ck);
             else
@@ -12681,7 +12845,7 @@ namespace plt0_gui
         }
         private void Mix_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[169]);
+            Parse_Markdown(d[51]);
             if (alpha == 2)
                 selected_alpha(mix_ck);
             else
@@ -12704,7 +12868,7 @@ namespace plt0_gui
         }
         private void WrapS_Clamp_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[170]);
+            Parse_Markdown(d[52]);
             if (WrapS == 0)
                 selected_WrapS(Sclamp_ck);
             else
@@ -12727,7 +12891,7 @@ namespace plt0_gui
         }
         private void WrapS_Repeat_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[171]);
+            Parse_Markdown(d[53]);
             if (WrapS == 1)
                 selected_WrapS(Srepeat_ck);
             else
@@ -12750,7 +12914,7 @@ namespace plt0_gui
         }
         private void WrapS_Mirror_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[172]);
+            Parse_Markdown(d[54]);
             if (WrapS == 2)
                 selected_WrapS(Smirror_ck);
             else
@@ -12773,7 +12937,7 @@ namespace plt0_gui
         }
         private void WrapT_Clamp_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[173]);
+            Parse_Markdown(d[55]);
             if (WrapT == 0)
                 selected_WrapT(Tclamp_ck);
             else
@@ -12796,7 +12960,7 @@ namespace plt0_gui
         }
         private void WrapT_Repeat_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[174]);
+            Parse_Markdown(d[56]);
             if (WrapT == 1)
                 selected_WrapT(Trepeat_ck);
             else
@@ -12819,7 +12983,7 @@ namespace plt0_gui
         }
         private void WrapT_Mirror_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[175]);
+            Parse_Markdown(d[57]);
             if (WrapT == 2)
                 selected_WrapT(Tmirror_ck);
             else
@@ -12842,7 +13006,7 @@ namespace plt0_gui
         }
         private void Minification_Nearest_Neighbour_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[176]);
+            Parse_Markdown(d[58]);
             if (minification_filter == 0)
                 selected_Minification(min_nearest_neighbour_ck);
             else
@@ -12865,7 +13029,7 @@ namespace plt0_gui
         }
         private void Minification_Linear_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[177]);
+            Parse_Markdown(d[59]);
             if (minification_filter == 1)
                 selected_Minification(min_linear_ck);
             else
@@ -12888,7 +13052,7 @@ namespace plt0_gui
         }
         private void Minification_NearestMipmapNearest_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[178]);
+            Parse_Markdown(d[60]);
             if (minification_filter == 2)
                 selected_Minification(min_nearestmipmapnearest_ck);
             else
@@ -12911,7 +13075,7 @@ namespace plt0_gui
         }
         private void Minification_NearestMipmapLinear_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[179]);
+            Parse_Markdown(d[61]);
             if (minification_filter == 3)
                 selected_Minification(min_nearestmipmaplinear_ck);
             else
@@ -12934,7 +13098,7 @@ namespace plt0_gui
         }
         private void Minification_LinearMipmapNearest_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[180]);
+            Parse_Markdown(d[62]);
             if (minification_filter == 4)
                 selected_Minification(min_linearmipmapnearest_ck);
             else
@@ -12957,7 +13121,7 @@ namespace plt0_gui
         }
         private void Minification_LinearMipmapLinear_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[181]);
+            Parse_Markdown(d[63]);
             if (minification_filter == 5)
                 selected_Minification(min_linearmipmaplinear_ck);
             else
@@ -12980,7 +13144,7 @@ namespace plt0_gui
         }
         private void Magnification_Nearest_Neighbour_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[182]);
+            Parse_Markdown(d[64]);
             if (magnification_filter == 0)
                 selected_Magnification(mag_nearest_neighbour_ck);
             else
@@ -13003,7 +13167,7 @@ namespace plt0_gui
         }
         private void Magnification_Linear_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[183]);
+            Parse_Markdown(d[65]);
             if (magnification_filter == 1)
                 selected_Magnification(mag_linear_ck);
             else
@@ -13026,7 +13190,7 @@ namespace plt0_gui
         }
         private void Magnification_NearestMipmapNearest_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[184]);
+            Parse_Markdown(d[66]);
             if (magnification_filter == 2)
                 selected_Magnification(mag_nearestmipmapnearest_ck);
             else
@@ -13049,7 +13213,7 @@ namespace plt0_gui
         }
         private void Magnification_NearestMipmapLinear_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[185]);
+            Parse_Markdown(d[67]);
             if (magnification_filter == 3)
                 selected_Magnification(mag_nearestmipmaplinear_ck);
             else
@@ -13072,7 +13236,7 @@ namespace plt0_gui
         }
         private void Magnification_LinearMipmapNearest_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[186]);
+            Parse_Markdown(d[68]);
             if (magnification_filter == 4)
                 selected_Magnification(mag_linearmipmapnearest_ck);
             else
@@ -13095,7 +13259,7 @@ namespace plt0_gui
         }
         private void Magnification_LinearMipmapLinear_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[187]);
+            Parse_Markdown(d[69]);
             if (magnification_filter == 5)
                 selected_Magnification(mag_linearmipmaplinear_ck);
             else
@@ -13133,7 +13297,7 @@ namespace plt0_gui
         }
         private void R_R_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[188]);
+            Parse_Markdown(d[70]);
             if (r == 0)
                 selected_R(r_r_ck);
             else
@@ -13171,7 +13335,7 @@ namespace plt0_gui
         }
         private void R_G_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[188]);
+            Parse_Markdown(d[70]);
             if (r == 1)
                 selected_G(r_g_ck);
             else
@@ -13209,7 +13373,7 @@ namespace plt0_gui
         }
         private void R_B_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[188]);
+            Parse_Markdown(d[70]);
             if (r == 2)
                 selected_B(r_b_ck);
             else
@@ -13247,7 +13411,7 @@ namespace plt0_gui
         }
         private void R_A_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[188]);
+            Parse_Markdown(d[70]);
             if (r == 3)
                 selected_A(r_a_ck);
             else
@@ -13285,7 +13449,7 @@ namespace plt0_gui
         }
         private void G_R_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[189]);
+            Parse_Markdown(d[71]);
             if (g == 0)
                 selected_R(g_r_ck);
             else
@@ -13323,7 +13487,7 @@ namespace plt0_gui
         }
         private void G_G_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[189]);
+            Parse_Markdown(d[71]);
             if (g == 1)
                 selected_G(g_g_ck);
             else
@@ -13361,7 +13525,7 @@ namespace plt0_gui
         }
         private void G_B_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[189]);
+            Parse_Markdown(d[71]);
             if (g == 2)
                 selected_B(g_b_ck);
             else
@@ -13399,7 +13563,7 @@ namespace plt0_gui
         }
         private void G_A_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[189]);
+            Parse_Markdown(d[71]);
             if (g == 3)
                 selected_A(g_a_ck);
             else
@@ -13437,7 +13601,7 @@ namespace plt0_gui
         }
         private void B_R_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[190]);
+            Parse_Markdown(d[72]);
             if (b == 0)
                 selected_R(b_r_ck);
             else
@@ -13475,7 +13639,7 @@ namespace plt0_gui
         }
         private void B_G_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[190]);
+            Parse_Markdown(d[72]);
             if (b == 1)
                 selected_G(b_g_ck);
             else
@@ -13513,7 +13677,7 @@ namespace plt0_gui
         }
         private void B_B_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[190]);
+            Parse_Markdown(d[72]);
             if (b == 2)
                 selected_B(b_b_ck);
             else
@@ -13551,7 +13715,7 @@ namespace plt0_gui
         }
         private void B_A_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[190]);
+            Parse_Markdown(d[72]);
             if (b == 3)
                 selected_A(b_a_ck);
             else
@@ -13589,7 +13753,7 @@ namespace plt0_gui
         }
         private void A_R_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[191]);
+            Parse_Markdown(d[73]);
             if (a == 0)
                 selected_R(a_r_ck);
             else
@@ -13627,7 +13791,7 @@ namespace plt0_gui
         }
         private void A_G_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[191]);
+            Parse_Markdown(d[73]);
             if (a == 1)
                 selected_G(a_g_ck);
             else
@@ -13665,7 +13829,7 @@ namespace plt0_gui
         }
         private void A_B_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[191]);
+            Parse_Markdown(d[73]);
             if (a == 2)
                 selected_B(a_b_ck);
             else
@@ -13703,7 +13867,7 @@ namespace plt0_gui
         }
         private void A_A_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[191]);
+            Parse_Markdown(d[73]);
             if (a == 3)
                 selected_A(a_a_ck);
             else
@@ -13739,7 +13903,7 @@ namespace plt0_gui
         }
         private void All_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[192]);
+            Parse_Markdown(d[74]);
             if (layout == 0)
                 selected_All();
             else
@@ -13791,7 +13955,7 @@ namespace plt0_gui
         }
         private void Auto_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[193]);
+            Parse_Markdown(d[75]);
             if (layout == 1)
                 selected_Auto();
             else
@@ -13843,7 +14007,7 @@ namespace plt0_gui
         }
         private void Preview_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[194]);
+            Parse_Markdown(d[76]);
             if (layout == 2)
                 selected_Preview();
             else
@@ -13895,7 +14059,7 @@ namespace plt0_gui
         }
         private void Paint_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[195]);
+            Parse_Markdown(d[77]);
             if (layout == 3)
                 selected_Paint();
             else
@@ -13944,7 +14108,7 @@ namespace plt0_gui
         }
         private void Minimized_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[196]);
+            Parse_Markdown(d[78]);
             banner_minus_ck.BackgroundImage = minimized_hover;
         }
         private void Minimized_MouseLeave(object sender, EventArgs e)
@@ -13967,7 +14131,7 @@ namespace plt0_gui
         }
         private void Maximized_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[197]);
+            Parse_Markdown(d[79]);
             if (this.WindowState == FormWindowState.Maximized)
                 banner_f11_ck.BackgroundImage = maximized_selected;
             else
@@ -13987,7 +14151,7 @@ namespace plt0_gui
         }
         private void Close_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[198]);
+            Parse_Markdown(d[80]);
             banner_x_ck.BackgroundImage = close_hover;
         }
         private void Close_MouseLeave(object sender, EventArgs e)
@@ -14003,7 +14167,7 @@ namespace plt0_gui
         }
         private void Left_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[199]);
+            Parse_Markdown(d[81]);
             if (arrow == 4)
                 selected_Left();
             else
@@ -14049,7 +14213,7 @@ namespace plt0_gui
         }
         private void Top_left_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[200]);
+            Parse_Markdown(d[82]);
             if (arrow == 7)
                 selected_Top_left();
             else
@@ -14095,7 +14259,7 @@ namespace plt0_gui
         }
         private void Top_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[201]);
+            Parse_Markdown(d[83]);
             if (arrow == 8)
                 selected_Top();
             else
@@ -14141,7 +14305,7 @@ namespace plt0_gui
         }
         private void Top_right_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[202]);
+            Parse_Markdown(d[84]);
             if (arrow == 9)
                 selected_Top_right();
             else
@@ -14187,7 +14351,7 @@ namespace plt0_gui
         }
         private void Right_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[203]);
+            Parse_Markdown(d[85]);
             if (arrow == 6)
                 selected_Right();
             else
@@ -14233,7 +14397,7 @@ namespace plt0_gui
         }
         private void Bottom_right_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[204]);
+            Parse_Markdown(d[86]);
             if (arrow == 3)
                 selected_Bottom_right();
             else
@@ -14279,7 +14443,7 @@ namespace plt0_gui
         }
         private void Bottom_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[205]);
+            Parse_Markdown(d[87]);
             if (arrow == 2)
                 selected_Bottom();
             else
@@ -14325,7 +14489,7 @@ namespace plt0_gui
         }
         private void Bottom_left_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[206]);
+            Parse_Markdown(d[88]);
             if (arrow == 1)
                 selected_Bottom_left();
             else
@@ -14371,7 +14535,7 @@ namespace plt0_gui
         }
         private void Arrow_1080p_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[207]);
+            Parse_Markdown(d[89]);
             if (arrow == 5)
                 selected_Arrow_1080p();
             else
@@ -14417,7 +14581,7 @@ namespace plt0_gui
         }
         private void Screen2_Left_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[208]);
+            Parse_Markdown(d[90]);
             if (arrow == 14)
                 selected_Screen2_Left();
             else
@@ -14463,7 +14627,7 @@ namespace plt0_gui
         }
         private void Screen2_Top_left_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[209]);
+            Parse_Markdown(d[91]);
             if (arrow == 17)
                 selected_Screen2_Top_left();
             else
@@ -14509,7 +14673,7 @@ namespace plt0_gui
         }
         private void Screen2_Top_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[210]);
+            Parse_Markdown(d[92]);
             if (arrow == 18)
                 selected_Screen2_Top();
             else
@@ -14555,7 +14719,7 @@ namespace plt0_gui
         }
         private void Screen2_Top_right_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[211]);
+            Parse_Markdown(d[93]);
             if (arrow == 19)
                 selected_Screen2_Top_right();
             else
@@ -14601,7 +14765,7 @@ namespace plt0_gui
         }
         private void Screen2_Right_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[212]);
+            Parse_Markdown(d[94]);
             if (arrow == 16)
                 selected_Screen2_Right();
             else
@@ -14647,7 +14811,7 @@ namespace plt0_gui
         }
         private void Screen2_Bottom_right_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[213]);
+            Parse_Markdown(d[95]);
             if (arrow == 13)
                 selected_Screen2_Bottom_right();
             else
@@ -14693,7 +14857,7 @@ namespace plt0_gui
         }
         private void Screen2_Bottom_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[214]);
+            Parse_Markdown(d[96]);
             if (arrow == 12)
                 selected_Screen2_Bottom();
             else
@@ -14739,7 +14903,7 @@ namespace plt0_gui
         }
         private void Screen2_Bottom_left_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[215]);
+            Parse_Markdown(d[97]);
             if (arrow == 11)
                 selected_Screen2_Bottom_left();
             else
@@ -14785,7 +14949,7 @@ namespace plt0_gui
         }
         private void Screen2_Arrow_1080p_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[216]);
+            Parse_Markdown(d[98]);
             if (arrow == 15)
                 selected_Screen2_Arrow_1080p();
             else
@@ -14848,9 +15012,9 @@ namespace plt0_gui
         private void input_file_MouseEnter(object sender, EventArgs e)
         {
             if (layout == 3)
-                Parse_Markdown(config[217]);
+                Parse_Markdown(d[99]);
             else
-                Parse_Markdown(config[218]);
+                Parse_Markdown(d[100]);
         }
         private void input_file_MouseLeave(object sender, EventArgs e)
         {
@@ -14882,7 +15046,7 @@ namespace plt0_gui
         }
         private void input_file2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[219]);
+            Parse_Markdown(d[101]);
         }
         private void input_file2_MouseLeave(object sender, EventArgs e)
         {
@@ -14911,9 +15075,9 @@ namespace plt0_gui
         private void output_name_MouseEnter(object sender, EventArgs e)
         {
             if (layout == 3)
-                Parse_Markdown(config[220]);
+                Parse_Markdown(d[102]);
             else
-                Parse_Markdown(config[221]);
+                Parse_Markdown(d[103]);
         }
         private void output_name_MouseLeave(object sender, EventArgs e)
         {
@@ -14929,9 +15093,9 @@ namespace plt0_gui
         private void mipmaps_MouseEnter(object sender, EventArgs e)
         {
             if (layout == 3)
-                Parse_Markdown(config[222]);
+                Parse_Markdown(d[104]);
             else
-                Parse_Markdown(config[223]);
+                Parse_Markdown(d[105]);
         }
         private void mipmaps_MouseLeave(object sender, EventArgs e)
         {
@@ -14946,7 +15110,7 @@ namespace plt0_gui
         }
         private void cmpr_max_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[224]);
+            Parse_Markdown(d[106]);
         }
         private void cmpr_max_MouseLeave(object sender, EventArgs e)
         {
@@ -14960,7 +15124,7 @@ namespace plt0_gui
         }
         private void cmpr_min_alpha_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[225]);
+            Parse_Markdown(d[107]);
         }
         private void cmpr_min_alpha_MouseLeave(object sender, EventArgs e)
         {
@@ -14974,7 +15138,7 @@ namespace plt0_gui
         }
         private void num_colours_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[226]);
+            Parse_Markdown(d[108]);
         }
         private void num_colours_MouseLeave(object sender, EventArgs e)
         {
@@ -14988,7 +15152,7 @@ namespace plt0_gui
         }
         private void round3_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[227]);
+            Parse_Markdown(d[109]);
         }
         private void round3_MouseLeave(object sender, EventArgs e)
         {
@@ -15002,7 +15166,7 @@ namespace plt0_gui
         }
         private void round4_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[228]);
+            Parse_Markdown(d[110]);
         }
         private void round4_MouseLeave(object sender, EventArgs e)
         {
@@ -15016,7 +15180,7 @@ namespace plt0_gui
         }
         private void round5_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[229]);
+            Parse_Markdown(d[111]);
         }
         private void round5_MouseLeave(object sender, EventArgs e)
         {
@@ -15030,7 +15194,7 @@ namespace plt0_gui
         }
         private void round6_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[230]);
+            Parse_Markdown(d[112]);
         }
         private void round6_MouseLeave(object sender, EventArgs e)
         {
@@ -15044,7 +15208,7 @@ namespace plt0_gui
         }
         private void diversity_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[231]);
+            Parse_Markdown(d[113]);
         }
         private void diversity_MouseLeave(object sender, EventArgs e)
         {
@@ -15058,7 +15222,7 @@ namespace plt0_gui
         }
         private void diversity2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[232]);
+            Parse_Markdown(d[114]);
         }
         private void diversity2_MouseLeave(object sender, EventArgs e)
         {
@@ -15072,7 +15236,7 @@ namespace plt0_gui
         }
         private void percentage_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[233]);
+            Parse_Markdown(d[115]);
         }
         private void percentage_MouseLeave(object sender, EventArgs e)
         {
@@ -15086,7 +15250,7 @@ namespace plt0_gui
         }
         private void percentage2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[234]);
+            Parse_Markdown(d[116]);
         }
         private void percentage2_MouseLeave(object sender, EventArgs e)
         {
@@ -15100,7 +15264,7 @@ namespace plt0_gui
         }
         private void custom_r_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[235]);
+            Parse_Markdown(d[117]);
         }
         private void custom_r_MouseLeave(object sender, EventArgs e)
         {
@@ -15114,7 +15278,7 @@ namespace plt0_gui
         }
         private void custom_g_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[236]);
+            Parse_Markdown(d[118]);
         }
         private void custom_g_MouseLeave(object sender, EventArgs e)
         {
@@ -15128,7 +15292,7 @@ namespace plt0_gui
         }
         private void custom_b_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[237]);
+            Parse_Markdown(d[119]);
         }
         private void custom_b_MouseLeave(object sender, EventArgs e)
         {
@@ -15142,7 +15306,7 @@ namespace plt0_gui
         }
         private void custom_a_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[238]);
+            Parse_Markdown(d[120]);
         }
         private void custom_a_MouseLeave(object sender, EventArgs e)
         {
@@ -15166,7 +15330,7 @@ namespace plt0_gui
         }
         private void palette_AI8_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[239]);
+            Parse_Markdown(d[121]);
             if (palette_enc == 0)
                 selected_palette(palette_ai8_ck);
             else
@@ -15192,7 +15356,7 @@ namespace plt0_gui
         }
         private void palette_RGB565_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[240]);
+            Parse_Markdown(d[122]);
             if (palette_enc == 1)
                 selected_palette(palette_rgb565_ck);
             else
@@ -15218,7 +15382,7 @@ namespace plt0_gui
         }
         private void palette_RGB5A3_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[241]);
+            Parse_Markdown(d[123]);
             if (palette_enc == 2)
                 selected_palette(palette_rgb5a3_ck);
             else
@@ -15239,7 +15403,7 @@ namespace plt0_gui
         }
         private void discord_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[242]);
+            Parse_Markdown(d[124]);
             discord_ck.BackgroundImage = discord_hover;
         }
         private void discord_MouseLeave(object sender, EventArgs e)
@@ -15254,7 +15418,7 @@ namespace plt0_gui
         }
         private void github_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[243]);
+            Parse_Markdown(d[125]);
             github_ck.BackgroundImage = github_hover;
         }
         private void github_MouseLeave(object sender, EventArgs e)
@@ -15269,7 +15433,7 @@ namespace plt0_gui
         }
         private void youtube_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[244]);
+            Parse_Markdown(d[126]);
             youtube_ck.BackgroundImage = youtube_hover;
         }
         private void youtube_MouseLeave(object sender, EventArgs e)
@@ -15292,7 +15456,7 @@ namespace plt0_gui
         }
         private void view_alpha_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[245]);
+            Parse_Markdown(d[127]);
             if (view_alpha)
                 Category_selected(view_alpha_ck);
             else
@@ -15321,7 +15485,7 @@ namespace plt0_gui
         }
         private void view_algorithm_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[246]);
+            Parse_Markdown(d[128]);
             if (view_algorithm)
                 Category_selected(view_algorithm_ck);
             else
@@ -15350,7 +15514,7 @@ namespace plt0_gui
         }
         private void view_WrapS_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[247]);
+            Parse_Markdown(d[129]);
             if (view_WrapS)
                 Category_selected(view_WrapS_ck);
             else
@@ -15379,7 +15543,7 @@ namespace plt0_gui
         }
         private void view_WrapT_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[248]);
+            Parse_Markdown(d[130]);
             if (view_WrapT)
                 Category_selected(view_WrapT_ck);
             else
@@ -15408,7 +15572,7 @@ namespace plt0_gui
         }
         private void view_min_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[249]);
+            Parse_Markdown(d[131]);
             if (view_min)
                 Category_selected(view_min_ck);
             else
@@ -15437,7 +15601,7 @@ namespace plt0_gui
         }
         private void view_mag_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[250]);
+            Parse_Markdown(d[132]);
             if (view_mag)
                 Category_selected(view_mag_ck);
             else
@@ -15466,7 +15630,7 @@ namespace plt0_gui
         }
         private void view_rgba_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[251]);
+            Parse_Markdown(d[133]);
             if (view_rgba)
                 Category_selected(view_rgba_ck);
             else
@@ -15495,7 +15659,7 @@ namespace plt0_gui
         }
         private void view_palette_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[252]);
+            Parse_Markdown(d[134]);
             if (view_palette)
                 Category_selected(view_palette_ck);
             else
@@ -15524,7 +15688,7 @@ namespace plt0_gui
         }
         private void view_cmpr_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[253]);
+            Parse_Markdown(d[135]);
             if (view_cmpr)
                 Category_selected(view_cmpr_ck);
             else
@@ -15553,7 +15717,7 @@ namespace plt0_gui
         }
         private void view_options_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[254]);
+            Parse_Markdown(d[136]);
             if (view_options)
                 Category_selected(view_options_ck);
             else
@@ -15569,7 +15733,7 @@ namespace plt0_gui
         }
         private void version_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[255]);
+            Parse_Markdown(d[137]);
             version_ck.BackgroundImage = version_hover;
         }
         private void version_MouseLeave(object sender, EventArgs e)
@@ -15579,7 +15743,7 @@ namespace plt0_gui
         }
         private void cli_textbox_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[256]);
+            Parse_Markdown(d[138]);
             cli_textbox_ck.BackgroundImage = cli_textbox_hover;
             this.cli_textbox_label.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(4)))), ((int)(((byte)(0)))));
         }
@@ -15591,7 +15755,7 @@ namespace plt0_gui
         }
         private void run_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[257]);
+            Parse_Markdown(d[139]);
             run_ck.BackgroundImage = run_hover;
         }
         private void run_MouseLeave(object sender, EventArgs e)
@@ -15601,7 +15765,7 @@ namespace plt0_gui
         }
         private void Output_label_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[258]);
+            Parse_Markdown(d[140]);
         }
         private void Output_label_MouseLeave(object sender, EventArgs e)
         {
@@ -15609,7 +15773,7 @@ namespace plt0_gui
         }
         private void banner_global_move_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[259]);
+            Parse_Markdown(d[141]);
             if (banner_global_move)
                 banner_global_move_ck.BackgroundImage = banner_global_move_selected;
             else
@@ -15625,7 +15789,7 @@ namespace plt0_gui
         }
         private void banner_move_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[260]);
+            Parse_Markdown(d[142]);
         }
         private void banner_move_MouseLeave(object sender, EventArgs e)
         {
@@ -15633,7 +15797,7 @@ namespace plt0_gui
         }
         private void banner_resize_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[261]);
+            Parse_Markdown(d[143]);
         }
         private void banner_resize_MouseLeave(object sender, EventArgs e)
         {
@@ -15641,7 +15805,7 @@ namespace plt0_gui
         }
         private void sync_preview_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[262]);
+            Parse_Markdown(d[144]);
             if (!preview_changed)
                 sync_preview_ck.BackgroundImage = sync_preview_hover;
             else
@@ -15657,7 +15821,7 @@ namespace plt0_gui
         }
         private void cmpr_save_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[263]);
+            Parse_Markdown(d[145]);
             cmpr_save_ck.BackgroundImage = cmpr_save_hover;
         }
         private void cmpr_save_MouseLeave(object sender, EventArgs e)
@@ -15667,7 +15831,7 @@ namespace plt0_gui
         }
         private void cmpr_save_as_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[264]);
+            Parse_Markdown(d[146]);
             cmpr_save_as_ck.BackgroundImage = cmpr_save_as_hover;
         }
         private void cmpr_save_as_MouseLeave(object sender, EventArgs e)
@@ -15677,7 +15841,7 @@ namespace plt0_gui
         }
         private void cmpr_swap_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[265]);
+            Parse_Markdown(d[147]);
             cmpr_swap_ck.BackgroundImage = cmpr_swap_hover;
         }
         private void cmpr_swap_MouseLeave(object sender, EventArgs e)
@@ -15687,7 +15851,7 @@ namespace plt0_gui
         }
         private void cmpr_swap2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[266]);
+            Parse_Markdown(d[148]);
             cmpr_swap2_ck.BackgroundImage = cmpr_swap2_hover;
         }
         private void cmpr_swap2_MouseLeave(object sender, EventArgs e)
@@ -15697,7 +15861,7 @@ namespace plt0_gui
         }
         private void cmpr_palette_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[267]);
+            Parse_Markdown(d[149]);
         }
         private void cmpr_palette_MouseLeave(object sender, EventArgs e)
         {
@@ -15705,7 +15869,7 @@ namespace plt0_gui
         }
         private void cmpr_mouse1_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[268]);
+            Parse_Markdown(d[150]);
         }
         private void cmpr_mouse1_MouseLeave(object sender, EventArgs e)
         {
@@ -15713,7 +15877,7 @@ namespace plt0_gui
         }
         private void cmpr_mouse2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[269]);
+            Parse_Markdown(d[151]);
         }
         private void cmpr_mouse2_MouseLeave(object sender, EventArgs e)
         {
@@ -15721,7 +15885,7 @@ namespace plt0_gui
         }
         private void cmpr_mouse3_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[270]);
+            Parse_Markdown(d[152]);
         }
         private void cmpr_mouse3_MouseLeave(object sender, EventArgs e)
         {
@@ -15729,7 +15893,7 @@ namespace plt0_gui
         }
         private void cmpr_mouse4_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[271]);
+            Parse_Markdown(d[153]);
         }
         private void cmpr_mouse4_MouseLeave(object sender, EventArgs e)
         {
@@ -15737,7 +15901,7 @@ namespace plt0_gui
         }
         private void cmpr_mouse5_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[272]);
+            Parse_Markdown(d[154]);
         }
         private void cmpr_mouse5_MouseLeave(object sender, EventArgs e)
         {
@@ -15745,7 +15909,7 @@ namespace plt0_gui
         }
         private void cmpr_sel_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[273]);
+            Parse_Markdown(d[155]);
         }
         private void cmpr_sel_MouseLeave(object sender, EventArgs e)
         {
@@ -15753,7 +15917,7 @@ namespace plt0_gui
         }
         private void cmpr_c1_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[274]);
+            Parse_Markdown(d[156]);
         }
         private void cmpr_c1_MouseLeave(object sender, EventArgs e)
         {
@@ -15761,7 +15925,7 @@ namespace plt0_gui
         }
         private void cmpr_c2_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[275]);
+            Parse_Markdown(d[157]);
         }
         private void cmpr_c2_MouseLeave(object sender, EventArgs e)
         {
@@ -15769,7 +15933,7 @@ namespace plt0_gui
         }
         private void cmpr_c3_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[276]);
+            Parse_Markdown(d[158]);
         }
         private void cmpr_c3_MouseLeave(object sender, EventArgs e)
         {
@@ -15777,7 +15941,7 @@ namespace plt0_gui
         }
         private void cmpr_c4_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[277]);
+            Parse_Markdown(d[159]);
         }
         private void cmpr_c4_MouseLeave(object sender, EventArgs e)
         {
@@ -15935,7 +16099,7 @@ namespace plt0_gui
         }
         private void cmpr_block_selection_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[278]);
+            Parse_Markdown(d[160]);
             if (tooltip == 0)
                 selected_tooltip(cmpr_block_selection_ck);
             else
@@ -15957,7 +16121,7 @@ namespace plt0_gui
         }
         private void cmpr_block_paint_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(config[279]);
+            Parse_Markdown(d[161]);
             if (tooltip == 1)
                 selected_tooltip(cmpr_block_paint_ck);
             else
@@ -15973,16 +16137,16 @@ namespace plt0_gui
         }
         private void Warn_rgb565_colour_trim()
         {
-            Parse_Markdown(config[280], cmpr_warning);
+            Parse_Markdown(d[162], cmpr_warning);
         }
         private void Put_that_damn_cmpr_layout_in_place()
         {
             Check_Paint();
-            Parse_Markdown(config[281], cmpr_mouse1_label);
-            Parse_Markdown(config[282], cmpr_mouse2_label);
-            Parse_Markdown(config[283], cmpr_mouse3_label);
-            Parse_Markdown(config[284], cmpr_mouse4_label);
-            Parse_Markdown(config[285], cmpr_mouse5_label);
+            Parse_Markdown(d[163], cmpr_mouse1_label);
+            Parse_Markdown(d[164], cmpr_mouse2_label);
+            Parse_Markdown(d[165], cmpr_mouse3_label);
+            Parse_Markdown(d[166], cmpr_mouse4_label);
+            Parse_Markdown(d[167], cmpr_mouse5_label);
             checked_tooltip(cmpr_block_selection_ck);
             unchecked_tooltip(cmpr_block_paint_ck);
         }
@@ -16015,7 +16179,7 @@ namespace plt0_gui
                 cli.Parse_args(cmpr_args);
                 if (cli.texture_format != 0xE)
                 {
-                    Parse_Markdown(config[286], cmpr_warning);
+                    Parse_Markdown(d[168], cmpr_warning);
                     return;
                 }
                 if (File.Exists(execPath + "images/preview/" + num + ".bmp"))
@@ -16052,7 +16216,7 @@ namespace plt0_gui
             }
             else
             {
-                Parse_Markdown(config[286], cmpr_warning);
+                Parse_Markdown(d[168], cmpr_warning);
             }
         }
         private void cmpr_c2_TextChanged(object sender, EventArgs e)
@@ -16141,7 +16305,7 @@ namespace plt0_gui
         {
             if (cmpr_colour_index > 2)
             {
-                Parse_Markdown(config[287], cmpr_warning);
+                Parse_Markdown(d[169], cmpr_warning);
             }
             cmpr_index_i = (byte)((cmpr_file[cmpr_data_start_offset + (current_block << 3) + 4 + cmpr_y] >> (6 - (cmpr_x << 1))) & 3);
             if (cmpr_index_i < 2)
@@ -16189,7 +16353,7 @@ namespace plt0_gui
                     }
                     else
                     {
-                        Parse_Markdown(config[288], cmpr_warning);
+                        Parse_Markdown(d[170], cmpr_warning);
                     }
                 }
             }
@@ -16434,14 +16598,14 @@ namespace plt0_gui
                 {
                     fs.Write(cmpr_file, 0, cmpr_file.Length);
                 }
-                Parse_Markdown(config[289], description);
+                Parse_Markdown(d[171], description);
             }
             catch (Exception ex)
             {
                 description.Text = ex.Message;
                 if (ex.Message.Substring(0, 34) == "The process cannot access the file")  // because it is being used by another process
                 {
-                    Parse_Markdown(config[290], description);
+                    Parse_Markdown(d[172], description);
                 }
             }
         }
