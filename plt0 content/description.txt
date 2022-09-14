@@ -1,122 +1,4 @@
 plt0 config v1.0
-Layout (change next line with one of these: "All", "Auto", "Preview", "Paint")
-Paint
-Window Location ("Normal", "Maximized", "Bottom_left", "Left", "Top_left", "Top", "Top_right", "Right", "Bottom_right", "Bottom", "Screen2_Bottom_left", "Screen2_Left", "Screen2_Top_left", "Screen2_Top", "Screen2_Top_right", "Screen2_Right", "Screen2_Bottom_right", "Screen2_Bottom")
-Maximized
-Textboxes text color (System.Drawing.Color)
-White
-Textboxes color
-Black
-Description color
-Cyan
-Font name (it must be installed on your system)
-NintendoP-NewRodin DB
-Encoding number (internally named GdiCharSet, see https://docs.microsoft.com/en-us/dotnet/api/system.drawing.font.gdicharset?view=dotnet-plat-ext-6.0)
-128
-CMPR Hover Colour
-White
-CMPR Hover colour Checkbox {"True", "False"}
-False
-CMPR Update Preview {"True", "False"}
-True
-Update Preview for Textboxes {"True", "False"}
-True
-Auto Update Preview {"True", "False"}
-True
-Upscale Preview {"True", "False"}
-True
-bmd {"True", "False"}
-False
-bti {"True", "False"}
-False
-tex0 {"True", "False"}
-False
-tpl {"True", "False"}
-False
-bmp {"True", "False"}
-False
-png {"True", "False"}
-False
-jpg {"True", "False"}
-False
-jpeg {"True", "False"}
-False
-gif {"True", "False"}
-False
-ico {"True", "False"}
-False
-tif {"True", "False"}
-False
-tiff {"True", "False"}
-False
-ask exit {"True", "False"}
-False
-32-bit bmp {"True", "False"}
-False
-FORCE ALPHA {"True", "False"}
-False
-funky {"True", "False"}
-False
-name string {"True", "False"}
-False
-random palette {"True", "False"}
-False
-reverse x-axis {"True", "False"}
-False
-reverse y_axis {"True", "False"}
-False
-safe mode {"True", "False"}
-False
-stfu {"True", "False"}
-False
-warn {"True", "False"}
-False
-
-
-yeah, I decided to implement my own markdown again.
-"\a" = %appdata%
-"\b" = sets the current label's text to bold
-"\c Cyan " makes the text of the current label be Cyan. - put "quotes" around the colour name if it has spaces
-"\d" = depth of input_file
-"\e" = executable name
-"\f default " font name of the current label - put "quotes" around the font name if it has spaces
-"\g 128 " = GdiCharSet of the current label 
-"\h" = height of the window
-"\i" = set current label's text to italic
-"\j" = jump to the next label - can't be the same line as the one you're on (else an override occurs and previous text can't be seen)
-"\k" = knit a strikeout text style
-"\l" = Layout name that you're browsing
-"\m" = mipmaps number
-"\n" = new line
-"\o" = output file name
-"\p" = path of the executable (execPath, full path to the folder )
-"\q Point " = query a font size unit for current label 
-"\r" = r carriage return
-"\s 15 " changes the size of the text in the current label
-"\t" = tab
-"\u" = underline the whole text of current label
-"\v" = Vertical font set to false for current label
-"\w" = window width
-"\xff" = a byte, can be \xfa, or \x80, whatever hex byte works
-"\y" = y-axis block height of selected encoding
-"\z" = z-axis block depth of selected encoding
-"\0" = 0utputs the x-axis block width of selected encoding
-
-
-notes: 
-colour names are all the ones allowed in System.Drawing.Color
-\v (GdiVerticalFont = true by default) see https://docs.microsoft.com/en-us/dotnet/api/system.drawing.font.gdiverticalfont?view=dotnet-plat-ext-6.0
-\q values are {"World", "Pixel", "Point", "Inch", "Document", "Milimeter", "Display"}
-\g is actually the encoding, 0 is ANSI for example. see https://docs.microsoft.com/en-us/dotnet/api/system.drawing.font.gdicharset?view=dotnet-plat-ext-6.0
-if it doesn't have quotes, make markdown with arguments always end with a space (\c \f \g \q \s)
-the byte \x00 must always have 2 digits (that way, the program know where it ends, and you don't need to add a ending character after it)
-
-
-you can use \j 8 times at most in one line of this .txt
-this is because labels override each other :/ even though its back is transparent, it won't allow the text of the other label back him to show
-
-
-
 edit textures of a bmd file \j \c red (a bmd file must be provided in input_file2)
 writes the texture in a bti file
 writes the texture in a tex0 file and the palette in a plt0 file
@@ -131,7 +13,7 @@ writes the texture in a tif image
 writes the texture in a tiff image
 option asking you to press enter before the console window disappears in cli mode
 when decoding, the program will write a 32-bit bmp in any case \n\n(else I've optimized bit depth to make file size smaller depending while keeping all image data intact)
-force your alpha value to be applied even if the input image isn't a 32-bit RGBA image\j\j\c Red(will output a fully transparent image in most cases)
+force your alpha value to be applied\jeven if the input image isn't\ja 32-bit RGBA image\j\j\c Red (will output a fully transparent image in most cases)
 when decoding, will write raw/random data, making a funky result
 adds the texture name\jat the end of the file\j\c Red (only use this for importing it into BrawlCrate!)
 won't inform the user that he made mistakes
@@ -147,20 +29,21 @@ black and white, 4 bit per pixel - no alpha \n(will look bad if your image is co
 black and white, 8 bit per pixel - no alpha
 black and white, 4 bit per pixel - alpha \n(looks bad, and an alpha value is stored for each pixel)
 black and white, 8 bit per pixel - alpha
-color, 16 bits per pixel - no alpha \j\c red 5 bits red\j\c green 6 bits green\j\c blue 5 bits blue\j\c Violet  test\j\c pink test2\j\c orange text\j\c purple purple\j\c chartreuse chartreuse\c yellow yellow
+color, 16 bits per pixel - no alpha \j\c coral 5 bits red\j\c SpringGreen 6 bits green\j\c DeepSkyBlue 5 bits blue
 color, 16 bits per pixel - smart alpha (1RRR RRGG GGGB BBBB - or - 0AAA RRRR GGGG BBBB)
 color, 32 bits per pixel - alpha (this encoding is the only one that isn't lossy)
 palette, 4 bits per pixel (CI4 palette has a capacity of 16 colours)
 palette, 8 bits per pixel (CI8 palette has a capacity of 256 colours)
 palette, 14 bits per pixel (CI14x2\j palette has a capacity of\j 16384 colours)\n\j\j\j\c Red slow to encode, the gui may freeze.
 color, DXT1 BC1 2 RGB565 colours\jper 4x4 block + 2 interpolated colours\j(which results in a "4-bit per pixel")\j\j\c LightGreen - use the Paint layout to edit\j\c LightGreen All CMPR textures -\j\jevery pixel with alpha < CMPR Min alpha will be zero, else it's 255
-Default CMPR Algorithm (theorytically the best one)
+Default CMPR Algorithm (best one to re-encode without anymore loss if input image was cmpr encoded or a BC1 dds)\n\nUsing the CIE 709 algorithm to find darkest and lightest pixel
 take the most used channel(s), and pick the two colours matching linear interpolation that are the furthest away\nvariant: calculate colours not in the 4x4 block but still in the linear interpolation that could make better results
 Take the Most used colour and the furthest away from it for each 4x4 block
+Take darkest and lightest colour of each block but ONLY take the second colour if it's used more than CMPR MAX times in the 4x4 block
 An algorithm to convert 24-bit RGB to 8-bit grey.
 An algorithm to convert 24-bit RGB to 8-bit grey.
 Multiplies each channel by its value in the textbox "Custom RGBA"
-Take darkest and lightest colour of each block but ONLY take the second colour if it's used more than CMPR MAX times in the 4x4 block
+An algorithm to convert 24-bit RGB to 8-bit grey by inverting the sRGB Gamma Function and calculating the Luminance and the Perceptive Brightness
 Make the encoding of CMPR textures to only care about the two most used colours with diversity and percentage parameters
 Process all colour couples of the palette and take the one that produces the least "difference" calculated by adding channel differences
 a single loop going through colours once and taking the couple that has the most difference with his neighbour
@@ -305,13 +188,9 @@ will pick a colour\jwhen you click on a pixel\jof the preview picture\j\j\c Gree
 (4, 2)
 (4, 3)
 (4, 4)
-color, 16 bits per pixel - no alpha \j\c red 5 bits red\j\c green 6 bits green\j\c blue 5 bits blue\j\c Violet  test\j\c pink test2\j\c orange text\j\c purple purple\j\c chartreuse chartreuse\c yellow yellow
+color, 16 bits per pixel - no alpha \j\c coral 5 bits red\j\c SpringGreen 6 bits green\j\c DeepSkyBlue 5 bits blue\j\c Violet  test\j\c pink test2\j\c orange text\j\c purple purple\j\c chartreuse chartreuse\c yellow yellow
 Hello \u ! you found an easter egg lol \n\ndid you know most apps have a folder in \a ?\j\j\j\n\n\c Red this one doesn't though. I prefer using local files.
 this is padding data to alignment. (meme)
-this is padding data to alignment.
-this is padding data to alignment.
-this is padding data to alignment.
-this is padding data to alignment.
 this is padding data to alignment.
 this is padding data to alignment.
 this is padding data to alignment.

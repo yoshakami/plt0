@@ -3,7 +3,7 @@ import pyperclip
 scrapped = "" # for scrapped functions
 output = """        private void Load_Images()
         {"""
-x = -1  # settings start line minus two
+x = 0  # settings start line minus two 
 with open("X:\\yoshi\\3D Objects\\C#\\plt0\\plt0\\plt0-v.cs", "r") as cs:
     text = cs.read()
     text = text.splitlines()

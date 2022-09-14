@@ -1,0 +1,129 @@
+plt0 config v1.0
+Layout (change next line with one of these: "All", "Auto", "Preview", "Paint")
+all
+Window Location ("Normal", "Maximized", "Bottom_left", "Left", "Top_left", "Top", "Top_right", "Right", "Bottom_right", "Bottom", "1080p", "Screen2_Bottom_left", "Screen2_Left", "Screen2_Top_left", "Screen2_Top", "Screen2_Top_right", "Screen2_Right", "Screen2_Bottom_right", "Screen2_Bottom", "Screen2_1080p")
+Maximized
+Font name (it must be installed on your system)
+NintendoP-NewRodin DB
+Encoding number (internally named GdiCharSet, see https://docs.microsoft.com/en-us/dotnet/api/system.drawing.font.gdicharset?view=dotnet-plat-ext-6.0)
+128
+Labels Colour (the colour of all text)
+White
+Textboxes text colour (System.Drawing.Color)
+White
+Textboxes colour
+Black
+Description colour
+Cyan
+Paint Layout - CMPR Hover Colour
+White
+Encoding {"None", "I4", "I8", "AI4", "AI8", "RGB565", "RGB5A3", "RGBA32", "CI4", "CI8", "CI14x2", "CMPR"}
+None
+Algorithm {"None", "Default", "CIE 601", "CIE 709", "Custom RGBA", "Gamma", "Range Fit", "Most Used/Furthest", "Daskest/Lightest", "No Gradient", "Weemm", "SooperBMD", "Min/Max"}
+None
+Alpha {"None", "No Alpha", "Alpha", "Mix"}
+None
+Palette Format {"None", "AI8", "RGB565", "RGB5A3"}
+None
+Minification filter {"None", "Nearest Neighbour", "Linear", "NearestMipmapNearest", "NearestMipmapLinear", "LinearMipmapNearest", "LinearMipmapLinear"}
+None
+Magnification filter {"None", "Nearest Neighbour", "Linear", "NearestMipmapNearest", "NearestMipmapLinear", "LinearMipmapNearest", "LinearMipmapLinear"}
+None
+WrapS {"None", "Clamp", "Repeat", "Mirror"}
+None
+WrapT {"None", "Clamp", "Repeat", "Mirror"}
+None
+Colour Channels
+RGBA
+mipmaps (max 255)
+0
+CMPR Max (max 16)
+0
+CMPR Min alpha (max 255)
+100
+num colours (max 65535)
+
+round3 (max 32)
+15
+round4 (max 16)
+7
+round5 (max 8)
+3
+round6 (max 4)
+1
+diversity (max 255)
+10
+diversity2 (max 255)
+0
+percentage (max 100.0%)
+0%
+percentage2 (max 100.0%)
+0%
+R
+1.0
+G
+1.0
+B
+1.0
+A
+1.0
+CMPR Hover colour (in hex, overwrites the colour name above if set. default value is {"#ffffff"})
+
+Allow the app to be moved by dragging the background {"True", "False"}
+False
+Paint Layout - CMPR Hover colour Checkbox {"True", "False"}
+False
+Paint Layout - CMPR Update Preview {"True", "False"}
+True
+Update Preview for Textboxes {"True", "False"}
+True
+Auto Update Preview {"True", "False"}
+True
+Upscale Preview {"True", "False"}
+True
+bmd {"True", "False"}
+False
+bti {"True", "False"}
+False
+tex0 {"True", "False"}
+False
+tpl {"True", "False"}
+False
+bmp {"True", "False"}
+False
+png {"True", "False"}
+False
+jpg {"True", "False"}
+False
+jpeg {"True", "False"}
+False
+gif {"True", "False"}
+False
+ico {"True", "False"}
+False
+tif {"True", "False"}
+False
+tiff {"True", "False"}
+False
+ask exit {"True", "False"}
+False
+32-bit bmp {"True", "False"}
+False
+FORCE ALPHA {"True", "False"}
+False
+funky {"True", "False"}
+False
+name string {"True", "False"}
+False
+random palette {"True", "False"}
+False
+reverse x-axis {"True", "False"}
+False
+reverse y_axis {"True", "False"}
+False
+safe mode {"True", "False"}
+False
+stfu {"True", "False"}
+False
+warn {"True", "False"}
+False

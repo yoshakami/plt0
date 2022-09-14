@@ -1,0 +1,42 @@
+plt0 config v1.0
+yeah, I decided to implement my own markdown again.
+"\a" = %appdata%
+"\b" = sets the current label's text to bold
+"\c Cyan " makes the text of the current label be Cyan. - put "quotes" around the colour name if it has spaces
+"\d" = depth of input_file
+"\e" = executable name
+"\f default " font name of the current label - put "quotes" around the font name if it has spaces
+"\g 128 " = GdiCharSet of the current label 
+"\h" = height of the window
+"\i" = set current label's text to italic
+"\j" = jump to the next label - can't be the same line as the one you're on (else an override occurs and previous text can't be seen)
+"\k" = knit a strikeout text style
+"\l" = Layout name that you're browsing
+"\m" = mipmaps number
+"\n" = new line
+"\o" = output file name
+"\p" = path of the executable (execPath, full path to the folder )
+"\q Point " = query a font size unit for current label 
+"\r" = r carriage return
+"\s 15 " changes the size of the text in the current label
+"\t" = tab
+"\u" = underline the whole text of current label
+"\v" = Vertical font set to false for current label
+"\w" = window width
+"\xff" = a byte, can be \xfa, or \x80, whatever hex byte works
+"\y" = y-axis block height of selected encoding
+"\z" = z-axis block depth of selected encoding
+"\0" = 0utputs the x-axis block width of selected encoding
+
+
+notes: 
+colour names are all the ones allowed in System.Drawing.Color
+\v (GdiVerticalFont = true by default) see https://docs.microsoft.com/en-us/dotnet/api/system.drawing.font.gdiverticalfont?view=dotnet-plat-ext-6.0
+\q values are {"World", "Pixel", "Point", "Inch", "Document", "Milimeter", "Display"}
+\g is actually the encoding, 0 is ANSI for example. see https://docs.microsoft.com/en-us/dotnet/api/system.drawing.font.gdicharset?view=dotnet-plat-ext-6.0
+if it doesn't have quotes, make markdown with arguments always end with a space (\c \f \g \q \s)
+the byte \x00 must always have 2 digits (that way, the program know where it ends, and you don't need to add a ending character after it)
+
+
+you can use \j 8 times at most in one line of this .txt
+this is because labels override each other :/ even though its back is transparent, it won't allow the text of the other label back him to show
