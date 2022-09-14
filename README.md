@@ -1,6 +1,15 @@
 # plt0
 Wii/GC texture encoder with palette support (png, jpeg, gif, bmp, tiff, tpl, tex0, plt0, bti)
 
+this is a hybrid tool. launch it without specifying an input file or an encoding format and it'll launch the gui.
+you can then view the corresponding cli arguments of your command in the gui itself. I guess it's faster than reading a "readme" which won't be read in most cases (probably because it's not concise enough. the section that describes how to use should always be in first place.) 
+
+*cli = command line interface -> (usually cmd.exe or powershell.exe) a black window in Consolas fonts in which you can launch executables with parameters
+*gui = graphical user interface -> the visuals I made
+probably the most time I have ever consumed for a decent CMPR Algorithm
+
+
+## version history
 v0.1: support for all palette formats
 
 v0.2: support input palette and mipmaps
@@ -21,11 +30,9 @@ v0.9: decode TPL files
 
 v1.0: GUI
 
-v1.1 : make a "How to use" image, and test everything (every option, every combination, find anything that breaks the program)
-
-v1.2 : add french zettings.txt
-
-currently developping v1.0
+future updates:
+make a "How to use" image, and test everything (every option, every combination, find anything that breaks the program)
+add french description.txt
 
 Note: if you want to change the source code of GUI layout, you'll probably need a 4k screen, since Visual Studio automatically resizes the app bounds to your screen size (Naughy VS!) and the whole screen is packed to the gills with GUI elements
 
