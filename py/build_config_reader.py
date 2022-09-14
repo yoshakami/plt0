@@ -4,7 +4,7 @@ import pyperclip
 output = ""
 booleans = ["bmd", "bti", "tex0", "tpl", "bmp", "png", "jpg", "jpeg", "gif", "ico", "tif", "tiff", "ask_exit", "bmp_32", "FORCE_ALPHA", "funky", "name_string", "random", "reversex", "reversey", "safe_mode", "stfu", "warn"]
 big_array = checkbox + ["cmpr_hover", "cmpr_update_preview"] + booleans
-w = 68
+w = 70
 for a in big_array:
     w += 2
     output += """

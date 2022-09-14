@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.IO;
 using System.Linq;
+using System.Security.AccessControl;
 /* note: pasting C# Guy.py code adds automatically new usings, messing up the whole code
  * here's the official list of usings. it should be the same as what's above. else copy and paste
 using System;
@@ -42,7 +43,7 @@ namespace plt0_gui
         // the 4x4 grid for the Paint Layout is a 4x4 bmp file
         byte[] cmpr_4x4 = { 66, 77, 186, 0, 0, 0, 121, 111, 115, 104, 122, 0, 0, 0, 108, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0, 1, 0, 32, 0, 3, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 0, 0, 255, 0, 0, 255, 0, 0, 0, 0, 0, 0, 255, 32, 110, 105, 87, 0, 104, 116, 116, 112, 115, 58, 47, 47, 100, 105, 115, 99, 111, 114, 100, 46, 103, 103, 47, 118, 57, 86, 112, 68, 90, 57, 0, 116, 104, 105, 115, 32, 105, 115, 32, 112, 97, 100, 100, 105, 110, 103, 32, 100, 97, 116, 97, 0, 0, 240, 255, 72, 242, 64, 255, 72, 66, 240, 255, 0, 255, 0, 255, 200, 254, 200, 255, 32, 57, 240, 255, 32, 249, 56, 255, 200, 206, 240, 255, 16, 16, 240, 255, 32, 241, 56, 255, 48, 49, 255, 255, 72, 250, 64, 255, 16, 255, 16, 255, 32, 57, 255, 255, 48, 241, 48, 255, 72, 66, 240, 255 };
         string[] cmpr_args = new string[] { "gui", "i", "i", execPath + "images/preview/1" };
-        string[] settings = new string[255];
+        string[] config = new string[255];
         string[] layout_name = { "All", "Auto", "Preview", "Paint" };
         string cmpr_colours_hex;
         byte[] cmpr_file;
@@ -3364,8 +3365,8 @@ namespace plt0_gui
             if (System.IO.File.Exists(execPath + "images/settings.txt"))
             {
                 string version = "";
-                settings = System.IO.File.ReadAllLines(execPath + "images/settings.txt");
-                if (settings.Length > 0)
+                config = System.IO.File.ReadAllLines(execPath + "images/settings.txt");
+                if (config.Length > 0)
                 {
                     version = config[0].Substring(12);
                 }
@@ -3373,7 +3374,7 @@ namespace plt0_gui
                 switch (version)
                 {
                     case "v1.0":
-                        if (version == "v1.0" && settings.Length < 200)  // incorrect v1.0 config file
+                        if (version == "v1.0" && config.Length < 200)  // incorrect v1.0 config file
                         {
                             //  System.Diagnostics.Debug.WriteLine("some tetttttttttt23423423423423423ttttttttttttttttttttttt");
                             Console.WriteLine("plt0 v1.0 config file should have EXACTLY 200 lines");
@@ -3564,123 +3565,455 @@ namespace plt0_gui
 
                 cmpr_hover_colour.BackColor = Color.FromName(config[18]);
 
-                if (config[70].ToLower() == "true")
+                Apply_Graphics();
+                switch (config[20].ToLower())
+                {
+                    case "i4":
+                        checked_encoding(i4_ck);
+                        encoding = 0;
+                        break;
+                    case "i8":
+                        checked_encoding(i8_ck);
+                        encoding = 1;
+                        break;
+                    case "ai4":
+                        checked_encoding(ai4_ck);
+                        encoding = 2;
+                        break;
+                    case "ai8":
+                        checked_encoding(ai8_ck);
+                        encoding = 3;
+                        break;
+                    case "rgb565":
+                        checked_encoding(rgb565_ck);
+                        encoding = 4;
+                        break;
+                    case "rgb5a3":
+                        checked_encoding(rgb5a3_ck);
+                        encoding = 5;
+                        break;
+                    case "rgba32":
+                        checked_encoding(rgba32_ck);
+                        encoding = 6;
+                        break;
+                    case "":
+                        checked_encoding(_ck);
+                        encoding = 7;
+                        break;
+                    case "ci4":
+                        checked_encoding(ci4_ck);
+                        encoding = 8;
+                        break;
+                    case "ci8":
+                        checked_encoding(ci8_ck);
+                        encoding = 9;
+                        break;
+                    case "ci14x2":
+                        checked_encoding(ci14x2_ck);
+                        encoding = 10;
+                        break;
+                    case "":
+                        checked_encoding(_ck);
+                        encoding = 11;
+                        break;
+                    case "":
+                        checked_encoding(_ck);
+                        encoding = 12;
+                        break;
+                    case "":
+                        checked_encoding(_ck);
+                        encoding = 13;
+                        break;
+                    case "cmpr":
+                        checked_encoding(cmpr_ck);
+                        encoding = 14;
+                        break;
+                }
+                switch (config[22].ToLower())
+                {
+                    case "cie 601":
+                        case "default":
+                        checked_algorithm(cie_601_ck);
+                        algorithm = 0;
+                        break;
+                        case "range fit":
+                    case "cie 709":
+                        checked_algorithm(cie_709_ck);
+                        algorithm = 1;
+                        break;
+                    case "custom rgba":
+                        checked_algorithm(custom_ck);
+                        algorithm = 2;
+                        break;
+                        case "gamma":
+                    case "darkest_lightest":
+                        checked_algorithm(darkest_lightest_ck);
+                        algorithm = 3;
+                        break;
+                    case "no_gradient":
+                        checked_algorithm(no_gradient_ck);
+                        algorithm = 4;
+                        break;
+                    case "weemm":
+                        checked_algorithm(weemm_ck);
+                        algorithm = 5;
+                        break;
+                    case "sooperbmd":
+                        checked_algorithm(sooperbmd_ck);
+                        algorithm = 6;
+                        break;
+                    case "min_max":
+                        checked_algorithm(min_max_ck);
+                        algorithm = 7;
+                        break;
+                }
+                switch (config[24].ToLower())
+                {
+                    case "no_alpha":
+                        checked_alpha(no_alpha_ck);
+                        alpha = 0;
+                        break;
+                    case "alpha":
+                        checked_alpha(alpha_ck);
+                        alpha = 1;
+                        break;
+                    case "mix":
+                        checked_alpha(mix_ck);
+                        alpha = 2;
+                        break;
+                }
+                switch (config[26].ToLower())
+                {
+                    case "ai8":
+                        checked_palette(ai8_ck);
+                        palette_enc = 0;
+                        break;
+                    case "rgb565":
+                        checked_palette(rgb565_ck);
+                        palette_enc = 1;
+                        break;
+                    case "rgb5a3":
+                        checked_palette(rgb5a3_ck);
+                        palette_enc = 2;
+                        break;
+                }
+                switch (config[28].ToLower())
+                {
+                    case "nearest_neighbour":
+                        checked_Minification(nearest_neighbour_ck);
+                        minification_filter = 0;
+                        break;
+                    case "linear":
+                        checked_Minification(linear_ck);
+                        minification_filter = 1;
+                        break;
+                    case "nearestmipmapnearest":
+                        checked_Minification(nearestmipmapnearest_ck);
+                        minification_filter = 2;
+                        break;
+                    case "nearestmipmaplinear":
+                        checked_Minification(nearestmipmaplinear_ck);
+                        minification_filter = 3;
+                        break;
+                    case "linearmipmapnearest":
+                        checked_Minification(linearmipmapnearest_ck);
+                        minification_filter = 4;
+                        break;
+                    case "linearmipmaplinear":
+                        checked_Minification(linearmipmaplinear_ck);
+                        minification_filter = 5;
+                        break;
+                }
+                switch (config[30].ToLower())
+                {
+                    case "nearest_neighbour":
+                        checked_Magnification(nearest_neighbour_ck);
+                        magnification_filter = 0;
+                        break;
+                    case "linear":
+                        checked_Magnification(linear_ck);
+                        magnification_filter = 1;
+                        break;
+                    case "nearestmipmapnearest":
+                        checked_Magnification(nearestmipmapnearest_ck);
+                        magnification_filter = 2;
+                        break;
+                    case "nearestmipmaplinear":
+                        checked_Magnification(nearestmipmaplinear_ck);
+                        magnification_filter = 3;
+                        break;
+                    case "linearmipmapnearest":
+                        checked_Magnification(linearmipmapnearest_ck);
+                        magnification_filter = 4;
+                        break;
+                    case "linearmipmaplinear":
+                        checked_Magnification(linearmipmaplinear_ck);
+                        magnification_filter = 5;
+                        break;
+                }
+                switch (config[32].ToLower())
+                {
+                    case "clamp":
+                        checked_WrapS(Sclamp_ck);
+                        WrapS = 0;
+                        break;
+                    case "repeat":
+                        checked_WrapS(Srepeat_ck);
+                        WrapS = 1;
+                        break;
+                    case "mirror":
+                        checked_WrapS(Smirror_ck);
+                        WrapS = 2;
+                        break;
+                }
+                switch (config[34].ToLower())
+                {
+                    case "clamp":
+                        checked_WrapT(Tclamp_ck);
+                        WrapT = 0;
+                        break;
+                    case "repeat":
+                        checked_WrapT(Trepeat_ck);
+                        WrapT = 1;
+                        break;
+                    case "mirror":
+                        checked_WrapT(Tmirror_ck);
+                        WrapT = 2;
+                        break;
+                }
+
+                if (config[72].ToLower() == "true")
                 {
                     checked_checkbox(banner_global_move_ck);
                 }
-                if (config[72].ToLower() == "true")
+                else
                 {
-                    checked_checkbox(textchange_ck);
+                    unchecked_checkbox(banner_global_move_ck);
                 }
                 if (config[74].ToLower() == "true")
                 {
-                    checked_checkbox(auto_update_ck);
+                    checked_checkbox(textchange_ck);
+                }
+                else
+                {
+                    unchecked_checkbox(textchange_ck);
                 }
                 if (config[76].ToLower() == "true")
                 {
-                    checked_checkbox(upscale_ck);
+                    checked_checkbox(auto_update_ck);
+                }
+                else
+                {
+                    unchecked_checkbox(auto_update_ck);
                 }
                 if (config[78].ToLower() == "true")
                 {
-                    checked_checkbox(cmpr_hover_ck);
+                    checked_checkbox(upscale_ck);
+                }
+                else
+                {
+                    unchecked_checkbox(upscale_ck);
                 }
                 if (config[80].ToLower() == "true")
                 {
-                    checked_checkbox(cmpr_update_preview_ck);
+                    checked_checkbox(cmpr_hover_ck);
+                }
+                else
+                {
+                    unchecked_checkbox(cmpr_hover_ck);
                 }
                 if (config[82].ToLower() == "true")
                 {
-                    checked_checkbox(bmd_ck);
+                    checked_checkbox(cmpr_update_preview_ck);
+                }
+                else
+                {
+                    unchecked_checkbox(cmpr_update_preview_ck);
                 }
                 if (config[84].ToLower() == "true")
                 {
-                    checked_checkbox(bti_ck);
+                    checked_checkbox(bmd_ck);
+                }
+                else
+                {
+                    unchecked_checkbox(bmd_ck);
                 }
                 if (config[86].ToLower() == "true")
                 {
-                    checked_checkbox(tex0_ck);
+                    checked_checkbox(bti_ck);
+                }
+                else
+                {
+                    unchecked_checkbox(bti_ck);
                 }
                 if (config[88].ToLower() == "true")
                 {
-                    checked_checkbox(tpl_ck);
+                    checked_checkbox(tex0_ck);
+                }
+                else
+                {
+                    unchecked_checkbox(tex0_ck);
                 }
                 if (config[90].ToLower() == "true")
                 {
-                    checked_checkbox(bmp_ck);
+                    checked_checkbox(tpl_ck);
+                }
+                else
+                {
+                    unchecked_checkbox(tpl_ck);
                 }
                 if (config[92].ToLower() == "true")
                 {
-                    checked_checkbox(png_ck);
+                    checked_checkbox(bmp_ck);
+                }
+                else
+                {
+                    unchecked_checkbox(bmp_ck);
                 }
                 if (config[94].ToLower() == "true")
                 {
-                    checked_checkbox(jpg_ck);
+                    checked_checkbox(png_ck);
+                }
+                else
+                {
+                    unchecked_checkbox(png_ck);
                 }
                 if (config[96].ToLower() == "true")
                 {
-                    checked_checkbox(jpeg_ck);
+                    checked_checkbox(jpg_ck);
+                }
+                else
+                {
+                    unchecked_checkbox(jpg_ck);
                 }
                 if (config[98].ToLower() == "true")
                 {
-                    checked_checkbox(gif_ck);
+                    checked_checkbox(jpeg_ck);
+                }
+                else
+                {
+                    unchecked_checkbox(jpeg_ck);
                 }
                 if (config[100].ToLower() == "true")
                 {
-                    checked_checkbox(ico_ck);
+                    checked_checkbox(gif_ck);
+                }
+                else
+                {
+                    unchecked_checkbox(gif_ck);
                 }
                 if (config[102].ToLower() == "true")
                 {
-                    checked_checkbox(tif_ck);
+                    checked_checkbox(ico_ck);
+                }
+                else
+                {
+                    unchecked_checkbox(ico_ck);
                 }
                 if (config[104].ToLower() == "true")
                 {
-                    checked_checkbox(tiff_ck);
+                    checked_checkbox(tif_ck);
+                }
+                else
+                {
+                    unchecked_checkbox(tif_ck);
                 }
                 if (config[106].ToLower() == "true")
                 {
-                    checked_checkbox(ask_exit_ck);
+                    checked_checkbox(tiff_ck);
+                }
+                else
+                {
+                    unchecked_checkbox(tiff_ck);
                 }
                 if (config[108].ToLower() == "true")
                 {
-                    checked_checkbox(bmp_32_ck);
+                    checked_checkbox(ask_exit_ck);
+                }
+                else
+                {
+                    unchecked_checkbox(ask_exit_ck);
                 }
                 if (config[110].ToLower() == "true")
                 {
-                    checked_checkbox(FORCE_ALPHA_ck);
+                    checked_checkbox(bmp_32_ck);
+                }
+                else
+                {
+                    unchecked_checkbox(bmp_32_ck);
                 }
                 if (config[112].ToLower() == "true")
                 {
-                    checked_checkbox(funky_ck);
+                    checked_checkbox(FORCE_ALPHA_ck);
+                }
+                else
+                {
+                    unchecked_checkbox(FORCE_ALPHA_ck);
                 }
                 if (config[114].ToLower() == "true")
                 {
-                    checked_checkbox(name_string_ck);
+                    checked_checkbox(funky_ck);
+                }
+                else
+                {
+                    unchecked_checkbox(funky_ck);
                 }
                 if (config[116].ToLower() == "true")
                 {
-                    checked_checkbox(random_ck);
+                    checked_checkbox(name_string_ck);
+                }
+                else
+                {
+                    unchecked_checkbox(name_string_ck);
                 }
                 if (config[118].ToLower() == "true")
                 {
-                    checked_checkbox(reversex_ck);
+                    checked_checkbox(random_ck);
+                }
+                else
+                {
+                    unchecked_checkbox(random_ck);
                 }
                 if (config[120].ToLower() == "true")
                 {
-                    checked_checkbox(reversey_ck);
+                    checked_checkbox(reversex_ck);
+                }
+                else
+                {
+                    unchecked_checkbox(reversex_ck);
                 }
                 if (config[122].ToLower() == "true")
                 {
-                    checked_checkbox(safe_mode_ck);
+                    checked_checkbox(reversey_ck);
+                }
+                else
+                {
+                    unchecked_checkbox(reversey_ck);
                 }
                 if (config[124].ToLower() == "true")
                 {
-                    checked_checkbox(stfu_ck);
+                    checked_checkbox(safe_mode_ck);
+                }
+                else
+                {
+                    unchecked_checkbox(safe_mode_ck);
                 }
                 if (config[126].ToLower() == "true")
                 {
+                    checked_checkbox(stfu_ck);
+                }
+                else
+                {
+                    unchecked_checkbox(stfu_ck);
+                }
+                if (config[128].ToLower() == "true")
+                {
                     checked_checkbox(warn_ck);
                 }
-                Apply_Graphics();
+                else
+                {
+                    unchecked_checkbox(warn_ck);
+                }
             }
             else
             {
@@ -3786,32 +4119,7 @@ namespace plt0_gui
         }
         private void Apply_Graphics()
         {
-            //if ()
-            unchecked_checkbox(ask_exit_ck);
-            unchecked_checkbox(FORCE_ALPHA_ck);
-            unchecked_checkbox(jpeg_ck);
-            unchecked_checkbox(jpg_ck);
-            unchecked_checkbox(bti_ck);
-            unchecked_checkbox(bmd_ck);
-            unchecked_checkbox(ico_ck);
-            unchecked_checkbox(bmp_ck);
-            unchecked_checkbox(bmp_32_ck);
-            unchecked_checkbox(stfu_ck);
-            unchecked_checkbox(safe_mode_ck);
-            unchecked_checkbox(warn_ck);
-            unchecked_checkbox(tpl_ck);
-            unchecked_checkbox(tiff_ck);
-            unchecked_checkbox(tif_ck);
-            unchecked_checkbox(tex0_ck);
-            unchecked_checkbox(png_ck);
-            unchecked_checkbox(random_ck);
-            unchecked_checkbox(reversex_ck);
-            unchecked_checkbox(reversey_ck);
-            unchecked_checkbox(funky_ck);
             unchecked_checkbox(no_warning_ck);
-            unchecked_checkbox(gif_ck);
-            unchecked_checkbox(textchange_ck);
-            unchecked_checkbox(name_string_ck);
             unchecked_encoding(i4_ck);
             unchecked_encoding(i8_ck);
             unchecked_encoding(ai4_ck);
@@ -3823,23 +4131,19 @@ namespace plt0_gui
             unchecked_encoding(ci8_ck);
             unchecked_encoding(ci14x2_ck);
             unchecked_encoding(cmpr_ck);
-            checked_checkbox(cmpr_hover_ck);
-            checked_checkbox(auto_update_ck);
-            checked_checkbox(upscale_ck);
-            checked_checkbox(cmpr_update_preview_ck);
             unchecked_R(a_r_ck);
             unchecked_G(a_g_ck);
             unchecked_B(a_b_ck);
-            checked_A(a_a_ck);
+            unchecked_A(a_a_ck);
             unchecked_R(b_r_ck);
             unchecked_G(b_g_ck);
-            checked_B(b_b_ck);
+            unchecked_B(b_b_ck);
             unchecked_A(b_a_ck);
             unchecked_R(g_r_ck);
-            checked_G(g_g_ck);
+            unchecked_G(g_g_ck);
             unchecked_B(g_b_ck);
             unchecked_A(g_a_ck);
-            checked_R(r_r_ck);
+            unchecked_R(r_r_ck);
             unchecked_G(r_g_ck);
             unchecked_B(r_b_ck);
             unchecked_A(r_a_ck);
@@ -3872,6 +4176,9 @@ namespace plt0_gui
             unchecked_algorithm(weemm_ck);
             unchecked_algorithm(sooperbmd_ck);
             unchecked_algorithm(min_max_ck);
+            unchecked_palette(palette_ai8_ck);
+            unchecked_palette(palette_rgb565_ck);
+            unchecked_palette(palette_rgb5a3_ck);
             Category_checked(view_alpha_ck);
             Category_checked(view_algorithm_ck);
             Category_checked(view_WrapS_ck);
@@ -3882,9 +4189,6 @@ namespace plt0_gui
             Category_checked(view_rgba_ck);
             Category_checked(view_options_ck);
             Category_checked(view_palette_ck);
-            unchecked_palette(palette_ai8_ck);
-            unchecked_palette(palette_rgb565_ck);
-            unchecked_palette(palette_rgb5a3_ck);
         }
         private void InitializeForm(bool load_settings_dot_tee_ekks_tee = true, bool this_is_the_first_time_this_function_is_called = true)
         {
