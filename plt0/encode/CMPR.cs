@@ -195,10 +195,11 @@ class CMPR_class
                         }
                     }
                     // covariance[255] = (byte)(red_array[diff_max] * red_array[diff_max]);
-                    // HOLY SHIT YA NEED TO SEE THIS
                     // Singular Value Decomposition.
                     // Factorizes the matrix a into two unitary matrices U and Vh, and a 1 - D array s of singular values(real, non - negative) such that
                     // a == U @ S @ Vh, where S is a suitably shaped matrix of zeros with main diagonal s.
+                    //MathNet.Numerics.LinearAlgebra svd = new MathNet.Numerics.Linearalgebra();
+                    //svd.Factorization.DenseSvd(covariance);
                     Organize_Colours_And_Process_Indexes();
                     index_list.Add(index.ToArray());
                 }
