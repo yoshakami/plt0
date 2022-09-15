@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Security.Policy;
 using System.Windows.Forms;
 using static System.Net.Mime.MediaTypeNames;
@@ -137,11 +138,11 @@ class CMPR_class
                 break;
             case 1: // Range Fit -   //https://stackoverflow.com/questions/24747643/3d-linear-regression
                 // first, process the red_array, then do the same thing for green and blue.
+                byte[] covariance = new byte[256];
                 short[] red_array = new short[16];
-                int sum = 0;
-                    int average = 0;
+                short sum = 0;
+                short average = 0;
                 bool skipped;
-                byte diff;
                 for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
                 {
                     if (!Load_Block_rgb565())
@@ -150,7 +151,7 @@ class CMPR_class
                     diff_max = 16; // the number of colours in the array - used to remove transparent pixels from the regression calculation
                     // now let's make the "principal axis", by using 3d linear regression
                     // fill red_array values
-                    for (byte i = 0; i < 16; i ++)
+                    for (byte i = 0; i < 16; i++)
                     {
                         if (((alpha_bitfield >> i) & 1) == 1 || Colour_list[i][0] <= _plt0.cmpr_max)
                         {
@@ -163,11 +164,11 @@ class CMPR_class
                     }
                     // calculate average
                     if (diff_max == 16)
-                        average = sum >> 4; // divides by 16 to calculate the average
+                        average = (short)(sum >> 4); // divides by 16 to calculate the average
                     else
-                        average = sum / diff_max; // average with skipped pixels
-                    
-                    for (byte i = 0; i < 15; i++)
+                        average = (short)(sum / diff_max); // average with skipped pixels
+                    diff = 0;
+                    for (byte i = 0; i < 15; i++)  // discard skipped pixels
                     {
                         if (red_array[i] == 0x7fff)
                         {
@@ -175,11 +176,30 @@ class CMPR_class
                             skipped = true;
                             for (; red_array[diff] == 0x7fff; diff++)
                             { }
-                            red_array[i] = red_array[diff];
+                        }
+                        if (skipped)
+                            red_array[i] = red_array[i + diff];
+                    }
+                    // Normalize ( this means calculate the distance to the average)
+                    for (byte i = 0; i < diff_max; i++)
+                    {
+                        red_array[i] -= average;
+                    }
+                    // Calculate to covariance matrix
+                    // Sigma = (1 / 16) * X^T * X     X^T = transposed X matrix
+                    for (byte u = 0; u < diff_max; u++)
+                    {
+                        for (byte v = 0; v < diff_max; v++)
+                        {
+                            covariance[(u << 4) + v] = (byte)(red_array[u] * red_array[v]);  // yup, that's a matrix product
                         }
                     }
-                        // HOLY SHIT YA NEED TO SEE THIS
-                        Organize_Colours_And_Process_Indexes();
+                    // covariance[255] = (byte)(red_array[diff_max] * red_array[diff_max]);
+                    // HOLY SHIT YA NEED TO SEE THIS
+                    // Singular Value Decomposition.
+                    // Factorizes the matrix a into two unitary matrices U and Vh, and a 1 - D array s of singular values(real, non - negative) such that
+                    // a == U @ S @ Vh, where S is a suitably shaped matrix of zeros with main diagonal s.
+                    Organize_Colours_And_Process_Indexes();
                     index_list.Add(index.ToArray());
                 }
                 break;
@@ -785,7 +805,7 @@ class CMPR_class
         pixel = (ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)); // the RGB565 colour
         Colour_array[1] = pixel;
         //Colour_array[2] = (byte)(red * 0.114 + green * 0.587 + blue * 0.299);  // grey colour trimmed to 4 bit - CIE 601 produces a bad result
-        Colour_array[2] = (byte)(red*0.0721 + green * 0.7154 + blue * 0.2125);  // CIE 709 recreated the perfect re-encoding
+        Colour_array[2] = (byte)(red * 0.0721 + green * 0.7154 + blue * 0.2125);  // CIE 709 recreated the perfect re-encoding
         Colour_list.Add(Colour_array.ToArray());
         // Colour_rgb565.Add(pixel);
         j++;
