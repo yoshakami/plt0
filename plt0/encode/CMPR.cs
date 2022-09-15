@@ -135,6 +135,54 @@ class CMPR_class
                     index_list.Add(index.ToArray());
                 }
                 break;
+            case 1: // Range Fit -   //https://stackoverflow.com/questions/24747643/3d-linear-regression
+                // first, process the red_array, then do the same thing for green and blue.
+                short[] red_array = new short[16];
+                int sum = 0;
+                    int average = 0;
+                bool skipped;
+                byte diff;
+                for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                {
+                    if (!Load_Block_rgb565())
+                        continue;
+                    skipped = false;
+                    diff_max = 16; // the number of colours in the array - used to remove transparent pixels from the regression calculation
+                    // now let's make the "principal axis", by using 3d linear regression
+                    // fill red_array values
+                    for (byte i = 0; i < 16; i ++)
+                    {
+                        if (((alpha_bitfield >> i) & 1) == 1 || Colour_list[i][0] <= _plt0.cmpr_max)
+                        {
+                            diff_max -= 1;
+                            red_array[i] = 0x7fff;
+                            continue;
+                        }
+                        red_array[i] = rgb565[i << 2];
+                        sum += rgb565[i << 2];
+                    }
+                    // calculate average
+                    if (diff_max == 16)
+                        average = sum >> 4; // divides by 16 to calculate the average
+                    else
+                        average = sum / diff_max; // average with skipped pixels
+                    
+                    for (byte i = 0; i < 15; i++)
+                    {
+                        if (red_array[i] == 0x7fff)
+                        {
+                            diff += 1;
+                            skipped = true;
+                            for (; red_array[diff] == 0x7fff; diff++)
+                            { }
+                            red_array[i] = red_array[diff];
+                        }
+                    }
+                        // HOLY SHIT YA NEED TO SEE THIS
+                        Organize_Colours_And_Process_Indexes();
+                    index_list.Add(index.ToArray());
+                }
+                break;
             case 2: // Most Used/Furthest
                 for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
                 {
@@ -161,10 +209,10 @@ class CMPR_class
                     {
                         if (((alpha_bitfield >> i) & 1) == 1)
                             continue;
-                        diff = (ushort)(rgb565[Colour_list[diff_min_index][2]] + rgb565[Colour_list[diff_min_index][2] + 1] + rgb565[Colour_list[diff_min_index][2] + 2]);
-                        if (diff < diff_min)
+                        this.diff = (ushort)(rgb565[Colour_list[diff_min_index][2]] + rgb565[Colour_list[diff_min_index][2] + 1] + rgb565[Colour_list[diff_min_index][2] + 2]);
+                        if (this.diff < diff_min)
                         {
-                            diff_min = diff;
+                            diff_min = this.diff;
                             diff_min_index = i;
                         }
                         if (Colour_list[i][0] != Colour_list[i + 1][0])
@@ -176,10 +224,10 @@ class CMPR_class
                     {
                         if (((alpha_bitfield >> i) & 1) == 1 || Colour_rgb565[i][0] <= _plt0.cmpr_max)
                             continue;
-                        diff = (ushort)(Math.Abs(rgb565[Colour_list[diff_min_index][2]] - rgb565[i << 2]) + Math.Abs(rgb565[Colour_list[diff_min_index][2] + 1] - rgb565[(i << 2) + 1]) + Math.Abs(rgb565[Colour_list[diff_min_index][2] + 2] - rgb565[(i << 2) + 2]));
-                        if (diff > diff_max)
+                        this.diff = (ushort)(Math.Abs(rgb565[Colour_list[diff_min_index][2]] - rgb565[i << 2]) + Math.Abs(rgb565[Colour_list[diff_min_index][2] + 1] - rgb565[(i << 2) + 1]) + Math.Abs(rgb565[Colour_list[diff_min_index][2] + 2] - rgb565[(i << 2) + 2]));
+                        if (this.diff > diff_max)
                         {
-                            diff_max = diff;
+                            diff_max = this.diff;
                             diff_max_index = (byte)(i << 2);  // brightest colour index of Colour_RGB565
                         }
                     }
@@ -433,9 +481,9 @@ class CMPR_class
                                 palette_rgba[5] = (byte)(((index[2] & 7) << 5) + ((index[3] >> 3) & 28));
                                 palette_rgba[6] = (byte)((index[3] << 3) & 248);
 
-                                palette_rgba[8] = (byte)((palette_rgba[0] + palette_rgba[4]) / 2);
-                                palette_rgba[9] = (byte)((palette_rgba[1] + palette_rgba[5]) / 2);
-                                palette_rgba[10] = (byte)((palette_rgba[2] + palette_rgba[6]) / 2);
+                                palette_rgba[8] = (byte)((palette_rgba[0] + palette_rgba[4]) >> 1);
+                                palette_rgba[9] = (byte)((palette_rgba[1] + palette_rgba[5]) >> 1);
+                                palette_rgba[10] = (byte)((palette_rgba[2] + palette_rgba[6]) >> 1);
 
                                 palette_length = 3;
                                 //colour_palette.Add(Colour_list[c][1]);
@@ -445,14 +493,14 @@ class CMPR_class
                                 //blue = (byte)((rgb565[(c << 2) + 2] + rgb565[(d << 2) + 2]) / 2);
                                 //colour_palette.Add((ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)));  // the RGB565 third colour
                                 // last colour isn't in the palette, it's in _plt0.alpha_bitfield
-                                diff = 0;  // still a short because the theoritical max value is 12240 (which is 255 * 3 * 16)
+                                this.diff = 0;  // still a short because the theoritical max value is 12240 (which is 255 * 3 * 16)
                                 for (byte i = 0; i < 16; i++)
                                 {
-                                    diff += Find_Nearest_Colour(i);
+                                    this.diff += Find_Nearest_Colour(i);
                                 }
-                                if (diff < diff_min)
+                                if (this.diff < diff_min)
                                 {
-                                    diff_min = diff;
+                                    diff_min = this.diff;
                                     diff_min_index = c;
                                     diff_max_index = d;
                                 }
@@ -479,22 +527,22 @@ class CMPR_class
                                 palette_rgba[5] = (byte)(((index[2] & 7) << 5) + ((index[3] >> 3) & 28));
                                 palette_rgba[6] = (byte)((index[3] << 3) & 248);
 
-                                palette_rgba[8] = (byte)((palette_rgba[0] * 2 / 3) + (palette_rgba[4] / 3));
-                                palette_rgba[9] = (byte)((palette_rgba[1] * 2 / 3) + (palette_rgba[5] / 3));
-                                palette_rgba[10] = (byte)((palette_rgba[2] * 2 / 3) + (palette_rgba[6] / 3));
+                                palette_rgba[8] = (byte)(((palette_rgba[0] << 1) / 3) + (palette_rgba[4] / 3));
+                                palette_rgba[9] = (byte)(((palette_rgba[1] << 1) / 3) + (palette_rgba[5] / 3));
+                                palette_rgba[10] = (byte)(((palette_rgba[2] << 1) / 3) + (palette_rgba[6] / 3));
 
-                                palette_rgba[12] = (byte)((palette_rgba[0] / 3) + (palette_rgba[4] * 2 / 3));
-                                palette_rgba[13] = (byte)((palette_rgba[1] / 3) + (palette_rgba[5] * 2 / 3));
-                                palette_rgba[14] = (byte)((palette_rgba[2] / 3) + (palette_rgba[6] * 2 / 3));
+                                palette_rgba[12] = (byte)((palette_rgba[0] / 3) + ((palette_rgba[4] << 1) / 3));
+                                palette_rgba[13] = (byte)((palette_rgba[1] / 3) + ((palette_rgba[5] << 1) / 3));
+                                palette_rgba[14] = (byte)((palette_rgba[2] / 3) + ((palette_rgba[6] << 1) / 3));
                                 palette_length = 4;
-                                diff = 0;  // still a short because the theoritical max value is 12240 (which is 255 * 3 * 16)
+                                this.diff = 0;  // still a short because the theoritical max value is 12240 (which is 255 * 3 * 16)
                                 for (byte i = 0; i < 16; i++)
                                 {
-                                    diff += Find_Nearest_Colour(i);
+                                    this.diff += Find_Nearest_Colour(i);
                                 }
-                                if (diff < diff_min)
+                                if (this.diff < diff_min)
                                 {
-                                    diff_min = diff;
+                                    diff_min = this.diff;
                                     diff_min_index = c;
                                     diff_max_index = d;
                                     weemm_algorithm = false;
@@ -519,20 +567,20 @@ class CMPR_class
                                 palette_rgba[5] = (byte)(((index[2] & 7) << 5) + ((index[3] >> 3) & 28));
                                 palette_rgba[6] = (byte)((index[3] << 3) & 248);
 
-                                palette_rgba[8] = (byte)((palette_rgba[0] + palette_rgba[4]) / 2);
-                                palette_rgba[9] = (byte)((palette_rgba[1] + palette_rgba[5]) / 2);
-                                palette_rgba[10] = (byte)((palette_rgba[2] + palette_rgba[6]) / 2);
+                                palette_rgba[8] = (byte)((palette_rgba[0] + palette_rgba[4]) >> 1);
+                                palette_rgba[9] = (byte)((palette_rgba[1] + palette_rgba[5]) >> 1);
+                                palette_rgba[10] = (byte)((palette_rgba[2] + palette_rgba[6]) >> 1);
 
                                 palette_length = 3;
                                 // last colour isn't in the palette, it's in _plt0.alpha_bitfield
-                                diff = 0;  // still a short because the theoritical max value is 12240 (which is 255 * 3 * 16)
+                                this.diff = 0;  // still a short because the theoritical max value is 12240 (which is 255 * 3 * 16)
                                 for (byte i = 0; i < 16; i++)
                                 {
-                                    diff += Find_Nearest_Colour(i);
+                                    this.diff += Find_Nearest_Colour(i);
                                 }
-                                if (diff < diff_min)
+                                if (this.diff < diff_min)
                                 {
-                                    diff_min = diff;
+                                    diff_min = this.diff;
                                     diff_min_index = c;
                                     diff_max_index = d;
                                     weemm_algorithm = true;
@@ -886,9 +934,9 @@ class CMPR_class
             palette_rgba[5] = (byte)(((index[2] & 7) << 5) + ((index[3] >> 3) & 28));
             palette_rgba[6] = (byte)((index[3] << 3) & 248);
 
-            palette_rgba[8] = (byte)((palette_rgba[0] + palette_rgba[4]) / 2);
-            palette_rgba[9] = (byte)((palette_rgba[1] + palette_rgba[5]) / 2);
-            palette_rgba[10] = (byte)((palette_rgba[2] + palette_rgba[6]) / 2);
+            palette_rgba[8] = (byte)((palette_rgba[0] + palette_rgba[4]) >> 1);
+            palette_rgba[9] = (byte)((palette_rgba[1] + palette_rgba[5]) >> 1);
+            palette_rgba[10] = (byte)((palette_rgba[2] + palette_rgba[6]) >> 1);
             palette_length = 3;
 
             // colour_palette.Add((ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)));  // the RGB565 third colour
@@ -922,13 +970,13 @@ class CMPR_class
             palette_rgba[5] = (byte)(((index[2] & 7) << 5) + ((index[3] >> 3) & 28));
             palette_rgba[6] = (byte)((index[3] << 3) & 248);
 
-            palette_rgba[8] = (byte)((palette_rgba[0] * 2 / 3) + (palette_rgba[4] / 3));
-            palette_rgba[9] = (byte)((palette_rgba[1] * 2 / 3) + (palette_rgba[5] / 3));
-            palette_rgba[10] = (byte)((palette_rgba[2] * 2 / 3) + (palette_rgba[6] / 3));
+            palette_rgba[8] = (byte)(((palette_rgba[0] << 1) / 3) + (palette_rgba[4] / 3));
+            palette_rgba[9] = (byte)(((palette_rgba[1] << 1) / 3) + (palette_rgba[5] / 3));
+            palette_rgba[10] = (byte)(((palette_rgba[2] << 1) / 3) + (palette_rgba[6] / 3));
 
-            palette_rgba[12] = (byte)((palette_rgba[0] / 3) + (palette_rgba[4] * 2 / 3));
-            palette_rgba[13] = (byte)((palette_rgba[1] / 3) + (palette_rgba[5] * 2 / 3));
-            palette_rgba[14] = (byte)((palette_rgba[2] / 3) + (palette_rgba[6] * 2 / 3));
+            palette_rgba[12] = (byte)((palette_rgba[0] / 3) + ((palette_rgba[4] << 1) / 3));
+            palette_rgba[13] = (byte)((palette_rgba[1] / 3) + ((palette_rgba[5] << 1) / 3));
+            palette_rgba[14] = (byte)((palette_rgba[2] / 3) + ((palette_rgba[6] << 1) / 3));
 
             palette_length = 4;
             //pixel = (ushort)(((((palette_rgba[0] * 2 / 3) + (palette_rgba[4] / 3)) >> 3) << 11) + ((((palette_rgba[1] * 2 / 3) + (palette_rgba[5] / 3)) >> 2) << 5) + (((palette_rgba[2] * 2 / 3) + (palette_rgba[6] / 3)) >> 3));
