@@ -132,7 +132,8 @@ class CMPR_class
                             diff_max_index = i;  // brightest colour index of Colour_RGB565
                         }
                     }
-                    Organize_Colours_And_Process_Indexes();
+                    Organize_Colours();
+                    Process_Indexes();
                     index_list.Add(index.ToArray());
                 }
                 break;
@@ -200,7 +201,8 @@ class CMPR_class
                     // a == U @ S @ Vh, where S is a suitably shaped matrix of zeros with main diagonal s.
                     //MathNet.Numerics.LinearAlgebra svd = new MathNet.Numerics.Linearalgebra();
                     //svd.Factorization.DenseSvd(covariance);
-                    Organize_Colours_And_Process_Indexes();
+                    Organize_Colours();
+                    Process_Indexes();
                     index_list.Add(index.ToArray());
                 }
                 break;
@@ -264,7 +266,8 @@ class CMPR_class
                             break;
                         }
                     }*/
-                    Organize_Colours_And_Process_Indexes();
+                    Organize_Colours();
+                    Process_Indexes();
                     index_list.Add(index.ToArray());
                 }
                 break;
@@ -291,7 +294,8 @@ class CMPR_class
                             diff_max_index = i;  // brightest colour index of Colour_RGB565
                         }
                     }
-                    Organize_Colours_And_Process_Indexes();
+                    Organize_Colours();
+                    Process_Indexes();
                     index_list.Add(index.ToArray());
                 }
                 break;
@@ -387,7 +391,8 @@ class CMPR_class
                                 }
                             }
                         }
-                        Organize_Colours_And_Process_Indexes();
+                        Organize_Colours();
+                        Process_Indexes();
                         index_list.Add(index.ToArray());
                     }
                 }
@@ -609,7 +614,8 @@ class CMPR_class
                             }
                         }
                     }
-                    Organize_Colours_And_Process_Indexes();
+                    Organize_Colours();
+                    Process_Indexes();
                     index_list.Add(index.ToArray());
                 }
                 break;
@@ -634,7 +640,8 @@ class CMPR_class
                             }
                         }
                     }
-                    Organize_Colours_And_Process_Indexes();
+                    Organize_Colours();
+                    Process_Indexes();
                     index_list.Add(index.ToArray());
                 }
                 break;
@@ -681,12 +688,184 @@ class CMPR_class
                     }
                     Colour_list[0][1] = (ushort)(red_min << 8 | green_min << 3 | blue_min >> 3);
                     Colour_list[1][1] = (ushort)(red_max << 8 | green_max << 3 | blue_max >> 3);
-                    Organize_Colours_And_Process_Indexes();
+                    Organize_Colours();
+                    Process_Indexes();
                     index_list.Add(index.ToArray());
                 }
                 break;
+
+            case 8: // Brute Force
+                // test litteraly every couple of ushort rgb565 colours. thus making 65536² combinations (equals the int max size, more than 4 billion combinations)
+                // test which combination is the best one by iterating over all couples
+                for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                {
+                    red = bmp_image[y + _plt0.rgba_channel[0]];
+                    green = bmp_image[y + _plt0.rgba_channel[1]];
+                    blue = bmp_image[y + _plt0.rgba_channel[2]];
+                    if (_plt0.alpha > 0 && bmp_image[y + _plt0.rgba_channel[3]] < _plt0.cmpr_alpha_threshold)
+                    {
+                        alpha_bitfield += (ushort)(1 << (j + (z * 4)));
+                    }
+                    if ((red & 7) > _plt0.round5 && red < 248)  // 5-bit max value on a trimmed byte
+                    {
+                        red += 8;
+                    }
+                    if ((green & _plt0.round6) == _plt0.round6 && green < 252)  // 6-bit max value on a trimmed byte
+                    {
+                        green += 4;
+                    }
+                    if ((blue & 7) > _plt0.round5 && blue < 248)
+                    {
+                        blue += 8;
+                    }
+                    rgb565[(z << 4) + (j << 2)] = (byte)(red & 0xf8);
+                    rgb565[(z << 4) + (j << 2) + 1] = (byte)(green & 0xfc);
+                    rgb565[(z << 4) + (j << 2) + 2] = (byte)(blue & 0xf8);
+                    // Colour_pixel[0] = // the number of occurences, though it stays to 1 so that's not really a problem lol
+                    pixel = (ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)); // the RGB565 colour
+                    Colour_array[1] = pixel;
+                    // it's not used here
+                    // Colour_array[2] = (ushort)(red + green + blue); // best way to find darkest colour :D
+                    Colour_list.Add(Colour_array.ToArray());
+                    // Colour_rgb565.Add(pixel);
+                    j++;
+                    if (j != 4)
+                    {
+                        continue;
+                    }
+                    j = 0;
+                    z++;
+                    y += (_plt0.canvas_width << 2) - 16; // returns to the start of the next line  - bitmap width << 2 because it's a 32-bit BGRA bmp file
+                    if (z != 4)
+                    {
+                        continue;  // Still within the same 4x4 block
+                    }
+                    x++;
+                    z = 0;
+                    width += 2;  // triggered 4 times per block
+                    if (width == _plt0.canvas_width)
+                    {
+                        width = 0;
+                        // y -= (_plt0.bitmap_width << 1) - 16;  // this has been driving me nuts
+                        y += (_plt0.canvas_width << 2) - 16;
+                        x = 0;
+                    }
+                    else if (x == 2)
+                    {
+                        // y += (_plt0.bitmap_width << 4) - 4; // adds 4 lines and put the cursor back to the first block in width (I hope)
+                        // y += 16; // hmm, it looks like the cursor warped horizontally to the first block in width 4 lines above
+                        // EDIT: YA DEFINITELY NEED TO CANCEL THE Y OPERATION ABOVE, IT WARPS NORMALLY LIKE IT4S THE PIXEL AFTER
+                        //y -= (_plt0.bitmap_width << 2) - 16;  // this has been driving me nuts
+                        y += 16;  // I can't believe this is right in the mirror and mirrorred mode lol
+                                  // edit: you just need to add 32 everywhere
+                    }
+                    else if (x == 4)
+                    {
+                        //y -= (_plt0.bitmap_width << 5) - 16; // minus 8 lines + point to next block
+                        y -= (_plt0.canvas_width << 5) + 16;
+                        x = 0;
+                    }
+                    else
+                    {
+                        /* y -= (_plt0.bitmap_width << 4) - 16; // on retire 4 lignes et on passe le 1er block héhé
+                         substract 4 lines and jumps over the first block */
+                        y -= ((_plt0.canvas_width << 4)) + 16;  // substract 4 lines and goes one block to the left
+                    }
+                    if (alpha_bitfield == 0xffff)  // save computation time I guess
+                    {
+                        index_list.Add(full_alpha_index); // this byte won't be changed so no need to copy it
+                        Colour_list.Clear();
+                        //colour_palette.Clear();
+                        // Colour_rgb565.Clear();
+                        alpha_bitfield = 0;
+                        continue;
+                    }
+                    // now let's take the colour couple with the best result inside the 4x4 block
+                    diff_min = 0xffff;
+
+                    for (int c = 0; c < 65536; c++)
+                    {
+                        for (int d = 0; d < 65536; d++)
+                        {
+
+                            index[0] = (byte)(c >> 8);
+                            index[1] = (byte)(c);
+                            index[2] = (byte)(d >> 8);
+                            index[3] = (byte)(d);
+
+                            palette_rgba[0] = (byte)(index[0] & 248);
+                            palette_rgba[1] = (byte)(((index[0] & 7) << 5) + ((index[1] >> 3) & 28));
+                            palette_rgba[2] = (byte)((index[1] << 3) & 248);
+
+                            palette_rgba[4] = (byte)(index[2] & 248);
+                            palette_rgba[5] = (byte)(((index[2] & 7) << 5) + ((index[3] >> 3) & 28));
+                            palette_rgba[6] = (byte)((index[3] << 3) & 248);
+                            if (c > d)  // colour
+                            {
+
+                                palette_rgba[8] = (byte)(((palette_rgba[0] << 1) / 3) + (palette_rgba[4] / 3));
+                                palette_rgba[9] = (byte)(((palette_rgba[1] << 1) / 3) + (palette_rgba[5] / 3));
+                                palette_rgba[10] = (byte)(((palette_rgba[2] << 1) / 3) + (palette_rgba[6] / 3));
+
+                                palette_rgba[12] = (byte)((palette_rgba[0] / 3) + ((palette_rgba[4] << 1) / 3));
+                                palette_rgba[13] = (byte)((palette_rgba[1] / 3) + ((palette_rgba[5] << 1) / 3));
+                                palette_rgba[14] = (byte)((palette_rgba[2] / 3) + ((palette_rgba[6] << 1) / 3));
+                                palette_length = 4;
+                            }
+                            else  // alpha
+                            {
+
+                                palette_rgba[8] = (byte)((palette_rgba[0] + palette_rgba[4]) >> 1);
+                                palette_rgba[9] = (byte)((palette_rgba[1] + palette_rgba[5]) >> 1);
+                                palette_rgba[10] = (byte)((palette_rgba[2] + palette_rgba[6]) >> 1);
+                                palette_length = 3;
+                            }
+                            this.diff = 0;  // still a short because the theoritical max value is 12240 (which is 255 * 3 * 16)
+                            for (byte i = 0; i < 16; i++)
+                            {
+                                this.diff += Find_Nearest_Colour(i);
+                            }
+                            if (this.diff < diff_min)
+                            {
+                                diff_min = this.diff;
+                                Colour_list[0][1] = (ushort)c;
+                                Colour_list[1][1] = (ushort)d;
+                                weemm_algorithm = false;
+                            }
+                        }
+                    }
+
+                }
+                index[0] = (byte)(Colour_list[0][1] >> 8);
+                index[1] = (byte)(Colour_list[0][1]);
+                index[2] = (byte)(Colour_list[1][1] >> 8);
+                index[3] = (byte)(Colour_list[1][1]);
+                if (Colour_list[0][1] > Colour_list[1][1])  // colour
+                {
+
+                    palette_rgba[8] = (byte)(((palette_rgba[0] << 1) / 3) + (palette_rgba[4] / 3));
+                    palette_rgba[9] = (byte)(((palette_rgba[1] << 1) / 3) + (palette_rgba[5] / 3));
+                    palette_rgba[10] = (byte)(((palette_rgba[2] << 1) / 3) + (palette_rgba[6] / 3));
+
+                    palette_rgba[12] = (byte)((palette_rgba[0] / 3) + ((palette_rgba[4] << 1) / 3));
+                    palette_rgba[13] = (byte)((palette_rgba[1] / 3) + ((palette_rgba[5] << 1) / 3));
+                    palette_rgba[14] = (byte)((palette_rgba[2] / 3) + ((palette_rgba[6] << 1) / 3));
+                    palette_length = 4;
+                }
+                else  // alpha
+                {
+
+                    palette_rgba[8] = (byte)((palette_rgba[0] + palette_rgba[4]) >> 1);
+                    palette_rgba[9] = (byte)((palette_rgba[1] + palette_rgba[5]) >> 1);
+                    palette_rgba[10] = (byte)((palette_rgba[2] + palette_rgba[6]) >> 1);
+                    palette_length = 3;
+                }
+                Process_Indexes();
+                index_list.Add(index.ToArray());
+                break;
         }
     }
+
     /*
      * t = (pixel_posN - pixel_pos1) / (pixel_pos2 - pixel_pos1)
        pixelN_red = (t-1)*pixel1_red + (t)*pixel2_red
@@ -929,7 +1108,7 @@ class CMPR_class
         }
         return true;
     }
-    private void Organize_Colours_And_Process_Indexes()
+    private void Organize_Colours()
     {
         if (alpha_bitfield != 0 || weemm_algorithm)  // put the biggest ushort in second place
         {
@@ -1005,6 +1184,9 @@ class CMPR_class
             //pixel = (ushort)(((((palette_rgba[0] / 3) + (palette_rgba[4] * 2 / 3)) >> 3) << 11) + ((((palette_rgba[1] / 3) + (palette_rgba[5] * 2 / 3)) >> 2) << 5) + (((palette_rgba[2] / 3) + (palette_rgba[6] * 2 / 3)) >> 3));
             //colour_palette.Add(pixel);  // the RGB565 fourth colour
         }
+    }
+    private void Process_Indexes()
+    {
         // time to get the "linear interpolation to add third and fourth colour
         // CI2 if that's a name lol
         for (byte i = 4; i < 8; i++)
