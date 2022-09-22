@@ -22,7 +22,7 @@ A colour can be picked on the image by holding Ctrl.
 the most time I have ever consumed for a decent CMPR Algorithm
 
 
-##future updates:
+## future updates:
 Change "Auto" to "Encode" and create a "Decode" Layout
 Allow colour picker on the bottom rainbow image on paint layout
 Add "Range Fit" and maybe other CMPR algorithms
