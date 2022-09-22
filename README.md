@@ -23,11 +23,11 @@ the most time I have ever consumed for a decent CMPR Algorithm
 
 
 ## future updates:
-Change "Auto" to "Encode" and create a "Decode" Layout
-Allow colour picker on the bottom rainbow image on paint layout
-Add "Range Fit" and maybe other CMPR algorithms
-make a "How to use" image, and test everything (every option, every combination, find anything that breaks the program)
-add french description.txt
+Change "Auto" to "Encode" and create a "Decode" Layout <br>
+Allow colour picker on the bottom rainbow image on paint layout <br>
+Add "Range Fit" and maybe other CMPR algorithms <br>
+make a "How to use" image, and test everything (every option, every combination, find anything that breaks the program) <br>
+add french description.txt <br>
 
 ## version history
 v0.1: support for all palette formats
