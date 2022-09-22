@@ -15,14 +15,14 @@ The app has 4 Layouts:
 It's a special Paint application implementation where you have first to load a texture (tex0 or bti) that was encoded with CMPR, then Select a 4x4 block on the image, then painting on the 4x4 block on the left with all gaming mouse buttons. This process can be repeated by selecting another block
 A colour can be picked on the image by holding Ctrl.
 
-### vocabulary
+## vocabulary
 *CMPR is both DXT1 without alpha and DXT1 with alpha. you can also call it BC1 if it's stored in a dds image.
 *cli = command line interface -> (usually cmd.exe or powershell.exe) a black window in Consolas fonts in which you can launch executables with parameters
 *gui = graphical user interface -> the visuals <br> I've spent
 the most time I have ever consumed for a decent CMPR Algorithm
 
 
-future updates:
+##future updates:
 Change "Auto" to "Encode" and create a "Decode" Layout
 Allow colour picker on the bottom rainbow image on paint layout
 Add "Range Fit" and maybe other CMPR algorithms
