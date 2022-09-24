@@ -2,12 +2,32 @@
 Wii/GC texture encoder with palette support (png, jpeg, gif, bmp, tiff, tpl, tex0, plt0, bti)
 
 this is a hybrid tool. launch it without specifying an input file or an encoding format and it'll launch the gui.
-you can then view the corresponding cli arguments of your command in the gui itself. I guess it's faster than reading a "readme" which won't be read in most cases (probably because it's not concise enough. the section that describes how to use should always be in first place.) 
+you can then view the corresponding cli arguments of your command in the gui itself.
 
+![The app in the "All" Layout](../../../yoshi2999.github.io/blob/main/plt0-all.png?raw=true)
+![The app in the "Paint" Layout](../../../yoshi2999.github.io/blob/main/plt0-paint.png?raw=true)
+
+The app has 4 Layouts:
+### All: used to display everything even if it has no impact when encoding
+### Auto: only displays the options affecting the selected choices when encoding
+### Preview: Previews Decoded textures or the encoded one with parameters set in the GUI
+### Paint: CMPR Texture Editor
+It's a special Paint application implementation where you have first to load a texture (tex0 or bti) that was encoded with CMPR, then Select a 4x4 block on the image, then painting on the 4x4 block on the left with all gaming mouse buttons. This process can be repeated by selecting another block
+A colour can be picked on the image by holding Ctrl.
+
+## vocabulary
+*CMPR is both DXT1 without alpha and DXT1 with alpha. you can also call it BC1 if it's stored in a dds image.
 *cli = command line interface -> (usually cmd.exe or powershell.exe) a black window in Consolas fonts in which you can launch executables with parameters
-*gui = graphical user interface -> the visuals I made
-probably the most time I have ever consumed for a decent CMPR Algorithm
+*gui = graphical user interface -> the visuals <br> I've spent
+the most time I have ever consumed for a decent CMPR Algorithm
 
+
+## future updates:
+Change "Auto" to "Encode" and create a "Decode" Layout <br>
+Allow colour picker on the bottom rainbow image on paint layout <br>
+Add "Range Fit" and maybe other CMPR algorithms <br>
+make a "How to use" image, and test everything (every option, every combination, find anything that breaks the program) <br>
+add french description.txt <br>
 
 ## version history
 v0.1: support for all palette formats
@@ -30,11 +50,7 @@ v0.9: decode TPL files
 
 v1.0: GUI
 
-future updates:
-make a "How to use" image, and test everything (every option, every combination, find anything that breaks the program)
-add french description.txt
-
-Note: if you want to change the source code of GUI layout, you'll probably need a 4k screen, since Visual Studio automatically resizes the app bounds to your screen size (Naughy VS!) and the whole screen is packed to the gills with GUI elements
+Note: if you want to change the source code of GUI layout[ through the [Design] window, you'll need a 4k screen, since Visual Studio automatically resizes the app bounds to your screen size (Naughy VS!) and the whole screen is packed to the gills with GUI elements
 
 the whole GUI was made with only 3 elements : label, picturebox, and textbox
 
