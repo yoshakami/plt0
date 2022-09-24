@@ -47,8 +47,8 @@ class Parse_args_class
     public byte cmpr_max = 0;  // if a color is used X times or less, it will be ignored (for the darkest/lightest algorithm)  // wimgt's cmpr encoding is better than mine. I gotta admit. 
     byte WrapS = 1; // 0 = Clamp   1 = Repeat   2 = Mirror
     byte WrapT = 1; // 0 = Clamp   1 = Repeat   2 = Mirror
-    public byte algorithm = 0;  // 0 = CIE 601    1 = CIE 709     2 = custom RGBA     3 = Most Used Colours (No Gradient)
-    // for cmpr : algorithm   0 = re-encode (CIE 709)   1 = Range Fit   2 = Most Used/Furthest   3 = Darkest/Lightest   4 = No Gradient   5 = Wiimm (counterfeit)   6 = SuperBMD (counterfeit)   7 = Min/Max
+    public byte algorithm = 0;  // 0 = CIE 601    1 = CIE 709     2 = custom RGBA     3 = Gamma sRGB invertion
+    // for cmpr : algorithm   0 = re-encode (CIE 709)   1 = Range Fit   2 = Most Used/Furthest   3 = Darkest/Lightest   4 = No Gradient   5 = Wiimm (counterfeit)   6 = SuperBMD (counterfeit)   7 = Min/Max  8 = brute force
     public byte alpha = 9;  // 0 = no alpha - 1 = alpha - 2 = mix 
     byte color;
     public byte cmpr_alpha_threshold = 100;

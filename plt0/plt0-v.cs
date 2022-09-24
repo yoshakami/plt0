@@ -39,25 +39,27 @@ namespace plt0_gui
         static string args;
         byte[] cmpr_preview;
         byte[] cmpr_preview_vanilla;
+        byte[] cmpr_gradient;
         byte[] colour_4 = { 0, 0, 0, 0 };
         // the 4x4 grid for the Paint Layout is a 4x4 bmp file
-        byte[] cmpr_4x4 = { 66, 77, 186, 0, 0, 0, 121, 111, 115, 104, 122, 0, 0, 0, 108, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0, 1, 0, 32, 0, 3, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 0, 0, 255, 0, 0, 255, 0, 0, 0, 0, 0, 0, 255, 32, 110, 105, 87, 0, 104, 116, 116, 112, 115, 58, 47, 47, 100, 105, 115, 99, 111, 114, 100, 46, 103, 103, 47, 118, 57, 86, 112, 68, 90, 57, 0, 116, 104, 105, 115, 32, 105, 115, 32, 112, 97, 100, 100, 105, 110, 103, 32, 100, 97, 116, 97, 0, 0, 240, 255, 72, 242, 64, 255, 72, 66, 240, 255, 0, 255, 0, 255, 200, 254, 200, 255, 32, 57, 240, 255, 32, 249, 56, 255, 200, 206, 240, 255, 16, 16, 240, 255, 32, 241, 56, 255, 48, 49, 255, 255, 72, 250, 64, 255, 16, 255, 16, 255, 32, 57, 255, 255, 48, 241, 48, 255, 72, 66, 240, 255 };
-        string[] cmpr_args = new string[] { "gui", "i", "i", execPath + "images/preview/1" };
+        static byte[] cmpr_4x4 = { 66, 77, 186, 0, 0, 0, 121, 111, 115, 104, 122, 0, 0, 0, 108, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0, 1, 0, 32, 0, 3, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 0, 0, 255, 0, 0, 255, 0, 0, 0, 0, 0, 0, 255, 32, 110, 105, 87, 0, 104, 116, 116, 112, 115, 58, 47, 47, 100, 105, 115, 99, 111, 114, 100, 46, 103, 103, 47, 118, 57, 86, 112, 68, 90, 57, 0, 116, 104, 105, 115, 32, 105, 115, 32, 112, 97, 100, 100, 105, 110, 103, 32, 100, 97, 116, 97, 0, 0, 240, 255, 72, 242, 64, 255, 72, 66, 240, 255, 0, 255, 0, 255, 200, 254, 200, 255, 32, 57, 240, 255, 32, 249, 56, 255, 200, 206, 240, 255, 16, 16, 240, 255, 32, 241, 56, 255, 48, 49, 255, 255, 72, 250, 64, 255, 16, 255, 16, 255, 32, 57, 255, 255, 48, 241, 48, 255, 72, 66, 240, 255 };
+        static string[] cmpr_args = { "gui", "i", "i", execPath + "plt0 content/preview/1" };
+        static byte[] cmpr_rgb = {0,0,0 };
         static string[] config = new string[150];
         static string[] d = new string[255];
         static string[] layout_name = { "All", "Auto", "Preview", "Paint" };
-        string cmpr_colours_hex;
+        static string cmpr_colours_hex;
         byte[] cmpr_file;
         byte[] cmpr_colours_argb = new byte[16];
         byte[] cmpr_colour = new byte[4];
         byte[] cmpr_index = new byte[16];
-        byte[] block_width_array = { 8, 8, 8, 4, 4, 4, 4, 255, 8, 8, 4, 255, 255, 255, 8 }; // real one to calculate canvas size.
+        static byte[] block_width_array = { 8, 8, 8, 4, 4, 4, 4, 255, 8, 8, 4, 255, 255, 255, 8 }; // real one to calculate canvas size.
         //byte[] block_width_array = { 4, 8, 8, 8, 8, 8, 16, 255, 4, 8, 8, 255, 255, 255, 4 }; // altered to match bit-per pixel size.
-        byte[] block_height_array = { 8, 4, 4, 4, 4, 4, 4, 255, 8, 4, 4, 255, 255, 255, 8 }; // 255 = unused image format
-        byte[] block_depth_array = { 4, 8, 4, 8, 16, 16, 32, 255, 4, 8, 16, 255, 255, 255, 4 };  // for \z
-        string[] encoding_array = { "i4", "i8", "ai4", "ai8", "rgb565", "rgb5a3", "rgba32", "", "ci4", "ci8", "ci14x2", "", "", "", "cmpr" };
-        string[] wrap_array = { "Clamp", "Repeat", "Mirror", "Clamp" };
-        string[] algorithm_array = { "", "cie709", "custom_rgba", "gamma", "", "", "", "", "", "" };
+        static byte[] block_height_array = { 8, 4, 4, 4, 4, 4, 4, 255, 8, 4, 4, 255, 255, 255, 8 }; // 255 = unused image format
+        static byte[] block_depth_array = { 4, 8, 4, 8, 16, 16, 32, 255, 4, 8, 16, 255, 255, 255, 4 };  // for \z
+        static string[] encoding_array = { "i4", "i8", "ai4", "ai8", "rgb565", "rgb5a3", "rgba32", "", "ci4", "ci8", "ci14x2", "", "", "", "cmpr" };
+        static string[] wrap_array = { "Clamp", "Repeat", "Mirror", "Clamp" };
+        static string[] algorithm_array = { "", "cie709", "custom_rgba", "gamma", "", "", "", "", "", "" };
         protected internal volatile string[] alpha_array = { "no alpha", "alpha", "mix" }; // imagine putting random keywords
         static readonly private protected string[] rgba_array = { "R", "G", "B", "A" }; // imagine knowing what the keywords do
         string input_file;
@@ -2054,7 +2056,12 @@ namespace plt0_gui
             if (!cmpr_layout_is_in_place)
             {
                 Put_that_damn_cmpr_layout_in_place();
-                cmpr_palette.BackgroundImage = gradient;
+                cmpr_palette.Image = gradient;
+                using (FileStream fs = File.OpenRead(execPath + "plt0 content/graphics/gradient.png"))
+                {
+                    Array.Resize(ref cmpr_gradient, (int)fs.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
+                    fs.Read(cmpr_gradient, 0, (int)fs.Length);
+                }
                 cmpr_swap_ck.BackgroundImage = cmpr_swap;
                 cmpr_swap2_ck.BackgroundImage = cmpr_swap2;
                 cmpr_save_ck.BackgroundImage = cmpr_save;
@@ -3406,7 +3413,7 @@ namespace plt0_gui
                 }
             }
             if (System.IO.File.Exists(execPath + "plt0 content/config.txt"))
-            { 
+            {
                 config = System.IO.File.ReadAllLines(execPath + "plt0 content/config.txt");
                 if (config.Length > 0)
                 {
@@ -9034,7 +9041,7 @@ namespace plt0_gui
             this.preview4k_label.Size = new System.Drawing.Size(849, 68);
             this.preview4k_label.TabIndex = 603;
             this.preview4k_label.Text = "4k screen Preview input file (because why not using that space on fullscreen mode" +
-        ")";
+    ")";
             this.preview4k_label.Visible = false;
             // 
             // preview4k_ck
@@ -10125,7 +10132,7 @@ namespace plt0_gui
             // cmpr_palette
             // 
             this.cmpr_palette.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_palette.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            //this.cmpr_palette.ImageLayout = System.Windows.Forms.ImageLayout.None;
             this.cmpr_palette.ErrorImage = null;
             this.cmpr_palette.InitialImage = null;
             this.cmpr_palette.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
@@ -10137,8 +10144,10 @@ namespace plt0_gui
             this.cmpr_palette.TabIndex = 694;
             this.cmpr_palette.TabStop = false;
             this.cmpr_palette.Visible = false;
+            this.cmpr_palette.MouseDown += new System.Windows.Forms.MouseEventHandler(this.cmpr_palette_MouseDown);
             this.cmpr_palette.MouseEnter += new System.EventHandler(this.cmpr_palette_MouseEnter);
             this.cmpr_palette.MouseLeave += new System.EventHandler(this.cmpr_palette_MouseLeave);
+            this.cmpr_palette.MouseMove += new System.Windows.Forms.MouseEventHandler(this.cmpr_palette_MouseMove);
             // 
             // cmpr_grid_ck
             // 
@@ -10206,7 +10215,7 @@ namespace plt0_gui
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(3199, 1920);
+            this.ClientSize = new System.Drawing.Size(1924, 1061);
             this.Controls.Add(this.darkest_lightest_label);
             this.Controls.Add(this.darkest_lightest_ck);
             this.Controls.Add(this.sooperbmd_label);
@@ -16171,12 +16180,12 @@ namespace plt0_gui
                     cmpr_data_start_offset = (cmpr_file[0x1C] << 24) | (cmpr_file[0x1D] << 16) | (cmpr_file[0x1E] << 8) | cmpr_file[0x1F];  // usually 0x20
 
                 int num = 1;
-                while (File.Exists(execPath + "images/preview/" + num + ".bmp"))
+                while (File.Exists(execPath + "plt0 content/preview/" + num + ".bmp"))
                 {
                     num++;
                 }
                 cmpr_args[2] = input_file;
-                cmpr_args[3] = (execPath + "images/preview/" + num + ".bmp");  // even if there's an output file in the args, the last one is the output file :) that's how I made it
+                cmpr_args[3] = (execPath + "plt0 content/preview/" + num + ".bmp");  // even if there's an output file in the args, the last one is the output file :) that's how I made it
                 Parse_args_class cli = new Parse_args_class();
                 cli.Parse_args(cmpr_args);
                 if (cli.texture_format != 0xE)
@@ -16184,11 +16193,11 @@ namespace plt0_gui
                     Parse_Markdown(d[169], cmpr_warning);
                     return;
                 }
-                if (File.Exists(execPath + "images/preview/" + num + ".bmp"))
+                if (File.Exists(execPath + "plt0 content/preview/" + num + ".bmp"))
                 {
                     previous_block = -1;
                     loaded_block = -1;
-                    using (FileStream fs = File.OpenRead(execPath + "images/preview/" + num + ".bmp"))
+                    using (FileStream fs = File.OpenRead(execPath + "plt0 content/preview/" + num + ".bmp"))
                     {
                         Array.Resize(ref cmpr_preview, (int)fs.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
                         fs.Read(cmpr_preview, 0, (int)fs.Length);
@@ -16331,13 +16340,13 @@ namespace plt0_gui
 
                 if (colour1 > colour2)
                 {
-                    if (cmpr_index_i == 2)
+                    if (cmpr_index_i == 2)  // interpolated colour 3
                     {
                         cmpr_colours_argb[(cmpr_colour_index << 2) - 3] = (byte)((red * 2 / 3) + (red2 / 3));
                         cmpr_colours_argb[(cmpr_colour_index << 2) - 2] = (byte)((green * 2 / 3) + (green2 / 3));
                         cmpr_colours_argb[(cmpr_colour_index << 2) - 1] = (byte)((blue * 2 / 3) + (blue2 / 3));
                     }
-                    else
+                    else  // interpolated colour 4
                     {
                         cmpr_colours_argb[(cmpr_colour_index << 2) - 3] = (byte)((red / 3) + (red2 * 2 / 3));
                         cmpr_colours_argb[(cmpr_colour_index << 2) - 2] = (byte)((green / 3) + (green2 * 2 / 3));
@@ -16347,13 +16356,13 @@ namespace plt0_gui
                 else
                 {
                     // of course, that's the exact opposite! - not quite lol
-                    if (cmpr_index_i == 2)
+                    if (cmpr_index_i == 2)  // interpolated colour 3
                     {
-                        cmpr_colours_argb[(cmpr_colour_index << 2) + 1] = (byte)((red * 2 / 3) + (red2 / 3));
-                        cmpr_colours_argb[(cmpr_colour_index << 2) + 2] = (byte)((green * 2 / 3) + (green2 / 3));
-                        cmpr_colours_argb[(cmpr_colour_index << 2) + 3] = (byte)((blue * 2 / 3) + (blue2 / 3));
+                        cmpr_colours_argb[(cmpr_colour_index << 2) - 3] = (byte)((red / 2) + (red2 / 2));
+                        cmpr_colours_argb[(cmpr_colour_index << 2) - 2] = (byte)((green / 2) + (green2 / 2));
+                        cmpr_colours_argb[(cmpr_colour_index << 2) - 1] = (byte)((blue / 2) + (blue2 / 2));
                     }
-                    else
+                    else  // transparent can't be selected
                     {
                         Parse_Markdown(d[171], cmpr_warning);
                     }
@@ -16364,7 +16373,6 @@ namespace plt0_gui
                 cmpr_c1_txt.Text = cmpr_colours_hex.Substring(2, 6);
             else
                 cmpr_c2_txt.Text = cmpr_colours_hex.Substring(10, 6);
-
         }
         private void cmpr_preview_ck_MouseMove(object sender, MouseEventArgs e)
         {
@@ -16652,7 +16660,18 @@ namespace plt0_gui
             else if (e.KeyCode == Keys.F10)
                 Minimized_Click(null, null);
             else if (e.KeyCode == Keys.F11)
-                Maximized_Click(null, null);
+            {
+                if (this.WindowState == FormWindowState.Maximized)
+                {
+                    this.WindowState = FormWindowState.Normal;
+                    banner_f11_ck.BackgroundImage = maximized_off;
+                }
+                else
+                {
+                    this.WindowState = FormWindowState.Maximized;
+                    banner_f11_ck.BackgroundImage = maximized_on;
+                }
+            }
             else if (e.KeyCode == Keys.F12)  // the dev key to reload settings.txt
                 Load_settings();
             else if (e.KeyCode == Keys.Clear)
@@ -16742,6 +16761,50 @@ namespace plt0_gui
                 return;
             if (e.KeyCode == Keys.ControlKey)
                 cmpr_block_selection_Click(null, null);
+        }
+
+        private void cmpr_palette_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.X < 0 || e.Y < 0 || e.X > 896 || e.Y > 64) // cmpr_palette.Image.width also works, it should be faster to directly enter the max dimensions
+                return;
+            cmpr_rgb[0] = cmpr_gradient[225848+(e.X << 2) - (e.Y << 8)];  // red
+            cmpr_rgb[1] = cmpr_gradient[225847+(e.X << 2) - (e.Y << 8)];  // green
+            cmpr_rgb[2] = cmpr_gradient[225846 + (e.X << 2) - (e.Y << 8)];  // blue
+            cmpr_colours_hex = BitConverter.ToString(cmpr_colours_argb).Replace("-", string.Empty);
+            switch (e.Button)
+            {
+                case MouseButtons.Left:
+                    if (cmpr_selected_colour == 1)
+                        cmpr_c1_txt.Text = cmpr_colours_hex.Substring(0, 6);
+                    else if (cmpr_selected_colour == 2)
+                        cmpr_c2_txt.Text = cmpr_colours_hex.Substring(0, 6);
+                    else // (cmpr_selected_colour > 2)
+                        Warn_wrong_colour();
+                    break;
+                case MouseButtons.Middle:
+                    cmpr_c1_txt.Text = cmpr_colours_hex.Substring(2, 6);
+                    break;
+                case MouseButtons.Right:
+                    cmpr_c2_txt.Text = cmpr_colours_hex.Substring(2, 6);
+                    break;
+                case MouseButtons.XButton2:
+                    Warn_wrong_colour();
+                    break;
+                case MouseButtons.XButton1:
+                    Warn_wrong_colour();
+                    break;
+            }
+        }
+        private void Warn_wrong_colour()
+        {
+            Parse_Markdown(d[170], cmpr_warning);
+        }
+        private void cmpr_palette_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.None)
+            {
+                cmpr_palette_MouseDown(sender, e);
+            }
         }
     }
 }
