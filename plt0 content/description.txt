@@ -47,7 +47,7 @@ An algorithm to convert 24-bit RGB to 8-bit grey by inverting the sRGB Gamma Fun
 Make the encoding of CMPR textures to only care about the two most used colours with diversity and percentage parameters
 Process all colour couples of the palette and take the one that produces the least "difference" calculated by adding channel differences
 a single loop going through colours once and taking the couple that has the most difference with his neighbour
-set cmpr max to zero and this is the fastest lossless algorithm to re-encode an image that has gone through the cmpr/dxt1/bc1 process.\n\ntakes the colour composed of the lowest red channel value, lowest blue channel, and lowest green one, no matter if it's not from the same pixel (then take the highest one)
+set cmpr max to -.\j\jtakes the colour composed of the lowest red channel value, lowest blue channel, and lowest green one, no matter if it's not from the same pixel (then take the highest one)
 States that the picture has No alpha and that every pixel of RGB5A3 must be 1RRR RRGG GGGB BBBB(used in RGB5A3's smart alpha and for choosing palette encoding if none were selected)
 States that the picture has Alpha and that every pixel of RGB5A3 must be 0AAA RRRR GGGG BBBB
 Picture has alpha and RGB5A3 can use any of the two options for each pixel

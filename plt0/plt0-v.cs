@@ -2057,7 +2057,7 @@ namespace plt0_gui
             {
                 Put_that_damn_cmpr_layout_in_place();
                 cmpr_palette.Image = gradient;
-                using (FileStream fs = File.OpenRead(execPath + "plt0 content/graphics/gradient.png"))
+                using (FileStream fs = File.OpenRead(execPath + "plt0 content/graphics/gradient.bmp"))
                 {
                     Array.Resize(ref cmpr_gradient, (int)fs.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
                     fs.Read(cmpr_gradient, 0, (int)fs.Length);
@@ -16767,10 +16767,15 @@ namespace plt0_gui
         {
             if (e.X < 0 || e.Y < 0 || e.X > 896 || e.Y > 64) // cmpr_palette.Image.width also works, it should be faster to directly enter the max dimensions
                 return;
-            cmpr_rgb[0] = cmpr_gradient[225848+(e.X << 2) - (e.Y << 8)];  // red
-            cmpr_rgb[1] = cmpr_gradient[225847+(e.X << 2) - (e.Y << 8)];  // green
-            cmpr_rgb[2] = cmpr_gradient[225846 + (e.X << 2) - (e.Y << 8)];  // blue
-            cmpr_colours_hex = BitConverter.ToString(cmpr_colours_argb).Replace("-", string.Empty);
+            // sooo, the clever idea is that I used a 32-bit bmp so I could use the bitshift << 2 for both x and y since all pixel are 4 bytes in size
+            // another cool thing is that I purposefully made the bmp dimensions be 1024x64, so one line is 1024x4 pixels which is 1 << 10 << 2 which is 1 << 12
+            // bitshifts are faster than multiplications.
+            // the only downside to this is that it's taking a few more kb in the ram, though it greatly improves performance
+            // 258170 = 1024*63*4 + 0x7a.    0x7a is the header length, also known as "pixel data start offset"
+            cmpr_rgb[0] = cmpr_gradient[258172 + (e.X << 2) - (e.Y << 12)];  // red
+            cmpr_rgb[1] = cmpr_gradient[258171 + (e.X << 2) - (e.Y << 12)];  // green
+            cmpr_rgb[2] = cmpr_gradient[258170 + (e.X << 2) - (e.Y << 12)];  // blue
+            cmpr_colours_hex = BitConverter.ToString(cmpr_rgb).Replace("-", string.Empty);
             switch (e.Button)
             {
                 case MouseButtons.Left:
@@ -16782,10 +16787,10 @@ namespace plt0_gui
                         Warn_wrong_colour();
                     break;
                 case MouseButtons.Middle:
-                    cmpr_c1_txt.Text = cmpr_colours_hex.Substring(2, 6);
+                    cmpr_c1_txt.Text = cmpr_colours_hex.Substring(0, 6);
                     break;
                 case MouseButtons.Right:
-                    cmpr_c2_txt.Text = cmpr_colours_hex.Substring(2, 6);
+                    cmpr_c2_txt.Text = cmpr_colours_hex.Substring(0, 6);
                     break;
                 case MouseButtons.XButton2:
                     Warn_wrong_colour();
