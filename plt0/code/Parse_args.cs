@@ -1079,7 +1079,7 @@ class Parse_args_class
                                 output_file = args[i].Substring(0, args[i].Length - args[i].Split('.')[args[i].Split('.').Length - 1].Length - 1);  // removes the text after the extension dot.
                                 swap = args[i];
                             }
-                            else if (!success)
+                            else if (!success && args[i].Length > 1)
                             {
                                 output_file = args[i];
                                 swap = args[i];

@@ -62,7 +62,7 @@ class AI8_class
                 Preceptual_Brightness_class gray_class = new Preceptual_Brightness_class();
                 for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 4)
                 {
-                    index[j] = (byte)(bmp_image[i + _plt0.rgba_channel[3]] * _plt0.custom_rgba[3]);  // _plt0.alpha value
+                    index[j] = (byte)(bmp_image[i + _plt0.rgba_channel[3]]);  // _plt0.alpha value
                     index[j + 1] = (byte)gray_class.Preceptual_Brightness(bmp_image[i + _plt0.rgba_channel[0]], bmp_image[i + _plt0.rgba_channel[1]], bmp_image[i + _plt0.rgba_channel[2]]);  // Grey Value
                     j += 2;
                     if (j == _plt0.canvas_width << 1)

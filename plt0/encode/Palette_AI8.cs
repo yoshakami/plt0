@@ -23,7 +23,7 @@ class Palette_AI8_class
 
         switch (_plt0.algorithm)
         {
-            case 0: // cie_601
+            default: // cie_601
                 {
                     for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 4)  // process every pixel to fit the AAAA AAAA  CCCC CCCC  profile
                     {
@@ -65,6 +65,19 @@ class Palette_AI8_class
                     }
                     break;
                 }
+            case 3:  // inverse of the gamma function
+                Preceptual_Brightness_class gray_class = new Preceptual_Brightness_class();
+                for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 4)
+                {
+                    pixel = (ushort)(bmp_image[i + _plt0.rgba_channel[3]] << 8);  // _plt0.alpha value
+                    if (pixel != 0)
+                    {
+                        pixel += (byte)gray_class.Preceptual_Brightness(bmp_image[i + _plt0.rgba_channel[0]], bmp_image[i + _plt0.rgba_channel[1]], bmp_image[i + _plt0.rgba_channel[2]]);  // Grey Value
+                    }
+                    Colours.Add(pixel);
+                    Colour_Table[pixel][0] += 1;
+                }
+                break;
         }
         if (!_plt0.user_palette || _plt0.fill_palette_start_offset != 0)  // no input palette / partial user input palette = fill it with these colours
         {

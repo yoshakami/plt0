@@ -109,7 +109,7 @@ class CMPR_class
         // bool done = false;
         switch (_plt0.algorithm)
         {
-            case 0: // default: used to re-encode
+            default: // default: used to re-encode
                 for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
                 {
                     if (!Load_Block_CIE_709())

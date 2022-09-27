@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.IO;
 using System.Linq;
-using System.Security.AccessControl;
 /* note: pasting C# Guy.py code adds automatically new usings, messing up the whole code
  * here's the official list of usings. it should be the same as what's above. else copy and paste
 using System;
@@ -26,6 +25,7 @@ using Image = System.Drawing.Image;
 using System.ComponentModel;
 using static System.Net.WebRequestMethods;
 using System.Drawing.Text;
+using System.Security.AccessControl;
 using System.Linq; */
 
 namespace plt0_gui
@@ -37,6 +37,7 @@ namespace plt0_gui
         static readonly string execName = System.AppDomain.CurrentDomain.FriendlyName.Replace("\\", "/");
         static readonly string appdata = Environment.GetEnvironmentVariable("appdata").Replace("\\", "/");
         static string args;
+        static string[] vanilla_arg_array;
         byte[] cmpr_preview;
         byte[] cmpr_preview_vanilla;
         byte[] cmpr_gradient;
@@ -1004,6 +1005,7 @@ namespace plt0_gui
                 return;
             if (Check_run())
             {
+                vanilla_arg_array = arg_array.ToArray();
                 int num = 1;
                 while (File.Exists(execPath + "plt0 content/preview/" + num + ".bmp"))
                 {
@@ -1134,7 +1136,7 @@ namespace plt0_gui
             }
             else
             {
-                if (algorithm != 0)
+                if (algorithm != 0 && algorithm != 9)
                 {
                     args += algorithm_array[algorithm] + " ";
                     arg_array.Add(algorithm_array[algorithm]);
@@ -1363,6 +1365,7 @@ namespace plt0_gui
                 cli_textbox_label.Padding = cli_textbox_padding;
             }
             cli_textbox_label.Text = args;
+            vanilla_arg_array = arg_array.ToArray();
         }
         private void plt0_DragEnter(object sender, DragEventArgs e)
         {
@@ -16278,11 +16281,11 @@ namespace plt0_gui
         {
             run_count++;
             Parse_args_class cli = new Parse_args_class();
-            cli.Parse_args(arg_array.ToArray());
+            cli.Parse_args(vanilla_arg_array);
             if (run_count < 2)
-                output_label.Text = "Run " + run_count.ToString() + " time\n" + cli.Check_exit();
+                cli_textbox_label.Text += "            Run count: " + run_count.ToString() + " time     " + cli.Check_exit();
             else
-                output_label.Text = "Run " + run_count.ToString() + " times\n" + cli.Check_exit();
+                cli_textbox_label.Text += "            Run count: " + run_count.ToString() + " times    " + cli.Check_exit();
         }
         private void sync_preview_Click(object sender, EventArgs e)
         {
@@ -16765,7 +16768,7 @@ namespace plt0_gui
 
         private void cmpr_palette_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.X < 0 || e.Y < 0 || e.X > 896 || e.Y > 64) // cmpr_palette.Image.width also works, it should be faster to directly enter the max dimensions
+            if (e.X < 0 || e.Y < 0 || e.X > 895 || e.Y > 64) // cmpr_palette.Image.width also works, it should be faster to directly enter the max dimensions
                 return;
             // sooo, the clever idea is that I used a 32-bit bmp so I could use the bitshift << 2 for both x and y since all pixel are 4 bytes in size
             // another cool thing is that I purposefully made the bmp dimensions be 1024x64, so one line is 1024x4 pixels which is 1 << 10 << 2 which is 1 << 12

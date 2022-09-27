@@ -91,7 +91,7 @@ class AI4_class
                 Preceptual_Brightness_class gray_class = new Preceptual_Brightness_class();
                 for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 4)
                 {
-                    a = (byte)(bmp_image[i + _plt0.rgba_channel[3]] * _plt0.custom_rgba[3]);  // _plt0.alpha value
+                    a = (byte)(bmp_image[i + _plt0.rgba_channel[3]]);  // _plt0.alpha value
                     if ((a & 0xf) > _plt0.round4 && a < 240)
                     {
                         a += 16;
