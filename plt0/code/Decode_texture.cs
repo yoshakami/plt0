@@ -38,7 +38,7 @@ class Decode_texture_class
                     Array.Resize(ref colour_palette, colour_number_x2);
                     // file_2.Read(colour_palette, 0x40, colour_number_x2); // check  ""&&&$$$^^ù!:;;,
                     file_2.Position = 0x40;
-                    file_2.Read(colour_palette, 0x40, colour_number_x2);
+                    file_2.Read(colour_palette, 0, colour_number_x2);
                     // user_palette = true;
                 }
             }
