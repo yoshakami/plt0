@@ -24,17 +24,17 @@ class Decode_texture_class
             has_palette = true;
             using (System.IO.FileStream file_2 = System.IO.File.Open(palette_file, System.IO.FileMode.Open, System.IO.FileAccess.Read))
             {
-                byte[] id_2 = new byte[4];
-                file_2.Read(id_2, 0, 4);
-                if (id_2.ToString().Substring(0, 4) == "PLT0")
+                byte[] id = new byte[0x20];
+                file_2.Read(id, 0, 0x20);
+                if (id[0] == 80 && id[1] == 76 && id[2] == 84 && id[3] == 48)  // PLT0
                 {
-                    byte[] data2 = new byte[0x20];
+                    //byte[] data2 = new byte[26];
                     //byte[0x20] data;  // what is "on the stack" synthax in C#
-                    file_2.Read(data2, 0, 0x20);
-                    colour_number = (ushort)((data2[0x1C] << 8) + data2[0x1D]);
+                    //file_2.Read(data2, 0, 26);
+                    palette_format_int32[3] = id[0x1B];
+                    colour_number = (ushort)((id[0x1C] << 8) | id[0x1D]);
                     colour_number_x2 = colour_number << 1;
                     colour_number_x4 = colour_number << 2;
-                    palette_format_int32[3] = data2[0x1B];
                     Array.Resize(ref colour_palette, colour_number_x2);
                     // file_2.Read(colour_palette, 0x40, colour_number_x2); // check  ""&&&$$$^^ù!:;;,
                     file_2.Position = 0x40;
@@ -145,7 +145,7 @@ class Decode_texture_class
             {
                 has_palette = true;
                 palette_format_int32[3] = data[9];
-                colour_number = (byte)((data[0x0a] << 8) + data[0x0b]);
+                colour_number = (ushort)((data[0x0a] << 8) + data[0x0b]);
                 colour_number_x2 = colour_number << 1;
                 colour_number_x4 = colour_number << 2;
                 palette_start_offset = (data[0x0C] << 24) | (data[0x0D] << 16) | (data[0x0E] << 8) | data[0x0F];
