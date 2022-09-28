@@ -141,7 +141,7 @@ class Decode_texture_class
             }
             canvas[0] = (ushort)((data[2] << 8) + data[3]);
             canvas[1] = (ushort)((data[4] << 8) + data[5]);
-            if ((data[8] == 1 || (data[0x0a] != 0 && data[0x0b] != 0)) && data[9] < 3)  // the image has a palette - made so even bad images encoded with an idiot tool setting data[0x08] to zero would be decoded here
+            if ((data[8] == 1 || data[0x0a] != 0 || data[0x0b] != 0) && data[9] < 3 && data[0] > 7)  // the image has a palette - made so even bad images encoded with an idiot tool setting data[0x08] to zero would be decoded here
             {
                 has_palette = true;
                 palette_format_int32[3] = data[9];
@@ -161,7 +161,7 @@ class Decode_texture_class
         // call fill_index_list
         Fill_index_list_class f = new Fill_index_list_class(this);
         object picture = f.Fill_index_list(data, data_start_offset, texture_format_int32[3], mipmaps_number, real_block_width_array, block_width_array, block_height_array, reverse_x, reverse_y);
-        Write_bmp_class.Write_bmp((List<List<byte[]>>)picture, canvas_dim, colour_palette, texture_format_int32, palette_format_int32, colour_number, output_file, bmp_32, funky, has_palette, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number, alpha, colour_number_x2, colour_number_x4);
+        Write_bmp_class.Write_bmp((List<List<byte[]>>)picture, canvas_dim, colour_palette, texture_format_int32, palette_format_int32, colour_number, output_file, bmp_32, funky, has_palette, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number, 9, colour_number_x2, colour_number_x4);
         return texture_format_int32[3];
     }
 }
