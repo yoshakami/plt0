@@ -16,15 +16,13 @@ It's a special Paint application implementation where you have first to load a t
 A colour can be picked on the image by holding Ctrl.
 
 ## vocabulary
-*CMPR is both DXT1 without alpha and DXT1 with alpha. you can also call it BC1 if it's stored in a dds image.
-*cli = command line interface -> (usually cmd.exe or powershell.exe) a black window in Consolas fonts in which you can launch executables with parameters
-*gui = graphical user interface -> the visuals <br> I've spent
-the most time I have ever consumed for a decent CMPR Algorithm
+*CMPR is both DXT1 without alpha and DXT1 with alpha. you can also call it BC1 if it's stored in a dds image. <br>
+*cli = command line interface -> (usually cmd.exe or powershell.exe) a black window in Consolas fonts in which you can launch executables with parameters<br>
+*gui = graphical user interface -> the visuals <br>
 
 
 ## future updates:
 Change "Auto" to "Encode" and create a "Decode" Layout <br>
-Allow colour picker on the bottom rainbow image on paint layout <br>
 Add "Range Fit" and maybe other CMPR algorithms <br>
 make a "How to use" image, and test everything (every option, every combination, find anything that breaks the program) <br>
 add french description.txt <br>
@@ -50,19 +48,13 @@ v0.9: decode TPL files
 
 v1.0: GUI
 
-Note: if you want to change the source code of GUI layout[ through the [Design] window, you'll need a 4k screen, since Visual Studio automatically resizes the app bounds to your screen size (Naughy VS!) and the whole screen is packed to the gills with GUI elements
-
-the whole GUI was made with only 3 elements : label, picturebox, and textbox
-
-the GUI opens if (input file = "")  or texture_format isn't specified<br>(which means that opening a texture with plt0.exe will decode it and output a bmp without showing the GUI)
-
 ## why this project
-wimgt doesn't support textures with palette (or corrupts them), except tpl files. which makes his whole tool a bit annoying
+wimgt doesn't support textures with palette (or corrupts them), except tpl files. which prevents me from modding some wii games.
 
 I tried to update it, it's a nightmare :')
 
 ## how did you make this
-first, I made it on python, but noticed python is kinda slow, so I rewritten it whole in C#. but Dictionnaries with multiple values can't be sorted like in python.
+first, I made it on python, but noticed python is kinda slow*, so I rewritten it whole in C#. but Dictionnaries with multiple values can't be sorted like in python.<br>
 
 I ended up making lists of ushort arrays and an IComparer.
 
@@ -74,6 +66,19 @@ I ended up making lists of ushort arrays and an IComparer.
 5. Create colour index for all pixels, using my own algorithm
 6. Build Output file (write header, then Convert all index rows to "Block" for Wii/GC, or reverse row order for bmp then convert it to other format if user asked so)
 7. Test limit cases using files with annoying dimensions, unknown formats, or a combination of parameters that breaks step one
+
+## Notes
+if you want to change the source code of GUI layout through the [Design] window, you'll need a 4k screen, since Visual Studio automatically resizes the app bounds to your screen size (Naughy VS!) and the whole screen is packed to the gills with GUI elements
+
+the whole GUI was made with only 3 elements : label, picturebox, and textbox
+
+the GUI opens if (input file = "")  or texture_format isn't specified<br>(which means that opening a texture with plt0.exe will decode it and output a bmp without showing the GUI)
+
+I've spent the most time I have ever consumed for a decent CMPR Algorithm
+
+the python files were either used to generate C# code (functions launched on label hover or on click ), or to analyze C# code, and even to extract data from the code.
+
+* if you're skeptical about python being slow, run <a href="https://github.com/yoshi2999/plt0/blob/master/py/plt0.py">plt0.py</a> from the py folder and you'll notice it takes 20 minutes to encode an image to CI8 AI8. (You'll need to change "input_file" at the line 48 first)
 
 ## Colour Quantization algorithm
 First, create a Colour_table List of int array of 65536 entries with the number itself and the number of times it is used in the image.
