@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.IO;
 using System.Linq;
+using System.Diagnostics;
 /* note: pasting C# Guy.py code adds automatically new usings, messing up the whole code
- * here's the official list of usings. it should be the same as what's above. else copy and paste
+* here's the official list of usings. it should be the same as what's above. else copy and paste
 using System;
 using System.Drawing;
 using System.Collections.Generic;
@@ -45,7 +46,7 @@ namespace plt0_gui
         // the 4x4 grid for the Paint Layout is a 4x4 bmp file
         static byte[] cmpr_4x4 = { 66, 77, 186, 0, 0, 0, 121, 111, 115, 104, 122, 0, 0, 0, 108, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0, 1, 0, 32, 0, 3, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 0, 0, 255, 0, 0, 255, 0, 0, 0, 0, 0, 0, 255, 32, 110, 105, 87, 0, 104, 116, 116, 112, 115, 58, 47, 47, 100, 105, 115, 99, 111, 114, 100, 46, 103, 103, 47, 118, 57, 86, 112, 68, 90, 57, 0, 116, 104, 105, 115, 32, 105, 115, 32, 112, 97, 100, 100, 105, 110, 103, 32, 100, 97, 116, 97, 0, 0, 240, 255, 72, 242, 64, 255, 72, 66, 240, 255, 0, 255, 0, 255, 200, 254, 200, 255, 32, 57, 240, 255, 32, 249, 56, 255, 200, 206, 240, 255, 16, 16, 240, 255, 32, 241, 56, 255, 48, 49, 255, 255, 72, 250, 64, 255, 16, 255, 16, 255, 32, 57, 255, 255, 48, 241, 48, 255, 72, 66, 240, 255 };
         static string[] cmpr_args = { "gui", "i", "i", execPath + "plt0 content/preview/1" };
-        static byte[] cmpr_rgb = {0,0,0 };
+        static byte[] cmpr_rgb = { 0, 0, 0 };
         static string[] config = new string[150];
         static string[] d = new string[255];
         static string[] layout_name = { "All", "Auto", "Preview", "Paint" };
@@ -110,6 +111,8 @@ namespace plt0_gui
         ushort colour3;
         ushort colour4;
         double mag_ratio;
+        double width_ratio;
+        double height_ratio;
         //byte offset;
         string seal;
         //byte jump_line;
@@ -440,12 +443,19 @@ namespace plt0_gui
         // Image input_file_image;
         // Font font_normal = new System.Drawing.Font(fontname, 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
         // Font new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+        List<Panel> m_panels = new List<Panel>();
+        List<Point> m_points = new List<Point>();
+        Size m_originalSize;
         public plt0_gui()
         {
             plt0.NativeMethods.FreeConsole();
             InitializeComponent();
-            this.Size = new Size(1920, 1080);
+            this.SuspendLayout();
+            // this.Size = new Size(1920, 1080);
             InitializeForm();
+            ResizePanels();
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
             //below's some scrapped code to load custom fonts from a file, but it won't work unless the font itself is installed on the system, which makes the file useless
             //if (System.IO.File.Exists(execPath + "images/a.ttf"))
@@ -501,6 +511,88 @@ namespace plt0_gui
         }
         */
         // https://stackoverflow.com/questions/616584/how-do-i-get-the-name-of-the-current-executable-in-c
+        private IEnumerable<Panel> FindPanels()
+        {
+            foreach (var control in Controls)
+            {
+                Panel panel = control as Panel;
+                panel.Location = new Point(0, 0);
+                if (panel != null)
+                    yield return panel;
+            }
+        }
+
+        private void SnapshotOriginalLayout()
+        {
+            m_originalSize = ClientSize;
+            foreach (var panel in FindPanels())
+            {
+                m_panels.Add(panel);
+                m_points.Add(panel.Location);
+                m_points.Add(new Point(panel.Size));
+            }
+        }
+
+        private void ResizePanels()
+        {
+            //if (m_originalSize.Width == 0 || m_originalSize.Height == 0)
+            //    return;
+
+            //ApplyTranformedPoints(GetTranformedPoints());
+            width_ratio = Screen.PrimaryScreen.Bounds.Width / 1920.0;
+            height_ratio = Screen.PrimaryScreen.Bounds.Height / 1080.0;
+            // SizeF item_ratio = new SizeF((float)width_ratio, (float)height_ratio);
+            if (width_ratio != 1.0 || height_ratio != 1.0)
+            {
+                foreach (Control control in Controls)
+                {
+                    if (control is Label)
+                    {
+                        Label item = control as Label;
+                        item.Location = new Point((int)(item.Location.X * width_ratio), (int)(item.Location.Y * height_ratio));
+                        item.Size = new Size((int)(item.Location.X * width_ratio), (int)(item.Location.Y * height_ratio));
+                    }
+                    else if (control is TextBox)
+                    {
+                        TextBox item = control as TextBox;
+                        item.Location = new Point((int)(item.Location.X * width_ratio), (int)(item.Location.Y * height_ratio));
+                        item.Size = new Size((int)(item.Location.X * width_ratio), (int)(item.Location.Y * height_ratio));
+                    }
+                    else if (control is PictureBoxWithInterpolationMode)
+                    {
+                        PictureBoxWithInterpolationMode item = control as PictureBoxWithInterpolationMode;
+                        item.Location = new Point((int)(item.Location.X * width_ratio), (int)(item.Location.Y * height_ratio));
+                        item.Size = new Size((int)(item.Location.X * width_ratio), (int)(item.Location.Y * height_ratio));
+                    }
+                    else if (control is PictureBox)
+                    {
+                        PictureBox item = control as PictureBox;
+                        item.Location = new Point((int)(item.Location.X * width_ratio), (int)(item.Location.Y * height_ratio));
+                        item.Size = new Size((int)(item.Location.X * width_ratio), (int)(item.Location.Y * height_ratio)); // I suppose the screen is in 16:9
+                    }
+                }
+            }
+        }
+        
+
+        private Point[] GetTranformedPoints()
+        {
+            Point[] points = m_points.ToArray();
+            System.Drawing.Drawing2D.Matrix m = new System.Drawing.Drawing2D.Matrix();
+            m.Scale(ClientSize.Width / (float)m_originalSize.Width, ClientSize.Height / (float)m_originalSize.Height);
+            m.TransformPoints(points);
+            return points;
+        }
+
+        private void ApplyTranformedPoints(Point[] points)
+        {
+            int index = 0;
+            foreach (Panel panel in m_panels)
+            {
+                panel.Bounds = new Rectangle(points[index], new Size(points[index + 1]));
+                index += 2;
+            }
+        }
         private string Parse_Special_Markdown(int i, string text, byte arg)
         {
             markdown[arg] = "";
@@ -1381,8 +1473,8 @@ namespace plt0_gui
                 if (!isFolder)  // that means it's a file.
                 {
                     //byte len = (byte)file[0].Split('\\').Length;
-                    input_file = file[0];
-                    input_file_txt.Text = file[0]; //.Split('\\')[len - 1];// file is actually a full path starting from a drive, but I won't clutter the display
+                    input_file = file[0].Replace("\\", "/"); ;
+                    input_file_txt.Text = file[0].Replace("\\", "/"); //.Split('\\')[len - 1];// file is actually a full path starting from a drive, but I won't clutter the display
                 }
                 else
                 {
@@ -3396,6 +3488,10 @@ namespace plt0_gui
                 {
                     config_version = d[0].Substring(12);
                 }
+                else
+                {
+                    Application.Exit(); // the user is missing essential files
+                }
                 switch (config_version)
                 {
                     case "v1.0":
@@ -3414,6 +3510,10 @@ namespace plt0_gui
                         Environment.Exit(2);
                         break; // idk what happens if you don't put a break on a case, but it won't compile otherwise
                 }
+            }
+            else
+            {
+                Application.Exit(); // the user is missing essential files
             }
             if (System.IO.File.Exists(execPath + "plt0 content/config.txt"))
             {
@@ -4193,21 +4293,7 @@ namespace plt0_gui
             }
             else
             {
-                try
-                {
-                    string[] new_lines = { "plt0 config v1.0", "Layout (change next line with one of these: \"All\", \"Auto\", \"Preview\", \"Paint\")", "All", "Window Location (\"Normal\", \"Maximized\", \"Bottom_left\", \"Left\", \"Top_left\", \"Top\", \"Top_right\", \"Right\", \"Bottom_right\", \"Bottom\")", "Maximized", "Textboxes text color (System.Drawing.Color)", "White", "Textboxes color", "Black", "Description color", "Cyan", "Font name (it must be installed on your system)", "Segoe UI", "Encoding number (internally named GdiCharSet, see https://docs.microsoft.com/en-us/dotnet/api/system.drawing.font.gdicharset?view=dotnet-plat-ext-6.0)", "128", "CMPR Hover Colour", "White", "CMPR Edited Colour", "Transparent" };
-                    Array.Resize(ref new_lines, 255);
-                    for (byte i = 14; i < 255; i++)
-                    {
-                        new_lines[i - 1] = i.ToString();
-                    }
-
-                    System.IO.File.WriteAllLines(execPath + "plt0 content/config.txt", new_lines);
-                }
-                catch
-                {
-                    // um, idk what to do here if the user doesn't let the app write a file.
-                }
+                Application.Exit(); // the user is missing essential files
             }
         }
         private void Fill_Lists()
@@ -4368,6 +4454,7 @@ namespace plt0_gui
         }
         private void InitializeForm(bool load_settings_dot_tee_ekks_tee = true, bool this_is_the_first_time_this_function_is_called = true)
         {
+            this.Icon = (System.Drawing.Icon.ExtractAssociatedIcon(execPath + "plt0 content/luma.ico"));
             Load_Images();
             if (this_is_the_first_time_this_function_is_called)
                 Fill_Lists();
@@ -10135,7 +10222,6 @@ namespace plt0_gui
             // cmpr_palette
             // 
             this.cmpr_palette.BackColor = System.Drawing.Color.Transparent;
-            //this.cmpr_palette.ImageLayout = System.Windows.Forms.ImageLayout.None;
             this.cmpr_palette.ErrorImage = null;
             this.cmpr_palette.InitialImage = null;
             this.cmpr_palette.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
@@ -10218,7 +10304,7 @@ namespace plt0_gui
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1924, 1061);
+            this.ClientSize = new System.Drawing.Size(1284, 701);
             this.Controls.Add(this.darkest_lightest_label);
             this.Controls.Add(this.darkest_lightest_ck);
             this.Controls.Add(this.sooperbmd_label);
@@ -10548,7 +10634,6 @@ namespace plt0_gui
             this.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
             this.MaximumSize = new System.Drawing.Size(99999, 99999);
             this.Name = "plt0_gui";
@@ -15016,8 +15101,8 @@ namespace plt0_gui
             }
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                input_file_txt.Text = dialog.FileName;
-                input_file = dialog.FileName;
+                input_file_txt.Text = dialog.FileName.Replace("\\", "/");
+                input_file = dialog.FileName.Replace("\\", "/");
                 Check_run();
                 Check_Paint();
                 Organize_args();
@@ -15052,8 +15137,8 @@ namespace plt0_gui
             };
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                input_file2_txt.Text = dialog.FileName;
-                input_file2 = dialog.FileName;
+                input_file2_txt.Text = dialog.FileName.Replace("\\", "/");
+                input_file2 = dialog.FileName.Replace("\\", "/"); ;
                 Check_run();
                 Organize_args();
             }
@@ -16813,6 +16898,19 @@ namespace plt0_gui
             {
                 cmpr_palette_MouseDown(sender, e);
             }
+        }
+
+        private void OnShown(object sender, EventArgs e)
+        {
+            ResizePanels();
+            //SnapshotOriginalLayout();
+            //base.OnShown(e);
+        }
+
+        private void OnResizeEnd(object sender, EventArgs e)
+        {
+            //base.OnResizeEnd(e);
+
         }
     }
 }

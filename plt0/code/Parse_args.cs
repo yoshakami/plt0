@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 
 class Parse_args_class
@@ -103,6 +104,7 @@ class Parse_args_class
     ushort z;
     public ushort canvas_width;
     public ushort canvas_height;
+    static readonly string execPath = AppDomain.CurrentDomain.BaseDirectory.Replace("\\", "/");
     List<byte> BGRA = new List<byte>();
     List<ushort[]> canvas_dim = new List<ushort[]>();
     public void Parse_args(string[] args)
@@ -1096,7 +1098,7 @@ class Parse_args_class
         }
         if (input_file == "")
         {
-            if (!gui)
+            if (!gui && Directory.Exists(execPath + "plt0 content"))
             {
                 System.Windows.Forms.Application.EnableVisualStyles();
                 System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
@@ -1276,7 +1278,7 @@ class Parse_args_class
         {
             if (!no_warning)
                 Console.WriteLine("add a texture encoding format as argument.\n\nList of available formats: \nI4      (black and white 4 bit shade of gray)\nI8      (1 black and white byte per pixel)\nAI4     (4-bit alpha then 4-bit I4)\nAI8     (1 byte alpha and 1 byte I8)\nRGB565  (best colour encoding, 5-bit red, 6-bit green, and 5-bit blue)\nRGB5A3  (rgb555 if pixel doesn't have alpha, and 3-bit alpha + rgb444 if pixel have alpha)\nRGBA8   (lossless encoding, biggest one though, 4 bytes per pixel)\nCI4   * (uses a colour palette of max 16 colours)\nCI8   * (uses a colour palette of max 256 colours)\nCI14x2 *(uses a colour palette of max 65536 colours) - untested in-game\nCMPR  (4-bit depth, max 2 colours per 4x4 image chunk + 2 software interpolated ones) - wimgt encoding for this format is pretty decent, you should check it out\n\n* you can force a palette format to be set for these textures format\nPalette formats: AI8, RGB565, RGB5A3");
-            if (!gui)
+            if (!gui && Directory.Exists(execPath + "plt0 content"))
             {
                 System.Windows.Forms.Application.EnableVisualStyles();
                 System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
