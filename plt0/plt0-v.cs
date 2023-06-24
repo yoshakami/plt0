@@ -539,36 +539,57 @@ namespace plt0_gui
             //    return;
 
             //ApplyTranformedPoints(GetTranformedPoints());
+
+
+            // Update the bounds with the new size and location
             width_ratio = Screen.PrimaryScreen.Bounds.Width / 1920.0;
             height_ratio = Screen.PrimaryScreen.Bounds.Height / 1080.0;
+
             // SizeF item_ratio = new SizeF((float)width_ratio, (float)height_ratio);
+            // I suppose the screen is in 16:9
             if (width_ratio != 1.0 || height_ratio != 1.0)
             {
                 foreach (Control control in Controls)
                 {
+                    // Get the current bounds of the control
+                    Rectangle bounds = control.Bounds;
+                    int newWidth = (int)(bounds.Width * width_ratio);
+                    int newHeight = (int)(bounds.Height * height_ratio);
+
+                    // Calculate the new location based on the size difference
+                    //int deltaWidth = newWidth - bounds.Width;
+                    //int deltaHeight = newHeight - bounds.Height;
+                    int newX = (int)(bounds.X * width_ratio); //- (deltaWidth);// >> 1);
+                    int newY = (int)(bounds.Y * height_ratio); //- (deltaHeight);// >> 1);
                     if (control is Label)
                     {
                         Label item = control as Label;
-                        item.Location = new Point((int)(item.Location.X * width_ratio), (int)(item.Location.Y * height_ratio));
-                        item.Size = new Size((int)(item.Location.X * width_ratio), (int)(item.Location.Y * height_ratio));
+                        control.Bounds = new Rectangle(newX, newY, newWidth, newHeight);
                     }
                     else if (control is TextBox)
                     {
                         TextBox item = control as TextBox;
-                        item.Location = new Point((int)(item.Location.X * width_ratio), (int)(item.Location.Y * height_ratio));
-                        item.Size = new Size((int)(item.Location.X * width_ratio), (int)(item.Location.Y * height_ratio));
+                        control.Bounds = new Rectangle(newX, newY, newWidth, newHeight);
                     }
                     else if (control is PictureBoxWithInterpolationMode)
                     {
                         PictureBoxWithInterpolationMode item = control as PictureBoxWithInterpolationMode;
-                        item.Location = new Point((int)(item.Location.X * width_ratio), (int)(item.Location.Y * height_ratio));
-                        item.Size = new Size((int)(item.Location.X * width_ratio), (int)(item.Location.Y * height_ratio));
+                        control.Bounds = new Rectangle(newX, newY, newWidth, newHeight);
                     }
                     else if (control is PictureBox)
                     {
                         PictureBox item = control as PictureBox;
-                        item.Location = new Point((int)(item.Location.X * width_ratio), (int)(item.Location.Y * height_ratio));
-                        item.Size = new Size((int)(item.Location.X * width_ratio), (int)(item.Location.Y * height_ratio)); // I suppose the screen is in 16:9
+                        control.Bounds = new Rectangle(newX, newY, newWidth, newHeight);
+                        Image image = item.BackgroundImage;
+
+                        if (image != null)
+                        {
+                            // Create a new resized image
+                            Image resizedImage = new Bitmap(image, (int)(image.Width * width_ratio), (int)(image.Height * height_ratio));
+
+                            // Assign the resized image to the PictureBox
+                            item.BackgroundImage = resizedImage;
+                        }
                     }
                 }
             }
@@ -4491,7 +4512,7 @@ namespace plt0_gui
             if (delete_preview)
                 Directory.CreateDirectory(execPath + "plt0 content/preview");
             banner_ck.BackgroundImage = banner;
-            surrounding_ck.BackgroundImage = surrounding;
+            surrounding_ck.Image = surrounding;
             banner_minus_ck.BackgroundImage = minimized;
             banner_x_ck.BackgroundImage = close;
             discord_ck.BackgroundImage = discord;
@@ -4510,7 +4531,6 @@ namespace plt0_gui
         // actually not the whole code, but let's pretend I haven't typed 15k lines
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(plt0_gui));
             this.output_file_type_label = new System.Windows.Forms.Label();
             this.mandatory_settings_label = new System.Windows.Forms.Label();
             this.bmd_label = new System.Windows.Forms.Label();
@@ -5035,6 +5055,7 @@ namespace plt0_gui
             this.bti_ck.Margin = new System.Windows.Forms.Padding(0);
             this.bti_ck.Name = "bti_ck";
             this.bti_ck.Size = new System.Drawing.Size(64, 64);
+            this.bti_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.bti_ck.TabIndex = 129;
             this.bti_ck.TabStop = false;
             this.bti_ck.Click += new System.EventHandler(this.bti_Click);
@@ -5068,6 +5089,7 @@ namespace plt0_gui
             this.tex0_ck.Margin = new System.Windows.Forms.Padding(0);
             this.tex0_ck.Name = "tex0_ck";
             this.tex0_ck.Size = new System.Drawing.Size(64, 64);
+            this.tex0_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.tex0_ck.TabIndex = 132;
             this.tex0_ck.TabStop = false;
             this.tex0_ck.Click += new System.EventHandler(this.tex0_Click);
@@ -5101,6 +5123,7 @@ namespace plt0_gui
             this.tpl_ck.Margin = new System.Windows.Forms.Padding(0);
             this.tpl_ck.Name = "tpl_ck";
             this.tpl_ck.Size = new System.Drawing.Size(64, 64);
+            this.tpl_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.tpl_ck.TabIndex = 135;
             this.tpl_ck.TabStop = false;
             this.tpl_ck.Click += new System.EventHandler(this.tpl_Click);
@@ -5134,6 +5157,7 @@ namespace plt0_gui
             this.bmp_ck.Margin = new System.Windows.Forms.Padding(0);
             this.bmp_ck.Name = "bmp_ck";
             this.bmp_ck.Size = new System.Drawing.Size(64, 64);
+            this.bmp_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.bmp_ck.TabIndex = 138;
             this.bmp_ck.TabStop = false;
             this.bmp_ck.Click += new System.EventHandler(this.bmp_Click);
@@ -5167,6 +5191,7 @@ namespace plt0_gui
             this.png_ck.Margin = new System.Windows.Forms.Padding(0);
             this.png_ck.Name = "png_ck";
             this.png_ck.Size = new System.Drawing.Size(64, 64);
+            this.png_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.png_ck.TabIndex = 141;
             this.png_ck.TabStop = false;
             this.png_ck.Click += new System.EventHandler(this.png_Click);
@@ -5200,6 +5225,7 @@ namespace plt0_gui
             this.jpg_ck.Margin = new System.Windows.Forms.Padding(0);
             this.jpg_ck.Name = "jpg_ck";
             this.jpg_ck.Size = new System.Drawing.Size(64, 64);
+            this.jpg_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.jpg_ck.TabIndex = 144;
             this.jpg_ck.TabStop = false;
             this.jpg_ck.Click += new System.EventHandler(this.jpg_Click);
@@ -5233,6 +5259,7 @@ namespace plt0_gui
             this.tiff_ck.Margin = new System.Windows.Forms.Padding(0);
             this.tiff_ck.Name = "tiff_ck";
             this.tiff_ck.Size = new System.Drawing.Size(64, 64);
+            this.tiff_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.tiff_ck.TabIndex = 159;
             this.tiff_ck.TabStop = false;
             this.tiff_ck.Click += new System.EventHandler(this.tiff_Click);
@@ -5266,6 +5293,7 @@ namespace plt0_gui
             this.tif_ck.Margin = new System.Windows.Forms.Padding(0);
             this.tif_ck.Name = "tif_ck";
             this.tif_ck.Size = new System.Drawing.Size(64, 64);
+            this.tif_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.tif_ck.TabIndex = 156;
             this.tif_ck.TabStop = false;
             this.tif_ck.Click += new System.EventHandler(this.tif_Click);
@@ -5299,6 +5327,7 @@ namespace plt0_gui
             this.ico_ck.Margin = new System.Windows.Forms.Padding(0);
             this.ico_ck.Name = "ico_ck";
             this.ico_ck.Size = new System.Drawing.Size(64, 64);
+            this.ico_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.ico_ck.TabIndex = 153;
             this.ico_ck.TabStop = false;
             this.ico_ck.Click += new System.EventHandler(this.ico_Click);
@@ -5332,6 +5361,7 @@ namespace plt0_gui
             this.gif_ck.Margin = new System.Windows.Forms.Padding(0);
             this.gif_ck.Name = "gif_ck";
             this.gif_ck.Size = new System.Drawing.Size(64, 64);
+            this.gif_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.gif_ck.TabIndex = 150;
             this.gif_ck.TabStop = false;
             this.gif_ck.Click += new System.EventHandler(this.gif_Click);
@@ -5365,6 +5395,7 @@ namespace plt0_gui
             this.jpeg_ck.Margin = new System.Windows.Forms.Padding(0);
             this.jpeg_ck.Name = "jpeg_ck";
             this.jpeg_ck.Size = new System.Drawing.Size(64, 64);
+            this.jpeg_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.jpeg_ck.TabIndex = 147;
             this.jpeg_ck.TabStop = false;
             this.jpeg_ck.Click += new System.EventHandler(this.jpeg_Click);
@@ -5411,6 +5442,7 @@ namespace plt0_gui
             this.warn_ck.Margin = new System.Windows.Forms.Padding(0);
             this.warn_ck.Name = "warn_ck";
             this.warn_ck.Size = new System.Drawing.Size(64, 64);
+            this.warn_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.warn_ck.TabIndex = 190;
             this.warn_ck.TabStop = false;
             this.warn_ck.Click += new System.EventHandler(this.warn_Click);
@@ -5444,6 +5476,7 @@ namespace plt0_gui
             this.stfu_ck.Margin = new System.Windows.Forms.Padding(0);
             this.stfu_ck.Name = "stfu_ck";
             this.stfu_ck.Size = new System.Drawing.Size(64, 64);
+            this.stfu_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.stfu_ck.TabIndex = 187;
             this.stfu_ck.TabStop = false;
             this.stfu_ck.Click += new System.EventHandler(this.stfu_Click);
@@ -5477,6 +5510,7 @@ namespace plt0_gui
             this.safe_mode_ck.Margin = new System.Windows.Forms.Padding(0);
             this.safe_mode_ck.Name = "safe_mode_ck";
             this.safe_mode_ck.Size = new System.Drawing.Size(64, 64);
+            this.safe_mode_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.safe_mode_ck.TabIndex = 184;
             this.safe_mode_ck.TabStop = false;
             this.safe_mode_ck.Click += new System.EventHandler(this.safe_mode_Click);
@@ -5510,6 +5544,7 @@ namespace plt0_gui
             this.reversey_ck.Margin = new System.Windows.Forms.Padding(0);
             this.reversey_ck.Name = "reversey_ck";
             this.reversey_ck.Size = new System.Drawing.Size(64, 64);
+            this.reversey_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.reversey_ck.TabIndex = 181;
             this.reversey_ck.TabStop = false;
             this.reversey_ck.Click += new System.EventHandler(this.reversey_Click);
@@ -5543,6 +5578,7 @@ namespace plt0_gui
             this.random_ck.Margin = new System.Windows.Forms.Padding(0);
             this.random_ck.Name = "random_ck";
             this.random_ck.Size = new System.Drawing.Size(64, 64);
+            this.random_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.random_ck.TabIndex = 178;
             this.random_ck.TabStop = false;
             this.random_ck.Click += new System.EventHandler(this.random_Click);
@@ -5576,6 +5612,7 @@ namespace plt0_gui
             this.no_warning_ck.Margin = new System.Windows.Forms.Padding(0);
             this.no_warning_ck.Name = "no_warning_ck";
             this.no_warning_ck.Size = new System.Drawing.Size(64, 64);
+            this.no_warning_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.no_warning_ck.TabIndex = 175;
             this.no_warning_ck.TabStop = false;
             this.no_warning_ck.Click += new System.EventHandler(this.no_warning_Click);
@@ -5609,6 +5646,7 @@ namespace plt0_gui
             this.funky_ck.Margin = new System.Windows.Forms.Padding(0);
             this.funky_ck.Name = "funky_ck";
             this.funky_ck.Size = new System.Drawing.Size(64, 64);
+            this.funky_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.funky_ck.TabIndex = 172;
             this.funky_ck.TabStop = false;
             this.funky_ck.Click += new System.EventHandler(this.funky_Click);
@@ -5642,6 +5680,7 @@ namespace plt0_gui
             this.FORCE_ALPHA_ck.Margin = new System.Windows.Forms.Padding(0);
             this.FORCE_ALPHA_ck.Name = "FORCE_ALPHA_ck";
             this.FORCE_ALPHA_ck.Size = new System.Drawing.Size(64, 64);
+            this.FORCE_ALPHA_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.FORCE_ALPHA_ck.TabIndex = 169;
             this.FORCE_ALPHA_ck.TabStop = false;
             this.FORCE_ALPHA_ck.Click += new System.EventHandler(this.FORCE_ALPHA_Click);
@@ -5675,6 +5714,7 @@ namespace plt0_gui
             this.bmp_32_ck.Margin = new System.Windows.Forms.Padding(0);
             this.bmp_32_ck.Name = "bmp_32_ck";
             this.bmp_32_ck.Size = new System.Drawing.Size(64, 64);
+            this.bmp_32_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.bmp_32_ck.TabIndex = 166;
             this.bmp_32_ck.TabStop = false;
             this.bmp_32_ck.Click += new System.EventHandler(this.bmp_32_Click);
@@ -5708,6 +5748,7 @@ namespace plt0_gui
             this.ask_exit_ck.Margin = new System.Windows.Forms.Padding(0);
             this.ask_exit_ck.Name = "ask_exit_ck";
             this.ask_exit_ck.Size = new System.Drawing.Size(64, 64);
+            this.ask_exit_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.ask_exit_ck.TabIndex = 163;
             this.ask_exit_ck.TabStop = false;
             this.ask_exit_ck.Visible = false;
@@ -5743,6 +5784,7 @@ namespace plt0_gui
             this.cmpr_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_ck.Name = "cmpr_ck";
             this.cmpr_ck.Size = new System.Drawing.Size(64, 64);
+            this.cmpr_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.cmpr_ck.TabIndex = 233;
             this.cmpr_ck.TabStop = false;
             this.cmpr_ck.Click += new System.EventHandler(this.CMPR_Click);
@@ -5776,6 +5818,7 @@ namespace plt0_gui
             this.ci14x2_ck.Margin = new System.Windows.Forms.Padding(0);
             this.ci14x2_ck.Name = "ci14x2_ck";
             this.ci14x2_ck.Size = new System.Drawing.Size(64, 64);
+            this.ci14x2_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.ci14x2_ck.TabIndex = 230;
             this.ci14x2_ck.TabStop = false;
             this.ci14x2_ck.Click += new System.EventHandler(this.CI14X2_Click);
@@ -5809,6 +5852,7 @@ namespace plt0_gui
             this.ci8_ck.Margin = new System.Windows.Forms.Padding(0);
             this.ci8_ck.Name = "ci8_ck";
             this.ci8_ck.Size = new System.Drawing.Size(64, 64);
+            this.ci8_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.ci8_ck.TabIndex = 227;
             this.ci8_ck.TabStop = false;
             this.ci8_ck.Click += new System.EventHandler(this.CI8_Click);
@@ -5842,6 +5886,7 @@ namespace plt0_gui
             this.ci4_ck.Margin = new System.Windows.Forms.Padding(0);
             this.ci4_ck.Name = "ci4_ck";
             this.ci4_ck.Size = new System.Drawing.Size(64, 64);
+            this.ci4_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.ci4_ck.TabIndex = 224;
             this.ci4_ck.TabStop = false;
             this.ci4_ck.Click += new System.EventHandler(this.CI4_Click);
@@ -5875,6 +5920,7 @@ namespace plt0_gui
             this.rgba32_ck.Margin = new System.Windows.Forms.Padding(0);
             this.rgba32_ck.Name = "rgba32_ck";
             this.rgba32_ck.Size = new System.Drawing.Size(64, 64);
+            this.rgba32_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.rgba32_ck.TabIndex = 221;
             this.rgba32_ck.TabStop = false;
             this.rgba32_ck.Click += new System.EventHandler(this.RGBA32_Click);
@@ -5908,6 +5954,7 @@ namespace plt0_gui
             this.rgb5a3_ck.Margin = new System.Windows.Forms.Padding(0);
             this.rgb5a3_ck.Name = "rgb5a3_ck";
             this.rgb5a3_ck.Size = new System.Drawing.Size(64, 64);
+            this.rgb5a3_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.rgb5a3_ck.TabIndex = 218;
             this.rgb5a3_ck.TabStop = false;
             this.rgb5a3_ck.Click += new System.EventHandler(this.RGB5A3_Click);
@@ -5941,6 +5988,7 @@ namespace plt0_gui
             this.rgb565_ck.Margin = new System.Windows.Forms.Padding(0);
             this.rgb565_ck.Name = "rgb565_ck";
             this.rgb565_ck.Size = new System.Drawing.Size(64, 64);
+            this.rgb565_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.rgb565_ck.TabIndex = 215;
             this.rgb565_ck.TabStop = false;
             this.rgb565_ck.Click += new System.EventHandler(this.RGB565_Click);
@@ -5974,6 +6022,7 @@ namespace plt0_gui
             this.ai8_ck.Margin = new System.Windows.Forms.Padding(0);
             this.ai8_ck.Name = "ai8_ck";
             this.ai8_ck.Size = new System.Drawing.Size(64, 64);
+            this.ai8_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.ai8_ck.TabIndex = 212;
             this.ai8_ck.TabStop = false;
             this.ai8_ck.Click += new System.EventHandler(this.AI8_Click);
@@ -6007,6 +6056,7 @@ namespace plt0_gui
             this.ai4_ck.Margin = new System.Windows.Forms.Padding(0);
             this.ai4_ck.Name = "ai4_ck";
             this.ai4_ck.Size = new System.Drawing.Size(64, 64);
+            this.ai4_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.ai4_ck.TabIndex = 209;
             this.ai4_ck.TabStop = false;
             this.ai4_ck.Click += new System.EventHandler(this.AI4_Click);
@@ -6040,6 +6090,7 @@ namespace plt0_gui
             this.i8_ck.Margin = new System.Windows.Forms.Padding(0);
             this.i8_ck.Name = "i8_ck";
             this.i8_ck.Size = new System.Drawing.Size(64, 64);
+            this.i8_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.i8_ck.TabIndex = 206;
             this.i8_ck.TabStop = false;
             this.i8_ck.Click += new System.EventHandler(this.I8_Click);
@@ -6073,6 +6124,7 @@ namespace plt0_gui
             this.i4_ck.Margin = new System.Windows.Forms.Padding(0);
             this.i4_ck.Name = "i4_ck";
             this.i4_ck.Size = new System.Drawing.Size(64, 64);
+            this.i4_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.i4_ck.TabIndex = 203;
             this.i4_ck.TabStop = false;
             this.i4_ck.Click += new System.EventHandler(this.I4_Click);
@@ -6119,6 +6171,7 @@ namespace plt0_gui
             this.surrounding_ck.Margin = new System.Windows.Forms.Padding(0);
             this.surrounding_ck.Name = "surrounding_ck";
             this.surrounding_ck.Size = new System.Drawing.Size(453, 840);
+            this.surrounding_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.surrounding_ck.TabIndex = 234;
             this.surrounding_ck.TabStop = false;
             // 
@@ -6132,6 +6185,7 @@ namespace plt0_gui
             this.no_gradient_ck.Margin = new System.Windows.Forms.Padding(0);
             this.no_gradient_ck.Name = "no_gradient_ck";
             this.no_gradient_ck.Size = new System.Drawing.Size(64, 64);
+            this.no_gradient_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.no_gradient_ck.TabIndex = 247;
             this.no_gradient_ck.TabStop = false;
             this.no_gradient_ck.Visible = false;
@@ -6167,6 +6221,7 @@ namespace plt0_gui
             this.custom_ck.Margin = new System.Windows.Forms.Padding(0);
             this.custom_ck.Name = "custom_ck";
             this.custom_ck.Size = new System.Drawing.Size(64, 64);
+            this.custom_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.custom_ck.TabIndex = 244;
             this.custom_ck.TabStop = false;
             this.custom_ck.Click += new System.EventHandler(this.Custom_Click);
@@ -6200,6 +6255,7 @@ namespace plt0_gui
             this.cie_709_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cie_709_ck.Name = "cie_709_ck";
             this.cie_709_ck.Size = new System.Drawing.Size(64, 64);
+            this.cie_709_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.cie_709_ck.TabIndex = 241;
             this.cie_709_ck.TabStop = false;
             this.cie_709_ck.Click += new System.EventHandler(this.Cie_709_Click);
@@ -6233,6 +6289,7 @@ namespace plt0_gui
             this.cie_601_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cie_601_ck.Name = "cie_601_ck";
             this.cie_601_ck.Size = new System.Drawing.Size(64, 64);
+            this.cie_601_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.cie_601_ck.TabIndex = 238;
             this.cie_601_ck.TabStop = false;
             this.cie_601_ck.Click += new System.EventHandler(this.Cie_601_Click);
@@ -6278,6 +6335,7 @@ namespace plt0_gui
             this.mix_ck.Margin = new System.Windows.Forms.Padding(0);
             this.mix_ck.Name = "mix_ck";
             this.mix_ck.Size = new System.Drawing.Size(64, 64);
+            this.mix_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.mix_ck.TabIndex = 257;
             this.mix_ck.TabStop = false;
             this.mix_ck.Click += new System.EventHandler(this.Mix_Click);
@@ -6311,6 +6369,7 @@ namespace plt0_gui
             this.alpha_ck.Margin = new System.Windows.Forms.Padding(0);
             this.alpha_ck.Name = "alpha_ck";
             this.alpha_ck.Size = new System.Drawing.Size(64, 64);
+            this.alpha_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.alpha_ck.TabIndex = 254;
             this.alpha_ck.TabStop = false;
             this.alpha_ck.Click += new System.EventHandler(this.Alpha_Click);
@@ -6344,6 +6403,7 @@ namespace plt0_gui
             this.no_alpha_ck.Margin = new System.Windows.Forms.Padding(0);
             this.no_alpha_ck.Name = "no_alpha_ck";
             this.no_alpha_ck.Size = new System.Drawing.Size(64, 64);
+            this.no_alpha_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.no_alpha_ck.TabIndex = 251;
             this.no_alpha_ck.TabStop = false;
             this.no_alpha_ck.Click += new System.EventHandler(this.No_alpha_Click);
@@ -6390,6 +6450,7 @@ namespace plt0_gui
             this.Tmirror_ck.Margin = new System.Windows.Forms.Padding(0);
             this.Tmirror_ck.Name = "Tmirror_ck";
             this.Tmirror_ck.Size = new System.Drawing.Size(64, 64);
+            this.Tmirror_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.Tmirror_ck.TabIndex = 267;
             this.Tmirror_ck.TabStop = false;
             this.Tmirror_ck.Click += new System.EventHandler(this.WrapT_Mirror_Click);
@@ -6423,6 +6484,7 @@ namespace plt0_gui
             this.Trepeat_ck.Margin = new System.Windows.Forms.Padding(0);
             this.Trepeat_ck.Name = "Trepeat_ck";
             this.Trepeat_ck.Size = new System.Drawing.Size(64, 64);
+            this.Trepeat_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.Trepeat_ck.TabIndex = 264;
             this.Trepeat_ck.TabStop = false;
             this.Trepeat_ck.Click += new System.EventHandler(this.WrapT_Repeat_Click);
@@ -6456,6 +6518,7 @@ namespace plt0_gui
             this.Tclamp_ck.Margin = new System.Windows.Forms.Padding(0);
             this.Tclamp_ck.Name = "Tclamp_ck";
             this.Tclamp_ck.Size = new System.Drawing.Size(64, 64);
+            this.Tclamp_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.Tclamp_ck.TabIndex = 261;
             this.Tclamp_ck.TabStop = false;
             this.Tclamp_ck.Click += new System.EventHandler(this.WrapT_Clamp_Click);
@@ -6501,6 +6564,7 @@ namespace plt0_gui
             this.Smirror_ck.Margin = new System.Windows.Forms.Padding(0);
             this.Smirror_ck.Name = "Smirror_ck";
             this.Smirror_ck.Size = new System.Drawing.Size(64, 64);
+            this.Smirror_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.Smirror_ck.TabIndex = 277;
             this.Smirror_ck.TabStop = false;
             this.Smirror_ck.Click += new System.EventHandler(this.WrapS_Mirror_Click);
@@ -6534,6 +6598,7 @@ namespace plt0_gui
             this.Srepeat_ck.Margin = new System.Windows.Forms.Padding(0);
             this.Srepeat_ck.Name = "Srepeat_ck";
             this.Srepeat_ck.Size = new System.Drawing.Size(64, 64);
+            this.Srepeat_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.Srepeat_ck.TabIndex = 274;
             this.Srepeat_ck.TabStop = false;
             this.Srepeat_ck.Click += new System.EventHandler(this.WrapS_Repeat_Click);
@@ -6567,6 +6632,7 @@ namespace plt0_gui
             this.Sclamp_ck.Margin = new System.Windows.Forms.Padding(0);
             this.Sclamp_ck.Name = "Sclamp_ck";
             this.Sclamp_ck.Size = new System.Drawing.Size(64, 64);
+            this.Sclamp_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.Sclamp_ck.TabIndex = 271;
             this.Sclamp_ck.TabStop = false;
             this.Sclamp_ck.Click += new System.EventHandler(this.WrapS_Clamp_Click);
@@ -6636,6 +6702,7 @@ namespace plt0_gui
             this.min_linearmipmaplinear_ck.Margin = new System.Windows.Forms.Padding(0);
             this.min_linearmipmaplinear_ck.Name = "min_linearmipmaplinear_ck";
             this.min_linearmipmaplinear_ck.Size = new System.Drawing.Size(64, 64);
+            this.min_linearmipmaplinear_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.min_linearmipmaplinear_ck.TabIndex = 324;
             this.min_linearmipmaplinear_ck.TabStop = false;
             this.min_linearmipmaplinear_ck.Click += new System.EventHandler(this.Minification_LinearMipmapLinear_Click);
@@ -6669,6 +6736,7 @@ namespace plt0_gui
             this.min_linearmipmapnearest_ck.Margin = new System.Windows.Forms.Padding(0);
             this.min_linearmipmapnearest_ck.Name = "min_linearmipmapnearest_ck";
             this.min_linearmipmapnearest_ck.Size = new System.Drawing.Size(64, 64);
+            this.min_linearmipmapnearest_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.min_linearmipmapnearest_ck.TabIndex = 321;
             this.min_linearmipmapnearest_ck.TabStop = false;
             this.min_linearmipmapnearest_ck.Click += new System.EventHandler(this.Minification_LinearMipmapNearest_Click);
@@ -6702,6 +6770,7 @@ namespace plt0_gui
             this.min_nearestmipmaplinear_ck.Margin = new System.Windows.Forms.Padding(0);
             this.min_nearestmipmaplinear_ck.Name = "min_nearestmipmaplinear_ck";
             this.min_nearestmipmaplinear_ck.Size = new System.Drawing.Size(64, 64);
+            this.min_nearestmipmaplinear_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.min_nearestmipmaplinear_ck.TabIndex = 318;
             this.min_nearestmipmaplinear_ck.TabStop = false;
             this.min_nearestmipmaplinear_ck.Click += new System.EventHandler(this.Minification_NearestMipmapLinear_Click);
@@ -6735,6 +6804,7 @@ namespace plt0_gui
             this.min_nearestmipmapnearest_ck.Margin = new System.Windows.Forms.Padding(0);
             this.min_nearestmipmapnearest_ck.Name = "min_nearestmipmapnearest_ck";
             this.min_nearestmipmapnearest_ck.Size = new System.Drawing.Size(64, 64);
+            this.min_nearestmipmapnearest_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.min_nearestmipmapnearest_ck.TabIndex = 315;
             this.min_nearestmipmapnearest_ck.TabStop = false;
             this.min_nearestmipmapnearest_ck.Click += new System.EventHandler(this.Minification_NearestMipmapNearest_Click);
@@ -6768,6 +6838,7 @@ namespace plt0_gui
             this.min_linear_ck.Margin = new System.Windows.Forms.Padding(0);
             this.min_linear_ck.Name = "min_linear_ck";
             this.min_linear_ck.Size = new System.Drawing.Size(64, 64);
+            this.min_linear_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.min_linear_ck.TabIndex = 312;
             this.min_linear_ck.TabStop = false;
             this.min_linear_ck.Click += new System.EventHandler(this.Minification_Linear_Click);
@@ -6801,6 +6872,7 @@ namespace plt0_gui
             this.min_nearest_neighbour_ck.Margin = new System.Windows.Forms.Padding(0);
             this.min_nearest_neighbour_ck.Name = "min_nearest_neighbour_ck";
             this.min_nearest_neighbour_ck.Size = new System.Drawing.Size(64, 64);
+            this.min_nearest_neighbour_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.min_nearest_neighbour_ck.TabIndex = 309;
             this.min_nearest_neighbour_ck.TabStop = false;
             this.min_nearest_neighbour_ck.Click += new System.EventHandler(this.Minification_Nearest_Neighbour_Click);
@@ -6834,6 +6906,7 @@ namespace plt0_gui
             this.mag_linearmipmaplinear_ck.Margin = new System.Windows.Forms.Padding(0);
             this.mag_linearmipmaplinear_ck.Name = "mag_linearmipmaplinear_ck";
             this.mag_linearmipmaplinear_ck.Size = new System.Drawing.Size(64, 64);
+            this.mag_linearmipmaplinear_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.mag_linearmipmaplinear_ck.TabIndex = 342;
             this.mag_linearmipmaplinear_ck.TabStop = false;
             this.mag_linearmipmaplinear_ck.Click += new System.EventHandler(this.Magnification_LinearMipmapLinear_Click);
@@ -6867,6 +6940,7 @@ namespace plt0_gui
             this.mag_linearmipmapnearest_ck.Margin = new System.Windows.Forms.Padding(0);
             this.mag_linearmipmapnearest_ck.Name = "mag_linearmipmapnearest_ck";
             this.mag_linearmipmapnearest_ck.Size = new System.Drawing.Size(64, 64);
+            this.mag_linearmipmapnearest_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.mag_linearmipmapnearest_ck.TabIndex = 339;
             this.mag_linearmipmapnearest_ck.TabStop = false;
             this.mag_linearmipmapnearest_ck.Click += new System.EventHandler(this.Magnification_LinearMipmapNearest_Click);
@@ -6900,6 +6974,7 @@ namespace plt0_gui
             this.mag_nearestmipmaplinear_ck.Margin = new System.Windows.Forms.Padding(0);
             this.mag_nearestmipmaplinear_ck.Name = "mag_nearestmipmaplinear_ck";
             this.mag_nearestmipmaplinear_ck.Size = new System.Drawing.Size(64, 64);
+            this.mag_nearestmipmaplinear_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.mag_nearestmipmaplinear_ck.TabIndex = 336;
             this.mag_nearestmipmaplinear_ck.TabStop = false;
             this.mag_nearestmipmaplinear_ck.Click += new System.EventHandler(this.Magnification_NearestMipmapLinear_Click);
@@ -6933,6 +7008,7 @@ namespace plt0_gui
             this.mag_nearestmipmapnearest_ck.Margin = new System.Windows.Forms.Padding(0);
             this.mag_nearestmipmapnearest_ck.Name = "mag_nearestmipmapnearest_ck";
             this.mag_nearestmipmapnearest_ck.Size = new System.Drawing.Size(64, 64);
+            this.mag_nearestmipmapnearest_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.mag_nearestmipmapnearest_ck.TabIndex = 333;
             this.mag_nearestmipmapnearest_ck.TabStop = false;
             this.mag_nearestmipmapnearest_ck.Click += new System.EventHandler(this.Magnification_NearestMipmapNearest_Click);
@@ -6966,6 +7042,7 @@ namespace plt0_gui
             this.mag_linear_ck.Margin = new System.Windows.Forms.Padding(0);
             this.mag_linear_ck.Name = "mag_linear_ck";
             this.mag_linear_ck.Size = new System.Drawing.Size(64, 64);
+            this.mag_linear_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.mag_linear_ck.TabIndex = 330;
             this.mag_linear_ck.TabStop = false;
             this.mag_linear_ck.Click += new System.EventHandler(this.Magnification_Linear_Click);
@@ -6999,6 +7076,7 @@ namespace plt0_gui
             this.mag_nearest_neighbour_ck.Margin = new System.Windows.Forms.Padding(0);
             this.mag_nearest_neighbour_ck.Name = "mag_nearest_neighbour_ck";
             this.mag_nearest_neighbour_ck.Size = new System.Drawing.Size(64, 64);
+            this.mag_nearest_neighbour_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.mag_nearest_neighbour_ck.TabIndex = 327;
             this.mag_nearest_neighbour_ck.TabStop = false;
             this.mag_nearest_neighbour_ck.Click += new System.EventHandler(this.Magnification_Nearest_Neighbour_Click);
@@ -7032,6 +7110,7 @@ namespace plt0_gui
             this.r_r_ck.Margin = new System.Windows.Forms.Padding(0);
             this.r_r_ck.Name = "r_r_ck";
             this.r_r_ck.Size = new System.Drawing.Size(64, 64);
+            this.r_r_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.r_r_ck.TabIndex = 343;
             this.r_r_ck.TabStop = false;
             this.r_r_ck.Click += new System.EventHandler(this.R_R_Click);
@@ -7048,6 +7127,7 @@ namespace plt0_gui
             this.r_g_ck.Margin = new System.Windows.Forms.Padding(0);
             this.r_g_ck.Name = "r_g_ck";
             this.r_g_ck.Size = new System.Drawing.Size(64, 64);
+            this.r_g_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.r_g_ck.TabIndex = 344;
             this.r_g_ck.TabStop = false;
             this.r_g_ck.Click += new System.EventHandler(this.R_G_Click);
@@ -7064,6 +7144,7 @@ namespace plt0_gui
             this.g_r_ck.Margin = new System.Windows.Forms.Padding(0);
             this.g_r_ck.Name = "g_r_ck";
             this.g_r_ck.Size = new System.Drawing.Size(64, 64);
+            this.g_r_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.g_r_ck.TabIndex = 345;
             this.g_r_ck.TabStop = false;
             this.g_r_ck.Click += new System.EventHandler(this.G_R_Click);
@@ -7080,6 +7161,7 @@ namespace plt0_gui
             this.g_g_ck.Margin = new System.Windows.Forms.Padding(0);
             this.g_g_ck.Name = "g_g_ck";
             this.g_g_ck.Size = new System.Drawing.Size(64, 64);
+            this.g_g_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.g_g_ck.TabIndex = 346;
             this.g_g_ck.TabStop = false;
             this.g_g_ck.Click += new System.EventHandler(this.G_G_Click);
@@ -7096,6 +7178,7 @@ namespace plt0_gui
             this.a_g_ck.Margin = new System.Windows.Forms.Padding(0);
             this.a_g_ck.Name = "a_g_ck";
             this.a_g_ck.Size = new System.Drawing.Size(64, 64);
+            this.a_g_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.a_g_ck.TabIndex = 350;
             this.a_g_ck.TabStop = false;
             this.a_g_ck.Click += new System.EventHandler(this.A_G_Click);
@@ -7112,6 +7195,7 @@ namespace plt0_gui
             this.a_r_ck.Margin = new System.Windows.Forms.Padding(0);
             this.a_r_ck.Name = "a_r_ck";
             this.a_r_ck.Size = new System.Drawing.Size(64, 64);
+            this.a_r_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.a_r_ck.TabIndex = 349;
             this.a_r_ck.TabStop = false;
             this.a_r_ck.Click += new System.EventHandler(this.A_R_Click);
@@ -7128,6 +7212,7 @@ namespace plt0_gui
             this.b_g_ck.Margin = new System.Windows.Forms.Padding(0);
             this.b_g_ck.Name = "b_g_ck";
             this.b_g_ck.Size = new System.Drawing.Size(64, 64);
+            this.b_g_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.b_g_ck.TabIndex = 348;
             this.b_g_ck.TabStop = false;
             this.b_g_ck.Click += new System.EventHandler(this.B_G_Click);
@@ -7144,6 +7229,7 @@ namespace plt0_gui
             this.b_r_ck.Margin = new System.Windows.Forms.Padding(0);
             this.b_r_ck.Name = "b_r_ck";
             this.b_r_ck.Size = new System.Drawing.Size(64, 64);
+            this.b_r_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.b_r_ck.TabIndex = 347;
             this.b_r_ck.TabStop = false;
             this.b_r_ck.Click += new System.EventHandler(this.B_R_Click);
@@ -7160,6 +7246,7 @@ namespace plt0_gui
             this.g_a_ck.Margin = new System.Windows.Forms.Padding(0);
             this.g_a_ck.Name = "g_a_ck";
             this.g_a_ck.Size = new System.Drawing.Size(64, 64);
+            this.g_a_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.g_a_ck.TabIndex = 354;
             this.g_a_ck.TabStop = false;
             this.g_a_ck.Click += new System.EventHandler(this.G_A_Click);
@@ -7176,6 +7263,7 @@ namespace plt0_gui
             this.g_b_ck.Margin = new System.Windows.Forms.Padding(0);
             this.g_b_ck.Name = "g_b_ck";
             this.g_b_ck.Size = new System.Drawing.Size(64, 64);
+            this.g_b_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.g_b_ck.TabIndex = 353;
             this.g_b_ck.TabStop = false;
             this.g_b_ck.Click += new System.EventHandler(this.G_B_Click);
@@ -7192,6 +7280,7 @@ namespace plt0_gui
             this.r_a_ck.Margin = new System.Windows.Forms.Padding(0);
             this.r_a_ck.Name = "r_a_ck";
             this.r_a_ck.Size = new System.Drawing.Size(64, 64);
+            this.r_a_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.r_a_ck.TabIndex = 352;
             this.r_a_ck.TabStop = false;
             this.r_a_ck.Click += new System.EventHandler(this.R_A_Click);
@@ -7208,6 +7297,7 @@ namespace plt0_gui
             this.r_b_ck.Margin = new System.Windows.Forms.Padding(0);
             this.r_b_ck.Name = "r_b_ck";
             this.r_b_ck.Size = new System.Drawing.Size(64, 64);
+            this.r_b_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.r_b_ck.TabIndex = 351;
             this.r_b_ck.TabStop = false;
             this.r_b_ck.Click += new System.EventHandler(this.R_B_Click);
@@ -7224,6 +7314,7 @@ namespace plt0_gui
             this.a_a_ck.Margin = new System.Windows.Forms.Padding(0);
             this.a_a_ck.Name = "a_a_ck";
             this.a_a_ck.Size = new System.Drawing.Size(64, 64);
+            this.a_a_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.a_a_ck.TabIndex = 358;
             this.a_a_ck.TabStop = false;
             this.a_a_ck.Click += new System.EventHandler(this.A_A_Click);
@@ -7240,6 +7331,7 @@ namespace plt0_gui
             this.a_b_ck.Margin = new System.Windows.Forms.Padding(0);
             this.a_b_ck.Name = "a_b_ck";
             this.a_b_ck.Size = new System.Drawing.Size(64, 64);
+            this.a_b_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.a_b_ck.TabIndex = 357;
             this.a_b_ck.TabStop = false;
             this.a_b_ck.Click += new System.EventHandler(this.A_B_Click);
@@ -7256,6 +7348,7 @@ namespace plt0_gui
             this.b_a_ck.Margin = new System.Windows.Forms.Padding(0);
             this.b_a_ck.Name = "b_a_ck";
             this.b_a_ck.Size = new System.Drawing.Size(64, 64);
+            this.b_a_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.b_a_ck.TabIndex = 356;
             this.b_a_ck.TabStop = false;
             this.b_a_ck.Click += new System.EventHandler(this.B_A_Click);
@@ -7272,6 +7365,7 @@ namespace plt0_gui
             this.b_b_ck.Margin = new System.Windows.Forms.Padding(0);
             this.b_b_ck.Name = "b_b_ck";
             this.b_b_ck.Size = new System.Drawing.Size(64, 64);
+            this.b_b_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.b_b_ck.TabIndex = 355;
             this.b_b_ck.TabStop = false;
             this.b_b_ck.Click += new System.EventHandler(this.B_B_Click);
@@ -7300,6 +7394,7 @@ namespace plt0_gui
             this.view_alpha_ck.Margin = new System.Windows.Forms.Padding(0);
             this.view_alpha_ck.Name = "view_alpha_ck";
             this.view_alpha_ck.Size = new System.Drawing.Size(64, 64);
+            this.view_alpha_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.view_alpha_ck.TabIndex = 378;
             this.view_alpha_ck.TabStop = false;
             this.view_alpha_ck.Visible = false;
@@ -7335,6 +7430,7 @@ namespace plt0_gui
             this.view_algorithm_ck.Margin = new System.Windows.Forms.Padding(0);
             this.view_algorithm_ck.Name = "view_algorithm_ck";
             this.view_algorithm_ck.Size = new System.Drawing.Size(64, 64);
+            this.view_algorithm_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.view_algorithm_ck.TabIndex = 381;
             this.view_algorithm_ck.TabStop = false;
             this.view_algorithm_ck.Visible = false;
@@ -7370,6 +7466,7 @@ namespace plt0_gui
             this.view_WrapS_ck.Margin = new System.Windows.Forms.Padding(0);
             this.view_WrapS_ck.Name = "view_WrapS_ck";
             this.view_WrapS_ck.Size = new System.Drawing.Size(64, 64);
+            this.view_WrapS_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.view_WrapS_ck.TabIndex = 384;
             this.view_WrapS_ck.TabStop = false;
             this.view_WrapS_ck.Visible = false;
@@ -7405,6 +7502,7 @@ namespace plt0_gui
             this.view_WrapT_ck.Margin = new System.Windows.Forms.Padding(0);
             this.view_WrapT_ck.Name = "view_WrapT_ck";
             this.view_WrapT_ck.Size = new System.Drawing.Size(64, 64);
+            this.view_WrapT_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.view_WrapT_ck.TabIndex = 387;
             this.view_WrapT_ck.TabStop = false;
             this.view_WrapT_ck.Visible = false;
@@ -7440,6 +7538,7 @@ namespace plt0_gui
             this.view_mag_ck.Margin = new System.Windows.Forms.Padding(0);
             this.view_mag_ck.Name = "view_mag_ck";
             this.view_mag_ck.Size = new System.Drawing.Size(64, 64);
+            this.view_mag_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.view_mag_ck.TabIndex = 393;
             this.view_mag_ck.TabStop = false;
             this.view_mag_ck.Visible = false;
@@ -7475,6 +7574,7 @@ namespace plt0_gui
             this.view_min_ck.Margin = new System.Windows.Forms.Padding(0);
             this.view_min_ck.Name = "view_min_ck";
             this.view_min_ck.Size = new System.Drawing.Size(64, 64);
+            this.view_min_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.view_min_ck.TabIndex = 390;
             this.view_min_ck.TabStop = false;
             this.view_min_ck.Visible = false;
@@ -7511,6 +7611,7 @@ namespace plt0_gui
             this.banner_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_ck.Name = "banner_ck";
             this.banner_ck.Size = new System.Drawing.Size(1920, 32);
+            this.banner_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.banner_ck.TabIndex = 394;
             this.banner_ck.TabStop = false;
             // 
@@ -7524,6 +7625,7 @@ namespace plt0_gui
             this.all_ck.Margin = new System.Windows.Forms.Padding(0);
             this.all_ck.Name = "all_ck";
             this.all_ck.Size = new System.Drawing.Size(32, 32);
+            this.all_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.all_ck.TabIndex = 399;
             this.all_ck.TabStop = false;
             this.all_ck.Click += new System.EventHandler(this.All_Click);
@@ -7540,6 +7642,7 @@ namespace plt0_gui
             this.preview_ck.Margin = new System.Windows.Forms.Padding(0);
             this.preview_ck.Name = "preview_ck";
             this.preview_ck.Size = new System.Drawing.Size(96, 32);
+            this.preview_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.preview_ck.TabIndex = 400;
             this.preview_ck.TabStop = false;
             this.preview_ck.Click += new System.EventHandler(this.Preview_Click);
@@ -7556,6 +7659,7 @@ namespace plt0_gui
             this.auto_ck.Margin = new System.Windows.Forms.Padding(0);
             this.auto_ck.Name = "auto_ck";
             this.auto_ck.Size = new System.Drawing.Size(96, 32);
+            this.auto_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.auto_ck.TabIndex = 401;
             this.auto_ck.TabStop = false;
             this.auto_ck.Click += new System.EventHandler(this.Auto_Click);
@@ -7572,6 +7676,7 @@ namespace plt0_gui
             this.paint_ck.Margin = new System.Windows.Forms.Padding(0);
             this.paint_ck.Name = "paint_ck";
             this.paint_ck.Size = new System.Drawing.Size(96, 32);
+            this.paint_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.paint_ck.TabIndex = 402;
             this.paint_ck.TabStop = false;
             this.paint_ck.Click += new System.EventHandler(this.Paint_Click);
@@ -7588,6 +7693,7 @@ namespace plt0_gui
             this.banner_x_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_x_ck.Name = "banner_x_ck";
             this.banner_x_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_x_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.banner_x_ck.TabIndex = 404;
             this.banner_x_ck.TabStop = false;
             this.banner_x_ck.Click += new System.EventHandler(this.Close_Click);
@@ -7604,6 +7710,7 @@ namespace plt0_gui
             this.banner_f11_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_f11_ck.Name = "banner_f11_ck";
             this.banner_f11_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_f11_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.banner_f11_ck.TabIndex = 406;
             this.banner_f11_ck.TabStop = false;
             this.banner_f11_ck.Click += new System.EventHandler(this.Maximized_Click);
@@ -7620,6 +7727,7 @@ namespace plt0_gui
             this.banner_minus_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_minus_ck.Name = "banner_minus_ck";
             this.banner_minus_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_minus_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.banner_minus_ck.TabIndex = 408;
             this.banner_minus_ck.TabStop = false;
             this.banner_minus_ck.Click += new System.EventHandler(this.Minimized_Click);
@@ -7636,6 +7744,7 @@ namespace plt0_gui
             this.banner_9_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_9_ck.Name = "banner_9_ck";
             this.banner_9_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_9_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.banner_9_ck.TabIndex = 412;
             this.banner_9_ck.TabStop = false;
             this.banner_9_ck.Click += new System.EventHandler(this.Top_right_Click);
@@ -7652,6 +7761,7 @@ namespace plt0_gui
             this.banner_8_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_8_ck.Name = "banner_8_ck";
             this.banner_8_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_8_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.banner_8_ck.TabIndex = 414;
             this.banner_8_ck.TabStop = false;
             this.banner_8_ck.Click += new System.EventHandler(this.Top_Click);
@@ -7668,6 +7778,7 @@ namespace plt0_gui
             this.banner_7_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_7_ck.Name = "banner_7_ck";
             this.banner_7_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_7_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.banner_7_ck.TabIndex = 416;
             this.banner_7_ck.TabStop = false;
             this.banner_7_ck.Click += new System.EventHandler(this.Top_left_Click);
@@ -7684,6 +7795,7 @@ namespace plt0_gui
             this.banner_6_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_6_ck.Name = "banner_6_ck";
             this.banner_6_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_6_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.banner_6_ck.TabIndex = 418;
             this.banner_6_ck.TabStop = false;
             this.banner_6_ck.Click += new System.EventHandler(this.Right_Click);
@@ -7700,6 +7812,7 @@ namespace plt0_gui
             this.banner_4_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_4_ck.Name = "banner_4_ck";
             this.banner_4_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_4_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.banner_4_ck.TabIndex = 420;
             this.banner_4_ck.TabStop = false;
             this.banner_4_ck.Click += new System.EventHandler(this.Left_Click);
@@ -7716,6 +7829,7 @@ namespace plt0_gui
             this.banner_3_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_3_ck.Name = "banner_3_ck";
             this.banner_3_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_3_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.banner_3_ck.TabIndex = 422;
             this.banner_3_ck.TabStop = false;
             this.banner_3_ck.Click += new System.EventHandler(this.Bottom_right_Click);
@@ -7732,6 +7846,7 @@ namespace plt0_gui
             this.banner_2_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_2_ck.Name = "banner_2_ck";
             this.banner_2_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_2_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.banner_2_ck.TabIndex = 424;
             this.banner_2_ck.TabStop = false;
             this.banner_2_ck.Click += new System.EventHandler(this.Bottom_Click);
@@ -7748,6 +7863,7 @@ namespace plt0_gui
             this.banner_1_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_1_ck.Name = "banner_1_ck";
             this.banner_1_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_1_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.banner_1_ck.TabIndex = 426;
             this.banner_1_ck.TabStop = false;
             this.banner_1_ck.Click += new System.EventHandler(this.Bottom_left_Click);
@@ -7766,6 +7882,7 @@ namespace plt0_gui
             this.cli_textbox_ck.MinimumSize = new System.Drawing.Size(1472, 64);
             this.cli_textbox_ck.Name = "cli_textbox_ck";
             this.cli_textbox_ck.Size = new System.Drawing.Size(1472, 64);
+            this.cli_textbox_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.cli_textbox_ck.TabIndex = 427;
             this.cli_textbox_ck.TabStop = false;
             this.cli_textbox_ck.MouseEnter += new System.EventHandler(this.cli_textbox_MouseEnter);
@@ -7781,6 +7898,7 @@ namespace plt0_gui
             this.run_ck.Margin = new System.Windows.Forms.Padding(0);
             this.run_ck.Name = "run_ck";
             this.run_ck.Size = new System.Drawing.Size(128, 64);
+            this.run_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.run_ck.TabIndex = 428;
             this.run_ck.TabStop = false;
             this.run_ck.Click += new System.EventHandler(this.Run_Click);
@@ -8486,6 +8604,7 @@ namespace plt0_gui
             this.description_surrounding.Margin = new System.Windows.Forms.Padding(0);
             this.description_surrounding.Name = "description_surrounding";
             this.description_surrounding.Size = new System.Drawing.Size(512, 320);
+            this.description_surrounding.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.description_surrounding.TabIndex = 472;
             this.description_surrounding.TabStop = false;
             // 
@@ -8499,6 +8618,7 @@ namespace plt0_gui
             this.palette_rgb5a3_ck.Margin = new System.Windows.Forms.Padding(0);
             this.palette_rgb5a3_ck.Name = "palette_rgb5a3_ck";
             this.palette_rgb5a3_ck.Size = new System.Drawing.Size(64, 64);
+            this.palette_rgb5a3_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.palette_rgb5a3_ck.TabIndex = 482;
             this.palette_rgb5a3_ck.TabStop = false;
             this.palette_rgb5a3_ck.Click += new System.EventHandler(this.palette_RGB5A3_Click);
@@ -8532,6 +8652,7 @@ namespace plt0_gui
             this.palette_rgb565_ck.Margin = new System.Windows.Forms.Padding(0);
             this.palette_rgb565_ck.Name = "palette_rgb565_ck";
             this.palette_rgb565_ck.Size = new System.Drawing.Size(64, 64);
+            this.palette_rgb565_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.palette_rgb565_ck.TabIndex = 479;
             this.palette_rgb565_ck.TabStop = false;
             this.palette_rgb565_ck.Click += new System.EventHandler(this.palette_RGB565_Click);
@@ -8565,6 +8686,7 @@ namespace plt0_gui
             this.palette_ai8_ck.Margin = new System.Windows.Forms.Padding(0);
             this.palette_ai8_ck.Name = "palette_ai8_ck";
             this.palette_ai8_ck.Size = new System.Drawing.Size(64, 64);
+            this.palette_ai8_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.palette_ai8_ck.TabIndex = 476;
             this.palette_ai8_ck.TabStop = false;
             this.palette_ai8_ck.Click += new System.EventHandler(this.palette_AI8_Click);
@@ -8611,6 +8733,7 @@ namespace plt0_gui
             this.github_ck.Margin = new System.Windows.Forms.Padding(0);
             this.github_ck.Name = "github_ck";
             this.github_ck.Size = new System.Drawing.Size(32, 32);
+            this.github_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.github_ck.TabIndex = 484;
             this.github_ck.TabStop = false;
             this.github_ck.Click += new System.EventHandler(this.github_Click);
@@ -8627,6 +8750,7 @@ namespace plt0_gui
             this.youtube_ck.Margin = new System.Windows.Forms.Padding(0);
             this.youtube_ck.Name = "youtube_ck";
             this.youtube_ck.Size = new System.Drawing.Size(32, 32);
+            this.youtube_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.youtube_ck.TabIndex = 486;
             this.youtube_ck.TabStop = false;
             this.youtube_ck.Click += new System.EventHandler(this.youtube_Click);
@@ -8643,6 +8767,7 @@ namespace plt0_gui
             this.discord_ck.Margin = new System.Windows.Forms.Padding(0);
             this.discord_ck.Name = "discord_ck";
             this.discord_ck.Size = new System.Drawing.Size(32, 32);
+            this.discord_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.discord_ck.TabIndex = 488;
             this.discord_ck.TabStop = false;
             this.discord_ck.Click += new System.EventHandler(this.discord_Click);
@@ -8799,6 +8924,7 @@ namespace plt0_gui
             this.version_ck.Margin = new System.Windows.Forms.Padding(0);
             this.version_ck.Name = "version_ck";
             this.version_ck.Size = new System.Drawing.Size(64, 32);
+            this.version_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.version_ck.TabIndex = 543;
             this.version_ck.TabStop = false;
             this.version_ck.MouseEnter += new System.EventHandler(this.version_MouseEnter);
@@ -8830,6 +8956,7 @@ namespace plt0_gui
             this.view_rgba_ck.Margin = new System.Windows.Forms.Padding(0);
             this.view_rgba_ck.Name = "view_rgba_ck";
             this.view_rgba_ck.Size = new System.Drawing.Size(64, 64);
+            this.view_rgba_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.view_rgba_ck.TabIndex = 547;
             this.view_rgba_ck.TabStop = false;
             this.view_rgba_ck.Visible = false;
@@ -8865,6 +8992,7 @@ namespace plt0_gui
             this.view_palette_ck.Margin = new System.Windows.Forms.Padding(0);
             this.view_palette_ck.Name = "view_palette_ck";
             this.view_palette_ck.Size = new System.Drawing.Size(64, 64);
+            this.view_palette_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.view_palette_ck.TabIndex = 550;
             this.view_palette_ck.TabStop = false;
             this.view_palette_ck.Visible = false;
@@ -8900,6 +9028,7 @@ namespace plt0_gui
             this.view_cmpr_ck.Margin = new System.Windows.Forms.Padding(0);
             this.view_cmpr_ck.Name = "view_cmpr_ck";
             this.view_cmpr_ck.Size = new System.Drawing.Size(64, 64);
+            this.view_cmpr_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.view_cmpr_ck.TabIndex = 583;
             this.view_cmpr_ck.TabStop = false;
             this.view_cmpr_ck.Visible = false;
@@ -8935,6 +9064,7 @@ namespace plt0_gui
             this.view_options_ck.Margin = new System.Windows.Forms.Padding(0);
             this.view_options_ck.Name = "view_options_ck";
             this.view_options_ck.Size = new System.Drawing.Size(64, 64);
+            this.view_options_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.view_options_ck.TabIndex = 586;
             this.view_options_ck.TabStop = false;
             this.view_options_ck.Visible = false;
@@ -8988,6 +9118,7 @@ namespace plt0_gui
             this.textchange_ck.Margin = new System.Windows.Forms.Padding(0);
             this.textchange_ck.Name = "textchange_ck";
             this.textchange_ck.Size = new System.Drawing.Size(64, 64);
+            this.textchange_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.textchange_ck.TabIndex = 590;
             this.textchange_ck.TabStop = false;
             this.textchange_ck.Visible = false;
@@ -9023,6 +9154,7 @@ namespace plt0_gui
             this.auto_update_ck.Margin = new System.Windows.Forms.Padding(0);
             this.auto_update_ck.Name = "auto_update_ck";
             this.auto_update_ck.Size = new System.Drawing.Size(64, 64);
+            this.auto_update_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.auto_update_ck.TabIndex = 593;
             this.auto_update_ck.TabStop = false;
             this.auto_update_ck.Visible = false;
@@ -9058,6 +9190,7 @@ namespace plt0_gui
             this.sync_preview_ck.Margin = new System.Windows.Forms.Padding(0);
             this.sync_preview_ck.Name = "sync_preview_ck";
             this.sync_preview_ck.Size = new System.Drawing.Size(256, 48);
+            this.sync_preview_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.sync_preview_ck.TabIndex = 596;
             this.sync_preview_ck.TabStop = false;
             this.sync_preview_ck.Visible = false;
@@ -9075,6 +9208,7 @@ namespace plt0_gui
             this.upscale_ck.Margin = new System.Windows.Forms.Padding(0);
             this.upscale_ck.Name = "upscale_ck";
             this.upscale_ck.Size = new System.Drawing.Size(64, 64);
+            this.upscale_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.upscale_ck.TabIndex = 599;
             this.upscale_ck.TabStop = false;
             this.upscale_ck.Visible = false;
@@ -9145,6 +9279,7 @@ namespace plt0_gui
             this.preview4k_ck.Margin = new System.Windows.Forms.Padding(0);
             this.preview4k_ck.Name = "preview4k_ck";
             this.preview4k_ck.Size = new System.Drawing.Size(64, 64);
+            this.preview4k_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.preview4k_ck.TabIndex = 604;
             this.preview4k_ck.TabStop = false;
             // 
@@ -9158,6 +9293,7 @@ namespace plt0_gui
             this.reversex_ck.Margin = new System.Windows.Forms.Padding(0);
             this.reversex_ck.Name = "reversex_ck";
             this.reversex_ck.Size = new System.Drawing.Size(64, 64);
+            this.reversex_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.reversex_ck.TabIndex = 607;
             this.reversex_ck.TabStop = false;
             this.reversex_ck.Click += new System.EventHandler(this.reversex_Click);
@@ -9391,6 +9527,7 @@ namespace plt0_gui
             this.cmpr_swap_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_swap_ck.Name = "cmpr_swap_ck";
             this.cmpr_swap_ck.Size = new System.Drawing.Size(64, 64);
+            this.cmpr_swap_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.cmpr_swap_ck.TabIndex = 626;
             this.cmpr_swap_ck.TabStop = false;
             this.cmpr_swap_ck.Click += new System.EventHandler(this.Swap_Colours_Click);
@@ -9424,6 +9561,7 @@ namespace plt0_gui
             this.cmpr_block_paint_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_block_paint_ck.Name = "cmpr_block_paint_ck";
             this.cmpr_block_paint_ck.Size = new System.Drawing.Size(64, 64);
+            this.cmpr_block_paint_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.cmpr_block_paint_ck.TabIndex = 665;
             this.cmpr_block_paint_ck.TabStop = false;
             this.cmpr_block_paint_ck.Visible = false;
@@ -9459,6 +9597,7 @@ namespace plt0_gui
             this.cmpr_block_selection_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_block_selection_ck.Name = "cmpr_block_selection_ck";
             this.cmpr_block_selection_ck.Size = new System.Drawing.Size(64, 64);
+            this.cmpr_block_selection_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.cmpr_block_selection_ck.TabIndex = 662;
             this.cmpr_block_selection_ck.TabStop = false;
             this.cmpr_block_selection_ck.Visible = false;
@@ -9520,6 +9659,7 @@ namespace plt0_gui
             this.cmpr_save_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_save_ck.Name = "cmpr_save_ck";
             this.cmpr_save_ck.Size = new System.Drawing.Size(192, 64);
+            this.cmpr_save_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.cmpr_save_ck.TabIndex = 669;
             this.cmpr_save_ck.TabStop = false;
             this.cmpr_save_ck.Click += new System.EventHandler(this.cmpr_save_ck_Click);
@@ -9536,6 +9676,7 @@ namespace plt0_gui
             this.cmpr_save_as_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_save_as_ck.Name = "cmpr_save_as_ck";
             this.cmpr_save_as_ck.Size = new System.Drawing.Size(256, 64);
+            this.cmpr_save_as_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.cmpr_save_as_ck.TabIndex = 671;
             this.cmpr_save_as_ck.TabStop = false;
             this.cmpr_save_as_ck.Click += new System.EventHandler(this.cmpr_save_as_ck_Click);
@@ -9679,6 +9820,7 @@ namespace plt0_gui
             this.bmd_ck.Margin = new System.Windows.Forms.Padding(0);
             this.bmd_ck.Name = "bmd_ck";
             this.bmd_ck.Size = new System.Drawing.Size(64, 64);
+            this.bmd_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.bmd_ck.TabIndex = 126;
             this.bmd_ck.TabStop = false;
             this.bmd_ck.Click += new System.EventHandler(this.bmd_Click);
@@ -9781,6 +9923,7 @@ namespace plt0_gui
             this.name_string_ck.Margin = new System.Windows.Forms.Padding(0);
             this.name_string_ck.Name = "name_string_ck";
             this.name_string_ck.Size = new System.Drawing.Size(64, 64);
+            this.name_string_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.name_string_ck.TabIndex = 691;
             this.name_string_ck.TabStop = false;
             this.name_string_ck.Click += new System.EventHandler(this.name_string_Click);
@@ -9814,6 +9957,7 @@ namespace plt0_gui
             this.cmpr_swap2_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_swap2_ck.Name = "cmpr_swap2_ck";
             this.cmpr_swap2_ck.Size = new System.Drawing.Size(64, 64);
+            this.cmpr_swap2_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.cmpr_swap2_ck.TabIndex = 693;
             this.cmpr_swap2_ck.TabStop = false;
             this.cmpr_swap2_ck.Click += new System.EventHandler(this.cmpr_swap2_Click);
@@ -9847,6 +9991,7 @@ namespace plt0_gui
             this.cmpr_hover_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_hover_ck.Name = "cmpr_hover_ck";
             this.cmpr_hover_ck.Size = new System.Drawing.Size(64, 64);
+            this.cmpr_hover_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.cmpr_hover_ck.TabIndex = 696;
             this.cmpr_hover_ck.TabStop = false;
             this.cmpr_hover_ck.Click += new System.EventHandler(this.cmpr_hover_Click);
@@ -9880,6 +10025,7 @@ namespace plt0_gui
             this.cmpr_update_preview_ck.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_update_preview_ck.Name = "cmpr_update_preview_ck";
             this.cmpr_update_preview_ck.Size = new System.Drawing.Size(64, 64);
+            this.cmpr_update_preview_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.cmpr_update_preview_ck.TabIndex = 698;
             this.cmpr_update_preview_ck.TabStop = false;
             this.cmpr_update_preview_ck.Click += new System.EventHandler(this.cmpr_update_preview_Click);
@@ -9913,6 +10059,7 @@ namespace plt0_gui
             this.banner_global_move_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_global_move_ck.Name = "banner_global_move_ck";
             this.banner_global_move_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_global_move_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.banner_global_move_ck.TabIndex = 699;
             this.banner_global_move_ck.TabStop = false;
             this.banner_global_move_ck.Click += new System.EventHandler(this.banner_global_move_Click);
@@ -9929,6 +10076,7 @@ namespace plt0_gui
             this.banner_5_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_5_ck.Name = "banner_5_ck";
             this.banner_5_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_5_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.banner_5_ck.TabIndex = 700;
             this.banner_5_ck.TabStop = false;
             this.banner_5_ck.Click += new System.EventHandler(this.Arrow_1080p_Click);
@@ -9945,6 +10093,7 @@ namespace plt0_gui
             this.banner_11_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_11_ck.Name = "banner_11_ck";
             this.banner_11_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_11_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.banner_11_ck.TabIndex = 708;
             this.banner_11_ck.TabStop = false;
             this.banner_11_ck.Click += new System.EventHandler(this.Screen2_Bottom_left_Click);
@@ -9961,6 +10110,7 @@ namespace plt0_gui
             this.banner_12_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_12_ck.Name = "banner_12_ck";
             this.banner_12_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_12_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.banner_12_ck.TabIndex = 707;
             this.banner_12_ck.TabStop = false;
             this.banner_12_ck.Click += new System.EventHandler(this.Screen2_Bottom_Click);
@@ -9977,6 +10127,7 @@ namespace plt0_gui
             this.banner_13_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_13_ck.Name = "banner_13_ck";
             this.banner_13_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_13_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.banner_13_ck.TabIndex = 706;
             this.banner_13_ck.TabStop = false;
             this.banner_13_ck.Click += new System.EventHandler(this.Screen2_Bottom_right_Click);
@@ -9993,6 +10144,7 @@ namespace plt0_gui
             this.banner_14_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_14_ck.Name = "banner_14_ck";
             this.banner_14_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_14_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.banner_14_ck.TabIndex = 705;
             this.banner_14_ck.TabStop = false;
             this.banner_14_ck.Click += new System.EventHandler(this.Screen2_Left_Click);
@@ -10009,6 +10161,7 @@ namespace plt0_gui
             this.banner_16_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_16_ck.Name = "banner_16_ck";
             this.banner_16_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_16_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.banner_16_ck.TabIndex = 704;
             this.banner_16_ck.TabStop = false;
             this.banner_16_ck.Click += new System.EventHandler(this.Screen2_Right_Click);
@@ -10025,6 +10178,7 @@ namespace plt0_gui
             this.banner_17_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_17_ck.Name = "banner_17_ck";
             this.banner_17_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_17_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.banner_17_ck.TabIndex = 703;
             this.banner_17_ck.TabStop = false;
             this.banner_17_ck.Click += new System.EventHandler(this.Screen2_Top_left_Click);
@@ -10041,6 +10195,7 @@ namespace plt0_gui
             this.banner_18_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_18_ck.Name = "banner_18_ck";
             this.banner_18_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_18_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.banner_18_ck.TabIndex = 702;
             this.banner_18_ck.TabStop = false;
             this.banner_18_ck.Click += new System.EventHandler(this.Screen2_Top_Click);
@@ -10057,6 +10212,7 @@ namespace plt0_gui
             this.banner_19_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_19_ck.Name = "banner_19_ck";
             this.banner_19_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_19_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.banner_19_ck.TabIndex = 701;
             this.banner_19_ck.TabStop = false;
             this.banner_19_ck.Click += new System.EventHandler(this.Screen2_Top_right_Click);
@@ -10073,6 +10229,7 @@ namespace plt0_gui
             this.banner_15_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_15_ck.Name = "banner_15_ck";
             this.banner_15_ck.Size = new System.Drawing.Size(32, 32);
+            this.banner_15_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.banner_15_ck.TabIndex = 711;
             this.banner_15_ck.TabStop = false;
             this.banner_15_ck.Click += new System.EventHandler(this.Screen2_Arrow_1080p_Click);
@@ -10143,6 +10300,7 @@ namespace plt0_gui
             this.min_max_ck.Margin = new System.Windows.Forms.Padding(0);
             this.min_max_ck.Name = "min_max_ck";
             this.min_max_ck.Size = new System.Drawing.Size(64, 64);
+            this.min_max_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.min_max_ck.TabIndex = 717;
             this.min_max_ck.TabStop = false;
             this.min_max_ck.Visible = false;
@@ -10160,6 +10318,7 @@ namespace plt0_gui
             this.sooperbmd_ck.Margin = new System.Windows.Forms.Padding(0);
             this.sooperbmd_ck.Name = "sooperbmd_ck";
             this.sooperbmd_ck.Size = new System.Drawing.Size(64, 64);
+            this.sooperbmd_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.sooperbmd_ck.TabIndex = 715;
             this.sooperbmd_ck.TabStop = false;
             this.sooperbmd_ck.Visible = false;
@@ -10177,6 +10336,7 @@ namespace plt0_gui
             this.weemm_ck.Margin = new System.Windows.Forms.Padding(0);
             this.weemm_ck.Name = "weemm_ck";
             this.weemm_ck.Size = new System.Drawing.Size(64, 64);
+            this.weemm_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.weemm_ck.TabIndex = 713;
             this.weemm_ck.TabStop = false;
             this.weemm_ck.Visible = false;
@@ -10212,6 +10372,7 @@ namespace plt0_gui
             this.darkest_lightest_ck.Margin = new System.Windows.Forms.Padding(0);
             this.darkest_lightest_ck.Name = "darkest_lightest_ck";
             this.darkest_lightest_ck.Size = new System.Drawing.Size(64, 64);
+            this.darkest_lightest_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.darkest_lightest_ck.TabIndex = 719;
             this.darkest_lightest_ck.TabStop = false;
             this.darkest_lightest_ck.Visible = false;
@@ -10304,7 +10465,7 @@ namespace plt0_gui
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1284, 701);
+            this.ClientSize = new System.Drawing.Size(1871, 972);
             this.Controls.Add(this.darkest_lightest_label);
             this.Controls.Add(this.darkest_lightest_ck);
             this.Controls.Add(this.sooperbmd_label);
