@@ -4,8 +4,8 @@ Wii/GC texture encoder with palette support (png, jpeg, gif, bmp, tiff, tpl, tex
 this is a hybrid tool. launch it without specifying an input file or an encoding format and it'll launch the gui.
 you can then view the corresponding cli arguments of your command in the gui itself.
 
-![The app in the "All" Layout](../../../yoshi2999.github.io/blob/main/plt0-all.png?raw=true)
-![The app in the "Paint" Layout](../../../yoshi2999.github.io/blob/main/plt0-paint.png?raw=true)
+![The app in the "All" Layout](../../../yoshakami.github.io/blob/main/plt0-all.png?raw=true)
+![The app in the "Paint" Layout](../../../yoshakami.github.io/blob/main/plt0-paint.png?raw=true)
 
 The app has 4 Layouts:
 ### All: used to display everything even if it has no impact when encoding
@@ -48,6 +48,8 @@ v0.9: decode TPL files
 
 v1.0: GUI
 
+v1.1: Auto-Scale on Launch and on each F12 press
+
 ## why this project
 wimgt doesn't support textures with palette (or corrupts them), except tpl files. which prevents me from modding some wii games.
 
@@ -70,15 +72,17 @@ I ended up making lists of ushort arrays and an IComparer.
 ## Notes
 if you want to change the source code of GUI layout through the [Design] window, you'll need a 4k screen, since Visual Studio automatically resizes the app bounds to your screen size (Naughy VS!) and the whole screen is packed to the gills with GUI elements
 
-the whole GUI was made with only 3 elements : label, picturebox, and textbox
+the whole GUI was made with only 4 elements : Label, PictureBox, PictureBoxWithInterpolationMode and TextBox.
 
 the GUI opens if (input file = "")  or texture_format isn't specified<br>(which means that opening a texture with plt0.exe will decode it and output a bmp without showing the GUI)
+
+the GUI won't open if the folder `plt0 content` is missing next to the exe, or if a config file is missing. Everything is bundled in the release.
 
 I've spent the most time I have ever consumed for a decent CMPR Algorithm
 
 the python files were either used to generate C# code (functions launched on label hover or on click ), or to analyze C# code, and even to extract data from the code.
 
-* if you're skeptical about python being slow, run <a href="https://github.com/yoshi2999/plt0/blob/master/py/plt0.py">plt0.py</a> from the py folder and you'll notice it takes 20 minutes to encode an image to CI8 AI8. (You'll need to change "input_file" at the line 48 first)
+* if you're skeptical about python being slow, run <a href="https://github.com/yoshakami/plt0/blob/master/py/plt0.py">plt0.py</a> from the py folder and you'll notice it takes 20 minutes to encode an image to CI8 AI8. (You'll need to change "input_file" at the line 48 first)
 
 ## Colour Quantization algorithm
 First, create a Colour_table List of int array of 65536 entries with the number itself and the number of times it is used in the image.

@@ -16904,6 +16904,8 @@ namespace plt0_gui
                 Preview_Click(null, null);
             else if (e.KeyCode == Keys.F4)
                 Paint_Click(null, null);
+            else if (e.KeyCode == Keys.F7)  // the dev key to reload settings.txt
+                Load_settings();
             else if (e.KeyCode == Keys.F8)  // the dev key to reload all graphics
                 InitializeForm(false, false);
             else if (e.KeyCode == Keys.F9)  // the dev key to reload settings.txt and all graphics
@@ -16923,10 +16925,10 @@ namespace plt0_gui
                     banner_f11_ck.Image = maximized_on;
                 }
             }
-            else if (e.KeyCode == Keys.F12)  // the dev key to reload settings.txt
-                Load_settings();
+            else if (e.KeyCode == Keys.F12)
+                ResizePanels();
             else if (e.KeyCode == Keys.Clear)
-                Easter_Egg();  // God Luck finding this key :P
+                Easter_Egg();  // Good Luck finding this key :P
             else if (e.KeyCode == Keys.Escape)
                 Environment.Exit(0);
             else if (e.Control && e.KeyCode == Keys.Left)
