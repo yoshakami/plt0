@@ -1476,7 +1476,7 @@ namespace plt0_gui
             }
             if (args.Length > 70)
             {
-                cli_textbox_label.Location = cli_textbox_location;
+                cli_textbox_label.Location = new Point((int)(cli_textbox_location.X * width_ratio), (int)(cli_textbox_location.Y * height_ratio));
                 cli_textbox_label.Padding = cli_textbox_padding;
             }
             cli_textbox_label.Text = args;
@@ -1857,7 +1857,7 @@ namespace plt0_gui
             if (cmpr_layout_is_enabled)
                 Disable_Paint_Layout();
             all_layout_is_enabled = true;
-            options_label.Location = new Point(1674, 40);
+            options_label.Location = new Point((int)(1674 * width_ratio), (int)(40 * height_ratio));
             ask_exit_ck.Visible = true;
             ask_exit_label.Visible = true;
             layout = 0;
@@ -1989,7 +1989,7 @@ namespace plt0_gui
             description_surrounding.Visible = false;
             for (byte i = 0; i < 9; i++)
             {
-                desc[i].Location = new Point(desc[i].Location.X, desc[i].Location.Y + 600);
+                desc[i].Location = new Point((int)(desc[i].Location.X * width_ratio), (int)((desc[i].Location.Y + 600) * height_ratio));
             }
             preview_layout_is_enabled = true;
         }
@@ -2009,7 +2009,7 @@ namespace plt0_gui
             description_surrounding.Visible = true;
             for (byte i = 0; i < 9; i++)
             {
-                desc[i].Location = new Point(desc[i].Location.X, desc[i].Location.Y - 600);
+                desc[i].Location = new Point((int)(desc[i].Location.X * width_ratio), (int)((desc[i].Location.Y - 600) * height_ratio));
             }
             preview_layout_is_enabled = false;
         }
@@ -2017,7 +2017,7 @@ namespace plt0_gui
         {
             ask_exit_ck.Visible = false;
             ask_exit_label.Visible = false;
-            options_label.Location = new Point(1674, 96);
+            options_label.Location = new Point((int)(1674 * width_ratio), (int)(96 * height_ratio));
             all_layout_is_enabled = false;
         }
         private void Disable_Paint_Layout()
@@ -2158,16 +2158,48 @@ namespace plt0_gui
             tpl_label.Visible = true;
             for (byte i = 0; i < 9; i++)
             {
-                desc[i].Location = new Point(desc[i].Location.X + 300, desc[i].Location.Y - 100);
+                desc[i].Location = new Point((int)((desc[i].Location.X + 300) * width_ratio), (int)((desc[i].Location.Y - 100) * height_ratio));
             }
-            description_title.Location = new Point(description_title.Location.X + 300, description_title.Location.Y - 100);
-            description_surrounding.Location = new Point(description_surrounding.Location.X + 300, description_surrounding.Location.Y - 100);
+            /* description_title.Location = new Point((int)((description_title.Location.X + 300) * width_ratio), (int)((description_title.Location.Y - 100) * height_ratio));
+            description_surrounding.Location = new Point((int)((description_surrounding.Location.X + 300) * width_ratio), (int)((description_surrounding.Location.Y - 100) * height_ratio));
             input_file_label.Location = new Point(input_file_label.Location.X, input_file_label.Location.Y - 14);
             input_file_txt.Location = new Point(input_file_txt.Location.X, input_file_txt.Location.Y - 14);
             mipmaps_label.Location = new Point(mipmaps_label.Location.X + 180, mipmaps_label.Location.Y - 14);
             mipmaps_txt.Location = new Point(mipmaps_txt.Location.X + 180, mipmaps_txt.Location.Y - 14);
             output_name_label.Location = new Point(output_name_label.Location.X + 165, output_name_label.Location.Y - 14);
-            output_name_txt.Location = new Point(output_name_txt.Location.X + 165, output_name_txt.Location.Y - 14);
+            output_name_txt.Location = new Point(output_name_txt.Location.X + 165, output_name_txt.Location.Y - 14); */
+            description_title.Location = new Point(
+                (int)(((description_title.Location.X + 300) * width_ratio)),
+                (int)(((description_title.Location.Y - 100) * height_ratio)));
+
+            description_surrounding.Location = new Point(
+                (int)(((description_surrounding.Location.X + 300) * width_ratio)),
+                (int)(((description_surrounding.Location.Y - 100) * height_ratio)));
+
+            input_file_label.Location = new Point(
+                (int)(input_file_label.Location.X * width_ratio),
+                (int)((input_file_label.Location.Y - 14) * height_ratio));
+
+            input_file_txt.Location = new Point(
+                (int)(input_file_txt.Location.X * width_ratio),
+                (int)((input_file_txt.Location.Y - 14) * height_ratio));
+
+            mipmaps_label.Location = new Point(
+                (int)((mipmaps_label.Location.X + 180) * width_ratio),
+                (int)((mipmaps_label.Location.Y - 14) * height_ratio));
+
+            mipmaps_txt.Location = new Point(
+                (int)((mipmaps_txt.Location.X + 180) * width_ratio),
+                (int)((mipmaps_txt.Location.Y - 14) * height_ratio));
+
+            output_name_label.Location = new Point(
+                (int)((output_name_label.Location.X + 165) * width_ratio),
+                (int)((output_name_label.Location.Y - 14) * height_ratio));
+
+            output_name_txt.Location = new Point(
+                (int)((output_name_txt.Location.X + 165) * width_ratio),
+                (int)((output_name_txt.Location.Y - 14) * height_ratio));
+
         }
         private void Layout_Paint()
         {
@@ -2185,7 +2217,7 @@ namespace plt0_gui
                 cmpr_save_ck.Image = cmpr_save;
                 cmpr_save_as_ck.Image = cmpr_save_as;
                 cmpr_layout_is_in_place = true;
-                cmpr_c1.Location = new Point(cmpr_c1.Location.X - 1920, cmpr_c1.Location.Y);
+                /* cmpr_c1.Location = new Point(cmpr_c1.Location.X - 1920, cmpr_c1.Location.Y);
                 cmpr_c1_txt.Location = new Point(cmpr_c1_txt.Location.X - 1920, cmpr_c1_txt.Location.Y);
                 cmpr_c1_label.Location = new Point(cmpr_c1_label.Location.X - 1920, cmpr_c1_label.Location.Y);
                 cmpr_c2.Location = new Point(cmpr_c2.Location.X - 1920, cmpr_c2.Location.Y);
@@ -2226,7 +2258,176 @@ namespace plt0_gui
                 cmpr_hover_label.Location = new Point(cmpr_hover_label.Location.X - 1920, cmpr_hover_label.Location.Y);
                 cmpr_preview_ck.Location = new Point(cmpr_preview_ck.Location.X - 1920, cmpr_preview_ck.Location.Y);
                 cmpr_update_preview_ck.Location = new Point(cmpr_update_preview_ck.Location.X - 1920, cmpr_update_preview_ck.Location.Y);
-                cmpr_update_preview_label.Location = new Point(cmpr_update_preview_label.Location.X - 1920, cmpr_update_preview_label.Location.Y);
+                cmpr_update_preview_label.Location = new Point(cmpr_update_preview_label.Location.X - 1920, cmpr_update_preview_label.Location.Y); */
+
+                cmpr_c1.Location = new Point(
+                    (int)(((cmpr_c1.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_c1.Location.Y) * height_ratio)));
+
+                cmpr_c1_txt.Location = new Point(
+                    (int)(((cmpr_c1_txt.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_c1_txt.Location.Y) * height_ratio)));
+
+                cmpr_c1_label.Location = new Point(
+                    (int)(((cmpr_c1_label.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_c1_label.Location.Y) * height_ratio)));
+
+                cmpr_c2.Location = new Point(
+                    (int)(((cmpr_c2.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_c2.Location.Y) * height_ratio)));
+
+                cmpr_c2_txt.Location = new Point(
+                    (int)(((cmpr_c2_txt.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_c2_txt.Location.Y) * height_ratio)));
+
+                cmpr_c2_label.Location = new Point(
+                    (int)(((cmpr_c2_label.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_c2_label.Location.Y) * height_ratio)));
+
+                cmpr_c3.Location = new Point(
+                    (int)(((cmpr_c3.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_c3.Location.Y) * height_ratio)));
+
+                cmpr_c3_txt.Location = new Point(
+                    (int)(((cmpr_c3_txt.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_c3_txt.Location.Y) * height_ratio)));
+
+                cmpr_c3_label.Location = new Point(
+                    (int)(((cmpr_c3_label.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_c3_label.Location.Y) * height_ratio)));
+
+                cmpr_c4.Location = new Point(
+                    (int)(((cmpr_c4.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_c4.Location.Y) * height_ratio)));
+
+                cmpr_c4_txt.Location = new Point(
+                    (int)(((cmpr_c4_txt.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_c4_txt.Location.Y) * height_ratio)));
+
+                cmpr_c4_label.Location = new Point(
+                    (int)(((cmpr_c4_label.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_c4_label.Location.Y) * height_ratio)));
+
+                cmpr_sel.Location = new Point(
+                    (int)(((cmpr_sel.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_sel.Location.Y) * height_ratio)));
+
+                cmpr_sel_label.Location = new Point(
+                    (int)(((cmpr_sel_label.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_sel_label.Location.Y) * height_ratio)));
+
+                cmpr_swap_ck.Location = new Point(
+                    (int)(((cmpr_swap_ck.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_swap_ck.Location.Y) * height_ratio)));
+
+                cmpr_swap_label.Location = new Point(
+                    (int)(((cmpr_swap_label.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_swap_label.Location.Y) * height_ratio)));
+
+                cmpr_selected_block_label.Location = new Point(
+                    (int)(((cmpr_selected_block_label.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_selected_block_label.Location.Y) * height_ratio)));
+
+                cmpr_picture_tooltip_label.Location = new Point(
+                    (int)(((cmpr_picture_tooltip_label.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_picture_tooltip_label.Location.Y) * height_ratio)));
+
+                cmpr_block_selection_ck.Location = new Point(
+                    (int)(((cmpr_block_selection_ck.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_block_selection_ck.Location.Y) * height_ratio)));
+
+                cmpr_block_selection_label.Location = new Point(
+                    (int)(((cmpr_block_selection_label.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_block_selection_label.Location.Y) * height_ratio)));
+
+                cmpr_block_paint_ck.Location = new Point(
+                    (int)(((cmpr_block_paint_ck.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_block_paint_ck.Location.Y) * height_ratio)));
+
+                cmpr_block_paint_label.Location = new Point(
+                    (int)(((cmpr_block_paint_label.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_block_paint_label.Location.Y) * height_ratio)));
+
+                cmpr_save_ck.Location = new Point(
+                    (int)(((cmpr_save_ck.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_save_ck.Location.Y) * height_ratio)));
+
+                cmpr_save_as_ck.Location = new Point(
+                    (int)(((cmpr_save_as_ck.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_save_as_ck.Location.Y) * height_ratio)));
+
+                cmpr_warning.Location = new Point(
+                    (int)(((cmpr_warning.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_warning.Location.Y) * height_ratio)));
+
+                cmpr_mouse1_label.Location = new Point(
+                    (int)(((cmpr_mouse1_label.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_mouse1_label.Location.Y) * height_ratio)));
+
+                cmpr_mouse2_label.Location = new Point(
+                    (int)(((cmpr_mouse2_label.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_mouse2_label.Location.Y) * height_ratio)));
+
+                cmpr_mouse3_label.Location = new Point(
+                    (int)(((cmpr_mouse3_label.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_mouse3_label.Location.Y) * height_ratio)));
+
+                cmpr_mouse4_label.Location = new Point(
+                    (int)(((cmpr_mouse4_label.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_mouse4_label.Location.Y) * height_ratio)));
+
+                cmpr_mouse5_label.Location = new Point(
+                    (int)(((cmpr_mouse5_label.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_mouse5_label.Location.Y) * height_ratio)));
+
+                cmpr_grid_ck.Location = new Point(
+                    (int)(((cmpr_grid_ck.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_grid_ck.Location.Y) * height_ratio)));
+
+                cmpr_hover_colour.Location = new Point(
+                    (int)(((cmpr_hover_colour.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_hover_colour.Location.Y) * height_ratio)));
+
+                cmpr_hover_colour_label.Location = new Point(
+                    (int)(((cmpr_hover_colour_label.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_hover_colour_label.Location.Y) * height_ratio)));
+
+                cmpr_hover_colour_txt.Location = new Point(
+                    (int)(((cmpr_hover_colour_txt.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_hover_colour_txt.Location.Y) * height_ratio)));
+
+                cmpr_swap2_ck.Location = new Point(
+                    (int)(((cmpr_swap2_ck.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_swap2_ck.Location.Y) * height_ratio)));
+
+                cmpr_swap2_label.Location = new Point(
+                    (int)(((cmpr_swap2_label.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_swap2_label.Location.Y) * height_ratio)));
+
+                cmpr_palette.Location = new Point(
+                    (int)(((cmpr_palette.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_palette.Location.Y) * height_ratio)));
+
+                cmpr_hover_ck.Location = new Point(
+                    (int)(((cmpr_hover_ck.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_hover_ck.Location.Y) * height_ratio)));
+
+                cmpr_hover_label.Location = new Point(
+                    (int)(((cmpr_hover_label.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_hover_label.Location.Y) * height_ratio)));
+
+                cmpr_preview_ck.Location = new Point(
+                    (int)(((cmpr_preview_ck.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_preview_ck.Location.Y) * height_ratio)));
+
+                cmpr_update_preview_ck.Location = new Point(
+                    (int)(((cmpr_update_preview_ck.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_update_preview_ck.Location.Y) * height_ratio)));
+
+                cmpr_update_preview_label.Location = new Point(
+                    (int)(((cmpr_update_preview_label.Location.X - 1920) * width_ratio)),
+                    (int)(((cmpr_update_preview_label.Location.Y) * height_ratio)));
+
                 cmpr_colours_argb[8] = 255;
             }
             if (!cmpr_layout_is_enabled)
@@ -2383,7 +2584,7 @@ namespace plt0_gui
                 tpl_label.Visible = false;
                 for (byte i = 0; i < 9; i++)
                 {
-                    desc[i].Location = new Point(desc[i].Location.X - 300, desc[i].Location.Y + 100);
+                    desc[i].Location = new Point((int)((desc[i].Location.X - 300) * width_ratio), (int)((desc[i].Location.Y + 100) * height_ratio));
                 }
                 description_title.Location = new Point(description_title.Location.X - 300, description_title.Location.Y + 100);
                 description_surrounding.Location = new Point(description_surrounding.Location.X - 300, description_surrounding.Location.Y + 100);
@@ -2393,6 +2594,40 @@ namespace plt0_gui
                 mipmaps_txt.Location = new Point(mipmaps_txt.Location.X - 180, mipmaps_txt.Location.Y + 14);
                 output_name_label.Location = new Point(output_name_label.Location.X - 165, output_name_label.Location.Y + 14);
                 output_name_txt.Location = new Point(output_name_txt.Location.X - 165, output_name_txt.Location.Y + 14);
+
+
+                description_title.Location = new Point(
+                (int)(((description_title.Location.X - 300) * width_ratio)),
+                (int)(((description_title.Location.Y + 100) * height_ratio)));
+
+                description_surrounding.Location = new Point(
+                (int)(((description_surrounding.Location.X - 300) * width_ratio)),
+                (int)(((description_surrounding.Location.Y + 100) * height_ratio)));
+
+                input_file_label.Location = new Point(
+                (int)(input_file_label.Location.X * width_ratio),
+                (int)(((input_file_label.Location.Y + 14) * height_ratio)));
+
+                input_file_txt.Location = new Point(
+                (int)(input_file_txt.Location.X * width_ratio),
+                (int)(((input_file_txt.Location.Y + 14) * height_ratio)));
+
+                mipmaps_label.Location = new Point(
+                (int)(((mipmaps_label.Location.X - 180) * width_ratio)),
+                (int)(((mipmaps_label.Location.Y + 14) * height_ratio)));
+
+                mipmaps_txt.Location = new Point(
+                (int)(((mipmaps_txt.Location.X - 180) * width_ratio)),
+                (int)(((mipmaps_txt.Location.Y + 14) * height_ratio)));
+
+                output_name_label.Location = new Point(
+                (int)(((output_name_label.Location.X - 165) * width_ratio)),
+                (int)(((output_name_label.Location.Y + 14) * height_ratio)));
+
+                output_name_txt.Location = new Point(
+                (int)(((output_name_txt.Location.X - 165) * width_ratio)),
+                (int)(((output_name_txt.Location.Y + 14) * height_ratio)));
+
                 layout = 3;
             }
             Check_Paint();
@@ -4483,8 +4718,7 @@ namespace plt0_gui
                 Fill_Lists();
             if (load_settings_dot_tee_ekks_tee)
                 Load_settings();
-            // note:
-            this.image_ck.Location = new System.Drawing.Point(815, 96);
+            /* this.image_ck.Location = new System.Drawing.Point(815, 96);
             no_gradient_ck.Location = new System.Drawing.Point(500, 384);
             no_gradient_label.Location = new System.Drawing.Point(564, 384);
             weemm_ck.Location = new System.Drawing.Point(500, 448);
@@ -4492,7 +4726,44 @@ namespace plt0_gui
             sooperbmd_ck.Location = new System.Drawing.Point(500, 512);
             sooperbmd_label.Location = new System.Drawing.Point(564, 512);
             min_max_ck.Location = new System.Drawing.Point(500, 576);
-            min_max_label.Location = new System.Drawing.Point(564, 576);
+            min_max_label.Location = new System.Drawing.Point(564, 576); */
+
+            this.image_ck.Location = new System.Drawing.Point(
+                (int)((815 * width_ratio)),
+                (int)((96 * height_ratio)));
+
+            no_gradient_ck.Location = new System.Drawing.Point(
+            (int)((500 * width_ratio)),
+            (int)((384 * height_ratio)));
+
+            no_gradient_label.Location = new System.Drawing.Point(
+            (int)((564 * width_ratio)),
+            (int)((384 * height_ratio)));
+
+            weemm_ck.Location = new System.Drawing.Point(
+            (int)((500 * width_ratio)),
+            (int)((448 * height_ratio)));
+
+            weemm_label.Location = new System.Drawing.Point(
+            (int)((564 * width_ratio)),
+            (int)((448 * height_ratio)));
+
+            sooperbmd_ck.Location = new System.Drawing.Point(
+            (int)((500 * width_ratio)),
+            (int)((512 * height_ratio)));
+
+            sooperbmd_label.Location = new System.Drawing.Point(
+            (int)((564 * width_ratio)),
+            (int)((512 * height_ratio)));
+
+            min_max_ck.Location = new System.Drawing.Point(
+            (int)((500 * width_ratio)),
+            (int)((576 * height_ratio)));
+
+            min_max_label.Location = new System.Drawing.Point(
+            (int)((564 * width_ratio)),
+            (int)((576 * height_ratio)));
+
             bool delete_preview = true;
             if (Directory.Exists(execPath + "plt0 content/preview"))
             {
@@ -10467,10 +10738,9 @@ namespace plt0_gui
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1871, 972);
-            this.Controls.Add(this.darkest_lightest_label);
-            this.Controls.Add(this.darkest_lightest_ck);
+            this.ClientSize = new System.Drawing.Size(1871, 881);
             this.Controls.Add(this.sooperbmd_label);
+            this.Controls.Add(this.palette_label);
             this.Controls.Add(this.min_max_label);
             this.Controls.Add(this.weemm_label);
             this.Controls.Add(this.min_max_ck);
@@ -10551,6 +10821,20 @@ namespace plt0_gui
             this.Controls.Add(this.alpha_label);
             this.Controls.Add(this.ask_exit_ck);
             this.Controls.Add(this.ask_exit_label);
+            this.Controls.Add(this.funky_ck);
+            this.Controls.Add(this.FORCE_ALPHA_ck);
+            this.Controls.Add(this.mag_linearmipmaplinear_ck);
+            this.Controls.Add(this.mag_linearmipmapnearest_ck);
+            this.Controls.Add(this.mag_nearestmipmaplinear_ck);
+            this.Controls.Add(this.mag_nearestmipmapnearest_ck);
+            this.Controls.Add(this.mag_linear_ck);
+            this.Controls.Add(this.mag_nearest_neighbour_ck);
+            this.Controls.Add(this.min_linearmipmaplinear_ck);
+            this.Controls.Add(this.min_linearmipmapnearest_ck);
+            this.Controls.Add(this.min_nearestmipmaplinear_ck);
+            this.Controls.Add(this.min_nearestmipmapnearest_ck);
+            this.Controls.Add(this.min_linear_ck);
+            this.Controls.Add(this.min_nearest_neighbour_ck);
             this.Controls.Add(this.Tclamp_label);
             this.Controls.Add(this.Trepeat_label);
             this.Controls.Add(this.Tmirror_label);
@@ -10569,6 +10853,7 @@ namespace plt0_gui
             this.Controls.Add(this.min_nearestmipmaplinear_label);
             this.Controls.Add(this.min_linearmipmapnearest_label);
             this.Controls.Add(this.min_linearmipmaplinear_label);
+            this.Controls.Add(this.alpha_title);
             this.Controls.Add(this.cie_709_label);
             this.Controls.Add(this.custom_label);
             this.Controls.Add(this.no_gradient_label);
@@ -10585,23 +10870,21 @@ namespace plt0_gui
             this.Controls.Add(this.view_palette_label);
             this.Controls.Add(this.view_rgba_ck);
             this.Controls.Add(this.view_rgba_label);
-            this.Controls.Add(this.cli_textbox_label);
             this.Controls.Add(this.version_ck);
-            this.Controls.Add(this.output_label);
-            this.Controls.Add(this.desc9);
-            this.Controls.Add(this.desc8);
-            this.Controls.Add(this.desc7);
-            this.Controls.Add(this.desc6);
-            this.Controls.Add(this.desc5);
-            this.Controls.Add(this.desc4);
-            this.Controls.Add(this.desc3);
             this.Controls.Add(this.discord_ck);
             this.Controls.Add(this.youtube_ck);
             this.Controls.Add(this.github_ck);
+            this.Controls.Add(this.percentage2_label);
+            this.Controls.Add(this.percentage2_txt);
+            this.Controls.Add(this.percentage_label);
+            this.Controls.Add(this.percentage_txt);
+            this.Controls.Add(this.diversity2_label);
+            this.Controls.Add(this.diversity2_txt);
+            this.Controls.Add(this.diversity_label);
+            this.Controls.Add(this.diversity_txt);
             this.Controls.Add(this.palette_rgb5a3_ck);
             this.Controls.Add(this.palette_rgb5a3_label);
             this.Controls.Add(this.palette_rgb565_ck);
-            this.Controls.Add(this.palette_label);
             this.Controls.Add(this.description_title);
             this.Controls.Add(this.custom_rgba_label);
             this.Controls.Add(this.custom_a_label);
@@ -10628,14 +10911,6 @@ namespace plt0_gui
             this.Controls.Add(this.output_name_txt);
             this.Controls.Add(this.cmpr_max_label);
             this.Controls.Add(this.cmpr_max_txt);
-            this.Controls.Add(this.percentage2_label);
-            this.Controls.Add(this.percentage2_txt);
-            this.Controls.Add(this.percentage_label);
-            this.Controls.Add(this.percentage_txt);
-            this.Controls.Add(this.diversity2_label);
-            this.Controls.Add(this.diversity2_txt);
-            this.Controls.Add(this.diversity_label);
-            this.Controls.Add(this.diversity_txt);
             this.Controls.Add(this.mipmaps_label);
             this.Controls.Add(this.mipmaps_txt);
             this.Controls.Add(this.input_file2_label);
@@ -10643,7 +10918,6 @@ namespace plt0_gui
             this.Controls.Add(this.input_file_label);
             this.Controls.Add(this.input_file_txt);
             this.Controls.Add(this.run_ck);
-            this.Controls.Add(this.cli_textbox_ck);
             this.Controls.Add(this.banner_1_ck);
             this.Controls.Add(this.banner_2_ck);
             this.Controls.Add(this.banner_3_ck);
@@ -10688,18 +10962,6 @@ namespace plt0_gui
             this.Controls.Add(this.g_r_ck);
             this.Controls.Add(this.r_g_ck);
             this.Controls.Add(this.r_r_ck);
-            this.Controls.Add(this.mag_linearmipmaplinear_ck);
-            this.Controls.Add(this.mag_linearmipmapnearest_ck);
-            this.Controls.Add(this.mag_nearestmipmaplinear_ck);
-            this.Controls.Add(this.mag_nearestmipmapnearest_ck);
-            this.Controls.Add(this.mag_linear_ck);
-            this.Controls.Add(this.mag_nearest_neighbour_ck);
-            this.Controls.Add(this.min_linearmipmaplinear_ck);
-            this.Controls.Add(this.min_linearmipmapnearest_ck);
-            this.Controls.Add(this.min_nearestmipmaplinear_ck);
-            this.Controls.Add(this.min_nearestmipmapnearest_ck);
-            this.Controls.Add(this.min_linear_ck);
-            this.Controls.Add(this.min_nearest_neighbour_ck);
             this.Controls.Add(this.magnification_label);
             this.Controls.Add(this.minification_label);
             this.Controls.Add(this.Smirror_ck);
@@ -10710,10 +10972,11 @@ namespace plt0_gui
             this.Controls.Add(this.Trepeat_ck);
             this.Controls.Add(this.Tclamp_ck);
             this.Controls.Add(this.WrapT_label);
+            this.Controls.Add(this.darkest_lightest_label);
+            this.Controls.Add(this.darkest_lightest_ck);
             this.Controls.Add(this.mix_ck);
             this.Controls.Add(this.alpha_ck);
             this.Controls.Add(this.no_alpha_ck);
-            this.Controls.Add(this.alpha_title);
             this.Controls.Add(this.no_gradient_ck);
             this.Controls.Add(this.custom_ck);
             this.Controls.Add(this.cie_709_ck);
@@ -10754,9 +11017,7 @@ namespace plt0_gui
             this.Controls.Add(this.random_label);
             this.Controls.Add(this.no_warning_ck);
             this.Controls.Add(this.no_warning_label);
-            this.Controls.Add(this.funky_ck);
             this.Controls.Add(this.funky_label);
-            this.Controls.Add(this.FORCE_ALPHA_ck);
             this.Controls.Add(this.FORCE_ALPHA_label);
             this.Controls.Add(this.bmp_32_ck);
             this.Controls.Add(this.bmp_32_label);
@@ -10787,12 +11048,22 @@ namespace plt0_gui
             this.Controls.Add(this.bmd_label);
             this.Controls.Add(this.output_file_type_label);
             this.Controls.Add(this.view_min_label);
+            this.Controls.Add(this.cli_textbox_label);
+            this.Controls.Add(this.cli_textbox_ck);
+            this.Controls.Add(this.desc9);
+            this.Controls.Add(this.desc8);
+            this.Controls.Add(this.desc7);
+            this.Controls.Add(this.desc6);
+            this.Controls.Add(this.desc5);
+            this.Controls.Add(this.desc4);
+            this.Controls.Add(this.desc3);
             this.Controls.Add(this.desc2);
             this.Controls.Add(this.description);
             this.Controls.Add(this.description_surrounding);
             this.Controls.Add(this.banner_resize);
             this.Controls.Add(this.banner_move);
             this.Controls.Add(this.surrounding_ck);
+            this.Controls.Add(this.output_label);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.ForeColor = System.Drawing.SystemColors.ControlText;
@@ -14461,7 +14732,7 @@ namespace plt0_gui
             {
                 if (Screen.AllScreens[i].Bounds.X == 0)
                 {
-                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Height);
+                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Height);
                     this.Location = Screen.AllScreens[i].Bounds.Location;
                 }
             }
@@ -14507,7 +14778,7 @@ namespace plt0_gui
             {
                 if (Screen.AllScreens[i].Bounds.X == 0)
                 {
-                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Height / 2);
+                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Height >> 1);
                     this.Location = Screen.AllScreens[i].Bounds.Location;
                 }
             }
@@ -14553,7 +14824,7 @@ namespace plt0_gui
             {
                 if (Screen.AllScreens[i].Bounds.X == 0)
                 {
-                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width, Screen.AllScreens[i].Bounds.Height / 2);
+                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width, Screen.AllScreens[i].Bounds.Height >> 1);
                     this.Location = Screen.AllScreens[i].Bounds.Location;
                 }
             }
@@ -14599,8 +14870,8 @@ namespace plt0_gui
             {
                 if (Screen.AllScreens[i].Bounds.X == 0)
                 {
-                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Height / 2);
-                    this.Location = new Point(Screen.AllScreens[i].Bounds.X + Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Y);
+                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Height >> 1);
+                    this.Location = new Point(Screen.AllScreens[i].Bounds.X + Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Y);
                 }
             }
             banner_9_ck.Image = top_right_selected;
@@ -14645,8 +14916,8 @@ namespace plt0_gui
             {
                 if (Screen.AllScreens[i].Bounds.X == 0)
                 {
-                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Height);
-                    this.Location = new Point(Screen.AllScreens[i].Bounds.X + Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Y);
+                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Height);
+                    this.Location = new Point(Screen.AllScreens[i].Bounds.X + Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Y);
                 }
             }
             banner_6_ck.Image = right_selected;
@@ -14691,8 +14962,8 @@ namespace plt0_gui
             {
                 if (Screen.AllScreens[i].Bounds.X == 0)
                 {
-                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Height / 2);
-                    this.Location = new Point(Screen.AllScreens[i].Bounds.X + Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Y + Screen.AllScreens[i].Bounds.Height / 2);
+                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Height >> 1);
+                    this.Location = new Point(Screen.AllScreens[i].Bounds.X + Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Y + Screen.AllScreens[i].Bounds.Height >> 1);
                 }
             }
             banner_3_ck.Image = bottom_right_selected;
@@ -14737,8 +15008,8 @@ namespace plt0_gui
             {
                 if (Screen.AllScreens[i].Bounds.X == 0)
                 {
-                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width, Screen.AllScreens[i].Bounds.Height / 2);
-                    this.Location = new Point(Screen.AllScreens[i].Bounds.X, Screen.AllScreens[i].Bounds.Y + Screen.AllScreens[i].Bounds.Height / 2);
+                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width, Screen.AllScreens[i].Bounds.Height >> 1);
+                    this.Location = new Point(Screen.AllScreens[i].Bounds.X, Screen.AllScreens[i].Bounds.Y + Screen.AllScreens[i].Bounds.Height >> 1);
                 }
             }
             banner_2_ck.Image = bottom_selected;
@@ -14783,8 +15054,8 @@ namespace plt0_gui
             {
                 if (Screen.AllScreens[i].Bounds.X == 0)
                 {
-                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Height / 2);
-                    this.Location = new Point(Screen.AllScreens[i].Bounds.X, Screen.AllScreens[i].Bounds.Y + Screen.AllScreens[i].Bounds.Height / 2);
+                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Height >> 1);
+                    this.Location = new Point(Screen.AllScreens[i].Bounds.X, Screen.AllScreens[i].Bounds.Y + Screen.AllScreens[i].Bounds.Height >> 1);
                 }
             }
             banner_1_ck.Image = bottom_left_selected;
@@ -14875,7 +15146,7 @@ namespace plt0_gui
             {
                 if (Screen.AllScreens[i].Bounds.X != 0)
                 {
-                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Height);
+                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Height);
                     this.Location = Screen.AllScreens[i].Bounds.Location;
                 }
             }
@@ -14921,7 +15192,7 @@ namespace plt0_gui
             {
                 if (Screen.AllScreens[i].Bounds.X != 0)
                 {
-                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Height / 2);
+                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Height >> 1);
                     this.Location = Screen.AllScreens[i].Bounds.Location;
                 }
             }
@@ -14967,7 +15238,7 @@ namespace plt0_gui
             {
                 if (Screen.AllScreens[i].Bounds.X != 0)
                 {
-                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width, Screen.AllScreens[i].Bounds.Height / 2);
+                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width, Screen.AllScreens[i].Bounds.Height >> 1);
                     this.Location = Screen.AllScreens[i].Bounds.Location;
                 }
             }
@@ -15013,8 +15284,8 @@ namespace plt0_gui
             {
                 if (Screen.AllScreens[i].Bounds.X != 0)
                 {
-                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Height / 2);
-                    this.Location = new Point(Screen.AllScreens[i].Bounds.X + Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Y);
+                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Height >> 1);
+                    this.Location = new Point(Screen.AllScreens[i].Bounds.X + Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Y);
                 }
             }
             banner_19_ck.Image = screen2_top_right_selected;
@@ -15059,8 +15330,8 @@ namespace plt0_gui
             {
                 if (Screen.AllScreens[i].Bounds.X != 0)
                 {
-                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Height);
-                    this.Location = new Point(Screen.AllScreens[i].Bounds.X + Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Y);
+                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Height);
+                    this.Location = new Point(Screen.AllScreens[i].Bounds.X + Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Y);
                 }
             }
             banner_16_ck.Image = screen2_right_selected;
@@ -15105,8 +15376,8 @@ namespace plt0_gui
             {
                 if (Screen.AllScreens[i].Bounds.X != 0)
                 {
-                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Height / 2);
-                    this.Location = new Point(Screen.AllScreens[i].Bounds.X + Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Y + Screen.AllScreens[i].Bounds.Height / 2);
+                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Height >> 1);
+                    this.Location = new Point(Screen.AllScreens[i].Bounds.X + Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Y + Screen.AllScreens[i].Bounds.Height >> 1);
                 }
             }
             banner_13_ck.Image = screen2_bottom_right_selected;
@@ -15151,8 +15422,8 @@ namespace plt0_gui
             {
                 if (Screen.AllScreens[i].Bounds.X != 0)
                 {
-                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width, Screen.AllScreens[i].Bounds.Height / 2);
-                    this.Location = new Point(Screen.AllScreens[i].Bounds.X, Screen.AllScreens[i].Bounds.Y + Screen.AllScreens[i].Bounds.Height / 2);
+                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width, Screen.AllScreens[i].Bounds.Height >> 1);
+                    this.Location = new Point(Screen.AllScreens[i].Bounds.X, Screen.AllScreens[i].Bounds.Y + Screen.AllScreens[i].Bounds.Height >> 1);
                 }
             }
             banner_12_ck.Image = screen2_bottom_selected;
@@ -15197,8 +15468,8 @@ namespace plt0_gui
             {
                 if (Screen.AllScreens[i].Bounds.X != 0)
                 {
-                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width / 2, Screen.AllScreens[i].Bounds.Height / 2);
-                    this.Location = new Point(Screen.AllScreens[i].Bounds.X, Screen.AllScreens[i].Bounds.Y + Screen.AllScreens[i].Bounds.Height / 2);
+                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Height >> 1);
+                    this.Location = new Point(Screen.AllScreens[i].Bounds.X, Screen.AllScreens[i].Bounds.Y + Screen.AllScreens[i].Bounds.Height >> 1);
                 }
             }
             banner_11_ck.Image = screen2_bottom_left_selected;
