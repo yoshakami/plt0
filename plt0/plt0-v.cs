@@ -220,6 +220,8 @@ namespace plt0_gui
         ushort selected_block_y;
         ushort blocks_wide;
         ushort blocks_tall;
+        ushort old_width = 1920; // every element is made for 1920 x 1080 at first
+        ushort old_height = 1080; // for reference before being resized.
         byte tooltip = 0;
         byte layout;
         byte arrow;
@@ -451,8 +453,7 @@ namespace plt0_gui
             plt0.NativeMethods.FreeConsole();
             InitializeComponent();
             this.SuspendLayout();
-            ResizePanels();
-            // this.Size = new Size(1920, 1080);
+            //this.Size = new Size(1920, 1080);
             InitializeForm();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -540,15 +541,29 @@ namespace plt0_gui
 
             //ApplyTranformedPoints(GetTranformedPoints());
 
-
+            // if the user made the app start on screen2 from the settings file but there's no screen2
+            if (Screen.AllScreens.Length == 1 && (this.ClientSize.Width > Screen.AllScreens[0].Bounds.Width || this.ClientSize.Height > Screen.AllScreens[0].Bounds.Height))
+            {  // then make it go full screen on the first display.
+                this.Size = new Size(Screen.AllScreens[0].Bounds.Width, Screen.AllScreens[0].Bounds.Height);
+            }
             // Update the bounds with the new size and location
-            width_ratio = Screen.PrimaryScreen.Bounds.Width / 1920.0;
-            height_ratio = Screen.PrimaryScreen.Bounds.Height / 1080.0;
-
+            width_ratio = (double)this.ClientSize.Width / old_width;
+            height_ratio = (double)this.ClientSize.Height / old_height;
+            old_width = (ushort)this.ClientSize.Width;
+            old_height = (ushort)this.ClientSize.Height;
             // SizeF item_ratio = new SizeF((float)width_ratio, (float)height_ratio);
             // I suppose the screen is in 16:9
             if (width_ratio != 1.0 || height_ratio != 1.0)
             {
+                Image image = this.BackgroundImage;
+                if (image != null)
+                {
+                    // Create a new resized image
+                    Image resizedImage = new Bitmap(image, (int)(image.Width * width_ratio), (int)(image.Height * height_ratio));
+
+                    // Assign the resized image to the PictureBox
+                    this.BackgroundImage = resizedImage;
+                }
                 foreach (Control control in Controls)
                 {
                     // Get the current bounds of the control
@@ -565,6 +580,8 @@ namespace plt0_gui
                     {
                         Label item = control as Label;
                         control.Bounds = new Rectangle(newX, newY, newWidth, newHeight);
+                        control.MaximumSize = new Size((int)(control.MaximumSize.Width * width_ratio), (int)(control.MaximumSize.Height * height_ratio));
+                        control.MinimumSize = new Size((int)(control.MinimumSize.Width * width_ratio), (int)(control.MinimumSize.Height * height_ratio));
                         item.Font = new Font(item.Font.Name, (float)(item.Font.Size * width_ratio), item.Font.Unit);
                     }
                     else if (control is TextBox)
@@ -582,7 +599,9 @@ namespace plt0_gui
                     {
                         PictureBox item = control as PictureBox;
                         control.Bounds = new Rectangle(newX, newY, newWidth, newHeight);
-                        Image image = item.Image;
+                        control.MaximumSize = new Size((int)(control.MaximumSize.Width * width_ratio), (int)(control.MaximumSize.Height * height_ratio));
+                        control.MinimumSize = new Size((int)(control.MinimumSize.Width * width_ratio), (int)(control.MinimumSize.Height * height_ratio));
+                        image = item.Image;
 
                         if (image != null)
                         {
@@ -3842,76 +3861,58 @@ namespace plt0_gui
                         // default
                         break;
                     case "LEFT":
-                        arrow = 4;
-                        banner_4_ck.Image = left_on;
+                        Left_Click(null, null);
                         break;
                     case "TOP_LEFT":
-                        arrow = 7;
-                        banner_7_ck.Image = top_left_on;
+                        Top_left_Click(null, null);
                         break;
                     case "TOP":
-                        arrow = 8;
-                        banner_8_ck.Image = top_on;
+                        Top_Click(null, null);
                         break;
                     case "TOP_RIGHT":
-                        arrow = 9;
-                        banner_9_ck.Image = top_right_on;
+                        Top_right_Click(null, null);
                         break;
                     case "RIGHT":
-                        arrow = 6;
-                        banner_6_ck.Image = right_on;
+                        Right_Click(null, null);
                         break;
                     case "BOTTOM_RIGHT":
-                        arrow = 3;
-                        banner_3_ck.Image = bottom_right_on;
+                        Bottom_right_Click(null, null);
                         break;
                     case "BOTTOM":
-                        arrow = 2;
-                        banner_2_ck.Image = bottom_on;
+                        Bottom_Click(null, null);
                         break;
                     case "BOTTOM_LEFT":
-                        arrow = 1;
-                        banner_1_ck.Image = bottom_left_on;
+                        Bottom_left_Click(null, null);
                         break;
                     case "1080P":
-                        arrow = 5;
-                        banner_5_ck.Image = arrow_1080p_on;
+                        Arrow_1080p_Click(null, null);
                         break;
                     case "SCREEN2_LEFT":
-                        arrow = 14;
-                        banner_14_ck.Image = screen2_left_on;
+                        Screen2_Left_Click(null, null);
                         break;
                     case "SCREEN2_TOP_LEFT":
-                        arrow = 17;
-                        banner_17_ck.Image = screen2_top_left_on;
+                        Screen2_Top_left_Click(null, null);
                         break;
                     case "SCREEN2_TOP":
-                        arrow = 18;
-                        banner_18_ck.Image = screen2_top_on;
+                        Screen2_Top_Click(null, null);
                         break;
                     case "SCREEN2_TOP_RIGHT":
-                        arrow = 19;
-                        banner_19_ck.Image = screen2_top_right_on;
+                        Screen2_Top_right_Click(null, null);
                         break;
                     case "SCREEN2_RIGHT":
-                        arrow = 16;
-                        banner_16_ck.Image = screen2_right_on;
+                        Screen2_Right_Click(null, null);
                         break;
                     case "SCREEN2_BOTTOM_RIGHT":
-                        arrow = 13;
-                        banner_13_ck.Image = screen2_bottom_right_on;
+                        Screen2_Bottom_right_Click(null, null);
                         break;
                     case "SCREEN2_BOTTOM":
-                        arrow = 12;
-                        banner_12_ck.Image = screen2_bottom_on;
+                        Screen2_Bottom_Click(null, null);
                         break;
                     case "SCREEN2_BOTTOM_LEFT":
-                        arrow = 11;
-                        banner_11_ck.Image = screen2_bottom_left_on;
+                        Screen2_Bottom_left_Click(null, null);
                         break;
                     case "SCREEN2_1080P":
-                        arrow = 15;
-                        banner_15_ck.Image = screen2_arrow_1080p_on;
+                        Screen2_Arrow_1080p_Click(null, null);
                         break;
                 }
                 byte.TryParse(config[8], out GdiCharSet);
@@ -3973,6 +3974,7 @@ namespace plt0_gui
 
                 cmpr_hover_colour.BackColor = Color.FromName(config[18]);
 
+                ResizePanels();
                 Apply_Graphics();
                 Put_that_damn_cmpr_layout_in_place();
 
@@ -10738,14 +10740,15 @@ namespace plt0_gui
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1871, 881);
-            this.Controls.Add(this.sooperbmd_label);
-            this.Controls.Add(this.palette_label);
-            this.Controls.Add(this.min_max_label);
-            this.Controls.Add(this.weemm_label);
-            this.Controls.Add(this.min_max_ck);
-            this.Controls.Add(this.sooperbmd_ck);
-            this.Controls.Add(this.weemm_ck);
+            this.ClientSize = new System.Drawing.Size(3387, 1721);
+            this.Controls.Add(this.all_ck);
+            this.Controls.Add(this.auto_ck);
+            this.Controls.Add(this.preview_ck);
+            this.Controls.Add(this.paint_ck);
+            this.Controls.Add(this.version_ck);
+            this.Controls.Add(this.discord_ck);
+            this.Controls.Add(this.youtube_ck);
+            this.Controls.Add(this.github_ck);
             this.Controls.Add(this.banner_15_ck);
             this.Controls.Add(this.banner_11_ck);
             this.Controls.Add(this.banner_12_ck);
@@ -10757,6 +10760,27 @@ namespace plt0_gui
             this.Controls.Add(this.banner_19_ck);
             this.Controls.Add(this.banner_5_ck);
             this.Controls.Add(this.banner_global_move_ck);
+            this.Controls.Add(this.banner_1_ck);
+            this.Controls.Add(this.banner_2_ck);
+            this.Controls.Add(this.banner_3_ck);
+            this.Controls.Add(this.banner_4_ck);
+            this.Controls.Add(this.banner_6_ck);
+            this.Controls.Add(this.banner_7_ck);
+            this.Controls.Add(this.banner_8_ck);
+            this.Controls.Add(this.banner_9_ck);
+            this.Controls.Add(this.banner_minus_ck);
+            this.Controls.Add(this.banner_f11_ck);
+            this.Controls.Add(this.banner_x_ck);
+            this.Controls.Add(this.banner_ck);
+            this.Controls.Add(this.banner_resize);
+            this.Controls.Add(this.banner_move);
+            this.Controls.Add(this.sooperbmd_label);
+            this.Controls.Add(this.palette_label);
+            this.Controls.Add(this.min_max_label);
+            this.Controls.Add(this.weemm_label);
+            this.Controls.Add(this.min_max_ck);
+            this.Controls.Add(this.sooperbmd_ck);
+            this.Controls.Add(this.weemm_ck);
             this.Controls.Add(this.cmpr_update_preview_ck);
             this.Controls.Add(this.cmpr_update_preview_label);
             this.Controls.Add(this.cmpr_hover_ck);
@@ -10870,10 +10894,6 @@ namespace plt0_gui
             this.Controls.Add(this.view_palette_label);
             this.Controls.Add(this.view_rgba_ck);
             this.Controls.Add(this.view_rgba_label);
-            this.Controls.Add(this.version_ck);
-            this.Controls.Add(this.discord_ck);
-            this.Controls.Add(this.youtube_ck);
-            this.Controls.Add(this.github_ck);
             this.Controls.Add(this.percentage2_label);
             this.Controls.Add(this.percentage2_txt);
             this.Controls.Add(this.percentage_label);
@@ -10918,22 +10938,6 @@ namespace plt0_gui
             this.Controls.Add(this.input_file_label);
             this.Controls.Add(this.input_file_txt);
             this.Controls.Add(this.run_ck);
-            this.Controls.Add(this.banner_1_ck);
-            this.Controls.Add(this.banner_2_ck);
-            this.Controls.Add(this.banner_3_ck);
-            this.Controls.Add(this.banner_4_ck);
-            this.Controls.Add(this.banner_6_ck);
-            this.Controls.Add(this.banner_7_ck);
-            this.Controls.Add(this.banner_8_ck);
-            this.Controls.Add(this.banner_9_ck);
-            this.Controls.Add(this.banner_minus_ck);
-            this.Controls.Add(this.banner_f11_ck);
-            this.Controls.Add(this.banner_x_ck);
-            this.Controls.Add(this.paint_ck);
-            this.Controls.Add(this.auto_ck);
-            this.Controls.Add(this.preview_ck);
-            this.Controls.Add(this.all_ck);
-            this.Controls.Add(this.banner_ck);
             this.Controls.Add(this.view_mag_ck);
             this.Controls.Add(this.view_mag_label);
             this.Controls.Add(this.view_min_ck);
@@ -11060,8 +11064,6 @@ namespace plt0_gui
             this.Controls.Add(this.desc2);
             this.Controls.Add(this.description);
             this.Controls.Add(this.description_surrounding);
-            this.Controls.Add(this.banner_resize);
-            this.Controls.Add(this.banner_move);
             this.Controls.Add(this.surrounding_ck);
             this.Controls.Add(this.output_label);
             this.DoubleBuffered = true;
@@ -14702,7 +14704,7 @@ namespace plt0_gui
         {
             Parse_Markdown(d[82]);
             if (arrow == 4)
-                selected_Left();
+                banner_4_ck.Image = left_selected;
             else
                 hover_Left();
         }
@@ -14748,7 +14750,7 @@ namespace plt0_gui
         {
             Parse_Markdown(d[83]);
             if (arrow == 7)
-                selected_Top_left();
+                banner_7_ck.Image = top_left_selected;
             else
                 hover_Top_left();
         }
@@ -14794,7 +14796,7 @@ namespace plt0_gui
         {
             Parse_Markdown(d[84]);
             if (arrow == 8)
-                selected_Top();
+                banner_8_ck.Image = top_selected;
             else
                 hover_Top();
         }
@@ -14840,7 +14842,7 @@ namespace plt0_gui
         {
             Parse_Markdown(d[85]);
             if (arrow == 9)
-                selected_Top_right();
+                banner_9_ck.Image = top_right_selected;
             else
                 hover_Top_right();
         }
@@ -14886,7 +14888,7 @@ namespace plt0_gui
         {
             Parse_Markdown(d[86]);
             if (arrow == 6)
-                selected_Right();
+                banner_6_ck.Image = right_selected;
             else
                 hover_Right();
         }
@@ -14932,7 +14934,7 @@ namespace plt0_gui
         {
             Parse_Markdown(d[87]);
             if (arrow == 3)
-                selected_Bottom_right();
+                banner_3_ck.Image = bottom_right_selected;
             else
                 hover_Bottom_right();
         }
@@ -14978,7 +14980,7 @@ namespace plt0_gui
         {
             Parse_Markdown(d[88]);
             if (arrow == 2)
-                selected_Bottom();
+                banner_2_ck.Image = bottom_selected;
             else
                 hover_Bottom();
         }
@@ -15024,7 +15026,7 @@ namespace plt0_gui
         {
             Parse_Markdown(d[89]);
             if (arrow == 1)
-                selected_Bottom_left();
+                banner_1_ck.Image = bottom_left_selected;
             else
                 hover_Bottom_left();
         }
@@ -15070,7 +15072,7 @@ namespace plt0_gui
         {
             Parse_Markdown(d[90]);
             if (arrow == 5)
-                selected_Arrow_1080p();
+                banner_5_ck.Image = arrow_1080p_selected;
             else
                 hover_Arrow_1080p();
         }
@@ -15116,7 +15118,7 @@ namespace plt0_gui
         {
             Parse_Markdown(d[91]);
             if (arrow == 14)
-                selected_Screen2_Left();
+                banner_14_ck.Image = screen2_left_selected;
             else
                 hover_Screen2_Left();
         }
@@ -15162,7 +15164,7 @@ namespace plt0_gui
         {
             Parse_Markdown(d[92]);
             if (arrow == 17)
-                selected_Screen2_Top_left();
+                banner_17_ck.Image = screen2_top_left_selected;
             else
                 hover_Screen2_Top_left();
         }
@@ -15208,7 +15210,7 @@ namespace plt0_gui
         {
             Parse_Markdown(d[93]);
             if (arrow == 18)
-                selected_Screen2_Top();
+                banner_18_ck.Image = screen2_top_selected;
             else
                 hover_Screen2_Top();
         }
@@ -15254,7 +15256,7 @@ namespace plt0_gui
         {
             Parse_Markdown(d[94]);
             if (arrow == 19)
-                selected_Screen2_Top_right();
+                banner_19_ck.Image = screen2_top_right_selected;
             else
                 hover_Screen2_Top_right();
         }
@@ -15300,7 +15302,7 @@ namespace plt0_gui
         {
             Parse_Markdown(d[95]);
             if (arrow == 16)
-                selected_Screen2_Right();
+                banner_16_ck.Image = screen2_right_selected;
             else
                 hover_Screen2_Right();
         }
@@ -15346,7 +15348,7 @@ namespace plt0_gui
         {
             Parse_Markdown(d[96]);
             if (arrow == 13)
-                selected_Screen2_Bottom_right();
+                banner_13_ck.Image = screen2_bottom_right_selected;
             else
                 hover_Screen2_Bottom_right();
         }
@@ -15392,7 +15394,7 @@ namespace plt0_gui
         {
             Parse_Markdown(d[97]);
             if (arrow == 12)
-                selected_Screen2_Bottom();
+                banner_12_ck.Image = screen2_bottom_selected;
             else
                 hover_Screen2_Bottom();
         }
@@ -15438,7 +15440,7 @@ namespace plt0_gui
         {
             Parse_Markdown(d[98]);
             if (arrow == 11)
-                selected_Screen2_Bottom_left();
+                banner_11_ck.Image = screen2_bottom_left_selected;
             else
                 hover_Screen2_Bottom_left();
         }
@@ -15484,7 +15486,7 @@ namespace plt0_gui
         {
             Parse_Markdown(d[99]);
             if (arrow == 15)
-                selected_Screen2_Arrow_1080p();
+                banner_15_ck.Image = screen2_arrow_1080p_selected;
             else
                 hover_Screen2_Arrow_1080p();
         }
