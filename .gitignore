@@ -4,3 +4,5 @@ plt0/bin/*
 plt0/obj/*
 *.cache
 *.vsidx
+/py/test
+/plt0.exe
