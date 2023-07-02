@@ -6,3 +6,6 @@ plt0/obj/*
 *.vsidx
 /py/test
 /plt0.exe
+/plt0 content/preview
+/plt0.exe.config
+/plt0.pdb
