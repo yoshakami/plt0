@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("plt0")]
 [assembly: AssemblyDescription("texture encoder")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("I'm alone")]
+[assembly: AssemblyCompany("~")]
 [assembly: AssemblyProduct("encodes images to tex0")]
-[assembly: AssemblyCopyright("I did it for free")]
+[assembly: AssemblyCopyright("~~")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("d51e5403-2eae-43ef-8b0d-d8cecfce9154")]
+[assembly: Guid("b00b69ae-face-ace8-bed1-faded8008135")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.1.0.0")]
+[assembly: AssemblyFileVersion("1.1.0.0")]

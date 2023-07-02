@@ -170,10 +170,10 @@ will pick a colour\jwhen you click on a pixel\jof the preview picture\j\j\c Gree
 \c red Input file is not a CMPR texture
 \c yellow no. I told you already. You can't directly change Colour 3 or 4 
 \c white Sir, have you every wondered why there's no "A" in "RGB565" ?
-\c Turquoise saved \o
-\c AliceBlue save failed\n\o is used by another process
-(1, 1)
-(1, 2)
+save failed\n\n\c Red No cmpr texture loaded
+save failed\n\n\c Red No output name specified
+\c Green saved \n\o
+save failed\n\n\c Red \o is used by another process
 (1, 3)
 (1, 4)
 (2, 1)
@@ -187,7 +187,7 @@ will pick a colour\jwhen you click on a pixel\jof the preview picture\j\j\c Gree
 (4, 1)
 (4, 2)
 (4, 3)
-(4, 4)
+note: line 164 to line 176 are LABELS, not descriptions, so they can't take \j as argument, which results in only 1 colour, and only 1 font type for each.
 color, 16 bits per pixel - no alpha \j\c coral 5 bits red\j\c SpringGreen 6 bits green\j\c DeepSkyBlue 5 bits blue\j\c Violet  test\j\c pink test2\j\c orange text\j\c purple purple\j\c chartreuse chartreuse\c yellow yellow
 Hello \u ! you found an easter egg lol \n\ndid you know most apps have a folder in \a ?\j\j\j\n\n\c Red this one doesn't though. I prefer using local files.
 this is padding data to alignment. (meme)

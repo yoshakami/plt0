@@ -453,8 +453,9 @@ namespace plt0_gui
             plt0.NativeMethods.FreeConsole();
             InitializeComponent();
             this.SuspendLayout();
-            //this.Size = new Size(1920, 1080);
+            this.Size = new Size(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
             InitializeForm();
+
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -977,6 +978,13 @@ namespace plt0_gui
             desc7.Text = "";
             desc8.Text = "";
             desc9.Text = "";
+        }
+        private void invisible_description()
+        {
+            for (byte i = 1; i < 9; i++)
+            {
+                desc[i].Visible = false;
+            }
         }
         private void Parse_byte_text(TextBox txt, out byte output, byte max)
         {
@@ -2008,7 +2016,7 @@ namespace plt0_gui
             description_surrounding.Visible = false;
             for (byte i = 0; i < 9; i++)
             {
-                desc[i].Location = new Point((int)(desc[i].Location.X * width_ratio), (int)((desc[i].Location.Y + 600) * height_ratio));
+                desc[i].Location = new Point(desc[i].Location.X, (int)(desc[i].Location.Y + (600 * height_ratio)));
             }
             preview_layout_is_enabled = true;
         }
@@ -2028,7 +2036,7 @@ namespace plt0_gui
             description_surrounding.Visible = true;
             for (byte i = 0; i < 9; i++)
             {
-                desc[i].Location = new Point((int)(desc[i].Location.X * width_ratio), (int)((desc[i].Location.Y - 600) * height_ratio));
+                desc[i].Location = new Point(desc[i].Location.X, (int)(desc[i].Location.Y - (600 * height_ratio)));
             }
             preview_layout_is_enabled = false;
         }
@@ -2196,28 +2204,28 @@ namespace plt0_gui
                 (int)(((description_surrounding.Location.Y - 100) * height_ratio)));
 
             input_file_label.Location = new Point(
-                (int)(input_file_label.Location.X * width_ratio),
-                (int)((input_file_label.Location.Y - 14) * height_ratio));
+                input_file_label.Location.X,
+                (int)(input_file_label.Location.Y - (14 * height_ratio)));
 
             input_file_txt.Location = new Point(
-                (int)(input_file_txt.Location.X * width_ratio),
-                (int)((input_file_txt.Location.Y - 14) * height_ratio));
+                input_file_txt.Location.X,
+                (int)(input_file_txt.Location.Y - (14 * height_ratio)));
 
             mipmaps_label.Location = new Point(
-                (int)((mipmaps_label.Location.X + 180) * width_ratio),
-                (int)((mipmaps_label.Location.Y - 14) * height_ratio));
+                (int)(mipmaps_label.Location.X + (180 * width_ratio)),
+                (int)(mipmaps_label.Location.Y - (14 * height_ratio)));
 
             mipmaps_txt.Location = new Point(
-                (int)((mipmaps_txt.Location.X + 180) * width_ratio),
-                (int)((mipmaps_txt.Location.Y - 14) * height_ratio));
+                (int)(mipmaps_txt.Location.X + (180 * width_ratio)),
+                (int)(mipmaps_txt.Location.Y - (14 * height_ratio)));
 
             output_name_label.Location = new Point(
-                (int)((output_name_label.Location.X + 165) * width_ratio),
-                (int)((output_name_label.Location.Y - 14) * height_ratio));
+                (int)(output_name_label.Location.X + (165 * width_ratio)),
+                (int)(output_name_label.Location.Y - (14 * height_ratio)));
 
             output_name_txt.Location = new Point(
-                (int)((output_name_txt.Location.X + 165) * width_ratio),
-                (int)((output_name_txt.Location.Y - 14) * height_ratio));
+                (int)(output_name_txt.Location.X + (165 * width_ratio)),
+                (int)(output_name_txt.Location.Y - (14 * height_ratio)));
 
         }
         private void Layout_Paint()
@@ -2279,9 +2287,10 @@ namespace plt0_gui
                 cmpr_update_preview_ck.Location = new Point(cmpr_update_preview_ck.Location.X - 1920, cmpr_update_preview_ck.Location.Y);
                 cmpr_update_preview_label.Location = new Point(cmpr_update_preview_label.Location.X - 1920, cmpr_update_preview_label.Location.Y); */
 
+                // this is only called once, so it is correct to multiply the relative object location
                 cmpr_c1.Location = new Point(
                     (int)(((cmpr_c1.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_c1.Location.Y) * height_ratio)));
+                    (int)(((cmpr_c1.Location.Y) * height_ratio)));  // again : that IS correct
 
                 cmpr_c1_txt.Location = new Point(
                     (int)(((cmpr_c1_txt.Location.X - 1920) * width_ratio)),
@@ -2603,49 +2612,16 @@ namespace plt0_gui
                 tpl_label.Visible = false;
                 for (byte i = 0; i < 9; i++)
                 {
-                    desc[i].Location = new Point((int)((desc[i].Location.X - 300) * width_ratio), (int)((desc[i].Location.Y + 100) * height_ratio));
+                    desc[i].Location = new Point((int)(desc[i].Location.X - (300 * width_ratio)), (int)(desc[i].Location.Y + (100 * height_ratio)));
                 }
-                description_title.Location = new Point(description_title.Location.X - 300, description_title.Location.Y + 100);
-                description_surrounding.Location = new Point(description_surrounding.Location.X - 300, description_surrounding.Location.Y + 100);
-                input_file_label.Location = new Point(input_file_label.Location.X, input_file_label.Location.Y + 14);
-                input_file_txt.Location = new Point(input_file_txt.Location.X, input_file_txt.Location.Y + 14);
-                mipmaps_label.Location = new Point(mipmaps_label.Location.X - 180, mipmaps_label.Location.Y + 14);
-                mipmaps_txt.Location = new Point(mipmaps_txt.Location.X - 180, mipmaps_txt.Location.Y + 14);
-                output_name_label.Location = new Point(output_name_label.Location.X - 165, output_name_label.Location.Y + 14);
-                output_name_txt.Location = new Point(output_name_txt.Location.X - 165, output_name_txt.Location.Y + 14);
-
-
-                description_title.Location = new Point(
-                (int)(((description_title.Location.X - 300) * width_ratio)),
-                (int)(((description_title.Location.Y + 100) * height_ratio)));
-
-                description_surrounding.Location = new Point(
-                (int)(((description_surrounding.Location.X - 300) * width_ratio)),
-                (int)(((description_surrounding.Location.Y + 100) * height_ratio)));
-
-                input_file_label.Location = new Point(
-                (int)(input_file_label.Location.X * width_ratio),
-                (int)(((input_file_label.Location.Y + 14) * height_ratio)));
-
-                input_file_txt.Location = new Point(
-                (int)(input_file_txt.Location.X * width_ratio),
-                (int)(((input_file_txt.Location.Y + 14) * height_ratio)));
-
-                mipmaps_label.Location = new Point(
-                (int)(((mipmaps_label.Location.X - 180) * width_ratio)),
-                (int)(((mipmaps_label.Location.Y + 14) * height_ratio)));
-
-                mipmaps_txt.Location = new Point(
-                (int)(((mipmaps_txt.Location.X - 180) * width_ratio)),
-                (int)(((mipmaps_txt.Location.Y + 14) * height_ratio)));
-
-                output_name_label.Location = new Point(
-                (int)(((output_name_label.Location.X - 165) * width_ratio)),
-                (int)(((output_name_label.Location.Y + 14) * height_ratio)));
-
-                output_name_txt.Location = new Point(
-                (int)(((output_name_txt.Location.X - 165) * width_ratio)),
-                (int)(((output_name_txt.Location.Y + 14) * height_ratio)));
+                description_title.Location = new Point((int)(description_title.Location.X - (300 * width_ratio)), (int)(description_title.Location.Y + (100 * height_ratio)));
+                description_surrounding.Location = new Point((int)(description_surrounding.Location.X - (300 * width_ratio)), (int)(description_surrounding.Location.Y + (100 * height_ratio)));
+                input_file_label.Location = new Point(input_file_label.Location.X, (int)(input_file_label.Location.Y + (14 * height_ratio)));
+                input_file_txt.Location = new Point(input_file_txt.Location.X, (int)(input_file_txt.Location.Y + (14 * height_ratio)));
+                mipmaps_label.Location = new Point((int)(mipmaps_label.Location.X - (180 * width_ratio)), (int)(mipmaps_label.Location.Y + (14 * height_ratio)));
+                mipmaps_txt.Location = new Point((int)(mipmaps_txt.Location.X - (180 * width_ratio)), (int)(mipmaps_txt.Location.Y + (14 * height_ratio)));
+                output_name_label.Location = new Point((int)(output_name_label.Location.X - (165 * width_ratio)), (int)(output_name_label.Location.Y + (14 * height_ratio)));
+                output_name_txt.Location = new Point((int)(output_name_txt.Location.X - (165 * width_ratio)), (int)(output_name_txt.Location.Y + (14 * height_ratio)));
 
                 layout = 3;
             }
@@ -3818,37 +3794,6 @@ namespace plt0_gui
                         break; // idk what happens if you don't put a break on a case, but it won't compile otherwise
                 }
                 SetAllControlsFont((ControlCollection)this.Controls);
-                switch (config[2].ToUpper())
-                {
-                    case "ALL":
-                        checked_All();
-                        unchecked_Auto();
-                        unchecked_Preview();
-                        unchecked_Paint();
-                        Layout_All();
-                        break;
-                    case "AUTO":
-                        unchecked_All();
-                        checked_Auto();
-                        unchecked_Preview();
-                        unchecked_Paint();
-                        Layout_Auto();
-                        break;
-                    case "PREVIEW":
-                        unchecked_All();
-                        unchecked_Auto();
-                        checked_Preview();
-                        unchecked_Paint();
-                        Layout_Preview();
-                        break;
-                    case "PAINT":
-                        unchecked_All();
-                        unchecked_Auto();
-                        unchecked_Preview();
-                        checked_Paint();
-                        Layout_Paint();
-                        break;
-                }
                 switch (config[4].ToUpper())
                 {
                     case "MAXIMIZED":
@@ -3915,6 +3860,39 @@ namespace plt0_gui
                         Screen2_Arrow_1080p_Click(null, null);
                         break;
                 }
+                ResizePanels();
+
+                switch (config[2].ToUpper())
+                {
+                    case "ALL":
+                        checked_All();
+                        unchecked_Auto();
+                        unchecked_Preview();
+                        unchecked_Paint();
+                        Layout_All();
+                        break;
+                    case "AUTO":
+                        unchecked_All();
+                        checked_Auto();
+                        unchecked_Preview();
+                        unchecked_Paint();
+                        Layout_Auto();
+                        break;
+                    case "PREVIEW":
+                        unchecked_All();
+                        unchecked_Auto();
+                        checked_Preview();
+                        unchecked_Paint();
+                        Layout_Preview();
+                        break;
+                    case "PAINT":
+                        unchecked_All();
+                        unchecked_Auto();
+                        unchecked_Preview();
+                        checked_Paint();
+                        Layout_Paint();
+                        break;
+                }
                 byte.TryParse(config[8], out GdiCharSet);
 
                 input_file_txt.ForeColor = System.Drawing.Color.FromName(config[12]);
@@ -3974,7 +3952,6 @@ namespace plt0_gui
 
                 cmpr_hover_colour.BackColor = Color.FromName(config[18]);
 
-                ResizePanels();
                 Apply_Graphics();
                 Put_that_damn_cmpr_layout_in_place();
 
@@ -10741,10 +10718,14 @@ namespace plt0_gui
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(3387, 1721);
+            this.Controls.Add(this.banner_minus_ck);
+            this.Controls.Add(this.banner_f11_ck);
+            this.Controls.Add(this.banner_x_ck);
             this.Controls.Add(this.all_ck);
             this.Controls.Add(this.auto_ck);
             this.Controls.Add(this.preview_ck);
             this.Controls.Add(this.paint_ck);
+            this.Controls.Add(this.cmpr_warning);
             this.Controls.Add(this.version_ck);
             this.Controls.Add(this.discord_ck);
             this.Controls.Add(this.youtube_ck);
@@ -10768,9 +10749,6 @@ namespace plt0_gui
             this.Controls.Add(this.banner_7_ck);
             this.Controls.Add(this.banner_8_ck);
             this.Controls.Add(this.banner_9_ck);
-            this.Controls.Add(this.banner_minus_ck);
-            this.Controls.Add(this.banner_f11_ck);
-            this.Controls.Add(this.banner_x_ck);
             this.Controls.Add(this.banner_ck);
             this.Controls.Add(this.banner_resize);
             this.Controls.Add(this.banner_move);
@@ -10805,7 +10783,6 @@ namespace plt0_gui
             this.Controls.Add(this.cmpr_mouse2_label);
             this.Controls.Add(this.cmpr_mouse1_label);
             this.Controls.Add(this.cmpr_sel_label);
-            this.Controls.Add(this.cmpr_warning);
             this.Controls.Add(this.cmpr_save_as_ck);
             this.Controls.Add(this.cmpr_save_ck);
             this.Controls.Add(this.cmpr_selected_block_label);
@@ -17126,20 +17103,31 @@ namespace plt0_gui
         }
         private void Save_CMPR_Texture(string cmpr_filename)
         {
+            invisible_description();
+            if (cmpr_file == null)
+            {
+                Parse_Markdown(d[172], description);
+                return;
+            }
+            if (cmpr_filename == "")
+            {
+                Parse_Markdown(d[173], description);
+                return;
+            }
             try
             {
                 using (FileStream fs = new FileStream(cmpr_filename, FileMode.Create))
                 {
                     fs.Write(cmpr_file, 0, cmpr_file.Length);
                 }
-                Parse_Markdown(d[172], description);
+                Parse_Markdown(d[174], description);
             }
             catch (Exception ex)
             {
                 description.Text = ex.Message;
                 if (ex.Message.Substring(0, 34) == "The process cannot access the file")  // because it is being used by another process
                 {
-                    Parse_Markdown(d[173], description);
+                    Parse_Markdown(d[175], description);
                 }
             }
         }
@@ -17291,16 +17279,18 @@ namespace plt0_gui
 
         private void cmpr_palette_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.X < 0 || e.Y < 0 || e.X > 895 || e.Y > 64) // cmpr_palette.Image.width also works, it should be faster to directly enter the max dimensions
+            if (e.X < 0 || e.Y < 0 || e.X >= cmpr_palette.Width || e.Y >= cmpr_palette.Height) // cmpr_palette.Image.width also works, it should be faster to directly enter the max dimensions
                 return;
+            int x = (int)(e.X / width_ratio);
+            y = (int)(e.Y / height_ratio);
             // sooo, the clever idea is that I used a 32-bit bmp so I could use the bitshift << 2 for both x and y since all pixel are 4 bytes in size
             // another cool thing is that I purposefully made the bmp dimensions be 1024x64, so one line is 1024x4 pixels which is 1 << 10 << 2 which is 1 << 12
             // bitshifts are faster than multiplications.
             // the only downside to this is that it's taking a few more kb in the ram, though it greatly improves performance
             // 258170 = 1024*63*4 + 0x7a.    0x7a is the header length, also known as "pixel data start offset"
-            cmpr_rgb[0] = cmpr_gradient[258172 + (e.X << 2) - (e.Y << 12)];  // red
-            cmpr_rgb[1] = cmpr_gradient[258171 + (e.X << 2) - (e.Y << 12)];  // green
-            cmpr_rgb[2] = cmpr_gradient[258170 + (e.X << 2) - (e.Y << 12)];  // blue
+            cmpr_rgb[0] = cmpr_gradient[258172 + (x << 2) - (y << 12)];  // red
+            cmpr_rgb[1] = cmpr_gradient[258171 + (x << 2) - (y << 12)];  // green
+            cmpr_rgb[2] = cmpr_gradient[258170 + (x << 2) - (y << 12)];  // blue
             cmpr_colours_hex = BitConverter.ToString(cmpr_rgb).Replace("-", string.Empty);
             switch (e.Button)
             {
