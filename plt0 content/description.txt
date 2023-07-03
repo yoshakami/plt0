@@ -29,7 +29,7 @@ black and white, 4 bit per pixel - no alpha \n(will look bad if your image is co
 black and white, 8 bit per pixel - no alpha
 black and white, 4 bit per pixel - alpha \n(looks bad, and an alpha value is stored for each pixel)
 black and white, 8 bit per pixel - alpha
-color, 16 bits per pixel - no alpha \j\c coral 5 bits red\j\c SpringGreen 6 bits green\j\c DeepSkyBlue 5 bits blue
+color, 16 bits per pixel - no alpha\j\j\j\c coral 5 bits red\j\c SpringGreen 6 bits green\j\c DeepSkyBlue 5 bits blue
 color, 16 bits per pixel - smart alpha (1RRR RRGG GGGB BBBB - or - 0AAA RRRR GGGG BBBB)
 color, 32 bits per pixel - alpha (this encoding is the only one that isn't lossy)
 palette, 4 bits per pixel (CI4 palette has a capacity of 16 colours)

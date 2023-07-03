@@ -1288,10 +1288,22 @@ class Parse_args_class
             return;
         }
         Convert_to_bmp_class _bmp = new Convert_to_bmp_class(this);
-        byte[] bmp_image;
-        using (Bitmap input_file_image = (Bitmap)Bitmap.FromFile(input_file))
+        byte[] bmp_image = {};
+        try
         {
-            bmp_image = _bmp.Convert_to_bmp(input_file_image);
+            using (Bitmap input_file_image = (Bitmap)Bitmap.FromFile(input_file))
+            {
+                bmp_image = _bmp.Convert_to_bmp(input_file_image);
+            }
+        }
+        catch (Exception ex)
+        {
+            if (ex.Message == "Out of memory." && ex.Source == "System.Drawing")
+            {
+                gui_message = "Image input format not supported (convert it to jpeg or png)";
+                Console.WriteLine(gui_message);
+                return;
+            }
         }
 
         /* if (colour_number > max_colours && max_colours == 16385)
@@ -1302,9 +1314,9 @@ class Parse_args_class
 
         if (bmp_image[0x15] != 0 || bmp_image[0x14] != 0 || bmp_image[0x19] != 0 || bmp_image[0x18] != 0)
         {
-            if (!no_warning)
-                Console.WriteLine("Textures Dimensions are too high for a TEX0. Maximum dimensions are the values of a 2 bytes integer (65535 x 65535)");
             gui_message = "Textures Dimensions are too high for a TEX0. Maximum dimensions are the values of a 2 bytes integer (65535 x 65535)";
+            if (!no_warning)
+                Console.WriteLine(gui_message);
             return;
         }
         /***** BMP File Process *****/
@@ -1377,9 +1389,9 @@ class Parse_args_class
             byte[] colors = BGRA.ToArray();
             if (colors.Length > colour_number_x4)
             {
-                if (!no_warning)
-                    Console.WriteLine((int)(colors.Length / 4) + " colours sent in the palette but colour number is set to " + colour_number + " trimming the palette to " + colour_number);
                 gui_message = (int)(colors.Length / 4) + " colours sent in the palette but colour number is set to " + colour_number + " trimming the palette to " + colour_number;
+                if (!no_warning)
+                    Console.WriteLine(gui_message);
                 Array.Resize(ref colors, colour_number_x4);
             }
             colour_palette = Fill_palette_class.Fill_palette(colors, 0, colors.Length, colour_palette, rgba_channel, custom_rgba, palette_format_int32, algorithm, alpha, round3, round4, round5, round6);
@@ -1443,9 +1455,9 @@ class Parse_args_class
                     ushort pixel = (ushort)(bitmap_w * bitmap_h);
                     if (pixel != colour_number)
                     {
-                        if (!no_warning)
-                            Console.WriteLine("Second image input has " + pixel + " pixels while there are " + colour_number + " max colours in the palette.");
                         gui_message = "Second image input has " + pixel + " pixels while there are " + colour_number + " max colours in the palette.";
+                        if (!no_warning)
+                            Console.WriteLine(gui_message);
                         return;
                     }
                     Fill_palette_class.Fill_palette(bmp_palette, pixel_start_offset, array_size, colour_palette, rgba_channel, custom_rgba, palette_format_int32, algorithm, alpha, round3, round4, round5, round6);
@@ -1462,9 +1474,9 @@ class Parse_args_class
             }
             else if (ex.Message == "Out of memory." && ex.Source == "System.Drawing")
             {
-                if (!no_warning)
-                    Console.WriteLine("Second image input format not supported (convert it to jpeg or png)");
                 gui_message = "Second image input format not supported (convert it to jpeg or png)";
+                if (!no_warning)
+                    Console.WriteLine(gui_message);
             }
             else if (ex.Message.Substring(0, 34) == "The process cannot access the file")  // because it is being used by another process
             {
@@ -1507,9 +1519,9 @@ class Parse_args_class
                 byte[] bmp_mipmap = _bmp.Convert_to_bmp((Bitmap)Bitmap.FromFile(input_fil + ".mm" + z + input_ext));
                 if (bmp_mipmap[0x15] != 0 || bmp_mipmap[0x14] != 0 || bmp_mipmap[0x19] != 0 || bmp_mipmap[0x18] != 0)
                 {
-                    if (!no_warning)
-                        Console.WriteLine("Textures Dimensions are too high for a TEX0. Maximum dimensions are the values of a 2 bytes integer (65535 x 65535)");
                     gui_message = "Textures Dimensions are too high for a TEX0. Maximum dimensions are the values of a 2 bytes integer (65535 x 65535)";
+                    if (!no_warning)
+                        Console.WriteLine(gui_message);
                     return;
                 }
                 /***** BMP File Process *****/
@@ -1530,9 +1542,9 @@ class Parse_args_class
                                      // note: depending on the number of mipmaps, this will make unused block space with images that are not power of two because sooner or later width or height won't be a multiple or 4 or 8
                 if (bitmap_width == 0 || bitmap_height == 0)
                 {
-                    if (!no_warning)
-                        Console.WriteLine("Too many mipmaps. " + (z - 1) + " is the maximum for this file");
                     gui_message = "Too many mipmaps. " + (z - 1) + " is the maximum for this file";
+                    if (!no_warning)
+                        Console.WriteLine(gui_message);
                     exit = true;
                     return;
                 }
@@ -1573,9 +1585,9 @@ class Parse_args_class
         {
             if (bmd && !bmd_file)
             {
-                if (!no_warning)
-                    Console.WriteLine("specified bmd output but no bmd file given");
                 gui_message = "specified bmd output but no bmd file given";
+                if (!no_warning)
+                    Console.WriteLine(gui_message);
                 return;
             }
             Write_bti_class.Write_bti(index_list, colour_palette, texture_format_int32, palette_format_int32, block_width_array, block_height_array, bitmap_width, bitmap_height, colour_number, format_ratio, input_fil, input_file2, output_file, bmd_file, has_palette, safe_mode, no_warning, warn, stfu, name_string, block_width, block_height, mipmaps_number, minification_filter, magnification_filter, WrapS, WrapT, alpha);

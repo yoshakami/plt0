@@ -148,19 +148,13 @@ class Write_bti_class
         // I made extract-bti.py first, so I'm using it as a template
         // 0x14/20 bytes long
         /*
-        TEX1 Header description
-        0x00
-        char[4] Magic_TEX1; //'TEX1'
-        0x04
-        int ChunkSize; //Total bytes of chunk
-        0x08
-        short TextureCount; //Number of textures
-        0x0A
-        short Padding; (Usually 0xFFFF)
-        0x0C
-        int TextureHeaderOffset; // (always 0x20) TextureCount bti image headers are stored here. Relative to TEX1Header start.
-        0x10
-        int StringTableOffset; //Stores one filename for each texture. Relative to TEX1Header start.
+        Offset-Size - TEX1 Header description
+        0x00 char[4] Magic_TEX1; //'TEX1'
+        0x04 int ChunkSize; //Total bytes of chunk
+        0x08 short TextureCount; //Number of textures
+        0x0A short Padding; (Usually 0xFFFF)
+        0x0C int TextureHeaderOffset; // (always 0x20) TextureCount bti image headers are stored here. Relative to TEX1Header start.
+        0x10 int StringTableOffset; //Stores one filename for each texture. Relative to TEX1Header start.
         */
         if (bmd_file)
         {

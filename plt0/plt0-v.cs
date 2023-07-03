@@ -10752,6 +10752,7 @@ namespace plt0_gui
             this.Controls.Add(this.banner_ck);
             this.Controls.Add(this.banner_resize);
             this.Controls.Add(this.banner_move);
+            this.Controls.Add(this.cli_textbox_label);
             this.Controls.Add(this.sooperbmd_label);
             this.Controls.Add(this.palette_label);
             this.Controls.Add(this.min_max_label);
@@ -11029,7 +11030,6 @@ namespace plt0_gui
             this.Controls.Add(this.bmd_label);
             this.Controls.Add(this.output_file_type_label);
             this.Controls.Add(this.view_min_label);
-            this.Controls.Add(this.cli_textbox_label);
             this.Controls.Add(this.cli_textbox_ck);
             this.Controls.Add(this.desc9);
             this.Controls.Add(this.desc8);
@@ -16781,9 +16781,9 @@ namespace plt0_gui
             Parse_args_class cli = new Parse_args_class();
             cli.Parse_args(vanilla_arg_array);
             if (run_count < 2)
-                cli_textbox_label.Text += "            Run count: " + run_count.ToString() + " time     " + cli.Check_exit();
+                output_label.Text = "Run count: " + run_count.ToString() + " time\n" + cli.Check_exit();
             else
-                cli_textbox_label.Text += "            Run count: " + run_count.ToString() + " times    " + cli.Check_exit();
+                output_label.Text = "Run count: " + run_count.ToString() + " times\n" + cli.Check_exit();
         }
         private void sync_preview_Click(object sender, EventArgs e)
         {
