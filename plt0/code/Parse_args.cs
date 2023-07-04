@@ -67,7 +67,7 @@ class Parse_args_class
     //byte g = 1;
     //byte b = 0;
     //byte a = 3;
-    public int bmp_filesize;
+    public uint bmp_filesize;  // 4GB is the max size as it's stored in a 4 bytes integer in bmp files
     public int pixel_data_start_offset;
     public byte[] colour_palette;
     public byte[] rgba_channel = { 2, 1, 0, 3 };
@@ -1179,14 +1179,24 @@ class Parse_args_class
             colour_number_x2 = colour_number << 1;
             colour_number_x4 = colour_number << 2;
         }
-        /*try
-        { // */
         byte[] id = new byte[9];
-        using (System.IO.FileStream file = System.IO.File.Open(input_file, System.IO.FileMode.Open, System.IO.FileAccess.Read))
+        try
         {
-            file.Read(id, 0, 8);
-            file.Position = 0x23;
-            file.Read(id, 8, 1);
+            using (System.IO.FileStream file = System.IO.File.Open(input_file, System.IO.FileMode.Open, System.IO.FileAccess.Read))
+            {
+                file.Read(id, 0, 8);
+                file.Position = 0x23;
+                file.Read(id, 8, 1);
+            }
+        }
+        catch (Exception ex)
+        {
+            if (ex.Message.Substring(0, 34) == "The process cannot access the file")  // because it is being used by another process
+            {
+                Console.WriteLine("input file is used by another process. therefore this program can't read that file.");
+                gui_message = "input file is used by another process.";
+            }
+            return;
         }
         Decode_texture_class dec = new Decode_texture_class();
         // msm tools handles these. the user can also make scripts to launch the program for every file he wants.
@@ -1288,7 +1298,7 @@ class Parse_args_class
             return;
         }
         Convert_to_bmp_class _bmp = new Convert_to_bmp_class(this);
-        byte[] bmp_image = {};
+        byte[] bmp_image = { };
         try
         {
             using (Bitmap input_file_image = (Bitmap)Bitmap.FromFile(input_file))
@@ -1321,7 +1331,7 @@ class Parse_args_class
         }
         /***** BMP File Process *****/
         // process the bmp file
-        bmp_filesize = bmp_image[2] | bmp_image[3] << 8 | bmp_image[4] << 16 | bmp_image[5] << 24;
+        bmp_filesize = (uint)(bmp_image[2] | bmp_image[3] << 8 | bmp_image[4] << 16 | bmp_image[5] << 24);
         pixel_data_start_offset = bmp_image[10] | bmp_image[11] << 8 | bmp_image[12] << 16 | bmp_image[13] << 24;
         // bitmap_width = (ushort)(bmp_image[0x13] << 8 | bmp_image[0x12]);
         // bitmap_height = (ushort)(bmp_image[0x17] << 8 | bmp_image[0x16]);
@@ -1379,7 +1389,7 @@ class Parse_args_class
         }
         // I hope there could be a keyboard shortcut to format every tabs :')
         // I'm too lazy to do that manually, + that's just visual lol
-        //edit: It's Ctrl + E
+        //edit: It's Alt + Shift + F
         ushort[] mipmap_dimensions = { bitmap_width, bitmap_height, canvas_width, canvas_height };
 
         canvas_dim.Add(mipmap_dimensions.ToArray());
@@ -1516,7 +1526,11 @@ class Parse_args_class
             }
             if (System.IO.File.Exists(input_fil + ".mm" + z + input_ext))  // image with mipmap: input.png -> input.mm1.png -> input.mm2.png
             {
-                byte[] bmp_mipmap = _bmp.Convert_to_bmp((Bitmap)Bitmap.FromFile(input_fil + ".mm" + z + input_ext));
+                byte[] bmp_mipmap = {};
+                using (Bitmap input_file_image = (Bitmap)Bitmap.FromFile(input_fil + ".mm" + z + input_ext))
+                {
+                    bmp_mipmap = _bmp.Convert_to_bmp(input_file_image);
+                }
                 if (bmp_mipmap[0x15] != 0 || bmp_mipmap[0x14] != 0 || bmp_mipmap[0x19] != 0 || bmp_mipmap[0x18] != 0)
                 {
                     gui_message = "Textures Dimensions are too high for a TEX0. Maximum dimensions are the values of a 2 bytes integer (65535 x 65535)";
@@ -1526,8 +1540,8 @@ class Parse_args_class
                 }
                 /***** BMP File Process *****/
                 // process the bmp file
-                int bmp_size = bmp_mipmap[2] | bmp_mipmap[3] << 8 | bmp_mipmap[4] << 16 | bmp_mipmap[5] << 24;
-                int pixel_start_offset = bmp_mipmap[10] | bmp_mipmap[11] << 8 | bmp_mipmap[12] << 16 | bmp_mipmap[13] << 24;
+                bmp_filesize = (uint)(bmp_mipmap[2] | bmp_mipmap[3] << 8 | bmp_mipmap[4] << 16 | bmp_mipmap[5] << 24);
+                pixel_data_start_offset = bmp_mipmap[10] | bmp_mipmap[11] << 8 | bmp_mipmap[12] << 16 | bmp_mipmap[13] << 24;
                 //bitmap_width = (ushort)(bmp_mipmap[0x13] << 8 | bmp_mipmap[0x12]);
                 //bitmap_height = (ushort)(bmp_mipmap[0x17] << 8 | bmp_mipmap[0x16]);
                 //pixel_count = bitmap_width * bitmap_height;
@@ -1548,9 +1562,11 @@ class Parse_args_class
                     exit = true;
                     return;
                 }
-                byte[] bmp_mipmap = _bmp.Convert_to_bmp(ResizeImage_class.ResizeImage((Bitmap)Bitmap.FromFile(input_file), bitmap_width, bitmap_height));
-
-
+                byte[] bmp_mipmap = {};
+                using (Bitmap input_file_image = (Bitmap)Bitmap.FromFile(input_file))
+                {
+                    bmp_mipmap = _bmp.Convert_to_bmp(ResizeImage_class.ResizeImage(input_file_image, bitmap_width, bitmap_height));
+                }
                 if (bmp_mipmap[0x15] != 0 || bmp_mipmap[0x14] != 0 || bmp_mipmap[0x19] != 0 || bmp_mipmap[0x18] != 0)
                 {
                     if (!no_warning)
@@ -1560,8 +1576,8 @@ class Parse_args_class
                 }
                 /***** BMP File Process *****/
                 // process the bmp file
-                int bmp_size = bmp_mipmap[2] | bmp_mipmap[3] << 8 | bmp_mipmap[4] << 16 | bmp_mipmap[5] << 24;
-                int pixel_start_offset = bmp_mipmap[10] | bmp_mipmap[11] << 8 | bmp_mipmap[12] << 16 | bmp_mipmap[13] << 24;
+                bmp_filesize = (uint)(bmp_mipmap[2] | bmp_mipmap[3] << 8 | bmp_mipmap[4] << 16 | bmp_mipmap[5] << 24);
+                pixel_data_start_offset = bmp_mipmap[10] | bmp_mipmap[11] << 8 | bmp_mipmap[12] << 16 | bmp_mipmap[13] << 24;
                 //bitmap_width = (ushort)(bmp_mipmap[0x13] << 8 | bmp_mipmap[0x12]);
                 //bitmap_height = (ushort)(bmp_mipmap[0x17] << 8 | bmp_mipmap[0x16]);
                 //pixel_count = bitmap_width * bitmap_height;

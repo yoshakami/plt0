@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.IO;
 using System.Linq;
-using System.Diagnostics;
 /* note: pasting C# Guy.py code adds automatically new usings, messing up the whole code
 * here's the official list of usings. it should be the same as what's above. else copy and paste
 using System;
@@ -1178,7 +1177,9 @@ namespace plt0_gui
                 arg_array.Add(execPath + "plt0 content/preview/" + num + ".bmp");  // even if there's an output file in the args, the last one is th eoutput file :) that's how I made it
                 Parse_args_class cli = new Parse_args_class();
                 cli.Parse_args(arg_array.ToArray());
-                input_file2 = cli.Check_exit();
+                seal = cli.Check_exit();
+                if (seal != "the process executed successfully\n")
+                    cli_textbox_label.Text = seal;
                 // PictureBoxWithInterpolationMode preview_ck2 = new PictureBoxWithInterpolationMode();
                 if (upscale)
                     image_ck.SizeMode = PictureBoxSizeMode.Zoom;
@@ -8442,6 +8443,7 @@ namespace plt0_gui
             this.output_name_label.Size = new System.Drawing.Size(142, 24);
             this.output_name_label.TabIndex = 448;
             this.output_name_label.Text = "Output name";
+            this.output_name_label.DoubleClick += new System.EventHandler(this.output_name_Click);
             this.output_name_label.MouseEnter += new System.EventHandler(this.output_name_MouseEnter);
             this.output_name_label.MouseLeave += new System.EventHandler(this.output_name_MouseLeave);
             // 
@@ -8457,6 +8459,7 @@ namespace plt0_gui
             this.output_name_txt.Size = new System.Drawing.Size(177, 24);
             this.output_name_txt.TabIndex = 2;
             this.output_name_txt.TextChanged += new System.EventHandler(this.output_name_TextChanged);
+            this.output_name_txt.DoubleClick += new System.EventHandler(this.output_name_Click);
             this.output_name_txt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyDown);
             this.output_name_txt.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyUp);
             this.output_name_txt.MouseEnter += new System.EventHandler(this.output_name_MouseEnter);
@@ -16780,10 +16783,20 @@ namespace plt0_gui
             run_count++;
             Parse_args_class cli = new Parse_args_class();
             cli.Parse_args(vanilla_arg_array);
-            if (run_count < 2)
-                output_label.Text = "Run count: " + run_count.ToString() + " time\n" + cli.Check_exit();
+            if (layout != 2)
+            {
+                if (run_count < 2)
+                    output_label.Text = "Run count: " + run_count.ToString() + " time\n" + cli.Check_exit();
+                else
+                    output_label.Text = "Run count: " + run_count.ToString() + " times\n" + cli.Check_exit();
+            }
             else
-                output_label.Text = "Run count: " + run_count.ToString() + " times\n" + cli.Check_exit();
+            {
+                if (run_count < 2)
+                    output_label.Text = "Run count: " + run_count.ToString() + " time\n" + cli.Check_exit();
+                else
+                    output_label.Text = "Run count: " + run_count.ToString() + " times\n" + cli.Check_exit();
+            }
         }
         private void sync_preview_Click(object sender, EventArgs e)
         {
