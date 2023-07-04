@@ -6,7 +6,7 @@ using System.Linq;
 
 class Write_bmp_class
 {
-    static public void Write_bmp(List<List<byte[]>> index_list, List<ushort[]> canvas_dim, byte[] colour_palette, byte[] texture_format_int32, byte[] palette_format_int32, ushort colour_number, string output_file, bool bmp_32, bool funky, bool has_palette, bool warn, bool stfu, bool no_warning, bool safe_mode, bool png, bool gif, bool jpeg, bool jpg, bool ico, bool tiff, bool tif, byte mipmaps_number, byte alpha, int colour_number_x2, int colour_number_x4)  // index_list contains all mipmaps.
+    static public void Write_bmp(List<List<byte[]>> index_list, List<ushort[]> canvas_dim, byte[] colour_palette, byte[] texture_format_int32, byte[] palette_format_int32, ushort colour_number, string output_file, bool bmp_32, bool funky, bool has_palette, bool warn, bool stfu, bool no_warning, bool safe_mode, bool bmp, bool png, bool gif, bool jpeg, bool jpg, bool ico, bool tiff, bool tif, byte mipmaps_number, byte alpha, int colour_number_x2, int colour_number_x4)  // index_list contains all mipmaps.
     {
         byte padding = (byte)(4 - (canvas_dim[0][2] % 4));
         if (padding == 4)
@@ -1392,7 +1392,7 @@ class Write_bmp_class
                         // LMAO THE NUMBER OF ARGS, that's how you do dependancy injection without renaming EACH VARIABLE
                         using (Bitmap output_bmp = (Bitmap)Bitmap.FromFile(output_file + end))
                         {
-                            Convert_from_bmp_class.Convert_from_bmp(output_bmp, z, output_file, canvas_dim[z][2], canvas_dim[z][3], png, tif, tiff, jpg, jpeg, gif, ico, no_warning, warn, stfu);
+                            Convert_from_bmp_class.Convert_from_bmp(output_bmp, z, output_file, canvas_dim[z][2], canvas_dim[z][3], bmp, png, tif, tiff, jpg, jpeg, gif, ico, no_warning, warn, stfu);
                         }
                     }
                     done = true;

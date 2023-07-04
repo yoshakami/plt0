@@ -10,68 +10,65 @@ class Convert_from_bmp_class
     /// <param name="imageIn">The image to convert.</param>
     /// <param name="current_mipmap">The actual numnber of mipmap (used to add .mm1 at the end).</param>
     /// <returns>The converted image written in a free-to-edit file.</returns>
-    public static bool Convert_from_bmp(System.Drawing.Bitmap imageIn, int current_mipmap, string output_file, ushort canvas_width, ushort canvas_height, bool png, bool tif, bool tiff, bool jpg, bool jpeg, bool gif, bool ico, bool no_warning, bool warn, bool stfu)
+    public static void Convert_from_bmp(System.Drawing.Bitmap imageIn, int current_mipmap, string output_file, ushort canvas_width, ushort canvas_height, bool bmp, bool png, bool tif, bool tiff, bool jpg, bool jpeg, bool gif, bool ico, bool no_warning, bool warn, bool stfu)
     {
-        byte last_value_index = 0;
-        string end = ".bmp";
-        bool success = true;
-        using (var ms = new MemoryStream())
+        string end;
+        using (MemoryStream ms = new MemoryStream())
         {
-            while (success)
+            for (byte i = 0; i < 8; i++)  // I'm curious how you would have implemented this without redundency
             {
-                if (png && last_value_index < 1)
+                if (bmp && i == 0)
+                {
+                    imageIn.Save(ms, ImageFormat.Bmp);
+                    end = ".bmp";
+                }
+                else if (png && i == 1)
                 {
                     imageIn.Save(ms, ImageFormat.Png);
                     end = ".png";
-                    last_value_index = 1;
                 }
-                else if (tif && last_value_index < 2)
+                else if (tif && i == 2)
                 {
                     imageIn.Save(ms, ImageFormat.Tiff);
                     end = ".tif";
-                    last_value_index = 2;
                 }
-                else if (tiff && last_value_index < 3)
+                else if (tiff && i == 3)
                 {
                     imageIn.Save(ms, ImageFormat.Tiff);
                     end = ".tiff";
-                    last_value_index = 3;
                 }
-                else if (jpg && last_value_index < 4)
+                else if (jpg && i == 4)
                 {
                     imageIn.Save(ms, ImageFormat.Jpeg);
                     end = ".jpg";
-                    last_value_index = 4;
                 }
-                else if (jpeg && last_value_index < 5)
+                else if (jpeg && i == 5)
                 {
                     imageIn.Save(ms, ImageFormat.Jpeg);
                     end = ".jpeg";
-                    last_value_index = 5;
                 }
-                else if (gif && last_value_index < 6)
+                else if (gif && i == 6)
                 {
                     imageIn.Save(ms, ImageFormat.Gif);
                     end = ".gif";
-                    last_value_index = 6;
                 }
-                else if (ico && last_value_index < 7)
+                else if (ico && i == 7)
                 {
-                    if ((canvas_width >> current_mipmap) <= 256 && (canvas_height >> current_mipmap) <= 256)
+                    if ((canvas_width >> current_mipmap) > 256 || (canvas_height >> current_mipmap) > 256)
                     {
                         if (!no_warning)
                             Console.WriteLine("max dimensions for a .ico file are 256x256");
+                        continue;
                     }
                     else
                     {
                         imageIn.Save(ms, ImageFormat.Icon);
                         end = ".ico";
-                        last_value_index = 7;
                     }
                 }
                 else
                 {
-                    return false;  // prevents the function from being called infinitely :P
+                    continue;
                 }
                 if (current_mipmap != 0)
                 {
@@ -96,6 +93,5 @@ class Convert_from_bmp_class
                 }
             }
         }
-        return true;
     }
 }

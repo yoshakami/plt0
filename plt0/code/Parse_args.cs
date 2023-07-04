@@ -1214,7 +1214,7 @@ class Parse_args_class
                     // get the palette file from the same directory or exit
                     if (System.IO.File.Exists(input_fil + ".plt0"))
                     {
-                        texture_format = dec.Decode_texture(input_file, input_fil + ".plt0", output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, 0, bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
+                        texture_format = dec.Decode_texture(input_file, input_fil + ".plt0", output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, 0, bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, bmp, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
                     }
                     else
                     {
@@ -1245,12 +1245,12 @@ class Parse_args_class
                         // palette_format_int32[3] = data[0x1B];
                         //file_2.Read(colour_palette, 0x40, colour_number_x2);  // check if this is right. second parameter should always be ZERO
                         // user_palette = true;
-                        texture_format = dec.Decode_texture(input_file, input_file2, output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, data[0x1B], bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
+                        texture_format = dec.Decode_texture(input_file, input_file2, output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, data[0x1B], bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, bmp, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
                     }
                     // get the palette file from the same directory or exit
                     else if (System.IO.File.Exists(input_fil + ".plt0"))
                     {
-                        texture_format = dec.Decode_texture(input_file, input_fil + ".plt0", output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, 0, bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
+                        texture_format = dec.Decode_texture(input_file, input_fil + ".plt0", output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, 0, bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, bmp, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
                     }
                     else
                     {
@@ -1265,20 +1265,20 @@ class Parse_args_class
             else
             {
                 // decode the image
-                texture_format = dec.Decode_texture(input_file, "", output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, 0, bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
+                texture_format = dec.Decode_texture(input_file, "", output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, 0, bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, bmp, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
             }
             correct = true;
             return;
         }
         else if (id[0] == 0 && id[1] == 32 && id[2] == 0xaf && id[3] == 48)  // tpl file header
         {
-            texture_format = dec.Decode_texture(input_file, "", output_file, real_block_width_array, block_width_array, block_height_array, false, true, colour_palette, 0, bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
+            texture_format = dec.Decode_texture(input_file, "", output_file, real_block_width_array, block_width_array, block_height_array, false, true, colour_palette, 0, bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, bmp, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
             correct = true;
             return;
         }
         else if (id[0] < 15 && id[6] < 3 && id[7] < 3)  // rough bti check
         {
-            texture_format = dec.Decode_texture(input_file, "", output_file, real_block_width_array, block_width_array, block_height_array, false, false, colour_palette, 0, bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
+            texture_format = dec.Decode_texture(input_file, "", output_file, real_block_width_array, block_width_array, block_height_array, false, false, colour_palette, 0, bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, bmp, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
             correct = true;
             return;
         }
@@ -1621,7 +1621,7 @@ class Parse_args_class
         }
         if (bmp || png || tif || tiff || ico || jpg || jpeg || gif)  // tell me if there's another format available through some extensions I'll add it
         {
-            Write_bmp_class.Write_bmp(index_list, canvas_dim, colour_palette, texture_format_int32, palette_format_int32, colour_number, output_file, bmp_32, funky, has_palette, warn, stfu, no_warning, safe_mode, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number, alpha, colour_number_x2, colour_number_x4);
+            Write_bmp_class.Write_bmp(index_list, canvas_dim, colour_palette, texture_format_int32, palette_format_int32, colour_number, output_file, bmp_32, funky, has_palette, warn, stfu, no_warning, safe_mode, bmp, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number, alpha, colour_number_x2, colour_number_x4);
         }
         if (tex0)
         {
