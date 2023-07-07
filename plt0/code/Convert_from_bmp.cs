@@ -10,19 +10,14 @@ class Convert_from_bmp_class
     /// <param name="imageIn">The image to convert.</param>
     /// <param name="current_mipmap">The actual numnber of mipmap (used to add .mm1 at the end).</param>
     /// <returns>The converted image written in a free-to-edit file.</returns>
-    public static void Convert_from_bmp(System.Drawing.Bitmap imageIn, int current_mipmap, string output_file, ushort canvas_width, ushort canvas_height, bool bmp, bool png, bool tif, bool tiff, bool jpg, bool jpeg, bool gif, bool ico, bool no_warning, bool warn, bool stfu)
+    public static void Convert_from_bmp(System.Drawing.Bitmap imageIn, int current_mipmap, string output_file, ushort canvas_width, ushort canvas_height, bool png, bool tif, bool tiff, bool jpg, bool jpeg, bool gif, bool ico, bool no_warning, bool warn, bool stfu)
     {
         string end;
         using (MemoryStream ms = new MemoryStream())
         {
-            for (byte i = 0; i < 8; i++)  // I'm curious how you would have implemented this without redundency
+            for (byte i = 1; i < 8; i++)  // I'm curious how you would have implemented this without redundency
             {
-                if (bmp && i == 0)
-                {
-                    imageIn.Save(ms, ImageFormat.Bmp);
-                    end = ".bmp";
-                }
-                else if (png && i == 1)
+                if (png && i == 1)
                 {
                     imageIn.Save(ms, ImageFormat.Png);
                     end = ".png";

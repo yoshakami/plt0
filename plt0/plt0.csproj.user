@@ -10,8 +10,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'plt0|x64'">
     <StartArguments>
     </StartArguments>
-    <StartWorkingDirectory>
-    </StartWorkingDirectory>
+    <StartWorkingDirectory>E:\I4\</StartWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup>
     <PublishUrlHistory>publish\</PublishUrlHistory>

@@ -1362,10 +1362,7 @@ class Write_bmp_class
             index = 0;
             done = false;
             while (!done)  // makes sure it writes the file.
-            {
-
-                try
-                {
+            {                try { 
                     FileMode mode = System.IO.FileMode.CreateNew;
                     if (System.IO.File.Exists(output_file + end))
                     {
@@ -1376,23 +1373,42 @@ class Write_bmp_class
                             Console.ReadLine();
                         }
                     }
-                    using (System.IO.FileStream file = System.IO.File.Open(output_file + end, mode, System.IO.FileAccess.Write))
+                    if (bmp)
                     {
-                        file.Write(data, 0, data.Length); // byte[54]
-                        file.Write(palette, 0, colour_number_x4);
-                        // Console.WriteLine(alpha_header_size + " " + alpha_header.Length);
-                        file.Write(alpha_header, 0, alpha_header_size);
-                        file.Write(pixel, 0, image_size);
-                        file.Close();
-                        if (!stfu)
-                            Console.WriteLine(output_file + end);
-                    }
-                    if (png || gif || jpeg || jpg || ico || tiff || tif)
-                    {
-                        // LMAO THE NUMBER OF ARGS, that's how you do dependancy injection without renaming EACH VARIABLE
-                        using (Bitmap output_bmp = (Bitmap)Bitmap.FromFile(output_file + end))
+                        using (System.IO.FileStream file = System.IO.File.Open(output_file + end, mode, System.IO.FileAccess.Write))
                         {
-                            Convert_from_bmp_class.Convert_from_bmp(output_bmp, z, output_file, canvas_dim[z][2], canvas_dim[z][3], bmp, png, tif, tiff, jpg, jpeg, gif, ico, no_warning, warn, stfu);
+                            file.Write(data, 0, data.Length); // byte[54]
+                            file.Write(palette, 0, colour_number_x4);
+                            // Console.WriteLine(alpha_header_size + " " + alpha_header.Length);
+                            file.Write(alpha_header, 0, alpha_header_size);
+                            file.Write(pixel, 0, image_size);
+                            file.Close();
+                            if (!stfu)
+                                Console.WriteLine(output_file + end);
+                        }
+                        if (png || gif || jpeg || jpg || ico || tiff || tif)
+                        {
+                            // LMAO THE NUMBER OF ARGS, that's how you do dependancy injection without renaming EACH VARIABLE
+                            using (Bitmap output_bmp = (Bitmap)Bitmap.FromFile(output_file + end))
+                            {
+                                Convert_from_bmp_class.Convert_from_bmp(output_bmp, z, output_file, canvas_dim[z][2], canvas_dim[z][3], png, tif, tiff, jpg, jpeg, gif, ico, no_warning, warn, stfu);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        using (var ms = new MemoryStream())
+                        {
+                            ms.Write(data, 0, data.Length); // byte[54]
+                            ms.Write(palette, 0, colour_number_x4);
+                            // Console.WriteLine(alpha_header_size + " " + alpha_header.Length);
+                            ms.Write(alpha_header, 0, alpha_header_size);
+                            ms.Write(pixel, 0, image_size);
+                            using (Bitmap output_bmp = (Bitmap)Bitmap.FromStream(ms))
+                            {
+                                Convert_from_bmp_class.Convert_from_bmp(output_bmp, z, output_file, canvas_dim[z][2], canvas_dim[z][3], png, tif, tiff, jpg, jpeg, gif, ico, no_warning, warn, stfu);
+                            }
+                            ms.Close();
                         }
                     }
                     done = true;
