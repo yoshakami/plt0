@@ -10,7 +10,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'plt0|x64'">
     <StartArguments>
     </StartArguments>
-    <StartWorkingDirectory>E:\I4\</StartWorkingDirectory>
+    <StartWorkingDirectory>
+    </StartWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup>
     <PublishUrlHistory>publish\</PublishUrlHistory>
@@ -21,5 +22,8 @@
     <ErrorReportUrlHistory />
     <FallbackCulture>en-US</FallbackCulture>
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Bianca|x64'">
+    <StartWorkingDirectory>B:\a\</StartWorkingDirectory>
   </PropertyGroup>
 </Project>

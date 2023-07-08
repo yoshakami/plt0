@@ -86,6 +86,7 @@ class Convert_from_bmp_class
                     if (!stfu)
                         Console.WriteLine(output_file + end);
                 }
+                ms.SetLength(0);
             }
         }
     }

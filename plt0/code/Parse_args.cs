@@ -37,7 +37,7 @@ class Parse_args_class
     bool file2_conflict = false;
     bool help = false;
     bool correct = false;
-    bool gui = false;
+    bool no_gui = false;
     bool name_string = false;
     public bool reverse_x = false;
     public bool reverse_y = false;
@@ -111,7 +111,7 @@ class Parse_args_class
     {
         if (args.Length > 0)
             if (args[0] == "gui")
-                gui = true;
+                no_gui = true;
         for (ushort i = 1; i < args.Length; i++)
         {
             if (pass > 0)
@@ -629,6 +629,11 @@ class Parse_args_class
                         algorithm = 3;
                         pass = 1;
                     }
+                    if (args[i + 1].ToUpper() == "GUI")
+                    {
+                        no_gui = true;
+                        pass = 1;
+                    }
                     if (args[i + 1].ToUpper() == "WARNING")
                     {
                         no_warning = true;
@@ -1098,7 +1103,7 @@ class Parse_args_class
         }
         if (input_file == "")
         {
-            if (!gui && Directory.Exists(execPath + "plt0 content"))
+            if (!no_gui && Directory.Exists(execPath + "plt0 content"))
             {
                 System.Windows.Forms.Application.EnableVisualStyles();
                 System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
@@ -1288,7 +1293,7 @@ class Parse_args_class
         {
             if (!no_warning)
                 Console.WriteLine("add a texture encoding format as argument.\n\nList of available formats: \nI4      (black and white 4 bit shade of gray)\nI8      (1 black and white byte per pixel)\nAI4     (4-bit alpha then 4-bit I4)\nAI8     (1 byte alpha and 1 byte I8)\nRGB565  (best colour encoding, 5-bit red, 6-bit green, and 5-bit blue)\nRGB5A3  (rgb555 if pixel doesn't have alpha, and 3-bit alpha + rgb444 if pixel have alpha)\nRGBA8   (lossless encoding, biggest one though, 4 bytes per pixel)\nCI4   * (uses a colour palette of max 16 colours)\nCI8   * (uses a colour palette of max 256 colours)\nCI14x2 *(uses a colour palette of max 65536 colours) - untested in-game\nCMPR  (4-bit depth, max 2 colours per 4x4 image chunk + 2 software interpolated ones) - wimgt encoding for this format is pretty decent, you should check it out\n\n* you can force a palette format to be set for these textures format\nPalette formats: AI8, RGB565, RGB5A3");
-            if (!gui && Directory.Exists(execPath + "plt0 content"))
+            if (!no_gui && Directory.Exists(execPath + "plt0 content"))
             {
                 System.Windows.Forms.Application.EnableVisualStyles();
                 System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
@@ -1498,7 +1503,7 @@ class Parse_args_class
                 if (!no_warning)
                     Console.WriteLine("error on " + input_file2 + "\nsafe mode is enabled, this program will exit silently");
             }
-            else if (!gui)
+            else if (no_gui)
             {
                 throw ex;
             }
@@ -1664,7 +1669,7 @@ class Parse_args_class
     }
     public string Check_exit()
     {
-        if (ask_exit && !gui)
+        if (ask_exit && no_gui)
         {
             Console.WriteLine("\nPress enter to exit...");
             Console.ReadLine();
