@@ -1205,33 +1205,6 @@ class Parse_args_class
             }
             return;
         }
-
-        bool IsDirectoryWritable(string output_name, bool warn, bool no_gui)
-        {
-            try  // create empty output files
-            {
-                if (File.Exists(output_name) && warn && !no_gui)
-                {
-                    Console.WriteLine("Press enter to overwrite " + output_name);
-                    Console.ReadLine();
-                }
-                using (FileStream fs = File.Create(output_name, 1))
-                { }
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-        //bool[] outputs = {bmd, bti, tex0, tpl, bmp, png, jpg, jpeg, gif, ico, tif, tiff};
-        if (bmd)
-        {
-            if (!IsDirectoryWritable(output_file + ".bmd", warn, no_gui)
-            {
-
-            }
-        }
         Decode_texture_class dec = new Decode_texture_class();
         // msm tools handles these. the user can also make scripts to launch the program for every file he wants.
         //case "bres":
