@@ -39,7 +39,7 @@ class Parse_args_class
     bool file2_conflict = false;
     bool help = false;
     bool correct = false;
-    bool no_gui = false;
+    bool no_gui = false;  // no_gui = true  =>  the gui won't appear and user has no interactive choice by the CLI
     bool name_string = false;
     public bool reverse_x = false;
     public bool reverse_y = false;
@@ -1127,44 +1127,25 @@ class Parse_args_class
             else
                 output_file = input_file;
         }
-        bool IsDirectoryWritable(string output_name, bool warn)
-        {
-            try  // create empty output files
-            {
-                if (File.Exists(output_name) && warn)
-                {
-                    Console.WriteLine("Press enter to overwrite " + output_name);
-                    Console.ReadLine();
-                }
-                using (FileStream fs = File.Create(output_name, 1))
-                { }
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-        bool[] outputs = {bmp, png};
         if (colour_number > max_colours && max_colours == 16)
         {
-            if (!no_warning)
-                Console.WriteLine("CI4 can only supports up to 16 colours as each pixel index is stored on 4 bits");
             gui_message = "CI4 can only supports up to 16 colours as each pixel index is stored on 4 bits";
+            if (!no_warning)
+                Console.WriteLine(gui_message);
             return;
         }
         if (colour_number > max_colours && max_colours == 256)
         {
-            if (!no_warning)
-                Console.WriteLine("CI8 can only supports up to 256 colours as each pixel index is stored on 8 bits");
             gui_message = "CI8 can only supports up to 256 colours as each pixel index is stored on 8 bits";
+            if (!no_warning)
+                Console.WriteLine(gui_message);
             return;
         }
         if (colour_number > 65535 && max_colours == 16385)
         {
-            if (!no_warning)
-                Console.WriteLine("Colour number is stored on 2 bytes for CI14x2");
             gui_message = "Colour number is stored on 2 bytes for CI14x2";
+            if (!no_warning)
+                Console.WriteLine(gui_message);
             return;
         }
         if (minification_filter == 0 && mipmaps_number > 0)
@@ -1224,6 +1205,33 @@ class Parse_args_class
             }
             return;
         }
+
+        bool IsDirectoryWritable(string output_name, bool warn, bool no_gui)
+        {
+            try  // create empty output files
+            {
+                if (File.Exists(output_name) && warn && !no_gui)
+                {
+                    Console.WriteLine("Press enter to overwrite " + output_name);
+                    Console.ReadLine();
+                }
+                using (FileStream fs = File.Create(output_name, 1))
+                { }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        //bool[] outputs = {bmd, bti, tex0, tpl, bmp, png, jpg, jpeg, gif, ico, tif, tiff};
+        if (bmd)
+        {
+            if (!IsDirectoryWritable(output_file + ".bmd", warn, no_gui)
+            {
+
+            }
+        }
         Decode_texture_class dec = new Decode_texture_class();
         // msm tools handles these. the user can also make scripts to launch the program for every file he wants.
         //case "bres":
@@ -1244,9 +1252,9 @@ class Parse_args_class
                     }
                     else
                     {
-                        if (!no_warning)
-                            Console.WriteLine("your input texture missing plt0 file. it should be named " + input_fil + ".plt0");
                         gui_message = "your input texture is missing a plt0 file. it should be named " + input_fil + ".plt0";
+                        if (!no_warning)
+                            Console.WriteLine(gui_message);
                         return;
                     }
                 }
@@ -1280,9 +1288,9 @@ class Parse_args_class
                     }
                     else
                     {
-                        if (!no_warning)
-                            Console.WriteLine("your input texture is missing a plt0 file. it should be named " + input_fil + ".plt0");
                         gui_message = "your input texture is missing a plt0 file. it should be named " + input_fil + ".plt0";
+                        if (!no_warning)
+                            Console.WriteLine(gui_message);
                         return;
                     }
 
@@ -1595,9 +1603,9 @@ class Parse_args_class
                 }
                 if (bmp_mipmap[0x15] != 0 || bmp_mipmap[0x14] != 0 || bmp_mipmap[0x19] != 0 || bmp_mipmap[0x18] != 0)
                 {
-                    if (!no_warning)
-                        Console.WriteLine("Textures Dimensions are too high for a TEX0. Maximum dimensions are the values of a 2 bytes integer (65535 x 65535)");
                     gui_message = "Textures Dimensions are too high for a TEX0. Maximum dimensions are the values of a 2 bytes integer (65535 x 65535)";
+                    if (!no_warning)
+                        Console.WriteLine(gui_message);
                     return;
                 }
                 /***** BMP File Process *****/
