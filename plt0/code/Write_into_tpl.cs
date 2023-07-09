@@ -5,7 +5,7 @@ using System.Linq;
 
 class Write_into_tpl_class
 {
-    static public void Write_into_tpl(List<List<byte[]>> index_list, byte[] colour_palette, byte[] texture_format_int32, byte[] palette_format_int32, byte[] real_block_width_array, byte[] block_height_array, byte[] add_depth, byte[] sub_depth, ushort bitmap_width, ushort bitmap_height, ushort colour_number, double format_ratio, string input_file2, string output_file, bool has_palette, bool overwrite, bool safe_mode, bool no_warning, bool warn, bool stfu, sbyte block_width, sbyte block_height, byte mipmaps_number, byte minificaction_filter, byte magnification_filter, byte WrapS, byte WrapT)
+    static public string Write_into_tpl(List<List<byte[]>> index_list, byte[] colour_palette, byte[] texture_format_int32, byte[] palette_format_int32, byte[] real_block_width_array, byte[] block_height_array, byte[] add_depth, byte[] sub_depth, ushort bitmap_width, ushort bitmap_height, ushort colour_number, double format_ratio, string input_file2, string output_file, bool has_palette, bool overwrite, bool safe_mode, bool no_warning, bool warn, bool stfu, sbyte block_width, sbyte block_height, byte mipmaps_number, byte minificaction_filter, byte magnification_filter, byte WrapS, byte WrapT)
     {
         int size = 0; // fixed size at 1 image
         double temp;
@@ -333,6 +333,11 @@ class Write_into_tpl_class
                 if (System.IO.File.Exists(output_file))
                 {
                     mode = System.IO.FileMode.Truncate;
+                    if (warn)
+                    {
+                        Console.WriteLine("Press enter to overwrite " + output_file);
+                        Console.ReadLine();
+                    }
                 }
                 using (System.IO.FileStream file = System.IO.File.Open(output_file, mode, System.IO.FileAccess.Write))
                 {
@@ -387,9 +392,10 @@ class Write_into_tpl_class
                 }
                 else
                 {
-                    throw ex;
+                    return "cannot write " + output_file;
                 }
             }
         }
+        return "";
     }
 }

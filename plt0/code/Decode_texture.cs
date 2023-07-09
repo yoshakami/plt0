@@ -4,7 +4,7 @@ using System.Collections.Generic;
 class Decode_texture_class
 {
     public List<ushort[]> canvas_dim = new List<ushort[]>();
-    public byte Decode_texture(string input_file, string palette_file, string output_file, byte[] real_block_width_array, byte[] block_width_array, byte[] block_height_array, bool tex0, bool tpl, byte[] colour_palette, byte palette_format3, bool bmp_32, bool funky, bool reverse_x, bool reverse_y, bool warn, bool stfu, bool no_warning, bool safe_mode, bool bmp, bool png, bool gif, bool jpeg, bool jpg, bool ico, bool tiff, bool tif, byte mipmaps_number)
+    public string Decode_texture(string input_file, string palette_file, string output_file, byte[] real_block_width_array, byte[] block_width_array, byte[] block_height_array, bool tex0, bool tpl, byte[] colour_palette, byte palette_format3, bool bmp_32, bool funky, bool reverse_x, bool reverse_y, bool warn, bool stfu, bool no_warning, bool safe_mode, bool bmp, bool png, bool gif, bool jpeg, bool jpg, bool ico, bool tiff, bool tif, byte mipmaps_number)
     {
         ushort colour_number = 0;
         int colour_number_x2 = 0;
@@ -75,6 +75,7 @@ class Decode_texture_class
             int cursor = image_table_offset;
             int[] image_headers_offset = new int[image_number];
             int[] palette_headers_offset = new int[image_number];
+            string gui_message = "";
             for (int a = 0; a < image_number; a++)
             {
                 image_headers_offset[a] = (data[cursor] << 24) | (data[cursor + 1] << 16) | (data[cursor + 2] << 8) | data[cursor + 3];
@@ -126,9 +127,9 @@ class Decode_texture_class
                 // call fill_index_list
                 Fill_index_list_class g = new Fill_index_list_class(this);
                 object tpl_picture = g.Fill_index_list(data, data_start_offset, texture_format_int32[3], data[image_headers_offset[b] + 0x22], real_block_width_array, block_width_array, block_height_array, reverse_x, reverse_y);
-                Write_bmp_class.Write_bmp((List<List<byte[]>>)tpl_picture, canvas_dim, colour_palette, texture_format_int32, palette_format_int32, colour_number, output_file, bmp_32, funky, has_palette, warn, stfu, no_warning, safe_mode, bmp, png, gif, jpeg, jpg, ico, tiff, tif, data[image_headers_offset[b] + 0x22], alpha, colour_number_x2, colour_number_x4);
+                gui_message = Write_bmp_class.Write_bmp((List<List<byte[]>>)tpl_picture, canvas_dim, colour_palette, texture_format_int32, palette_format_int32, colour_number, output_file, bmp_32, funky, has_palette, warn, stfu, no_warning, safe_mode, bmp, png, gif, jpeg, jpg, ico, tiff, tif, data[image_headers_offset[b] + 0x22], alpha, colour_number_x2, colour_number_x4);
             }
-            return texture_format_int32[3];
+            return gui_message;
         }
         else  // bti
         {
@@ -161,7 +162,6 @@ class Decode_texture_class
         // call fill_index_list
         Fill_index_list_class f = new Fill_index_list_class(this);
         object picture = f.Fill_index_list(data, data_start_offset, texture_format_int32[3], mipmaps_number, real_block_width_array, block_width_array, block_height_array, reverse_x, reverse_y);
-        Write_bmp_class.Write_bmp((List<List<byte[]>>)picture, canvas_dim, colour_palette, texture_format_int32, palette_format_int32, colour_number, output_file, bmp_32, funky, has_palette, warn, stfu, no_warning, safe_mode, bmp, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number, 9, colour_number_x2, colour_number_x4);
-        return texture_format_int32[3];
+        return Write_bmp_class.Write_bmp((List<List<byte[]>>)picture, canvas_dim, colour_palette, texture_format_int32, palette_format_int32, colour_number, output_file, bmp_32, funky, has_palette, warn, stfu, no_warning, safe_mode, bmp, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number, 9, colour_number_x2, colour_number_x4);
     }
 }

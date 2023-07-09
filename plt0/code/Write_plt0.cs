@@ -3,7 +3,7 @@ using System.IO;
 
 class Write_plt0_class
 {
-    static public void Write_plt0(byte[] colour_palette, byte[] palette_format_int32, ushort colour_number, string output_file, bool safe_mode, bool no_warning, bool warn, bool stfu, bool name_string)
+    static public string Write_plt0(byte[] colour_palette, byte[] palette_format_int32, ushort colour_number, string output_file, bool safe_mode, bool no_warning, bool warn, bool stfu, bool name_string)
     {
         int size = 0x40 + colour_palette.Length;
         byte size2 = (byte)(4 + Math.Abs(16 - size) % 16);
@@ -70,6 +70,11 @@ class Write_plt0_class
                 if (System.IO.File.Exists(output_file + ".plt0"))
                 {
                     mode = System.IO.FileMode.Truncate;
+                    if (warn)
+                    {
+                        Console.WriteLine("Press enter to overwrite " + output_file + ".plt0");
+                        Console.ReadLine();
+                    }
                 }
                 using (System.IO.FileStream file = System.IO.File.Open(output_file + ".plt0", mode, System.IO.FileAccess.Write))
                 {
@@ -105,9 +110,10 @@ class Write_plt0_class
                 }
                 else
                 {
-                    throw ex;
+                    return "cannot write " + output_file;
                 }
             }
         }
+        return "";
     }
 }

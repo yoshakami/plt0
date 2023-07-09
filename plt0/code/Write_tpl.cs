@@ -5,7 +5,7 @@ using System.Linq;
 
 class Write_tpl_class
 {
-    static public void Write_tpl(List<List<byte[]>> index_list, byte[] colour_palette, byte[] texture_format_int32, byte[] palette_format_int32, ushort bitmap_width, ushort bitmap_height, ushort colour_number, double format_ratio, string output_file, bool has_palette, bool safe_mode, bool no_warning, bool warn, bool stfu, bool name_string, sbyte block_width, sbyte block_height, byte mipmaps_number, byte minificaction_filter, byte magnification_filter, byte WrapS, byte WrapT)
+    static public string Write_tpl(List<List<byte[]>> index_list, byte[] colour_palette, byte[] texture_format_int32, byte[] palette_format_int32, ushort bitmap_width, ushort bitmap_height, ushort colour_number, double format_ratio, string output_file, bool has_palette, bool safe_mode, bool no_warning, bool warn, bool stfu, bool name_string, sbyte block_width, sbyte block_height, byte mipmaps_number, byte minificaction_filter, byte magnification_filter, byte WrapS, byte WrapT)
     {
         int size = 0x20 + colour_palette.Length + 0x40; // fixed size at 1 image
         double temp;
@@ -194,6 +194,11 @@ class Write_tpl_class
                 if (System.IO.File.Exists(output_file + ".tpl"))
                 {
                     mode = System.IO.FileMode.Truncate;
+                    if (warn)
+                    {
+                        Console.WriteLine("Press enter to overwrite " + output_file + ".tpl");
+                        Console.ReadLine();
+                    }
                 }
                 using (System.IO.FileStream file = System.IO.File.Open(output_file + ".tpl", mode, System.IO.FileAccess.Write))
                 {
@@ -231,9 +236,10 @@ class Write_tpl_class
                 }
                 else
                 {
-                    throw ex;
+                    return "cannot write " + output_file;
                 }
             }
         }
+        return "";
     }
 }

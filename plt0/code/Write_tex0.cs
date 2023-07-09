@@ -14,7 +14,7 @@ class Write_tex0_class
     /// each mipmap contains a list of every row of the image (starting by the bottom one). <br/>
     /// each row is actually a byte array of every pixel encoded in a specific format.</param>
     /// <returns>nothing. but writes the file into the output name given in CLI argument</returns>
-    static public void Write_tex0(List<List<byte[]>> index_list, byte[] texture_format_int32, ushort bitmap_width, ushort bitmap_height, double format_ratio, string output_file, bool has_palette, bool safe_mode, bool no_warning, bool warn, bool stfu, bool name_string, sbyte block_width, sbyte block_height, byte mipmaps_number)  // index_list contains all mipmaps.
+    static public string Write_tex0(List<List<byte[]>> index_list, byte[] texture_format_int32, ushort bitmap_width, ushort bitmap_height, double format_ratio, string output_file, bool has_palette, bool safe_mode, bool no_warning, bool warn, bool stfu, bool name_string, sbyte block_width, sbyte block_height, byte mipmaps_number)  // index_list contains all mipmaps.
     {
         int size = 0x40;
         double temp;
@@ -170,6 +170,11 @@ class Write_tex0_class
                 if (System.IO.File.Exists(output_file + ".tex0"))
                 {
                     mode = System.IO.FileMode.Truncate;
+                    if (warn)
+                    {
+                        Console.WriteLine("Press enter to overwrite " + output_file + ".tex0");
+                        Console.ReadLine();
+                    }
                 }
                 using (System.IO.FileStream file = System.IO.File.Open(output_file + ".tex0", mode, System.IO.FileAccess.Write))
                 {
@@ -206,9 +211,10 @@ class Write_tex0_class
                 }
                 else
                 {
-                    throw ex;
+                    return "cannot write " + output_file;
                 }
             }
         }
+        return "";
     }
 }

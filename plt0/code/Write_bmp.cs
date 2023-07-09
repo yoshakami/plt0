@@ -6,7 +6,7 @@ using System.Linq;
 
 class Write_bmp_class
 {
-    static public void Write_bmp(List<List<byte[]>> index_list, List<ushort[]> canvas_dim, byte[] colour_palette, byte[] texture_format_int32, byte[] palette_format_int32, ushort colour_number, string output_file, bool bmp_32, bool funky, bool has_palette, bool warn, bool stfu, bool no_warning, bool safe_mode, bool bmp, bool png, bool gif, bool jpeg, bool jpg, bool ico, bool tiff, bool tif, byte mipmaps_number, byte alpha, int colour_number_x2, int colour_number_x4)  // index_list contains all mipmaps.
+    static public string Write_bmp(List<List<byte[]>> index_list, List<ushort[]> canvas_dim, byte[] colour_palette, byte[] texture_format_int32, byte[] palette_format_int32, ushort colour_number, string output_file, bool bmp_32, bool funky, bool has_palette, bool warn, bool stfu, bool no_warning, bool safe_mode, bool bmp, bool png, bool gif, bool jpeg, bool jpg, bool ico, bool tiff, bool tif, byte mipmaps_number, byte alpha, int colour_number_x2, int colour_number_x4)  // index_list contains all mipmaps.
     {
         byte padding = (byte)(4 - (canvas_dim[0][2] % 4));
         if (padding == 4)
@@ -1362,11 +1362,18 @@ class Write_bmp_class
             index = 0;
             done = false;
             while (!done)  // makes sure it writes the file.
-            {                try { 
+            {
+                try
+                {
                     FileMode mode = System.IO.FileMode.CreateNew;
                     if (System.IO.File.Exists(output_file + end))
                     {
                         mode = System.IO.FileMode.Truncate;
+                        if (warn)
+                        {
+                            Console.WriteLine("Press enter to overwrite " + output_file + end);
+                            Console.ReadLine();
+                        }
                     }
                     if (bmp)
                     {
@@ -1430,11 +1437,13 @@ class Write_bmp_class
                     }
                     else
                     {
-                        throw ex;
+                        // throw ex;
+                        return "cannot write " + output_file + end;
                     }
                 }
             }
         }
+        return "";
     }
 }
 // satisfying end

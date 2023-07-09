@@ -454,7 +454,15 @@ namespace plt0_gui
             this.SuspendLayout();
             this.Size = new Size(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
             InitializeForm();
+            Image image = this.BackgroundImage;
+            if (image != null)
+            {
+                // Create a new resized image
+                Image resizedImage = new Bitmap(image, (int)(image.Width * width_ratio), (int)(image.Height * height_ratio));
 
+                // Assign the resized image to the PictureBox
+                this.BackgroundImage = resizedImage;
+            }
             this.ResumeLayout(false);
             this.PerformLayout();
 

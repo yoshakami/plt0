@@ -5,7 +5,7 @@ using System.Linq;
 
 class Write_bti_class
 {
-    static public void Write_bti(List<List<byte[]>> index_list, byte[] colour_palette, byte[] texture_format_int32, byte[] palette_format_int32, byte[] block_width_array, byte[] block_height_array, ushort bitmap_width, ushort bitmap_height, ushort colour_number, double format_ratio, string input_fil, string input_file2, string output_file, bool bmd_file, bool has_palette, bool safe_mode, bool no_warning, bool warn, bool stfu, bool name_string, sbyte block_width, sbyte block_height, byte mipmaps_number, byte minificaction_filter, byte magnification_filter, byte WrapS, byte WrapT, byte alpha)
+    static public string Write_bti(List<List<byte[]>> index_list, byte[] colour_palette, byte[] texture_format_int32, byte[] palette_format_int32, byte[] block_width_array, byte[] block_height_array, ushort bitmap_width, ushort bitmap_height, ushort colour_number, double format_ratio, string input_fil, string input_file2, string output_file, bool bmd_file, bool has_palette, bool safe_mode, bool no_warning, bool warn, bool stfu, bool name_string, sbyte block_width, sbyte block_height, byte mipmaps_number, byte minificaction_filter, byte magnification_filter, byte WrapS, byte WrapT, byte alpha)
     {
         int size = 0x20 + colour_palette.Length + 0x40; // fixed size at 1 image
         double temp;
@@ -163,7 +163,7 @@ class Write_bti_class
                 Console.WriteLine("Sorry man, I have not met any bmd file with a palette amongst all games I've reviewed so far. I'll be glad to add this feature if you find some files I could look into\n for now you can't use CI4, CI8 and CI14x2 in a bmd\n");
                 Console.WriteLine("Press enter to exit...");
                 Console.ReadLine();
-                return;
+                return "I have not met any bmd file with a palette amongst all games I've reviewed so far. I'll be glad to add this feature if you find some files I could look into";
             }
             using (System.IO.FileStream file = System.IO.File.Open(input_file2, System.IO.FileMode.Open, System.IO.FileAccess.Read))
             {
@@ -177,7 +177,7 @@ class Write_bti_class
                     {
                         if (!no_warning)
                             Console.WriteLine("Couldn't find the TEX1 Section. This bmd file is corrupted. the program will exit");
-                        return;
+                        return "Couldn't find the TEX1 Section. This bmd file is corrupted.";
                     }
                     y += (j3d[y + 4] << 24) + (j3d[y + 5] << 16) + (j3d[y + 6] << 8) + j3d[y + 7];  // size of current section
                 }
@@ -190,7 +190,7 @@ class Write_bti_class
                 {
                     if (!no_warning)
                         Console.WriteLine("I could have sworn you were smart enough to take a bmd with bti textures in it, but this one contains none.");
-                    return;
+                    return "the bmd file provided has zero textures in it";
                 }
                 string name = "";
                 x += 4 + (string_count << 2); // 4 is the string pool table header size
@@ -350,6 +350,11 @@ class Write_bti_class
                         if (System.IO.File.Exists(output_file + ".bmd"))
                         {
                             mode = System.IO.FileMode.Truncate;
+                            if (warn)
+                            {
+                                Console.WriteLine("Press enter to overwrite " + output_file + ".bmd");
+                                Console.ReadLine();
+                            }
                         }
                         using (System.IO.FileStream ofile = System.IO.File.Open(output_file + ".bmd", mode, System.IO.FileAccess.Write))
                         {
@@ -401,7 +406,8 @@ class Write_bti_class
                         }
                         else
                         {
-                            throw ex;
+                            //throw ex;
+                            return "cannot write " + output_file;
                         }
                     }
                 }
@@ -419,6 +425,11 @@ class Write_bti_class
                     if (System.IO.File.Exists(output_file + ".bti"))
                     {
                         mode = System.IO.FileMode.Truncate;
+                        if (warn)
+                        {
+                            Console.WriteLine("Press enter to overwrite " + output_file + ".bti");
+                            Console.ReadLine();
+                        }
                     }
                     using (System.IO.FileStream file = System.IO.File.Open(output_file + ".bti", mode, System.IO.FileAccess.Write))
                     {
@@ -455,10 +466,11 @@ class Write_bti_class
                     }
                     else
                     {
-                        throw ex;
+                        return "cannot write " + output_file;
                     }
                 }  // catch is triggered if the program can't write the output file
             }  // while the image hasn't been created
         }  // if statement to check wether we're writing a bti or a bmd
+        return "";
     }  // end of write_bti
 }  // end of class
