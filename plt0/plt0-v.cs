@@ -16780,6 +16780,8 @@ namespace plt0_gui
         }
         private void Run_Click(object sender, EventArgs e)
         {
+            if (vanilla_arg_array == null)
+                return;
             run_count++;
             Parse_args_class cli = new Parse_args_class();
             cli.Parse_args(vanilla_arg_array);
