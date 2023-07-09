@@ -70,11 +70,6 @@ class Write_plt0_class
                 if (System.IO.File.Exists(output_file + ".plt0"))
                 {
                     mode = System.IO.FileMode.Truncate;
-                    if (warn)
-                    {
-                        Console.WriteLine("Press enter to overwrite " + output_file + ".plt0");
-                        Console.ReadLine();
-                    }
                 }
                 using (System.IO.FileStream file = System.IO.File.Open(output_file + ".plt0", mode, System.IO.FileAccess.Write))
                 {

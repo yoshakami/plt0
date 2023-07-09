@@ -170,11 +170,6 @@ class Write_tex0_class
                 if (System.IO.File.Exists(output_file + ".tex0"))
                 {
                     mode = System.IO.FileMode.Truncate;
-                    if (warn)
-                    {
-                        Console.WriteLine("Press enter to overwrite " + output_file + ".tex0");
-                        Console.ReadLine();
-                    }
                 }
                 using (System.IO.FileStream file = System.IO.File.Open(output_file + ".tex0", mode, System.IO.FileAccess.Write))
                 {

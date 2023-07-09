@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Security.AccessControl;
+using System.Security.Principal;
 
 class Parse_args_class
 {
@@ -1126,54 +1127,25 @@ class Parse_args_class
             else
                 output_file = input_file;
         }
-        string[] out_split = output_file.Split('/');
-        if (out_split.Length == 1)
+        bool IsDirectoryWritable(string output_name, bool warn)
         {
-            out_split = output_file.Split('\\');
-        }
-        string folderPath = output_file.Substring(0, output_file.Length - out_split[out_split.Length - 1].Length - 1);
-
-        try
-        {
-            // Get the directory's access control
-            DirectorySecurity directorySecurity = Directory.GetAccessControl(folderPath);
-
-            // Check if the current user has write access
-            AuthorizationRuleCollection authorizationRules = directorySecurity.GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier));
-
-            bool hasWriteAccess = false;
-
-            foreach (FileSystemAccessRule rule in authorizationRules)
+            try  // create empty output files
             {
-                if (rule.IdentityReference.Value == System.Security.Principal.WindowsIdentity.GetCurrent().User.Value
-                    && (rule.FileSystemRights & FileSystemRights.WriteData) == FileSystemRights.WriteData
-                    && rule.AccessControlType == AccessControlType.Allow)
+                if (File.Exists(output_name) && warn)
                 {
-                    hasWriteAccess = true;
-                    break;
+                    Console.WriteLine("Press enter to overwrite " + output_name);
+                    Console.ReadLine();
                 }
+                using (FileStream fs = File.Create(output_name, 1))
+                { }
+                return true;
             }
-
-            // Output the result
-            if (hasWriteAccess)
+            catch
             {
-                Console.WriteLine("You have write access to the folder.");
-            }
-            else
-            {
-                Console.WriteLine("You do not have write access to the folder.");
+                return false;
             }
         }
-        catch (UnauthorizedAccessException)
-        {
-            // Handle unauthorized access exception
-            Console.WriteLine("You do not have permission to access the folder.");
-        }
-        catch (Exception ex)
-        {
-            // Handle other exceptions
-            Console.WriteLine("An error occurred: " + ex.Message);
-        }
+        bool[] outputs = {bmp, png};
         if (colour_number > max_colours && max_colours == 16)
         {
             if (!no_warning)
@@ -1580,7 +1552,7 @@ class Parse_args_class
             }
             if (System.IO.File.Exists(input_fil + ".mm" + z + input_ext))  // image with mipmap: input.png -> input.mm1.png -> input.mm2.png
             {
-                byte[] bmp_mipmap = {};
+                byte[] bmp_mipmap = { };
                 using (Bitmap input_file_image = (Bitmap)Bitmap.FromFile(input_fil + ".mm" + z + input_ext))
                 {
                     bmp_mipmap = _bmp.Convert_to_bmp(input_file_image);
@@ -1616,7 +1588,7 @@ class Parse_args_class
                     exit = true;
                     return;
                 }
-                byte[] bmp_mipmap = {};
+                byte[] bmp_mipmap = { };
                 using (Bitmap input_file_image = (Bitmap)Bitmap.FromFile(input_file))
                 {
                     bmp_mipmap = _bmp.Convert_to_bmp(ResizeImage_class.ResizeImage(input_file_image, bitmap_width, bitmap_height));

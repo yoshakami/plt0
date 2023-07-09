@@ -1367,11 +1367,6 @@ class Write_bmp_class
                     if (System.IO.File.Exists(output_file + end))
                     {
                         mode = System.IO.FileMode.Truncate;
-                        if (warn)
-                        {
-                            Console.WriteLine("Press enter to overwrite " + output_file + end);
-                            Console.ReadLine();
-                        }
                     }
                     if (bmp)
                     {

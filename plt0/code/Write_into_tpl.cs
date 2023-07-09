@@ -333,11 +333,6 @@ class Write_into_tpl_class
                 if (System.IO.File.Exists(output_file))
                 {
                     mode = System.IO.FileMode.Truncate;
-                    if (warn)
-                    {
-                        Console.WriteLine("Press enter to overwrite " + output_file);
-                        Console.ReadLine();
-                    }
                 }
                 using (System.IO.FileStream file = System.IO.File.Open(output_file, mode, System.IO.FileAccess.Write))
                 {

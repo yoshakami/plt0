@@ -350,11 +350,6 @@ class Write_bti_class
                         if (System.IO.File.Exists(output_file + ".bmd"))
                         {
                             mode = System.IO.FileMode.Truncate;
-                            if (warn)
-                            {
-                                Console.WriteLine("Press enter to overwrite " + output_file + ".bmd");
-                                Console.ReadLine();
-                            }
                         }
                         using (System.IO.FileStream ofile = System.IO.File.Open(output_file + ".bmd", mode, System.IO.FileAccess.Write))
                         {
@@ -424,11 +419,6 @@ class Write_bti_class
                     if (System.IO.File.Exists(output_file + ".bti"))
                     {
                         mode = System.IO.FileMode.Truncate;
-                        if (warn)
-                        {
-                            Console.WriteLine("Press enter to overwrite " + output_file + ".bti");
-                            Console.ReadLine();
-                        }
                     }
                     using (System.IO.FileStream file = System.IO.File.Open(output_file + ".bti", mode, System.IO.FileAccess.Write))
                     {

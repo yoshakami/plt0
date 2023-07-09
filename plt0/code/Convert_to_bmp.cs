@@ -42,26 +42,6 @@ class Convert_to_bmp_class
         using (var ms = new MemoryStream())
         {
             bmp.Save(ms, ImageFormat.Bmp);
-            /*
-            FileMode mode = System.IO.FileMode.CreateNew;
-            if (System.IO.File.Exists(output_file + ".bmp"))
-            {
-                mode = System.IO.FileMode.Truncate;
-                if (warn)
-                {
-                    Console.WriteLine("Press enter to overwrite " + output_file + ".bmp");
-                    Console.ReadLine();
-                }
-            }
-            using (System.IO.FileStream file = System.IO.File.Open(output_file + ".bmp", mode, System.IO.FileAccess.Write))
-            {
-                file.Write(ms.ToArray(), 0, (int)ms.Length);
-                file.Close();
-                Console.WriteLine(output_file + ".bmp");
-            }
-            alright. Format16bppRgb565 is compressed only
-            */
-
             return ms.ToArray();
         }
     }

@@ -73,11 +73,6 @@ class Convert_from_bmp_class
                 if (System.IO.File.Exists(output_file + end))
                 {
                     mode = System.IO.FileMode.Truncate;
-                    if (warn)
-                    {
-                        Console.WriteLine("Press enter to overwrite " + output_file + end);
-                        Console.ReadLine();
-                    }
                 }
                 using (System.IO.FileStream file = System.IO.File.Open(output_file + end, mode, System.IO.FileAccess.Write))
                 {
