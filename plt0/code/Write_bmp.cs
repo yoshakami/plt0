@@ -169,42 +169,49 @@ class Write_bmp_class
             data[25] = 0; // fourth byte of height
             data[26] = 1; // always 1
             data[27] = 0; // always 0
-            switch (texture_format_int32[3])
+            if (bmp_32)
             {
-                case 0:  // I4
-                case 8: // CI4
-                    {
-                        data[28] = 4;  // 4-bit per pixel
-                        break;
-                    }
-                case 1: // I8
-                case 9:  // CI8
-                    {
-                        data[28] = 8;  // 8-bit per pixel
-                        break;
-                    }
-                /* technically RGB5A3 with no alpha would fit as it's XRRR RRGG GGGB BBBB, but lots of softwares doesn't like these
+                data[28] = 32;
+            }
+            else
+            {
+                switch (texture_format_int32[3])
                 {
-                    data[28] = 16;  // 16-bit per pixel
-                    break;
-                }
-                */
+                    case 0:  // I4
+                    case 8: // CI4
+                        {
+                            data[28] = 4;  // 4-bit per pixel
+                            break;
+                        }
+                    case 1: // I8
+                    case 9:  // CI8
+                        {
+                            data[28] = 8;  // 8-bit per pixel
+                            break;
+                        }
+                    /* technically RGB5A3 with no alpha would fit as it's XRRR RRGG GGGB BBBB, but lots of softwares doesn't like these
+                    {
+                        data[28] = 16;  // 16-bit per pixel
+                        break;
+                    }
+                    */
 
-                case 4:  // RGB565
-                    {
-                        data[28] = 24; // converted to 24bpp to prevent loss
-                        break;
-                    }
-                case 2: // AI4
-                case 3:  // IA8
-                case 6:  // RGBA32
-                case 5:  // RGB5A3
-                case 10: // CI14x2
-                case 0xE:  // CMPR
-                    {
-                        data[28] = 32; // 32 bits per pixel
-                        break;
-                    }
+                    case 4:  // RGB565
+                        {
+                            data[28] = 24; // converted to 24bpp to prevent loss
+                            break;
+                        }
+                    case 2: // AI4
+                    case 3:  // IA8
+                    case 6:  // RGBA32
+                    case 5:  // RGB5A3
+                    case 10: // CI14x2
+                    case 0xE:  // CMPR
+                        {
+                            data[28] = 32; // 32 bits per pixel
+                            break;
+                        }
+                }
             }
             data[29] = 0; // second bit of depth
             data[30] = 0; // compression

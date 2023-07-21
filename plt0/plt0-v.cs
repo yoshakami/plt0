@@ -1178,6 +1178,7 @@ namespace plt0_gui
                         case "tif":
                         case "tiff":
                             arg_array.Remove(arg_array[i]);
+                            i--;
                             break;
                     }
                 }
@@ -1474,6 +1475,11 @@ namespace plt0_gui
             {
                 args += "funky ";
                 arg_array.Add("funky");
+            }
+            if (name_string)
+            {
+                args += "name ";
+                arg_array.Add("name");
             }
             if (no_warning)
             {
@@ -5268,12 +5274,12 @@ namespace plt0_gui
             // 
             this.output_file_type_label.AutoSize = true;
             this.output_file_type_label.BackColor = System.Drawing.Color.Transparent;
-            this.output_file_type_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.output_file_type_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.output_file_type_label.ForeColor = System.Drawing.SystemColors.Control;
             this.output_file_type_label.Location = new System.Drawing.Point(36, 95);
             this.output_file_type_label.Margin = new System.Windows.Forms.Padding(0);
             this.output_file_type_label.Name = "output_file_type_label";
-            this.output_file_type_label.Size = new System.Drawing.Size(168, 24);
+            this.output_file_type_label.Size = new System.Drawing.Size(158, 25);
             this.output_file_type_label.TabIndex = 0;
             this.output_file_type_label.Text = "Output file type";
             // 
@@ -5281,11 +5287,11 @@ namespace plt0_gui
             // 
             this.mandatory_settings_label.AutoSize = true;
             this.mandatory_settings_label.BackColor = System.Drawing.Color.Transparent;
-            this.mandatory_settings_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.mandatory_settings_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.mandatory_settings_label.ForeColor = System.Drawing.SystemColors.Control;
             this.mandatory_settings_label.Location = new System.Drawing.Point(119, 54);
             this.mandatory_settings_label.Name = "mandatory_settings_label";
-            this.mandatory_settings_label.Size = new System.Drawing.Size(209, 24);
+            this.mandatory_settings_label.Size = new System.Drawing.Size(199, 25);
             this.mandatory_settings_label.TabIndex = 123;
             this.mandatory_settings_label.Text = "Mandatory Settings";
             // 
@@ -5327,13 +5333,13 @@ namespace plt0_gui
             // 
             this.bti_label.AutoSize = true;
             this.bti_label.BackColor = System.Drawing.Color.Transparent;
-            this.bti_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.bti_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.bti_label.ForeColor = System.Drawing.SystemColors.Window;
             this.bti_label.Location = new System.Drawing.Point(104, 192);
             this.bti_label.Margin = new System.Windows.Forms.Padding(0);
             this.bti_label.Name = "bti_label";
             this.bti_label.Padding = new System.Windows.Forms.Padding(0, 22, 40, 22);
-            this.bti_label.Size = new System.Drawing.Size(78, 68);
+            this.bti_label.Size = new System.Drawing.Size(75, 69);
             this.bti_label.TabIndex = 127;
             this.bti_label.Text = "bti";
             this.bti_label.Click += new System.EventHandler(this.bti_Click);
@@ -5361,13 +5367,13 @@ namespace plt0_gui
             // 
             this.tex0_label.AutoSize = true;
             this.tex0_label.BackColor = System.Drawing.Color.Transparent;
-            this.tex0_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.tex0_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.tex0_label.ForeColor = System.Drawing.SystemColors.Window;
             this.tex0_label.Location = new System.Drawing.Point(104, 257);
             this.tex0_label.Margin = new System.Windows.Forms.Padding(0);
             this.tex0_label.Name = "tex0_label";
             this.tex0_label.Padding = new System.Windows.Forms.Padding(0, 22, 20, 22);
-            this.tex0_label.Size = new System.Drawing.Size(74, 68);
+            this.tex0_label.Size = new System.Drawing.Size(73, 69);
             this.tex0_label.TabIndex = 130;
             this.tex0_label.Text = "tex0";
             this.tex0_label.Click += new System.EventHandler(this.tex0_Click);
@@ -5395,13 +5401,13 @@ namespace plt0_gui
             // 
             this.tpl_label.AutoSize = true;
             this.tpl_label.BackColor = System.Drawing.Color.Transparent;
-            this.tpl_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.tpl_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.tpl_label.ForeColor = System.Drawing.SystemColors.Window;
             this.tpl_label.Location = new System.Drawing.Point(104, 321);
             this.tpl_label.Margin = new System.Windows.Forms.Padding(0);
             this.tpl_label.Name = "tpl_label";
             this.tpl_label.Padding = new System.Windows.Forms.Padding(0, 22, 40, 22);
-            this.tpl_label.Size = new System.Drawing.Size(78, 68);
+            this.tpl_label.Size = new System.Drawing.Size(75, 69);
             this.tpl_label.TabIndex = 133;
             this.tpl_label.Text = "tpl";
             this.tpl_label.Click += new System.EventHandler(this.tpl_Click);
@@ -5429,13 +5435,13 @@ namespace plt0_gui
             // 
             this.bmp_label.AutoSize = true;
             this.bmp_label.BackColor = System.Drawing.Color.Transparent;
-            this.bmp_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.bmp_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.bmp_label.ForeColor = System.Drawing.SystemColors.Window;
             this.bmp_label.Location = new System.Drawing.Point(104, 384);
             this.bmp_label.Margin = new System.Windows.Forms.Padding(0);
             this.bmp_label.Name = "bmp_label";
             this.bmp_label.Padding = new System.Windows.Forms.Padding(0, 22, 30, 22);
-            this.bmp_label.Size = new System.Drawing.Size(84, 68);
+            this.bmp_label.Size = new System.Drawing.Size(83, 69);
             this.bmp_label.TabIndex = 136;
             this.bmp_label.Text = "bmp";
             this.bmp_label.Click += new System.EventHandler(this.bmp_Click);
@@ -5463,13 +5469,13 @@ namespace plt0_gui
             // 
             this.png_label.AutoSize = true;
             this.png_label.BackColor = System.Drawing.Color.Transparent;
-            this.png_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.png_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.png_label.ForeColor = System.Drawing.SystemColors.Window;
             this.png_label.Location = new System.Drawing.Point(104, 449);
             this.png_label.Margin = new System.Windows.Forms.Padding(0);
             this.png_label.Name = "png_label";
             this.png_label.Padding = new System.Windows.Forms.Padding(0, 22, 30, 22);
-            this.png_label.Size = new System.Drawing.Size(79, 68);
+            this.png_label.Size = new System.Drawing.Size(78, 69);
             this.png_label.TabIndex = 139;
             this.png_label.Text = "png";
             this.png_label.Click += new System.EventHandler(this.png_Click);
@@ -5497,13 +5503,13 @@ namespace plt0_gui
             // 
             this.jpg_label.AutoSize = true;
             this.jpg_label.BackColor = System.Drawing.Color.Transparent;
-            this.jpg_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.jpg_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.jpg_label.ForeColor = System.Drawing.SystemColors.Window;
             this.jpg_label.Location = new System.Drawing.Point(104, 513);
             this.jpg_label.Margin = new System.Windows.Forms.Padding(0);
             this.jpg_label.Name = "jpg_label";
             this.jpg_label.Padding = new System.Windows.Forms.Padding(0, 22, 30, 22);
-            this.jpg_label.Size = new System.Drawing.Size(72, 68);
+            this.jpg_label.Size = new System.Drawing.Size(71, 69);
             this.jpg_label.TabIndex = 142;
             this.jpg_label.Text = "jpg";
             this.jpg_label.Click += new System.EventHandler(this.jpg_Click);
@@ -5531,13 +5537,13 @@ namespace plt0_gui
             // 
             this.tiff_label.AutoSize = true;
             this.tiff_label.BackColor = System.Drawing.Color.Transparent;
-            this.tiff_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.tiff_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.tiff_label.ForeColor = System.Drawing.SystemColors.Window;
             this.tiff_label.Location = new System.Drawing.Point(104, 834);
             this.tiff_label.Margin = new System.Windows.Forms.Padding(0);
             this.tiff_label.Name = "tiff_label";
             this.tiff_label.Padding = new System.Windows.Forms.Padding(0, 22, 30, 22);
-            this.tiff_label.Size = new System.Drawing.Size(71, 68);
+            this.tiff_label.Size = new System.Drawing.Size(65, 69);
             this.tiff_label.TabIndex = 157;
             this.tiff_label.Text = "tiff";
             this.tiff_label.Click += new System.EventHandler(this.tiff_Click);
@@ -5565,13 +5571,13 @@ namespace plt0_gui
             // 
             this.tif_label.AutoSize = true;
             this.tif_label.BackColor = System.Drawing.Color.Transparent;
-            this.tif_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.tif_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.tif_label.ForeColor = System.Drawing.SystemColors.Window;
             this.tif_label.Location = new System.Drawing.Point(104, 770);
             this.tif_label.Margin = new System.Windows.Forms.Padding(0);
             this.tif_label.Name = "tif_label";
             this.tif_label.Padding = new System.Windows.Forms.Padding(0, 22, 40, 22);
-            this.tif_label.Size = new System.Drawing.Size(74, 68);
+            this.tif_label.Size = new System.Drawing.Size(69, 69);
             this.tif_label.TabIndex = 154;
             this.tif_label.Text = "tif";
             this.tif_label.Click += new System.EventHandler(this.tif_Click);
@@ -5599,13 +5605,13 @@ namespace plt0_gui
             // 
             this.ico_label.AutoSize = true;
             this.ico_label.BackColor = System.Drawing.Color.Transparent;
-            this.ico_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.ico_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.ico_label.ForeColor = System.Drawing.SystemColors.Window;
             this.ico_label.Location = new System.Drawing.Point(104, 705);
             this.ico_label.Margin = new System.Windows.Forms.Padding(0);
             this.ico_label.Name = "ico_label";
             this.ico_label.Padding = new System.Windows.Forms.Padding(0, 22, 40, 22);
-            this.ico_label.Size = new System.Drawing.Size(80, 68);
+            this.ico_label.Size = new System.Drawing.Size(80, 69);
             this.ico_label.TabIndex = 151;
             this.ico_label.Text = "ico";
             this.ico_label.Click += new System.EventHandler(this.ico_Click);
@@ -5633,13 +5639,13 @@ namespace plt0_gui
             // 
             this.gif_label.AutoSize = true;
             this.gif_label.BackColor = System.Drawing.Color.Transparent;
-            this.gif_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.gif_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.gif_label.ForeColor = System.Drawing.SystemColors.Window;
             this.gif_label.Location = new System.Drawing.Point(104, 642);
             this.gif_label.Margin = new System.Windows.Forms.Padding(0);
             this.gif_label.Name = "gif_label";
             this.gif_label.Padding = new System.Windows.Forms.Padding(0, 22, 40, 22);
-            this.gif_label.Size = new System.Drawing.Size(78, 68);
+            this.gif_label.Size = new System.Drawing.Size(75, 69);
             this.gif_label.TabIndex = 148;
             this.gif_label.Text = "gif";
             this.gif_label.Click += new System.EventHandler(this.gif_Click);
@@ -5667,13 +5673,13 @@ namespace plt0_gui
             // 
             this.jpeg_label.AutoSize = true;
             this.jpeg_label.BackColor = System.Drawing.Color.Transparent;
-            this.jpeg_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.jpeg_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.jpeg_label.ForeColor = System.Drawing.SystemColors.Window;
             this.jpeg_label.Location = new System.Drawing.Point(104, 578);
             this.jpeg_label.Margin = new System.Windows.Forms.Padding(0);
             this.jpeg_label.Name = "jpeg_label";
             this.jpeg_label.Padding = new System.Windows.Forms.Padding(0, 22, 20, 22);
-            this.jpeg_label.Size = new System.Drawing.Size(74, 68);
+            this.jpeg_label.Size = new System.Drawing.Size(73, 69);
             this.jpeg_label.TabIndex = 145;
             this.jpeg_label.Text = "jpeg";
             this.jpeg_label.Click += new System.EventHandler(this.jpeg_Click);
@@ -5684,12 +5690,12 @@ namespace plt0_gui
             // 
             this.options_label.AutoSize = true;
             this.options_label.BackColor = System.Drawing.Color.Transparent;
-            this.options_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.options_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.options_label.ForeColor = System.Drawing.SystemColors.Control;
             this.options_label.Location = new System.Drawing.Point(1674, 96);
             this.options_label.Margin = new System.Windows.Forms.Padding(0);
             this.options_label.Name = "options_label";
-            this.options_label.Size = new System.Drawing.Size(88, 24);
+            this.options_label.Size = new System.Drawing.Size(87, 25);
             this.options_label.TabIndex = 160;
             this.options_label.Text = "Options";
             // 
@@ -5714,13 +5720,13 @@ namespace plt0_gui
             // 
             this.warn_label.AutoSize = true;
             this.warn_label.BackColor = System.Drawing.Color.Transparent;
-            this.warn_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.warn_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.warn_label.ForeColor = System.Drawing.SystemColors.Window;
             this.warn_label.Location = new System.Drawing.Point(1716, 704);
             this.warn_label.Margin = new System.Windows.Forms.Padding(0);
             this.warn_label.Name = "warn_label";
             this.warn_label.Padding = new System.Windows.Forms.Padding(0, 22, 120, 22);
-            this.warn_label.Size = new System.Drawing.Size(181, 68);
+            this.warn_label.Size = new System.Drawing.Size(178, 69);
             this.warn_label.TabIndex = 188;
             this.warn_label.Text = "warn";
             this.warn_label.Click += new System.EventHandler(this.warn_Click);
@@ -5748,13 +5754,13 @@ namespace plt0_gui
             // 
             this.stfu_label.AutoSize = true;
             this.stfu_label.BackColor = System.Drawing.Color.Transparent;
-            this.stfu_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.stfu_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.stfu_label.ForeColor = System.Drawing.SystemColors.Window;
             this.stfu_label.Location = new System.Drawing.Point(1716, 640);
             this.stfu_label.Margin = new System.Windows.Forms.Padding(0);
             this.stfu_label.Name = "stfu_label";
             this.stfu_label.Padding = new System.Windows.Forms.Padding(0, 22, 130, 22);
-            this.stfu_label.Size = new System.Drawing.Size(181, 68);
+            this.stfu_label.Size = new System.Drawing.Size(177, 69);
             this.stfu_label.TabIndex = 185;
             this.stfu_label.Text = "stfu";
             this.stfu_label.Click += new System.EventHandler(this.stfu_Click);
@@ -5782,13 +5788,13 @@ namespace plt0_gui
             // 
             this.safe_mode_label.AutoSize = true;
             this.safe_mode_label.BackColor = System.Drawing.Color.Transparent;
-            this.safe_mode_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.safe_mode_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.safe_mode_label.ForeColor = System.Drawing.SystemColors.Window;
             this.safe_mode_label.Location = new System.Drawing.Point(1716, 576);
             this.safe_mode_label.Margin = new System.Windows.Forms.Padding(0);
             this.safe_mode_label.Name = "safe_mode_label";
             this.safe_mode_label.Padding = new System.Windows.Forms.Padding(0, 22, 50, 22);
-            this.safe_mode_label.Size = new System.Drawing.Size(162, 68);
+            this.safe_mode_label.Size = new System.Drawing.Size(162, 69);
             this.safe_mode_label.TabIndex = 182;
             this.safe_mode_label.Text = "safe mode";
             this.safe_mode_label.Click += new System.EventHandler(this.safe_mode_Click);
@@ -5816,13 +5822,13 @@ namespace plt0_gui
             // 
             this.reversey_label.AutoSize = true;
             this.reversey_label.BackColor = System.Drawing.Color.Transparent;
-            this.reversey_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.reversey_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.reversey_label.ForeColor = System.Drawing.SystemColors.Window;
             this.reversey_label.Location = new System.Drawing.Point(1716, 512);
             this.reversey_label.Margin = new System.Windows.Forms.Padding(0);
             this.reversey_label.Name = "reversey_label";
             this.reversey_label.Padding = new System.Windows.Forms.Padding(0, 22, 10, 22);
-            this.reversey_label.Size = new System.Drawing.Size(160, 68);
+            this.reversey_label.Size = new System.Drawing.Size(158, 69);
             this.reversey_label.TabIndex = 179;
             this.reversey_label.Text = "reverse y-axis";
             this.reversey_label.Click += new System.EventHandler(this.reversey_Click);
@@ -5850,13 +5856,13 @@ namespace plt0_gui
             // 
             this.random_label.AutoSize = true;
             this.random_label.BackColor = System.Drawing.Color.Transparent;
-            this.random_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.random_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.random_label.ForeColor = System.Drawing.SystemColors.Window;
             this.random_label.Location = new System.Drawing.Point(1716, 384);
             this.random_label.Margin = new System.Windows.Forms.Padding(0);
             this.random_label.Name = "random_label";
             this.random_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.random_label.Size = new System.Drawing.Size(166, 68);
+            this.random_label.Size = new System.Drawing.Size(155, 69);
             this.random_label.TabIndex = 176;
             this.random_label.Text = "random palette";
             this.random_label.Click += new System.EventHandler(this.random_Click);
@@ -5884,13 +5890,13 @@ namespace plt0_gui
             // 
             this.no_warning_label.AutoSize = true;
             this.no_warning_label.BackColor = System.Drawing.Color.Transparent;
-            this.no_warning_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.no_warning_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.no_warning_label.ForeColor = System.Drawing.SystemColors.Window;
             this.no_warning_label.Location = new System.Drawing.Point(1716, 1131);
             this.no_warning_label.Margin = new System.Windows.Forms.Padding(0);
             this.no_warning_label.Name = "no_warning_label";
             this.no_warning_label.Padding = new System.Windows.Forms.Padding(0, 22, 50, 22);
-            this.no_warning_label.Size = new System.Drawing.Size(173, 68);
+            this.no_warning_label.Size = new System.Drawing.Size(167, 69);
             this.no_warning_label.TabIndex = 173;
             this.no_warning_label.Text = "no warning";
             this.no_warning_label.Click += new System.EventHandler(this.no_warning_Click);
@@ -5918,13 +5924,13 @@ namespace plt0_gui
             // 
             this.funky_label.AutoSize = true;
             this.funky_label.BackColor = System.Drawing.Color.Transparent;
-            this.funky_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.funky_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.funky_label.ForeColor = System.Drawing.SystemColors.Window;
             this.funky_label.Location = new System.Drawing.Point(1716, 256);
             this.funky_label.Margin = new System.Windows.Forms.Padding(0);
             this.funky_label.Name = "funky_label";
             this.funky_label.Padding = new System.Windows.Forms.Padding(0, 22, 110, 22);
-            this.funky_label.Size = new System.Drawing.Size(178, 68);
+            this.funky_label.Size = new System.Drawing.Size(174, 69);
             this.funky_label.TabIndex = 170;
             this.funky_label.Text = "funky";
             this.funky_label.Click += new System.EventHandler(this.funky_Click);
@@ -5952,13 +5958,13 @@ namespace plt0_gui
             // 
             this.FORCE_ALPHA_label.AutoSize = true;
             this.FORCE_ALPHA_label.BackColor = System.Drawing.Color.Transparent;
-            this.FORCE_ALPHA_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.FORCE_ALPHA_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.FORCE_ALPHA_label.ForeColor = System.Drawing.SystemColors.Window;
             this.FORCE_ALPHA_label.Location = new System.Drawing.Point(1716, 192);
             this.FORCE_ALPHA_label.Margin = new System.Windows.Forms.Padding(0);
             this.FORCE_ALPHA_label.Name = "FORCE_ALPHA_label";
             this.FORCE_ALPHA_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.FORCE_ALPHA_label.Size = new System.Drawing.Size(147, 68);
+            this.FORCE_ALPHA_label.Size = new System.Drawing.Size(163, 69);
             this.FORCE_ALPHA_label.TabIndex = 167;
             this.FORCE_ALPHA_label.Text = "FORCE ALPHA";
             this.FORCE_ALPHA_label.Click += new System.EventHandler(this.FORCE_ALPHA_Click);
@@ -5986,13 +5992,13 @@ namespace plt0_gui
             // 
             this.bmp_32_label.AutoSize = true;
             this.bmp_32_label.BackColor = System.Drawing.Color.Transparent;
-            this.bmp_32_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.bmp_32_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.bmp_32_label.ForeColor = System.Drawing.SystemColors.Window;
             this.bmp_32_label.Location = new System.Drawing.Point(1716, 128);
             this.bmp_32_label.Margin = new System.Windows.Forms.Padding(0);
             this.bmp_32_label.Name = "bmp_32_label";
             this.bmp_32_label.Padding = new System.Windows.Forms.Padding(0, 22, 50, 22);
-            this.bmp_32_label.Size = new System.Drawing.Size(169, 68);
+            this.bmp_32_label.Size = new System.Drawing.Size(164, 69);
             this.bmp_32_label.TabIndex = 164;
             this.bmp_32_label.Text = "32-bit bmp";
             this.bmp_32_label.Click += new System.EventHandler(this.bmp_32_Click);
@@ -6021,13 +6027,13 @@ namespace plt0_gui
             // 
             this.ask_exit_label.AutoSize = true;
             this.ask_exit_label.BackColor = System.Drawing.Color.Transparent;
-            this.ask_exit_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.ask_exit_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.ask_exit_label.ForeColor = System.Drawing.SystemColors.Window;
             this.ask_exit_label.Location = new System.Drawing.Point(1716, 64);
             this.ask_exit_label.Margin = new System.Windows.Forms.Padding(0);
             this.ask_exit_label.Name = "ask_exit_label";
             this.ask_exit_label.Padding = new System.Windows.Forms.Padding(0, 22, 80, 22);
-            this.ask_exit_label.Size = new System.Drawing.Size(167, 68);
+            this.ask_exit_label.Size = new System.Drawing.Size(166, 69);
             this.ask_exit_label.TabIndex = 161;
             this.ask_exit_label.Text = "ask exit";
             this.ask_exit_label.Visible = false;
@@ -6056,13 +6062,13 @@ namespace plt0_gui
             // 
             this.cmpr_label.AutoSize = true;
             this.cmpr_label.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_label.ForeColor = System.Drawing.SystemColors.Window;
             this.cmpr_label.Location = new System.Drawing.Point(320, 770);
             this.cmpr_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_label.Name = "cmpr_label";
             this.cmpr_label.Padding = new System.Windows.Forms.Padding(0, 22, 30, 22);
-            this.cmpr_label.Size = new System.Drawing.Size(98, 68);
+            this.cmpr_label.Size = new System.Drawing.Size(104, 69);
             this.cmpr_label.TabIndex = 231;
             this.cmpr_label.Text = "CMPR";
             this.cmpr_label.Click += new System.EventHandler(this.CMPR_Click);
@@ -6090,13 +6096,13 @@ namespace plt0_gui
             // 
             this.ci14x2_label.AutoSize = true;
             this.ci14x2_label.BackColor = System.Drawing.Color.Transparent;
-            this.ci14x2_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.ci14x2_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.ci14x2_label.ForeColor = System.Drawing.SystemColors.Window;
             this.ci14x2_label.Location = new System.Drawing.Point(320, 705);
             this.ci14x2_label.Margin = new System.Windows.Forms.Padding(0);
             this.ci14x2_label.Name = "ci14x2_label";
             this.ci14x2_label.Padding = new System.Windows.Forms.Padding(0, 22, 20, 22);
-            this.ci14x2_label.Size = new System.Drawing.Size(97, 68);
+            this.ci14x2_label.Size = new System.Drawing.Size(101, 69);
             this.ci14x2_label.TabIndex = 228;
             this.ci14x2_label.Text = "CI14x2";
             this.ci14x2_label.Click += new System.EventHandler(this.CI14X2_Click);
@@ -6124,13 +6130,13 @@ namespace plt0_gui
             // 
             this.ci8_label.AutoSize = true;
             this.ci8_label.BackColor = System.Drawing.Color.Transparent;
-            this.ci8_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.ci8_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.ci8_label.ForeColor = System.Drawing.SystemColors.Window;
             this.ci8_label.Location = new System.Drawing.Point(320, 642);
             this.ci8_label.Margin = new System.Windows.Forms.Padding(0);
             this.ci8_label.Name = "ci8_label";
             this.ci8_label.Padding = new System.Windows.Forms.Padding(0, 22, 60, 22);
-            this.ci8_label.Size = new System.Drawing.Size(102, 68);
+            this.ci8_label.Size = new System.Drawing.Size(106, 69);
             this.ci8_label.TabIndex = 225;
             this.ci8_label.Text = "CI8";
             this.ci8_label.Click += new System.EventHandler(this.CI8_Click);
@@ -6158,13 +6164,13 @@ namespace plt0_gui
             // 
             this.ci4_label.AutoSize = true;
             this.ci4_label.BackColor = System.Drawing.Color.Transparent;
-            this.ci4_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.ci4_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.ci4_label.ForeColor = System.Drawing.SystemColors.Window;
             this.ci4_label.Location = new System.Drawing.Point(320, 578);
             this.ci4_label.Margin = new System.Windows.Forms.Padding(0);
             this.ci4_label.Name = "ci4_label";
             this.ci4_label.Padding = new System.Windows.Forms.Padding(0, 22, 60, 22);
-            this.ci4_label.Size = new System.Drawing.Size(102, 68);
+            this.ci4_label.Size = new System.Drawing.Size(106, 69);
             this.ci4_label.TabIndex = 222;
             this.ci4_label.Text = "CI4";
             this.ci4_label.Click += new System.EventHandler(this.CI4_Click);
@@ -6192,13 +6198,13 @@ namespace plt0_gui
             // 
             this.rgba32_label.AutoSize = true;
             this.rgba32_label.BackColor = System.Drawing.Color.Transparent;
-            this.rgba32_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.rgba32_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.rgba32_label.ForeColor = System.Drawing.SystemColors.Window;
             this.rgba32_label.Location = new System.Drawing.Point(320, 513);
             this.rgba32_label.Margin = new System.Windows.Forms.Padding(0);
             this.rgba32_label.Name = "rgba32_label";
             this.rgba32_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.rgba32_label.Size = new System.Drawing.Size(89, 68);
+            this.rgba32_label.Size = new System.Drawing.Size(95, 69);
             this.rgba32_label.TabIndex = 219;
             this.rgba32_label.Text = "RGBA32";
             this.rgba32_label.Click += new System.EventHandler(this.RGBA32_Click);
@@ -6226,13 +6232,13 @@ namespace plt0_gui
             // 
             this.rgb5a3_label.AutoSize = true;
             this.rgb5a3_label.BackColor = System.Drawing.Color.Transparent;
-            this.rgb5a3_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.rgb5a3_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.rgb5a3_label.ForeColor = System.Drawing.SystemColors.Window;
             this.rgb5a3_label.Location = new System.Drawing.Point(320, 449);
             this.rgb5a3_label.Margin = new System.Windows.Forms.Padding(0);
             this.rgb5a3_label.Name = "rgb5a3_label";
             this.rgb5a3_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.rgb5a3_label.Size = new System.Drawing.Size(89, 68);
+            this.rgb5a3_label.Size = new System.Drawing.Size(95, 69);
             this.rgb5a3_label.TabIndex = 216;
             this.rgb5a3_label.Text = "RGB5A3";
             this.rgb5a3_label.Click += new System.EventHandler(this.RGB5A3_Click);
@@ -6260,13 +6266,13 @@ namespace plt0_gui
             // 
             this.rgb565_label.AutoSize = true;
             this.rgb565_label.BackColor = System.Drawing.Color.Transparent;
-            this.rgb565_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.rgb565_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.rgb565_label.ForeColor = System.Drawing.SystemColors.Window;
             this.rgb565_label.Location = new System.Drawing.Point(320, 384);
             this.rgb565_label.Margin = new System.Windows.Forms.Padding(0);
             this.rgb565_label.Name = "rgb565_label";
             this.rgb565_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.rgb565_label.Size = new System.Drawing.Size(87, 68);
+            this.rgb565_label.Size = new System.Drawing.Size(92, 69);
             this.rgb565_label.TabIndex = 213;
             this.rgb565_label.Text = "RGB565";
             this.rgb565_label.Click += new System.EventHandler(this.RGB565_Click);
@@ -6294,13 +6300,13 @@ namespace plt0_gui
             // 
             this.ai8_label.AutoSize = true;
             this.ai8_label.BackColor = System.Drawing.Color.Transparent;
-            this.ai8_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.ai8_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.ai8_label.ForeColor = System.Drawing.SystemColors.Window;
             this.ai8_label.Location = new System.Drawing.Point(320, 321);
             this.ai8_label.Margin = new System.Windows.Forms.Padding(0);
             this.ai8_label.Name = "ai8_label";
             this.ai8_label.Padding = new System.Windows.Forms.Padding(0, 22, 60, 22);
-            this.ai8_label.Size = new System.Drawing.Size(102, 68);
+            this.ai8_label.Size = new System.Drawing.Size(105, 69);
             this.ai8_label.TabIndex = 210;
             this.ai8_label.Text = "AI8";
             this.ai8_label.Click += new System.EventHandler(this.AI8_Click);
@@ -6328,13 +6334,13 @@ namespace plt0_gui
             // 
             this.ai4_label.AutoSize = true;
             this.ai4_label.BackColor = System.Drawing.Color.Transparent;
-            this.ai4_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.ai4_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.ai4_label.ForeColor = System.Drawing.SystemColors.Window;
             this.ai4_label.Location = new System.Drawing.Point(320, 257);
             this.ai4_label.Margin = new System.Windows.Forms.Padding(0);
             this.ai4_label.Name = "ai4_label";
             this.ai4_label.Padding = new System.Windows.Forms.Padding(0, 22, 60, 22);
-            this.ai4_label.Size = new System.Drawing.Size(102, 68);
+            this.ai4_label.Size = new System.Drawing.Size(105, 69);
             this.ai4_label.TabIndex = 207;
             this.ai4_label.Text = "AI4";
             this.ai4_label.Click += new System.EventHandler(this.AI4_Click);
@@ -6362,13 +6368,13 @@ namespace plt0_gui
             // 
             this.i8_label.AutoSize = true;
             this.i8_label.BackColor = System.Drawing.Color.Transparent;
-            this.i8_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.i8_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.i8_label.ForeColor = System.Drawing.SystemColors.Window;
             this.i8_label.Location = new System.Drawing.Point(320, 192);
             this.i8_label.Margin = new System.Windows.Forms.Padding(0);
             this.i8_label.Name = "i8_label";
             this.i8_label.Padding = new System.Windows.Forms.Padding(0, 22, 80, 22);
-            this.i8_label.Size = new System.Drawing.Size(108, 68);
+            this.i8_label.Size = new System.Drawing.Size(110, 69);
             this.i8_label.TabIndex = 204;
             this.i8_label.Text = "I8";
             this.i8_label.Click += new System.EventHandler(this.I8_Click);
@@ -6396,13 +6402,13 @@ namespace plt0_gui
             // 
             this.i4_label.AutoSize = true;
             this.i4_label.BackColor = System.Drawing.Color.Transparent;
-            this.i4_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.i4_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.i4_label.ForeColor = System.Drawing.SystemColors.Window;
             this.i4_label.Location = new System.Drawing.Point(320, 128);
             this.i4_label.Margin = new System.Windows.Forms.Padding(0);
             this.i4_label.Name = "i4_label";
             this.i4_label.Padding = new System.Windows.Forms.Padding(0, 22, 80, 22);
-            this.i4_label.Size = new System.Drawing.Size(108, 68);
+            this.i4_label.Size = new System.Drawing.Size(110, 69);
             this.i4_label.TabIndex = 201;
             this.i4_label.Text = "I4";
             this.i4_label.Click += new System.EventHandler(this.I4_Click);
@@ -6413,11 +6419,11 @@ namespace plt0_gui
             // 
             this.encoding_label.AutoSize = true;
             this.encoding_label.BackColor = System.Drawing.Color.Transparent;
-            this.encoding_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.encoding_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.encoding_label.ForeColor = System.Drawing.SystemColors.Control;
             this.encoding_label.Location = new System.Drawing.Point(278, 95);
             this.encoding_label.Name = "encoding_label";
-            this.encoding_label.Size = new System.Drawing.Size(104, 24);
+            this.encoding_label.Size = new System.Drawing.Size(102, 25);
             this.encoding_label.TabIndex = 200;
             this.encoding_label.Text = "Encoding";
             // 
@@ -6458,13 +6464,13 @@ namespace plt0_gui
             // 
             this.no_gradient_label.AutoSize = true;
             this.no_gradient_label.BackColor = System.Drawing.Color.Transparent;
-            this.no_gradient_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.no_gradient_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.no_gradient_label.ForeColor = System.Drawing.SystemColors.Window;
             this.no_gradient_label.Location = new System.Drawing.Point(571, 1104);
             this.no_gradient_label.Margin = new System.Windows.Forms.Padding(0);
             this.no_gradient_label.Name = "no_gradient_label";
             this.no_gradient_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.no_gradient_label.Size = new System.Drawing.Size(132, 68);
+            this.no_gradient_label.Size = new System.Drawing.Size(127, 69);
             this.no_gradient_label.TabIndex = 245;
             this.no_gradient_label.Text = "No Gradient";
             this.no_gradient_label.Visible = false;
@@ -6493,13 +6499,13 @@ namespace plt0_gui
             // 
             this.custom_label.AutoSize = true;
             this.custom_label.BackColor = System.Drawing.Color.Transparent;
-            this.custom_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.custom_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.custom_label.ForeColor = System.Drawing.SystemColors.Window;
             this.custom_label.Location = new System.Drawing.Point(564, 256);
             this.custom_label.Margin = new System.Windows.Forms.Padding(0);
             this.custom_label.Name = "custom_label";
             this.custom_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.custom_label.Size = new System.Drawing.Size(146, 68);
+            this.custom_label.Size = new System.Drawing.Size(151, 69);
             this.custom_label.TabIndex = 242;
             this.custom_label.Text = "Custom RGBA";
             this.custom_label.Click += new System.EventHandler(this.Custom_Click);
@@ -6527,13 +6533,13 @@ namespace plt0_gui
             // 
             this.cie_709_label.AutoSize = true;
             this.cie_709_label.BackColor = System.Drawing.Color.Transparent;
-            this.cie_709_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cie_709_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cie_709_label.ForeColor = System.Drawing.SystemColors.Window;
             this.cie_709_label.Location = new System.Drawing.Point(564, 192);
             this.cie_709_label.Margin = new System.Windows.Forms.Padding(0);
             this.cie_709_label.Name = "cie_709_label";
             this.cie_709_label.Padding = new System.Windows.Forms.Padding(0, 22, 50, 22);
-            this.cie_709_label.Size = new System.Drawing.Size(133, 68);
+            this.cie_709_label.Size = new System.Drawing.Size(140, 69);
             this.cie_709_label.TabIndex = 239;
             this.cie_709_label.Text = "CIE 709";
             this.cie_709_label.Click += new System.EventHandler(this.Cie_709_Click);
@@ -6561,13 +6567,13 @@ namespace plt0_gui
             // 
             this.cie_601_label.AutoSize = true;
             this.cie_601_label.BackColor = System.Drawing.Color.Transparent;
-            this.cie_601_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cie_601_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cie_601_label.ForeColor = System.Drawing.SystemColors.Window;
             this.cie_601_label.Location = new System.Drawing.Point(564, 128);
             this.cie_601_label.Margin = new System.Windows.Forms.Padding(0);
             this.cie_601_label.Name = "cie_601_label";
             this.cie_601_label.Padding = new System.Windows.Forms.Padding(0, 22, 50, 22);
-            this.cie_601_label.Size = new System.Drawing.Size(133, 68);
+            this.cie_601_label.Size = new System.Drawing.Size(140, 69);
             this.cie_601_label.TabIndex = 236;
             this.cie_601_label.Text = "CIE 601";
             this.cie_601_label.Click += new System.EventHandler(this.Cie_601_Click);
@@ -6578,11 +6584,11 @@ namespace plt0_gui
             // 
             this.algorithm_label.AutoSize = true;
             this.algorithm_label.BackColor = System.Drawing.Color.Transparent;
-            this.algorithm_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.algorithm_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.algorithm_label.ForeColor = System.Drawing.SystemColors.Control;
             this.algorithm_label.Location = new System.Drawing.Point(544, 95);
             this.algorithm_label.Name = "algorithm_label";
-            this.algorithm_label.Size = new System.Drawing.Size(111, 24);
+            this.algorithm_label.Size = new System.Drawing.Size(103, 25);
             this.algorithm_label.TabIndex = 235;
             this.algorithm_label.Text = "Algorithm";
             // 
@@ -6607,13 +6613,13 @@ namespace plt0_gui
             // 
             this.mix_label.AutoSize = true;
             this.mix_label.BackColor = System.Drawing.Color.Transparent;
-            this.mix_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.mix_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.mix_label.ForeColor = System.Drawing.SystemColors.Window;
             this.mix_label.Location = new System.Drawing.Point(564, 558);
             this.mix_label.Margin = new System.Windows.Forms.Padding(0);
             this.mix_label.Name = "mix_label";
             this.mix_label.Padding = new System.Windows.Forms.Padding(0, 22, 60, 22);
-            this.mix_label.Size = new System.Drawing.Size(105, 68);
+            this.mix_label.Size = new System.Drawing.Size(106, 69);
             this.mix_label.TabIndex = 255;
             this.mix_label.Text = "Mix";
             this.mix_label.Click += new System.EventHandler(this.Mix_Click);
@@ -6641,13 +6647,13 @@ namespace plt0_gui
             // 
             this.alpha_label.AutoSize = true;
             this.alpha_label.BackColor = System.Drawing.Color.Transparent;
-            this.alpha_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.alpha_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.alpha_label.ForeColor = System.Drawing.SystemColors.Window;
             this.alpha_label.Location = new System.Drawing.Point(564, 494);
             this.alpha_label.Margin = new System.Windows.Forms.Padding(0);
             this.alpha_label.Name = "alpha_label";
             this.alpha_label.Padding = new System.Windows.Forms.Padding(0, 22, 40, 22);
-            this.alpha_label.Size = new System.Drawing.Size(108, 68);
+            this.alpha_label.Size = new System.Drawing.Size(108, 69);
             this.alpha_label.TabIndex = 252;
             this.alpha_label.Text = "Alpha";
             this.alpha_label.Click += new System.EventHandler(this.Alpha_Click);
@@ -6675,13 +6681,13 @@ namespace plt0_gui
             // 
             this.no_alpha_label.AutoSize = true;
             this.no_alpha_label.BackColor = System.Drawing.Color.Transparent;
-            this.no_alpha_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.no_alpha_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.no_alpha_label.ForeColor = System.Drawing.SystemColors.Window;
             this.no_alpha_label.Location = new System.Drawing.Point(564, 430);
             this.no_alpha_label.Margin = new System.Windows.Forms.Padding(0);
             this.no_alpha_label.Name = "no_alpha_label";
             this.no_alpha_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.no_alpha_label.Size = new System.Drawing.Size(100, 68);
+            this.no_alpha_label.Size = new System.Drawing.Size(101, 69);
             this.no_alpha_label.TabIndex = 249;
             this.no_alpha_label.Text = "No Alpha";
             this.no_alpha_label.Click += new System.EventHandler(this.No_alpha_Click);
@@ -6692,12 +6698,12 @@ namespace plt0_gui
             // 
             this.alpha_title.AutoSize = true;
             this.alpha_title.BackColor = System.Drawing.Color.Transparent;
-            this.alpha_title.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.alpha_title.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.alpha_title.ForeColor = System.Drawing.SystemColors.Control;
             this.alpha_title.Location = new System.Drawing.Point(544, 397);
             this.alpha_title.Margin = new System.Windows.Forms.Padding(0);
             this.alpha_title.Name = "alpha_title";
-            this.alpha_title.Size = new System.Drawing.Size(68, 24);
+            this.alpha_title.Size = new System.Drawing.Size(68, 25);
             this.alpha_title.TabIndex = 248;
             this.alpha_title.Text = "Alpha";
             // 
@@ -6722,13 +6728,13 @@ namespace plt0_gui
             // 
             this.Tmirror_label.AutoSize = true;
             this.Tmirror_label.BackColor = System.Drawing.Color.Transparent;
-            this.Tmirror_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.Tmirror_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.Tmirror_label.ForeColor = System.Drawing.SystemColors.Window;
             this.Tmirror_label.Location = new System.Drawing.Point(1504, 704);
             this.Tmirror_label.Margin = new System.Windows.Forms.Padding(0);
             this.Tmirror_label.Name = "Tmirror_label";
             this.Tmirror_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.Tmirror_label.Size = new System.Drawing.Size(76, 68);
+            this.Tmirror_label.Size = new System.Drawing.Size(68, 69);
             this.Tmirror_label.TabIndex = 265;
             this.Tmirror_label.Text = "Mirror";
             this.Tmirror_label.Click += new System.EventHandler(this.WrapT_Mirror_Click);
@@ -6756,13 +6762,13 @@ namespace plt0_gui
             // 
             this.Trepeat_label.AutoSize = true;
             this.Trepeat_label.BackColor = System.Drawing.Color.Transparent;
-            this.Trepeat_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.Trepeat_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.Trepeat_label.ForeColor = System.Drawing.SystemColors.Window;
             this.Trepeat_label.Location = new System.Drawing.Point(1504, 640);
             this.Trepeat_label.Margin = new System.Windows.Forms.Padding(0);
             this.Trepeat_label.Name = "Trepeat_label";
             this.Trepeat_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.Trepeat_label.Size = new System.Drawing.Size(80, 68);
+            this.Trepeat_label.Size = new System.Drawing.Size(80, 69);
             this.Trepeat_label.TabIndex = 262;
             this.Trepeat_label.Text = "Repeat";
             this.Trepeat_label.Click += new System.EventHandler(this.WrapT_Repeat_Click);
@@ -6790,13 +6796,13 @@ namespace plt0_gui
             // 
             this.Tclamp_label.AutoSize = true;
             this.Tclamp_label.BackColor = System.Drawing.Color.Transparent;
-            this.Tclamp_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.Tclamp_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.Tclamp_label.ForeColor = System.Drawing.SystemColors.Window;
             this.Tclamp_label.Location = new System.Drawing.Point(1504, 576);
             this.Tclamp_label.Margin = new System.Windows.Forms.Padding(0);
             this.Tclamp_label.Name = "Tclamp_label";
             this.Tclamp_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.Tclamp_label.Size = new System.Drawing.Size(73, 68);
+            this.Tclamp_label.Size = new System.Drawing.Size(74, 69);
             this.Tclamp_label.TabIndex = 259;
             this.Tclamp_label.Text = "Clamp";
             this.Tclamp_label.Click += new System.EventHandler(this.WrapT_Clamp_Click);
@@ -6807,11 +6813,11 @@ namespace plt0_gui
             // 
             this.WrapT_label.AutoSize = true;
             this.WrapT_label.BackColor = System.Drawing.Color.Transparent;
-            this.WrapT_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.WrapT_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.WrapT_label.ForeColor = System.Drawing.SystemColors.Control;
             this.WrapT_label.Location = new System.Drawing.Point(1488, 546);
             this.WrapT_label.Name = "WrapT_label";
-            this.WrapT_label.Size = new System.Drawing.Size(78, 24);
+            this.WrapT_label.Size = new System.Drawing.Size(78, 25);
             this.WrapT_label.TabIndex = 258;
             this.WrapT_label.Text = "WrapT";
             // 
@@ -6836,13 +6842,13 @@ namespace plt0_gui
             // 
             this.Smirror_label.AutoSize = true;
             this.Smirror_label.BackColor = System.Drawing.Color.Transparent;
-            this.Smirror_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.Smirror_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.Smirror_label.ForeColor = System.Drawing.SystemColors.Window;
             this.Smirror_label.Location = new System.Drawing.Point(1288, 704);
             this.Smirror_label.Margin = new System.Windows.Forms.Padding(0);
             this.Smirror_label.Name = "Smirror_label";
             this.Smirror_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.Smirror_label.Size = new System.Drawing.Size(76, 68);
+            this.Smirror_label.Size = new System.Drawing.Size(68, 69);
             this.Smirror_label.TabIndex = 275;
             this.Smirror_label.Text = "Mirror";
             this.Smirror_label.Click += new System.EventHandler(this.WrapS_Mirror_Click);
@@ -6870,13 +6876,13 @@ namespace plt0_gui
             // 
             this.Srepeat_label.AutoSize = true;
             this.Srepeat_label.BackColor = System.Drawing.Color.Transparent;
-            this.Srepeat_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.Srepeat_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.Srepeat_label.ForeColor = System.Drawing.SystemColors.Window;
             this.Srepeat_label.Location = new System.Drawing.Point(1288, 640);
             this.Srepeat_label.Margin = new System.Windows.Forms.Padding(0);
             this.Srepeat_label.Name = "Srepeat_label";
             this.Srepeat_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.Srepeat_label.Size = new System.Drawing.Size(80, 68);
+            this.Srepeat_label.Size = new System.Drawing.Size(80, 69);
             this.Srepeat_label.TabIndex = 272;
             this.Srepeat_label.Text = "Repeat";
             this.Srepeat_label.Click += new System.EventHandler(this.WrapS_Repeat_Click);
@@ -6904,13 +6910,13 @@ namespace plt0_gui
             // 
             this.Sclamp_label.AutoSize = true;
             this.Sclamp_label.BackColor = System.Drawing.Color.Transparent;
-            this.Sclamp_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.Sclamp_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.Sclamp_label.ForeColor = System.Drawing.SystemColors.Window;
             this.Sclamp_label.Location = new System.Drawing.Point(1288, 576);
             this.Sclamp_label.Margin = new System.Windows.Forms.Padding(0);
             this.Sclamp_label.Name = "Sclamp_label";
             this.Sclamp_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.Sclamp_label.Size = new System.Drawing.Size(73, 68);
+            this.Sclamp_label.Size = new System.Drawing.Size(74, 69);
             this.Sclamp_label.TabIndex = 269;
             this.Sclamp_label.Text = "Clamp";
             this.Sclamp_label.Click += new System.EventHandler(this.WrapS_Clamp_Click);
@@ -6921,11 +6927,11 @@ namespace plt0_gui
             // 
             this.WrapS_label.AutoSize = true;
             this.WrapS_label.BackColor = System.Drawing.Color.Transparent;
-            this.WrapS_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.WrapS_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.WrapS_label.ForeColor = System.Drawing.SystemColors.Control;
             this.WrapS_label.Location = new System.Drawing.Point(1273, 546);
             this.WrapS_label.Name = "WrapS_label";
-            this.WrapS_label.Size = new System.Drawing.Size(77, 24);
+            this.WrapS_label.Size = new System.Drawing.Size(79, 25);
             this.WrapS_label.TabIndex = 268;
             this.WrapS_label.Text = "WrapS";
             // 
@@ -6933,11 +6939,11 @@ namespace plt0_gui
             // 
             this.magnification_label.AutoSize = true;
             this.magnification_label.BackColor = System.Drawing.Color.Transparent;
-            this.magnification_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.magnification_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.magnification_label.ForeColor = System.Drawing.SystemColors.Control;
             this.magnification_label.Location = new System.Drawing.Point(1244, 97);
             this.magnification_label.Name = "magnification_label";
-            this.magnification_label.Size = new System.Drawing.Size(204, 24);
+            this.magnification_label.Size = new System.Drawing.Size(187, 25);
             this.magnification_label.TabIndex = 291;
             this.magnification_label.Text = "Magnification filter";
             // 
@@ -6945,11 +6951,11 @@ namespace plt0_gui
             // 
             this.minification_label.AutoSize = true;
             this.minification_label.BackColor = System.Drawing.Color.Transparent;
-            this.minification_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.minification_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.minification_label.ForeColor = System.Drawing.SystemColors.Control;
             this.minification_label.Location = new System.Drawing.Point(851, 97);
             this.minification_label.Name = "minification_label";
-            this.minification_label.Size = new System.Drawing.Size(185, 24);
+            this.minification_label.Size = new System.Drawing.Size(168, 25);
             this.minification_label.TabIndex = 278;
             this.minification_label.Text = "Minification filter";
             // 
@@ -6974,13 +6980,13 @@ namespace plt0_gui
             // 
             this.min_linearmipmaplinear_label.AutoSize = true;
             this.min_linearmipmaplinear_label.BackColor = System.Drawing.Color.Transparent;
-            this.min_linearmipmaplinear_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.min_linearmipmaplinear_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.min_linearmipmaplinear_label.ForeColor = System.Drawing.SystemColors.Window;
             this.min_linearmipmaplinear_label.Location = new System.Drawing.Point(888, 448);
             this.min_linearmipmaplinear_label.Margin = new System.Windows.Forms.Padding(0);
             this.min_linearmipmaplinear_label.Name = "min_linearmipmaplinear_label";
             this.min_linearmipmaplinear_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.min_linearmipmaplinear_label.Size = new System.Drawing.Size(216, 68);
+            this.min_linearmipmaplinear_label.Size = new System.Drawing.Size(208, 69);
             this.min_linearmipmaplinear_label.TabIndex = 322;
             this.min_linearmipmaplinear_label.Text = "LinearMipmapLinear";
             this.min_linearmipmaplinear_label.Click += new System.EventHandler(this.Minification_LinearMipmapLinear_Click);
@@ -7008,13 +7014,13 @@ namespace plt0_gui
             // 
             this.min_linearmipmapnearest_label.AutoSize = true;
             this.min_linearmipmapnearest_label.BackColor = System.Drawing.Color.Transparent;
-            this.min_linearmipmapnearest_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.min_linearmipmapnearest_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.min_linearmipmapnearest_label.ForeColor = System.Drawing.SystemColors.Window;
             this.min_linearmipmapnearest_label.Location = new System.Drawing.Point(888, 384);
             this.min_linearmipmapnearest_label.Margin = new System.Windows.Forms.Padding(0);
             this.min_linearmipmapnearest_label.Name = "min_linearmipmapnearest_label";
             this.min_linearmipmapnearest_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.min_linearmipmapnearest_label.Size = new System.Drawing.Size(243, 68);
+            this.min_linearmipmapnearest_label.Size = new System.Drawing.Size(235, 69);
             this.min_linearmipmapnearest_label.TabIndex = 319;
             this.min_linearmipmapnearest_label.Text = "LinearMipmapNearest  ";
             this.min_linearmipmapnearest_label.Click += new System.EventHandler(this.Minification_LinearMipmapNearest_Click);
@@ -7042,13 +7048,13 @@ namespace plt0_gui
             // 
             this.min_nearestmipmaplinear_label.AutoSize = true;
             this.min_nearestmipmaplinear_label.BackColor = System.Drawing.Color.Transparent;
-            this.min_nearestmipmaplinear_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.min_nearestmipmaplinear_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.min_nearestmipmaplinear_label.ForeColor = System.Drawing.SystemColors.Window;
             this.min_nearestmipmaplinear_label.Location = new System.Drawing.Point(888, 320);
             this.min_nearestmipmaplinear_label.Margin = new System.Windows.Forms.Padding(0);
             this.min_nearestmipmaplinear_label.Name = "min_nearestmipmaplinear_label";
             this.min_nearestmipmaplinear_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.min_nearestmipmaplinear_label.Size = new System.Drawing.Size(243, 68);
+            this.min_nearestmipmaplinear_label.Size = new System.Drawing.Size(235, 69);
             this.min_nearestmipmaplinear_label.TabIndex = 316;
             this.min_nearestmipmaplinear_label.Text = "NearestMipmapLinear  ";
             this.min_nearestmipmaplinear_label.Click += new System.EventHandler(this.Minification_NearestMipmapLinear_Click);
@@ -7076,13 +7082,13 @@ namespace plt0_gui
             // 
             this.min_nearestmipmapnearest_label.AutoSize = true;
             this.min_nearestmipmapnearest_label.BackColor = System.Drawing.Color.Transparent;
-            this.min_nearestmipmapnearest_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.min_nearestmipmapnearest_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.min_nearestmipmapnearest_label.ForeColor = System.Drawing.SystemColors.Window;
             this.min_nearestmipmapnearest_label.Location = new System.Drawing.Point(888, 256);
             this.min_nearestmipmapnearest_label.Margin = new System.Windows.Forms.Padding(0);
             this.min_nearestmipmapnearest_label.Name = "min_nearestmipmapnearest_label";
             this.min_nearestmipmapnearest_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.min_nearestmipmapnearest_label.Size = new System.Drawing.Size(255, 68);
+            this.min_nearestmipmapnearest_label.Size = new System.Drawing.Size(244, 69);
             this.min_nearestmipmapnearest_label.TabIndex = 313;
             this.min_nearestmipmapnearest_label.Text = "NearestMipmapNearest ";
             this.min_nearestmipmapnearest_label.Click += new System.EventHandler(this.Minification_NearestMipmapNearest_Click);
@@ -7110,13 +7116,13 @@ namespace plt0_gui
             // 
             this.min_linear_label.AutoSize = true;
             this.min_linear_label.BackColor = System.Drawing.Color.Transparent;
-            this.min_linear_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.min_linear_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.min_linear_label.ForeColor = System.Drawing.SystemColors.Window;
             this.min_linear_label.Location = new System.Drawing.Point(888, 192);
             this.min_linear_label.Margin = new System.Windows.Forms.Padding(0);
             this.min_linear_label.Name = "min_linear_label";
             this.min_linear_label.Padding = new System.Windows.Forms.Padding(0, 22, 200, 22);
-            this.min_linear_label.Size = new System.Drawing.Size(273, 68);
+            this.min_linear_label.Size = new System.Drawing.Size(272, 69);
             this.min_linear_label.TabIndex = 310;
             this.min_linear_label.Text = "Linear";
             this.min_linear_label.Click += new System.EventHandler(this.Minification_Linear_Click);
@@ -7144,13 +7150,13 @@ namespace plt0_gui
             // 
             this.min_nearest_neighbour_label.AutoSize = true;
             this.min_nearest_neighbour_label.BackColor = System.Drawing.Color.Transparent;
-            this.min_nearest_neighbour_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.min_nearest_neighbour_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.min_nearest_neighbour_label.ForeColor = System.Drawing.SystemColors.Window;
             this.min_nearest_neighbour_label.Location = new System.Drawing.Point(888, 128);
             this.min_nearest_neighbour_label.Margin = new System.Windows.Forms.Padding(0);
             this.min_nearest_neighbour_label.Name = "min_nearest_neighbour_label";
             this.min_nearest_neighbour_label.Padding = new System.Windows.Forms.Padding(0, 22, 60, 22);
-            this.min_nearest_neighbour_label.Size = new System.Drawing.Size(262, 68);
+            this.min_nearest_neighbour_label.Size = new System.Drawing.Size(252, 69);
             this.min_nearest_neighbour_label.TabIndex = 307;
             this.min_nearest_neighbour_label.Text = "Nearest Neighbour";
             this.min_nearest_neighbour_label.Click += new System.EventHandler(this.Minification_Nearest_Neighbour_Click);
@@ -7178,13 +7184,13 @@ namespace plt0_gui
             // 
             this.mag_linearmipmaplinear_label.AutoSize = true;
             this.mag_linearmipmaplinear_label.BackColor = System.Drawing.Color.Transparent;
-            this.mag_linearmipmaplinear_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.mag_linearmipmaplinear_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.mag_linearmipmaplinear_label.ForeColor = System.Drawing.SystemColors.Window;
             this.mag_linearmipmaplinear_label.Location = new System.Drawing.Point(1288, 448);
             this.mag_linearmipmaplinear_label.Margin = new System.Windows.Forms.Padding(0);
             this.mag_linearmipmaplinear_label.Name = "mag_linearmipmaplinear_label";
             this.mag_linearmipmaplinear_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.mag_linearmipmaplinear_label.Size = new System.Drawing.Size(216, 68);
+            this.mag_linearmipmaplinear_label.Size = new System.Drawing.Size(208, 69);
             this.mag_linearmipmaplinear_label.TabIndex = 340;
             this.mag_linearmipmaplinear_label.Text = "LinearMipmapLinear";
             this.mag_linearmipmaplinear_label.Click += new System.EventHandler(this.Magnification_LinearMipmapLinear_Click);
@@ -7212,13 +7218,13 @@ namespace plt0_gui
             // 
             this.mag_linearmipmapnearest_label.AutoSize = true;
             this.mag_linearmipmapnearest_label.BackColor = System.Drawing.Color.Transparent;
-            this.mag_linearmipmapnearest_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.mag_linearmipmapnearest_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.mag_linearmipmapnearest_label.ForeColor = System.Drawing.SystemColors.Window;
             this.mag_linearmipmapnearest_label.Location = new System.Drawing.Point(1288, 384);
             this.mag_linearmipmapnearest_label.Margin = new System.Windows.Forms.Padding(0);
             this.mag_linearmipmapnearest_label.Name = "mag_linearmipmapnearest_label";
             this.mag_linearmipmapnearest_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.mag_linearmipmapnearest_label.Size = new System.Drawing.Size(243, 68);
+            this.mag_linearmipmapnearest_label.Size = new System.Drawing.Size(235, 69);
             this.mag_linearmipmapnearest_label.TabIndex = 337;
             this.mag_linearmipmapnearest_label.Text = "LinearMipmapNearest  ";
             this.mag_linearmipmapnearest_label.Click += new System.EventHandler(this.Magnification_LinearMipmapNearest_Click);
@@ -7246,13 +7252,13 @@ namespace plt0_gui
             // 
             this.mag_nearestmipmaplinear_label.AutoSize = true;
             this.mag_nearestmipmaplinear_label.BackColor = System.Drawing.Color.Transparent;
-            this.mag_nearestmipmaplinear_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.mag_nearestmipmaplinear_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.mag_nearestmipmaplinear_label.ForeColor = System.Drawing.SystemColors.Window;
             this.mag_nearestmipmaplinear_label.Location = new System.Drawing.Point(1288, 320);
             this.mag_nearestmipmaplinear_label.Margin = new System.Windows.Forms.Padding(0);
             this.mag_nearestmipmaplinear_label.Name = "mag_nearestmipmaplinear_label";
             this.mag_nearestmipmaplinear_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.mag_nearestmipmaplinear_label.Size = new System.Drawing.Size(243, 68);
+            this.mag_nearestmipmaplinear_label.Size = new System.Drawing.Size(235, 69);
             this.mag_nearestmipmaplinear_label.TabIndex = 334;
             this.mag_nearestmipmaplinear_label.Text = "NearestMipmapLinear  ";
             this.mag_nearestmipmaplinear_label.Click += new System.EventHandler(this.Magnification_NearestMipmapLinear_Click);
@@ -7280,13 +7286,13 @@ namespace plt0_gui
             // 
             this.mag_nearestmipmapnearest_label.AutoSize = true;
             this.mag_nearestmipmapnearest_label.BackColor = System.Drawing.Color.Transparent;
-            this.mag_nearestmipmapnearest_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.mag_nearestmipmapnearest_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.mag_nearestmipmapnearest_label.ForeColor = System.Drawing.SystemColors.Window;
             this.mag_nearestmipmapnearest_label.Location = new System.Drawing.Point(1288, 256);
             this.mag_nearestmipmapnearest_label.Margin = new System.Windows.Forms.Padding(0);
             this.mag_nearestmipmapnearest_label.Name = "mag_nearestmipmapnearest_label";
             this.mag_nearestmipmapnearest_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.mag_nearestmipmapnearest_label.Size = new System.Drawing.Size(255, 68);
+            this.mag_nearestmipmapnearest_label.Size = new System.Drawing.Size(244, 69);
             this.mag_nearestmipmapnearest_label.TabIndex = 331;
             this.mag_nearestmipmapnearest_label.Text = "NearestMipmapNearest ";
             this.mag_nearestmipmapnearest_label.Click += new System.EventHandler(this.Magnification_NearestMipmapNearest_Click);
@@ -7314,13 +7320,13 @@ namespace plt0_gui
             // 
             this.mag_linear_label.AutoSize = true;
             this.mag_linear_label.BackColor = System.Drawing.Color.Transparent;
-            this.mag_linear_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.mag_linear_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.mag_linear_label.ForeColor = System.Drawing.SystemColors.Window;
             this.mag_linear_label.Location = new System.Drawing.Point(1288, 192);
             this.mag_linear_label.Margin = new System.Windows.Forms.Padding(0);
             this.mag_linear_label.Name = "mag_linear_label";
             this.mag_linear_label.Padding = new System.Windows.Forms.Padding(0, 22, 200, 22);
-            this.mag_linear_label.Size = new System.Drawing.Size(273, 68);
+            this.mag_linear_label.Size = new System.Drawing.Size(272, 69);
             this.mag_linear_label.TabIndex = 328;
             this.mag_linear_label.Text = "Linear";
             this.mag_linear_label.Click += new System.EventHandler(this.Magnification_Linear_Click);
@@ -7348,13 +7354,13 @@ namespace plt0_gui
             // 
             this.mag_nearest_neighbour_label.AutoSize = true;
             this.mag_nearest_neighbour_label.BackColor = System.Drawing.Color.Transparent;
-            this.mag_nearest_neighbour_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.mag_nearest_neighbour_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.mag_nearest_neighbour_label.ForeColor = System.Drawing.SystemColors.Window;
             this.mag_nearest_neighbour_label.Location = new System.Drawing.Point(1288, 128);
             this.mag_nearest_neighbour_label.Margin = new System.Windows.Forms.Padding(0);
             this.mag_nearest_neighbour_label.Name = "mag_nearest_neighbour_label";
             this.mag_nearest_neighbour_label.Padding = new System.Windows.Forms.Padding(0, 22, 60, 22);
-            this.mag_nearest_neighbour_label.Size = new System.Drawing.Size(262, 68);
+            this.mag_nearest_neighbour_label.Size = new System.Drawing.Size(252, 69);
             this.mag_nearest_neighbour_label.TabIndex = 325;
             this.mag_nearest_neighbour_label.Text = "Nearest Neighbour";
             this.mag_nearest_neighbour_label.Click += new System.EventHandler(this.Magnification_Nearest_Neighbour_Click);
@@ -7637,11 +7643,11 @@ namespace plt0_gui
             // 
             this.colour_channels_label.AutoSize = true;
             this.colour_channels_label.BackColor = System.Drawing.Color.Transparent;
-            this.colour_channels_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.colour_channels_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.colour_channels_label.ForeColor = System.Drawing.SystemColors.Control;
             this.colour_channels_label.Location = new System.Drawing.Point(1674, 778);
             this.colour_channels_label.Name = "colour_channels_label";
-            this.colour_channels_label.Size = new System.Drawing.Size(175, 24);
+            this.colour_channels_label.Size = new System.Drawing.Size(174, 25);
             this.colour_channels_label.TabIndex = 359;
             this.colour_channels_label.Text = "Colour Channels";
             // 
@@ -7667,13 +7673,13 @@ namespace plt0_gui
             // 
             this.view_alpha_label.AutoSize = true;
             this.view_alpha_label.BackColor = System.Drawing.Color.Transparent;
-            this.view_alpha_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.view_alpha_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.view_alpha_label.ForeColor = System.Drawing.SystemColors.Window;
             this.view_alpha_label.Location = new System.Drawing.Point(104, 1131);
             this.view_alpha_label.Margin = new System.Windows.Forms.Padding(0);
             this.view_alpha_label.Name = "view_alpha_label";
             this.view_alpha_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.view_alpha_label.Size = new System.Drawing.Size(68, 68);
+            this.view_alpha_label.Size = new System.Drawing.Size(68, 69);
             this.view_alpha_label.TabIndex = 376;
             this.view_alpha_label.Text = "Alpha";
             this.view_alpha_label.Visible = false;
@@ -7703,13 +7709,13 @@ namespace plt0_gui
             // 
             this.view_algorithm_label.AutoSize = true;
             this.view_algorithm_label.BackColor = System.Drawing.Color.Transparent;
-            this.view_algorithm_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.view_algorithm_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.view_algorithm_label.ForeColor = System.Drawing.SystemColors.Window;
             this.view_algorithm_label.Location = new System.Drawing.Point(307, 1131);
             this.view_algorithm_label.Margin = new System.Windows.Forms.Padding(0);
             this.view_algorithm_label.Name = "view_algorithm_label";
             this.view_algorithm_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.view_algorithm_label.Size = new System.Drawing.Size(111, 68);
+            this.view_algorithm_label.Size = new System.Drawing.Size(103, 69);
             this.view_algorithm_label.TabIndex = 379;
             this.view_algorithm_label.Text = "Algorithm";
             this.view_algorithm_label.Visible = false;
@@ -7739,13 +7745,13 @@ namespace plt0_gui
             // 
             this.view_WrapS_label.AutoSize = true;
             this.view_WrapS_label.BackColor = System.Drawing.Color.Transparent;
-            this.view_WrapS_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.view_WrapS_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.view_WrapS_label.ForeColor = System.Drawing.SystemColors.Window;
             this.view_WrapS_label.Location = new System.Drawing.Point(104, 1195);
             this.view_WrapS_label.Margin = new System.Windows.Forms.Padding(0);
             this.view_WrapS_label.Name = "view_WrapS_label";
             this.view_WrapS_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.view_WrapS_label.Size = new System.Drawing.Size(77, 68);
+            this.view_WrapS_label.Size = new System.Drawing.Size(79, 69);
             this.view_WrapS_label.TabIndex = 382;
             this.view_WrapS_label.Text = "WrapS";
             this.view_WrapS_label.Visible = false;
@@ -7775,13 +7781,13 @@ namespace plt0_gui
             // 
             this.view_WrapT_label.AutoSize = true;
             this.view_WrapT_label.BackColor = System.Drawing.Color.Transparent;
-            this.view_WrapT_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.view_WrapT_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.view_WrapT_label.ForeColor = System.Drawing.SystemColors.Window;
             this.view_WrapT_label.Location = new System.Drawing.Point(307, 1195);
             this.view_WrapT_label.Margin = new System.Windows.Forms.Padding(0);
             this.view_WrapT_label.Name = "view_WrapT_label";
             this.view_WrapT_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.view_WrapT_label.Size = new System.Drawing.Size(78, 68);
+            this.view_WrapT_label.Size = new System.Drawing.Size(78, 69);
             this.view_WrapT_label.TabIndex = 385;
             this.view_WrapT_label.Text = "WrapT";
             this.view_WrapT_label.Visible = false;
@@ -7811,13 +7817,13 @@ namespace plt0_gui
             // 
             this.view_mag_label.AutoSize = true;
             this.view_mag_label.BackColor = System.Drawing.Color.Transparent;
-            this.view_mag_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.view_mag_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.view_mag_label.ForeColor = System.Drawing.SystemColors.Window;
             this.view_mag_label.Location = new System.Drawing.Point(307, 1259);
             this.view_mag_label.Margin = new System.Windows.Forms.Padding(0);
             this.view_mag_label.Name = "view_mag_label";
             this.view_mag_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.view_mag_label.Size = new System.Drawing.Size(108, 68);
+            this.view_mag_label.Size = new System.Drawing.Size(101, 69);
             this.view_mag_label.TabIndex = 391;
             this.view_mag_label.Text = "Mag filter";
             this.view_mag_label.Visible = false;
@@ -7847,13 +7853,13 @@ namespace plt0_gui
             // 
             this.view_min_label.AutoSize = true;
             this.view_min_label.BackColor = System.Drawing.Color.Transparent;
-            this.view_min_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.view_min_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.view_min_label.ForeColor = System.Drawing.SystemColors.Window;
             this.view_min_label.Location = new System.Drawing.Point(104, 1259);
             this.view_min_label.Margin = new System.Windows.Forms.Padding(0);
             this.view_min_label.Name = "view_min_label";
             this.view_min_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.view_min_label.Size = new System.Drawing.Size(102, 68);
+            this.view_min_label.Size = new System.Drawing.Size(94, 69);
             this.view_min_label.TabIndex = 388;
             this.view_min_label.Text = "Min filter";
             this.view_min_label.Visible = false;
@@ -8170,12 +8176,12 @@ namespace plt0_gui
             // 
             this.input_file_txt.BackColor = System.Drawing.Color.Black;
             this.input_file_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.input_file_txt.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.input_file_txt.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.input_file_txt.ForeColor = System.Drawing.SystemColors.Window;
             this.input_file_txt.Location = new System.Drawing.Point(16, 972);
             this.input_file_txt.Margin = new System.Windows.Forms.Padding(0);
             this.input_file_txt.Name = "input_file_txt";
-            this.input_file_txt.Size = new System.Drawing.Size(116, 24);
+            this.input_file_txt.Size = new System.Drawing.Size(116, 23);
             this.input_file_txt.TabIndex = 0;
             this.input_file_txt.TextChanged += new System.EventHandler(this.input_file_TextChanged);
             this.input_file_txt.DoubleClick += new System.EventHandler(this.input_file_Click);
@@ -8188,13 +8194,13 @@ namespace plt0_gui
             // 
             this.input_file_label.AutoSize = true;
             this.input_file_label.BackColor = System.Drawing.Color.Transparent;
-            this.input_file_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.input_file_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.input_file_label.ForeColor = System.Drawing.SystemColors.Control;
             this.input_file_label.Location = new System.Drawing.Point(21, 929);
             this.input_file_label.Margin = new System.Windows.Forms.Padding(0);
             this.input_file_label.Name = "input_file_label";
             this.input_file_label.Padding = new System.Windows.Forms.Padding(0, 10, 0, 10);
-            this.input_file_label.Size = new System.Drawing.Size(100, 44);
+            this.input_file_label.Size = new System.Drawing.Size(94, 45);
             this.input_file_label.TabIndex = 432;
             this.input_file_label.Text = "Input file";
             this.input_file_label.DoubleClick += new System.EventHandler(this.input_file_Click);
@@ -8205,12 +8211,12 @@ namespace plt0_gui
             // 
             this.input_file2_label.AutoSize = true;
             this.input_file2_label.BackColor = System.Drawing.Color.Transparent;
-            this.input_file2_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.input_file2_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.input_file2_label.ForeColor = System.Drawing.SystemColors.Control;
             this.input_file2_label.Location = new System.Drawing.Point(150, 941);
             this.input_file2_label.Margin = new System.Windows.Forms.Padding(0);
             this.input_file2_label.Name = "input_file2_label";
-            this.input_file2_label.Size = new System.Drawing.Size(117, 24);
+            this.input_file2_label.Size = new System.Drawing.Size(112, 25);
             this.input_file2_label.TabIndex = 434;
             this.input_file2_label.Text = "Input file 2";
             this.input_file2_label.DoubleClick += new System.EventHandler(this.input_file2_Click);
@@ -8221,12 +8227,12 @@ namespace plt0_gui
             // 
             this.input_file2_txt.BackColor = System.Drawing.Color.Black;
             this.input_file2_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.input_file2_txt.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.input_file2_txt.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.input_file2_txt.ForeColor = System.Drawing.SystemColors.Window;
             this.input_file2_txt.Location = new System.Drawing.Point(154, 972);
             this.input_file2_txt.Margin = new System.Windows.Forms.Padding(0);
             this.input_file2_txt.Name = "input_file2_txt";
-            this.input_file2_txt.Size = new System.Drawing.Size(128, 24);
+            this.input_file2_txt.Size = new System.Drawing.Size(128, 23);
             this.input_file2_txt.TabIndex = 1;
             this.input_file2_txt.TextChanged += new System.EventHandler(this.input_file2_TextChanged);
             this.input_file2_txt.DoubleClick += new System.EventHandler(this.input_file2_Click);
@@ -8239,12 +8245,12 @@ namespace plt0_gui
             // 
             this.mipmaps_label.AutoSize = true;
             this.mipmaps_label.BackColor = System.Drawing.Color.Transparent;
-            this.mipmaps_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.mipmaps_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.mipmaps_label.ForeColor = System.Drawing.SystemColors.Control;
             this.mipmaps_label.Location = new System.Drawing.Point(499, 941);
             this.mipmaps_label.Margin = new System.Windows.Forms.Padding(0);
             this.mipmaps_label.Name = "mipmaps_label";
-            this.mipmaps_label.Size = new System.Drawing.Size(100, 24);
+            this.mipmaps_label.Size = new System.Drawing.Size(98, 25);
             this.mipmaps_label.TabIndex = 436;
             this.mipmaps_label.Text = "mipmaps";
             this.mipmaps_label.MouseEnter += new System.EventHandler(this.mipmaps_MouseEnter);
@@ -8254,12 +8260,12 @@ namespace plt0_gui
             // 
             this.mipmaps_txt.BackColor = System.Drawing.Color.Black;
             this.mipmaps_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.mipmaps_txt.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.mipmaps_txt.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.mipmaps_txt.ForeColor = System.Drawing.SystemColors.Window;
             this.mipmaps_txt.Location = new System.Drawing.Point(503, 972);
             this.mipmaps_txt.Margin = new System.Windows.Forms.Padding(0);
             this.mipmaps_txt.Name = "mipmaps_txt";
-            this.mipmaps_txt.Size = new System.Drawing.Size(100, 24);
+            this.mipmaps_txt.Size = new System.Drawing.Size(100, 23);
             this.mipmaps_txt.TabIndex = 3;
             this.mipmaps_txt.Text = "0";
             this.mipmaps_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -8273,12 +8279,12 @@ namespace plt0_gui
             // 
             this.diversity_label.AutoSize = true;
             this.diversity_label.BackColor = System.Drawing.Color.Transparent;
-            this.diversity_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.diversity_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.diversity_label.ForeColor = System.Drawing.SystemColors.Control;
             this.diversity_label.Location = new System.Drawing.Point(498, 877);
             this.diversity_label.Margin = new System.Windows.Forms.Padding(0);
             this.diversity_label.Name = "diversity_label";
-            this.diversity_label.Size = new System.Drawing.Size(98, 24);
+            this.diversity_label.Size = new System.Drawing.Size(92, 25);
             this.diversity_label.TabIndex = 438;
             this.diversity_label.Text = "diversity";
             this.diversity_label.MouseEnter += new System.EventHandler(this.diversity_MouseEnter);
@@ -8288,12 +8294,12 @@ namespace plt0_gui
             // 
             this.diversity_txt.BackColor = System.Drawing.Color.Black;
             this.diversity_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.diversity_txt.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.diversity_txt.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.diversity_txt.ForeColor = System.Drawing.SystemColors.Window;
             this.diversity_txt.Location = new System.Drawing.Point(502, 908);
             this.diversity_txt.Margin = new System.Windows.Forms.Padding(0);
             this.diversity_txt.Name = "diversity_txt";
-            this.diversity_txt.Size = new System.Drawing.Size(100, 24);
+            this.diversity_txt.Size = new System.Drawing.Size(100, 23);
             this.diversity_txt.TabIndex = 11;
             this.diversity_txt.Text = "10";
             this.diversity_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -8307,12 +8313,12 @@ namespace plt0_gui
             // 
             this.diversity2_label.AutoSize = true;
             this.diversity2_label.BackColor = System.Drawing.Color.Transparent;
-            this.diversity2_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.diversity2_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.diversity2_label.ForeColor = System.Drawing.SystemColors.Control;
             this.diversity2_label.Location = new System.Drawing.Point(620, 877);
             this.diversity2_label.Margin = new System.Windows.Forms.Padding(0);
             this.diversity2_label.Name = "diversity2_label";
-            this.diversity2_label.Size = new System.Drawing.Size(110, 24);
+            this.diversity2_label.Size = new System.Drawing.Size(104, 25);
             this.diversity2_label.TabIndex = 440;
             this.diversity2_label.Text = "diversity2";
             this.diversity2_label.MouseEnter += new System.EventHandler(this.diversity2_MouseEnter);
@@ -8322,12 +8328,12 @@ namespace plt0_gui
             // 
             this.diversity2_txt.BackColor = System.Drawing.Color.Black;
             this.diversity2_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.diversity2_txt.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.diversity2_txt.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.diversity2_txt.ForeColor = System.Drawing.SystemColors.Window;
             this.diversity2_txt.Location = new System.Drawing.Point(624, 908);
             this.diversity2_txt.Margin = new System.Windows.Forms.Padding(0);
             this.diversity2_txt.Name = "diversity2_txt";
-            this.diversity2_txt.Size = new System.Drawing.Size(114, 24);
+            this.diversity2_txt.Size = new System.Drawing.Size(114, 23);
             this.diversity2_txt.TabIndex = 12;
             this.diversity2_txt.Text = "0";
             this.diversity2_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -8341,12 +8347,12 @@ namespace plt0_gui
             // 
             this.percentage_label.AutoSize = true;
             this.percentage_label.BackColor = System.Drawing.Color.Transparent;
-            this.percentage_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.percentage_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.percentage_label.ForeColor = System.Drawing.SystemColors.Control;
             this.percentage_label.Location = new System.Drawing.Point(753, 877);
             this.percentage_label.Margin = new System.Windows.Forms.Padding(0);
             this.percentage_label.Name = "percentage_label";
-            this.percentage_label.Size = new System.Drawing.Size(128, 24);
+            this.percentage_label.Size = new System.Drawing.Size(120, 25);
             this.percentage_label.TabIndex = 442;
             this.percentage_label.Text = "percentage";
             this.percentage_label.MouseEnter += new System.EventHandler(this.percentage_MouseEnter);
@@ -8356,12 +8362,12 @@ namespace plt0_gui
             // 
             this.percentage_txt.BackColor = System.Drawing.Color.Black;
             this.percentage_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.percentage_txt.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.percentage_txt.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.percentage_txt.ForeColor = System.Drawing.SystemColors.Window;
             this.percentage_txt.Location = new System.Drawing.Point(757, 908);
             this.percentage_txt.Margin = new System.Windows.Forms.Padding(0);
             this.percentage_txt.Name = "percentage_txt";
-            this.percentage_txt.Size = new System.Drawing.Size(128, 24);
+            this.percentage_txt.Size = new System.Drawing.Size(128, 23);
             this.percentage_txt.TabIndex = 13;
             this.percentage_txt.Text = "0%";
             this.percentage_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -8375,12 +8381,12 @@ namespace plt0_gui
             // 
             this.percentage2_label.AutoSize = true;
             this.percentage2_label.BackColor = System.Drawing.Color.Transparent;
-            this.percentage2_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.percentage2_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.percentage2_label.ForeColor = System.Drawing.SystemColors.Control;
             this.percentage2_label.Location = new System.Drawing.Point(900, 877);
             this.percentage2_label.Margin = new System.Windows.Forms.Padding(0);
             this.percentage2_label.Name = "percentage2_label";
-            this.percentage2_label.Size = new System.Drawing.Size(140, 24);
+            this.percentage2_label.Size = new System.Drawing.Size(132, 25);
             this.percentage2_label.TabIndex = 444;
             this.percentage2_label.Text = "percentage2";
             this.percentage2_label.MouseEnter += new System.EventHandler(this.percentage2_MouseEnter);
@@ -8390,12 +8396,12 @@ namespace plt0_gui
             // 
             this.percentage2_txt.BackColor = System.Drawing.Color.Black;
             this.percentage2_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.percentage2_txt.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.percentage2_txt.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.percentage2_txt.ForeColor = System.Drawing.SystemColors.Window;
             this.percentage2_txt.Location = new System.Drawing.Point(904, 908);
             this.percentage2_txt.Margin = new System.Windows.Forms.Padding(0);
             this.percentage2_txt.Name = "percentage2_txt";
-            this.percentage2_txt.Size = new System.Drawing.Size(143, 24);
+            this.percentage2_txt.Size = new System.Drawing.Size(143, 23);
             this.percentage2_txt.TabIndex = 14;
             this.percentage2_txt.Text = "0%";
             this.percentage2_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -8409,12 +8415,12 @@ namespace plt0_gui
             // 
             this.cmpr_max_label.AutoSize = true;
             this.cmpr_max_label.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_max_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_max_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_max_label.ForeColor = System.Drawing.SystemColors.Control;
             this.cmpr_max_label.Location = new System.Drawing.Point(617, 941);
             this.cmpr_max_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_max_label.Name = "cmpr_max_label";
-            this.cmpr_max_label.Size = new System.Drawing.Size(114, 24);
+            this.cmpr_max_label.Size = new System.Drawing.Size(121, 25);
             this.cmpr_max_label.TabIndex = 446;
             this.cmpr_max_label.Text = "CMPR Max";
             this.cmpr_max_label.MouseEnter += new System.EventHandler(this.cmpr_max_MouseEnter);
@@ -8424,12 +8430,12 @@ namespace plt0_gui
             // 
             this.cmpr_max_txt.BackColor = System.Drawing.Color.Black;
             this.cmpr_max_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.cmpr_max_txt.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_max_txt.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_max_txt.ForeColor = System.Drawing.SystemColors.Window;
             this.cmpr_max_txt.Location = new System.Drawing.Point(623, 972);
             this.cmpr_max_txt.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_max_txt.Name = "cmpr_max_txt";
-            this.cmpr_max_txt.Size = new System.Drawing.Size(125, 24);
+            this.cmpr_max_txt.Size = new System.Drawing.Size(125, 23);
             this.cmpr_max_txt.TabIndex = 4;
             this.cmpr_max_txt.Text = "0";
             this.cmpr_max_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -8443,12 +8449,12 @@ namespace plt0_gui
             // 
             this.output_name_label.AutoSize = true;
             this.output_name_label.BackColor = System.Drawing.Color.Transparent;
-            this.output_name_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.output_name_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.output_name_label.ForeColor = System.Drawing.SystemColors.Control;
             this.output_name_label.Location = new System.Drawing.Point(308, 941);
             this.output_name_label.Margin = new System.Windows.Forms.Padding(0);
             this.output_name_label.Name = "output_name_label";
-            this.output_name_label.Size = new System.Drawing.Size(142, 24);
+            this.output_name_label.Size = new System.Drawing.Size(136, 25);
             this.output_name_label.TabIndex = 448;
             this.output_name_label.Text = "Output name";
             this.output_name_label.DoubleClick += new System.EventHandler(this.output_name_Click);
@@ -8459,12 +8465,12 @@ namespace plt0_gui
             // 
             this.output_name_txt.BackColor = System.Drawing.Color.Black;
             this.output_name_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.output_name_txt.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.output_name_txt.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.output_name_txt.ForeColor = System.Drawing.SystemColors.Window;
             this.output_name_txt.Location = new System.Drawing.Point(303, 972);
             this.output_name_txt.Margin = new System.Windows.Forms.Padding(0);
             this.output_name_txt.Name = "output_name_txt";
-            this.output_name_txt.Size = new System.Drawing.Size(177, 24);
+            this.output_name_txt.Size = new System.Drawing.Size(177, 23);
             this.output_name_txt.TabIndex = 2;
             this.output_name_txt.TextChanged += new System.EventHandler(this.output_name_TextChanged);
             this.output_name_txt.DoubleClick += new System.EventHandler(this.output_name_Click);
@@ -8477,12 +8483,12 @@ namespace plt0_gui
             // 
             this.cmpr_min_alpha_label.AutoSize = true;
             this.cmpr_min_alpha_label.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_min_alpha_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_min_alpha_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_min_alpha_label.ForeColor = System.Drawing.SystemColors.Control;
             this.cmpr_min_alpha_label.Location = new System.Drawing.Point(762, 941);
             this.cmpr_min_alpha_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_min_alpha_label.Name = "cmpr_min_alpha_label";
-            this.cmpr_min_alpha_label.Size = new System.Drawing.Size(171, 24);
+            this.cmpr_min_alpha_label.Size = new System.Drawing.Size(174, 25);
             this.cmpr_min_alpha_label.TabIndex = 450;
             this.cmpr_min_alpha_label.Text = "CMPR Min alpha";
             this.cmpr_min_alpha_label.MouseEnter += new System.EventHandler(this.cmpr_min_alpha_MouseEnter);
@@ -8492,12 +8498,12 @@ namespace plt0_gui
             // 
             this.cmpr_min_alpha_txt.BackColor = System.Drawing.Color.Black;
             this.cmpr_min_alpha_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.cmpr_min_alpha_txt.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_min_alpha_txt.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_min_alpha_txt.ForeColor = System.Drawing.SystemColors.Window;
             this.cmpr_min_alpha_txt.Location = new System.Drawing.Point(766, 972);
             this.cmpr_min_alpha_txt.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_min_alpha_txt.Name = "cmpr_min_alpha_txt";
-            this.cmpr_min_alpha_txt.Size = new System.Drawing.Size(192, 24);
+            this.cmpr_min_alpha_txt.Size = new System.Drawing.Size(192, 23);
             this.cmpr_min_alpha_txt.TabIndex = 5;
             this.cmpr_min_alpha_txt.Text = "100";
             this.cmpr_min_alpha_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -8511,12 +8517,12 @@ namespace plt0_gui
             // 
             this.num_colours_label.AutoSize = true;
             this.num_colours_label.BackColor = System.Drawing.Color.Transparent;
-            this.num_colours_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.num_colours_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.num_colours_label.ForeColor = System.Drawing.SystemColors.Control;
             this.num_colours_label.Location = new System.Drawing.Point(975, 941);
             this.num_colours_label.Margin = new System.Windows.Forms.Padding(0);
             this.num_colours_label.Name = "num_colours_label";
-            this.num_colours_label.Size = new System.Drawing.Size(134, 24);
+            this.num_colours_label.Size = new System.Drawing.Size(129, 25);
             this.num_colours_label.TabIndex = 452;
             this.num_colours_label.Text = "num colours";
             this.num_colours_label.MouseEnter += new System.EventHandler(this.num_colours_MouseEnter);
@@ -8526,12 +8532,12 @@ namespace plt0_gui
             // 
             this.num_colours_txt.BackColor = System.Drawing.Color.Black;
             this.num_colours_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.num_colours_txt.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.num_colours_txt.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.num_colours_txt.ForeColor = System.Drawing.SystemColors.Window;
             this.num_colours_txt.Location = new System.Drawing.Point(979, 972);
             this.num_colours_txt.Margin = new System.Windows.Forms.Padding(0);
             this.num_colours_txt.Name = "num_colours_txt";
-            this.num_colours_txt.Size = new System.Drawing.Size(141, 24);
+            this.num_colours_txt.Size = new System.Drawing.Size(141, 23);
             this.num_colours_txt.TabIndex = 6;
             this.num_colours_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_colours_txt.TextChanged += new System.EventHandler(this.num_colours_TextChanged);
@@ -8544,12 +8550,12 @@ namespace plt0_gui
             // 
             this.round3_label.AutoSize = true;
             this.round3_label.BackColor = System.Drawing.Color.Transparent;
-            this.round3_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.round3_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.round3_label.ForeColor = System.Drawing.SystemColors.Control;
             this.round3_label.Location = new System.Drawing.Point(1157, 941);
             this.round3_label.Margin = new System.Windows.Forms.Padding(0);
             this.round3_label.Name = "round3_label";
-            this.round3_label.Size = new System.Drawing.Size(83, 24);
+            this.round3_label.Size = new System.Drawing.Size(79, 25);
             this.round3_label.TabIndex = 454;
             this.round3_label.Text = "round3";
             this.round3_label.MouseEnter += new System.EventHandler(this.round3_MouseEnter);
@@ -8559,12 +8565,12 @@ namespace plt0_gui
             // 
             this.round3_txt.BackColor = System.Drawing.Color.Black;
             this.round3_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.round3_txt.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.round3_txt.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.round3_txt.ForeColor = System.Drawing.SystemColors.Window;
             this.round3_txt.Location = new System.Drawing.Point(1153, 972);
             this.round3_txt.Margin = new System.Windows.Forms.Padding(0);
             this.round3_txt.Name = "round3_txt";
-            this.round3_txt.Size = new System.Drawing.Size(100, 24);
+            this.round3_txt.Size = new System.Drawing.Size(100, 23);
             this.round3_txt.TabIndex = 7;
             this.round3_txt.Text = "15";
             this.round3_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -8578,12 +8584,12 @@ namespace plt0_gui
             // 
             this.round4_label.AutoSize = true;
             this.round4_label.BackColor = System.Drawing.Color.Transparent;
-            this.round4_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.round4_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.round4_label.ForeColor = System.Drawing.SystemColors.Control;
             this.round4_label.Location = new System.Drawing.Point(1277, 941);
             this.round4_label.Margin = new System.Windows.Forms.Padding(0);
             this.round4_label.Name = "round4_label";
-            this.round4_label.Size = new System.Drawing.Size(83, 24);
+            this.round4_label.Size = new System.Drawing.Size(79, 25);
             this.round4_label.TabIndex = 456;
             this.round4_label.Text = "round4";
             this.round4_label.MouseEnter += new System.EventHandler(this.round4_MouseEnter);
@@ -8593,12 +8599,12 @@ namespace plt0_gui
             // 
             this.round4_txt.BackColor = System.Drawing.Color.Black;
             this.round4_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.round4_txt.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.round4_txt.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.round4_txt.ForeColor = System.Drawing.SystemColors.Window;
             this.round4_txt.Location = new System.Drawing.Point(1273, 972);
             this.round4_txt.Margin = new System.Windows.Forms.Padding(0);
             this.round4_txt.Name = "round4_txt";
-            this.round4_txt.Size = new System.Drawing.Size(100, 24);
+            this.round4_txt.Size = new System.Drawing.Size(100, 23);
             this.round4_txt.TabIndex = 8;
             this.round4_txt.Text = "7";
             this.round4_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -8612,12 +8618,12 @@ namespace plt0_gui
             // 
             this.round5_label.AutoSize = true;
             this.round5_label.BackColor = System.Drawing.Color.Transparent;
-            this.round5_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.round5_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.round5_label.ForeColor = System.Drawing.SystemColors.Control;
             this.round5_label.Location = new System.Drawing.Point(1395, 941);
             this.round5_label.Margin = new System.Windows.Forms.Padding(0);
             this.round5_label.Name = "round5_label";
-            this.round5_label.Size = new System.Drawing.Size(83, 24);
+            this.round5_label.Size = new System.Drawing.Size(79, 25);
             this.round5_label.TabIndex = 458;
             this.round5_label.Text = "round5";
             this.round5_label.MouseEnter += new System.EventHandler(this.round5_MouseEnter);
@@ -8627,12 +8633,12 @@ namespace plt0_gui
             // 
             this.round5_txt.BackColor = System.Drawing.Color.Black;
             this.round5_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.round5_txt.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.round5_txt.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.round5_txt.ForeColor = System.Drawing.SystemColors.Window;
             this.round5_txt.Location = new System.Drawing.Point(1391, 972);
             this.round5_txt.Margin = new System.Windows.Forms.Padding(0);
             this.round5_txt.Name = "round5_txt";
-            this.round5_txt.Size = new System.Drawing.Size(100, 24);
+            this.round5_txt.Size = new System.Drawing.Size(100, 23);
             this.round5_txt.TabIndex = 9;
             this.round5_txt.Text = "3";
             this.round5_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -8646,12 +8652,12 @@ namespace plt0_gui
             // 
             this.round6_label.AutoSize = true;
             this.round6_label.BackColor = System.Drawing.Color.Transparent;
-            this.round6_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.round6_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.round6_label.ForeColor = System.Drawing.SystemColors.Control;
             this.round6_label.Location = new System.Drawing.Point(1504, 941);
             this.round6_label.Margin = new System.Windows.Forms.Padding(0);
             this.round6_label.Name = "round6_label";
-            this.round6_label.Size = new System.Drawing.Size(83, 24);
+            this.round6_label.Size = new System.Drawing.Size(79, 25);
             this.round6_label.TabIndex = 460;
             this.round6_label.Text = "round6";
             this.round6_label.MouseEnter += new System.EventHandler(this.round6_MouseEnter);
@@ -8661,12 +8667,12 @@ namespace plt0_gui
             // 
             this.round6_txt.BackColor = System.Drawing.Color.Black;
             this.round6_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.round6_txt.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.round6_txt.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.round6_txt.ForeColor = System.Drawing.SystemColors.Window;
             this.round6_txt.Location = new System.Drawing.Point(1504, 972);
             this.round6_txt.Margin = new System.Windows.Forms.Padding(0);
             this.round6_txt.Name = "round6_txt";
-            this.round6_txt.Size = new System.Drawing.Size(100, 24);
+            this.round6_txt.Size = new System.Drawing.Size(100, 23);
             this.round6_txt.TabIndex = 10;
             this.round6_txt.Text = "1";
             this.round6_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -8680,12 +8686,12 @@ namespace plt0_gui
             // 
             this.custom_a_label.AutoSize = true;
             this.custom_a_label.BackColor = System.Drawing.Color.Transparent;
-            this.custom_a_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.custom_a_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.custom_a_label.ForeColor = System.Drawing.SystemColors.Control;
             this.custom_a_label.Location = new System.Drawing.Point(1557, 877);
             this.custom_a_label.Margin = new System.Windows.Forms.Padding(0);
             this.custom_a_label.Name = "custom_a_label";
-            this.custom_a_label.Size = new System.Drawing.Size(24, 24);
+            this.custom_a_label.Size = new System.Drawing.Size(27, 25);
             this.custom_a_label.TabIndex = 468;
             this.custom_a_label.Text = "A";
             this.custom_a_label.MouseEnter += new System.EventHandler(this.custom_a_MouseEnter);
@@ -8695,12 +8701,12 @@ namespace plt0_gui
             // 
             this.custom_a_txt.BackColor = System.Drawing.Color.Black;
             this.custom_a_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.custom_a_txt.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.custom_a_txt.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.custom_a_txt.ForeColor = System.Drawing.SystemColors.Window;
             this.custom_a_txt.Location = new System.Drawing.Point(1538, 908);
             this.custom_a_txt.Margin = new System.Windows.Forms.Padding(0);
             this.custom_a_txt.Name = "custom_a_txt";
-            this.custom_a_txt.Size = new System.Drawing.Size(64, 24);
+            this.custom_a_txt.Size = new System.Drawing.Size(64, 23);
             this.custom_a_txt.TabIndex = 18;
             this.custom_a_txt.Text = "1.0";
             this.custom_a_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -8714,12 +8720,12 @@ namespace plt0_gui
             // 
             this.custom_b_label.AutoSize = true;
             this.custom_b_label.BackColor = System.Drawing.Color.Transparent;
-            this.custom_b_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.custom_b_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.custom_b_label.ForeColor = System.Drawing.SystemColors.Control;
             this.custom_b_label.Location = new System.Drawing.Point(1479, 877);
             this.custom_b_label.Margin = new System.Windows.Forms.Padding(0);
             this.custom_b_label.Name = "custom_b_label";
-            this.custom_b_label.Size = new System.Drawing.Size(23, 24);
+            this.custom_b_label.Size = new System.Drawing.Size(26, 25);
             this.custom_b_label.TabIndex = 466;
             this.custom_b_label.Text = "B";
             this.custom_b_label.MouseEnter += new System.EventHandler(this.custom_b_MouseEnter);
@@ -8729,12 +8735,12 @@ namespace plt0_gui
             // 
             this.custom_b_txt.BackColor = System.Drawing.Color.Black;
             this.custom_b_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.custom_b_txt.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.custom_b_txt.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.custom_b_txt.ForeColor = System.Drawing.SystemColors.Window;
             this.custom_b_txt.Location = new System.Drawing.Point(1457, 908);
             this.custom_b_txt.Margin = new System.Windows.Forms.Padding(0);
             this.custom_b_txt.Name = "custom_b_txt";
-            this.custom_b_txt.Size = new System.Drawing.Size(64, 24);
+            this.custom_b_txt.Size = new System.Drawing.Size(64, 23);
             this.custom_b_txt.TabIndex = 17;
             this.custom_b_txt.Text = "1.0";
             this.custom_b_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -8748,12 +8754,12 @@ namespace plt0_gui
             // 
             this.custom_g_label.AutoSize = true;
             this.custom_g_label.BackColor = System.Drawing.Color.Transparent;
-            this.custom_g_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.custom_g_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.custom_g_label.ForeColor = System.Drawing.SystemColors.Control;
             this.custom_g_label.Location = new System.Drawing.Point(1394, 877);
             this.custom_g_label.Margin = new System.Windows.Forms.Padding(0);
             this.custom_g_label.Name = "custom_g_label";
-            this.custom_g_label.Size = new System.Drawing.Size(25, 24);
+            this.custom_g_label.Size = new System.Drawing.Size(28, 25);
             this.custom_g_label.TabIndex = 464;
             this.custom_g_label.Text = "G";
             this.custom_g_label.MouseEnter += new System.EventHandler(this.custom_g_MouseEnter);
@@ -8763,12 +8769,12 @@ namespace plt0_gui
             // 
             this.custom_g_txt.BackColor = System.Drawing.Color.Black;
             this.custom_g_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.custom_g_txt.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.custom_g_txt.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.custom_g_txt.ForeColor = System.Drawing.SystemColors.Window;
             this.custom_g_txt.Location = new System.Drawing.Point(1373, 908);
             this.custom_g_txt.Margin = new System.Windows.Forms.Padding(0);
             this.custom_g_txt.Name = "custom_g_txt";
-            this.custom_g_txt.Size = new System.Drawing.Size(64, 24);
+            this.custom_g_txt.Size = new System.Drawing.Size(64, 23);
             this.custom_g_txt.TabIndex = 16;
             this.custom_g_txt.Text = "1.0";
             this.custom_g_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -8782,12 +8788,12 @@ namespace plt0_gui
             // 
             this.custom_r_label.AutoSize = true;
             this.custom_r_label.BackColor = System.Drawing.Color.Transparent;
-            this.custom_r_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.custom_r_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.custom_r_label.ForeColor = System.Drawing.SystemColors.Control;
             this.custom_r_label.Location = new System.Drawing.Point(1312, 877);
             this.custom_r_label.Margin = new System.Windows.Forms.Padding(0);
             this.custom_r_label.Name = "custom_r_label";
-            this.custom_r_label.Size = new System.Drawing.Size(23, 24);
+            this.custom_r_label.Size = new System.Drawing.Size(26, 25);
             this.custom_r_label.TabIndex = 462;
             this.custom_r_label.Text = "R";
             this.custom_r_label.MouseEnter += new System.EventHandler(this.custom_r_MouseEnter);
@@ -8797,12 +8803,12 @@ namespace plt0_gui
             // 
             this.custom_r_txt.BackColor = System.Drawing.Color.Black;
             this.custom_r_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.custom_r_txt.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.custom_r_txt.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.custom_r_txt.ForeColor = System.Drawing.SystemColors.Window;
             this.custom_r_txt.Location = new System.Drawing.Point(1292, 908);
             this.custom_r_txt.Margin = new System.Windows.Forms.Padding(0);
             this.custom_r_txt.Name = "custom_r_txt";
-            this.custom_r_txt.Size = new System.Drawing.Size(64, 24);
+            this.custom_r_txt.Size = new System.Drawing.Size(64, 23);
             this.custom_r_txt.TabIndex = 15;
             this.custom_r_txt.Text = "1.0";
             this.custom_r_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -8816,12 +8822,12 @@ namespace plt0_gui
             // 
             this.custom_rgba_label.AutoSize = true;
             this.custom_rgba_label.BackColor = System.Drawing.Color.Transparent;
-            this.custom_rgba_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.custom_rgba_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.custom_rgba_label.ForeColor = System.Drawing.SystemColors.Control;
             this.custom_rgba_label.Location = new System.Drawing.Point(1095, 897);
             this.custom_rgba_label.Margin = new System.Windows.Forms.Padding(0);
             this.custom_rgba_label.Name = "custom_rgba_label";
-            this.custom_rgba_label.Size = new System.Drawing.Size(146, 24);
+            this.custom_rgba_label.Size = new System.Drawing.Size(151, 25);
             this.custom_rgba_label.TabIndex = 469;
             this.custom_rgba_label.Text = "Custom RGBA";
             // 
@@ -8829,13 +8835,13 @@ namespace plt0_gui
             // 
             this.description_title.AutoSize = true;
             this.description_title.BackColor = System.Drawing.Color.Transparent;
-            this.description_title.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.description_title.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.description_title.ForeColor = System.Drawing.Color.Cyan;
             this.description_title.Location = new System.Drawing.Point(862, 512);
             this.description_title.Margin = new System.Windows.Forms.Padding(0);
             this.description_title.Name = "description_title";
             this.description_title.Padding = new System.Windows.Forms.Padding(0, 22, 0, 0);
-            this.description_title.Size = new System.Drawing.Size(127, 46);
+            this.description_title.Size = new System.Drawing.Size(120, 47);
             this.description_title.TabIndex = 470;
             this.description_title.Text = "Description";
             // 
@@ -8843,7 +8849,7 @@ namespace plt0_gui
             // 
             this.description.AutoSize = true;
             this.description.BackColor = System.Drawing.Color.Transparent;
-            this.description.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.description.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.description.ForeColor = System.Drawing.Color.Cyan;
             this.description.Location = new System.Drawing.Point(700, 576);
             this.description.Margin = new System.Windows.Forms.Padding(0);
@@ -8892,13 +8898,13 @@ namespace plt0_gui
             // 
             this.palette_rgb5a3_label.AutoSize = true;
             this.palette_rgb5a3_label.BackColor = System.Drawing.Color.Transparent;
-            this.palette_rgb5a3_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.palette_rgb5a3_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.palette_rgb5a3_label.ForeColor = System.Drawing.SystemColors.Window;
             this.palette_rgb5a3_label.Location = new System.Drawing.Point(564, 800);
             this.palette_rgb5a3_label.Margin = new System.Windows.Forms.Padding(0);
             this.palette_rgb5a3_label.Name = "palette_rgb5a3_label";
             this.palette_rgb5a3_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.palette_rgb5a3_label.Size = new System.Drawing.Size(89, 68);
+            this.palette_rgb5a3_label.Size = new System.Drawing.Size(95, 69);
             this.palette_rgb5a3_label.TabIndex = 480;
             this.palette_rgb5a3_label.Text = "RGB5A3";
             this.palette_rgb5a3_label.Click += new System.EventHandler(this.palette_RGB5A3_Click);
@@ -8926,13 +8932,13 @@ namespace plt0_gui
             // 
             this.palette_rgb565_label.AutoSize = true;
             this.palette_rgb565_label.BackColor = System.Drawing.Color.Transparent;
-            this.palette_rgb565_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.palette_rgb565_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.palette_rgb565_label.ForeColor = System.Drawing.SystemColors.Window;
             this.palette_rgb565_label.Location = new System.Drawing.Point(564, 736);
             this.palette_rgb565_label.Margin = new System.Windows.Forms.Padding(0);
             this.palette_rgb565_label.Name = "palette_rgb565_label";
             this.palette_rgb565_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.palette_rgb565_label.Size = new System.Drawing.Size(87, 68);
+            this.palette_rgb565_label.Size = new System.Drawing.Size(92, 69);
             this.palette_rgb565_label.TabIndex = 477;
             this.palette_rgb565_label.Text = "RGB565";
             this.palette_rgb565_label.Click += new System.EventHandler(this.palette_RGB565_Click);
@@ -8960,13 +8966,13 @@ namespace plt0_gui
             // 
             this.palette_ai8_label.AutoSize = true;
             this.palette_ai8_label.BackColor = System.Drawing.Color.Transparent;
-            this.palette_ai8_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.palette_ai8_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.palette_ai8_label.ForeColor = System.Drawing.SystemColors.Window;
             this.palette_ai8_label.Location = new System.Drawing.Point(564, 672);
             this.palette_ai8_label.Margin = new System.Windows.Forms.Padding(0);
             this.palette_ai8_label.Name = "palette_ai8_label";
             this.palette_ai8_label.Padding = new System.Windows.Forms.Padding(0, 22, 60, 22);
-            this.palette_ai8_label.Size = new System.Drawing.Size(102, 68);
+            this.palette_ai8_label.Size = new System.Drawing.Size(105, 69);
             this.palette_ai8_label.TabIndex = 474;
             this.palette_ai8_label.Text = "AI8";
             this.palette_ai8_label.Click += new System.EventHandler(this.palette_AI8_Click);
@@ -8977,12 +8983,12 @@ namespace plt0_gui
             // 
             this.palette_label.AutoSize = true;
             this.palette_label.BackColor = System.Drawing.Color.Transparent;
-            this.palette_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.palette_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.palette_label.ForeColor = System.Drawing.SystemColors.Control;
             this.palette_label.Location = new System.Drawing.Point(498, 642);
             this.palette_label.Margin = new System.Windows.Forms.Padding(0);
             this.palette_label.Name = "palette_label";
-            this.palette_label.Size = new System.Drawing.Size(160, 24);
+            this.palette_label.Size = new System.Drawing.Size(152, 25);
             this.palette_label.TabIndex = 473;
             this.palette_label.Text = "Palette Format";
             // 
@@ -9041,7 +9047,7 @@ namespace plt0_gui
             // 
             this.desc2.AutoSize = true;
             this.desc2.BackColor = System.Drawing.Color.Transparent;
-            this.desc2.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.desc2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.desc2.ForeColor = System.Drawing.Color.Cyan;
             this.desc2.Location = new System.Drawing.Point(700, 628);
             this.desc2.Margin = new System.Windows.Forms.Padding(0);
@@ -9057,7 +9063,7 @@ namespace plt0_gui
             // 
             this.desc3.AutoSize = true;
             this.desc3.BackColor = System.Drawing.Color.Transparent;
-            this.desc3.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.desc3.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.desc3.ForeColor = System.Drawing.Color.Cyan;
             this.desc3.Location = new System.Drawing.Point(700, 657);
             this.desc3.Margin = new System.Windows.Forms.Padding(0);
@@ -9073,7 +9079,7 @@ namespace plt0_gui
             // 
             this.desc4.AutoSize = true;
             this.desc4.BackColor = System.Drawing.Color.Transparent;
-            this.desc4.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.desc4.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.desc4.ForeColor = System.Drawing.Color.Cyan;
             this.desc4.Location = new System.Drawing.Point(700, 687);
             this.desc4.Margin = new System.Windows.Forms.Padding(0);
@@ -9088,7 +9094,7 @@ namespace plt0_gui
             // 
             this.desc5.AutoSize = true;
             this.desc5.BackColor = System.Drawing.Color.Transparent;
-            this.desc5.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.desc5.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.desc5.ForeColor = System.Drawing.Color.Cyan;
             this.desc5.Location = new System.Drawing.Point(700, 717);
             this.desc5.Margin = new System.Windows.Forms.Padding(0);
@@ -9103,7 +9109,7 @@ namespace plt0_gui
             // 
             this.desc6.AutoSize = true;
             this.desc6.BackColor = System.Drawing.Color.Transparent;
-            this.desc6.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.desc6.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.desc6.ForeColor = System.Drawing.Color.Cyan;
             this.desc6.Location = new System.Drawing.Point(700, 747);
             this.desc6.Margin = new System.Windows.Forms.Padding(0);
@@ -9118,7 +9124,7 @@ namespace plt0_gui
             // 
             this.desc7.AutoSize = true;
             this.desc7.BackColor = System.Drawing.Color.Transparent;
-            this.desc7.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.desc7.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.desc7.ForeColor = System.Drawing.Color.Cyan;
             this.desc7.Location = new System.Drawing.Point(700, 778);
             this.desc7.Margin = new System.Windows.Forms.Padding(0);
@@ -9133,7 +9139,7 @@ namespace plt0_gui
             // 
             this.desc8.AutoSize = true;
             this.desc8.BackColor = System.Drawing.Color.Transparent;
-            this.desc8.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.desc8.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.desc8.ForeColor = System.Drawing.Color.Cyan;
             this.desc8.Location = new System.Drawing.Point(700, 806);
             this.desc8.Margin = new System.Windows.Forms.Padding(0);
@@ -9148,7 +9154,7 @@ namespace plt0_gui
             // 
             this.desc9.AutoSize = true;
             this.desc9.BackColor = System.Drawing.Color.Transparent;
-            this.desc9.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.desc9.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.desc9.ForeColor = System.Drawing.Color.Cyan;
             this.desc9.Location = new System.Drawing.Point(700, 834);
             this.desc9.Margin = new System.Windows.Forms.Padding(0);
@@ -9163,7 +9169,7 @@ namespace plt0_gui
             // 
             this.output_label.AutoSize = true;
             this.output_label.BackColor = System.Drawing.Color.Transparent;
-            this.output_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.output_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.output_label.ForeColor = System.Drawing.Color.Cyan;
             this.output_label.Location = new System.Drawing.Point(1207, 770);
             this.output_label.Margin = new System.Windows.Forms.Padding(0);
@@ -9197,14 +9203,14 @@ namespace plt0_gui
             // 
             this.cli_textbox_label.AutoSize = true;
             this.cli_textbox_label.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(20)))), ((int)(((byte)(0)))), ((int)(((byte)(49)))));
-            this.cli_textbox_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cli_textbox_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cli_textbox_label.ForeColor = System.Drawing.SystemColors.Window;
             this.cli_textbox_label.Location = new System.Drawing.Point(71, 1005);
             this.cli_textbox_label.Margin = new System.Windows.Forms.Padding(0);
             this.cli_textbox_label.MaximumSize = new System.Drawing.Size(1400, 128);
             this.cli_textbox_label.Name = "cli_textbox_label";
             this.cli_textbox_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.cli_textbox_label.Size = new System.Drawing.Size(0, 68);
+            this.cli_textbox_label.Size = new System.Drawing.Size(0, 69);
             this.cli_textbox_label.TabIndex = 544;
             this.cli_textbox_label.MouseEnter += new System.EventHandler(this.cli_textbox_MouseEnter);
             this.cli_textbox_label.MouseLeave += new System.EventHandler(this.cli_textbox_MouseLeave);
@@ -9231,13 +9237,13 @@ namespace plt0_gui
             // 
             this.view_rgba_label.AutoSize = true;
             this.view_rgba_label.BackColor = System.Drawing.Color.Transparent;
-            this.view_rgba_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.view_rgba_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.view_rgba_label.ForeColor = System.Drawing.SystemColors.Window;
             this.view_rgba_label.Location = new System.Drawing.Point(308, 1323);
             this.view_rgba_label.Margin = new System.Windows.Forms.Padding(0);
             this.view_rgba_label.Name = "view_rgba_label";
             this.view_rgba_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.view_rgba_label.Size = new System.Drawing.Size(146, 68);
+            this.view_rgba_label.Size = new System.Drawing.Size(151, 69);
             this.view_rgba_label.TabIndex = 545;
             this.view_rgba_label.Text = "Custom RGBA";
             this.view_rgba_label.Visible = false;
@@ -9267,13 +9273,13 @@ namespace plt0_gui
             // 
             this.view_palette_label.AutoSize = true;
             this.view_palette_label.BackColor = System.Drawing.Color.Transparent;
-            this.view_palette_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.view_palette_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.view_palette_label.ForeColor = System.Drawing.SystemColors.Window;
             this.view_palette_label.Location = new System.Drawing.Point(307, 1387);
             this.view_palette_label.Margin = new System.Windows.Forms.Padding(0);
             this.view_palette_label.Name = "view_palette_label";
             this.view_palette_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.view_palette_label.Size = new System.Drawing.Size(83, 68);
+            this.view_palette_label.Size = new System.Drawing.Size(79, 69);
             this.view_palette_label.TabIndex = 548;
             this.view_palette_label.Text = "Palette";
             this.view_palette_label.Visible = false;
@@ -9303,13 +9309,13 @@ namespace plt0_gui
             // 
             this.view_cmpr_label.AutoSize = true;
             this.view_cmpr_label.BackColor = System.Drawing.Color.Transparent;
-            this.view_cmpr_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.view_cmpr_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.view_cmpr_label.ForeColor = System.Drawing.SystemColors.Window;
             this.view_cmpr_label.Location = new System.Drawing.Point(109, 1324);
             this.view_cmpr_label.Margin = new System.Windows.Forms.Padding(0);
             this.view_cmpr_label.Name = "view_cmpr_label";
             this.view_cmpr_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.view_cmpr_label.Size = new System.Drawing.Size(68, 68);
+            this.view_cmpr_label.Size = new System.Drawing.Size(74, 69);
             this.view_cmpr_label.TabIndex = 581;
             this.view_cmpr_label.Text = "CMPR";
             this.view_cmpr_label.Visible = false;
@@ -9339,13 +9345,13 @@ namespace plt0_gui
             // 
             this.view_options_label.AutoSize = true;
             this.view_options_label.BackColor = System.Drawing.Color.Transparent;
-            this.view_options_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.view_options_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.view_options_label.ForeColor = System.Drawing.SystemColors.Window;
             this.view_options_label.Location = new System.Drawing.Point(104, 1388);
             this.view_options_label.Margin = new System.Windows.Forms.Padding(0);
             this.view_options_label.Name = "view_options_label";
             this.view_options_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.view_options_label.Size = new System.Drawing.Size(88, 68);
+            this.view_options_label.Size = new System.Drawing.Size(87, 69);
             this.view_options_label.TabIndex = 584;
             this.view_options_label.Text = "Options";
             this.view_options_label.Visible = false;
@@ -9393,13 +9399,13 @@ namespace plt0_gui
             // 
             this.textchange_label.AutoSize = true;
             this.textchange_label.BackColor = System.Drawing.Color.Transparent;
-            this.textchange_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.textchange_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.textchange_label.ForeColor = System.Drawing.SystemColors.Window;
             this.textchange_label.Location = new System.Drawing.Point(564, 32);
             this.textchange_label.Margin = new System.Windows.Forms.Padding(0);
             this.textchange_label.Name = "textchange_label";
             this.textchange_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.textchange_label.Size = new System.Drawing.Size(307, 68);
+            this.textchange_label.Size = new System.Drawing.Size(291, 69);
             this.textchange_label.TabIndex = 589;
             this.textchange_label.Text = "Update preview for textboxes";
             this.textchange_label.Visible = false;
@@ -9429,13 +9435,13 @@ namespace plt0_gui
             // 
             this.auto_update_label.AutoSize = true;
             this.auto_update_label.BackColor = System.Drawing.Color.Transparent;
-            this.auto_update_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.auto_update_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.auto_update_label.ForeColor = System.Drawing.SystemColors.Window;
             this.auto_update_label.Location = new System.Drawing.Point(1032, 32);
             this.auto_update_label.Margin = new System.Windows.Forms.Padding(0);
             this.auto_update_label.Name = "auto_update_label";
             this.auto_update_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.auto_update_label.Size = new System.Drawing.Size(219, 68);
+            this.auto_update_label.Size = new System.Drawing.Size(209, 69);
             this.auto_update_label.TabIndex = 592;
             this.auto_update_label.Text = "Auto update preview";
             this.auto_update_label.Visible = false;
@@ -9483,13 +9489,13 @@ namespace plt0_gui
             // 
             this.upscale_label.AutoSize = true;
             this.upscale_label.BackColor = System.Drawing.Color.Transparent;
-            this.upscale_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.upscale_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.upscale_label.ForeColor = System.Drawing.SystemColors.Window;
             this.upscale_label.Location = new System.Drawing.Point(1384, 32);
             this.upscale_label.Margin = new System.Windows.Forms.Padding(0);
             this.upscale_label.Name = "upscale_label";
             this.upscale_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.upscale_label.Size = new System.Drawing.Size(174, 68);
+            this.upscale_label.Size = new System.Drawing.Size(172, 69);
             this.upscale_label.TabIndex = 598;
             this.upscale_label.Text = "Upscale Preview";
             this.upscale_label.Visible = false;
@@ -9519,13 +9525,13 @@ namespace plt0_gui
             // 
             this.preview4k_label.AutoSize = true;
             this.preview4k_label.BackColor = System.Drawing.Color.Transparent;
-            this.preview4k_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.preview4k_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.preview4k_label.ForeColor = System.Drawing.SystemColors.Window;
             this.preview4k_label.Location = new System.Drawing.Point(1160, 1378);
             this.preview4k_label.Margin = new System.Windows.Forms.Padding(0);
             this.preview4k_label.Name = "preview4k_label";
             this.preview4k_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.preview4k_label.Size = new System.Drawing.Size(849, 68);
+            this.preview4k_label.Size = new System.Drawing.Size(811, 69);
             this.preview4k_label.TabIndex = 603;
             this.preview4k_label.Text = "4k screen Preview input file (because why not using that space on fullscreen mode" +
     ")";
@@ -9567,13 +9573,13 @@ namespace plt0_gui
             // 
             this.reversex_label.AutoSize = true;
             this.reversex_label.BackColor = System.Drawing.Color.Transparent;
-            this.reversex_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.reversex_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.reversex_label.ForeColor = System.Drawing.SystemColors.Window;
             this.reversex_label.Location = new System.Drawing.Point(1716, 448);
             this.reversex_label.Margin = new System.Windows.Forms.Padding(0);
             this.reversex_label.Name = "reversex_label";
             this.reversex_label.Padding = new System.Windows.Forms.Padding(0, 22, 10, 22);
-            this.reversex_label.Size = new System.Drawing.Size(160, 68);
+            this.reversex_label.Size = new System.Drawing.Size(158, 69);
             this.reversex_label.TabIndex = 606;
             this.reversex_label.Text = "reverse x-axis";
             this.reversex_label.Click += new System.EventHandler(this.reversex_Click);
@@ -9584,13 +9590,13 @@ namespace plt0_gui
             // 
             this.cmpr_c1_label.AutoSize = true;
             this.cmpr_c1_label.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_c1_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_c1_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_c1_label.ForeColor = System.Drawing.SystemColors.Control;
             this.cmpr_c1_label.Location = new System.Drawing.Point(2060, 29);
             this.cmpr_c1_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_c1_label.Name = "cmpr_c1_label";
             this.cmpr_c1_label.Padding = new System.Windows.Forms.Padding(15, 15, 15, 10);
-            this.cmpr_c1_label.Size = new System.Drawing.Size(124, 49);
+            this.cmpr_c1_label.Size = new System.Drawing.Size(124, 50);
             this.cmpr_c1_label.TabIndex = 610;
             this.cmpr_c1_label.Text = "Colour 1";
             this.cmpr_c1_label.MouseEnter += new System.EventHandler(this.cmpr_c1_MouseEnter);
@@ -9600,12 +9606,12 @@ namespace plt0_gui
             // 
             this.cmpr_c1_txt.BackColor = System.Drawing.Color.Black;
             this.cmpr_c1_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.cmpr_c1_txt.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_c1_txt.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_c1_txt.ForeColor = System.Drawing.SystemColors.Window;
             this.cmpr_c1_txt.Location = new System.Drawing.Point(2059, 73);
             this.cmpr_c1_txt.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_c1_txt.Name = "cmpr_c1_txt";
-            this.cmpr_c1_txt.Size = new System.Drawing.Size(141, 24);
+            this.cmpr_c1_txt.Size = new System.Drawing.Size(141, 23);
             this.cmpr_c1_txt.TabIndex = 19;
             this.cmpr_c1_txt.Text = "#000000";
             this.cmpr_c1_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -9619,13 +9625,13 @@ namespace plt0_gui
             // 
             this.cmpr_c1.AutoSize = true;
             this.cmpr_c1.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_c1.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_c1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_c1.ForeColor = System.Drawing.SystemColors.Window;
             this.cmpr_c1.Location = new System.Drawing.Point(1982, 32);
             this.cmpr_c1.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_c1.Name = "cmpr_c1";
             this.cmpr_c1.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
-            this.cmpr_c1.Size = new System.Drawing.Size(64, 68);
+            this.cmpr_c1.Size = new System.Drawing.Size(64, 69);
             this.cmpr_c1.TabIndex = 612;
             this.cmpr_c1.Click += new System.EventHandler(this.cmpr_c1_Click);
             this.cmpr_c1.MouseEnter += new System.EventHandler(this.cmpr_c1_MouseEnter);
@@ -9635,13 +9641,13 @@ namespace plt0_gui
             // 
             this.cmpr_c2.AutoSize = true;
             this.cmpr_c2.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_c2.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_c2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_c2.ForeColor = System.Drawing.SystemColors.Window;
             this.cmpr_c2.Location = new System.Drawing.Point(1982, 128);
             this.cmpr_c2.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_c2.Name = "cmpr_c2";
             this.cmpr_c2.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
-            this.cmpr_c2.Size = new System.Drawing.Size(64, 68);
+            this.cmpr_c2.Size = new System.Drawing.Size(64, 69);
             this.cmpr_c2.TabIndex = 616;
             this.cmpr_c2.Click += new System.EventHandler(this.cmpr_c2_Click);
             this.cmpr_c2.MouseEnter += new System.EventHandler(this.cmpr_c2_MouseEnter);
@@ -9651,13 +9657,13 @@ namespace plt0_gui
             // 
             this.cmpr_c2_label.AutoSize = true;
             this.cmpr_c2_label.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_c2_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_c2_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_c2_label.ForeColor = System.Drawing.SystemColors.Control;
             this.cmpr_c2_label.Location = new System.Drawing.Point(2060, 124);
             this.cmpr_c2_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_c2_label.Name = "cmpr_c2_label";
             this.cmpr_c2_label.Padding = new System.Windows.Forms.Padding(15, 15, 15, 10);
-            this.cmpr_c2_label.Size = new System.Drawing.Size(124, 49);
+            this.cmpr_c2_label.Size = new System.Drawing.Size(124, 50);
             this.cmpr_c2_label.TabIndex = 614;
             this.cmpr_c2_label.Text = "Colour 2";
             this.cmpr_c2_label.MouseEnter += new System.EventHandler(this.cmpr_c2_MouseEnter);
@@ -9667,12 +9673,12 @@ namespace plt0_gui
             // 
             this.cmpr_c2_txt.BackColor = System.Drawing.Color.Black;
             this.cmpr_c2_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.cmpr_c2_txt.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_c2_txt.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_c2_txt.ForeColor = System.Drawing.SystemColors.Window;
             this.cmpr_c2_txt.Location = new System.Drawing.Point(2059, 169);
             this.cmpr_c2_txt.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_c2_txt.Name = "cmpr_c2_txt";
-            this.cmpr_c2_txt.Size = new System.Drawing.Size(141, 24);
+            this.cmpr_c2_txt.Size = new System.Drawing.Size(141, 23);
             this.cmpr_c2_txt.TabIndex = 20;
             this.cmpr_c2_txt.Text = "#000000";
             this.cmpr_c2_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -9686,13 +9692,13 @@ namespace plt0_gui
             // 
             this.cmpr_c3.AutoSize = true;
             this.cmpr_c3.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_c3.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_c3.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_c3.ForeColor = System.Drawing.SystemColors.Window;
             this.cmpr_c3.Location = new System.Drawing.Point(1982, 224);
             this.cmpr_c3.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_c3.Name = "cmpr_c3";
             this.cmpr_c3.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
-            this.cmpr_c3.Size = new System.Drawing.Size(64, 68);
+            this.cmpr_c3.Size = new System.Drawing.Size(64, 69);
             this.cmpr_c3.TabIndex = 620;
             this.cmpr_c3.Click += new System.EventHandler(this.cmpr_c3_Click);
             this.cmpr_c3.MouseEnter += new System.EventHandler(this.cmpr_c3_MouseEnter);
@@ -9702,13 +9708,13 @@ namespace plt0_gui
             // 
             this.cmpr_c3_label.AutoSize = true;
             this.cmpr_c3_label.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_c3_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_c3_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_c3_label.ForeColor = System.Drawing.SystemColors.Control;
             this.cmpr_c3_label.Location = new System.Drawing.Point(2060, 222);
             this.cmpr_c3_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_c3_label.Name = "cmpr_c3_label";
             this.cmpr_c3_label.Padding = new System.Windows.Forms.Padding(15, 15, 15, 10);
-            this.cmpr_c3_label.Size = new System.Drawing.Size(124, 49);
+            this.cmpr_c3_label.Size = new System.Drawing.Size(124, 50);
             this.cmpr_c3_label.TabIndex = 618;
             this.cmpr_c3_label.Text = "Colour 3";
             this.cmpr_c3_label.MouseEnter += new System.EventHandler(this.cmpr_c3_MouseEnter);
@@ -9718,12 +9724,12 @@ namespace plt0_gui
             // 
             this.cmpr_c3_txt.BackColor = System.Drawing.Color.Black;
             this.cmpr_c3_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.cmpr_c3_txt.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_c3_txt.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_c3_txt.ForeColor = System.Drawing.SystemColors.Window;
             this.cmpr_c3_txt.Location = new System.Drawing.Point(2059, 267);
             this.cmpr_c3_txt.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_c3_txt.Name = "cmpr_c3_txt";
-            this.cmpr_c3_txt.Size = new System.Drawing.Size(141, 24);
+            this.cmpr_c3_txt.Size = new System.Drawing.Size(141, 23);
             this.cmpr_c3_txt.TabIndex = 21;
             this.cmpr_c3_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.cmpr_c3_txt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyDown);
@@ -9735,13 +9741,13 @@ namespace plt0_gui
             // 
             this.cmpr_c4.AutoSize = true;
             this.cmpr_c4.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_c4.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_c4.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_c4.ForeColor = System.Drawing.SystemColors.Window;
             this.cmpr_c4.Location = new System.Drawing.Point(1982, 320);
             this.cmpr_c4.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_c4.Name = "cmpr_c4";
             this.cmpr_c4.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
-            this.cmpr_c4.Size = new System.Drawing.Size(64, 68);
+            this.cmpr_c4.Size = new System.Drawing.Size(64, 69);
             this.cmpr_c4.TabIndex = 624;
             this.cmpr_c4.Click += new System.EventHandler(this.cmpr_c4_Click);
             this.cmpr_c4.MouseEnter += new System.EventHandler(this.cmpr_c4_MouseEnter);
@@ -9751,13 +9757,13 @@ namespace plt0_gui
             // 
             this.cmpr_c4_label.AutoSize = true;
             this.cmpr_c4_label.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_c4_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_c4_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_c4_label.ForeColor = System.Drawing.SystemColors.Control;
             this.cmpr_c4_label.Location = new System.Drawing.Point(2060, 319);
             this.cmpr_c4_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_c4_label.Name = "cmpr_c4_label";
             this.cmpr_c4_label.Padding = new System.Windows.Forms.Padding(15, 15, 15, 10);
-            this.cmpr_c4_label.Size = new System.Drawing.Size(124, 49);
+            this.cmpr_c4_label.Size = new System.Drawing.Size(124, 50);
             this.cmpr_c4_label.TabIndex = 622;
             this.cmpr_c4_label.Text = "Colour 4";
             this.cmpr_c4_label.MouseEnter += new System.EventHandler(this.cmpr_c4_MouseEnter);
@@ -9767,12 +9773,12 @@ namespace plt0_gui
             // 
             this.cmpr_c4_txt.BackColor = System.Drawing.Color.Black;
             this.cmpr_c4_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.cmpr_c4_txt.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_c4_txt.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_c4_txt.ForeColor = System.Drawing.SystemColors.Window;
             this.cmpr_c4_txt.Location = new System.Drawing.Point(2059, 364);
             this.cmpr_c4_txt.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_c4_txt.Name = "cmpr_c4_txt";
-            this.cmpr_c4_txt.Size = new System.Drawing.Size(141, 24);
+            this.cmpr_c4_txt.Size = new System.Drawing.Size(141, 23);
             this.cmpr_c4_txt.TabIndex = 22;
             this.cmpr_c4_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.cmpr_c4_txt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmpr_KeyDown);
@@ -9801,13 +9807,13 @@ namespace plt0_gui
             // 
             this.cmpr_swap_label.AutoSize = true;
             this.cmpr_swap_label.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_swap_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_swap_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_swap_label.ForeColor = System.Drawing.SystemColors.Window;
             this.cmpr_swap_label.Location = new System.Drawing.Point(2050, 512);
             this.cmpr_swap_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_swap_label.Name = "cmpr_swap_label";
             this.cmpr_swap_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.cmpr_swap_label.Size = new System.Drawing.Size(302, 68);
+            this.cmpr_swap_label.Size = new System.Drawing.Size(301, 69);
             this.cmpr_swap_label.TabIndex = 625;
             this.cmpr_swap_label.Text = "Swap Colours + change index";
             this.cmpr_swap_label.Click += new System.EventHandler(this.Swap_Colours_Click);
@@ -9836,13 +9842,13 @@ namespace plt0_gui
             // 
             this.cmpr_block_paint_label.AutoSize = true;
             this.cmpr_block_paint_label.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_block_paint_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_block_paint_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_block_paint_label.ForeColor = System.Drawing.SystemColors.Window;
             this.cmpr_block_paint_label.Location = new System.Drawing.Point(2596, 160);
             this.cmpr_block_paint_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_block_paint_label.Name = "cmpr_block_paint_label";
             this.cmpr_block_paint_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.cmpr_block_paint_label.Size = new System.Drawing.Size(147, 68);
+            this.cmpr_block_paint_label.Size = new System.Drawing.Size(142, 69);
             this.cmpr_block_paint_label.TabIndex = 663;
             this.cmpr_block_paint_label.Text = "Colour Picker";
             this.cmpr_block_paint_label.Visible = false;
@@ -9872,13 +9878,13 @@ namespace plt0_gui
             // 
             this.cmpr_block_selection_label.AutoSize = true;
             this.cmpr_block_selection_label.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_block_selection_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_block_selection_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_block_selection_label.ForeColor = System.Drawing.SystemColors.Window;
             this.cmpr_block_selection_label.Location = new System.Drawing.Point(2596, 96);
             this.cmpr_block_selection_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_block_selection_label.Name = "cmpr_block_selection_label";
             this.cmpr_block_selection_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.cmpr_block_selection_label.Size = new System.Drawing.Size(133, 68);
+            this.cmpr_block_selection_label.Size = new System.Drawing.Size(132, 69);
             this.cmpr_block_selection_label.TabIndex = 660;
             this.cmpr_block_selection_label.Text = "Select Block";
             this.cmpr_block_selection_label.Visible = false;
@@ -9890,12 +9896,12 @@ namespace plt0_gui
             // 
             this.cmpr_picture_tooltip_label.AutoSize = true;
             this.cmpr_picture_tooltip_label.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_picture_tooltip_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_picture_tooltip_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_picture_tooltip_label.ForeColor = System.Drawing.SystemColors.Control;
             this.cmpr_picture_tooltip_label.Location = new System.Drawing.Point(2565, 58);
             this.cmpr_picture_tooltip_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_picture_tooltip_label.Name = "cmpr_picture_tooltip_label";
-            this.cmpr_picture_tooltip_label.Size = new System.Drawing.Size(157, 24);
+            this.cmpr_picture_tooltip_label.Size = new System.Drawing.Size(143, 25);
             this.cmpr_picture_tooltip_label.TabIndex = 667;
             this.cmpr_picture_tooltip_label.Text = "Picture tooltip";
             // 
@@ -9903,12 +9909,12 @@ namespace plt0_gui
             // 
             this.cmpr_selected_block_label.AutoSize = true;
             this.cmpr_selected_block_label.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_selected_block_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_selected_block_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_selected_block_label.ForeColor = System.Drawing.SystemColors.Control;
             this.cmpr_selected_block_label.Location = new System.Drawing.Point(2029, 621);
             this.cmpr_selected_block_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_selected_block_label.Name = "cmpr_selected_block_label";
-            this.cmpr_selected_block_label.Size = new System.Drawing.Size(158, 24);
+            this.cmpr_selected_block_label.Size = new System.Drawing.Size(156, 25);
             this.cmpr_selected_block_label.TabIndex = 668;
             this.cmpr_selected_block_label.Text = "Selected Block";
             // 
@@ -9950,14 +9956,14 @@ namespace plt0_gui
             // 
             this.cmpr_warning.AutoSize = true;
             this.cmpr_warning.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_warning.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_warning.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_warning.ForeColor = System.Drawing.Color.Red;
             this.cmpr_warning.Location = new System.Drawing.Point(2999, 32);
             this.cmpr_warning.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_warning.MaximumSize = new System.Drawing.Size(0, 20);
             this.cmpr_warning.MinimumSize = new System.Drawing.Size(0, 20);
             this.cmpr_warning.Name = "cmpr_warning";
-            this.cmpr_warning.Size = new System.Drawing.Size(316, 20);
+            this.cmpr_warning.Size = new System.Drawing.Size(295, 20);
             this.cmpr_warning.TabIndex = 673;
             this.cmpr_warning.Text = "Input file is not a cmpr texture";
             this.cmpr_warning.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -9966,13 +9972,13 @@ namespace plt0_gui
             // 
             this.cmpr_sel_label.AutoSize = true;
             this.cmpr_sel_label.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_sel_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_sel_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_sel_label.ForeColor = System.Drawing.Color.Wheat;
             this.cmpr_sel_label.Location = new System.Drawing.Point(1989, 419);
             this.cmpr_sel_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_sel_label.Name = "cmpr_sel_label";
             this.cmpr_sel_label.Padding = new System.Windows.Forms.Padding(0, 22, 20, 22);
-            this.cmpr_sel_label.Size = new System.Drawing.Size(130, 68);
+            this.cmpr_sel_label.Size = new System.Drawing.Size(130, 69);
             this.cmpr_sel_label.TabIndex = 674;
             this.cmpr_sel_label.Text = "Selected :";
             this.cmpr_sel_label.MouseEnter += new System.EventHandler(this.cmpr_sel_MouseEnter);
@@ -9982,13 +9988,13 @@ namespace plt0_gui
             // 
             this.cmpr_mouse1_label.AutoSize = true;
             this.cmpr_mouse1_label.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_mouse1_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_mouse1_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_mouse1_label.ForeColor = System.Drawing.Color.Red;
             this.cmpr_mouse1_label.Location = new System.Drawing.Point(2213, 32);
             this.cmpr_mouse1_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_mouse1_label.Name = "cmpr_mouse1_label";
             this.cmpr_mouse1_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.cmpr_mouse1_label.Size = new System.Drawing.Size(130, 68);
+            this.cmpr_mouse1_label.Size = new System.Drawing.Size(129, 69);
             this.cmpr_mouse1_label.TabIndex = 677;
             this.cmpr_mouse1_label.Text = "-> Left Click";
             this.cmpr_mouse1_label.MouseEnter += new System.EventHandler(this.cmpr_mouse1_MouseEnter);
@@ -9998,13 +10004,13 @@ namespace plt0_gui
             // 
             this.cmpr_mouse2_label.AutoSize = true;
             this.cmpr_mouse2_label.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_mouse2_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_mouse2_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_mouse2_label.ForeColor = System.Drawing.Color.Red;
             this.cmpr_mouse2_label.Location = new System.Drawing.Point(2213, 128);
             this.cmpr_mouse2_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_mouse2_label.Name = "cmpr_mouse2_label";
             this.cmpr_mouse2_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.cmpr_mouse2_label.Size = new System.Drawing.Size(130, 68);
+            this.cmpr_mouse2_label.Size = new System.Drawing.Size(129, 69);
             this.cmpr_mouse2_label.TabIndex = 678;
             this.cmpr_mouse2_label.Text = "-> Left Click";
             this.cmpr_mouse2_label.MouseEnter += new System.EventHandler(this.cmpr_mouse2_MouseEnter);
@@ -10014,13 +10020,13 @@ namespace plt0_gui
             // 
             this.cmpr_mouse4_label.AutoSize = true;
             this.cmpr_mouse4_label.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_mouse4_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_mouse4_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_mouse4_label.ForeColor = System.Drawing.Color.Red;
             this.cmpr_mouse4_label.Location = new System.Drawing.Point(2213, 320);
             this.cmpr_mouse4_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_mouse4_label.Name = "cmpr_mouse4_label";
             this.cmpr_mouse4_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.cmpr_mouse4_label.Size = new System.Drawing.Size(130, 68);
+            this.cmpr_mouse4_label.Size = new System.Drawing.Size(129, 69);
             this.cmpr_mouse4_label.TabIndex = 680;
             this.cmpr_mouse4_label.Text = "-> Left Click";
             this.cmpr_mouse4_label.MouseEnter += new System.EventHandler(this.cmpr_mouse4_MouseEnter);
@@ -10030,13 +10036,13 @@ namespace plt0_gui
             // 
             this.cmpr_mouse3_label.AutoSize = true;
             this.cmpr_mouse3_label.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_mouse3_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_mouse3_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_mouse3_label.ForeColor = System.Drawing.Color.Red;
             this.cmpr_mouse3_label.Location = new System.Drawing.Point(2213, 226);
             this.cmpr_mouse3_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_mouse3_label.Name = "cmpr_mouse3_label";
             this.cmpr_mouse3_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.cmpr_mouse3_label.Size = new System.Drawing.Size(130, 68);
+            this.cmpr_mouse3_label.Size = new System.Drawing.Size(129, 69);
             this.cmpr_mouse3_label.TabIndex = 679;
             this.cmpr_mouse3_label.Text = "-> Left Click";
             this.cmpr_mouse3_label.MouseEnter += new System.EventHandler(this.cmpr_mouse3_MouseEnter);
@@ -10046,13 +10052,13 @@ namespace plt0_gui
             // 
             this.cmpr_mouse5_label.AutoSize = true;
             this.cmpr_mouse5_label.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_mouse5_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_mouse5_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_mouse5_label.ForeColor = System.Drawing.Color.Red;
             this.cmpr_mouse5_label.Location = new System.Drawing.Point(2213, 419);
             this.cmpr_mouse5_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_mouse5_label.Name = "cmpr_mouse5_label";
             this.cmpr_mouse5_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.cmpr_mouse5_label.Size = new System.Drawing.Size(130, 68);
+            this.cmpr_mouse5_label.Size = new System.Drawing.Size(129, 69);
             this.cmpr_mouse5_label.TabIndex = 681;
             this.cmpr_mouse5_label.Text = "-> Left Click";
             this.cmpr_mouse5_label.MouseEnter += new System.EventHandler(this.cmpr_mouse5_MouseEnter);
@@ -10062,13 +10068,13 @@ namespace plt0_gui
             // 
             this.cmpr_sel.AutoSize = true;
             this.cmpr_sel.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_sel.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_sel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_sel.ForeColor = System.Drawing.SystemColors.Window;
             this.cmpr_sel.Location = new System.Drawing.Point(2136, 419);
             this.cmpr_sel.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_sel.Name = "cmpr_sel";
             this.cmpr_sel.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
-            this.cmpr_sel.Size = new System.Drawing.Size(64, 68);
+            this.cmpr_sel.Size = new System.Drawing.Size(64, 69);
             this.cmpr_sel.TabIndex = 682;
             this.cmpr_sel.MouseEnter += new System.EventHandler(this.cmpr_sel_MouseEnter);
             this.cmpr_sel.MouseLeave += new System.EventHandler(this.cmpr_sel_MouseLeave);
@@ -10094,26 +10100,26 @@ namespace plt0_gui
             // 
             this.cmpr_hover_colour.AutoSize = true;
             this.cmpr_hover_colour.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_hover_colour.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_hover_colour.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_hover_colour.ForeColor = System.Drawing.SystemColors.Window;
             this.cmpr_hover_colour.Location = new System.Drawing.Point(2564, 344);
             this.cmpr_hover_colour.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_hover_colour.Name = "cmpr_hover_colour";
             this.cmpr_hover_colour.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
-            this.cmpr_hover_colour.Size = new System.Drawing.Size(32, 36);
+            this.cmpr_hover_colour.Size = new System.Drawing.Size(32, 37);
             this.cmpr_hover_colour.TabIndex = 686;
             // 
             // cmpr_hover_colour_label
             // 
             this.cmpr_hover_colour_label.AutoSize = true;
             this.cmpr_hover_colour_label.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_hover_colour_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_hover_colour_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_hover_colour_label.ForeColor = System.Drawing.SystemColors.Control;
             this.cmpr_hover_colour_label.Location = new System.Drawing.Point(2596, 320);
             this.cmpr_hover_colour_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_hover_colour_label.Name = "cmpr_hover_colour_label";
             this.cmpr_hover_colour_label.Padding = new System.Windows.Forms.Padding(0, 15, 0, 10);
-            this.cmpr_hover_colour_label.Size = new System.Drawing.Size(142, 49);
+            this.cmpr_hover_colour_label.Size = new System.Drawing.Size(139, 50);
             this.cmpr_hover_colour_label.TabIndex = 685;
             this.cmpr_hover_colour_label.Text = "Hover Colour";
             // 
@@ -10121,12 +10127,12 @@ namespace plt0_gui
             // 
             this.cmpr_hover_colour_txt.BackColor = System.Drawing.Color.Black;
             this.cmpr_hover_colour_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.cmpr_hover_colour_txt.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_hover_colour_txt.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_hover_colour_txt.ForeColor = System.Drawing.SystemColors.Window;
             this.cmpr_hover_colour_txt.Location = new System.Drawing.Point(2596, 365);
             this.cmpr_hover_colour_txt.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_hover_colour_txt.Name = "cmpr_hover_colour_txt";
-            this.cmpr_hover_colour_txt.Size = new System.Drawing.Size(141, 24);
+            this.cmpr_hover_colour_txt.Size = new System.Drawing.Size(141, 23);
             this.cmpr_hover_colour_txt.TabIndex = 23;
             this.cmpr_hover_colour_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.cmpr_hover_colour_txt.TextChanged += new System.EventHandler(this.cmpr_hover_colour_TextChanged);
@@ -10137,13 +10143,13 @@ namespace plt0_gui
             // 
             this.cmpr_edited_colour.AutoSize = true;
             this.cmpr_edited_colour.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_edited_colour.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_edited_colour.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_edited_colour.ForeColor = System.Drawing.SystemColors.Window;
             this.cmpr_edited_colour.Location = new System.Drawing.Point(2565, 1325);
             this.cmpr_edited_colour.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_edited_colour.Name = "cmpr_edited_colour";
             this.cmpr_edited_colour.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
-            this.cmpr_edited_colour.Size = new System.Drawing.Size(32, 36);
+            this.cmpr_edited_colour.Size = new System.Drawing.Size(32, 37);
             this.cmpr_edited_colour.TabIndex = 689;
             this.cmpr_edited_colour.Visible = false;
             // 
@@ -10151,13 +10157,13 @@ namespace plt0_gui
             // 
             this.cmpr_edited_colour_label.AutoSize = true;
             this.cmpr_edited_colour_label.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_edited_colour_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_edited_colour_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_edited_colour_label.ForeColor = System.Drawing.SystemColors.Control;
             this.cmpr_edited_colour_label.Location = new System.Drawing.Point(2592, 1295);
             this.cmpr_edited_colour_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_edited_colour_label.Name = "cmpr_edited_colour_label";
             this.cmpr_edited_colour_label.Padding = new System.Windows.Forms.Padding(0, 15, 0, 10);
-            this.cmpr_edited_colour_label.Size = new System.Drawing.Size(147, 49);
+            this.cmpr_edited_colour_label.Size = new System.Drawing.Size(143, 50);
             this.cmpr_edited_colour_label.TabIndex = 688;
             this.cmpr_edited_colour_label.Text = "Edited Colour";
             this.cmpr_edited_colour_label.Visible = false;
@@ -10166,12 +10172,12 @@ namespace plt0_gui
             // 
             this.cmpr_edited_colour_txt.BackColor = System.Drawing.Color.Black;
             this.cmpr_edited_colour_txt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.cmpr_edited_colour_txt.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_edited_colour_txt.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_edited_colour_txt.ForeColor = System.Drawing.SystemColors.Window;
             this.cmpr_edited_colour_txt.Location = new System.Drawing.Point(2596, 1340);
             this.cmpr_edited_colour_txt.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_edited_colour_txt.Name = "cmpr_edited_colour_txt";
-            this.cmpr_edited_colour_txt.Size = new System.Drawing.Size(141, 24);
+            this.cmpr_edited_colour_txt.Size = new System.Drawing.Size(141, 23);
             this.cmpr_edited_colour_txt.TabIndex = 687;
             this.cmpr_edited_colour_txt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.cmpr_edited_colour_txt.Visible = false;
@@ -10197,13 +10203,13 @@ namespace plt0_gui
             // 
             this.name_string_label.AutoSize = true;
             this.name_string_label.BackColor = System.Drawing.Color.Transparent;
-            this.name_string_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.name_string_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.name_string_label.ForeColor = System.Drawing.SystemColors.Window;
             this.name_string_label.Location = new System.Drawing.Point(1716, 320);
             this.name_string_label.Margin = new System.Windows.Forms.Padding(0);
             this.name_string_label.Name = "name_string_label";
             this.name_string_label.Padding = new System.Windows.Forms.Padding(0, 22, 30, 22);
-            this.name_string_label.Size = new System.Drawing.Size(161, 68);
+            this.name_string_label.Size = new System.Drawing.Size(154, 69);
             this.name_string_label.TabIndex = 690;
             this.name_string_label.Text = "name string";
             this.name_string_label.Click += new System.EventHandler(this.name_string_Click);
@@ -10231,13 +10237,13 @@ namespace plt0_gui
             // 
             this.cmpr_swap2_label.AutoSize = true;
             this.cmpr_swap2_label.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_swap2_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_swap2_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_swap2_label.ForeColor = System.Drawing.SystemColors.Window;
             this.cmpr_swap2_label.Location = new System.Drawing.Point(2596, 512);
             this.cmpr_swap2_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_swap2_label.Name = "cmpr_swap2_label";
             this.cmpr_swap2_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.cmpr_swap2_label.Size = new System.Drawing.Size(145, 68);
+            this.cmpr_swap2_label.Size = new System.Drawing.Size(147, 69);
             this.cmpr_swap2_label.TabIndex = 692;
             this.cmpr_swap2_label.Text = "Swap Colours";
             this.cmpr_swap2_label.Click += new System.EventHandler(this.cmpr_swap2_Click);
@@ -10265,13 +10271,13 @@ namespace plt0_gui
             // 
             this.cmpr_hover_label.AutoSize = true;
             this.cmpr_hover_label.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_hover_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_hover_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_hover_label.ForeColor = System.Drawing.SystemColors.Window;
             this.cmpr_hover_label.Location = new System.Drawing.Point(2596, 241);
             this.cmpr_hover_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_hover_label.Name = "cmpr_hover_label";
             this.cmpr_hover_label.Padding = new System.Windows.Forms.Padding(0, 22, 30, 22);
-            this.cmpr_hover_label.Size = new System.Drawing.Size(172, 68);
+            this.cmpr_hover_label.Size = new System.Drawing.Size(169, 69);
             this.cmpr_hover_label.TabIndex = 695;
             this.cmpr_hover_label.Text = "Hover Colour";
             this.cmpr_hover_label.Click += new System.EventHandler(this.cmpr_hover_Click);
@@ -10299,13 +10305,13 @@ namespace plt0_gui
             // 
             this.cmpr_update_preview_label.AutoSize = true;
             this.cmpr_update_preview_label.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_update_preview_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cmpr_update_preview_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_update_preview_label.ForeColor = System.Drawing.SystemColors.Window;
             this.cmpr_update_preview_label.Location = new System.Drawing.Point(2596, 420);
             this.cmpr_update_preview_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_update_preview_label.Name = "cmpr_update_preview_label";
             this.cmpr_update_preview_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.cmpr_update_preview_label.Size = new System.Drawing.Size(168, 68);
+            this.cmpr_update_preview_label.Size = new System.Drawing.Size(163, 69);
             this.cmpr_update_preview_label.TabIndex = 697;
             this.cmpr_update_preview_label.Text = "Update Preview";
             this.cmpr_update_preview_label.Click += new System.EventHandler(this.cmpr_update_preview_Click);
@@ -10503,13 +10509,13 @@ namespace plt0_gui
             // 
             this.sooperbmd_label.AutoSize = true;
             this.sooperbmd_label.BackColor = System.Drawing.Color.Transparent;
-            this.sooperbmd_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.sooperbmd_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.sooperbmd_label.ForeColor = System.Drawing.SystemColors.Window;
             this.sooperbmd_label.Location = new System.Drawing.Point(571, 1232);
             this.sooperbmd_label.Margin = new System.Windows.Forms.Padding(0);
             this.sooperbmd_label.Name = "sooperbmd_label";
             this.sooperbmd_label.Padding = new System.Windows.Forms.Padding(0, 22, 50, 22);
-            this.sooperbmd_label.Size = new System.Drawing.Size(176, 68);
+            this.sooperbmd_label.Size = new System.Drawing.Size(179, 69);
             this.sooperbmd_label.TabIndex = 714;
             this.sooperbmd_label.Text = "SooperBMD";
             this.sooperbmd_label.Visible = false;
@@ -10521,13 +10527,13 @@ namespace plt0_gui
             // 
             this.min_max_label.AutoSize = true;
             this.min_max_label.BackColor = System.Drawing.Color.Transparent;
-            this.min_max_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.min_max_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.min_max_label.ForeColor = System.Drawing.SystemColors.Window;
             this.min_max_label.Location = new System.Drawing.Point(571, 1296);
             this.min_max_label.Margin = new System.Windows.Forms.Padding(0);
             this.min_max_label.Name = "min_max_label";
             this.min_max_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.min_max_label.Size = new System.Drawing.Size(98, 68);
+            this.min_max_label.Size = new System.Drawing.Size(95, 69);
             this.min_max_label.TabIndex = 716;
             this.min_max_label.Text = "Min/Max";
             this.min_max_label.Visible = false;
@@ -10539,13 +10545,13 @@ namespace plt0_gui
             // 
             this.weemm_label.AutoSize = true;
             this.weemm_label.BackColor = System.Drawing.Color.Transparent;
-            this.weemm_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.weemm_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.weemm_label.ForeColor = System.Drawing.SystemColors.Window;
             this.weemm_label.Location = new System.Drawing.Point(571, 1168);
             this.weemm_label.Margin = new System.Windows.Forms.Padding(0);
             this.weemm_label.Name = "weemm_label";
             this.weemm_label.Padding = new System.Windows.Forms.Padding(0, 22, 50, 22);
-            this.weemm_label.Size = new System.Drawing.Size(139, 68);
+            this.weemm_label.Size = new System.Drawing.Size(141, 69);
             this.weemm_label.TabIndex = 712;
             this.weemm_label.Text = "Weemm";
             this.weemm_label.Visible = false;
@@ -10611,13 +10617,13 @@ namespace plt0_gui
             // 
             this.darkest_lightest_label.AutoSize = true;
             this.darkest_lightest_label.BackColor = System.Drawing.Color.Transparent;
-            this.darkest_lightest_label.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.darkest_lightest_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.darkest_lightest_label.ForeColor = System.Drawing.SystemColors.Window;
             this.darkest_lightest_label.Location = new System.Drawing.Point(564, 320);
             this.darkest_lightest_label.Margin = new System.Windows.Forms.Padding(0);
             this.darkest_lightest_label.Name = "darkest_lightest_label";
             this.darkest_lightest_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.darkest_lightest_label.Size = new System.Drawing.Size(85, 68);
+            this.darkest_lightest_label.Size = new System.Drawing.Size(86, 69);
             this.darkest_lightest_label.TabIndex = 718;
             this.darkest_lightest_label.Text = "Gamma";
             this.darkest_lightest_label.Visible = false;
@@ -10728,7 +10734,7 @@ namespace plt0_gui
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(3387, 1721);
+            this.ClientSize = new System.Drawing.Size(2191, 845);
             this.Controls.Add(this.banner_minus_ck);
             this.Controls.Add(this.banner_f11_ck);
             this.Controls.Add(this.banner_x_ck);
@@ -11055,7 +11061,7 @@ namespace plt0_gui
             this.Controls.Add(this.surrounding_ck);
             this.Controls.Add(this.output_label);
             this.DoubleBuffered = true;
-            this.Font = new System.Drawing.Font("Ableton Sans Small", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
