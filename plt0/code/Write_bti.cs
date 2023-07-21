@@ -7,7 +7,7 @@ class Write_bti_class
 {
     static public string Write_bti(List<List<byte[]>> index_list, byte[] colour_palette, byte[] texture_format_int32, byte[] palette_format_int32, byte[] block_width_array, byte[] block_height_array, ushort bitmap_width, ushort bitmap_height, ushort colour_number, double format_ratio, string input_fil, string input_file2, string output_file, bool bmd_file, bool has_palette, bool safe_mode, bool no_warning, bool warn, bool stfu, bool name_string, sbyte block_width, sbyte block_height, byte mipmaps_number, byte minificaction_filter, byte magnification_filter, byte WrapS, byte WrapT, byte alpha)
     {
-        int size = 0x20 + colour_palette.Length + 0x40; // fixed size at 1 image
+        int size = 0x20 + colour_palette.Length; // fixed size at 1 image
         double temp;
         int[] param = new int[4];
         List<int[]> settings = new List<int[]>();
