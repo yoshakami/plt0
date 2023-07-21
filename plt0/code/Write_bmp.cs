@@ -1084,30 +1084,62 @@ class Write_bmp_class
                         }
                     case 4:  // reverse RGB565
                         {
-                            for (int j = 0; j < index_list[z].Count; j++)
+                            if (bmp_32) // 32-bit
                             {
-                                for (int k = 0; k < index_list[z][0].Length; k += 2, index += 3)
+                                for (int j = 0; j < index_list[z].Count; j++)
                                 {
-
-                                    pixel[index] = (byte)(index_list[z][j][k + 1] << 3); // blue
-                                    if (pixel[index] == 248)
+                                    for (int k = 0; k < index_list[z][0].Length; k += 2, index += 4)
                                     {
-                                        pixel[index] = 255;
+                                        pixel[index] = (byte)(index_list[z][j][k + 1] << 3); // blue
+                                        if (pixel[index] == 248)
+                                        {
+                                            pixel[index] = 255;
+                                        }
+                                        pixel[index + 1] = (byte)(((index_list[z][j][k] << 5) | (index_list[z][j][k + 1] >> 3)) & 0xfc);  // green
+                                        if (pixel[index + 1] == 248)
+                                        {
+                                            pixel[index + 1] = 255;
+                                        }
+                                        pixel[index + 2] = (byte)(index_list[z][j][k] & 0xf8);  // red
+                                        if (pixel[index + 2] == 248)
+                                        {
+                                            pixel[index + 2] = 255;
+                                        }
+                                        pixel[index + 3] = 0xff; // no alpha
                                     }
-                                    pixel[index + 1] = (byte)(((index_list[z][j][k] << 5) | (index_list[z][j][k + 1] >> 3)) & 0xfc);  // green
-                                    if (pixel[index + 1] == 248)
+                                    for (int k = 0; k < padding; k++, index++)
                                     {
-                                        pixel[index + 1] = 255;
-                                    }
-                                    pixel[index + 2] = (byte)(index_list[z][j][k] & 0xf8);  // red
-                                    if (pixel[index + 2] == 248)
-                                    {
-                                        pixel[index + 2] = 255;
+                                        pixel[index] = 0x69;  // my signature XDDDD 
                                     }
                                 }
-                                for (int k = 0; k < padding; k++, index++)
+                            }
+                            else
+                            {
+                                for (int j = 0; j < index_list[z].Count; j++)
                                 {
-                                    pixel[index] = 0x69;  // my signature XDDDD 
+                                    for (int k = 0; k < index_list[z][0].Length; k += 2, index += 3)
+                                    {
+
+                                        pixel[index] = (byte)(index_list[z][j][k + 1] << 3); // blue
+                                        if (pixel[index] == 248)
+                                        {
+                                            pixel[index] = 255;
+                                        }
+                                        pixel[index + 1] = (byte)(((index_list[z][j][k] << 5) | (index_list[z][j][k + 1] >> 3)) & 0xfc);  // green
+                                        if (pixel[index + 1] == 248)
+                                        {
+                                            pixel[index + 1] = 255;
+                                        }
+                                        pixel[index + 2] = (byte)(index_list[z][j][k] & 0xf8);  // red
+                                        if (pixel[index + 2] == 248)
+                                        {
+                                            pixel[index + 2] = 255;
+                                        }
+                                    }
+                                    for (int k = 0; k < padding; k++, index++)
+                                    {
+                                        pixel[index] = 0x69;  // my signature XDDDD 
+                                    }
                                 }
                             }
                             break;
