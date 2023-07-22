@@ -106,14 +106,14 @@ class RGB5A3_class
                             {
                                 blue += 16;
                             }
-                            if (a > 223)  // 0AAA RRRR GGGG BBBB
+                            if (a > 223) // 1RRR RRGG GGGB BBBB
                             {
 
                                 index[j] = (byte)(0x80 + ((red >> 1) & 0x7c) + (green >> 6));
                                 index[j + 1] = (byte)(((green << 2) & 0xe0) + (blue >> 3));
                             }
-                            else  // 1RRR RRGG GGGB BBBB
-                            {
+                            else  // 0AAA RRRR GGGG BBBB
+                            {  
 
                                 index[j] = (byte)(((a >> 1) & 0x70) + (red >> 4));
                                 index[j + 1] = (byte)((green & 0xf0) + (blue >> 4));
