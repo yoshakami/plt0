@@ -1,4 +1,4 @@
-plt0 config v1.0
+plt0 config v2.0
 Layout (change next line with one of these: "All", "Auto", "Preview", "Paint")
 Preview
 Window Location ("Normal", "Maximized", "Bottom_left", "Left", "Top_left", "Top", "Top_right", "Right", "Bottom_right", "Bottom", "1080p", "Screen2_Bottom_left", "Screen2_Left", "Screen2_Top_left", "Screen2_Top", "Screen2_Top_right", "Screen2_Right", "Screen2_Bottom_right", "Screen2_Bottom", "Screen2_1080p")

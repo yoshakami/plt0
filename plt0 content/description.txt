@@ -1,4 +1,4 @@
-plt0 config v1.0
+plt0 config v2.0
 edit textures of a bmd file \j \c red (a bmd file must be provided in input_file2)
 writes the texture in a bti file
 writes the texture in a tex0 file and the palette in a plt0 file
@@ -174,6 +174,7 @@ save failed\n\n\c Red No cmpr texture loaded
 save failed\n\n\c Red No output name specified
 \c Green saved \n\o
 save failed\n\n\c Red \o is used by another process
+\c orchid TPL Files are not supported currently
 (1, 3)
 (1, 4)
 (2, 1)
@@ -191,7 +192,6 @@ note: line 164 to line 176 are LABELS, not descriptions, so they can't take \j a
 color, 16 bits per pixel - no alpha \j\c coral 5 bits red\j\c SpringGreen 6 bits green\j\c DeepSkyBlue 5 bits blue\j\c Violet  test\j\c pink test2\j\c orange text\j\c purple purple\j\c chartreuse chartreuse\c yellow yellow
 Hello \u ! you found an easter egg lol \n\ndid you know most apps have a folder in \a ?\j\j\j\n\n\c Red this one doesn't though. I prefer using local files.
 this is padding data to alignment. (meme)
-this is padding data to alignment.
 this is padding data to alignment.
 this is padding data to alignment.
 this is padding data to alignment.

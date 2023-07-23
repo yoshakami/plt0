@@ -3622,10 +3622,11 @@ namespace plt0_gui
                 switch (config_version)
                 {
                     case "v1.0":
-                        if (config_version == "v1.0" && d.Length < 200)  // incorrect v1.0 config file
+                    case "v2.0":
+                        if (d.Length < 200)  // incorrect description file
                         {
                             //  System.Diagnostics.Debug.WriteLine("some tetttttttttt23423423423423423ttttttttttttttttttttttt");
-                            Console.WriteLine("plt0 v1.0 config file should have EXACTLY 200 lines");
+                            Console.WriteLine("plt0 v2.0 description file should have EXACTLY 200 lines");
                             Console.ReadLine();
                             Environment.Exit(1);
                         }
@@ -3652,10 +3653,11 @@ namespace plt0_gui
                 switch (config_version)
                 {
                     case "v1.0":
-                        if (config_version == "v1.0" && config.Length < 129)  // incorrect v1.0 config file
+                    case "v2.0":
+                        if (config.Length < 129)  // incorrect config file
                         {
                             //  System.Diagnostics.Debug.WriteLine("some tetttttttttt23423423423423423ttttttttttttttttttttttt");
-                            Console.WriteLine("plt0 v1.0 config file should have EXACTLY 129 lines");
+                            Console.WriteLine("plt0 v2.0 config file should have EXACTLY 129 lines");
                             Console.ReadLine();
                             Environment.Exit(1);
                         }
@@ -16537,15 +16539,28 @@ namespace plt0_gui
                 using (FileStream fs = File.OpenRead(input_file))
                 {
                     Array.Resize(ref cmpr_file, (int)fs.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
-                    fs.Read(cmpr_file, 0, (int)fs.Length);
+                    if (fs.Length < 48)
+                    {
+                        Parse_Markdown(d[169], cmpr_warning);
+                        return;
+                    }
+                    fs.Read(cmpr_file, 0, 48);  // read small amount of data before reading the whole file to avoid reading much for nothing
+                    if (cmpr_file[0] == 0 && cmpr_file[1] == 32 && cmpr_file[2] == 0xaf && cmpr_file[3] == 48)
+                    {
+                        Parse_Markdown(d[176], cmpr_warning);
+                        return; // TPL not implemented yet.
+                    }
+                    else if (cmpr_file[0] == 84 && cmpr_file[1] == 69 && cmpr_file[2] == 88 && cmpr_file[3] == 48 && cmpr_file[0x23] == 0xE)  // TEX0 file in CMPR format
+                        cmpr_data_start_offset = 0x40;
+                    else if (cmpr_file[0] == 0xE && cmpr_file[6] < 3 && cmpr_file[7] < 3)  // BTI file in CMPR format
+                        cmpr_data_start_offset = (cmpr_file[0x1C] << 24) | (cmpr_file[0x1D] << 16) | (cmpr_file[0x1E] << 8) | cmpr_file[0x1F];  // usually 0x20
+                    else
+                    {
+                        Parse_Markdown(d[169], cmpr_warning);
+                        return;
+                    }
+                    fs.Read(cmpr_file, 48, (int)fs.Length - 48); // this means that the whole file is stored in ram.
                 }
-                if (cmpr_file[0] == 0 && cmpr_file[1] == 32 && cmpr_file[2] == 0xaf && cmpr_file[3] == 48)
-                    return; // not implemented yet.
-                else if (cmpr_file[0] == 84 && cmpr_file[1] == 69 && cmpr_file[2] == 88 && cmpr_file[3] == 48)
-                    cmpr_data_start_offset = 0x40;
-                else if (cmpr_file[0] < 15 && cmpr_file[6] < 3 && cmpr_file[7] < 3)
-                    cmpr_data_start_offset = (cmpr_file[0x1C] << 24) | (cmpr_file[0x1D] << 16) | (cmpr_file[0x1E] << 8) | cmpr_file[0x1F];  // usually 0x20
-
                 int num = 1;
                 while (File.Exists(execPath + "plt0 content/preview/" + num + ".bmp"))
                 {
@@ -16555,11 +16570,6 @@ namespace plt0_gui
                 cmpr_args[3] = (execPath + "plt0 content/preview/" + num + ".bmp");  // even if there's an output file in the args, the last one is the output file :) that's how I made it
                 Parse_args_class cli = new Parse_args_class();
                 cli.Parse_args(cmpr_args);
-                if (cli.texture_format != 0xE)
-                {
-                    Parse_Markdown(d[169], cmpr_warning);
-                    return;
-                }
                 if (File.Exists(execPath + "plt0 content/preview/" + num + ".bmp"))
                 {
                     previous_block = -1;

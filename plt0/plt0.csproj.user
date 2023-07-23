@@ -26,4 +26,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Bianca|x64'">
     <StartWorkingDirectory>B:\a\</StartWorkingDirectory>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mp9|x64'">
+    <StartWorkingDirectory>X:\root\Mario Party 9 [SSQP01]\DATA\files\common\bdresult\option2.brres_DECOMP\tex0\</StartWorkingDirectory>
+  </PropertyGroup>
 </Project>
