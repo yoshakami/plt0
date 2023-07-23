@@ -1,12 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.Linq;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
-using System.Security.Policy;
-using System.Windows.Forms;
-using static System.Net.Mime.MediaTypeNames;
 
 /* hmm, well. let's be honest. this is the harderest encoding to write, and the most efficient one
 * I'll be directly storing sub-blocks here because the rgb565 values can't be added like that lol 
@@ -28,9 +22,7 @@ this is a sub-block structure. with 4x4 pixel and 2 rgb565 colours
 RRRR  RGGG    GGGB  BBBB
 RRRR  RGGG    GGGB  BBBB
 II II II II   II II II II  - 2 bit index per pixel
-II II II II   II II II II
-II II II II   II II II II
-II II II II   II II II II
+II II II II   II II II II  - 16 pixels
 
 
 how I will store each block: (1 is stored first)
@@ -471,7 +463,7 @@ class CMPR_class
                     }
                     else
                     {
-                        /* y -= (_plt0.bitmap_width << 4) - 16; // on retire 4 lignes et on passe le 1er block héhé
+                        /* y -= (_plt0.bitmap_width << 4) - 16; // on retire 4 lignes et on passe le 1er block hÃ©hÃ©
                          substract 4 lines and jumps over the first block */
                         y -= ((_plt0.canvas_width << 4)) + 16;  // substract 4 lines and goes one block to the left
                     }
@@ -695,7 +687,7 @@ class CMPR_class
                 break;
 
             case 8: // Brute Force
-                // test litteraly every couple of ushort rgb565 colours. thus making 65536² combinations (equals the int max size, more than 4 billion combinations)
+                // test litteraly every couple of ushort rgb565 colours. thus making 65536Â² combinations (equals the int max size, more than 4 billion combinations)
                 // test which combination is the best one by iterating over all couples
                 for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
                 {
@@ -767,7 +759,7 @@ class CMPR_class
                     }
                     else
                     {
-                        /* y -= (_plt0.bitmap_width << 4) - 16; // on retire 4 lignes et on passe le 1er block héhé
+                        /* y -= (_plt0.bitmap_width << 4) - 16; // on retire 4 lignes et on passe le 1er block hÃ©hÃ©
                          substract 4 lines and jumps over the first block */
                         y -= ((_plt0.canvas_width << 4)) + 16;  // substract 4 lines and goes one block to the left
                     }
@@ -951,7 +943,7 @@ class CMPR_class
         }
         else
         {
-            /* y -= (_plt0.bitmap_width << 4) - 16; // on retire 4 lignes et on passe le 1er block héhé
+            /* y -= (_plt0.bitmap_width << 4) - 16; // on retire 4 lignes et on passe le 1er block hÃ©hÃ©
              substract 4 lines and jumps over the first block */
             y -= ((_plt0.canvas_width << 4)) + 16;  // substract 4 lines and goes one block to the left
         }
@@ -1027,7 +1019,7 @@ class CMPR_class
         }
         else
         {
-            /* y -= (_plt0.bitmap_width << 4) - 16; // on retire 4 lignes et on passe le 1er block héhé
+            /* y -= (_plt0.bitmap_width << 4) - 16; // on retire 4 lignes et on passe le 1er block hÃ©hÃ©
              substract 4 lines and jumps over the first block */
             y -= ((_plt0.canvas_width << 4)) + 16;  // substract 4 lines and goes one block to the left
         }
@@ -1102,7 +1094,7 @@ class CMPR_class
         }
         else
         {
-            /* y -= (_plt0.bitmap_width << 4) - 16; // on retire 4 lignes et on passe le 1er block héhé
+            /* y -= (_plt0.bitmap_width << 4) - 16; // on retire 4 lignes et on passe le 1er block hÃ©hÃ©
              substract 4 lines and jumps over the first block */
             y -= ((_plt0.canvas_width << 4)) + 16;  // substract 4 lines and goes one block to the left
         }
