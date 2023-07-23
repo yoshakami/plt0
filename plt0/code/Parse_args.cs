@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Security.AccessControl;
-using System.Security.Principal;
 
 class Parse_args_class
 {
@@ -35,6 +33,7 @@ class Parse_args_class
     bool tiff = false;
     bool tpl = false;
     bool tex0 = false;
+    bool webp = false;
     bool overwrite = false;
     bool file2_conflict = false;
     bool help = false;
@@ -669,8 +668,57 @@ class Parse_args_class
                     if (args.Length > i + 1)
                     {
                         if (args[i + 1].Contains(".") && args[i + 1].Length > 1)
-                        {
-                            output_file = args[i + 1].Substring(0, args[i + 1].Length - args[i + 1].Split('.')[args[i + 1].Split('.').Length - 1].Length - 1);  // removes the text after the extension dot.
+                        {  // if the name ends with a recognized extension, this application will add it afterwards in the write functions
+                            bool remove_ext = true;
+                            switch (args[i + 1].Substring(args[i + 1].Length - args[i + 1].Split('.')[args[i + 1].Split('.').Length - 1].Length - 1).ToUpper())
+                            {
+                                case "BMD":
+                                    bmd = true;
+                                    break;
+                                case "BTI":
+                                    bti = true;
+                                    break;
+                                case "TEX0":
+                                    bti = true;
+                                    break;
+                                case "TPL":
+                                    tpl = true;
+                                    break;
+                                case "BMP":
+                                    bmp = true;
+                                    break;
+                                case "PNG":
+                                    png = true;
+                                    break;
+                                case "JPG":
+                                    jpg = true;
+                                    break;
+                                case "JPEG":
+                                    jpeg = true;
+                                    break;
+                                case "GIF":
+                                    gif = true;
+                                    break;
+                                case "ICO":
+                                    ico = true;
+                                    break;
+                                case "TIF":
+                                    tif = true;
+                                    break;
+                                case "TIFF":
+                                    tiff = true;
+                                    break;
+                                case "WEBP":
+                                    webp = true;
+                                    break;
+                                default:
+                                    remove_ext = false;
+                                    break;
+                            }
+                            if (remove_ext)
+                            {
+                                output_file = args[i + 1].Substring(0, args[i + 1].Length - args[i + 1].Split('.')[args[i + 1].Split('.').Length - 1].Length - 1);  // removes the text after the extension dot.
+                            }
                         }
                         else
                         {

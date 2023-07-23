@@ -112,6 +112,7 @@ namespace plt0_gui
         double mag_ratio;
         double width_ratio;
         double height_ratio;
+        double grid_ratio = 1.0;
         //byte offset;
         string seal;
         //byte jump_line;
@@ -602,6 +603,18 @@ namespace plt0_gui
                     {
                         PictureBoxWithInterpolationMode item = control as PictureBoxWithInterpolationMode;
                         control.Bounds = new Rectangle(newX, newY, newWidth, newHeight);
+                        control.MaximumSize = new Size((int)(control.MaximumSize.Width * width_ratio), (int)(control.MaximumSize.Height * height_ratio));
+                        control.MinimumSize = new Size((int)(control.MinimumSize.Width * width_ratio), (int)(control.MinimumSize.Height * height_ratio));
+                        image = item.Image;
+
+                        if (image != null)
+                        {
+                            // Create a new resized image
+                            Image resizedImage = new Bitmap(image, (int)(image.Width * width_ratio), (int)(image.Height * height_ratio));
+
+                            // Assign the resized image to the PictureBox
+                            item.Image = resizedImage;
+                        }
                     }
                     else if (control is PictureBox)
                     {
@@ -621,6 +634,15 @@ namespace plt0_gui
                         }
                     }
                 }
+                cli_textbox_ck.Size = new Size((int)(cli_textbox_ck.Width * width_ratio), (int)(cli_textbox_ck.Height * height_ratio));
+                cmpr_grid_ck.Size = new Size((int)(cmpr_grid_ck.Width * width_ratio), (int)(cmpr_grid_ck.Height * height_ratio));
+                cmpr_preview_ck.Size = new Size((int)(cmpr_preview_ck.Width * width_ratio), (int)(cmpr_preview_ck.Height * height_ratio));
+                cmpr_c1_txt.Location = new Point(cmpr_c1_txt.Location.X, cmpr_c1_txt.Location.Y + 10);
+                cmpr_c2_txt.Location = new Point(cmpr_c2_txt.Location.X, cmpr_c2_txt.Location.Y + 10);
+                cmpr_c3_txt.Location = new Point(cmpr_c3_txt.Location.X, cmpr_c3_txt.Location.Y + 10);
+                cmpr_c4_txt.Location = new Point(cmpr_c4_txt.Location.X, cmpr_c4_txt.Location.Y + 10);
+                cmpr_hover_colour_txt.Location = new Point(cmpr_hover_colour.Location.X, cmpr_hover_colour.Location.Y + 10);
+                grid_ratio = cmpr_grid_ck.Height / 256.0;
             }
         }
 
@@ -1183,11 +1205,11 @@ namespace plt0_gui
                     }
                 }
                 arg_array.Add("bmp");
-                arg_array.Add(execPath + "plt0 content/preview/" + num + ".bmp");  // even if there's an output file in the args, the last one is th eoutput file :) that's how I made it
+                arg_array.Add(execPath + "plt0 content/preview/" + num + ".bmp");  // even if there's an output file in the args, the last one is the output file :) that's how I made it
                 Parse_args_class cli = new Parse_args_class();
                 cli.Parse_args(arg_array.ToArray());
                 seal = cli.Check_exit();
-                if (seal != "the process executed successfully\n")
+                if (seal != "the process executed successfully")
                     cli_textbox_label.Text = seal;
                 // PictureBoxWithInterpolationMode preview_ck2 = new PictureBoxWithInterpolationMode();
                 if (upscale)
@@ -2062,8 +2084,55 @@ namespace plt0_gui
             options_label.Location = new Point((int)(1674 * width_ratio), (int)(96 * height_ratio));
             all_layout_is_enabled = false;
         }
+        private void Hide_Paint_Stuff()
+        {
+            cmpr_block_paint_ck.Visible = false;
+            cmpr_block_paint_label.Visible = false;
+            cmpr_block_selection_ck.Visible = false;
+            cmpr_block_selection_label.Visible = false;
+            cmpr_c1.Visible = false;
+            cmpr_c1_label.Visible = false;
+            cmpr_c1_txt.Visible = false;
+            cmpr_c2.Visible = false;
+            cmpr_c2_label.Visible = false;
+            cmpr_c2_txt.Visible = false;
+            cmpr_c3.Visible = false;
+            cmpr_c3_label.Visible = false;
+            cmpr_c3_txt.Visible = false;
+            cmpr_c4.Visible = false;
+            cmpr_c4_label.Visible = false;
+            cmpr_c4_txt.Visible = false;
+            cmpr_grid_ck.Visible = false;
+            cmpr_hover_ck.Visible = false;
+            cmpr_hover_colour.Visible = false;
+            cmpr_hover_colour_label.Visible = false;
+            cmpr_hover_colour_txt.Visible = false;
+            cmpr_hover_label.Visible = false;
+            cmpr_layout_is_enabled = false;
+            cmpr_mouse1_label.Visible = false;
+            cmpr_mouse2_label.Visible = false;
+            cmpr_mouse3_label.Visible = false;
+            cmpr_mouse4_label.Visible = false;
+            cmpr_mouse5_label.Visible = false;
+            cmpr_palette.Visible = false;
+            cmpr_picture_tooltip_label.Visible = false;
+            cmpr_preview_ck.Visible = false;
+            cmpr_save_as_ck.Visible = false;
+            cmpr_save_ck.Visible = false;
+            cmpr_sel.Visible = false;
+            cmpr_sel_label.Visible = false;
+            cmpr_selected_block_label.Visible = false;
+            cmpr_swap2_ck.Visible = false;
+            cmpr_swap2_label.Visible = false;
+            cmpr_swap_ck.Visible = false;
+            cmpr_swap_label.Visible = false;
+            cmpr_update_preview_ck.Visible = false;
+            cmpr_update_preview_label.Visible = false;
+            cmpr_warning.Visible = false;
+        }
         private void Disable_Paint_Layout()
         {
+            Hide_Paint_Stuff();
             a_a_ck.Visible = true;
             a_b_ck.Visible = true;
             a_g_ck.Visible = true;
@@ -2095,51 +2164,8 @@ namespace plt0_gui
             cie_601_label.Visible = true;
             cli_textbox_ck.Visible = true;
             cli_textbox_label.Visible = true;
-            cmpr_block_paint_ck.Visible = false;
-            cmpr_block_paint_label.Visible = false;
-            cmpr_block_selection_ck.Visible = false;
-            cmpr_block_selection_label.Visible = false;
-            cmpr_c1.Visible = false;
-            cmpr_c1_label.Visible = false;
-            cmpr_c1_txt.Visible = false;
-            cmpr_c2.Visible = false;
-            cmpr_c2_label.Visible = false;
-            cmpr_c2_txt.Visible = false;
-            cmpr_c3.Visible = false;
-            cmpr_c3_label.Visible = false;
-            cmpr_c3_txt.Visible = false;
-            cmpr_c4.Visible = false;
-            cmpr_c4_label.Visible = false;
-            cmpr_c4_txt.Visible = false;
             cmpr_ck.Visible = true;
-            cmpr_grid_ck.Visible = false;
-            cmpr_hover_ck.Visible = false;
-            cmpr_hover_colour.Visible = false;
-            cmpr_hover_colour_label.Visible = false;
-            cmpr_hover_colour_txt.Visible = false;
-            cmpr_hover_label.Visible = false;
             cmpr_label.Visible = true;
-            cmpr_layout_is_enabled = false;
-            cmpr_mouse1_label.Visible = false;
-            cmpr_mouse2_label.Visible = false;
-            cmpr_mouse3_label.Visible = false;
-            cmpr_mouse4_label.Visible = false;
-            cmpr_mouse5_label.Visible = false;
-            cmpr_palette.Visible = false;
-            cmpr_picture_tooltip_label.Visible = false;
-            cmpr_preview_ck.Visible = false;
-            cmpr_save_as_ck.Visible = false;
-            cmpr_save_ck.Visible = false;
-            cmpr_sel.Visible = false;
-            cmpr_sel_label.Visible = false;
-            cmpr_selected_block_label.Visible = false;
-            cmpr_swap2_ck.Visible = false;
-            cmpr_swap2_label.Visible = false;
-            cmpr_swap_ck.Visible = false;
-            cmpr_swap_label.Visible = false;
-            cmpr_update_preview_ck.Visible = false;
-            cmpr_update_preview_label.Visible = false;
-            cmpr_warning.Visible = false;
             colour_channels_label.Visible = true;
             custom_ck.Visible = true;
             custom_label.Visible = true;
@@ -2243,6 +2269,51 @@ namespace plt0_gui
                 (int)(output_name_txt.Location.Y - (14 * height_ratio)));
 
         }
+        private void Move_cmpr_location()
+        {
+            cmpr_c1.Location = new Point(cmpr_c1.Location.X - 1920, cmpr_c1.Location.Y);
+            cmpr_c1_txt.Location = new Point(cmpr_c1_txt.Location.X - 1920, cmpr_c1_txt.Location.Y);
+            cmpr_c1_label.Location = new Point(cmpr_c1_label.Location.X - 1920, cmpr_c1_label.Location.Y);
+            cmpr_c2.Location = new Point(cmpr_c2.Location.X - 1920, cmpr_c2.Location.Y);
+            cmpr_c2_txt.Location = new Point(cmpr_c2_txt.Location.X - 1920, cmpr_c2_txt.Location.Y);
+            cmpr_c2_label.Location = new Point(cmpr_c2_label.Location.X - 1920, cmpr_c2_label.Location.Y);
+            cmpr_c3.Location = new Point(cmpr_c3.Location.X - 1920, cmpr_c3.Location.Y);
+            cmpr_c3_txt.Location = new Point(cmpr_c3_txt.Location.X - 1920, cmpr_c3_txt.Location.Y);
+            cmpr_c3_label.Location = new Point(cmpr_c3_label.Location.X - 1920, cmpr_c3_label.Location.Y);
+            cmpr_c4.Location = new Point(cmpr_c4.Location.X - 1920, cmpr_c4.Location.Y);
+            cmpr_c4_txt.Location = new Point(cmpr_c4_txt.Location.X - 1920, cmpr_c4_txt.Location.Y);
+            cmpr_c4_label.Location = new Point(cmpr_c4_label.Location.X - 1920, cmpr_c4_label.Location.Y);
+            cmpr_sel.Location = new Point(cmpr_sel.Location.X - 1920, cmpr_sel.Location.Y);
+            cmpr_sel_label.Location = new Point(cmpr_sel_label.Location.X - 1920, cmpr_sel_label.Location.Y);
+            cmpr_swap_ck.Location = new Point(cmpr_swap_ck.Location.X - 1920, cmpr_swap_ck.Location.Y);
+            cmpr_swap_label.Location = new Point(cmpr_swap_label.Location.X - 1920, cmpr_swap_label.Location.Y);
+            cmpr_selected_block_label.Location = new Point(cmpr_selected_block_label.Location.X - 1920, cmpr_selected_block_label.Location.Y);
+            cmpr_picture_tooltip_label.Location = new Point(cmpr_picture_tooltip_label.Location.X - 1920, cmpr_picture_tooltip_label.Location.Y);
+            cmpr_block_selection_ck.Location = new Point(cmpr_block_selection_ck.Location.X - 1920, cmpr_block_selection_ck.Location.Y);
+            cmpr_block_selection_label.Location = new Point(cmpr_block_selection_label.Location.X - 1920, cmpr_block_selection_label.Location.Y);
+            cmpr_block_paint_ck.Location = new Point(cmpr_block_paint_ck.Location.X - 1920, cmpr_block_paint_ck.Location.Y);
+            cmpr_block_paint_label.Location = new Point(cmpr_block_paint_label.Location.X - 1920, cmpr_block_paint_label.Location.Y);
+            cmpr_save_ck.Location = new Point(cmpr_save_ck.Location.X - 1920, cmpr_save_ck.Location.Y);
+            cmpr_save_as_ck.Location = new Point(cmpr_save_as_ck.Location.X - 1920, cmpr_save_as_ck.Location.Y);
+            cmpr_warning.Location = new Point(cmpr_warning.Location.X - 1920, cmpr_warning.Location.Y);
+            cmpr_mouse1_label.Location = new Point(cmpr_mouse1_label.Location.X - 1920, cmpr_mouse1_label.Location.Y);
+            cmpr_mouse2_label.Location = new Point(cmpr_mouse2_label.Location.X - 1920, cmpr_mouse2_label.Location.Y);
+            cmpr_mouse3_label.Location = new Point(cmpr_mouse3_label.Location.X - 1920, cmpr_mouse3_label.Location.Y);
+            cmpr_mouse4_label.Location = new Point(cmpr_mouse4_label.Location.X - 1920, cmpr_mouse4_label.Location.Y);
+            cmpr_mouse5_label.Location = new Point(cmpr_mouse5_label.Location.X - 1920, cmpr_mouse5_label.Location.Y);
+            cmpr_grid_ck.Location = new Point(cmpr_grid_ck.Location.X - 1920, cmpr_grid_ck.Location.Y);
+            cmpr_hover_colour.Location = new Point(cmpr_hover_colour.Location.X - 1920, cmpr_hover_colour.Location.Y);
+            cmpr_hover_colour_label.Location = new Point(cmpr_hover_colour_label.Location.X - 1920, cmpr_hover_colour_label.Location.Y);
+            cmpr_hover_colour_txt.Location = new Point(cmpr_hover_colour_txt.Location.X - 1920, cmpr_hover_colour_txt.Location.Y);
+            cmpr_swap2_ck.Location = new Point(cmpr_swap2_ck.Location.X - 1920, cmpr_swap2_ck.Location.Y);
+            cmpr_swap2_label.Location = new Point(cmpr_swap2_label.Location.X - 1920, cmpr_swap2_label.Location.Y);
+            cmpr_palette.Location = new Point(cmpr_palette.Location.X - 1920, cmpr_palette.Location.Y);
+            cmpr_hover_ck.Location = new Point(cmpr_hover_ck.Location.X - 1920, cmpr_hover_ck.Location.Y);
+            cmpr_hover_label.Location = new Point(cmpr_hover_label.Location.X - 1920, cmpr_hover_label.Location.Y);
+            cmpr_preview_ck.Location = new Point(cmpr_preview_ck.Location.X - 1920, cmpr_preview_ck.Location.Y);
+            cmpr_update_preview_ck.Location = new Point(cmpr_update_preview_ck.Location.X - 1920, cmpr_update_preview_ck.Location.Y);
+            cmpr_update_preview_label.Location = new Point(cmpr_update_preview_label.Location.X - 1920, cmpr_update_preview_label.Location.Y);
+        }
         private void Layout_Paint()
         {
             if (!cmpr_layout_is_in_place)
@@ -2259,218 +2330,6 @@ namespace plt0_gui
                 cmpr_save_ck.Image = cmpr_save;
                 cmpr_save_as_ck.Image = cmpr_save_as;
                 cmpr_layout_is_in_place = true;
-                /* cmpr_c1.Location = new Point(cmpr_c1.Location.X - 1920, cmpr_c1.Location.Y);
-                cmpr_c1_txt.Location = new Point(cmpr_c1_txt.Location.X - 1920, cmpr_c1_txt.Location.Y);
-                cmpr_c1_label.Location = new Point(cmpr_c1_label.Location.X - 1920, cmpr_c1_label.Location.Y);
-                cmpr_c2.Location = new Point(cmpr_c2.Location.X - 1920, cmpr_c2.Location.Y);
-                cmpr_c2_txt.Location = new Point(cmpr_c2_txt.Location.X - 1920, cmpr_c2_txt.Location.Y);
-                cmpr_c2_label.Location = new Point(cmpr_c2_label.Location.X - 1920, cmpr_c2_label.Location.Y);
-                cmpr_c3.Location = new Point(cmpr_c3.Location.X - 1920, cmpr_c3.Location.Y);
-                cmpr_c3_txt.Location = new Point(cmpr_c3_txt.Location.X - 1920, cmpr_c3_txt.Location.Y);
-                cmpr_c3_label.Location = new Point(cmpr_c3_label.Location.X - 1920, cmpr_c3_label.Location.Y);
-                cmpr_c4.Location = new Point(cmpr_c4.Location.X - 1920, cmpr_c4.Location.Y);
-                cmpr_c4_txt.Location = new Point(cmpr_c4_txt.Location.X - 1920, cmpr_c4_txt.Location.Y);
-                cmpr_c4_label.Location = new Point(cmpr_c4_label.Location.X - 1920, cmpr_c4_label.Location.Y);
-                cmpr_sel.Location = new Point(cmpr_sel.Location.X - 1920, cmpr_sel.Location.Y);
-                cmpr_sel_label.Location = new Point(cmpr_sel_label.Location.X - 1920, cmpr_sel_label.Location.Y);
-                cmpr_swap_ck.Location = new Point(cmpr_swap_ck.Location.X - 1920, cmpr_swap_ck.Location.Y);
-                cmpr_swap_label.Location = new Point(cmpr_swap_label.Location.X - 1920, cmpr_swap_label.Location.Y);
-                cmpr_selected_block_label.Location = new Point(cmpr_selected_block_label.Location.X - 1920, cmpr_selected_block_label.Location.Y);
-                cmpr_picture_tooltip_label.Location = new Point(cmpr_picture_tooltip_label.Location.X - 1920, cmpr_picture_tooltip_label.Location.Y);
-                cmpr_block_selection_ck.Location = new Point(cmpr_block_selection_ck.Location.X - 1920, cmpr_block_selection_ck.Location.Y);
-                cmpr_block_selection_label.Location = new Point(cmpr_block_selection_label.Location.X - 1920, cmpr_block_selection_label.Location.Y);
-                cmpr_block_paint_ck.Location = new Point(cmpr_block_paint_ck.Location.X - 1920, cmpr_block_paint_ck.Location.Y);
-                cmpr_block_paint_label.Location = new Point(cmpr_block_paint_label.Location.X - 1920, cmpr_block_paint_label.Location.Y);
-                cmpr_save_ck.Location = new Point(cmpr_save_ck.Location.X - 1920, cmpr_save_ck.Location.Y);
-                cmpr_save_as_ck.Location = new Point(cmpr_save_as_ck.Location.X - 1920, cmpr_save_as_ck.Location.Y);
-                cmpr_warning.Location = new Point(cmpr_warning.Location.X - 1920, cmpr_warning.Location.Y);
-                cmpr_mouse1_label.Location = new Point(cmpr_mouse1_label.Location.X - 1920, cmpr_mouse1_label.Location.Y);
-                cmpr_mouse2_label.Location = new Point(cmpr_mouse2_label.Location.X - 1920, cmpr_mouse2_label.Location.Y);
-                cmpr_mouse3_label.Location = new Point(cmpr_mouse3_label.Location.X - 1920, cmpr_mouse3_label.Location.Y);
-                cmpr_mouse4_label.Location = new Point(cmpr_mouse4_label.Location.X - 1920, cmpr_mouse4_label.Location.Y);
-                cmpr_mouse5_label.Location = new Point(cmpr_mouse5_label.Location.X - 1920, cmpr_mouse5_label.Location.Y);
-                cmpr_grid_ck.Location = new Point(cmpr_grid_ck.Location.X - 1920, cmpr_grid_ck.Location.Y);
-                cmpr_hover_colour.Location = new Point(cmpr_hover_colour.Location.X - 1920, cmpr_hover_colour.Location.Y);
-                cmpr_hover_colour_label.Location = new Point(cmpr_hover_colour_label.Location.X - 1920, cmpr_hover_colour_label.Location.Y);
-                cmpr_hover_colour_txt.Location = new Point(cmpr_hover_colour_txt.Location.X - 1920, cmpr_hover_colour_txt.Location.Y);
-                cmpr_swap2_ck.Location = new Point(cmpr_swap2_ck.Location.X - 1920, cmpr_swap2_ck.Location.Y);
-                cmpr_swap2_label.Location = new Point(cmpr_swap2_label.Location.X - 1920, cmpr_swap2_label.Location.Y);
-                cmpr_palette.Location = new Point(cmpr_palette.Location.X - 1920, cmpr_palette.Location.Y);
-                cmpr_hover_ck.Location = new Point(cmpr_hover_ck.Location.X - 1920, cmpr_hover_ck.Location.Y);
-                cmpr_hover_label.Location = new Point(cmpr_hover_label.Location.X - 1920, cmpr_hover_label.Location.Y);
-                cmpr_preview_ck.Location = new Point(cmpr_preview_ck.Location.X - 1920, cmpr_preview_ck.Location.Y);
-                cmpr_update_preview_ck.Location = new Point(cmpr_update_preview_ck.Location.X - 1920, cmpr_update_preview_ck.Location.Y);
-                cmpr_update_preview_label.Location = new Point(cmpr_update_preview_label.Location.X - 1920, cmpr_update_preview_label.Location.Y); */
-
-                // this is only called once, so it is correct to multiply the relative object location
-                cmpr_c1.Location = new Point(
-                    (int)(((cmpr_c1.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_c1.Location.Y) * height_ratio)));  // again : that IS correct
-
-                cmpr_c1_txt.Location = new Point(
-                    (int)(((cmpr_c1_txt.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_c1_txt.Location.Y) * height_ratio)));
-
-                cmpr_c1_label.Location = new Point(
-                    (int)(((cmpr_c1_label.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_c1_label.Location.Y) * height_ratio)));
-
-                cmpr_c2.Location = new Point(
-                    (int)(((cmpr_c2.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_c2.Location.Y) * height_ratio)));
-
-                cmpr_c2_txt.Location = new Point(
-                    (int)(((cmpr_c2_txt.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_c2_txt.Location.Y) * height_ratio)));
-
-                cmpr_c2_label.Location = new Point(
-                    (int)(((cmpr_c2_label.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_c2_label.Location.Y) * height_ratio)));
-
-                cmpr_c3.Location = new Point(
-                    (int)(((cmpr_c3.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_c3.Location.Y) * height_ratio)));
-
-                cmpr_c3_txt.Location = new Point(
-                    (int)(((cmpr_c3_txt.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_c3_txt.Location.Y) * height_ratio)));
-
-                cmpr_c3_label.Location = new Point(
-                    (int)(((cmpr_c3_label.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_c3_label.Location.Y) * height_ratio)));
-
-                cmpr_c4.Location = new Point(
-                    (int)(((cmpr_c4.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_c4.Location.Y) * height_ratio)));
-
-                cmpr_c4_txt.Location = new Point(
-                    (int)(((cmpr_c4_txt.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_c4_txt.Location.Y) * height_ratio)));
-
-                cmpr_c4_label.Location = new Point(
-                    (int)(((cmpr_c4_label.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_c4_label.Location.Y) * height_ratio)));
-
-                cmpr_sel.Location = new Point(
-                    (int)(((cmpr_sel.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_sel.Location.Y) * height_ratio)));
-
-                cmpr_sel_label.Location = new Point(
-                    (int)(((cmpr_sel_label.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_sel_label.Location.Y) * height_ratio)));
-
-                cmpr_swap_ck.Location = new Point(
-                    (int)(((cmpr_swap_ck.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_swap_ck.Location.Y) * height_ratio)));
-
-                cmpr_swap_label.Location = new Point(
-                    (int)(((cmpr_swap_label.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_swap_label.Location.Y) * height_ratio)));
-
-                cmpr_selected_block_label.Location = new Point(
-                    (int)(((cmpr_selected_block_label.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_selected_block_label.Location.Y) * height_ratio)));
-
-                cmpr_picture_tooltip_label.Location = new Point(
-                    (int)(((cmpr_picture_tooltip_label.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_picture_tooltip_label.Location.Y) * height_ratio)));
-
-                cmpr_block_selection_ck.Location = new Point(
-                    (int)(((cmpr_block_selection_ck.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_block_selection_ck.Location.Y) * height_ratio)));
-
-                cmpr_block_selection_label.Location = new Point(
-                    (int)(((cmpr_block_selection_label.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_block_selection_label.Location.Y) * height_ratio)));
-
-                cmpr_block_paint_ck.Location = new Point(
-                    (int)(((cmpr_block_paint_ck.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_block_paint_ck.Location.Y) * height_ratio)));
-
-                cmpr_block_paint_label.Location = new Point(
-                    (int)(((cmpr_block_paint_label.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_block_paint_label.Location.Y) * height_ratio)));
-
-                cmpr_save_ck.Location = new Point(
-                    (int)(((cmpr_save_ck.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_save_ck.Location.Y) * height_ratio)));
-
-                cmpr_save_as_ck.Location = new Point(
-                    (int)(((cmpr_save_as_ck.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_save_as_ck.Location.Y) * height_ratio)));
-
-                cmpr_warning.Location = new Point(
-                    (int)(((cmpr_warning.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_warning.Location.Y) * height_ratio)));
-
-                cmpr_mouse1_label.Location = new Point(
-                    (int)(((cmpr_mouse1_label.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_mouse1_label.Location.Y) * height_ratio)));
-
-                cmpr_mouse2_label.Location = new Point(
-                    (int)(((cmpr_mouse2_label.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_mouse2_label.Location.Y) * height_ratio)));
-
-                cmpr_mouse3_label.Location = new Point(
-                    (int)(((cmpr_mouse3_label.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_mouse3_label.Location.Y) * height_ratio)));
-
-                cmpr_mouse4_label.Location = new Point(
-                    (int)(((cmpr_mouse4_label.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_mouse4_label.Location.Y) * height_ratio)));
-
-                cmpr_mouse5_label.Location = new Point(
-                    (int)(((cmpr_mouse5_label.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_mouse5_label.Location.Y) * height_ratio)));
-
-                cmpr_grid_ck.Location = new Point(
-                    (int)(((cmpr_grid_ck.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_grid_ck.Location.Y) * height_ratio)));
-
-                cmpr_hover_colour.Location = new Point(
-                    (int)(((cmpr_hover_colour.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_hover_colour.Location.Y) * height_ratio)));
-
-                cmpr_hover_colour_label.Location = new Point(
-                    (int)(((cmpr_hover_colour_label.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_hover_colour_label.Location.Y) * height_ratio)));
-
-                cmpr_hover_colour_txt.Location = new Point(
-                    (int)(((cmpr_hover_colour_txt.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_hover_colour_txt.Location.Y) * height_ratio)));
-
-                cmpr_swap2_ck.Location = new Point(
-                    (int)(((cmpr_swap2_ck.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_swap2_ck.Location.Y) * height_ratio)));
-
-                cmpr_swap2_label.Location = new Point(
-                    (int)(((cmpr_swap2_label.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_swap2_label.Location.Y) * height_ratio)));
-
-                cmpr_palette.Location = new Point(
-                    (int)(((cmpr_palette.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_palette.Location.Y) * height_ratio)));
-
-                cmpr_hover_ck.Location = new Point(
-                    (int)(((cmpr_hover_ck.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_hover_ck.Location.Y) * height_ratio)));
-
-                cmpr_hover_label.Location = new Point(
-                    (int)(((cmpr_hover_label.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_hover_label.Location.Y) * height_ratio)));
-
-                cmpr_preview_ck.Location = new Point(
-                    (int)(((cmpr_preview_ck.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_preview_ck.Location.Y) * height_ratio)));
-
-                cmpr_update_preview_ck.Location = new Point(
-                    (int)(((cmpr_update_preview_ck.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_update_preview_ck.Location.Y) * height_ratio)));
-
-                cmpr_update_preview_label.Location = new Point(
-                    (int)(((cmpr_update_preview_label.Location.X - 1920) * width_ratio)),
-                    (int)(((cmpr_update_preview_label.Location.Y) * height_ratio)));
-
                 cmpr_colours_argb[8] = 255;
             }
             if (!cmpr_layout_is_enabled)
@@ -4707,6 +4566,8 @@ namespace plt0_gui
         private void InitializeForm(bool load_settings_dot_tee_ekks_tee = true, bool this_is_the_first_time_this_function_is_called = true)
         {
             this.Icon = (System.Drawing.Icon.ExtractAssociatedIcon(execPath + "plt0 content/luma.ico"));
+            Move_cmpr_location();
+            Hide_Paint_Stuff();
             Load_Images();
             if (this_is_the_first_time_this_function_is_called)
                 Fill_Lists();
@@ -9631,7 +9492,7 @@ namespace plt0_gui
             this.cmpr_c1.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_c1.Name = "cmpr_c1";
             this.cmpr_c1.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
-            this.cmpr_c1.Size = new System.Drawing.Size(64, 69);
+            this.cmpr_c1.Size = new System.Drawing.Size(64, 64);
             this.cmpr_c1.TabIndex = 612;
             this.cmpr_c1.Click += new System.EventHandler(this.cmpr_c1_Click);
             this.cmpr_c1.MouseEnter += new System.EventHandler(this.cmpr_c1_MouseEnter);
@@ -9647,7 +9508,7 @@ namespace plt0_gui
             this.cmpr_c2.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_c2.Name = "cmpr_c2";
             this.cmpr_c2.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
-            this.cmpr_c2.Size = new System.Drawing.Size(64, 69);
+            this.cmpr_c2.Size = new System.Drawing.Size(64, 64);
             this.cmpr_c2.TabIndex = 616;
             this.cmpr_c2.Click += new System.EventHandler(this.cmpr_c2_Click);
             this.cmpr_c2.MouseEnter += new System.EventHandler(this.cmpr_c2_MouseEnter);
@@ -9698,7 +9559,7 @@ namespace plt0_gui
             this.cmpr_c3.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_c3.Name = "cmpr_c3";
             this.cmpr_c3.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
-            this.cmpr_c3.Size = new System.Drawing.Size(64, 69);
+            this.cmpr_c3.Size = new System.Drawing.Size(64, 64);
             this.cmpr_c3.TabIndex = 620;
             this.cmpr_c3.Click += new System.EventHandler(this.cmpr_c3_Click);
             this.cmpr_c3.MouseEnter += new System.EventHandler(this.cmpr_c3_MouseEnter);
@@ -9747,7 +9608,7 @@ namespace plt0_gui
             this.cmpr_c4.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_c4.Name = "cmpr_c4";
             this.cmpr_c4.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
-            this.cmpr_c4.Size = new System.Drawing.Size(64, 69);
+            this.cmpr_c4.Size = new System.Drawing.Size(64, 64);
             this.cmpr_c4.TabIndex = 624;
             this.cmpr_c4.Click += new System.EventHandler(this.cmpr_c4_Click);
             this.cmpr_c4.MouseEnter += new System.EventHandler(this.cmpr_c4_MouseEnter);
@@ -10074,7 +9935,7 @@ namespace plt0_gui
             this.cmpr_sel.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_sel.Name = "cmpr_sel";
             this.cmpr_sel.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
-            this.cmpr_sel.Size = new System.Drawing.Size(64, 69);
+            this.cmpr_sel.Size = new System.Drawing.Size(64, 64);
             this.cmpr_sel.TabIndex = 682;
             this.cmpr_sel.MouseEnter += new System.EventHandler(this.cmpr_sel_MouseEnter);
             this.cmpr_sel.MouseLeave += new System.EventHandler(this.cmpr_sel_MouseLeave);
@@ -10106,7 +9967,7 @@ namespace plt0_gui
             this.cmpr_hover_colour.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_hover_colour.Name = "cmpr_hover_colour";
             this.cmpr_hover_colour.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
-            this.cmpr_hover_colour.Size = new System.Drawing.Size(32, 37);
+            this.cmpr_hover_colour.Size = new System.Drawing.Size(32, 32);
             this.cmpr_hover_colour.TabIndex = 686;
             // 
             // cmpr_hover_colour_label
@@ -10149,7 +10010,7 @@ namespace plt0_gui
             this.cmpr_edited_colour.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_edited_colour.Name = "cmpr_edited_colour";
             this.cmpr_edited_colour.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
-            this.cmpr_edited_colour.Size = new System.Drawing.Size(32, 37);
+            this.cmpr_edited_colour.Size = new System.Drawing.Size(32, 32);
             this.cmpr_edited_colour.TabIndex = 689;
             this.cmpr_edited_colour.Visible = false;
             // 
@@ -10788,11 +10649,11 @@ namespace plt0_gui
             this.Controls.Add(this.name_string_label);
             this.Controls.Add(this.mandatory_settings_label);
             this.Controls.Add(this.cmpr_edited_colour);
-            this.Controls.Add(this.cmpr_edited_colour_label);
             this.Controls.Add(this.cmpr_edited_colour_txt);
+            this.Controls.Add(this.cmpr_edited_colour_label);
             this.Controls.Add(this.cmpr_hover_colour);
-            this.Controls.Add(this.cmpr_hover_colour_label);
             this.Controls.Add(this.cmpr_hover_colour_txt);
+            this.Controls.Add(this.cmpr_hover_colour_label);
             this.Controls.Add(this.cmpr_grid_ck);
             this.Controls.Add(this.cmpr_sel);
             this.Controls.Add(this.cmpr_mouse5_label);
@@ -10813,22 +10674,24 @@ namespace plt0_gui
             this.Controls.Add(this.cmpr_swap_ck);
             this.Controls.Add(this.cmpr_swap_label);
             this.Controls.Add(this.cmpr_c4);
-            this.Controls.Add(this.cmpr_c4_label);
             this.Controls.Add(this.cmpr_c4_txt);
+            this.Controls.Add(this.cmpr_c4_label);
             this.Controls.Add(this.cmpr_c3);
-            this.Controls.Add(this.cmpr_c3_label);
             this.Controls.Add(this.cmpr_c3_txt);
+            this.Controls.Add(this.cmpr_c3_label);
             this.Controls.Add(this.cmpr_c2);
-            this.Controls.Add(this.cmpr_c2_label);
             this.Controls.Add(this.cmpr_c2_txt);
+            this.Controls.Add(this.cmpr_c2_label);
             this.Controls.Add(this.cmpr_c1);
-            this.Controls.Add(this.cmpr_c1_label);
             this.Controls.Add(this.cmpr_c1_txt);
+            this.Controls.Add(this.cmpr_c1_label);
+            this.Controls.Add(this.colour_channels_label);
             this.Controls.Add(this.reversex_ck);
             this.Controls.Add(this.reversex_label);
             this.Controls.Add(this.preview4k_label);
             this.Controls.Add(this.preview4k_ck);
             this.Controls.Add(this.image_ck);
+            this.Controls.Add(this.algorithm_label);
             this.Controls.Add(this.upscale_label);
             this.Controls.Add(this.auto_update_label);
             this.Controls.Add(this.textchange_label);
@@ -10944,7 +10807,6 @@ namespace plt0_gui
             this.Controls.Add(this.view_algorithm_label);
             this.Controls.Add(this.view_alpha_ck);
             this.Controls.Add(this.view_alpha_label);
-            this.Controls.Add(this.colour_channels_label);
             this.Controls.Add(this.a_a_ck);
             this.Controls.Add(this.a_b_ck);
             this.Controls.Add(this.b_a_ck);
@@ -10980,7 +10842,6 @@ namespace plt0_gui
             this.Controls.Add(this.custom_ck);
             this.Controls.Add(this.cie_709_ck);
             this.Controls.Add(this.cie_601_ck);
-            this.Controls.Add(this.algorithm_label);
             this.Controls.Add(this.cmpr_ck);
             this.Controls.Add(this.cmpr_label);
             this.Controls.Add(this.ci14x2_ck);
@@ -14414,9 +14275,6 @@ namespace plt0_gui
         {
             switch (layout)
             {
-                case 0:
-                    unchecked_All();
-                    break;
                 case 1:
                     unchecked_Auto();
                     break;
@@ -14468,9 +14326,6 @@ namespace plt0_gui
             {
                 case 0:
                     unchecked_All();
-                    break;
-                case 1:
-                    unchecked_Auto();
                     break;
                 case 2:
                     unchecked_Preview();
@@ -14524,9 +14379,6 @@ namespace plt0_gui
                 case 1:
                     unchecked_Auto();
                     break;
-                case 2:
-                    unchecked_Preview();
-                    break;
                 case 3:
                     unchecked_Paint();
                     break;
@@ -14578,9 +14430,6 @@ namespace plt0_gui
                     break;
                 case 2:
                     unchecked_Preview();
-                    break;
-                case 3:
-                    unchecked_Paint();
                     break;
             }
             selected_Paint();
@@ -15598,7 +15447,7 @@ namespace plt0_gui
             };
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                output_name_txt.Text = saveFileDialog.FileName;
+                output_name_txt.Text = saveFileDialog.FileName.Replace('\\', '/');
             }
         }
         private void output_name_MouseEnter(object sender, EventArgs e)
@@ -16773,22 +16622,24 @@ namespace plt0_gui
         }
         private void cmpr_grid_ck_MouseMove(object sender, MouseEventArgs e)
         {
+            int x = (int)(e.X * grid_ratio);
+            int y = (int)(e.Y * grid_ratio);
             switch (e.Button)
             {
                 case MouseButtons.Left:
-                    Paint_Pixel(e.X, e.Y, cmpr_selected_colour);
+                    Paint_Pixel(x, y, cmpr_selected_colour);
                     break;
                 case MouseButtons.Middle:
-                    Paint_Pixel(e.X, e.Y, 1);
+                    Paint_Pixel(x, y, 1);
                     break;
                 case MouseButtons.Right:
-                    Paint_Pixel(e.X, e.Y, 2);
+                    Paint_Pixel(x, y, 2);
                     break;
                 case MouseButtons.XButton2:
-                    Paint_Pixel(e.X, e.Y, 3);
+                    Paint_Pixel(x, y, 3);
                     break;
                 case MouseButtons.XButton1:
-                    Paint_Pixel(e.X, e.Y, 4);
+                    Paint_Pixel(x, y, 4);
                     break;
             }
         }
@@ -16802,9 +16653,9 @@ namespace plt0_gui
             if (layout != 2)
             {
                 if (run_count < 2)
-                    output_label.Text = "Run count: " + run_count.ToString() + " time\n" + cli.Check_exit();
+                    cli_textbox_label.Text = "Run count: " + run_count.ToString() + " time\n" + cli.Check_exit();
                 else
-                    output_label.Text = "Run count: " + run_count.ToString() + " times\n" + cli.Check_exit();
+                    cli_textbox_label.Text = "Run count: " + run_count.ToString() + " times\n" + cli.Check_exit();
             }
             else
             {
@@ -16908,8 +16759,8 @@ namespace plt0_gui
         {
             if (cmpr_preview == null)
                 return;
-            cmpr_x = (int)((e.X - cmpr_x_offscreen) / mag_ratio);
-            cmpr_y = (int)((e.Y - cmpr_y_offscreen) / mag_ratio);
+            cmpr_x = (int)((e.X - cmpr_x_offscreen) / mag_ratio * grid_ratio);
+            cmpr_y = (int)((e.Y - cmpr_y_offscreen) / mag_ratio * grid_ratio);
             if (cmpr_x < 0 || cmpr_y < 0)
             {
                 cmpr_preview_ck_MouseLeave(null, null);
@@ -17310,8 +17161,8 @@ namespace plt0_gui
         {
             if (e.X < 0 || e.Y < 0 || e.X >= cmpr_palette.Width || e.Y >= cmpr_palette.Height) // cmpr_palette.Image.width also works, it should be faster to directly enter the max dimensions
                 return;
-            int x = (int)(e.X / width_ratio);
-            y = (int)(e.Y / height_ratio);
+            int x = (int)(e.X * grid_ratio);
+            y = (int)(e.Y * grid_ratio);
             // sooo, the clever idea is that I used a 32-bit bmp so I could use the bitshift << 2 for both x and y since all pixel are 4 bytes in size
             // another cool thing is that I purposefully made the bmp dimensions be 1024x64, so one line is 1024x4 pixels which is 1 << 10 << 2 which is 1 << 12
             // bitshifts are faster than multiplications.
