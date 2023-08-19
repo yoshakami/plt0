@@ -1403,7 +1403,7 @@ class Parse_args_class
                     success = false;
                     byte[] id2 = new byte[0x20];
                     file2.Read(id2, 0, 8);
-                    //if (id2.ToString() == "J3D2bmd3") // id2.ToString == "System.Byte[]"
+                    //if (id2.ToString() == "J3D2bmd3") // <- this won't work because id2.ToString == "System.Byte[]"
                     if (id2[0] == 74 && id2[1] == 51 && id2[2] == 68 && id2[3] == 50 && id2[4] == 98 && id2[5] == 109 && id2[6] == 100 && id2[7] == 51)
                     {
                         bmd_file = true;
@@ -1439,7 +1439,7 @@ class Parse_args_class
                     }
                     user_palette = true;
                     int array_size = bmp_palette[2] | bmp_palette[3] << 8 | bmp_palette[4] << 16 | bmp_palette[5] << 24;
-                    int pixel_start_offset = bmp_palette[10] | bmp_palette[11] << 8 | bmp_palette[12] << 16 | bmp_palette[13] << 24;
+                    int pixel_start_offset = bmp_palette[10] | (bmp_palette[11] << 8) | bmp_palette[12] << 16 | bmp_palette[13] << 24;
                     ushort bitmap_w = (ushort)(bmp_palette[0x13] << 8 | bmp_palette[0x12]);
                     ushort bitmap_h = (ushort)(bmp_palette[0x17] << 8 | bmp_palette[0x16]);
                     ushort pixel = (ushort)(bitmap_w * bitmap_h);
