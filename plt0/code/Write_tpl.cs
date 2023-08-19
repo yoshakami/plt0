@@ -236,10 +236,10 @@ class Write_tpl_class
                 }
                 else
                 {
-                    return "cannot write " + output_file;
+                    return "cannot write " + output_file + "\n";
                 }
             }
         }
-        return "";
+        return "written " + output_file + ".tpl\n";
     }
 }

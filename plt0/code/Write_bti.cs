@@ -163,7 +163,7 @@ class Write_bti_class
                 Console.WriteLine("Sorry man, I have not met any bmd file with a palette amongst all games I've reviewed so far. I'll be glad to add this feature if you find some files I could look into\n for now you can't use CI4, CI8 and CI14x2 in a bmd\n");
                 Console.WriteLine("Press enter to exit...");
                 Console.ReadLine();
-                return "I have not met any bmd file with a palette amongst all games I've reviewed so far. I'll be glad to add this feature if you find some files I could look into";
+                return "I have not met any bmd file with a palette amongst all games I've reviewed so far. I'll be glad to add this feature if you find some files I could look into\n";
             }
             using (System.IO.FileStream file = System.IO.File.Open(input_file2, System.IO.FileMode.Open, System.IO.FileAccess.Read))
             {
@@ -177,7 +177,7 @@ class Write_bti_class
                     {
                         if (!no_warning)
                             Console.WriteLine("Couldn't find the TEX1 Section. This bmd file is corrupted. the program will exit");
-                        return "Couldn't find the TEX1 Section. This bmd file is corrupted.";
+                        return "Couldn't find the TEX1 Section. This bmd file is corrupted.\n";
                     }
                     y += (j3d[y + 4] << 24) + (j3d[y + 5] << 16) + (j3d[y + 6] << 8) + j3d[y + 7];  // size of current section
                 }
@@ -190,7 +190,7 @@ class Write_bti_class
                 {
                     if (!no_warning)
                         Console.WriteLine("I could have sworn you were smart enough to take a bmd with bti textures in it, but this one contains none.");
-                    return "the bmd file provided has zero textures in it";
+                    return "the bmd file provided has zero textures in it\n";
                 }
                 string name = "";
                 x += 4 + (string_count << 2); // 4 is the string pool table header size
@@ -407,7 +407,7 @@ class Write_bti_class
                         else
                         {
                             //throw ex;
-                            return "cannot write " + output_file;
+                            return "cannot write " + output_file + "\n";
                         }
                     }
                 }
@@ -466,11 +466,12 @@ class Write_bti_class
                     }
                     else
                     {
-                        return "cannot write " + output_file;
+                        return "cannot write " + output_file + "\n";
                     }
                 }  // catch is triggered if the program can't write the output file
             }  // while the image hasn't been created
+            return "written " + output_file + ".bti\n";
         }  // if statement to check wether we're writing a bti or a bmd
-        return "";
+        return "written " + output_file + ".bmd\n";
     }  // end of write_bti
 }  // end of class

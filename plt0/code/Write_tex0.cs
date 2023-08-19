@@ -211,10 +211,10 @@ class Write_tex0_class
                 }
                 else
                 {
-                    return "cannot write " + output_file;
+                    return "cannot write " + output_file + "\n";
                 }
             }
         }
-        return "";
+        return "written " + output_file + ".tex0\n";
     }
 }

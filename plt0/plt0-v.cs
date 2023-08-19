@@ -1560,8 +1560,17 @@ namespace plt0_gui
                 if (!isFolder)  // that means it's a file.
                 {
                     //byte len = (byte)file[0].Split('\\').Length;
-                    input_file = file[0].Replace("\\", "/"); ;
-                    input_file_txt.Text = file[0].Replace("\\", "/"); //.Split('\\')[len - 1];// file is actually a full path starting from a drive, but I won't clutter the display
+                    if (file[0].Split('.').Last().ToUpper() == "PLT0")
+                    {
+                        input_file2 = file[0].Replace("\\", "/");
+                        input_file2_txt.Text = input_file2;
+                    }
+                    else
+                    {
+                        input_file = file[0].Replace("\\", "/");
+                        input_file_txt.Text = input_file; //.Split('\\')[len - 1];// file is actually a full path starting from a drive, but I won't clutter the display
+                        // edit : I did clutter the display
+                    }
                 }
                 else
                 {
@@ -10597,7 +10606,7 @@ namespace plt0_gui
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(2191, 845);
+            this.ClientSize = new System.Drawing.Size(2987, 845);
             this.Controls.Add(this.banner_minus_ck);
             this.Controls.Add(this.banner_f11_ck);
             this.Controls.Add(this.banner_x_ck);

@@ -667,63 +667,7 @@ class Parse_args_class
                 case "O":
                     if (args.Length > i + 1)
                     {
-                        if (args[i + 1].Contains(".") && args[i + 1].Length > 1)
-                        {  // if the name ends with a recognized extension, this application will add it afterwards in the write functions
-                            bool remove_ext = true;
-                            switch (args[i + 1].Substring(args[i + 1].Length - args[i + 1].Split('.')[args[i + 1].Split('.').Length - 1].Length - 1).ToUpper())
-                            {
-                                case "BMD":
-                                    bmd = true;
-                                    break;
-                                case "BTI":
-                                    bti = true;
-                                    break;
-                                case "TEX0":
-                                    bti = true;
-                                    break;
-                                case "TPL":
-                                    tpl = true;
-                                    break;
-                                case "BMP":
-                                    bmp = true;
-                                    break;
-                                case "PNG":
-                                    png = true;
-                                    break;
-                                case "JPG":
-                                    jpg = true;
-                                    break;
-                                case "JPEG":
-                                    jpeg = true;
-                                    break;
-                                case "GIF":
-                                    gif = true;
-                                    break;
-                                case "ICO":
-                                    ico = true;
-                                    break;
-                                case "TIF":
-                                    tif = true;
-                                    break;
-                                case "TIFF":
-                                    tiff = true;
-                                    break;
-                                case "WEBP":
-                                    webp = true;
-                                    break;
-                                default:
-                                    remove_ext = false;
-                                    break;
-                            }
-                            if (remove_ext)
-                            {
-                                output_file = args[i + 1].Substring(0, args[i + 1].Length - args[i + 1].Split('.')[args[i + 1].Split('.').Length - 1].Length - 1);  // removes the text after the extension dot.
-                            }
-                        }
-                        else
-                        {
-                            output_file = args[i + 1];
-                        }
+                        Fill_output_file(args[i + 1]);
                         pass = 1;
                     }
                     break;
@@ -1032,15 +976,7 @@ class Parse_args_class
                         else if (System.IO.File.Exists(swap) && input_file2 == "")  // swap out args[i] and output file.
                         {
                             input_file2 = swap;
-                            if (args[i].Contains(".") && args[i].Length > 1)
-                            {
-                                output_file = args[i].Substring(0, args[i].Length - args[i].Split('.')[args[i].Split('.').Length - 1].Length - 1);  // same as the os.path.splitext(args[i])[0] function in python
-                            }
-                            else
-                            {
-                                output_file = args[i];
-                            }
-
+                            Fill_output_file(args[i]);
                         }
                         else
                         {
@@ -1131,14 +1067,9 @@ class Parse_args_class
                                     continue;  // apparently putting "continue" skips all remaining args without going back to the "for" loop, while break does exit the switch without exiting the for loop
                                 }
                             }
-                            if (args[i].Contains(".") && args[i].Length > 1)
+                            else
                             {
-                                output_file = args[i].Substring(0, args[i].Length - args[i].Split('.')[args[i].Split('.').Length - 1].Length - 1);  // removes the text after the extension dot.
-                                swap = args[i];
-                            }
-                            else if (!success && args[i].Length > 1)
-                            {
-                                output_file = args[i];
+                                Fill_output_file(args[i]);
                                 swap = args[i];
                             }
                         }
@@ -1159,7 +1090,7 @@ class Parse_args_class
                 System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
                 System.Windows.Forms.Application.Run(new plt0_gui.plt0_gui());
             }
-            gui_message = "no input file provided";
+            gui_message += "no input file provided\n";
             return; // once you close the gui It'll execute this command. I'm serious.
         }
         if (System.IO.File.Exists(swap) && input_file2 == "")
@@ -1190,7 +1121,7 @@ class Parse_args_class
             if (ex.Message.Substring(0, 34) == "The process cannot access the file")  // because it is being used by another process
             {
                 Console.WriteLine("input file is used by another process. therefore this program can't read that file.");
-                gui_message = "input file is used by another process.";
+                gui_message += "input file is used by another process.\n";
             }
             return;
         }
@@ -1210,11 +1141,11 @@ class Parse_args_class
                     // get the palette file from the same directory or exit
                     if (System.IO.File.Exists(input_fil + ".plt0"))
                     {
-                        gui_message = dec.Decode_texture(input_file, input_fil + ".plt0", output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, 0, bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, bmp, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
+                        gui_message += dec.Decode_texture(input_file, input_fil + ".plt0", output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, 0, bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, bmp, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number) + "\n";
                     }
                     else
                     {
-                        gui_message = "your input texture is missing a plt0 file. it should be named " + input_fil + ".plt0";
+                        gui_message += "your input texture is missing a plt0 file. it should be named " + input_fil + ".plt0\n";
                     }
                     if (!no_warning)
                         Console.WriteLine(gui_message);
@@ -1241,23 +1172,23 @@ class Parse_args_class
                         // palette_format_int32[3] = data[0x1B];
                         //file_2.Read(colour_palette, 0x40, colour_number_x2);  // check if this is right. second parameter should always be ZERO
                         // user_palette = true;
-                        gui_message = dec.Decode_texture(input_file, input_file2, output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, data[0x1B], bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, bmp, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
+                        gui_message += dec.Decode_texture(input_file, input_file2, output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, data[0x1B], bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, bmp, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number) + "\n";
                     }
                     // get the palette file from the same directory or exit
                     else if (System.IO.File.Exists(input_fil + ".plt0"))
                     {
-                        gui_message = dec.Decode_texture(input_file, input_fil + ".plt0", output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, 0, bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, bmp, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
+                        gui_message += dec.Decode_texture(input_file, input_fil + ".plt0", output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, 0, bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, bmp, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number) + "\n";
                     }
                     else
                     {
-                        gui_message = "your input texture is missing a plt0 file. it should be named " + input_fil + ".plt0";
+                        gui_message += "your input texture is missing a plt0 file. it should be named " + input_fil + ".plt0\n";
                     }
                 }
             }
             else
             {
                 // decode the image
-                gui_message = dec.Decode_texture(input_file, "", output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, 0, bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, bmp, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
+                gui_message += dec.Decode_texture(input_file, "", output_file, real_block_width_array, block_width_array, block_height_array, true, false, colour_palette, 0, bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, bmp, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number) + "\n";
             }
             if (!no_warning)
                 Console.WriteLine(gui_message);
@@ -1266,13 +1197,13 @@ class Parse_args_class
         }
         else if (id[0] == 0 && id[1] == 32 && id[2] == 0xaf && id[3] == 48)  // tpl file header
         {
-            gui_message = dec.Decode_texture(input_file, "", output_file, real_block_width_array, block_width_array, block_height_array, false, true, colour_palette, 0, bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, bmp, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
+            gui_message += dec.Decode_texture(input_file, "", output_file, real_block_width_array, block_width_array, block_height_array, false, true, colour_palette, 0, bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, bmp, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number) + "\n";
             correct = true;
             return;
         }
         else if (id[0] < 15 && id[6] < 3 && id[7] < 3)  // rough bti check
         {
-            gui_message = dec.Decode_texture(input_file, "", output_file, real_block_width_array, block_width_array, block_height_array, false, false, colour_palette, 0, bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, bmp, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number);
+            gui_message += dec.Decode_texture(input_file, "", output_file, real_block_width_array, block_width_array, block_height_array, false, false, colour_palette, 0, bmp_32, funky, reverse_x, reverse_y, warn, stfu, no_warning, safe_mode, bmp, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number) + "\n";
             correct = true;
             return;
         }
@@ -1287,27 +1218,27 @@ class Parse_args_class
                 System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
                 System.Windows.Forms.Application.Run(new plt0_gui.plt0_gui());
             }
-            gui_message = "add a texture encoding format as argument.";
+            gui_message += "add a texture encoding format as argument.\n";
             return;
         }
 
         if (colour_number > max_colours && max_colours == 16)
         {
-            gui_message = "CI4 can only supports up to 16 colours as each pixel index is stored on 4 bits";
+            gui_message += "CI4 can only supports up to 16 colours as each pixel index is stored on 4 bits\n";
             if (!no_warning)
                 Console.WriteLine(gui_message);
             return;
         }
         if (colour_number > max_colours && max_colours == 256)
         {
-            gui_message = "CI8 can only supports up to 256 colours as each pixel index is stored on 8 bits";
+            gui_message += "CI8 can only supports up to 256 colours as each pixel index is stored on 8 bits\n";
             if (!no_warning)
                 Console.WriteLine(gui_message);
             return;
         }
         if (colour_number > 65535 && max_colours == 16385)
         {
-            gui_message = "Colour number is stored on 2 bytes for CI14x2";
+            gui_message += "Colour number is stored on 2 bytes for CI14x2\n";
             if (!no_warning)
                 Console.WriteLine(gui_message);
             return;
@@ -1363,7 +1294,7 @@ class Parse_args_class
         {
             if (ex.Message == "Out of memory." && ex.Source == "System.Drawing")
             {
-                gui_message = "Image input format not supported (convert it to jpeg or png)";
+                gui_message += "Image input format not supported (convert it to jpeg or png)\n";
                 Console.WriteLine(gui_message);
                 return;
             }
@@ -1377,7 +1308,7 @@ class Parse_args_class
 
         if (bmp_image[0x15] != 0 || bmp_image[0x14] != 0 || bmp_image[0x19] != 0 || bmp_image[0x18] != 0)
         {
-            gui_message = "Textures Dimensions are too high for a TEX0. Maximum dimensions are the values of a 2 bytes integer (65535 x 65535)";
+            gui_message += "Textures Dimensions are too high for a TEX0. Maximum dimensions are the values of a 2 bytes integer (65535 x 65535)\n";
             if (!no_warning)
                 Console.WriteLine(gui_message);
             return;
@@ -1452,7 +1383,7 @@ class Parse_args_class
             byte[] colors = BGRA.ToArray();
             if (colors.Length > colour_number_x4)
             {
-                gui_message = (int)(colors.Length / 4) + " colours sent in the palette but colour number is set to " + colour_number + " trimming the palette to " + colour_number;
+                gui_message += (int)(colors.Length / 4) + " colours sent in the palette but colour number is set to " + colour_number + " trimming the palette to " + colour_number + "\n";
                 if (!no_warning)
                     Console.WriteLine(gui_message);
                 Array.Resize(ref colors, colour_number_x4);
@@ -1518,7 +1449,7 @@ class Parse_args_class
                     ushort pixel = (ushort)(bitmap_w * bitmap_h);
                     if (pixel != colour_number)
                     {
-                        gui_message = "Second image input has " + pixel + " pixels while there are " + colour_number + " max colours in the palette.";
+                        gui_message += "Second image input has " + pixel + " pixels while there are " + colour_number + " max colours in the palette.\n";
                         if (!no_warning)
                             Console.WriteLine(gui_message);
                         return;
@@ -1537,14 +1468,14 @@ class Parse_args_class
             }
             else if (ex.Message == "Out of memory." && ex.Source == "System.Drawing")
             {
-                gui_message = "Second image input format not supported (convert it to jpeg or png)";
+                gui_message += "Second image input format not supported (convert it to jpeg or png)\n";
                 if (!no_warning)
                     Console.WriteLine(gui_message);
             }
             else if (ex.Message.Substring(0, 34) == "The process cannot access the file")  // because it is being used by another process
             {
                 Console.WriteLine("input file2 is used by another process. therefore this program can't read that file.");
-                gui_message = "input file2 is used by another process.";
+                gui_message += "input file2 is used by another process.\n";
             }
             else if (safe_mode)
             {
@@ -1557,7 +1488,7 @@ class Parse_args_class
             }
             else
             {
-                gui_message = ex.Message;
+                gui_message += ex.Message;
             }
             return;
         }
@@ -1586,7 +1517,7 @@ class Parse_args_class
                 }
                 if (bmp_mipmap[0x15] != 0 || bmp_mipmap[0x14] != 0 || bmp_mipmap[0x19] != 0 || bmp_mipmap[0x18] != 0)
                 {
-                    gui_message = "Textures Dimensions are too high for a TEX0. Maximum dimensions are the values of a 2 bytes integer (65535 x 65535)";
+                    gui_message += "Textures Dimensions are too high for a TEX0. Maximum dimensions are the values of a 2 bytes integer (65535 x 65535)";
                     if (!no_warning)
                         Console.WriteLine(gui_message);
                     return;
@@ -1609,7 +1540,7 @@ class Parse_args_class
                                      // note: depending on the number of mipmaps, this will make unused block space with images that are not power of two because sooner or later width or height won't be a multiple or 4 or 8
                 if (bitmap_width == 0 || bitmap_height == 0)
                 {
-                    gui_message = "Too many mipmaps. " + (z - 1) + " is the maximum for this file";
+                    gui_message += "Too many mipmaps. " + (z - 1) + " is the maximum for this file";
                     if (!no_warning)
                         Console.WriteLine(gui_message);
                     exit = true;
@@ -1622,7 +1553,7 @@ class Parse_args_class
                 }
                 if (bmp_mipmap[0x15] != 0 || bmp_mipmap[0x14] != 0 || bmp_mipmap[0x19] != 0 || bmp_mipmap[0x18] != 0)
                 {
-                    gui_message = "Textures Dimensions are too high for a TEX0. Maximum dimensions are the values of a 2 bytes integer (65535 x 65535)";
+                    gui_message += "Textures Dimensions are too high for a TEX0. Maximum dimensions are the values of a 2 bytes integer (65535 x 65535)";
                     if (!no_warning)
                         Console.WriteLine(gui_message);
                     return;
@@ -1654,35 +1585,35 @@ class Parse_args_class
         {
             if (bmd && !bmd_file)
             {
-                gui_message = "specified bmd output but no bmd file given";
+                gui_message += "specified bmd output but no bmd file given";
                 if (!no_warning)
                     Console.WriteLine(gui_message);
                 return;
             }
-            gui_message = Write_bti_class.Write_bti(index_list, colour_palette, texture_format_int32, palette_format_int32, block_width_array, block_height_array, bitmap_width, bitmap_height, colour_number, format_ratio, input_fil, input_file2, output_file, bmd_file, has_palette, safe_mode, no_warning, warn, stfu, name_string, block_width, block_height, mipmaps_number, minification_filter, magnification_filter, WrapS, WrapT, alpha);
+            gui_message += Write_bti_class.Write_bti(index_list, colour_palette, texture_format_int32, palette_format_int32, block_width_array, block_height_array, bitmap_width, bitmap_height, colour_number, format_ratio, input_fil, input_file2, output_file, bmd_file, has_palette, safe_mode, no_warning, warn, stfu, name_string, block_width, block_height, mipmaps_number, minification_filter, magnification_filter, WrapS, WrapT, alpha);
         }
         if (tpl)
         {
             if (add)
             {
-                gui_message = Write_into_tpl_class.Write_into_tpl(index_list, colour_palette, texture_format_int32, palette_format_int32, real_block_width_array, block_height_array, add_depth, sub_depth, bitmap_width, bitmap_height, colour_number, format_ratio, input_file2, output_file, has_palette, overwrite, safe_mode, no_warning, warn, stfu, block_width, block_height, mipmaps_number, minification_filter, magnification_filter, WrapS, WrapT);
+                gui_message += Write_into_tpl_class.Write_into_tpl(index_list, colour_palette, texture_format_int32, palette_format_int32, real_block_width_array, block_height_array, add_depth, sub_depth, bitmap_width, bitmap_height, colour_number, format_ratio, input_file2, output_file, has_palette, overwrite, safe_mode, no_warning, warn, stfu, block_width, block_height, mipmaps_number, minification_filter, magnification_filter, WrapS, WrapT);
             }
             else
             {
-                gui_message = Write_tpl_class.Write_tpl(index_list, colour_palette, texture_format_int32, palette_format_int32, bitmap_width, bitmap_height, colour_number, format_ratio, output_file, has_palette, safe_mode, no_warning, warn, stfu, name_string, block_width, block_height, mipmaps_number, minification_filter, magnification_filter, WrapS, WrapT);
+                gui_message += Write_tpl_class.Write_tpl(index_list, colour_palette, texture_format_int32, palette_format_int32, bitmap_width, bitmap_height, colour_number, format_ratio, output_file, has_palette, safe_mode, no_warning, warn, stfu, name_string, block_width, block_height, mipmaps_number, minification_filter, magnification_filter, WrapS, WrapT);
             }
         }
         if (bmp || png || tif || tiff || ico || jpg || jpeg || gif)  // tell me if there's another format available through some extensions I'll add it
         {
-            gui_message = Write_bmp_class.Write_bmp(index_list, canvas_dim, colour_palette, texture_format_int32, palette_format_int32, colour_number, output_file, bmp_32, funky, has_palette, warn, stfu, no_warning, safe_mode, bmp, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number, alpha, colour_number_x2, colour_number_x4);
+            gui_message += Write_bmp_class.Write_bmp(index_list, canvas_dim, colour_palette, texture_format_int32, palette_format_int32, colour_number, output_file, bmp_32, funky, has_palette, warn, stfu, no_warning, safe_mode, bmp, png, gif, jpeg, jpg, ico, tiff, tif, mipmaps_number, alpha, colour_number_x2, colour_number_x4);
         }
         if (tex0)
         {
             if (has_palette)
             {
-                gui_message = Write_plt0_class.Write_plt0(colour_palette, palette_format_int32, colour_number, output_file, safe_mode, no_warning, warn, stfu, name_string);
+                gui_message += Write_plt0_class.Write_plt0(colour_palette, palette_format_int32, colour_number, output_file, safe_mode, no_warning, warn, stfu, name_string);
             }
-            gui_message = Write_tex0_class.Write_tex0(index_list, texture_format_int32, bitmap_width, bitmap_height, format_ratio, output_file, has_palette, safe_mode, no_warning, warn, stfu, name_string, block_width, block_height, mipmaps_number);
+            gui_message += Write_tex0_class.Write_tex0(index_list, texture_format_int32, bitmap_width, bitmap_height, format_ratio, output_file, has_palette, safe_mode, no_warning, warn, stfu, name_string, block_width, block_height, mipmaps_number);
         }
         correct = true;
         /* }  // put /* before this line for debugging
@@ -1691,12 +1622,12 @@ class Parse_args_class
             if (ex.Message == "Out of memory." && ex.Source == "System.Drawing")
             {
                 Console.WriteLine("Image input format not supported (convert it to jpeg or png)");
-                gui_message = "Image input format not supported (convert it to jpeg or png)";
+                gui_message += "Image input format not supported (convert it to jpeg or png)";
             }
             else if (ex.Message.Substring(0, 34) == "The process cannot access the file")  // because it is being used by another process
             {
                 Console.WriteLine("input file is used by another process. therefore this program can't read that file.");
-                gui_message = "input file is used by another process.";
+                gui_message += "input file is used by another process.";
             }
             else if (safe_mode)
             {
@@ -1709,12 +1640,78 @@ class Parse_args_class
             }
             else
             {
-                gui_message = ex.Message;
+                gui_message += ex.Message;
             }
             return;
         } // */
 
     }
+
+    private void Fill_output_file(string arg)
+    {
+        if (arg.Contains(".") && arg.Length > 1)
+        {  // if the name ends with a recognized extension, this application will add it afterwards in the write functions
+            bool remove_ext = true;
+            switch (arg.Substring(arg.Length - arg.Split('.')[arg.Split('.').Length - 1].Length).ToUpper())
+            {
+                case "BMD":
+                    bmd = true;
+                    break;
+                case "BTI":
+                    bti = true;
+                    break;
+                case "TEX0":
+                    bti = true;
+                    break;
+                case "TPL":
+                    tpl = true;
+                    break;
+                case "BMP":
+                    bmp = true;
+                    break;
+                case "PNG":
+                    png = true;
+                    break;
+                case "JPG":
+                    jpg = true;
+                    break;
+                case "JPEG":
+                    jpeg = true;
+                    break;
+                case "GIF":
+                    gif = true;
+                    break;
+                case "ICO":
+                    ico = true;
+                    break;
+                case "TIF":
+                    tif = true;
+                    break;
+                case "TIFF":
+                    tiff = true;
+                    break;
+                case "WEBP":
+                    webp = true;
+                    break;
+                default:
+                    remove_ext = false;
+                    break;
+            }
+            if (remove_ext)
+            {
+                output_file = arg.Substring(0, arg.Length - arg.Split('.')[arg.Split('.').Length - 1].Length - 1);  // removes the text after the extension dot.
+            }
+            else
+            {
+                output_file = arg;
+            }
+        }
+        else
+        {
+            output_file = arg;
+        }
+    }
+
     public string Check_exit()
     {
         if (ask_exit && no_gui)

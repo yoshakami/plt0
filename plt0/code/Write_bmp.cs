@@ -1477,12 +1477,12 @@ class Write_bmp_class
                     else
                     {
                         // throw ex;
-                        return "cannot write " + output_file + end;
+                        return "cannot write " + output_file + end + "\n";
                     }
                 }
             }
         }
-        return "";
+        return "written " + output_file + end + "\n";
     }
 }
 // satisfying end
