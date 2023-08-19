@@ -26,29 +26,51 @@ Change "Auto" to "Encode" and create a "Decode" Layout <br>
 Add "Range Fit" and maybe other CMPR algorithms <br>
 make a "How to use" image, and test everything (every option, every combination, find anything that breaks the program) <br>
 add french description.txt <br>
+add a "Palette" layout (adds the ability to change the colours of a CI4 palette through the gui) <br>
+add an Image Viewer <br>
+add WebP Support <br>
+
+## known bugs
+Minimum cmpr image size is 16x16 when encoding <br>
+Bmd output is untested <br>
+No TPL Support for Paint Layout <br>
+Range Fit is unfinished
 
 ## version history
-v0.1: support for all palette formats
+v0.1: Support for all palette formats
 
-v0.2: support input palette and mipmaps
+v0.2: Support input palette and mipmaps
 
-v0.3: inject into bmd files
+v0.3: Inject into bmd files
 
-v0.4: all image formats except cmpr
+v0.4: All image formats except cmpr
 
 v0.5: CMPR (finding a decent DXT1 Compression algorithm was hard)
 
 v0.6: Optimize the project by splitting it in more than 1 file
 
-v0.7: decode images
+v0.7: Decode images
 
 v0.8: TPL files options (add image to existing file)
 
-v0.9: decode TPL files
+v0.9: Decode TPL files
 
 v1.0: GUI
 
 v1.1: Auto-Scale on Launch and on each F12 press
+
+v1.2: WebP Support, bugfixes, and enhance gui
+
+v1.3: Decode Layout, and Palette Layout
+
+v1.4: Image Viewer
+
+v1.5: Native French Support
+
+## Flow Chart
+![Flow Chart for developpers](../../../yoshakami.github.io/blob/main/plt0-paint.png?raw=true)
+"Encode" corresponds to the "Encoding Format" file in the "Encode" folder.
+Most functions are called in parse_args because I needed them to communicate with the GUI after they finish
 
 ## why this project
 wimgt doesn't support textures with palette (or corrupts them), except tpl files. which prevents me from modding some wii games.
