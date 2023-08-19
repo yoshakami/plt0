@@ -68,7 +68,7 @@ v1.4: Image Viewer
 v1.5: Native French Support
 
 ## Flow Chart
-![Flow Chart for developpers](../../../yoshakami.github.io/blob/main/plt0-paint.png?raw=true)
+![Flow Chart for developpers](../../../yoshakami.github.io/blob/main/plt0-chart.png?raw=true)
 "Encode" corresponds to the "Encoding Format" file in the "Encode" folder.
 Most functions are called in parse_args because I needed them to communicate with the GUI after they finish
 
