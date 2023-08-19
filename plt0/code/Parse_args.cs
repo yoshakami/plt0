@@ -1101,10 +1101,7 @@ class Parse_args_class
         if (output_file == "")
         {
             overwrite = true;
-            if (output_file.Contains('.'))
-                output_file = input_file.Substring(0, input_file.Length - input_file.Split('.')[input_file.Split('.').Length - 1].Length - 1);
-            else
-                output_file = input_file;
+            Fill_output_file(input_file);
         }
         byte[] id = new byte[9];
         try
@@ -1404,7 +1401,7 @@ class Parse_args_class
                 using (System.IO.FileStream file2 = System.IO.File.Open(input_file2, System.IO.FileMode.Open, System.IO.FileAccess.Read))
                 {
                     success = false;
-                    byte[] id2 = new byte[8];
+                    byte[] id2 = new byte[0x20];
                     file2.Read(id2, 0, 8);
                     //if (id2.ToString() == "J3D2bmd3") // id2.ToString == "System.Byte[]"
                     if (id2[0] == 74 && id2[1] == 51 && id2[2] == 68 && id2[3] == 50 && id2[4] == 98 && id2[5] == 109 && id2[6] == 100 && id2[7] == 51)
@@ -1413,15 +1410,14 @@ class Parse_args_class
                         success = true;
                     }
                     //else if (id2.ToString().Substring(0, 4) == "PLT0")
-                    else if (id2[0] == 80 && id2[1] == 76 && id2[2] == 84 && id2[3] == 48)
+                    else if (id2[0] == 80 && id2[1] == 76 && id2[2] == 84 && id2[3] == 48)  // PLT0
                     {
                         success = true;
-                        byte[] data = new byte[0x20];
-                        file2.Read(data, 0, 0x20);
-                        colour_number = (ushort)((data[0x1C] << 8) + data[0x1D]);
+                        file2.Read(id2, 8, 24);  // id2 will contain the 32 first bytes of the plt0 header
+                        colour_number = (ushort)((id2[0x1C] << 8) + id2[0x1D]);
                         colour_number_x2 = colour_number << 1;
                         colour_number_x4 = colour_number << 2;
-                        palette_format_int32[3] = data[0x1B];
+                        palette_format_int32[3] = id2[0x1B];
                         // file2.Read(colour_palette, 0x40, colour_number_x2); // check if this is right
                         file2.Position = 0x40;
                         file2.Read(colour_palette, 0, colour_number_x2);
@@ -1434,7 +1430,7 @@ class Parse_args_class
                         success = true;
                     }
                 }
-                if (!success)
+                if (!success)  // then it is assumed input_file2 is an image, and each of its pixels will be used as a palette.
                 {
                     byte[] bmp_palette;
                     using (Bitmap input_file2_image = (Bitmap)Bitmap.FromFile(input_file2))
@@ -1447,7 +1443,7 @@ class Parse_args_class
                     ushort bitmap_w = (ushort)(bmp_palette[0x13] << 8 | bmp_palette[0x12]);
                     ushort bitmap_h = (ushort)(bmp_palette[0x17] << 8 | bmp_palette[0x16]);
                     ushort pixel = (ushort)(bitmap_w * bitmap_h);
-                    if (pixel != colour_number)
+                    if (pixel != colour_number)  // there must be as much pixels in the image as colours in the palette.
                     {
                         gui_message += "Second image input has " + pixel + " pixels while there are " + colour_number + " max colours in the palette.\n";
                         if (!no_warning)
