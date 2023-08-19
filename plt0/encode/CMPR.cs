@@ -394,13 +394,21 @@ class CMPR_class
                     // then he's making the interpolated colours for each colour of the 4x4 block and test
                     // which combination is the best one by iterating over the 16 pixels and using calc_distance
                     //Wiimm_Algorithm(_plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16, _plt0.bmp_filesize, index_list); 
-
+                
                 List<byte[]> index_list_2 = new List<byte[]>();
                 List<byte[]> index_list_3 = new List<byte[]>();
                 List<byte[]> index_list_4 = new List<byte[]>();
-                int split1 = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16 + ((_plt0.canvas_height >> 5) * (_plt0.canvas_width << 5));
-                int split2 = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16 + ((_plt0.canvas_height >> 4) * (_plt0.canvas_width << 5));
-                int split3 = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16 + (((_plt0.canvas_height >> 5) + (_plt0.canvas_height >> 4)) * (_plt0.canvas_width << 5));
+                List<byte[]> index_list_5 = new List<byte[]>();
+                List<byte[]> index_list_6 = new List<byte[]>();
+                List<byte[]> index_list_7 = new List<byte[]>();
+                List<byte[]> index_list_8 = new List<byte[]>();
+                int split1 = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16 + ((_plt0.canvas_height >> 6) * (_plt0.canvas_width << 5));
+                int split2 = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16 + ((_plt0.canvas_height >> 5) * (_plt0.canvas_width << 5));
+                int split3 = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16 + (((_plt0.canvas_height >> 5) + (_plt0.canvas_height >> 6)) * (_plt0.canvas_width << 5));
+                int split4 = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16 + ((_plt0.canvas_height >> 4) * (_plt0.canvas_width << 5));
+                int split5 = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16 + (((_plt0.canvas_height >> 4) + (_plt0.canvas_height >> 6)) * (_plt0.canvas_width << 5));
+                int split6 = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16 + (((_plt0.canvas_height >> 4) + (_plt0.canvas_height >> 5)) * (_plt0.canvas_width << 5));
+                int split7 = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16 + (((_plt0.canvas_height >> 4) + (_plt0.canvas_height >> 5) + (_plt0.canvas_height >> 6)) * (_plt0.canvas_width << 5));
                 /*Wiimm_Algorithm(_plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16, (uint)split1, index_list);
                 Wiimm_Algorithm(split1, (uint)split2, index_list_2);
                 Wiimm_Algorithm(split2, (uint)split3, index_list_3);
@@ -411,7 +419,11 @@ class CMPR_class
                     Task.Run(() => Wiimm_Algorithm(_plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16, (uint)split1, index_list)),
                     Task.Run(() => Wiimm_Algorithm(split1, (uint)split2, index_list_2)),
                     Task.Run(() => Wiimm_Algorithm(split2, (uint)split3, index_list_3)),
-                    Task.Run(() => Wiimm_Algorithm(split3, _plt0.bmp_filesize, index_list_4))
+                    Task.Run(() => Wiimm_Algorithm(split3, (uint)split4, index_list_4)),
+                    Task.Run(() => Wiimm_Algorithm(split4, (uint)split5, index_list_5)),
+                    Task.Run(() => Wiimm_Algorithm(split5, (uint)split6, index_list_6)),
+                    Task.Run(() => Wiimm_Algorithm(split6, (uint)split7, index_list_7)),
+                    Task.Run(() => Wiimm_Algorithm(split7, _plt0.bmp_filesize, index_list_8))
                 };
 
 
@@ -420,6 +432,10 @@ class CMPR_class
                 index_list.AddRange(index_list_2);
                 index_list.AddRange(index_list_3);
                 index_list.AddRange(index_list_4);
+                index_list.AddRange(index_list_5);
+                index_list.AddRange(index_list_6);
+                index_list.AddRange(index_list_7);
+                index_list.AddRange(index_list_8);
                 break;
             case 6: // SuperBMD
                 // SuperBMD is calculating the distance between a pixel and his next neighbour in the 4x4 block, and the couple with the max distance is chosen as the two colours
