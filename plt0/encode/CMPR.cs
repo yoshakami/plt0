@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
 
 /* hmm, well. let's be honest. this is the harderest encoding to write, and the most efficient one
 * I'll be directly storing sub-blocks here because the rgb565 values can't be added like that
@@ -1853,8 +1852,6 @@ class CMPR_class
         alpha_bitfield = 0;
     }
 
-
-
     private void Wiimm_Algorithm_CIE_709(int startpoint, uint endpoint, List<byte[]> index_list)
     {
         bool block_has_alpha = false;
@@ -2096,71 +2093,6 @@ class CMPR_class
                             diff_min_index = c;
                             diff_max_index = d;
                             block_has_alpha = false;
-                        }
-                    }
-                }
-                palette_length = 3;
-                for (c = 0; c < 16; c++)
-                {
-                    for (d = (byte)(c + 1); d < 16; d++)
-                    {
-                        if (((alpha_bitfield >> c) & 1) == 1 || ((alpha_bitfield >> d) & 1) == 1)
-                            continue;
-                        Tuple<ushort, ushort> bytePair = Tuple.Create(Colour_list[c][1], Colour_list[d][1]); // Create a tuple to represent the byte pair
-
-                        // Check if the byte pair has been encountered before
-                        if (encounteredPairs.Contains(bytePair))
-                        {
-                            // Console.WriteLine("This byte pair has been encountered before.");
-                            continue;
-                        }
-                        else
-                        {
-                            encounteredPairs.Add(bytePair);
-                            // Console.WriteLine("This byte pair is encountered for the first time.");
-                        }
-                        index[0] = (byte)(Colour_list[c][1] >> 8);
-                        index[1] = (byte)(Colour_list[c][1]);
-                        index[2] = (byte)(Colour_list[d][1] >> 8);
-                        index[3] = (byte)(Colour_list[d][1]);
-                        palette_rgba[0] = rgb565[(c << 2)];  // red
-                        palette_rgba[1] = rgb565[(c << 2) + 1]; // green
-                        palette_rgba[2] = rgb565[(c << 2) + 2]; // blue
-                                                                // alpha padding
-                        palette_rgba[4] = rgb565[(d << 2)]; // red2
-                        palette_rgba[5] = rgb565[(d << 2) + 1]; // green2
-                        palette_rgba[6] = rgb565[(d << 2) + 2]; // blue2
-
-                        palette_rgba[8] = (byte)((palette_rgba[0] + palette_rgba[4]) >> 1);
-                        palette_rgba[9] = (byte)((palette_rgba[1] + palette_rgba[5]) >> 1);
-                        palette_rgba[10] = (byte)((palette_rgba[2] + palette_rgba[6]) >> 1);
-                        // last colour isn't in the palette, it's in _plt0.alpha_bitfield
-                        diff = 0;  // still a short because the theoritical max value is 12240 (which is 255 * 3 * 16)
-
-                        for (i = 0; i < 16; i++)
-                        {
-                            if (((alpha_bitfield >> i) & 1) == 1)
-                            {
-                                continue;  // this pixel will be transparent no matter what, it won't add any difference 
-                            }
-                            diff_min0 = 0xffff;
-                            // palette length = 3 here
-                            for (e = 0; e < palette_length; e++)  // process the colour palette to find the closest colour corresponding to the current pixel
-                            { // calculate difference between each separate colour channel and store the sum
-                                diff0 = (ushort)(Math.Abs(palette_rgba[e << 2] - rgb565[(i << 2)]) * 0.0721 + Math.Abs(palette_rgba[(e << 2) + 1] - rgb565[(i << 2) + 1]) * 0.7154 + Math.Abs(palette_rgba[(e << 2) + 2] - rgb565[(i << 2) + 2]) * 0.2125);
-                                if (diff0 < diff_min0)
-                                {
-                                    diff_min0 = diff0;
-                                }
-                            }
-                            diff += diff_min0;
-                        }
-                        if (diff < diff_min)
-                        {
-                            diff_min = diff;
-                            diff_min_index = c;
-                            diff_max_index = d;
-                            block_has_alpha = true;
                         }
                     }
                 }
@@ -2583,71 +2515,6 @@ class CMPR_class
                         }
                     }
                 }
-                palette_length = 3;
-                for (c = 0; c < 16; c++)
-                {
-                    for (d = (byte)(c + 1); d < 16; d++)
-                    {
-                        if (((alpha_bitfield >> c) & 1) == 1 || ((alpha_bitfield >> d) & 1) == 1)
-                            continue;
-                        Tuple<ushort, ushort> bytePair = Tuple.Create(Colour_list[c][1], Colour_list[d][1]); // Create a tuple to represent the byte pair
-
-                        // Check if the byte pair has been encountered before
-                        if (encounteredPairs.Contains(bytePair))
-                        {
-                            // Console.WriteLine("This byte pair has been encountered before.");
-                            continue;
-                        }
-                        else
-                        {
-                            encounteredPairs.Add(bytePair);
-                            // Console.WriteLine("This byte pair is encountered for the first time.");
-                        }
-                        index[0] = (byte)(Colour_list[c][1] >> 8);
-                        index[1] = (byte)(Colour_list[c][1]);
-                        index[2] = (byte)(Colour_list[d][1] >> 8);
-                        index[3] = (byte)(Colour_list[d][1]);
-                        palette_rgba[0] = rgb565[(c << 2)];  // red
-                        palette_rgba[1] = rgb565[(c << 2) + 1]; // green
-                        palette_rgba[2] = rgb565[(c << 2) + 2]; // blue
-                                                                // alpha padding
-                        palette_rgba[4] = rgb565[(d << 2)]; // red2
-                        palette_rgba[5] = rgb565[(d << 2) + 1]; // green2
-                        palette_rgba[6] = rgb565[(d << 2) + 2]; // blue2
-
-                        palette_rgba[8] = (byte)((palette_rgba[0] + palette_rgba[4]) >> 1);
-                        palette_rgba[9] = (byte)((palette_rgba[1] + palette_rgba[5]) >> 1);
-                        palette_rgba[10] = (byte)((palette_rgba[2] + palette_rgba[6]) >> 1);
-                        // last colour isn't in the palette, it's in _plt0.alpha_bitfield
-                        diff = 0;  // still a short because the theoritical max value is 12240 (which is 255 * 3 * 16)
-
-                        for (i = 0; i < 16; i++)
-                        {
-                            if (((alpha_bitfield >> i) & 1) == 1)
-                            {
-                                continue;  // this pixel will be transparent no matter what, it won't add any difference 
-                            }
-                            diff_min0 = 0xffff;
-                            // palette length = 3 here
-                            for (e = 0; e < palette_length; e++)  // process the colour palette to find the closest colour corresponding to the current pixel
-                            { // calculate difference between each separate colour channel and store the sum
-                                diff0 = (ushort)(Math.Abs(palette_rgba[e << 2] - rgb565[(i << 2)]) + Math.Abs(palette_rgba[(e << 2) + 1] - rgb565[(i << 2) + 1]) + Math.Abs(palette_rgba[(e << 2) + 2] - rgb565[(i << 2) + 2]));
-                                if (diff0 < diff_min0)
-                                {
-                                    diff_min0 = diff0;
-                                }
-                            }
-                            diff += diff_min0;
-                        }
-                        if (diff < diff_min)
-                        {
-                            diff_min = diff;
-                            diff_min_index = c;
-                            diff_max_index = d;
-                            block_has_alpha = true;
-                        }
-                    }
-                }
             }
             if (block_has_alpha)  // put the biggest ushort in second place
             {
@@ -3064,71 +2931,6 @@ class CMPR_class
                             diff_min_index = c;
                             diff_max_index = d;
                             block_has_alpha = false;
-                        }
-                    }
-                }
-                palette_length = 3;
-                for (c = 0; c < 16; c++)
-                {
-                    for (d = (byte)(c + 1); d < 16; d++)
-                    {
-                        if (((alpha_bitfield >> c) & 1) == 1 || ((alpha_bitfield >> d) & 1) == 1)
-                            continue;
-                        Tuple<ushort, ushort> bytePair = Tuple.Create(Colour_list[c][1], Colour_list[d][1]); // Create a tuple to represent the byte pair
-
-                        // Check if the byte pair has been encountered before
-                        if (encounteredPairs.Contains(bytePair))
-                        {
-                            // Console.WriteLine("This byte pair has been encountered before.");
-                            continue;
-                        }
-                        else
-                        {
-                            encounteredPairs.Add(bytePair);
-                            // Console.WriteLine("This byte pair is encountered for the first time.");
-                        }
-                        index[0] = (byte)(Colour_list[c][1] >> 8);
-                        index[1] = (byte)(Colour_list[c][1]);
-                        index[2] = (byte)(Colour_list[d][1] >> 8);
-                        index[3] = (byte)(Colour_list[d][1]);
-                        palette_rgba[0] = rgb565[(c << 2)];  // red
-                        palette_rgba[1] = rgb565[(c << 2) + 1]; // green
-                        palette_rgba[2] = rgb565[(c << 2) + 2]; // blue
-                                                                // alpha padding
-                        palette_rgba[4] = rgb565[(d << 2)]; // red2
-                        palette_rgba[5] = rgb565[(d << 2) + 1]; // green2
-                        palette_rgba[6] = rgb565[(d << 2) + 2]; // blue2
-
-                        palette_rgba[8] = (byte)((palette_rgba[0] + palette_rgba[4]) >> 1);
-                        palette_rgba[9] = (byte)((palette_rgba[1] + palette_rgba[5]) >> 1);
-                        palette_rgba[10] = (byte)((palette_rgba[2] + palette_rgba[6]) >> 1);
-                        // last colour isn't in the palette, it's in _plt0.alpha_bitfield
-                        diff = 0;  // still a short because the theoritical max value is 12240 (which is 255 * 3 * 16)
-
-                        for (i = 0; i < 16; i++)
-                        {
-                            if (((alpha_bitfield >> i) & 1) == 1)
-                            {
-                                continue;  // this pixel will be transparent no matter what, it won't add any difference 
-                            }
-                            diff_min0 = 0xffff;
-                            // palette length = 3 here
-                            for (e = 0; e < palette_length; e++)  // process the colour palette to find the closest colour corresponding to the current pixel
-                            { // calculate difference between each separate colour channel and store the sum
-                                diff0 = (ushort)((int)(Math.Pow(palette_rgba[e << 2] - rgb565[(i << 2)], 2) + Math.Pow(palette_rgba[(e << 2) + 1] - rgb565[(i << 2) + 1], 2) + Math.Pow(palette_rgba[(e << 2) + 2] - rgb565[(i << 2) + 2], 2)) >> 2);
-                                if (diff0 < diff_min0)
-                                {
-                                    diff_min0 = diff0;
-                                }
-                            }
-                            diff += diff_min0;
-                        }
-                        if (diff < diff_min)
-                        {
-                            diff_min = diff;
-                            diff_min_index = c;
-                            diff_max_index = d;
-                            block_has_alpha = true;
                         }
                     }
                 }
@@ -3599,95 +3401,6 @@ class CMPR_class
                             diff_min_index = c;
                             diff_max_index = d;
                             block_has_alpha = false;
-                        }
-                    }
-                }
-                palette_length = 3;
-                for (c = 0; c < 16; c++)
-                {
-                    for (d = (byte)(c + 1); d < 16; d++)
-                    {
-                        if (((alpha_bitfield >> c) & 1) == 1 || ((alpha_bitfield >> d) & 1) == 1)
-                            continue;
-                        Tuple<ushort, ushort> bytePair = Tuple.Create(Colour_list[c][1], Colour_list[d][1]); // Create a tuple to represent the byte pair
-
-                        // Check if the byte pair has been encountered before
-                        if (encounteredPairs.Contains(bytePair))
-                        {
-                            // Console.WriteLine("This byte pair has been encountered before.");
-                            continue;
-                        }
-                        else
-                        {
-                            encounteredPairs.Add(bytePair);
-                            // Console.WriteLine("This byte pair is encountered for the first time.");
-                        }
-                        index[0] = (byte)(Colour_list[c][1] >> 8);
-                        index[1] = (byte)(Colour_list[c][1]);
-                        index[2] = (byte)(Colour_list[d][1] >> 8);
-                        index[3] = (byte)(Colour_list[d][1]);
-                        palette_rgba[0] = rgb565[(c << 2)];  // red
-                        palette_rgba[1] = rgb565[(c << 2) + 1]; // green
-                        palette_rgba[2] = rgb565[(c << 2) + 2]; // blue
-                                                                // alpha padding
-                        palette_rgba[4] = rgb565[(d << 2)]; // red2
-                        palette_rgba[5] = rgb565[(d << 2) + 1]; // green2
-                        palette_rgba[6] = rgb565[(d << 2) + 2]; // blue2
-
-                        palette_rgba[8] = (byte)((palette_rgba[0] + palette_rgba[4]) >> 1);
-                        palette_rgba[9] = (byte)((palette_rgba[1] + palette_rgba[5]) >> 1);
-                        palette_rgba[10] = (byte)((palette_rgba[2] + palette_rgba[6]) >> 1);
-                        // last colour isn't in the palette, it's in _plt0.alpha_bitfield
-                        diff = 0;  // still a short because the theoritical max value is 12240 (which is 255 * 3 * 16)
-
-                        for (i = 0; i < 16; i++)
-                        {
-                            if (((alpha_bitfield >> i) & 1) == 1)
-                            {
-                                continue;  // this pixel will be transparent no matter what, it won't add any difference 
-                            }
-                            diff_min0 = 0xffff;
-                            // palette length = 3 here
-                            for (e = 0; e < palette_length; e++)  // process the colour palette to find the closest colour corresponding to the current pixel
-                            { // calculate difference between each separate colour channel and store the sum
-                                diff_red = (ushort)Math.Abs(palette_rgba[e << 2] - rgb565[(i << 2)]);
-                                diff_green = (ushort)Math.Abs(palette_rgba[(e << 2) + 1] - rgb565[(i << 2) + 1]);
-                                diff_blue = (ushort)Math.Abs(palette_rgba[(e << 2) + 2] - rgb565[(i << 2) + 2]);
-                                if (diff_red > diff_green)  // takes the biggest value between red, green, and blue
-                                {
-                                    if (diff_red > diff_blue)
-                                    {
-                                        diff0 = diff_red;
-                                    }
-                                    else
-                                    {
-                                        diff0 = diff_blue;
-                                    }
-                                }
-                                else
-                                {
-                                    if (diff_green > diff_blue)
-                                    {
-                                        diff0 = diff_green;
-                                    }
-                                    else
-                                    {
-                                        diff0 = diff_blue;
-                                    }
-                                }
-                                if (diff0 < diff_min0)
-                                {
-                                    diff_min0 = diff0;
-                                }
-                            }
-                            diff += diff_min0;
-                        }
-                        if (diff < diff_min)
-                        {
-                            diff_min = diff;
-                            diff_min_index = c;
-                            diff_max_index = d;
-                            block_has_alpha = true;
                         }
                     }
                 }
@@ -4193,77 +3906,6 @@ class CMPR_class
                             diff_min_index = c;
                             diff_max_index = d;
                             block_has_alpha = false;
-                        }
-                    }
-                }
-                palette_length = 3;
-                for (c = 0; c < 16; c++)
-                {
-                    for (d = (byte)(c + 1); d < 16; d++)
-                    {
-                        if (((alpha_bitfield >> c) & 1) == 1 || ((alpha_bitfield >> d) & 1) == 1)
-                            continue;
-                        Tuple<ushort, ushort> bytePair = Tuple.Create(Colour_list[c][1], Colour_list[d][1]); // Create a tuple to represent the byte pair
-
-                        // Check if the byte pair has been encountered before
-                        if (encounteredPairs.Contains(bytePair))
-                        {
-                            // Console.WriteLine("This byte pair has been encountered before.");
-                            continue;
-                        }
-                        else
-                        {
-                            encounteredPairs.Add(bytePair);
-                            // Console.WriteLine("This byte pair is encountered for the first time.");
-                        }
-                        index[0] = (byte)(Colour_list[c][1] >> 8);
-                        index[1] = (byte)(Colour_list[c][1]);
-                        index[2] = (byte)(Colour_list[d][1] >> 8);
-                        index[3] = (byte)(Colour_list[d][1]);
-                        palette_rgba[0] = rgb565[(c << 2)];  // red
-                        palette_rgba[1] = rgb565[(c << 2) + 1]; // green
-                        palette_rgba[2] = rgb565[(c << 2) + 2]; // blue
-                                                                // alpha padding
-                        palette_rgba[4] = rgb565[(d << 2)]; // red2
-                        palette_rgba[5] = rgb565[(d << 2) + 1]; // green2
-                        palette_rgba[6] = rgb565[(d << 2) + 2]; // blue2
-
-                        palette_rgba[8] = (byte)((palette_rgba[0] + palette_rgba[4]) >> 1);
-                        palette_rgba[9] = (byte)((palette_rgba[1] + palette_rgba[5]) >> 1);
-                        palette_rgba[10] = (byte)((palette_rgba[2] + palette_rgba[6]) >> 1);
-                        // last colour isn't in the palette, it's in _plt0.alpha_bitfield
-                        diff = 0;  // still a short because the theoritical max value is 12240 (which is 255 * 3 * 16)
-
-                        for (i = 0; i < 16; i++)
-                        {
-                            if (((alpha_bitfield >> i) & 1) == 1)
-                            {
-                                continue;  // this pixel will be transparent no matter what, it won't add any difference 
-                            }
-                            diff_min0 = 0xffff;
-                            // palette length = 3 here
-                            for (e = 0; e < palette_length; e++)  // process the colour palette to find the closest colour corresponding to the current pixel
-                            { // calculate difference between each separate colour channel and store the sum
-                                rgb1[0] = palette_rgba[e << 2];
-                                rgb2[0] = rgb565[(i << 2)];
-                                rgb1[1] = palette_rgba[(e << 2) + 1];
-                                rgb2[1] = rgb565[(i << 2) + 1];
-                                rgb1[2] = palette_rgba[(e << 2) + 2];
-                                rgb2[2] = rgb565[(i << 2) + 2];
-                                diff0 = CalculateCIEDE2000(rgb1, rgb2);
-                                if (diff0 < diff_min0)
-                                {
-                                    diff_min0 = diff0;
-                                }
-                            }
-                            diff += diff_min0;
-                        }
-                        if (diff < diff_min)
-                        {
-                            diff_min = diff;
-                            diff_min_index = c;
-                            diff_max_index = d;
-                            block_has_alpha = true;
                         }
                     }
                 }
