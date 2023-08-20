@@ -139,7 +139,7 @@ class CMPR_class
                             if (!Load_Block_RGB())
                                 continue;
                             // now let's take the darkest and the brightest colour
-                            diff_min = 1024;
+                            diff_min = 0xffff;
                             diff_max = 0;
                             for (i = 0; i < 16; i++)
                             {
@@ -192,7 +192,7 @@ class CMPR_class
                     case 3:  // Infinite - Tchebichev
                         for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
                         {
-                            if (!Load_Block_RGB())  // this block needs something
+                            if (!Load_Block_RGB())  // this block needs something on colour_list[i][2]
                                 continue;
                             // now let's take the darkest and the brightest colour
                             diff_min = 0xffff;
@@ -214,6 +214,34 @@ class CMPR_class
                             }
                             Organize_Colours();
                             Process_Indexes_Infinite();
+                            index_list.Add(index.ToArray());
+                        }
+                        break;
+                    case 4:  // Delta E (CIEDE2000)
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                        {
+                            if (!Load_Block_RGB())
+                                continue;
+                            // now let's take the darkest and the brightest colour
+                            diff_min = 0xffff;
+                            diff_max = 0;
+                            for (i = 0; i < 16; i++)
+                            {
+                                if (((alpha_bitfield >> i) & 1) == 1)
+                                    continue;
+                                if (Colour_list[i][2] < diff_min)
+                                {
+                                    diff_min = Colour_list[i][2];
+                                    diff_min_index = i;  // darkest colour index of Colour_RGB565
+                                }
+                                if (Colour_list[i][2] > diff_max)
+                                {
+                                    diff_max = Colour_list[i][2];
+                                    diff_max_index = i;  // brightest colour index of Colour_RGB565
+                                }
+                            }
+                            Organize_Colours();
+                            Process_Indexes_Delta_E();
                             index_list.Add(index.ToArray());
                         }
                         break;
@@ -1817,7 +1845,7 @@ class CMPR_class
     {
         // time to get the "linear interpolation to add third and fourth colour
         // CI2 if that's a name lol
-        for (byte i = 4; i < 8; i++)
+        for (i = 4; i < 8; i++)
         {
             index[i] = 0;
         }
@@ -1834,7 +1862,7 @@ class CMPR_class
                     }
                     diff_min = 1024;
                     // diff_min_index = w;
-                    for (byte i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
+                    for (i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
                     { // calculate difference between each separate colour channel and store the sum
                         diff = (ushort)(Math.Abs(palette_rgba[i << 2] - rgb565[(h << 4) + (w << 2)]) + Math.Abs(palette_rgba[(i << 2) + 1] - rgb565[(h << 4) + (w << 2) + 1]) + Math.Abs(palette_rgba[(i << 2) + 2] - rgb565[(h << 4) + (w << 2) + 2]));
                         if (diff < diff_min)
@@ -1870,7 +1898,7 @@ class CMPR_class
                     }
                     diff_min = 1024;
                     // diff_min_index = w;
-                    for (byte i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
+                    for (i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
                     { // calculate difference between each separate colour channel and store the sum
                         diff = (ushort)(Math.Abs(palette_rgba[i << 2] - rgb565[(h << 4) + (w << 2)]) + Math.Abs(palette_rgba[(i << 2) + 1] - rgb565[(h << 4) + (w << 2) + 1]) + Math.Abs(palette_rgba[(i << 2) + 2] - rgb565[(h << 4) + (w << 2) + 2]));
                         if (diff < diff_min)
@@ -1898,7 +1926,7 @@ class CMPR_class
                     }
                     diff_min = 1024;
                     // diff_min_index = w;
-                    for (byte i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
+                    for (i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
                     { // calculate difference between each separate colour channel and store the sum
                         diff = (ushort)(Math.Abs(palette_rgba[i << 2] - rgb565[(h << 4) + (w << 2)]) + Math.Abs(palette_rgba[(i << 2) + 1] - rgb565[(h << 4) + (w << 2) + 1]) + Math.Abs(palette_rgba[(i << 2) + 2] - rgb565[(h << 4) + (w << 2) + 2]));
                         if (diff < diff_min)
@@ -1923,7 +1951,7 @@ class CMPR_class
     {
         // time to get the "linear interpolation to add third and fourth colour
         // CI2 if that's a name lol
-        for (byte i = 4; i < 8; i++)
+        for (i = 4; i < 8; i++)
         {
             index[i] = 0;
         }
@@ -1940,7 +1968,7 @@ class CMPR_class
                     }
                     diff_min = 1024;
                     // diff_min_index = w;
-                    for (byte i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
+                    for (i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
                     { // calculate difference between each separate colour channel and store the sum
                         diff = (ushort)((int)(Math.Pow(palette_rgba[i << 2] - rgb565[(h << 4) + (w << 2)], 2) + Math.Pow(palette_rgba[(i << 2) + 1] - rgb565[(h << 4) + (w << 2) + 1], 2) + Math.Pow(palette_rgba[(i << 2) + 2] - rgb565[(h << 4) + (w << 2) + 2], 2)) >> 2);
                         if (diff < diff_min)
@@ -2004,7 +2032,7 @@ class CMPR_class
                     }
                     diff_min = 1024;
                     // diff_min_index = w;
-                    for (byte i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
+                    for (i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
                     { // calculate difference between each separate colour channel and store the sum
                         diff = (ushort)((int)(Math.Pow(palette_rgba[i << 2] - rgb565[(h << 4) + (w << 2)], 2) + Math.Pow(palette_rgba[(i << 2) + 1] - rgb565[(h << 4) + (w << 2) + 1], 2) + Math.Pow(palette_rgba[(i << 2) + 2] - rgb565[(h << 4) + (w << 2) + 2], 2)) >> 2);
                         if (diff < diff_min)
@@ -2032,7 +2060,7 @@ class CMPR_class
         ushort diff_blue;
         // time to get the "linear interpolation to add third and fourth colour
         // CI2 if that's a name lol
-        for (byte i = 4; i < 8; i++)
+        for (i = 4; i < 8; i++)
         {
             index[i] = 0;
         }
@@ -2049,7 +2077,7 @@ class CMPR_class
                     }
                     diff_min = 0xffff;
                     // diff_min_index = w;
-                    for (byte i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
+                    for (i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
                     { // calculate difference between each separate colour channel and store the sum
                         diff_red = (ushort)Math.Abs(palette_rgba[i << 2] - rgb565[(h << 4) + (w << 2)]);
                         diff_green = (ushort)Math.Abs(palette_rgba[(i << 2) + 1] - rgb565[(h << 4) + (w << 2) + 1]);
@@ -2109,7 +2137,7 @@ class CMPR_class
                     }
                     diff_min = 1024;
                     // diff_min_index = w;
-                    for (byte i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
+                    for (i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
                     { // calculate difference between each separate colour channel and store the sum
                         diff_red = (ushort)Math.Abs(palette_rgba[i << 2] - rgb565[(h << 4) + (w << 2)]);
                         diff_green = (ushort)Math.Abs(palette_rgba[(i << 2) + 1] - rgb565[(h << 4) + (w << 2) + 1]);
@@ -2161,7 +2189,7 @@ class CMPR_class
                     }
                     diff_min = 1024;
                     // diff_min_index = w;
-                    for (byte i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
+                    for (i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
                     { // calculate difference between each separate colour channel and store the sum
                         diff_red = (ushort)Math.Abs(palette_rgba[i << 2] - rgb565[(h << 4) + (w << 2)]);
                         diff_green = (ushort)Math.Abs(palette_rgba[(i << 2) + 1] - rgb565[(h << 4) + (w << 2) + 1]);
@@ -2206,4 +2234,241 @@ class CMPR_class
         // Colour_rgb565.Clear();
         alpha_bitfield = 0;
     }
+    private void Process_Indexes_Delta_E()
+    {
+        double diff;
+        double diff_min;
+        byte[] rgb1 = { 0, 0, 0 };
+        byte[] rgb2 = { 0, 0, 0 };
+        // time to get the "linear interpolation to add third and fourth colour
+        // CI2 if that's a name lol
+        for (i = 4; i < 8; i++)
+        {
+            index[i] = 0;
+        }
+        if (_plt0.reverse_x)
+        {
+            for (sbyte h = 3; h >= 0; h--)
+            {
+                for (sbyte w = 3; w >= 0; w--)  // index_size = number of pixels
+                {
+                    if (((alpha_bitfield >> (h << 2) + w) & 1) == 1)
+                    {
+                        index[7 - h] += (byte)(3 << (w << 1));
+                        continue;
+                    }
+                    diff_min = 0xffff;
+                    // diff_min_index = w;
+                    for (i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
+                    { // calculate difference between each separate colour channel and store the sum
+                        rgb1[0] = palette_rgba[i << 2];
+                        rgb2[0] = rgb565[(h << 4) + (w << 2)];
+                        rgb1[1] = palette_rgba[(i << 2) + 1];
+                        rgb2[1] = rgb565[(h << 4) + (w << 2) + 1];
+                        rgb1[2] = palette_rgba[(i << 2) + 2];
+                        rgb2[2] = rgb565[(h << 4) + (w << 2) + 2];
+                        diff = CalculateCIEDE2000(rgb1, rgb2);
+                        if (diff < diff_min)
+                        {
+                            diff_min = diff;
+                            diff_min_index = i;
+                        }
+                    }
+                    index[7 - h] += (byte)(diff_min_index << (w << 1));
+                }
+            }
+            if (_plt0.reverse_y)  // swap
+            {
+                red = index[7];
+                green = index[6];  // it's not the green colour. It's rather a seal
+                index[7] = index[4];
+                index[6] = index[5];
+                index[5] = green;
+                index[4] = red;
+            }
+        }
+        else if (_plt0.reverse_y)
+        {
+            //for (sbyte h = 3; h >= 0; h--)
+            for (byte h = 0; h < 4; h++)
+            {
+                for (byte w = 0; w < 4; w++)  // index_size = number of pixels
+                {
+                    if (((alpha_bitfield >> (h << 2) + w) & 1) == 1)
+                    {
+                        index[4 + h] += (byte)(3 << (6 - (w << 1)));
+                        continue;
+                    }
+                    diff_min = 1024;
+                    // diff_min_index = w;
+                    for (byte i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
+                    { // calculate difference between each separate colour channel and store the sum
+                        rgb1[0] = palette_rgba[i << 2];
+                        rgb2[0] = rgb565[(h << 4) + (w << 2)];
+                        rgb1[1] = palette_rgba[(i << 2) + 1];
+                        rgb2[1] = rgb565[(h << 4) + (w << 2) + 1];
+                        rgb1[2] = palette_rgba[(i << 2) + 2];
+                        rgb2[2] = rgb565[(h << 4) + (w << 2) + 2];
+                        diff = CalculateCIEDE2000(rgb1, rgb2);
+                        if (diff < diff_min)
+                        {
+                            diff_min = diff;
+                            diff_min_index = i;
+                        }
+                    }
+                    index[4 + h] += (byte)(diff_min_index << (6 - (w << 1)));
+                    // Console.WriteLine(index[4 + h]);
+                }
+            }
+        }
+        else
+        {
+            for (sbyte h = 3; h >= 0; h--)
+            //for (byte h = 0; h < 4; h++)
+            {
+                for (byte w = 0; w < 4; w++)  // index_size = number of pixels
+                {
+                    if (((alpha_bitfield >> (h << 2) + w) & 1) == 1)
+                    {
+                        index[7 - h] += (byte)(3 << (6 - (w << 1)));
+                        continue;
+                    }
+                    diff_min = 1024;
+                    // diff_min_index = w;
+                    for (byte i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
+                    { // calculate difference between each separate colour channel and store the sum
+                        rgb1[0] = palette_rgba[i << 2];
+                        rgb2[0] = rgb565[(h << 4) + (w << 2)];
+                        rgb1[1] = palette_rgba[(i << 2) + 1];
+                        rgb2[1] = rgb565[(h << 4) + (w << 2) + 1];
+                        rgb1[2] = palette_rgba[(i << 2) + 2];
+                        rgb2[2] = rgb565[(h << 4) + (w << 2) + 2];
+                        diff = CalculateCIEDE2000(rgb1, rgb2);
+                        if (diff < diff_min)
+                        {
+                            diff_min = diff;
+                            diff_min_index = i;
+                        }
+                    }
+                    index[7 - h] += (byte)(diff_min_index << (6 - (w << 1)));
+                    // Console.WriteLine(index[4 + h]);
+                }
+            }
+        }
+        // index is overwritten each time
+        // the lists need to be cleaned
+        Colour_list.Clear();
+        //colour_palette.Clear();
+        // Colour_rgb565.Clear();
+        alpha_bitfield = 0;
+    }
+    public static double CalculateCIEDE2000(byte[] rgb1, byte[] rgb2)
+    {
+        double[] lab1 = RGBToLab(rgb1);
+        double[] lab2 = RGBToLab(rgb2);
+
+        double deltaE = CalculateCIEDE2000(lab1, lab2);
+
+        return deltaE;
+    }
+
+    public static double[] RGBToLab(byte[] rgb)
+    {
+        double[] xyz = RGBToXYZ(rgb);
+        double[] lab = XYZToLab(xyz);
+
+        return lab;
+    }
+
+    public static double[] RGBToXYZ(byte[] rgb)
+    {
+        double[] linearRGB = new double[3];
+        for (int i = 0; i < 3; i++)
+        {
+            linearRGB[i] = rgb[i] / 255.0;
+            if (linearRGB[i] <= 0.04045)
+                linearRGB[i] = linearRGB[i] / 12.92;
+            else
+                linearRGB[i] = Math.Pow((linearRGB[i] + 0.055) / 1.055, 2.4);
+        }
+
+        double[] xyz = new double[3];
+        xyz[0] = linearRGB[0] * 0.4124564 + linearRGB[1] * 0.3575761 + linearRGB[2] * 0.1804375;
+        xyz[1] = linearRGB[0] * 0.2126729 + linearRGB[1] * 0.7151522 + linearRGB[2] * 0.0721750;
+        xyz[2] = linearRGB[0] * 0.0193339 + linearRGB[1] * 0.1191920 + linearRGB[2] * 0.9503041;
+
+        return xyz;
+    }
+
+    public static double[] XYZToLab(double[] xyz)
+    {
+        double[] normalizedXYZ = new double[3];
+        for (int i = 0; i < 3; i++)
+        {
+            normalizedXYZ[i] = xyz[i] / XYZReference[i];
+        }
+
+        double[] lab = new double[3];
+        for (int i = 0; i < 3; i++)
+        {
+            if (normalizedXYZ[i] > Epsilon)
+                lab[i] = 116 * Math.Pow(normalizedXYZ[i], 1.0 / 3.0) - 16;
+            else
+                lab[i] = Kappa * normalizedXYZ[i];
+        }
+
+        return lab;
+    }
+
+    public static double CalculateCIEDE2000(double[] lab1, double[] lab2)
+    {
+        double L1 = lab1[0];
+        double a1 = lab1[1];
+        double b1 = lab1[2];
+
+        double L2 = lab2[0];
+        double a2 = lab2[1];
+        double b2 = lab2[2];
+
+        double deltaL = L2 - L1;
+        double C1 = Math.Sqrt(a1 * a1 + b1 * b1);
+        double C2 = Math.Sqrt(a2 * a2 + b2 * b2);
+        double deltaC = C2 - C1;
+        double deltaA = a2 - a1;
+        double deltaB = b2 - b1;
+
+        double deltaH = Math.Sqrt(deltaA * deltaA + deltaB * deltaB - deltaC * deltaC);
+
+        double SL = 1.0;
+        double SC = 1.0 + K1 * C1;
+        double SH = 1.0 + K2 * C1;
+
+        double deltaTheta = Math.Atan2(b2, a2) - Math.Atan2(b1, a1);
+        if (deltaTheta > Math.PI)
+            deltaTheta -= 2 * Math.PI;
+        else if (deltaTheta < -Math.PI)
+            deltaTheta += 2 * Math.PI;
+
+        double deltaE = Math.Sqrt(
+            Math.Pow(deltaL / (SL * Kl), 2) +
+            Math.Pow(deltaC / (SC * Kc), 2) +
+            Math.Pow(deltaH / (SH * Kh), 2) +
+            (Rt * (deltaC / (SC * Kc)) * (deltaH / (SH * Kh))));
+
+        return deltaE;
+    }
+
+    // Constants for CIEDE2000 calculation
+    private const double Epsilon = 0.008856;
+    private const double Kappa = 903.3;
+    private static readonly double[] XYZReference = { 95.047, 100.000, 108.883 };
+    private const double XYZReferenceX = 95.047;
+    private const double XYZReferenceY = 100.000;
+    private const double XYZReferenceZ = 108.883;
+    private const double Kl = 1.0;
+    private const double Kc = 1.0;
+    private const double Kh = 1.0;
+    private const double K1 = 0.045;
+    private const double K2 = 0.015;
+    private const double Rt = 0.016;
 }
