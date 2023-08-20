@@ -361,14 +361,14 @@ class CMPR_class
 
                 var tasks = new List<Task>
                 {
-                    Task.Run(() => Wiimm_Algorithm(_plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16, (uint)split1, index_list)),
-                    Task.Run(() => Wiimm_Algorithm(split1, (uint)split2, index_list_2)),
-                    Task.Run(() => Wiimm_Algorithm(split2, (uint)split3, index_list_3)),
-                    Task.Run(() => Wiimm_Algorithm(split3, (uint)split4, index_list_4)),
-                    Task.Run(() => Wiimm_Algorithm(split4, (uint)split5, index_list_5)),
-                    Task.Run(() => Wiimm_Algorithm(split5, (uint)split6, index_list_6)),
-                    Task.Run(() => Wiimm_Algorithm(split6, (uint)split7, index_list_7)),
-                    Task.Run(() => Wiimm_Algorithm(split7, _plt0.bmp_filesize, index_list_8))
+                    Task.Run(() => Wiimm_Algorithm_RGB(_plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16, (uint)split1, index_list)),
+                    Task.Run(() => Wiimm_Algorithm_RGB(split1, (uint)split2, index_list_2)),
+                    Task.Run(() => Wiimm_Algorithm_RGB(split2, (uint)split3, index_list_3)),
+                    Task.Run(() => Wiimm_Algorithm_RGB(split3, (uint)split4, index_list_4)),
+                    Task.Run(() => Wiimm_Algorithm_RGB(split4, (uint)split5, index_list_5)),
+                    Task.Run(() => Wiimm_Algorithm_RGB(split5, (uint)split6, index_list_6)),
+                    Task.Run(() => Wiimm_Algorithm_RGB(split6, (uint)split7, index_list_7)),
+                    Task.Run(() => Wiimm_Algorithm_RGB(split7, _plt0.bmp_filesize, index_list_8))
                 };
 
 
@@ -844,7 +844,7 @@ class CMPR_class
        pixelN_red = (t-1)*pixel1_red + (t)*pixel2_red
        same for blue + green*/
 
-    private void Wiimm_Algorithm(int startpoint, uint endpoint, List<byte[]> index_list)
+    private void Wiimm_Algorithm_RGB(int startpoint, uint endpoint, List<byte[]> index_list)
     {
         bool block_has_alpha = false;
         byte palette_length;
