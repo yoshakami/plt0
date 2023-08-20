@@ -1209,7 +1209,7 @@ namespace plt0_gui
                 Parse_args_class cli = new Parse_args_class();
                 cli.Parse_args(arg_array.ToArray());
                 seal = cli.Check_exit();
-                if (seal != "the process executed successfully")
+                if (!seal.StartsWith("the process executed successfully") && !seal.StartsWith("written "))
                     cli_textbox_label.Text = seal;
                 // PictureBoxWithInterpolationMode preview_ck2 = new PictureBoxWithInterpolationMode();
                 if (upscale)
@@ -1229,7 +1229,10 @@ namespace plt0_gui
                     sync_preview_is_on = false;
                 }
                 else
+                {
                     cli_textbox_label.Text = cli.Check_exit();
+                }
+                GC.Collect();
                 //do something
             }
         }
@@ -16609,7 +16612,9 @@ namespace plt0_gui
                     cmpr_warning.Text = "";
                 }
                 else
+                {
                     cmpr_warning.Text = cli.Check_exit();
+                }
             }
             else
             {
