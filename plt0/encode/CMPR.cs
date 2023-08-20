@@ -49,7 +49,6 @@ class CMPR_class
     }
     ushort alpha_bitfield = 0;
     List<ushort[]> Colour_list = new List<ushort[]>();  // a list of every 2 bytes pixel transformed to correspond to the current colour format
-    // List<ushort> colour_palette = new List<ushort>();
     List<ushort[]> Colour_rgb565 = new List<ushort[]>();  // won't be sorted
     byte red;
     byte green;
@@ -77,6 +76,8 @@ class CMPR_class
     bool not_similar;
     bool weemm_algorithm = false;
     byte c;
+    sbyte h;
+    sbyte w;
     ushort z = 0;
     int j = 0;
     int x = 0;
@@ -91,15 +92,6 @@ class CMPR_class
     public void CMPR(List<byte[]> index_list, byte[] bmp_image_ref)
     {
         bmp_image = bmp_image_ref; // this should reference bmp_image to bmp_image_ref, not copy it.
-        // byte[] Colour_count = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };  // 16 pixels, because a block is 4x4
-        // byte f;
-        // int[] total_diff = {0, 0, 0};  // total_diff, e, f
-        // List<int[]> diff_array = new List<int[]>();
-        // List<byte> ef = new List<byte>();
-        //byte swap;
-        //byte swap2;
-        // bool use__plt0.alpha = false;
-        // bool done = false;
         switch (_plt0.algorithm)
         {
             default: // default: used to re-encode - Darkest/Lightest
@@ -262,7 +254,7 @@ class CMPR_class
                     diff_max = 16; // the number of colours in the array - used to remove transparent pixels from the regression calculation
                     // now let's make the "principal axis", by using 3d linear regression
                     // fill red_array values
-                    for (byte i = 0; i < 16; i++)
+                    for (i = 0; i < 16; i++)
                     {
                         if (((alpha_bitfield >> i) & 1) == 1 || Colour_list[i][0] <= _plt0.cmpr_max)
                         {
@@ -279,7 +271,7 @@ class CMPR_class
                     else
                         average = (short)(sum / diff_max); // average with skipped pixels
                     diff = 0;
-                    for (byte i = 0; i < 15; i++)  // discard skipped pixels
+                    for (i = 0; i < 15; i++)  // discard skipped pixels
                     {
                         if (red_array[i] == 0x7fff)
                         {
@@ -324,21 +316,21 @@ class CMPR_class
                     Colour_rgb565 = Colour_list.ToList();
                     // implementing my own way to find most used colours
                     // let's count the number of exact same colours in Colour_list
-                    for (int i = 0; i < 16; i++)  // useless to set it to 16 because of the condition k > i.
+                    for (i = 0; i < 16; i++)  // useless to set it to 16 because of the condition k > i.
                     {
-                        for (int k = (byte)(i + 1); k < 16; k++)
+                        for (c = (byte)(i + 1); c < 16; c++)
                         {
-                            if (Colour_list[k][1] == Colour_list[i][1] && ((alpha_bitfield >> k) & 1) == 0 && ((alpha_bitfield >> i) & 1) == 0)  // k > i prevents colours occurences from being added twice.
+                            if (Colour_list[c][1] == Colour_list[i][1] && ((alpha_bitfield >> c) & 1) == 0 && ((alpha_bitfield >> i) & 1) == 0)  // k > i prevents colours occurences from being added twice.
                             {
-                                Colour_list[k][2]++;
+                                Colour_list[c][2]++;
                                 Colour_list[i][2] = 0; // should set it to zero.
                             }
                         }
                     }
                     Colour_list.Sort(new UshortArrayComparer());  // sorts the table by the most used colour first
                     diff_min_index = 0;
-                    diff_min = 1024;
-                    for (byte i = 0; i < 15; i++)
+                    diff_min = 0xffff;
+                    for (i = 0; i < 15; i++)
                     {
                         if (((alpha_bitfield >> i) & 1) == 1)
                             continue;
@@ -353,7 +345,7 @@ class CMPR_class
                     }
                     // now let's take the colour the furthest away from it
                     diff_max = 0;
-                    for (byte i = 0; i < 16; i++)
+                    for (i = 0; i < 16; i++)
                     {
                         if (((alpha_bitfield >> i) & 1) == 1 || Colour_rgb565[i][0] <= _plt0.cmpr_max)
                             continue;
@@ -387,9 +379,9 @@ class CMPR_class
                     if (!Load_Block_RGB())
                         continue;
                     // now let's take the darkest and the brightest colour
-                    diff_min = 1024;
+                    diff_min = 0xffff;
                     diff_max = 0;
-                    for (byte i = 0; i < 16; i++)
+                    for (i = 0; i < 16; i++)
                     {
                         if (((alpha_bitfield >> i) & 1) == 1)
                             continue;
@@ -418,20 +410,20 @@ class CMPR_class
                         // now let's just try to take the most two used colours and use _plt0.diversity I guess
                         // implementing my own way to find most used colours
                         // let's count the number of exact same colours in Colour_list
-                        for (int i = 0; i < 16; i++)  // useless to set it to 16 because of the condition k > i.
+                        for (i = 0; i < 16; i++)  // useless to set it to 16 because of the condition k > i.
                         {
-                            for (int k = (byte)(i + 1); k < 16; k++)
+                            for (c = (byte)(i + 1); c < 16; c++)
                             {
-                                if (Colour_list[k][1] == Colour_list[i][1] && ((alpha_bitfield >> k) & 1) == 0 && ((alpha_bitfield >> i) & 1) == 0)  // k > i prevents colours occurences from being added twice.
+                                if (Colour_list[c][1] == Colour_list[i][1] && ((alpha_bitfield >> c) & 1) == 0 && ((alpha_bitfield >> i) & 1) == 0)  // k > i prevents colours occurences from being added twice.
                                 {
-                                    Colour_list[k][2]++;
+                                    Colour_list[c][2]++;
                                     Colour_list[i][2] = 0; // should set it to zero.
                                 }
                             }
                         }
                         Colour_list.Sort(new UshortArrayComparer());  // sorts the table by the most used colour first
                         c = 0;
-                        for (byte i = 0; i < 16 && c < 2; i++)  // build the colour table with the two most used colours and _plt0.diversity
+                        for (i = 0; i < 16 && c < 2; i++)  // build the colour table with the two most used colours and _plt0.diversity
                         {
                             not_similar = true;
                             if (Colour_list[i][2] / 16 < _plt0.percentage / 100)
@@ -458,7 +450,7 @@ class CMPR_class
                         {
                             // Console.WriteLine("The colour palette was not full, starting second loop...\n");
 
-                            for (byte i = 0; i < 16 && c < 2; i++)
+                            for (i = 0; i < 16 && c < 2; i++)
                             {
                                 not_similar = true;
                                 if (Colour_list[i][2] / 16 < _plt0.percentage2 / 100)
@@ -482,7 +474,7 @@ class CMPR_class
                             if (c < 4) // if the colour palette is still not full
                             {
                                 // Console.WriteLine("The colour palette is not full, this program will fill it with the most used colours\n");
-                                for (byte i = 0; i < 16 && c < 2; i++)
+                                for (i = 0; i < 16 && c < 2; i++)
                                 {
                                     not_similar = true;
                                     if (c == 2)
@@ -563,7 +555,7 @@ class CMPR_class
                         continue;
                     // now let's take the darkest and the brightest colour but only by going through neighbours (that's SuperBMD algorithm)
                     diff_max = 0;
-                    for (byte i = 0; i < 15; i++)
+                    for (i = 0; i < 15; i++)
                     {
                         if (((alpha_bitfield >> i) & 1) == 0)
                         {
@@ -590,7 +582,7 @@ class CMPR_class
                     diff_min_index = red_max = green_max = blue_max = 0;
                     diff_max_index = 1;
                     red_min = green_min = blue_min = 255;
-                    for (byte i = 0; i < 16; i++)
+                    for (i = 0; i < 16; i++)
                     {
                         if (((alpha_bitfield >> i) & 1) == 1 || Colour_list[i][0] <= _plt0.cmpr_max)
                             continue;
@@ -682,37 +674,29 @@ class CMPR_class
                     if (width == _plt0.canvas_width)
                     {
                         width = 0;
-                        // y -= (_plt0.bitmap_width << 1) - 16;  // this has been driving me nuts
                         y += (_plt0.canvas_width << 2) - 16;
                         x = 0;
                     }
                     else if (x == 2)
                     {
-                        // y += (_plt0.bitmap_width << 4) - 4; // adds 4 lines and put the cursor back to the first block in width (I hope)
-                        // y += 16; // hmm, it looks like the cursor warped horizontally to the first block in width 4 lines above
-                        // EDIT: YA DEFINITELY NEED TO CANCEL THE Y OPERATION ABOVE, IT WARPS NORMALLY LIKE IT4S THE PIXEL AFTER
-                        //y -= (_plt0.bitmap_width << 2) - 16;  // this has been driving me nuts
-                        y += 16;  // I can't believe this is right in the mirror and mirrorred mode lol
-                                  // edit: you just need to add 32 everywhere
+                        // the cursor warped horizontally to the first block in width 4 lines above
+                        // IT WARPS NORMALLY LIKE IT4S THE PIXEL AFTER
+                        y += 16;  // this is right in the mirror and mirrorred mode
                     }
                     else if (x == 4)
                     {
-                        //y -= (_plt0.bitmap_width << 5) - 16; // minus 8 lines + point to next block
+                        // minus 8 lines + point to next block
                         y -= (_plt0.canvas_width << 5) + 16;
                         x = 0;
                     }
                     else
                     {
-                        /* y -= (_plt0.bitmap_width << 4) - 16; // on retire 4 lignes et on passe le 1er block héhé
-                         substract 4 lines and jumps over the first block */
                         y -= ((_plt0.canvas_width << 4)) + 16;  // substract 4 lines and goes one block to the left
                     }
                     if (alpha_bitfield == 0xffff)  // save computation time I guess
                     {
                         index_list.Add(full_alpha_index); // this byte won't be changed so no need to copy it
                         Colour_list.Clear();
-                        //colour_palette.Clear();
-                        // Colour_rgb565.Clear();
                         alpha_bitfield = 0;
                         continue;
                     }
@@ -757,7 +741,7 @@ class CMPR_class
                                 palette_length = 3;
                             }
                             this.diff = 0;  // still a short because the theoritical max value is 12240 (which is 255 * 3 * 16)
-                            for (byte i = 0; i < 16; i++)
+                            for (i = 0; i < 16; i++)
                             {
                                 this.diff += Find_Nearest_Colour(i);
                             }
@@ -869,11 +853,7 @@ class CMPR_class
                 pixel = (ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)); // the RGB565 colour
                 Colour_array[1] = pixel;
             }
-
-            // it's not used here
-            // Colour_array[2] = (ushort)(red + green + blue); // best way to find darkest colour :D
             Colour_list.Add(Colour_array.ToArray());
-            // Colour_rgb565.Add(pixel);
             j++;
             if (j != 4)
             {
@@ -892,37 +872,26 @@ class CMPR_class
             if (width == _plt0.canvas_width)
             {
                 width = 0;
-                // y -= (_plt0.bitmap_width << 1) - 16;  // this has been driving me nuts
                 y += (_plt0.canvas_width << 2) - 16;
                 x = 0;
             }
             else if (x == 2)
             {
-                // y += (_plt0.bitmap_width << 4) - 4; // adds 4 lines and put the cursor back to the first block in width (I hope)
-                // y += 16; // hmm, it looks like the cursor warped horizontally to the first block in width 4 lines above
-                // EDIT: YA DEFINITELY NEED TO CANCEL THE Y OPERATION ABOVE, IT WARPS NORMALLY LIKE IT4S THE PIXEL AFTER
-                //y -= (_plt0.bitmap_width << 2) - 16;  // this has been driving me nuts
-                y += 16;  // I can't believe this is right in the mirror and mirrorred mode lol
-                          // edit: you just need to add 32 everywhere
+                y += 16; // the cursor warped horizontally to the first block in width 4 lines above
             }
             else if (x == 4)
             {
-                //y -= (_plt0.bitmap_width << 5) - 16; // minus 8 lines + point to next block
-                y -= (_plt0.canvas_width << 5) + 16;
+                y -= (_plt0.canvas_width << 5) + 16; // minus 8 lines + point to next block
                 x = 0;
             }
             else
             {
-                /* y -= (_plt0.bitmap_width << 4) - 16; // on retire 4 lignes et on passe le 1er block héhé
-                 substract 4 lines and jumps over the first block */
                 y -= ((_plt0.canvas_width << 4)) + 16;  // substract 4 lines and goes one block to the left
             }
             if (alpha_bitfield == 0xffff)  // save computation time I guess
             {
                 index_list.Add(full_alpha_index); // this byte won't be changed so no need to copy it
                 Colour_list.Clear();
-                //colour_palette.Clear();
-                // Colour_rgb565.Clear();
                 alpha_bitfield = 0;
                 continue;
             }
@@ -938,7 +907,6 @@ class CMPR_class
                     {
                         if (((alpha_bitfield >> c) & 1) == 1 || ((alpha_bitfield >> d) & 1) == 1)
                             continue;
-                        //colour_palette.Clear();
                         Tuple<ushort, ushort> bytePair = Tuple.Create(Colour_list[c][1], Colour_list[d][1]); // Create a tuple to represent the byte pair
 
                         // Check if the byte pair has been encountered before
@@ -967,13 +935,6 @@ class CMPR_class
                         palette_rgba[8] = (byte)((palette_rgba[0] + palette_rgba[4]) >> 1);
                         palette_rgba[9] = (byte)((palette_rgba[1] + palette_rgba[5]) >> 1);
                         palette_rgba[10] = (byte)((palette_rgba[2] + palette_rgba[6]) >> 1);
-                        // alpha padding
-                        //colour_palette.Add(Colour_list[c][1]);
-                        //colour_palette.Add(Colour_list[d][1]);
-                        //red = (byte)((rgb565[c << 2] + rgb565[d << 2]) / 2);
-                        //green = (byte)((rgb565[(c << 2) + 1] + rgb565[(d << 2) + 1]) / 2);
-                        //blue = (byte)((rgb565[(c << 2) + 2] + rgb565[(d << 2) + 2]) / 2);
-                        //colour_palette.Add((ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)));  // the RGB565 third colour
                         // last colour isn't in the palette, it's in _plt0.alpha_bitfield
                         diff = 0;  // still a short because the theoritical max value is 12240 (which is 255 * 3 * 16)
 
@@ -1013,7 +974,6 @@ class CMPR_class
                     {
                         if (((alpha_bitfield >> c) & 1) == 1 || ((alpha_bitfield >> d) & 1) == 1)
                             continue;
-                        //colour_palette.Clear();
                         Tuple<ushort, ushort> bytePair = Tuple.Create(Colour_list[c][1], Colour_list[d][1]); // Create a tuple to represent the byte pair
 
                         // Check if the byte pair has been encountered before
@@ -1082,7 +1042,6 @@ class CMPR_class
                     {
                         if (((alpha_bitfield >> c) & 1) == 1 || ((alpha_bitfield >> d) & 1) == 1)
                             continue;
-                        //colour_palette.Clear();
                         Tuple<ushort, ushort> bytePair = Tuple.Create(Colour_list[c][1], Colour_list[d][1]); // Create a tuple to represent the byte pair
 
                         // Check if the byte pair has been encountered before
@@ -1175,7 +1134,6 @@ class CMPR_class
                 palette_rgba[9] = (byte)((palette_rgba[1] + palette_rgba[5]) >> 1);
                 palette_rgba[10] = (byte)((palette_rgba[2] + palette_rgba[6]) >> 1);
 
-                // colour_palette.Add((ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)));  // the RGB565 third colour
                 // last colour isn't in the palette, it's in _plt0.alpha_bitfield
 
 
@@ -1213,18 +1171,14 @@ class CMPR_class
 
                 palette_rgba[8] = (byte)(((palette_rgba[0] << 1) / 3) + (palette_rgba[4] / 3));
                 palette_rgba[9] = (byte)(((palette_rgba[1] << 1) / 3) + (palette_rgba[5] / 3));
-                palette_rgba[10] = (byte)(((palette_rgba[2] << 1) / 3) + (palette_rgba[6] / 3));
+                palette_rgba[10] = (byte)(((palette_rgba[2] << 1) / 3) + (palette_rgba[6] / 3)); // the RGB565 third colour
 
                 palette_rgba[12] = (byte)((palette_rgba[0] / 3) + ((palette_rgba[4] << 1) / 3));
-                palette_rgba[13] = (byte)((palette_rgba[1] / 3) + ((palette_rgba[5] << 1) / 3));
-                palette_rgba[14] = (byte)((palette_rgba[2] / 3) + ((palette_rgba[6] << 1) / 3));
-                //pixel = (ushort)(((((palette_rgba[0] * 2 / 3) + (palette_rgba[4] / 3)) >> 3) << 11) + ((((palette_rgba[1] * 2 / 3) + (palette_rgba[5] / 3)) >> 2) << 5) + (((palette_rgba[2] * 2 / 3) + (palette_rgba[6] / 3)) >> 3));
-                //colour_palette.Add(pixel);  // the RGB565 third colour
-                //pixel = (ushort)(((((palette_rgba[0] / 3) + (palette_rgba[4] * 2 / 3)) >> 3) << 11) + ((((palette_rgba[1] / 3) + (palette_rgba[5] * 2 / 3)) >> 2) << 5) + (((palette_rgba[2] / 3) + (palette_rgba[6] * 2 / 3)) >> 3));
-                //colour_palette.Add(pixel);  // the RGB565 fourth colour
+                palette_rgba[13] = (byte)((palette_rgba[1] / 3) + ((palette_rgba[5] << 1) / 3)); 
+                palette_rgba[14] = (byte)((palette_rgba[2] / 3) + ((palette_rgba[6] << 1) / 3)); // the RGB565 fourth colour
             }
             // time to get the "linear interpolation to add third and fourth colour
-            // CI2 if that's a name lol
+            // CI2 if that's a name
             for (i = 4; i < 8; i++)
             {
                 index[i] = 0;
@@ -1240,8 +1194,7 @@ class CMPR_class
                             index[7 - h] += (byte)(3 << (w << 1));
                             continue;
                         }
-                        diff_min = 1024;
-                        // diff_min_index = w;
+                        diff_min = 0xffff;
                         for (i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
                         { // calculate difference between each separate colour channel and store the sum
                             diff = (ushort)(Math.Abs(palette_rgba[i << 2] - rgb565[(h << 4) + (w << 2)]) + Math.Abs(palette_rgba[(i << 2) + 1] - rgb565[(h << 4) + (w << 2) + 1]) + Math.Abs(palette_rgba[(i << 2) + 2] - rgb565[(h << 4) + (w << 2) + 2]));
@@ -1266,7 +1219,6 @@ class CMPR_class
             }
             else if (_plt0.reverse_y)
             {
-                //for (sbyte h = 3; h >= 0; h--)
                 for (h = 0; h < 4; h++)
                 {
                     for (w = 0; w < 4; w++)  // index_size = number of pixels
@@ -1276,8 +1228,7 @@ class CMPR_class
                             index[4 + h] += (byte)(3 << (6 - (w << 1)));
                             continue;
                         }
-                        diff_min = 1024;
-                        // diff_min_index = w;
+                        diff_min = 0xffff;
                         for (i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
                         { // calculate difference between each separate colour channel and store the sum
                             diff = (ushort)(Math.Abs(palette_rgba[i << 2] - rgb565[(h << 4) + (w << 2)]) + Math.Abs(palette_rgba[(i << 2) + 1] - rgb565[(h << 4) + (w << 2) + 1]) + Math.Abs(palette_rgba[(i << 2) + 2] - rgb565[(h << 4) + (w << 2) + 2]));
@@ -1288,14 +1239,12 @@ class CMPR_class
                             }
                         }
                         index[4 + h] += (byte)(diff_min_index << (6 - (w << 1)));
-                        // Console.WriteLine(index[4 + h]);
                     }
                 }
             }
             else
             {
                 for (h = 3; h >= 0; h--)
-                //for (byte h = 0; h < 4; h++)
                 {
                     for (w = 0; w < 4; w++)  // index_size = number of pixels
                     {
@@ -1304,8 +1253,7 @@ class CMPR_class
                             index[7 - h] += (byte)(3 << (6 - (w << 1)));
                             continue;
                         }
-                        diff_min = 1024;
-                        // diff_min_index = w;
+                        diff_min = 0xffff;
                         for (i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
                         { // calculate difference between each separate colour channel and store the sum
                             diff = (ushort)(Math.Abs(palette_rgba[i << 2] - rgb565[(h << 4) + (w << 2)]) + Math.Abs(palette_rgba[(i << 2) + 1] - rgb565[(h << 4) + (w << 2) + 1]) + Math.Abs(palette_rgba[(i << 2) + 2] - rgb565[(h << 4) + (w << 2) + 2]));
@@ -1316,7 +1264,6 @@ class CMPR_class
                             }
                         }
                         index[7 - h] += (byte)(diff_min_index << (6 - (w << 1)));
-                        // Console.WriteLine(index[4 + h]);
                     }
                 }
             }
@@ -1324,8 +1271,6 @@ class CMPR_class
             // the lists need to be cleaned
             Colour_list.Clear();
             encounteredPairs.Clear();
-            //colour_palette.Clear();
-            // Colour_rgb565.Clear();
             alpha_bitfield = 0;
             index_list.Add(index.ToArray());
         }
@@ -1391,29 +1336,20 @@ class CMPR_class
         if (width == _plt0.canvas_width)
         {
             width = 0;
-            // y -= (_plt0.bitmap_width << 1) - 16;  // this has been driving me nuts
             y += (_plt0.canvas_width << 2) - 16;
             x = 0;
         }
         else if (x == 2)
         {
-            // y += (_plt0.bitmap_width << 4) - 4; // adds 4 lines and put the cursor back to the first block in width (I hope)
-            // y += 16; // hmm, it looks like the cursor warped horizontally to the first block in width 4 lines above
-            // EDIT: YA DEFINITELY NEED TO CANCEL THE Y OPERATION ABOVE, IT WARPS NORMALLY LIKE IT4S THE PIXEL AFTER
-            //y -= (_plt0.bitmap_width << 2) - 16;  // this has been driving me nuts
-            y += 16;  // I can't believe this is right in the mirror and mirrorred mode lol
-                      // edit: you just need to add 32 everywhere
+            y += 16;  // the cursor warped horizontally to the first block in width 4 lines above
         }
         else if (x == 4)
         {
-            //y -= (_plt0.bitmap_width << 5) - 16; // minus 8 lines + point to next block
-            y -= (_plt0.canvas_width << 5) + 16;
+            y -= (_plt0.canvas_width << 5) + 16;  // minus 8 lines + point to next block
             x = 0;
         }
         else
         {
-            /* y -= (_plt0.bitmap_width << 4) - 16; // on retire 4 lignes et on passe le 1er block héhé
-             substract 4 lines and jumps over the first block */
             y -= ((_plt0.canvas_width << 4)) + 16;  // substract 4 lines and goes one block to the left
         }
         return true;
@@ -1450,7 +1386,6 @@ class CMPR_class
             Colour_array[2] = (byte)(red * 0.0721 + green * 0.7154 + blue * 0.2125);  // CIE 709 recreated the perfect re-encoding
         }
         Colour_list.Add(Colour_array.ToArray());
-        // Colour_rgb565.Add(pixel);
         j++;
         if (j != 4)
         {
@@ -1475,23 +1410,16 @@ class CMPR_class
         }
         else if (x == 2)
         {
-            // y += (_plt0.bitmap_width << 4) - 4; // adds 4 lines and put the cursor back to the first block in width (I hope)
-            // y += 16; // hmm, it looks like the cursor warped horizontally to the first block in width 4 lines above
-            // EDIT: YA DEFINITELY NEED TO CANCEL THE Y OPERATION ABOVE, IT WARPS NORMALLY LIKE IT4S THE PIXEL AFTER
-            //y -= (_plt0.bitmap_width << 2) - 16;  // this has been driving me nuts
-            y += 16;  // I can't believe this is right in the mirror and mirrorred mode lol
-                      // edit: you just need to add 32 everywhere
+            y += 16;  // the cursor warped horizontally to the first block in width 4 lines above
+                      // this is right in the mirror and mirrorred mode
         }
         else if (x == 4)
         {
-            //y -= (_plt0.bitmap_width << 5) - 16; // minus 8 lines + point to next block
-            y -= (_plt0.canvas_width << 5) + 16;
+            y -= (_plt0.canvas_width << 5) + 16;  // minus 8 lines + point to next block
             x = 0;
         }
         else
         {
-            /* y -= (_plt0.bitmap_width << 4) - 16; // on retire 4 lignes et on passe le 1er block héhé
-             substract 4 lines and jumps over the first block */
             y -= ((_plt0.canvas_width << 4)) + 16;  // substract 4 lines and goes one block to the left
         }
         return true;
@@ -1546,29 +1474,21 @@ class CMPR_class
         if (width == _plt0.canvas_width)
         {
             width = 0;
-            // y -= (_plt0.bitmap_width << 1) - 16;  // this has been driving me nuts
             y += (_plt0.canvas_width << 2) - 16;
             x = 0;
         }
         else if (x == 2)
         {
-            // y += (_plt0.bitmap_width << 4) - 4; // adds 4 lines and put the cursor back to the first block in width (I hope)
-            // y += 16; // hmm, it looks like the cursor warped horizontally to the first block in width 4 lines above
-            // EDIT: YA DEFINITELY NEED TO CANCEL THE Y OPERATION ABOVE, IT WARPS NORMALLY LIKE IT4S THE PIXEL AFTER
-            //y -= (_plt0.bitmap_width << 2) - 16;  // this has been driving me nuts
-            y += 16;  // I can't believe this is right in the mirror and mirrorred mode lol
-                      // edit: you just need to add 32 everywhere
+            y += 16;  // the cursor warped horizontally to the first block in width 4 lines above
+                      // this is right in the mirror and mirrorred mode
         }
         else if (x == 4)
         {
-            //y -= (_plt0.bitmap_width << 5) - 16; // minus 8 lines + point to next block
-            y -= (_plt0.canvas_width << 5) + 16;
+            y -= (_plt0.canvas_width << 5) + 16;  // minus 8 lines + point to next block
             x = 0;
         }
         else
         {
-            /* y -= (_plt0.bitmap_width << 4) - 16; // on retire 4 lignes et on passe le 1er block héhé
-             substract 4 lines and jumps over the first block */
             y -= ((_plt0.canvas_width << 4)) + 16;  // substract 4 lines and goes one block to the left
         }
         return true;
@@ -1623,33 +1543,28 @@ class CMPR_class
         if (width == _plt0.canvas_width)
         {
             width = 0;
-            // y -= (_plt0.bitmap_width << 1) - 16;  // this has been driving me nuts
             y += (_plt0.canvas_width << 2) - 16;
             x = 0;
         }
         else if (x == 2)
         {
-            // y += (_plt0.bitmap_width << 4) - 4; // adds 4 lines and put the cursor back to the first block in width (I hope)
-            // y += 16; // hmm, it looks like the cursor warped horizontally to the first block in width 4 lines above
-            // EDIT: YA DEFINITELY NEED TO CANCEL THE Y OPERATION ABOVE, IT WARPS NORMALLY LIKE IT4S THE PIXEL AFTER
-            //y -= (_plt0.bitmap_width << 2) - 16;  // this has been driving me nuts
-            y += 16;  // I can't believe this is right in the mirror and mirrorred mode lol
-                      // edit: you just need to add 32 everywhere
+            // the cursor warped horizontally to the first block in width 4 lines above
+            y += 16;  // this is right in the mirror and mirrorred mode
         }
         else if (x == 4)
         {
-            //y -= (_plt0.bitmap_width << 5) - 16; // minus 8 lines + point to next block
-            y -= (_plt0.canvas_width << 5) + 16;
+            y -= (_plt0.canvas_width << 5) + 16; // minus 8 lines + point to next block
             x = 0;
         }
         else
         {
-            /* y -= (_plt0.bitmap_width << 4) - 16; // on retire 4 lignes et on passe le 1er block héhé
-             substract 4 lines and jumps over the first block */
             y -= ((_plt0.canvas_width << 4)) + 16;  // substract 4 lines and goes one block to the left
         }
         return true;
     }
+
+    // There's no Load_Block_Infinite nor Delta_E since they're used for differences between a pair of two colours, no more.
+
     private void Organize_Colours()
     {
         if (alpha_bitfield != 0 || weemm_algorithm)  // put the biggest ushort in second place
@@ -1682,10 +1597,9 @@ class CMPR_class
             }
             palette_rgba[8] = (byte)((palette_rgba[0] + palette_rgba[4]) >> 1);
             palette_rgba[9] = (byte)((palette_rgba[1] + palette_rgba[5]) >> 1);
-            palette_rgba[10] = (byte)((palette_rgba[2] + palette_rgba[6]) >> 1);
+            palette_rgba[10] = (byte)((palette_rgba[2] + palette_rgba[6]) >> 1); // the RGB565 third colour
             palette_length = 3;
 
-            // colour_palette.Add((ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)));  // the RGB565 third colour
             // last colour isn't in the palette, it's in _plt0.alpha_bitfield
 
 
@@ -1722,41 +1636,36 @@ class CMPR_class
 
             palette_rgba[8] = (byte)(((palette_rgba[0] << 1) / 3) + (palette_rgba[4] / 3));
             palette_rgba[9] = (byte)(((palette_rgba[1] << 1) / 3) + (palette_rgba[5] / 3));
-            palette_rgba[10] = (byte)(((palette_rgba[2] << 1) / 3) + (palette_rgba[6] / 3));
+            palette_rgba[10] = (byte)(((palette_rgba[2] << 1) / 3) + (palette_rgba[6] / 3)); // the RGB565 third colour
 
             palette_rgba[12] = (byte)((palette_rgba[0] / 3) + ((palette_rgba[4] << 1) / 3));
             palette_rgba[13] = (byte)((palette_rgba[1] / 3) + ((palette_rgba[5] << 1) / 3));
-            palette_rgba[14] = (byte)((palette_rgba[2] / 3) + ((palette_rgba[6] << 1) / 3));
+            palette_rgba[14] = (byte)((palette_rgba[2] / 3) + ((palette_rgba[6] << 1) / 3)); // the RGB565 fourth colour
 
             palette_length = 4;
-            //pixel = (ushort)(((((palette_rgba[0] * 2 / 3) + (palette_rgba[4] / 3)) >> 3) << 11) + ((((palette_rgba[1] * 2 / 3) + (palette_rgba[5] / 3)) >> 2) << 5) + (((palette_rgba[2] * 2 / 3) + (palette_rgba[6] / 3)) >> 3));
-            //colour_palette.Add(pixel);  // the RGB565 third colour
-            //pixel = (ushort)(((((palette_rgba[0] / 3) + (palette_rgba[4] * 2 / 3)) >> 3) << 11) + ((((palette_rgba[1] / 3) + (palette_rgba[5] * 2 / 3)) >> 2) << 5) + (((palette_rgba[2] / 3) + (palette_rgba[6] * 2 / 3)) >> 3));
-            //colour_palette.Add(pixel);  // the RGB565 fourth colour
         }
     }
     private void Process_Indexes_CIE_709()
     {
         // time to get the "linear interpolation to add third and fourth colour
-        // CI2 if that's a name lol
-        for (byte i = 4; i < 8; i++)
+        // CI2 if that's a name
+        for (i = 4; i < 8; i++)
         {
             index[i] = 0;
         }
         if (_plt0.reverse_x)
         {
-            for (sbyte h = 3; h >= 0; h--)
+            for (h = 3; h >= 0; h--)
             {
-                for (sbyte w = 3; w >= 0; w--)  // index_size = number of pixels
+                for (w = 3; w >= 0; w--)  // index_size = number of pixels
                 {
                     if (((alpha_bitfield >> (h << 2) + w) & 1) == 1)
                     {
                         index[7 - h] += (byte)(3 << (w << 1));
                         continue;
                     }
-                    diff_min = 1024;
-                    // diff_min_index = w;
-                    for (byte i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
+                    diff_min = 0xffff;
+                    for (i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
                     { // calculate difference between each separate colour channel and store the sum
                         diff = (ushort)(Math.Abs(palette_rgba[i << 2] - rgb565[(h << 4) + (w << 2)]) * 0.0721 + Math.Abs(palette_rgba[(i << 2) + 1] - rgb565[(h << 4) + (w << 2) + 1]) * 0.7154 + Math.Abs(palette_rgba[(i << 2) + 2] - rgb565[(h << 4) + (w << 2) + 2]) * 0.2125);
                         if (diff < diff_min)
@@ -1780,19 +1689,17 @@ class CMPR_class
         }
         else if (_plt0.reverse_y)
         {
-            //for (sbyte h = 3; h >= 0; h--)
-            for (byte h = 0; h < 4; h++)
+            for (h = 0; h < 4; h++)
             {
-                for (byte w = 0; w < 4; w++)  // index_size = number of pixels
+                for (w = 0; w < 4; w++)  // index_size = number of pixels
                 {
                     if (((alpha_bitfield >> (h << 2) + w) & 1) == 1)
                     {
                         index[4 + h] += (byte)(3 << (6 - (w << 1)));
                         continue;
                     }
-                    diff_min = 1024;
-                    // diff_min_index = w;
-                    for (byte i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
+                    diff_min = 0xffff;
+                    for (i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
                     { // calculate difference between each separate colour channel and store the sum
                         diff = (ushort)(Math.Abs(palette_rgba[i << 2] - rgb565[(h << 4) + (w << 2)]) * 0.0721 + Math.Abs(palette_rgba[(i << 2) + 1] - rgb565[(h << 4) + (w << 2) + 1]) * 0.7154 + Math.Abs(palette_rgba[(i << 2) + 2] - rgb565[(h << 4) + (w << 2) + 2]) * 0.2125);
                         if (diff < diff_min)
@@ -1802,25 +1709,22 @@ class CMPR_class
                         }
                     }
                     index[4 + h] += (byte)(diff_min_index << (6 - (w << 1)));
-                    // Console.WriteLine(index[4 + h]);
                 }
             }
         }
         else
         {
-            for (sbyte h = 3; h >= 0; h--)
-            //for (byte h = 0; h < 4; h++)
+            for (h = 3; h >= 0; h--)
             {
-                for (byte w = 0; w < 4; w++)  // index_size = number of pixels
+                for (w = 0; w < 4; w++)  // index_size = number of pixels
                 {
                     if (((alpha_bitfield >> (h << 2) + w) & 1) == 1)
                     {
                         index[7 - h] += (byte)(3 << (6 - (w << 1)));
                         continue;
                     }
-                    diff_min = 1024;
-                    // diff_min_index = w;
-                    for (byte i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
+                    diff_min = 0xffff;
+                    for (i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
                     { // calculate difference between each separate colour channel and store the sum
                         diff = (ushort)(Math.Abs(palette_rgba[i << 2] - rgb565[(h << 4) + (w << 2)]) * 0.0721 + Math.Abs(palette_rgba[(i << 2) + 1] - rgb565[(h << 4) + (w << 2) + 1]) * 0.7154 + Math.Abs(palette_rgba[(i << 2) + 2] - rgb565[(h << 4) + (w << 2) + 2]) * 0.2125);
                         if (diff < diff_min)
@@ -1830,38 +1734,34 @@ class CMPR_class
                         }
                     }
                     index[7 - h] += (byte)(diff_min_index << (6 - (w << 1)));
-                    // Console.WriteLine(index[4 + h]);
                 }
             }
         }
         // index is overwritten each time
         // the lists need to be cleaned
         Colour_list.Clear();
-        //colour_palette.Clear();
-        // Colour_rgb565.Clear();
         alpha_bitfield = 0;
     }
     private void Process_Indexes_RGB()
     {
         // time to get the "linear interpolation to add third and fourth colour
-        // CI2 if that's a name lol
+        // CI2 if that's a name
         for (i = 4; i < 8; i++)
         {
             index[i] = 0;
         }
         if (_plt0.reverse_x)
         {
-            for (sbyte h = 3; h >= 0; h--)
+            for (h = 3; h >= 0; h--)
             {
-                for (sbyte w = 3; w >= 0; w--)  // index_size = number of pixels
+                for (w = 3; w >= 0; w--)  // index_size = number of pixels
                 {
                     if (((alpha_bitfield >> (h << 2) + w) & 1) == 1)
                     {
                         index[7 - h] += (byte)(3 << (w << 1));
                         continue;
                     }
-                    diff_min = 1024;
-                    // diff_min_index = w;
+                    diff_min = 0xffff;
                     for (i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
                     { // calculate difference between each separate colour channel and store the sum
                         diff = (ushort)(Math.Abs(palette_rgba[i << 2] - rgb565[(h << 4) + (w << 2)]) + Math.Abs(palette_rgba[(i << 2) + 1] - rgb565[(h << 4) + (w << 2) + 1]) + Math.Abs(palette_rgba[(i << 2) + 2] - rgb565[(h << 4) + (w << 2) + 2]));
@@ -1886,18 +1786,16 @@ class CMPR_class
         }
         else if (_plt0.reverse_y)
         {
-            //for (sbyte h = 3; h >= 0; h--)
-            for (byte h = 0; h < 4; h++)
+            for (h = 0; h < 4; h++)
             {
-                for (byte w = 0; w < 4; w++)  // index_size = number of pixels
+                for (w = 0; w < 4; w++)  // index_size = number of pixels
                 {
                     if (((alpha_bitfield >> (h << 2) + w) & 1) == 1)
                     {
                         index[4 + h] += (byte)(3 << (6 - (w << 1)));
                         continue;
                     }
-                    diff_min = 1024;
-                    // diff_min_index = w;
+                    diff_min = 0xffff;
                     for (i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
                     { // calculate difference between each separate colour channel and store the sum
                         diff = (ushort)(Math.Abs(palette_rgba[i << 2] - rgb565[(h << 4) + (w << 2)]) + Math.Abs(palette_rgba[(i << 2) + 1] - rgb565[(h << 4) + (w << 2) + 1]) + Math.Abs(palette_rgba[(i << 2) + 2] - rgb565[(h << 4) + (w << 2) + 2]));
@@ -1908,24 +1806,21 @@ class CMPR_class
                         }
                     }
                     index[4 + h] += (byte)(diff_min_index << (6 - (w << 1)));
-                    // Console.WriteLine(index[4 + h]);
                 }
             }
         }
         else
         {
-            for (sbyte h = 3; h >= 0; h--)
-            //for (byte h = 0; h < 4; h++)
+            for (h = 3; h >= 0; h--)
             {
-                for (byte w = 0; w < 4; w++)  // index_size = number of pixels
+                for (w = 0; w < 4; w++)  // index_size = number of pixels
                 {
                     if (((alpha_bitfield >> (h << 2) + w) & 1) == 1)
                     {
                         index[7 - h] += (byte)(3 << (6 - (w << 1)));
                         continue;
                     }
-                    diff_min = 1024;
-                    // diff_min_index = w;
+                    diff_min = 0xffff;
                     for (i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
                     { // calculate difference between each separate colour channel and store the sum
                         diff = (ushort)(Math.Abs(palette_rgba[i << 2] - rgb565[(h << 4) + (w << 2)]) + Math.Abs(palette_rgba[(i << 2) + 1] - rgb565[(h << 4) + (w << 2) + 1]) + Math.Abs(palette_rgba[(i << 2) + 2] - rgb565[(h << 4) + (w << 2) + 2]));
@@ -1936,38 +1831,34 @@ class CMPR_class
                         }
                     }
                     index[7 - h] += (byte)(diff_min_index << (6 - (w << 1)));
-                    // Console.WriteLine(index[4 + h]);
                 }
             }
         }
         // index is overwritten each time
         // the lists need to be cleaned
         Colour_list.Clear();
-        //colour_palette.Clear();
-        // Colour_rgb565.Clear();
         alpha_bitfield = 0;
     }
     private void Process_Indexes_Euclidian()
     {
         // time to get the "linear interpolation to add third and fourth colour
-        // CI2 if that's a name lol
+        // CI2 if that's a name
         for (i = 4; i < 8; i++)
         {
             index[i] = 0;
         }
         if (_plt0.reverse_x)
         {
-            for (sbyte h = 3; h >= 0; h--)
+            for (h = 3; h >= 0; h--)
             {
-                for (sbyte w = 3; w >= 0; w--)  // index_size = number of pixels
+                for (w = 3; w >= 0; w--)  // index_size = number of pixels
                 {
                     if (((alpha_bitfield >> (h << 2) + w) & 1) == 1)
                     {
                         index[7 - h] += (byte)(3 << (w << 1));
                         continue;
                     }
-                    diff_min = 1024;
-                    // diff_min_index = w;
+                    diff_min = 0xffff;
                     for (i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
                     { // calculate difference between each separate colour channel and store the sum
                         diff = (ushort)((int)(Math.Pow(palette_rgba[i << 2] - rgb565[(h << 4) + (w << 2)], 2) + Math.Pow(palette_rgba[(i << 2) + 1] - rgb565[(h << 4) + (w << 2) + 1], 2) + Math.Pow(palette_rgba[(i << 2) + 2] - rgb565[(h << 4) + (w << 2) + 2], 2)) >> 2);
@@ -1992,19 +1883,17 @@ class CMPR_class
         }
         else if (_plt0.reverse_y)
         {
-            //for (sbyte h = 3; h >= 0; h--)
-            for (byte h = 0; h < 4; h++)
+            for (h = 0; h < 4; h++)
             {
-                for (byte w = 0; w < 4; w++)  // index_size = number of pixels
+                for (w = 0; w < 4; w++)  // index_size = number of pixels
                 {
                     if (((alpha_bitfield >> (h << 2) + w) & 1) == 1)
                     {
                         index[4 + h] += (byte)(3 << (6 - (w << 1)));
                         continue;
                     }
-                    diff_min = 1024;
-                    // diff_min_index = w;
-                    for (byte i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
+                    diff_min = 0xffff;
+                    for (i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
                     { // calculate difference between each separate colour channel and store the sum
                         diff = (ushort)((int)(Math.Pow(palette_rgba[i << 2] - rgb565[(h << 4) + (w << 2)], 2) + Math.Pow(palette_rgba[(i << 2) + 1] - rgb565[(h << 4) + (w << 2) + 1], 2) + Math.Pow(palette_rgba[(i << 2) + 2] - rgb565[(h << 4) + (w << 2) + 2], 2)) >> 2);
                         if (diff < diff_min)
@@ -2014,24 +1903,21 @@ class CMPR_class
                         }
                     }
                     index[4 + h] += (byte)(diff_min_index << (6 - (w << 1)));
-                    // Console.WriteLine(index[4 + h]);
                 }
             }
         }
         else
         {
-            for (sbyte h = 3; h >= 0; h--)
-            //for (byte h = 0; h < 4; h++)
+            for (h = 3; h >= 0; h--)
             {
-                for (byte w = 0; w < 4; w++)  // index_size = number of pixels
+                for (w = 0; w < 4; w++)  // index_size = number of pixels
                 {
                     if (((alpha_bitfield >> (h << 2) + w) & 1) == 1)
                     {
                         index[7 - h] += (byte)(3 << (6 - (w << 1)));
                         continue;
                     }
-                    diff_min = 1024;
-                    // diff_min_index = w;
+                    diff_min = 0xffff;
                     for (i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
                     { // calculate difference between each separate colour channel and store the sum
                         diff = (ushort)((int)(Math.Pow(palette_rgba[i << 2] - rgb565[(h << 4) + (w << 2)], 2) + Math.Pow(palette_rgba[(i << 2) + 1] - rgb565[(h << 4) + (w << 2) + 1], 2) + Math.Pow(palette_rgba[(i << 2) + 2] - rgb565[(h << 4) + (w << 2) + 2], 2)) >> 2);
@@ -2042,15 +1928,12 @@ class CMPR_class
                         }
                     }
                     index[7 - h] += (byte)(diff_min_index << (6 - (w << 1)));
-                    // Console.WriteLine(index[4 + h]);
                 }
             }
         }
         // index is overwritten each time
         // the lists need to be cleaned
         Colour_list.Clear();
-        //colour_palette.Clear();
-        // Colour_rgb565.Clear();
         alpha_bitfield = 0;
     }
     private void Process_Indexes_Infinite()
@@ -2059,16 +1942,16 @@ class CMPR_class
         ushort diff_green;
         ushort diff_blue;
         // time to get the "linear interpolation to add third and fourth colour
-        // CI2 if that's a name lol
+        // CI2 if that's a name
         for (i = 4; i < 8; i++)
         {
             index[i] = 0;
         }
         if (_plt0.reverse_x)
         {
-            for (sbyte h = 3; h >= 0; h--)
+            for (h = 3; h >= 0; h--)
             {
-                for (sbyte w = 3; w >= 0; w--)  // index_size = number of pixels
+                for (w = 3; w >= 0; w--)  // index_size = number of pixels
                 {
                     if (((alpha_bitfield >> (h << 2) + w) & 1) == 1)
                     {
@@ -2076,7 +1959,6 @@ class CMPR_class
                         continue;
                     }
                     diff_min = 0xffff;
-                    // diff_min_index = w;
                     for (i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
                     { // calculate difference between each separate colour channel and store the sum
                         diff_red = (ushort)Math.Abs(palette_rgba[i << 2] - rgb565[(h << 4) + (w << 2)]);
@@ -2125,18 +2007,16 @@ class CMPR_class
         }
         else if (_plt0.reverse_y)
         {
-            //for (sbyte h = 3; h >= 0; h--)
-            for (byte h = 0; h < 4; h++)
+            for (h = 0; h < 4; h++)
             {
-                for (byte w = 0; w < 4; w++)  // index_size = number of pixels
+                for (w = 0; w < 4; w++)  // index_size = number of pixels
                 {
                     if (((alpha_bitfield >> (h << 2) + w) & 1) == 1)
                     {
                         index[4 + h] += (byte)(3 << (6 - (w << 1)));
                         continue;
                     }
-                    diff_min = 1024;
-                    // diff_min_index = w;
+                    diff_min = 0xffff;
                     for (i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
                     { // calculate difference between each separate colour channel and store the sum
                         diff_red = (ushort)Math.Abs(palette_rgba[i << 2] - rgb565[(h << 4) + (w << 2)]);
@@ -2177,17 +2057,16 @@ class CMPR_class
         }
         else
         {
-            for (sbyte h = 3; h >= 0; h--)
-            //for (byte h = 0; h < 4; h++)
+            for (h = 3; h >= 0; h--)
             {
-                for (byte w = 0; w < 4; w++)  // index_size = number of pixels
+                for (w = 0; w < 4; w++)  // index_size = number of pixels
                 {
                     if (((alpha_bitfield >> (h << 2) + w) & 1) == 1)
                     {
                         index[7 - h] += (byte)(3 << (6 - (w << 1)));
                         continue;
                     }
-                    diff_min = 1024;
+                    diff_min = 0xffff;
                     // diff_min_index = w;
                     for (i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
                     { // calculate difference between each separate colour channel and store the sum
@@ -2241,16 +2120,16 @@ class CMPR_class
         byte[] rgb1 = { 0, 0, 0 };
         byte[] rgb2 = { 0, 0, 0 };
         // time to get the "linear interpolation to add third and fourth colour
-        // CI2 if that's a name lol
+        // CI2 if that's a name
         for (i = 4; i < 8; i++)
         {
             index[i] = 0;
         }
         if (_plt0.reverse_x)
         {
-            for (sbyte h = 3; h >= 0; h--)
+            for (h = 3; h >= 0; h--)
             {
-                for (sbyte w = 3; w >= 0; w--)  // index_size = number of pixels
+                for (w = 3; w >= 0; w--)  // index_size = number of pixels
                 {
                     if (((alpha_bitfield >> (h << 2) + w) & 1) == 1)
                     {
@@ -2258,7 +2137,6 @@ class CMPR_class
                         continue;
                     }
                     diff_min = 0xffff;
-                    // diff_min_index = w;
                     for (i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
                     { // calculate difference between each separate colour channel and store the sum
                         rgb1[0] = palette_rgba[i << 2];
@@ -2289,19 +2167,17 @@ class CMPR_class
         }
         else if (_plt0.reverse_y)
         {
-            //for (sbyte h = 3; h >= 0; h--)
-            for (byte h = 0; h < 4; h++)
+            for (h = 0; h < 4; h++)
             {
-                for (byte w = 0; w < 4; w++)  // index_size = number of pixels
+                for (w = 0; w < 4; w++)  // index_size = number of pixels
                 {
                     if (((alpha_bitfield >> (h << 2) + w) & 1) == 1)
                     {
                         index[4 + h] += (byte)(3 << (6 - (w << 1)));
                         continue;
                     }
-                    diff_min = 1024;
-                    // diff_min_index = w;
-                    for (byte i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
+                    diff_min = 0xffff;
+                    for (i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
                     { // calculate difference between each separate colour channel and store the sum
                         rgb1[0] = palette_rgba[i << 2];
                         rgb2[0] = rgb565[(h << 4) + (w << 2)];
@@ -2317,25 +2193,22 @@ class CMPR_class
                         }
                     }
                     index[4 + h] += (byte)(diff_min_index << (6 - (w << 1)));
-                    // Console.WriteLine(index[4 + h]);
                 }
             }
         }
         else
         {
-            for (sbyte h = 3; h >= 0; h--)
-            //for (byte h = 0; h < 4; h++)
+            for (h = 3; h >= 0; h--)
             {
-                for (byte w = 0; w < 4; w++)  // index_size = number of pixels
+                for (w = 0; w < 4; w++)  // index_size = number of pixels
                 {
                     if (((alpha_bitfield >> (h << 2) + w) & 1) == 1)
                     {
                         index[7 - h] += (byte)(3 << (6 - (w << 1)));
                         continue;
                     }
-                    diff_min = 1024;
-                    // diff_min_index = w;
-                    for (byte i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
+                    diff_min = 0xffff;
+                    for (i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
                     { // calculate difference between each separate colour channel and store the sum
                         rgb1[0] = palette_rgba[i << 2];
                         rgb2[0] = rgb565[(h << 4) + (w << 2)];
@@ -2351,15 +2224,12 @@ class CMPR_class
                         }
                     }
                     index[7 - h] += (byte)(diff_min_index << (6 - (w << 1)));
-                    // Console.WriteLine(index[4 + h]);
                 }
             }
         }
         // index is overwritten each time
         // the lists need to be cleaned
         Colour_list.Clear();
-        //colour_palette.Clear();
-        // Colour_rgb565.Clear();
         alpha_bitfield = 0;
     }
     public static double CalculateCIEDE2000(byte[] rgb1, byte[] rgb2)
@@ -2462,9 +2332,6 @@ class CMPR_class
     private const double Epsilon = 0.008856;
     private const double Kappa = 903.3;
     private static readonly double[] XYZReference = { 95.047, 100.000, 108.883 };
-    private const double XYZReferenceX = 95.047;
-    private const double XYZReferenceY = 100.000;
-    private const double XYZReferenceZ = 108.883;
     private const double Kl = 1.0;
     private const double Kc = 1.0;
     private const double Kh = 1.0;
