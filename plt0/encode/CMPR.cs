@@ -209,7 +209,7 @@ class CMPR_class
                             index_list.Add(index.ToArray());
                         }
                         break;
-                    case 4:  // Delta E (CIEDE2000)
+                    case 4:  // Delta E (CIEDE2000) - Lab Colour Space
                         for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
                         {
                             if (!Load_Block_RGB())
@@ -238,8 +238,8 @@ class CMPR_class
                         }
                         break;
                 }
-                break;
-            case 9: // Range Fit -   //https://stackoverflow.com/questions/24747643/3d-linear-regression
+                break;// default
+            case 1: // Range Fit -   //https://stackoverflow.com/questions/24747643/3d-linear-regression
                 // first, process the red_array, then do the same thing for green and blue.
                 byte[] covariance = new byte[256];
                 short[] red_array = new short[16];
@@ -307,101 +307,108 @@ class CMPR_class
                     Process_Indexes_RGB();
                     index_list.Add(index.ToArray());
                 }
-                break;
-            case 2: // Most Used/Furthest
-                for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
-                {
-                    if (!Load_Block())
-                        continue;
-                    Colour_rgb565 = Colour_list.ToList();
-                    // implementing my own way to find most used colours
-                    // let's count the number of exact same colours in Colour_list
-                    for (i = 0; i < 16; i++)  // useless to set it to 16 because of the condition k > i.
-                    {
-                        for (c = (byte)(i + 1); c < 16; c++)
-                        {
-                            if (Colour_list[c][1] == Colour_list[i][1] && ((alpha_bitfield >> c) & 1) == 0 && ((alpha_bitfield >> i) & 1) == 0)  // k > i prevents colours occurences from being added twice.
-                            {
-                                Colour_list[c][2]++;
-                                Colour_list[i][2] = 0; // should set it to zero.
-                            }
-                        }
-                    }
-                    Colour_list.Sort(new UshortArrayComparer());  // sorts the table by the most used colour first
-                    diff_min_index = 0;
-                    diff_min = 0xffff;
-                    for (i = 0; i < 15; i++)
-                    {
-                        if (((alpha_bitfield >> i) & 1) == 1)
-                            continue;
-                        this.diff = (ushort)(rgb565[Colour_list[diff_min_index][2]] + rgb565[Colour_list[diff_min_index][2] + 1] + rgb565[Colour_list[diff_min_index][2] + 2]);
-                        if (this.diff < diff_min)
-                        {
-                            diff_min = this.diff;
-                            diff_min_index = i;
-                        }
-                        if (Colour_list[i][2] != Colour_list[i + 1][2])
-                            break;
-                    }
-                    // now let's take the colour the furthest away from it
-                    diff_max = 0;
-                    for (i = 0; i < 16; i++)
-                    {
-                        if (((alpha_bitfield >> i) & 1) == 1 || Colour_rgb565[i][0] <= _plt0.cmpr_max)
-                            continue;
-                        this.diff = (ushort)(Math.Abs(rgb565[Colour_list[diff_min_index][2]] - rgb565[i << 2]) + Math.Abs(rgb565[Colour_list[diff_min_index][2] + 1] - rgb565[(i << 2) + 1]) + Math.Abs(rgb565[Colour_list[diff_min_index][2] + 2] - rgb565[(i << 2) + 2]));
-                        if (this.diff > diff_max)
-                        {
-                            diff_max = this.diff;
-                            diff_max_index = (byte)(i << 2);  // brightest colour index of Colour_RGB565
-                        }
-                    }
-                    Colour_list[15][1] = (ushort)(rgb565[diff_max_index] << 8 | rgb565[diff_max_index + 1] << 3 | rgb565[diff_max_index + 2] >> 3);
-                    diff_max_index = 15;
-                    /* to me, the two lines above are faster than this loop.
-                     * for (byte i = 0; i < 16; i++)
-                    {
-                        if (diff_max_index == Colour_list[i][2])
-                        {
-
-                            diff_max_index = i;
-                            break;
-                        }
-                    }*/
-                    Organize_Colours();
-                    Process_Indexes_RGB();
-                    index_list.Add(index.ToArray());
-                }
-                break;
-            case 3: // darkest/lightest
+                break; // Range Fit
+            case 2: // hidden: SuperBMD
+                // SuperBMD is calculating the distance between a pixel and his next neighbour in the 4x4 block, and the couple with the max distance is chosen as the two colours
                 for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
                 {
                     if (!Load_Block_RGB())
                         continue;
-                    // now let's take the darkest and the brightest colour
-                    diff_min = 0xffff;
+                    // now let's take the darkest and the brightest colour but only by going through neighbours (that's SuperBMD algorithm)
                     diff_max = 0;
-                    for (i = 0; i < 16; i++)
+                    for (i = 0; i < 15; i++)
                     {
-                        if (((alpha_bitfield >> i) & 1) == 1)
-                            continue;
-                        if (Colour_list[i][2] < diff_min)
+                        if (((alpha_bitfield >> i) & 1) == 0)
                         {
-                            diff_min = Colour_list[i][2];
-                            diff_min_index = i;  // darkest colour index of Colour_RGB565
-                        }
-                        if (Colour_list[i][2] > diff_max)
-                        {
-                            diff_max = Colour_list[i][2];
-                            diff_max_index = i;  // brightest colour index of Colour_RGB565
+                            current_diff = (ushort)Math.Abs(Colour_list[i][2] - Colour_list[i + 1][2]);  // substracts RGB sums
+                            if (current_diff > diff_max)
+                            {
+                                diff_max = current_diff;
+                                diff_max_index = i;  // diff_max_index  =  second colour
+                                diff_min_index = (byte)(i + 1); // diff_min_index = first colour
+                            }
                         }
                     }
                     Organize_Colours();
                     Process_Indexes_RGB();
                     index_list.Add(index.ToArray());
                 }
-                break;
-            case 4:  // most used colours with _plt0.diversity - no gradient - similar - looks pixelated
+                break; // Cluster Fit
+            case 3: // Wiimm
+                    // he's storing every colour of the block in a byte[4] inside a sum_t structure named sum
+                    // then he's making the interpolated colours for each colour of the 4x4 block and test
+                    // which combination is the best one by iterating over the 16 pixels and using calc_distance
+                    //Wiimm_Algorithm(_plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16, _plt0.bmp_filesize, index_list); 
+
+                List<byte[]> index_list_2 = new List<byte[]>();
+                List<byte[]> index_list_3 = new List<byte[]>();
+                List<byte[]> index_list_4 = new List<byte[]>();
+                List<byte[]> index_list_5 = new List<byte[]>();
+                List<byte[]> index_list_6 = new List<byte[]>();
+                List<byte[]> index_list_7 = new List<byte[]>();
+                List<byte[]> index_list_8 = new List<byte[]>();
+                int split1 = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16 + ((_plt0.canvas_height >> 6) * (_plt0.canvas_width << 5));
+                int split2 = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16 + ((_plt0.canvas_height >> 5) * (_plt0.canvas_width << 5));
+                int split3 = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16 + (((_plt0.canvas_height >> 5) + (_plt0.canvas_height >> 6)) * (_plt0.canvas_width << 5));
+                int split4 = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16 + ((_plt0.canvas_height >> 4) * (_plt0.canvas_width << 5));
+                int split5 = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16 + (((_plt0.canvas_height >> 4) + (_plt0.canvas_height >> 6)) * (_plt0.canvas_width << 5));
+                int split6 = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16 + (((_plt0.canvas_height >> 4) + (_plt0.canvas_height >> 5)) * (_plt0.canvas_width << 5));
+                int split7 = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16 + (((_plt0.canvas_height >> 4) + (_plt0.canvas_height >> 5) + (_plt0.canvas_height >> 6)) * (_plt0.canvas_width << 5));
+                /*Wiimm_Algorithm(_plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16, (uint)split1, index_list);
+                Wiimm_Algorithm(split1, (uint)split2, index_list_2);
+                Wiimm_Algorithm(split2, (uint)split3, index_list_3);
+                Wiimm_Algorithm(split3, _plt0.bmp_filesize, index_list_4);*/
+
+                var tasks = new List<Task>
+                {
+                    Task.Run(() => Wiimm_Algorithm(_plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16, (uint)split1, index_list)),
+                    Task.Run(() => Wiimm_Algorithm(split1, (uint)split2, index_list_2)),
+                    Task.Run(() => Wiimm_Algorithm(split2, (uint)split3, index_list_3)),
+                    Task.Run(() => Wiimm_Algorithm(split3, (uint)split4, index_list_4)),
+                    Task.Run(() => Wiimm_Algorithm(split4, (uint)split5, index_list_5)),
+                    Task.Run(() => Wiimm_Algorithm(split5, (uint)split6, index_list_6)),
+                    Task.Run(() => Wiimm_Algorithm(split6, (uint)split7, index_list_7)),
+                    Task.Run(() => Wiimm_Algorithm(split7, _plt0.bmp_filesize, index_list_8))
+                };
+
+
+                Task.WhenAll(tasks).Wait(); // Wait for tasks to complete;
+
+                index_list.AddRange(index_list_2);
+                index_list.AddRange(index_list_3);
+                index_list.AddRange(index_list_4);
+                index_list.AddRange(index_list_5);
+                index_list.AddRange(index_list_6);
+                index_list.AddRange(index_list_7);
+                index_list.AddRange(index_list_8);
+                break; // Wiimm V2
+            case 4: // hidden: SuperBMD
+                // SuperBMD is calculating the distance between a pixel and his next neighbour in the 4x4 block, and the couple with the max distance is chosen as the two colours
+                for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                {
+                    if (!Load_Block_RGB())
+                        continue;
+                    // now let's take the darkest and the brightest colour but only by going through neighbours (that's SuperBMD algorithm)
+                    diff_max = 0;
+                    for (i = 0; i < 15; i++)
+                    {
+                        if (((alpha_bitfield >> i) & 1) == 0)
+                        {
+                            current_diff = (ushort)Math.Abs(Colour_list[i][2] - Colour_list[i + 1][2]);  // substracts RGB sums
+                            if (current_diff > diff_max)
+                            {
+                                diff_max = current_diff;
+                                diff_max_index = i;  // diff_max_index  =  second colour
+                                diff_min_index = (byte)(i + 1); // diff_min_index = first colour
+                            }
+                        }
+                    }
+                    Organize_Colours();
+                    Process_Indexes_RGB();
+                    index_list.Add(index.ToArray());
+                }
+                break; // Average
+            case 5:  // CI2 - most used colours with _plt0.diversity - no gradient - similar - looks pixelated
                 {
                     for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
                     {
@@ -498,56 +505,8 @@ class CMPR_class
                         index_list.Add(index.ToArray());
                     }
                 }
-                break;
-            case 5: // Wiimm
-                    // he's storing every colour of the block in a byte[4] inside a sum_t structure named sum
-                    // then he's making the interpolated colours for each colour of the 4x4 block and test
-                    // which combination is the best one by iterating over the 16 pixels and using calc_distance
-                    //Wiimm_Algorithm(_plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16, _plt0.bmp_filesize, index_list); 
-
-                List<byte[]> index_list_2 = new List<byte[]>();
-                List<byte[]> index_list_3 = new List<byte[]>();
-                List<byte[]> index_list_4 = new List<byte[]>();
-                List<byte[]> index_list_5 = new List<byte[]>();
-                List<byte[]> index_list_6 = new List<byte[]>();
-                List<byte[]> index_list_7 = new List<byte[]>();
-                List<byte[]> index_list_8 = new List<byte[]>();
-                int split1 = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16 + ((_plt0.canvas_height >> 6) * (_plt0.canvas_width << 5));
-                int split2 = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16 + ((_plt0.canvas_height >> 5) * (_plt0.canvas_width << 5));
-                int split3 = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16 + (((_plt0.canvas_height >> 5) + (_plt0.canvas_height >> 6)) * (_plt0.canvas_width << 5));
-                int split4 = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16 + ((_plt0.canvas_height >> 4) * (_plt0.canvas_width << 5));
-                int split5 = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16 + (((_plt0.canvas_height >> 4) + (_plt0.canvas_height >> 6)) * (_plt0.canvas_width << 5));
-                int split6 = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16 + (((_plt0.canvas_height >> 4) + (_plt0.canvas_height >> 5)) * (_plt0.canvas_width << 5));
-                int split7 = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16 + (((_plt0.canvas_height >> 4) + (_plt0.canvas_height >> 5) + (_plt0.canvas_height >> 6)) * (_plt0.canvas_width << 5));
-                /*Wiimm_Algorithm(_plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16, (uint)split1, index_list);
-                Wiimm_Algorithm(split1, (uint)split2, index_list_2);
-                Wiimm_Algorithm(split2, (uint)split3, index_list_3);
-                Wiimm_Algorithm(split3, _plt0.bmp_filesize, index_list_4);*/
-
-                var tasks = new List<Task>
-                {
-                    Task.Run(() => Wiimm_Algorithm(_plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16, (uint)split1, index_list)),
-                    Task.Run(() => Wiimm_Algorithm(split1, (uint)split2, index_list_2)),
-                    Task.Run(() => Wiimm_Algorithm(split2, (uint)split3, index_list_3)),
-                    Task.Run(() => Wiimm_Algorithm(split3, (uint)split4, index_list_4)),
-                    Task.Run(() => Wiimm_Algorithm(split4, (uint)split5, index_list_5)),
-                    Task.Run(() => Wiimm_Algorithm(split5, (uint)split6, index_list_6)),
-                    Task.Run(() => Wiimm_Algorithm(split6, (uint)split7, index_list_7)),
-                    Task.Run(() => Wiimm_Algorithm(split7, _plt0.bmp_filesize, index_list_8))
-                };
-
-
-                Task.WhenAll(tasks).Wait(); // Wait for tasks to complete;
-
-                index_list.AddRange(index_list_2);
-                index_list.AddRange(index_list_3);
-                index_list.AddRange(index_list_4);
-                index_list.AddRange(index_list_5);
-                index_list.AddRange(index_list_6);
-                index_list.AddRange(index_list_7);
-                index_list.AddRange(index_list_8);
-                break;
-            case 6: // SuperBMD
+                break; // CI2
+            case 6: // hidden: SuperBMD
                 // SuperBMD is calculating the distance between a pixel and his next neighbour in the 4x4 block, and the couple with the max distance is chosen as the two colours
                 for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
                 {
@@ -572,8 +531,8 @@ class CMPR_class
                     Process_Indexes_RGB();
                     index_list.Add(index.ToArray());
                 }
-                break;
-            case 7:  // Min/Max
+                break; // SuperBMD
+            case 7:  // hidden: Min/Max
                 // take the colour composed of the darkest R, G and B, and the other composed of the highest R, G, and B
                 for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
                 {
@@ -620,11 +579,105 @@ class CMPR_class
                     Process_Indexes_RGB();
                     index_list.Add(index.ToArray());
                 }
-                break;
+                break; // Min/Max
+            case 8: // hidden: Most Used/Furthest
+                for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                {
+                    if (!Load_Block())
+                        continue;
+                    Colour_rgb565 = Colour_list.ToList();
+                    // implementing my own way to find most used colours
+                    // let's count the number of exact same colours in Colour_list
+                    for (i = 0; i < 16; i++)  // useless to set it to 16 because of the condition k > i.
+                    {
+                        for (c = (byte)(i + 1); c < 16; c++)
+                        {
+                            if (Colour_list[c][1] == Colour_list[i][1] && ((alpha_bitfield >> c) & 1) == 0 && ((alpha_bitfield >> i) & 1) == 0)  // k > i prevents colours occurences from being added twice.
+                            {
+                                Colour_list[c][2]++;
+                                Colour_list[i][2] = 0; // should set it to zero.
+                            }
+                        }
+                    }
+                    Colour_list.Sort(new UshortArrayComparer());  // sorts the table by the most used colour first
+                    diff_min_index = 0;
+                    diff_min = 0xffff;
+                    for (i = 0; i < 15; i++)
+                    {
+                        if (((alpha_bitfield >> i) & 1) == 1)
+                            continue;
+                        this.diff = (ushort)(rgb565[Colour_list[diff_min_index][2]] + rgb565[Colour_list[diff_min_index][2] + 1] + rgb565[Colour_list[diff_min_index][2] + 2]);
+                        if (this.diff < diff_min)
+                        {
+                            diff_min = this.diff;
+                            diff_min_index = i;
+                        }
+                        if (Colour_list[i][2] != Colour_list[i + 1][2])
+                            break;
+                    }
+                    // now let's take the colour the furthest away from it
+                    diff_max = 0;
+                    for (i = 0; i < 16; i++)
+                    {
+                        if (((alpha_bitfield >> i) & 1) == 1 || Colour_rgb565[i][0] <= _plt0.cmpr_max)
+                            continue;
+                        this.diff = (ushort)(Math.Abs(rgb565[Colour_list[diff_min_index][2]] - rgb565[i << 2]) + Math.Abs(rgb565[Colour_list[diff_min_index][2] + 1] - rgb565[(i << 2) + 1]) + Math.Abs(rgb565[Colour_list[diff_min_index][2] + 2] - rgb565[(i << 2) + 2]));
+                        if (this.diff > diff_max)
+                        {
+                            diff_max = this.diff;
+                            diff_max_index = (byte)(i << 2);  // brightest colour index of Colour_RGB565
+                        }
+                    }
+                    Colour_list[15][1] = (ushort)(rgb565[diff_max_index] << 8 | rgb565[diff_max_index + 1] << 3 | rgb565[diff_max_index + 2] >> 3);
+                    diff_max_index = 15;
+                    /* to me, the two lines above are faster than this loop.
+                     * for (byte i = 0; i < 16; i++)
+                    {
+                        if (diff_max_index == Colour_list[i][2])
+                        {
 
-            case 1: // Brute Force
+                            diff_max_index = i;
+                            break;
+                        }
+                    }*/
+                    Organize_Colours();
+                    Process_Indexes_RGB();
+                    index_list.Add(index.ToArray());
+                }
+                break; // Most Used/Furthest
+            case 9: // hidden: darkest/lightest
+                for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                {
+                    if (!Load_Block_RGB())
+                        continue;
+                    // now let's take the darkest and the brightest colour
+                    diff_min = 0xffff;
+                    diff_max = 0;
+                    for (i = 0; i < 16; i++)
+                    {
+                        if (((alpha_bitfield >> i) & 1) == 1)
+                            continue;
+                        if (Colour_list[i][2] < diff_min)
+                        {
+                            diff_min = Colour_list[i][2];
+                            diff_min_index = i;  // darkest colour index of Colour_RGB565
+                        }
+                        if (Colour_list[i][2] > diff_max)
+                        {
+                            diff_max = Colour_list[i][2];
+                            diff_max_index = i;  // brightest colour index of Colour_RGB565
+                        }
+                    }
+                    Organize_Colours();
+                    Process_Indexes_RGB();
+                    index_list.Add(index.ToArray());
+                }
+                break; // Darkest/Lightest
+            case 10: // hidden: Brute Force
                 // test litteraly every couple of ushort rgb565 colours. thus making 65536² combinations (equals the int max size, more than 4 billion combinations)
                 // test which combination is the best one by iterating over all couples
+                // there is no way to use it unless you modify this project and optimize this algorithm
+                // it rather is a code easter egg left for comparison purpose
                 for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
                 {
                     if (_plt0.alpha > 0 && bmp_image[y + _plt0.rgba_channel[3]] < _plt0.cmpr_alpha_threshold)  // no colour
@@ -782,7 +835,7 @@ class CMPR_class
                 }
                 Process_Indexes_RGB();
                 index_list.Add(index.ToArray());
-                break;
+                break;// Brute Force
         }
     }
 

@@ -50,7 +50,7 @@ class Parse_args_class
     byte WrapS = 1; // 0 = Clamp   1 = Repeat   2 = Mirror
     byte WrapT = 1; // 0 = Clamp   1 = Repeat   2 = Mirror
     public byte algorithm = 0;  // 0 = CIE 601    1 = CIE 709     2 = custom RGBA     3 = Gamma sRGB invertion
-    // for cmpr : algorithm   0 = re-encode (CIE 709)   1 = Range Fit   2 = Most Used/Furthest   3 = Darkest/Lightest   4 = No Gradient   5 = Wiimm (counterfeit)   6 = SuperBMD (counterfeit)   7 = Min/Max  8 = brute force
+    // for cmpr : algorithm   0 = re-encode (CIE 709)   1 = Range Fit   2 = Cluster Fit   3 = Wiimm V2 (improved Wiimm Counterfeit)   4 = Average   5 = No Gradient   6 = SuperBMD (counterfeit)   7 = Min/Max  8 = Most Used/Furthest   9 = Darkest/Lightest   10 = brute force (unused)
     public byte alpha = 9;  // 0 = no alpha - 1 = alpha - 2 = mix 
     byte color;
     public byte cmpr_alpha_threshold = 100;
@@ -59,6 +59,8 @@ class Parse_args_class
     byte magnification_filter = 1;  // 0 = Nearest Neighbour   1 = Linear
     byte minification_filter = 1;  // 0 = Nearest Neighbour   1 = Linear
     byte mipmaps_number = 0;
+    public byte distance = 0; // 0 = Luminance   1 = RGB   2 = Euclidian  3 = Infinite   4 = Delta E
+    // another way to see this is 0 = Black&White  1 = Manhattan   2 = Norme 2   3 = Tchevichev  4 = CIEDE2000 / CIELAB
     public byte round3 = 15;
     public byte round4 = 7;
     public byte round5 = 3;
@@ -302,7 +304,7 @@ class Parse_args_class
                 case "PERCEPTUAL BRIGHTNESS":
                 case "PERCEPTUAL-BRIGHTNESS":
                 case "PERCEPTUAL_BRIGHTNESS":
-                    algorithm = 3;
+                    algorithm = 9;
                     break;
                 case "EXIT":
                 case "ASK":
@@ -424,7 +426,7 @@ class Parse_args_class
                 case "USED":
                 case "FURTHEST":
                 case "MUF":
-                    algorithm = 2;
+                    algorithm = 8;
                     break;
                 case "M":
                 case "N-MIPMAPS":
@@ -606,7 +608,7 @@ class Parse_args_class
                 case "NO_GRADIENT":
                 case "NO-GRADIENT":
                 case "SIMILAR":
-                    algorithm = 4;
+                    algorithm = 5;
                     break;
                 case "NN":
                 case "NEAREST":
@@ -627,7 +629,7 @@ class Parse_args_class
                     }
                     if (args[i + 1].ToUpper() == "GRADIENT")
                     {
-                        algorithm = 3;
+                        algorithm = 5;
                         pass = 1;
                     }
                     if (args[i + 1].ToUpper() == "GUI")
@@ -885,6 +887,8 @@ class Parse_args_class
                     break;
                 case "WIIMM":
                 case "WIMGT":
+                case "WIT":
+                case "WSZST":
                 case "WEEMM":
                 case "WEE":
                 case "WIM":
@@ -893,7 +897,7 @@ class Parse_args_class
                 case "WEM":
                 case "WEEM":
                 case "WEMM":
-                    algorithm = 5;
+                    algorithm = 3;
                     break;
                 case "WRAP":
                     if (args.Length < i + 3)
