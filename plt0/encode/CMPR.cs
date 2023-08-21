@@ -56,12 +56,15 @@ class CMPR_class
     byte red2;
     byte green2;
     byte blue2;
-    byte red_min;
-    byte green_min;
-    byte blue_min;
-    byte red_max;
-    byte green_max;
-    byte blue_max;
+    byte red_min = 255;
+    byte green_min = 255;
+    byte blue_min = 255;
+    byte red_max = 0;
+    byte green_max = 0;
+    byte blue_max = 0;
+    ushort all_red = 0;
+    ushort all_green = 0;
+    ushort all_blue = 0;
     byte palette_length;
     ushort pixel;
     byte[] index = new byte[8];  // sub block length
@@ -239,99 +242,147 @@ class CMPR_class
                         break;
                 }
                 break;// default
-            case 1: // Range Fit -   //https://stackoverflow.com/questions/24747643/3d-linear-regression
-                // first, process the red_array, then do the same thing for green and blue.
-                byte[] covariance = new byte[256];
-                short[] red_array = new short[16];
-                short sum = 0;
-                short average = 0;
-                bool skipped;
-                for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+            case 1: // Range Fit
+                switch (_plt0.distance)
                 {
-                    if (!Load_Block())
-                        continue;
-                    skipped = false;
-                    diff_max = 16; // the number of colours in the array - used to remove transparent pixels from the regression calculation
-                    // now let's make the "principal axis", by using 3d linear regression
-                    // fill red_array values
-                    for (i = 0; i < 16; i++)
-                    {
-                        if (((alpha_bitfield >> i) & 1) == 1 || Colour_list[i][0] <= _plt0.cmpr_max)
+                    default:  // Luminance
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
                         {
-                            diff_max -= 1;
-                            red_array[i] = 0x7fff;
-                            continue;
+                            if (!Load_Block_Range_Fit())
+                                continue;
+                            Organize_Colours_Range_Fit();
+                            Process_Indexes_CIE_709();
+                            index_list.Add(index.ToArray());
+                            red_min = 255;
+                            green_min = 255;
+                            blue_min = 255;
+                            red_max = 0;
+                            green_max = 0;
+                            blue_max = 0;
                         }
-                        red_array[i] = rgb565[i << 2];
-                        sum += rgb565[i << 2];
-                    }
-                    // calculate average
-                    if (diff_max == 16)
-                        average = (short)(sum >> 4); // divides by 16 to calculate the average
-                    else
-                        average = (short)(sum / diff_max); // average with skipped pixels
-                    diff = 0;
-                    for (i = 0; i < 15; i++)  // discard skipped pixels
-                    {
-                        if (red_array[i] == 0x7fff)
+                        break;
+                    case 1:  // RGB - Manhattan
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
                         {
-                            diff += 1;
-                            skipped = true;
-                            for (; red_array[diff] == 0x7fff; diff++)
-                            { }
+                            if (!Load_Block_Range_Fit())
+                                continue;
+                            Organize_Colours_Range_Fit();
+                            Process_Indexes_RGB();
+                            index_list.Add(index.ToArray());
+                            red_min = 255;
+                            green_min = 255;
+                            blue_min = 255;
+                            red_max = 0;
+                            green_max = 0;
+                            blue_max = 0;
                         }
-                        if (skipped)
-                            red_array[i] = red_array[i + diff];
-                    }
-                    // Normalize ( this means calculate the distance to the average)
-                    for (byte i = 0; i < diff_max; i++)
-                    {
-                        red_array[i] -= average;
-                    }
-                    // Calculate to covariance matrix
-                    // Sigma = (1 / 16) * X^T * X     X^T = transposed X matrix
-                    for (byte u = 0; u < diff_max; u++)
-                    {
-                        for (byte v = 0; v < diff_max; v++)
+                        break;
+                    case 2:  // Euclidian - 2-way Quadratic
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
                         {
-                            covariance[(u << 4) + v] = (byte)(red_array[u] * red_array[v]);  // yup, that's a matrix product
+                            if (!Load_Block_Range_Fit())
+                                continue;
+                            Organize_Colours_Range_Fit();
+                            Process_Indexes_Euclidian();
+                            index_list.Add(index.ToArray());
+                            red_min = 255;
+                            green_min = 255;
+                            blue_min = 255;
+                            red_max = 0;
+                            green_max = 0;
+                            blue_max = 0;
                         }
-                    }
-                    // covariance[255] = (byte)(red_array[diff_max] * red_array[diff_max]);
-                    // Singular Value Decomposition.
-                    // Factorizes the matrix a into two unitary matrices U and Vh, and a 1 - D array s of singular values(real, non - negative) such that
-                    // a == U @ S @ Vh, where S is a suitably shaped matrix of zeros with main diagonal s.
-                    //MathNet.Numerics.LinearAlgebra svd = new MathNet.Numerics.Linearalgebra();
-                    //svd.Factorization.DenseSvd(covariance);
-                    Organize_Colours();
-                    Process_Indexes_RGB();
-                    index_list.Add(index.ToArray());
+                        break;
+                    case 3:  // Infinite - Tchebichev
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                        {
+                            if (!Load_Block_Range_Fit())
+                                continue;
+                            Organize_Colours_Range_Fit();
+                            Process_Indexes_Infinite();
+                            index_list.Add(index.ToArray());
+                            red_min = 255;
+                            green_min = 255;
+                            blue_min = 255;
+                            red_max = 0;
+                            green_max = 0;
+                            blue_max = 0;
+                        }
+                        break;
+                    case 4:  // Delta E (CIEDE2000) - Lab Colour Space
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                        {
+                            if (!Load_Block_Range_Fit())
+                                continue;
+                            Organize_Colours_Range_Fit();
+                            Process_Indexes_Delta_E();
+                            index_list.Add(index.ToArray());
+                            red_min = 255;
+                            green_min = 255;
+                            blue_min = 255;
+                            red_max = 0;
+                            green_max = 0;
+                            blue_max = 0;
+                        }
+                        break;
                 }
                 break; // Range Fit
-            case 2: // hidden: SuperBMD
-                // SuperBMD is calculating the distance between a pixel and his next neighbour in the 4x4 block, and the couple with the max distance is chosen as the two colours
-                for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+            case 2: // Cluster Fit
+                switch (_plt0.distance)
                 {
-                    if (!Load_Block_RGB())
-                        continue;
-                    // now let's take the darkest and the brightest colour but only by going through neighbours (that's SuperBMD algorithm)
-                    diff_max = 0;
-                    for (i = 0; i < 15; i++)
-                    {
-                        if (((alpha_bitfield >> i) & 1) == 0)
+                    default:  // Luminance
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
                         {
-                            current_diff = (ushort)Math.Abs(Colour_list[i][2] - Colour_list[i + 1][2]);  // substracts RGB sums
-                            if (current_diff > diff_max)
-                            {
-                                diff_max = current_diff;
-                                diff_max_index = i;  // diff_max_index  =  second colour
-                                diff_min_index = (byte)(i + 1); // diff_min_index = first colour
-                            }
+                            if (!Load_Block_Cluster_Fit())
+                                continue;
+                            Organize_Colours_Range_Fit();
+                            Process_Indexes_CIE_709();
+                            index_list.Add(index.ToArray());
+                            all_red = 0;
+                            all_green = 0;
+                            all_blue = 0;
                         }
-                    }
-                    Organize_Colours();
-                    Process_Indexes_RGB();
-                    index_list.Add(index.ToArray());
+                        break;
+                    case 1:  // RGB - Manhattan
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                        {
+                            if (!Load_Block_Range_Fit())
+                                continue;
+                            Organize_Colours_Range_Fit();
+                            Process_Indexes_RGB();
+                            index_list.Add(index.ToArray());
+                        }
+                        break;
+                    case 2:  // Euclidian - 2-way Quadratic
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                        {
+                            if (!Load_Block_Range_Fit())
+                                continue;
+                            Organize_Colours_Range_Fit();
+                            Process_Indexes_Euclidian();
+                            index_list.Add(index.ToArray());
+                        }
+                        break;
+                    case 3:  // Infinite - Tchebichev
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                        {
+                            if (!Load_Block_Range_Fit())
+                                continue;
+                            Organize_Colours_Range_Fit();
+                            Process_Indexes_Infinite();
+                            index_list.Add(index.ToArray());
+                        }
+                        break;
+                    case 4:  // Delta E (CIEDE2000) - Lab Colour Space
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                        {
+                            if (!Load_Block_Range_Fit())
+                                continue;
+                            Organize_Colours_Range_Fit();
+                            Process_Indexes_Delta_E();
+                            index_list.Add(index.ToArray());
+                        }
+                        break;
                 }
                 break; // Cluster Fit
             case 3: // Wiimm
@@ -1182,6 +1233,170 @@ class CMPR_class
         return true;
     }
 
+    private bool Load_Block_Range_Fit()  // Colour list [i][0] == index to rgb565 array   [i][1] == the colour itself  | also fills min/max values
+    {
+        if (_plt0.alpha > 0 && bmp_image[y + _plt0.rgba_channel[3]] < _plt0.cmpr_alpha_threshold)  // no colour
+        {
+            alpha_bitfield += (ushort)(1 << (j + (z * 4)));
+        }
+        else  // opaque / no alpha / colours
+        {
+            red = bmp_image[y + _plt0.rgba_channel[0]];
+            green = bmp_image[y + _plt0.rgba_channel[1]];
+            blue = bmp_image[y + _plt0.rgba_channel[2]];
+            if ((red & 7) > _plt0.round5 && red < 248)  // 5-bit max value on a trimmed byte
+            {
+                red += 8;
+            }
+            if ((green & _plt0.round6) == _plt0.round6 && green < 252)  // 6-bit max value on a trimmed byte
+            {
+                green += 4;
+            }
+            if ((blue & 7) > _plt0.round5 && blue < 248)
+            {
+                blue += 8;
+            }
+            Colour_array[0] = (ushort)((z << 4) + (j << 2)); // link to rgb565 array
+            rgb565[Colour_array[0]] = (byte)(red & 0xf8);
+            rgb565[Colour_array[0] + 1] = (byte)(green & 0xfc);
+            rgb565[Colour_array[0] + 2] = (byte)(blue & 0xf8);
+            if (rgb565[Colour_array[0]] < red_min)
+            {
+                red_min = rgb565[Colour_array[0]];
+            }
+            if (rgb565[Colour_array[0] + 1] < green_min)
+            {
+                green_min = rgb565[Colour_array[0] + 1];
+            }
+            if (rgb565[Colour_array[0] + 2] < blue_min)
+            {
+                blue_min = rgb565[Colour_array[0] + 2];
+            }
+            if (rgb565[Colour_array[0]] > red_max)
+            {
+                red_max = rgb565[Colour_array[0]];
+            }
+            if (rgb565[Colour_array[0] + 1] > green_max)
+            {
+                green_max = rgb565[Colour_array[0] + 1];
+            }
+            if (rgb565[Colour_array[0] + 2] > blue_max)
+            {
+                blue_max = rgb565[Colour_array[0] + 2];
+            }
+            pixel = (ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)); // the RGB565 colour
+            Colour_array[1] = pixel;
+        }
+        Colour_list.Add(Colour_array.ToArray());
+        j++;
+        if (j != 4)
+        {
+            return false;
+        }
+        j = 0;
+        z++;
+        y += (_plt0.canvas_width << 2) - 16; // returns to the start of the next line  - bitmap width << 2 because it's a 32-bit BGRA bmp file
+        if (z != 4)
+        {
+            return false;  // Still within the same 4x4 block
+        }
+        x++;
+        z = 0;
+        width += 2;  // triggered 4 times per block
+        if (width == _plt0.canvas_width)
+        {
+            width = 0;
+            y += (_plt0.canvas_width << 2) - 16;
+            x = 0;
+        }
+        else if (x == 2)
+        {
+            // the cursor warped horizontally to the first block in width 4 lines above
+            y += 16;  // this is right in the mirror and mirrorred mode
+        }
+        else if (x == 4)
+        {
+            y -= (_plt0.canvas_width << 5) + 16; // minus 8 lines + point to next block
+            x = 0;
+        }
+        else
+        {
+            y -= ((_plt0.canvas_width << 4)) + 16;  // substract 4 lines and goes one block to the left
+        }
+        return true;
+    }
+    private bool Load_Block_Cluster_Fit()  // Colour list [i][0] == index to rgb565 array   [i][1] == the colour itself  | also fills min/max values
+    {
+        if (_plt0.alpha > 0 && bmp_image[y + _plt0.rgba_channel[3]] < _plt0.cmpr_alpha_threshold)  // no colour
+        {
+            alpha_bitfield += (ushort)(1 << (j + (z * 4)));
+        }
+        else  // opaque / no alpha / colours
+        {
+            red = bmp_image[y + _plt0.rgba_channel[0]];
+            green = bmp_image[y + _plt0.rgba_channel[1]];
+            blue = bmp_image[y + _plt0.rgba_channel[2]];
+            if ((red & 7) > _plt0.round5 && red < 248)  // 5-bit max value on a trimmed byte
+            {
+                red += 8;
+            }
+            if ((green & _plt0.round6) == _plt0.round6 && green < 252)  // 6-bit max value on a trimmed byte
+            {
+                green += 4;
+            }
+            if ((blue & 7) > _plt0.round5 && blue < 248)
+            {
+                blue += 8;
+            }
+            Colour_array[0] = (ushort)((z << 4) + (j << 2)); // link to rgb565 array
+            rgb565[Colour_array[0]] = (byte)(red & 0xf8);
+            rgb565[Colour_array[0] + 1] = (byte)(green & 0xfc);
+            rgb565[Colour_array[0] + 2] = (byte)(blue & 0xf8);
+            all_red += rgb565[Colour_array[0]];
+            all_green += rgb565[Colour_array[0] + 1];
+            all_blue += rgb565[Colour_array[0] + 2];
+            pixel = (ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3)); // the RGB565 colour
+            Colour_array[1] = pixel;
+        }
+        Colour_list.Add(Colour_array.ToArray());
+        j++;
+        if (j != 4)
+        {
+            return false;
+        }
+        j = 0;
+        z++;
+        y += (_plt0.canvas_width << 2) - 16; // returns to the start of the next line  - bitmap width << 2 because it's a 32-bit BGRA bmp file
+        if (z != 4)
+        {
+            return false;  // Still within the same 4x4 block
+        }
+        x++;
+        z = 0;
+        width += 2;  // triggered 4 times per block
+        if (width == _plt0.canvas_width)
+        {
+            width = 0;
+            y += (_plt0.canvas_width << 2) - 16;
+            x = 0;
+        }
+        else if (x == 2)
+        {
+            // the cursor warped horizontally to the first block in width 4 lines above
+            y += 16;  // this is right in the mirror and mirrorred mode
+        }
+        else if (x == 4)
+        {
+            y -= (_plt0.canvas_width << 5) + 16; // minus 8 lines + point to next block
+            x = 0;
+        }
+        else
+        {
+            y -= ((_plt0.canvas_width << 4)) + 16;  // substract 4 lines and goes one block to the left
+        }
+        return true;
+    }
+
     // There's no Load_Block_Infinite nor Delta_E since they're used for differences between a pair of two colours, no more.
 
     private void Organize_Colours()
@@ -1252,6 +1467,56 @@ class CMPR_class
                 palette_rgba[5] = rgb565[Colour_list[diff_min_index][0] + 1]; // green2
                 palette_rgba[6] = rgb565[Colour_list[diff_min_index][0] + 2]; // blue2
             }
+
+            palette_rgba[8] = (byte)(((palette_rgba[0] << 1) / 3) + (palette_rgba[4] / 3));
+            palette_rgba[9] = (byte)(((palette_rgba[1] << 1) / 3) + (palette_rgba[5] / 3));
+            palette_rgba[10] = (byte)(((palette_rgba[2] << 1) / 3) + (palette_rgba[6] / 3)); // the RGB565 third colour
+
+            palette_rgba[12] = (byte)((palette_rgba[0] / 3) + ((palette_rgba[4] << 1) / 3));
+            palette_rgba[13] = (byte)((palette_rgba[1] / 3) + ((palette_rgba[5] << 1) / 3));
+            palette_rgba[14] = (byte)((palette_rgba[2] / 3) + ((palette_rgba[6] << 1) / 3)); // the RGB565 fourth colour
+
+            palette_length = 4;
+        }
+    }
+    private void Organize_Colours_Range_Fit()
+    {
+        pixel = (ushort)(((red_min >> 3) << 11) + ((green_min >> 2) << 5) + (blue_min >> 3)); // the RGB565 colour
+        if (alpha_bitfield != 0)  // put the biggest ushort in second place
+        {
+            index[0] = (byte)(pixel >> 8);
+            index[1] = (byte)(pixel);
+            palette_rgba[0] = red_min; // red
+            palette_rgba[1] = green_min; // green
+            palette_rgba[2] = blue_min; // blue
+            palette_rgba[4] = red_max; // red
+            palette_rgba[5] = green_max; // green
+            palette_rgba[6] = blue_max; // blue
+            pixel = (ushort)(((red_max >> 3) << 11) + ((green_max >> 2) << 5) + (blue_max >> 3)); // the RGB565 colour
+            index[2] = (byte)(pixel >> 8);
+            index[3] = (byte)(pixel);
+
+            palette_rgba[8] = (byte)((palette_rgba[0] + palette_rgba[4]) >> 1);
+            palette_rgba[9] = (byte)((palette_rgba[1] + palette_rgba[5]) >> 1);
+            palette_rgba[10] = (byte)((palette_rgba[2] + palette_rgba[6]) >> 1); // the RGB565 third colour
+            palette_length = 3;
+
+            // last colour isn't in the palette, it's in _plt0.alpha_bitfield
+        }
+        else  // put biggest ushort in first place
+        {
+            // of course, that's the exact opposite!
+            index[2] = (byte)(pixel >> 8);
+            index[3] = (byte)(pixel);
+            palette_rgba[0] = red_max; // red
+            palette_rgba[1] = green_max; // green
+            palette_rgba[2] = blue_max; // blue
+            palette_rgba[4] = red_min; // red2
+            palette_rgba[5] = green_min; // green2
+            palette_rgba[6] = blue_min; // blue2
+            pixel = (ushort)(((red_max >> 3) << 11) + ((green_max >> 2) << 5) + (blue_max >> 3)); // the RGB565 colour
+            index[0] = (byte)(pixel >> 8);
+            index[1] = (byte)(pixel);
 
             palette_rgba[8] = (byte)(((palette_rgba[0] << 1) / 3) + (palette_rgba[4] / 3));
             palette_rgba[9] = (byte)(((palette_rgba[1] << 1) / 3) + (palette_rgba[5] / 3));
