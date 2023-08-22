@@ -328,6 +328,11 @@ class CMPR_class
                 }
                 break; // Range Fit
             case 2: // Cluster Fit
+                if (_plt0.cmpr_max == 0)  // the number of iterations was not set by the user
+                { 
+                    _plt0.cmpr_max = 10;  // recommended value
+                }
+
                 switch (_plt0.distance)
                 {
                     default:  // Luminance
@@ -335,7 +340,24 @@ class CMPR_class
                         {
                             if (!Load_Block_Cluster_Fit())
                                 continue;
-                            Organize_Colours_Range_Fit();
+                            // initialize the two endpoints as the colour average of this block.
+                            palette_rgba[0] = (byte)(all_red >> 4);  // total sum of red divided by number of pixels
+                            palette_rgba[1] = (byte)(all_green >> 4);  // green sum divided by 16
+                            palette_rgba[2] = (byte)(all_blue >> 4);  // blue channel of the averaged color
+                            palette_rgba[4] = (byte)(all_red >> 4);
+                            palette_rgba[5] = (byte)(all_green >> 4);
+                            palette_rgba[6] = (byte)(all_blue >> 4);
+                            for (i = 0; i < _plt0.cmpr_max; i++)  // number of iterations
+                            {
+                                // Assign colors to endpoints
+                                List<byte[]> assignedColors1 = new List<byte[]>();
+                                List<byte[]> assignedColors2 = new List<byte[]>();
+                                for (w = 0; w < 16; w++) // iterate over each colour
+                                {
+                                    // diff = R- rgb656[w << 2]
+                                }
+                            }
+                            Organize_Colours();  // quantize colours and build palette
                             Process_Indexes_CIE_709();
                             index_list.Add(index.ToArray());
                             all_red = 0;

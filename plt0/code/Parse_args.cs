@@ -46,7 +46,7 @@ class Parse_args_class
     public bool warn = false;
     public bool stfu = false;
     public bool no_warning = false;
-    public byte cmpr_max = 0;  // if a color is used X times or less, it will be ignored (for the darkest/lightest algorithm)  // wimgt's cmpr encoding is better than mine. I gotta admit. 
+    public byte cmpr_max = 0;  // if a color is used X times or less, it will be ignored (for the darkest/lightest algorithm) 
     byte WrapS = 1; // 0 = Clamp   1 = Repeat   2 = Mirror
     byte WrapT = 1; // 0 = Clamp   1 = Repeat   2 = Mirror
     public byte algorithm = 0;  // 0 = CIE 601    1 = CIE 709     2 = custom RGBA     3 = Gamma sRGB invertion
