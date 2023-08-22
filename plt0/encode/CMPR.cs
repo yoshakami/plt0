@@ -63,6 +63,8 @@ class CMPR_class
     byte red_max = 0;
     byte green_max = 0;
     byte blue_max = 0;
+    double diff1;
+    double diff2;
     ushort all_red = 0;
     ushort all_green = 0;
     ushort all_blue = 0;
@@ -91,6 +93,7 @@ class CMPR_class
     ushort[] Colour_pixel = { 1, 0 };  // No Gradient
     ushort width = 0;
     ushort[] Colour_array = { 1, 0, 0 };  // default value of Colour_List
+    byte[] rgb = { 0,0,0 };
     ushort diff_max;
     HashSet<Tuple<byte, byte>> encounteredPairs = new HashSet<Tuple<byte, byte>>();
     public void CMPR(List<byte[]> index_list, byte[] bmp_image_ref)
@@ -505,8 +508,8 @@ class CMPR_class
                                     if (processedColors.Contains(color))
                                         continue;
                                     processedColors.Add(color);
-                                    diff = (ushort)(Math.Abs(palette_rgba[0] - color[0]) * 0.0721 + Math.Abs(palette_rgba[1] - color[1]) * 0.7154 + Math.Abs(palette_rgba[2] - color[2]) * 0.2125);
-                                    diff0 = (ushort)(Math.Abs(palette_rgba[4] - color[0]) * 0.0721 + Math.Abs(palette_rgba[5] - color[1]) * 0.7154 + Math.Abs(palette_rgba[6] - color[2]) * 0.2125);
+                                    diff = (ushort)((int)(Math.Pow(palette_rgba[0] - color[0], 2) + Math.Pow(palette_rgba[1] - color[1], 2) + Math.Pow(palette_rgba[2] - color[2], 2)) >> 2);
+                                    diff0 = (ushort)((int)(Math.Pow(palette_rgba[4] - color[0], 2) + Math.Pow(palette_rgba[5] - color[1], 2) + Math.Pow(palette_rgba[6] - color[2], 2)) >> 2);
                                     if (diff < diff0)
                                     {
                                         assignedColors1.Add(color);
@@ -576,8 +579,56 @@ class CMPR_class
                                     if (processedColors.Contains(color))
                                         continue;
                                     processedColors.Add(color);
-                                    diff = (ushort)(Math.Abs(palette_rgba[0] - color[0]) * 0.0721 + Math.Abs(palette_rgba[1] - color[1]) * 0.7154 + Math.Abs(palette_rgba[2] - color[2]) * 0.2125);
-                                    diff0 = (ushort)(Math.Abs(palette_rgba[4] - color[0]) * 0.0721 + Math.Abs(palette_rgba[5] - color[1]) * 0.7154 + Math.Abs(palette_rgba[6] - color[2]) * 0.2125);
+                                    red = (byte)Math.Abs(palette_rgba[0] - color[0]);
+                                    green = (byte)Math.Abs(palette_rgba[1] - color[1]);
+                                    blue = (byte)Math.Abs(palette_rgba[2] - color[2]);
+                                    if (red > green)  // takes the biggest value between red, green, and blue
+                                    {
+                                        if (red > blue)
+                                        {
+                                            diff = red;
+                                        }
+                                        else
+                                        {
+                                            diff = blue;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (green > blue)
+                                        {
+                                            diff = green;
+                                        }
+                                        else
+                                        {
+                                            diff = blue;
+                                        }
+                                    }
+                                    red = (byte)Math.Abs(palette_rgba[4] - color[0]);
+                                    green = (byte)Math.Abs(palette_rgba[5] - color[1]);
+                                    blue = (byte)Math.Abs(palette_rgba[6] - color[2]);
+                                    if (red > green)  // takes the biggest value between red, green, and blue
+                                    {
+                                        if (red > blue)
+                                        {
+                                            diff0 = red;
+                                        }
+                                        else
+                                        {
+                                            diff0 = blue;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (green > blue)
+                                        {
+                                            diff0 = green;
+                                        }
+                                        else
+                                        {
+                                            diff0 = blue;
+                                        }
+                                    }
                                     if (diff < diff0)
                                     {
                                         assignedColors1.Add(color);
@@ -634,6 +685,9 @@ class CMPR_class
                             palette_rgba[6] = (byte)(all_blue >> 4);
                             for (i = 0; i < _plt0.cmpr_max; i++)  // number of iterations
                             {
+                                rgb[0] = palette_rgba[4];
+                                rgb[1] = palette_rgba[5];
+                                rgb[2] = palette_rgba[6];
                                 // Assign colors to endpoints
                                 List<byte[]> assignedColors1 = new List<byte[]>();
                                 List<byte[]> assignedColors2 = new List<byte[]>();
@@ -647,9 +701,9 @@ class CMPR_class
                                     if (processedColors.Contains(color))
                                         continue;
                                     processedColors.Add(color);
-                                    diff = (ushort)(Math.Abs(palette_rgba[0] - color[0]) * 0.0721 + Math.Abs(palette_rgba[1] - color[1]) * 0.7154 + Math.Abs(palette_rgba[2] - color[2]) * 0.2125);
-                                    diff0 = (ushort)(Math.Abs(palette_rgba[4] - color[0]) * 0.0721 + Math.Abs(palette_rgba[5] - color[1]) * 0.7154 + Math.Abs(palette_rgba[6] - color[2]) * 0.2125);
-                                    if (diff < diff0)
+                                    diff1 = CalculateCIEDE2000(palette_rgba, color);
+                                    diff2 = CalculateCIEDE2000(rgb, color);
+                                    if (diff1 < diff2)
                                     {
                                         assignedColors1.Add(color);
                                     }
@@ -796,30 +850,89 @@ class CMPR_class
                 index_list.AddRange(index_list_7);
                 index_list.AddRange(index_list_8);
                 break; // Wiimm V2
-            case 4: // hidden: SuperBMD
-                    // SuperBMD is calculating the distance between a pixel and his next neighbour in the 4x4 block, and the couple with the max distance is chosen as the two colours
-                for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+            case 4: // Average
+                switch (_plt0.distance)
                 {
-                    if (!Load_Block_RGB())
-                        continue;
-                    // now let's take the darkest and the brightest colour but only by going through neighbours (that's SuperBMD algorithm)
-                    diff_max = 0;
-                    for (i = 0; i < 15; i++)
-                    {
-                        if (((alpha_bitfield >> i) & 1) == 0)
+                    default:  // Luminance
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
                         {
-                            diff0 = (ushort)Math.Abs(Colour_list[i][2] - Colour_list[i + 1][2]);  // substracts RGB sums
-                            if (diff0 > diff_max)
-                            {
-                                diff_max = diff0;
-                                diff_max_index = i;  // diff_max_index  =  second colour
-                                diff_min_index = (byte)(i + 1); // diff_min_index = first colour
-                            }
+                            if (!Load_Block_Range_Fit())
+                                continue;
+                            Organize_Colours_Range_Fit();
+                            Process_Indexes_CIE_709();
+                            index_list.Add(index.ToArray());
+                            red_min = 255;
+                            green_min = 255;
+                            blue_min = 255;
+                            red_max = 0;
+                            green_max = 0;
+                            blue_max = 0;
                         }
-                    }
-                    Organize_Colours();
-                    Process_Indexes_RGB();
-                    index_list.Add(index.ToArray());
+                        break;
+                    case 1:  // RGB - Manhattan
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                        {
+                            if (!Load_Block_Range_Fit())
+                                continue;
+                            Organize_Colours_Range_Fit();
+                            Process_Indexes_RGB();
+                            index_list.Add(index.ToArray());
+                            red_min = 255;
+                            green_min = 255;
+                            blue_min = 255;
+                            red_max = 0;
+                            green_max = 0;
+                            blue_max = 0;
+                        }
+                        break;
+                    case 2:  // Euclidian - 2-way Quadratic
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                        {
+                            if (!Load_Block_Range_Fit())
+                                continue;
+                            Organize_Colours_Range_Fit();
+                            Process_Indexes_Euclidian();
+                            index_list.Add(index.ToArray());
+                            red_min = 255;
+                            green_min = 255;
+                            blue_min = 255;
+                            red_max = 0;
+                            green_max = 0;
+                            blue_max = 0;
+                        }
+                        break;
+                    case 3:  // Infinite - Tchebichev
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                        {
+                            if (!Load_Block_Range_Fit())
+                                continue;
+                            Organize_Colours_Range_Fit();
+                            Process_Indexes_Infinite();
+                            index_list.Add(index.ToArray());
+                            red_min = 255;
+                            green_min = 255;
+                            blue_min = 255;
+                            red_max = 0;
+                            green_max = 0;
+                            blue_max = 0;
+                        }
+                        break;
+                    case 4:  // Delta E (CIEDE2000) - Lab Colour Space
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                        {
+                            if (!Load_Block_Range_Fit())
+                                continue;
+                            Organize_Colours_Range_Fit();
+                            Process_Indexes_Delta_E();
+                            index_list.Add(index.ToArray());
+                            red_min = 255;
+                            green_min = 255;
+                            blue_min = 255;
+                            red_max = 0;
+                            green_max = 0;
+                            blue_max = 0;
+                        }
+                        break;
                 }
                 break; // Average
             case 5:  // CI2 - most used colours with _plt0.diversity - no gradient - similar - looks pixelated
@@ -2188,9 +2301,9 @@ class CMPR_class
     }
     private void Process_Indexes_Infinite()
     {
-        ushort diff_red;
-        ushort diff_green;
-        ushort diff_blue;
+        byte diff_red;
+        byte diff_green;
+        byte diff_blue;
         // time to get the "linear interpolation to add third and fourth colour
         // CI2 if that's a name
         for (i = 4; i < 8; i++)
@@ -2211,9 +2324,9 @@ class CMPR_class
                     diff_min = 0xffff;
                     for (i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
                     { // calculate difference between each separate colour channel and store the sum
-                        diff_red = (ushort)Math.Abs(palette_rgba[i << 2] - rgb565[(h << 4) + (w << 2)]);
-                        diff_green = (ushort)Math.Abs(palette_rgba[(i << 2) + 1] - rgb565[(h << 4) + (w << 2) + 1]);
-                        diff_blue = (ushort)Math.Abs(palette_rgba[(i << 2) + 2] - rgb565[(h << 4) + (w << 2) + 2]);
+                        diff_red = (byte)Math.Abs(palette_rgba[i << 2] - rgb565[(h << 4) + (w << 2)]);
+                        diff_green = (byte)Math.Abs(palette_rgba[(i << 2) + 1] - rgb565[(h << 4) + (w << 2) + 1]);
+                        diff_blue = (byte)Math.Abs(palette_rgba[(i << 2) + 2] - rgb565[(h << 4) + (w << 2) + 2]);
                         if (diff_red > diff_green)  // takes the biggest value between red, green, and blue
                         {
                             if (diff_red > diff_blue)
@@ -2269,9 +2382,9 @@ class CMPR_class
                     diff_min = 0xffff;
                     for (i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
                     { // calculate difference between each separate colour channel and store the sum
-                        diff_red = (ushort)Math.Abs(palette_rgba[i << 2] - rgb565[(h << 4) + (w << 2)]);
-                        diff_green = (ushort)Math.Abs(palette_rgba[(i << 2) + 1] - rgb565[(h << 4) + (w << 2) + 1]);
-                        diff_blue = (ushort)Math.Abs(palette_rgba[(i << 2) + 2] - rgb565[(h << 4) + (w << 2) + 2]);
+                        diff_red = (byte)Math.Abs(palette_rgba[i << 2] - rgb565[(h << 4) + (w << 2)]);
+                        diff_green = (byte)Math.Abs(palette_rgba[(i << 2) + 1] - rgb565[(h << 4) + (w << 2) + 1]);
+                        diff_blue = (byte)Math.Abs(palette_rgba[(i << 2) + 2] - rgb565[(h << 4) + (w << 2) + 2]);
                         if (diff_red > diff_green)  // takes the biggest value between red, green, and blue
                         {
                             if (diff_red > diff_blue)
@@ -2320,9 +2433,9 @@ class CMPR_class
                     // diff_min_index = w;
                     for (i = 0; i < palette_length; i++)  // process the colour palette to find the closest colour corresponding to the current pixel
                     { // calculate difference between each separate colour channel and store the sum
-                        diff_red = (ushort)Math.Abs(palette_rgba[i << 2] - rgb565[(h << 4) + (w << 2)]);
-                        diff_green = (ushort)Math.Abs(palette_rgba[(i << 2) + 1] - rgb565[(h << 4) + (w << 2) + 1]);
-                        diff_blue = (ushort)Math.Abs(palette_rgba[(i << 2) + 2] - rgb565[(h << 4) + (w << 2) + 2]);
+                        diff_red = (byte)Math.Abs(palette_rgba[i << 2] - rgb565[(h << 4) + (w << 2)]);
+                        diff_green = (byte)Math.Abs(palette_rgba[(i << 2) + 1] - rgb565[(h << 4) + (w << 2) + 1]);
+                        diff_blue = (byte)Math.Abs(palette_rgba[(i << 2) + 2] - rgb565[(h << 4) + (w << 2) + 2]);
                         if (diff_red > diff_green)  // takes the biggest value between red, green, and blue
                         {
                             if (diff_red > diff_blue)
