@@ -93,7 +93,7 @@ class CMPR_class
     ushort[] Colour_pixel = { 1, 0 };  // No Gradient
     ushort width = 0;
     ushort[] Colour_array = { 1, 0, 0 };  // default value of Colour_List
-    byte[] rgb = { 0,0,0 };
+    byte[] rgb = { 0, 0, 0 };
     ushort diff_max;
     HashSet<Tuple<byte, byte>> encounteredPairs = new HashSet<Tuple<byte, byte>>();
     public void CMPR(List<byte[]> index_list, byte[] bmp_image_ref)
@@ -333,7 +333,7 @@ class CMPR_class
                 break; // Range Fit
             case 2: // Cluster Fit
                 if (_plt0.cmpr_max == 0)  // the number of iterations was not set by the user
-                { 
+                {
                     _plt0.cmpr_max = 10;  // recommended value
                 }
 
@@ -357,12 +357,12 @@ class CMPR_class
                                 List<byte[]> assignedColors1 = new List<byte[]>();
                                 List<byte[]> assignedColors2 = new List<byte[]>();
                                 HashSet<byte[]> processedColors = new HashSet<byte[]>();
-                                for (w = 0; w < 15; w++) // iterate over each colour
+                                for (w = 0; w < 16; w++) // iterate over each colour
                                 {
 
                                     if (((alpha_bitfield >> w) & 1) == 1)
                                         continue;
-                                    byte[] color = {rgb565[w << 2], rgb565[(w << 2) + 1], rgb565[(w << 2) + 2] };
+                                    byte[] color = { rgb565[w << 2], rgb565[(w << 2) + 1], rgb565[(w << 2) + 2] };
                                     if (processedColors.Contains(color))
                                         continue;
                                     processedColors.Add(color);
@@ -428,7 +428,7 @@ class CMPR_class
                                 List<byte[]> assignedColors1 = new List<byte[]>();
                                 List<byte[]> assignedColors2 = new List<byte[]>();
                                 HashSet<byte[]> processedColors = new HashSet<byte[]>();
-                                for (w = 0; w < 15; w++) // iterate over each colour
+                                for (w = 0; w < 16; w++) // iterate over each colour
                                 {
 
                                     if (((alpha_bitfield >> w) & 1) == 1)
@@ -499,7 +499,7 @@ class CMPR_class
                                 List<byte[]> assignedColors1 = new List<byte[]>();
                                 List<byte[]> assignedColors2 = new List<byte[]>();
                                 HashSet<byte[]> processedColors = new HashSet<byte[]>();
-                                for (w = 0; w < 15; w++) // iterate over each colour
+                                for (w = 0; w < 16; w++) // iterate over each colour
                                 {
 
                                     if (((alpha_bitfield >> w) & 1) == 1)
@@ -570,7 +570,7 @@ class CMPR_class
                                 List<byte[]> assignedColors1 = new List<byte[]>();
                                 List<byte[]> assignedColors2 = new List<byte[]>();
                                 HashSet<byte[]> processedColors = new HashSet<byte[]>();
-                                for (w = 0; w < 15; w++) // iterate over each colour
+                                for (w = 0; w < 16; w++) // iterate over each colour
                                 {
 
                                     if (((alpha_bitfield >> w) & 1) == 1)
@@ -692,7 +692,7 @@ class CMPR_class
                                 List<byte[]> assignedColors1 = new List<byte[]>();
                                 List<byte[]> assignedColors2 = new List<byte[]>();
                                 HashSet<byte[]> processedColors = new HashSet<byte[]>();
-                                for (w = 0; w < 15; w++) // iterate over each colour
+                                for (w = 0; w < 16; w++) // iterate over each colour
                                 {
 
                                     if (((alpha_bitfield >> w) & 1) == 1)
@@ -939,7 +939,7 @@ class CMPR_class
                 {
                     for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
                     {
-                        if (!Load_Block_RGB())
+                        if (!Load_Block())
                             continue;
                         // now let's just try to take the most two used colours and use _plt0.diversity I guess
                         // implementing my own way to find most used colours
@@ -955,80 +955,46 @@ class CMPR_class
                                 }
                             }
                         }
-                        Colour_list.Sort(new UshortArrayComparer());  // sorts the table by the most used colour first
-                        c = 0;
+                        Colour_list.Sort(new UshortArrayComparer2());  // sorts the table by the most used colour first
+                        c = 1;
+                        diff_min_index = 0; // most used colour
+                        diff_max_index = 0xff;
                         for (i = 0; i < 16 && c < 2; i++)  // build the colour table with the two most used colours and _plt0.diversity
                         {
                             not_similar = true;
-                            if (Colour_list[i][2] / 16 < _plt0.percentage / 100)
+                            if (Colour_list[i][2] / 16 < _plt0.percentage / 100 || ((alpha_bitfield >> i) & 1) == 1)
                             {
-                                // break;  // THIS IS BREAKING THE LOOP
                                 continue;
                             }
-                            if (c == 2)  // checks for _plt0.diversity before adding the second colour ^^
+                            if (Math.Abs(rgb565[Colour_list[diff_min_index][0]] - rgb565[i << 2]) < _plt0.diversity && Math.Abs(rgb565[Colour_list[diff_min_index][0] + 1] - rgb565[(i << 2) + 1]) < _plt0.diversity && Math.Abs(rgb565[Colour_list[diff_min_index][0] + 2] - rgb565[(i << 2) + 2]) < _plt0.diversity)
                             {
-                                if (Math.Abs((index[0] & 248) - ((Colour_list[i][1] >> 8) & 248)) < _plt0.diversity && Math.Abs(((index[0] & 7) << 5) + ((index[1] >> 3) & 28) - ((Colour_list[i][1] >> 3) & 252)) < _plt0.diversity && Math.Abs(((index[1] << 3) & 248) - (Colour_list[i][1] << 3) & 248) < _plt0.diversity)
-                                {
-                                    not_similar = false;
-                                    // break;  // EGAD YOU4VE BROKEN THE LOOP
-                                    continue;
-                                }
-                            }
-                            if (not_similar)
-                            {
-                                diff_min_index = i;  // adds the value
-                                c += 1;
+                                diff_max_index = i;  // adds the value
+                                break;
                             }
                         }
-                        if (c < 4) // if the colour palette is not full
+                        if (diff_max_index == 0xff)
                         {
-                            // Console.WriteLine("The colour palette was not full, starting second loop...\n");
-
-                            for (i = 0; i < 16 && c < 2; i++)
-                            {
-                                not_similar = true;
-                                if (Colour_list[i][2] / 16 < _plt0.percentage2 / 100)
-                                {
-                                    continue;
-                                }
-                                if (c == 2)  // checks for _plt0.diversity before adding the second colour ^^
-                                {
-                                    if (Math.Abs((index[0] & 248) - ((Colour_list[i][1] >> 8) & 248)) < _plt0.diversity2 && Math.Abs(((index[0] & 7) << 5) + ((index[1] >> 3) & 28) - ((Colour_list[i][1] >> 3) & 252)) < _plt0.diversity2 && Math.Abs(((index[1] << 3) & 248) - (Colour_list[i][1] << 3) & 248) < _plt0.diversity2)
-                                    {
-                                        not_similar = false;
-                                        continue;
-                                    }
-                                }
-                                if (not_similar)
-                                {
-                                    diff_min_index = i;  // adds the value
-                                    c += 1;
-                                }
-                            }
-                            if (c < 4) // if the colour palette is still not full
-                            {
-                                // Console.WriteLine("The colour palette is not full, this program will fill it with the most used colours\n");
-                                for (i = 0; i < 16 && c < 2; i++)
-                                {
-                                    not_similar = true;
-                                    if (c == 2)
-                                    {
-                                        if ((index[0] == (byte)(Colour_list[i][1] >> 8)) && index[1] == (byte)(Colour_list[i][1]))
-                                        {
-                                            not_similar = false;
-                                            continue;
-                                        }
-                                    }
-                                    if (not_similar)
-                                    {
-                                        diff_min_index = i;  // adds the value
-                                        c += 1;
-                                    }
-                                }
-                            }
+                            diff_max_index = 1;
                         }
                         Organize_Colours();
-                        Process_Indexes_RGB();
+                        switch (_plt0.distance)
+                        {
+                            default: // Luminance
+                                Process_Indexes_CIE_709();
+                                break;
+                            case 1: // RGB
+                                Process_Indexes_RGB();
+                                break;
+                            case 2: // Euclidian
+                                Process_Indexes_Euclidian();
+                                break;
+                            case 3:  // Tchebichev
+                                Process_Indexes_Infinite();
+                                break;
+                            case 4:  // CIEDE2000
+                                Process_Indexes_Delta_E();
+                                break;
+                        }
                         index_list.Add(index.ToArray());
                     }
                 }
