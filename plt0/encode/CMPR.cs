@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -86,7 +87,7 @@ class CMPR_class
     int x = 0;
     int y = 0;
     byte i = 0;
-    ushort current_diff;
+    ushort diff0;
     ushort[] Colour_pixel = { 1, 0 };  // No Gradient
     ushort width = 0;
     ushort[] Colour_array = { 1, 0, 0 };  // default value of Colour_List
@@ -352,12 +353,53 @@ class CMPR_class
                                 // Assign colors to endpoints
                                 List<byte[]> assignedColors1 = new List<byte[]>();
                                 List<byte[]> assignedColors2 = new List<byte[]>();
-                                for (w = 0; w < 16; w++) // iterate over each colour
+                                HashSet<byte[]> processedColors = new HashSet<byte[]>();
+                                for (w = 0; w < 15; w++) // iterate over each colour
                                 {
-                                    // diff = R- rgb656[w << 2]
+
+                                    if (((alpha_bitfield >> w) & 1) == 1)
+                                        continue;
+                                    byte[] color = {rgb565[w << 2], rgb565[(w << 2) + 1], rgb565[(w << 2) + 2] };
+                                    if (processedColors.Contains(color))
+                                        continue;
+                                    processedColors.Add(color);
+                                    diff = (ushort)(Math.Abs(palette_rgba[0] - color[0]) * 0.0721 + Math.Abs(palette_rgba[1] - color[1]) * 0.7154 + Math.Abs(palette_rgba[2] - color[2]) * 0.2125);
+                                    diff0 = (ushort)(Math.Abs(palette_rgba[4] - color[0]) * 0.0721 + Math.Abs(palette_rgba[5] - color[1]) * 0.7154 + Math.Abs(palette_rgba[6] - color[2]) * 0.2125);
+                                    if (diff < diff0)
+                                    {
+                                        assignedColors1.Add(color);
+                                    }
+                                    else
+                                    {
+                                        assignedColors2.Add(color);
+                                    }
                                 }
+                                all_red = 0;
+                                all_green = 0;
+                                all_blue = 0;
+                                for (w = 0; w < assignedColors1.Count; w++)
+                                {
+                                    all_red += assignedColors1[w][0];
+                                    all_green += assignedColors1[w][1];
+                                    all_blue += assignedColors1[w][2];
+                                }
+                                palette_rgba[0] = (byte)(all_red / assignedColors1.Count);  // total sum of red divided by number of pixels
+                                palette_rgba[1] = (byte)(all_green / assignedColors1.Count);  // green sum divided by 16
+                                palette_rgba[2] = (byte)(all_blue / assignedColors1.Count);  // blue channel of the averaged color
+                                all_red = 0;
+                                all_green = 0;
+                                all_blue = 0;
+                                for (w = 0; w < assignedColors2.Count; w++)
+                                {
+                                    all_red += assignedColors2[w][0];
+                                    all_green += assignedColors2[w][1];
+                                    all_blue += assignedColors2[w][2];
+                                }
+                                palette_rgba[4] = (byte)(all_red / assignedColors2.Count);
+                                palette_rgba[5] = (byte)(all_green / assignedColors2.Count);
+                                palette_rgba[6] = (byte)(all_blue / assignedColors2.Count);
                             }
-                            Organize_Colours();  // quantize colours and build palette
+                            Organize_Colours_Cluster_Fit();  // quantize colours and build palette
                             Process_Indexes_CIE_709();
                             index_list.Add(index.ToArray());
                             all_red = 0;
@@ -368,41 +410,285 @@ class CMPR_class
                     case 1:  // RGB - Manhattan
                         for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
                         {
-                            if (!Load_Block_Range_Fit())
+                            if (!Load_Block_Cluster_Fit())
                                 continue;
-                            Organize_Colours_Range_Fit();
+                            // initialize the two endpoints as the colour average of this block.
+                            palette_rgba[0] = (byte)(all_red >> 4);  // total sum of red divided by number of pixels
+                            palette_rgba[1] = (byte)(all_green >> 4);  // green sum divided by 16
+                            palette_rgba[2] = (byte)(all_blue >> 4);  // blue channel of the averaged color
+                            palette_rgba[4] = (byte)(all_red >> 4);
+                            palette_rgba[5] = (byte)(all_green >> 4);
+                            palette_rgba[6] = (byte)(all_blue >> 4);
+                            for (i = 0; i < _plt0.cmpr_max; i++)  // number of iterations
+                            {
+                                // Assign colors to endpoints
+                                List<byte[]> assignedColors1 = new List<byte[]>();
+                                List<byte[]> assignedColors2 = new List<byte[]>();
+                                HashSet<byte[]> processedColors = new HashSet<byte[]>();
+                                for (w = 0; w < 15; w++) // iterate over each colour
+                                {
+
+                                    if (((alpha_bitfield >> w) & 1) == 1)
+                                        continue;
+                                    byte[] color = { rgb565[w << 2], rgb565[(w << 2) + 1], rgb565[(w << 2) + 2] };
+                                    if (processedColors.Contains(color))
+                                        continue;
+                                    processedColors.Add(color);
+                                    diff = (ushort)(Math.Abs(palette_rgba[0] - color[0]) + Math.Abs(palette_rgba[1] - color[1]) + Math.Abs(palette_rgba[2] - color[2]));
+                                    diff0 = (ushort)(Math.Abs(palette_rgba[4] - color[0]) + Math.Abs(palette_rgba[5] - color[1]) + Math.Abs(palette_rgba[6] - color[2]));
+                                    if (diff < diff0)
+                                    {
+                                        assignedColors1.Add(color);
+                                    }
+                                    else
+                                    {
+                                        assignedColors2.Add(color);
+                                    }
+                                }
+                                all_red = 0;
+                                all_green = 0;
+                                all_blue = 0;
+                                for (w = 0; w < assignedColors1.Count; w++)
+                                {
+                                    all_red += assignedColors1[w][0];
+                                    all_green += assignedColors1[w][1];
+                                    all_blue += assignedColors1[w][2];
+                                }
+                                palette_rgba[0] = (byte)(all_red / assignedColors1.Count);  // total sum of red divided by number of pixels
+                                palette_rgba[1] = (byte)(all_green / assignedColors1.Count);  // green sum divided by 16
+                                palette_rgba[2] = (byte)(all_blue / assignedColors1.Count);  // blue channel of the averaged color
+                                all_red = 0;
+                                all_green = 0;
+                                all_blue = 0;
+                                for (w = 0; w < assignedColors2.Count; w++)
+                                {
+                                    all_red += assignedColors2[w][0];
+                                    all_green += assignedColors2[w][1];
+                                    all_blue += assignedColors2[w][2];
+                                }
+                                palette_rgba[4] = (byte)(all_red / assignedColors2.Count);
+                                palette_rgba[5] = (byte)(all_green / assignedColors2.Count);
+                                palette_rgba[6] = (byte)(all_blue / assignedColors2.Count);
+                            }
+                            Organize_Colours_Cluster_Fit();  // quantize colours and build palette
                             Process_Indexes_RGB();
                             index_list.Add(index.ToArray());
+                            all_red = 0;
+                            all_green = 0;
+                            all_blue = 0;
                         }
                         break;
                     case 2:  // Euclidian - 2-way Quadratic
                         for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
                         {
-                            if (!Load_Block_Range_Fit())
+                            if (!Load_Block_Cluster_Fit())
                                 continue;
-                            Organize_Colours_Range_Fit();
+                            // initialize the two endpoints as the colour average of this block.
+                            palette_rgba[0] = (byte)(all_red >> 4);  // total sum of red divided by number of pixels
+                            palette_rgba[1] = (byte)(all_green >> 4);  // green sum divided by 16
+                            palette_rgba[2] = (byte)(all_blue >> 4);  // blue channel of the averaged color
+                            palette_rgba[4] = (byte)(all_red >> 4);
+                            palette_rgba[5] = (byte)(all_green >> 4);
+                            palette_rgba[6] = (byte)(all_blue >> 4);
+                            for (i = 0; i < _plt0.cmpr_max; i++)  // number of iterations
+                            {
+                                // Assign colors to endpoints
+                                List<byte[]> assignedColors1 = new List<byte[]>();
+                                List<byte[]> assignedColors2 = new List<byte[]>();
+                                HashSet<byte[]> processedColors = new HashSet<byte[]>();
+                                for (w = 0; w < 15; w++) // iterate over each colour
+                                {
+
+                                    if (((alpha_bitfield >> w) & 1) == 1)
+                                        continue;
+                                    byte[] color = { rgb565[w << 2], rgb565[(w << 2) + 1], rgb565[(w << 2) + 2] };
+                                    if (processedColors.Contains(color))
+                                        continue;
+                                    processedColors.Add(color);
+                                    diff = (ushort)(Math.Abs(palette_rgba[0] - color[0]) * 0.0721 + Math.Abs(palette_rgba[1] - color[1]) * 0.7154 + Math.Abs(palette_rgba[2] - color[2]) * 0.2125);
+                                    diff0 = (ushort)(Math.Abs(palette_rgba[4] - color[0]) * 0.0721 + Math.Abs(palette_rgba[5] - color[1]) * 0.7154 + Math.Abs(palette_rgba[6] - color[2]) * 0.2125);
+                                    if (diff < diff0)
+                                    {
+                                        assignedColors1.Add(color);
+                                    }
+                                    else
+                                    {
+                                        assignedColors2.Add(color);
+                                    }
+                                }
+                                all_red = 0;
+                                all_green = 0;
+                                all_blue = 0;
+                                for (w = 0; w < assignedColors1.Count; w++)
+                                {
+                                    all_red += assignedColors1[w][0];
+                                    all_green += assignedColors1[w][1];
+                                    all_blue += assignedColors1[w][2];
+                                }
+                                palette_rgba[0] = (byte)(all_red / assignedColors1.Count);  // total sum of red divided by number of pixels
+                                palette_rgba[1] = (byte)(all_green / assignedColors1.Count);  // green sum divided by 16
+                                palette_rgba[2] = (byte)(all_blue / assignedColors1.Count);  // blue channel of the averaged color
+                                all_red = 0;
+                                all_green = 0;
+                                all_blue = 0;
+                                for (w = 0; w < assignedColors2.Count; w++)
+                                {
+                                    all_red += assignedColors2[w][0];
+                                    all_green += assignedColors2[w][1];
+                                    all_blue += assignedColors2[w][2];
+                                }
+                                palette_rgba[4] = (byte)(all_red / assignedColors2.Count);
+                                palette_rgba[5] = (byte)(all_green / assignedColors2.Count);
+                                palette_rgba[6] = (byte)(all_blue / assignedColors2.Count);
+                            }
+                            Organize_Colours_Cluster_Fit();  // quantize colours and build palette
                             Process_Indexes_Euclidian();
                             index_list.Add(index.ToArray());
+                            all_red = 0;
+                            all_green = 0;
+                            all_blue = 0;
                         }
                         break;
                     case 3:  // Infinite - Tchebichev
                         for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
                         {
-                            if (!Load_Block_Range_Fit())
+                            if (!Load_Block_Cluster_Fit())
                                 continue;
-                            Organize_Colours_Range_Fit();
+                            // initialize the two endpoints as the colour average of this block.
+                            palette_rgba[0] = (byte)(all_red >> 4);  // total sum of red divided by number of pixels
+                            palette_rgba[1] = (byte)(all_green >> 4);  // green sum divided by 16
+                            palette_rgba[2] = (byte)(all_blue >> 4);  // blue channel of the averaged color
+                            palette_rgba[4] = (byte)(all_red >> 4);
+                            palette_rgba[5] = (byte)(all_green >> 4);
+                            palette_rgba[6] = (byte)(all_blue >> 4);
+                            for (i = 0; i < _plt0.cmpr_max; i++)  // number of iterations
+                            {
+                                // Assign colors to endpoints
+                                List<byte[]> assignedColors1 = new List<byte[]>();
+                                List<byte[]> assignedColors2 = new List<byte[]>();
+                                HashSet<byte[]> processedColors = new HashSet<byte[]>();
+                                for (w = 0; w < 15; w++) // iterate over each colour
+                                {
+
+                                    if (((alpha_bitfield >> w) & 1) == 1)
+                                        continue;
+                                    byte[] color = { rgb565[w << 2], rgb565[(w << 2) + 1], rgb565[(w << 2) + 2] };
+                                    if (processedColors.Contains(color))
+                                        continue;
+                                    processedColors.Add(color);
+                                    diff = (ushort)(Math.Abs(palette_rgba[0] - color[0]) * 0.0721 + Math.Abs(palette_rgba[1] - color[1]) * 0.7154 + Math.Abs(palette_rgba[2] - color[2]) * 0.2125);
+                                    diff0 = (ushort)(Math.Abs(palette_rgba[4] - color[0]) * 0.0721 + Math.Abs(palette_rgba[5] - color[1]) * 0.7154 + Math.Abs(palette_rgba[6] - color[2]) * 0.2125);
+                                    if (diff < diff0)
+                                    {
+                                        assignedColors1.Add(color);
+                                    }
+                                    else
+                                    {
+                                        assignedColors2.Add(color);
+                                    }
+                                }
+                                all_red = 0;
+                                all_green = 0;
+                                all_blue = 0;
+                                for (w = 0; w < assignedColors1.Count; w++)
+                                {
+                                    all_red += assignedColors1[w][0];
+                                    all_green += assignedColors1[w][1];
+                                    all_blue += assignedColors1[w][2];
+                                }
+                                palette_rgba[0] = (byte)(all_red / assignedColors1.Count);  // total sum of red divided by number of pixels
+                                palette_rgba[1] = (byte)(all_green / assignedColors1.Count);  // green sum divided by 16
+                                palette_rgba[2] = (byte)(all_blue / assignedColors1.Count);  // blue channel of the averaged color
+                                all_red = 0;
+                                all_green = 0;
+                                all_blue = 0;
+                                for (w = 0; w < assignedColors2.Count; w++)
+                                {
+                                    all_red += assignedColors2[w][0];
+                                    all_green += assignedColors2[w][1];
+                                    all_blue += assignedColors2[w][2];
+                                }
+                                palette_rgba[4] = (byte)(all_red / assignedColors2.Count);
+                                palette_rgba[5] = (byte)(all_green / assignedColors2.Count);
+                                palette_rgba[6] = (byte)(all_blue / assignedColors2.Count);
+                            }
+                            Organize_Colours_Cluster_Fit();  // quantize colours and build palette
                             Process_Indexes_Infinite();
                             index_list.Add(index.ToArray());
+                            all_red = 0;
+                            all_green = 0;
+                            all_blue = 0;
                         }
                         break;
                     case 4:  // Delta E (CIEDE2000) - Lab Colour Space
                         for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
                         {
-                            if (!Load_Block_Range_Fit())
+                            if (!Load_Block_Cluster_Fit())
                                 continue;
-                            Organize_Colours_Range_Fit();
+                            // initialize the two endpoints as the colour average of this block.
+                            palette_rgba[0] = (byte)(all_red >> 4);  // total sum of red divided by number of pixels
+                            palette_rgba[1] = (byte)(all_green >> 4);  // green sum divided by 16
+                            palette_rgba[2] = (byte)(all_blue >> 4);  // blue channel of the averaged color
+                            palette_rgba[4] = (byte)(all_red >> 4);
+                            palette_rgba[5] = (byte)(all_green >> 4);
+                            palette_rgba[6] = (byte)(all_blue >> 4);
+                            for (i = 0; i < _plt0.cmpr_max; i++)  // number of iterations
+                            {
+                                // Assign colors to endpoints
+                                List<byte[]> assignedColors1 = new List<byte[]>();
+                                List<byte[]> assignedColors2 = new List<byte[]>();
+                                HashSet<byte[]> processedColors = new HashSet<byte[]>();
+                                for (w = 0; w < 15; w++) // iterate over each colour
+                                {
+
+                                    if (((alpha_bitfield >> w) & 1) == 1)
+                                        continue;
+                                    byte[] color = { rgb565[w << 2], rgb565[(w << 2) + 1], rgb565[(w << 2) + 2] };
+                                    if (processedColors.Contains(color))
+                                        continue;
+                                    processedColors.Add(color);
+                                    diff = (ushort)(Math.Abs(palette_rgba[0] - color[0]) * 0.0721 + Math.Abs(palette_rgba[1] - color[1]) * 0.7154 + Math.Abs(palette_rgba[2] - color[2]) * 0.2125);
+                                    diff0 = (ushort)(Math.Abs(palette_rgba[4] - color[0]) * 0.0721 + Math.Abs(palette_rgba[5] - color[1]) * 0.7154 + Math.Abs(palette_rgba[6] - color[2]) * 0.2125);
+                                    if (diff < diff0)
+                                    {
+                                        assignedColors1.Add(color);
+                                    }
+                                    else
+                                    {
+                                        assignedColors2.Add(color);
+                                    }
+                                }
+                                all_red = 0;
+                                all_green = 0;
+                                all_blue = 0;
+                                for (w = 0; w < assignedColors1.Count; w++)
+                                {
+                                    all_red += assignedColors1[w][0];
+                                    all_green += assignedColors1[w][1];
+                                    all_blue += assignedColors1[w][2];
+                                }
+                                palette_rgba[0] = (byte)(all_red / assignedColors1.Count);  // total sum of red divided by number of pixels
+                                palette_rgba[1] = (byte)(all_green / assignedColors1.Count);  // green sum divided by 16
+                                palette_rgba[2] = (byte)(all_blue / assignedColors1.Count);  // blue channel of the averaged color
+                                all_red = 0;
+                                all_green = 0;
+                                all_blue = 0;
+                                for (w = 0; w < assignedColors2.Count; w++)
+                                {
+                                    all_red += assignedColors2[w][0];
+                                    all_green += assignedColors2[w][1];
+                                    all_blue += assignedColors2[w][2];
+                                }
+                                palette_rgba[4] = (byte)(all_red / assignedColors2.Count);
+                                palette_rgba[5] = (byte)(all_green / assignedColors2.Count);
+                                palette_rgba[6] = (byte)(all_blue / assignedColors2.Count);
+                            }
+                            Organize_Colours_Cluster_Fit();  // quantize colours and build palette
                             Process_Indexes_Delta_E();
                             index_list.Add(index.ToArray());
+                            all_red = 0;
+                            all_green = 0;
+                            all_blue = 0;
                         }
                         break;
                 }
@@ -522,10 +808,10 @@ class CMPR_class
                     {
                         if (((alpha_bitfield >> i) & 1) == 0)
                         {
-                            current_diff = (ushort)Math.Abs(Colour_list[i][2] - Colour_list[i + 1][2]);  // substracts RGB sums
-                            if (current_diff > diff_max)
+                            diff0 = (ushort)Math.Abs(Colour_list[i][2] - Colour_list[i + 1][2]);  // substracts RGB sums
+                            if (diff0 > diff_max)
                             {
-                                diff_max = current_diff;
+                                diff_max = diff0;
                                 diff_max_index = i;  // diff_max_index  =  second colour
                                 diff_min_index = (byte)(i + 1); // diff_min_index = first colour
                             }
@@ -646,10 +932,10 @@ class CMPR_class
                     {
                         if (((alpha_bitfield >> i) & 1) == 0)
                         {
-                            current_diff = (ushort)Math.Abs(Colour_list[i][2] - Colour_list[i + 1][2]);  // substracts RGB sums
-                            if (current_diff > diff_max)
+                            diff0 = (ushort)Math.Abs(Colour_list[i][2] - Colour_list[i + 1][2]);  // substracts RGB sums
+                            if (diff0 > diff_max)
                             {
-                                diff_max = current_diff;
+                                diff_max = diff0;
                                 diff_max_index = i;  // diff_max_index  =  second colour
                                 diff_min_index = (byte)(i + 1); // diff_min_index = first colour
                             }
@@ -1488,6 +1774,64 @@ class CMPR_class
                 palette_rgba[4] = rgb565[Colour_list[diff_min_index][0]]; // red2
                 palette_rgba[5] = rgb565[Colour_list[diff_min_index][0] + 1]; // green2
                 palette_rgba[6] = rgb565[Colour_list[diff_min_index][0] + 2]; // blue2
+            }
+
+            palette_rgba[8] = (byte)(((palette_rgba[0] << 1) / 3) + (palette_rgba[4] / 3));
+            palette_rgba[9] = (byte)(((palette_rgba[1] << 1) / 3) + (palette_rgba[5] / 3));
+            palette_rgba[10] = (byte)(((palette_rgba[2] << 1) / 3) + (palette_rgba[6] / 3)); // the RGB565 third colour
+
+            palette_rgba[12] = (byte)((palette_rgba[0] / 3) + ((palette_rgba[4] << 1) / 3));
+            palette_rgba[13] = (byte)((palette_rgba[1] / 3) + ((palette_rgba[5] << 1) / 3));
+            palette_rgba[14] = (byte)((palette_rgba[2] / 3) + ((palette_rgba[6] << 1) / 3)); // the RGB565 fourth colour
+
+            palette_length = 4;
+        }
+    }
+    private void Organize_Colours_Cluster_Fit()
+    {
+        pixel = (ushort)(((palette_rgba[0] >> 3) << 11) + ((palette_rgba[1] >> 2) << 5) + (palette_rgba[2] >> 3)); // the RGB565 colour
+        this.diff = (ushort)(((palette_rgba[3] >> 3) << 11) + ((palette_rgba[4] >> 2) << 5) + (palette_rgba[5] >> 3)); // the RGB565 colour
+        if (alpha_bitfield != 0)  // put the biggest ushort in second place
+        {
+            if (pixel > diff)  // put pixel at the second spot
+            {
+                index[0] = (byte)(diff >> 8);
+                index[1] = (byte)(diff);
+                index[2] = (byte)(pixel >> 8);
+                index[3] = (byte)(pixel);
+            }
+            else
+            {
+                index[0] = (byte)(pixel >> 8);
+                index[1] = (byte)(pixel);
+                index[2] = (byte)(diff >> 8);
+                index[3] = (byte)(diff);
+            }
+            palette_rgba[8] = (byte)((palette_rgba[0] + palette_rgba[4]) >> 1);
+            palette_rgba[9] = (byte)((palette_rgba[1] + palette_rgba[5]) >> 1);
+            palette_rgba[10] = (byte)((palette_rgba[2] + palette_rgba[6]) >> 1); // the RGB565 third colour
+            palette_length = 3;
+
+            // last colour isn't in the palette, it's in _plt0.alpha_bitfield
+
+
+        }
+        else  // put biggest ushort in first place
+        {
+            // of course, that's the exact opposite!
+            if (pixel > diff)  // put pixel at the first spot
+            {
+                index[0] = (byte)(pixel >> 8);
+                index[1] = (byte)(pixel);
+                index[2] = (byte)(diff >> 8);
+                index[3] = (byte)(diff);
+            }
+            else
+            {
+                index[0] = (byte)(diff >> 8);
+                index[1] = (byte)(diff);
+                index[2] = (byte)(pixel >> 8);
+                index[3] = (byte)(pixel);
             }
 
             palette_rgba[8] = (byte)(((palette_rgba[0] << 1) / 3) + (palette_rgba[4] / 3));
