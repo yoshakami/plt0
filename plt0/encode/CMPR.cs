@@ -974,12 +974,16 @@ class CMPR_class
                             rgb[1] = rgb565[Colour_list[3][0] + 1]; // green
                             rgb[2] = rgb565[Colour_list[3][0] + 2]; // blue
                             Colours.Add(rgb.ToArray());  // Fourth Most used colour
-                            for (i = 0; i < 8; i++)  // there are always 8 special candidates for the colour palette
-                            {
-                                // Random.choice(Colours)
-                                // imagine if someone really did this, that would be insane
-                                // here the goal is to calculate who's the best couple
-                            }
+
+                            //for (i = 0; i < 8; i++)  // there are always 8 special candidates for the colour palette
+                            //{
+                                /*
+                                Random random = new Random();
+                                int randomNumber = random.Next(8); // Generates a random number between 0 and 7
+                                Random.choice(Colours)
+                                // imagine if someone really did this, that would be insane */
+                                // here the goal is to calculate who's the best couple 
+                            //}
                             Organize_Colours();
                             Process_Indexes_CIE_709();
                             index_list.Add(index.ToArray());
