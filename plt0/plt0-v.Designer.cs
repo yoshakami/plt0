@@ -72,10 +72,10 @@
         private System.Windows.Forms.Label i4_label;
         private System.Windows.Forms.Label encoding_label;
         private System.Windows.Forms.PictureBox surrounding_ck;
-        private System.Windows.Forms.PictureBox no_gradient_ck;
-        private System.Windows.Forms.Label no_gradient_label;
-        private System.Windows.Forms.PictureBox custom_ck;
-        private System.Windows.Forms.Label custom_label;
+        private System.Windows.Forms.PictureBox algo_4_ck;
+        private System.Windows.Forms.Label algo_4_label;
+        private System.Windows.Forms.PictureBox algo_2_ck;
+        private System.Windows.Forms.Label algo_2_label;
         private System.Windows.Forms.PictureBox cie_709_ck;
         private System.Windows.Forms.Label cie_709_label;
         private System.Windows.Forms.PictureBox cie_601_ck;
@@ -321,14 +321,14 @@
         private System.Windows.Forms.PictureBox banner_18_ck;
         private System.Windows.Forms.PictureBox banner_19_ck;
         private System.Windows.Forms.PictureBox banner_15_ck;
-        private System.Windows.Forms.Label sooperbmd_label;
-        private System.Windows.Forms.Label min_max_label;
-        private System.Windows.Forms.Label weemm_label;
-        private System.Windows.Forms.PictureBox min_max_ck;
-        private System.Windows.Forms.PictureBox sooperbmd_ck;
-        private System.Windows.Forms.PictureBox weemm_ck;
-        private System.Windows.Forms.Label darkest_lightest_label;
-        private System.Windows.Forms.PictureBox darkest_lightest_ck;
+        private System.Windows.Forms.Label pal_cie_label;
+        private System.Windows.Forms.Label pal_rgb_label;
+        private System.Windows.Forms.Label algo_5_label;
+        private System.Windows.Forms.PictureBox pal_rgb_ck;
+        private System.Windows.Forms.PictureBox pal_cie_ck;
+        private System.Windows.Forms.PictureBox algo_5_ck;
+        private System.Windows.Forms.Label algo_3_label;
+        private System.Windows.Forms.PictureBox algo_3_ck;
         /*
 /// <summary>
 /// Required designer variable.

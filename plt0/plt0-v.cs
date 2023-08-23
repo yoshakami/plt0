@@ -1282,32 +1282,24 @@ namespace plt0_gui
                 switch (algorithm)
                 {
                     case 1:
-                        args += "Range fit " + " ";
-                        arg_array.Add("range");
+                        args += "Range fit ";
+                        arg_array.Add("RANGE");
                         break;
                     case 2:
-                        args += "most used furthest" + " ";
-                        arg_array.Add("muf");
+                        args += "Cluster ";
+                        arg_array.Add("CLUSTER");
                         break;
                     case 3:
-                        args += "dl " + " ";
-                        arg_array.Add("dl");
+                        args += "CPU ";
+                        arg_array.Add("CPU");
                         break;
                     case 4:
-                        args += "no gradient" + " ";
-                        arg_array.Add("ng");
+                        args += "Custom" + " ";
+                        arg_array.Add("CUSTOM");
                         break;
                     case 5:
-                        args += "Weemm " + " ";
-                        arg_array.Add("weemm");
-                        break;
-                    case 6:
-                        args += "SooperBMD " + " ";
-                        arg_array.Add("SooperBMD");
-                        break;
-                    case 7:
-                        args += "Min_Max " + " ";
-                        arg_array.Add("min_max");
+                        args += "CI2 " + " ";
+                        arg_array.Add("CI2");
                         break;
                 }
             }
@@ -1912,8 +1904,8 @@ namespace plt0_gui
                 cmpr_max_txt.Visible = true;
                 cmpr_min_alpha_label.Visible = true;
                 cmpr_min_alpha_txt.Visible = true;
-                darkest_lightest_ck.Visible = true;
-                darkest_lightest_label.Visible = true;
+                algo_3_ck.Visible = true;
+                algo_3_label.Visible = true;
             }
             layout = 1;
             View_algorithm(255);
@@ -2026,8 +2018,8 @@ namespace plt0_gui
                 cmpr_max_txt.Visible = true;
                 cmpr_min_alpha_label.Visible = true;
                 cmpr_min_alpha_txt.Visible = true;
-                darkest_lightest_ck.Visible = true;
-                darkest_lightest_label.Visible = true;
+                algo_3_ck.Visible = true;
+                algo_3_label.Visible = true;
             }
             layout = 1;
             View_algorithm(255);
@@ -2179,8 +2171,8 @@ namespace plt0_gui
             cmpr_ck.Visible = true;
             cmpr_label.Visible = true;
             colour_channels_label.Visible = true;
-            custom_ck.Visible = true;
-            custom_label.Visible = true;
+            algo_2_ck.Visible = true;
+            algo_2_label.Visible = true;
             encoding_label.Visible = true;
             funky_ck.Visible = true;
             funky_label.Visible = true;
@@ -2439,8 +2431,8 @@ namespace plt0_gui
                 cmpr_update_preview_label.Visible = true;
                 cmpr_warning.Visible = true;
                 colour_channels_label.Visible = false;
-                custom_ck.Visible = false;
-                custom_label.Visible = false;
+                algo_2_ck.Visible = false;
+                algo_2_label.Visible = false;
                 encoding_label.Visible = false;
                 funky_ck.Visible = false;
                 funky_label.Visible = false;
@@ -2577,7 +2569,7 @@ namespace plt0_gui
                 algorithm_label.Visible = true;
                 cie_601_label.Visible = true;
                 cie_709_label.Visible = true;
-                custom_label.Visible = true;
+                algo_2_label.Visible = true;
                 view_algorithm = true;
             }
         }
@@ -2602,11 +2594,11 @@ namespace plt0_gui
                 {
                     algorithm_ck[i].Visible = false;
                 }
-                no_gradient_label.Visible = false;
+                algo_4_label.Visible = false;
                 algorithm_label.Visible = false;
                 cie_601_label.Visible = false;
                 cie_709_label.Visible = false;
-                custom_label.Visible = false;
+                algo_2_label.Visible = false;
                 view_algorithm = false;
             }
         }
@@ -2792,21 +2784,21 @@ namespace plt0_gui
         {
             cie_601_label.Text = "Default";
             cie_709_label.Text = "Range Fit";
-            darkest_lightest_label.Text = "Darkest/Lightest";
-            custom_label.Text = "Most Used/Furthest";
+            algo_2_label.Text = "Cluster Fit";
+            algo_3_label.Text = "CPU";
             Hide_alpha(true);
             cie_709_ck.Visible = true;
             cie_709_label.Visible = true;
-            darkest_lightest_ck.Visible = true;
-            darkest_lightest_label.Visible = true;
-            weemm_ck.Visible = true;
-            weemm_label.Visible = true;
-            no_gradient_ck.Visible = true;
-            no_gradient_label.Visible = true;
-            sooperbmd_ck.Visible = true;
-            sooperbmd_label.Visible = true;
-            min_max_ck.Visible = true;
-            min_max_label.Visible = true;
+            algo_3_ck.Visible = true;
+            algo_3_label.Visible = true;
+            algo_5_ck.Visible = true;
+            algo_5_label.Visible = true;
+            algo_4_ck.Visible = true;
+            algo_4_label.Visible = true;
+            pal_cie_ck.Visible = true;
+            pal_cie_label.Visible = true;
+            pal_rgb_ck.Visible = true;
+            pal_rgb_label.Visible = true;
             //cie_601_label.Text = "Darkest/Lightest";
             //cie_601_label.Text = "No Gradient";
             //cie_601_label.Text = "Default";
@@ -2826,7 +2818,7 @@ namespace plt0_gui
         private void Hide_cmpr(bool secret_mode = false, bool just_change_list = false)
         {
             cie_709_label.Text = "CIE 709";
-            custom_label.Text = "Custom RGBA";
+            algo_2_label.Text = "Custom RGBA";
             if (layout != 1)
                 View_alpha(true);
             if (secret_mode)
@@ -2834,23 +2826,23 @@ namespace plt0_gui
                 cie_709_ck.Visible = false;
                 cie_709_label.Visible = false;
             }
-            weemm_ck.Visible = false;
-            weemm_label.Visible = false;
-            no_gradient_ck.Visible = false;
-            no_gradient_label.Visible = false;
-            sooperbmd_ck.Visible = false;
-            sooperbmd_label.Visible = false;
-            min_max_ck.Visible = false;
-            min_max_label.Visible = false;
+            algo_5_ck.Visible = false;
+            algo_5_label.Visible = false;
+            algo_4_ck.Visible = false;
+            algo_4_label.Visible = false;
+            pal_cie_ck.Visible = false;
+            pal_cie_label.Visible = false;
+            pal_rgb_ck.Visible = false;
+            pal_rgb_label.Visible = false;
             if (just_change_list)
                 return;
             if (layout != 1 && !secret_mode)
                 return;
             Hide_diversity();
-            darkest_lightest_ck.Visible = false;
-            darkest_lightest_label.Visible = false;
-            no_gradient_ck.Visible = false;
-            no_gradient_label.Visible = false;
+            algo_3_ck.Visible = false;
+            algo_3_label.Visible = false;
+            algo_4_ck.Visible = false;
+            algo_4_label.Visible = false;
             cmpr_max_label.Visible = false;
             cmpr_max_txt.Visible = false;
             cmpr_min_alpha_label.Visible = false;
@@ -2935,11 +2927,11 @@ namespace plt0_gui
         private void View_i4()
         {
             cie_601_label.Text = "CIE 601";
-            darkest_lightest_label.Text = "Gamma";
+            algo_3_label.Text = "Gamma";
             if (layout != 1)
                 return;
-            darkest_lightest_ck.Visible = true;
-            darkest_lightest_label.Visible = true;
+            algo_3_ck.Visible = true;
+            algo_3_label.Visible = true;
             cie_709_ck.Visible = true;
             cie_709_label.Visible = true;
             round4_label.Visible = true;
@@ -2949,11 +2941,11 @@ namespace plt0_gui
         private void View_i8()
         {
             cie_601_label.Text = "CIE 601";
-            darkest_lightest_label.Text = "Gamma";
+            algo_3_label.Text = "Gamma";
             if (layout != 1)
                 return;
-            darkest_lightest_ck.Visible = true;
-            darkest_lightest_label.Visible = true;
+            algo_3_ck.Visible = true;
+            algo_3_label.Visible = true;
             cie_709_ck.Visible = true;
             cie_709_label.Visible = true;
             //view_rgba = true;
@@ -2961,11 +2953,11 @@ namespace plt0_gui
         private void View_ai4()
         {
             cie_601_label.Text = "CIE 601";
-            darkest_lightest_label.Text = "Gamma";
+            algo_3_label.Text = "Gamma";
             if (layout != 1)
                 return;
-            darkest_lightest_ck.Visible = true;
-            darkest_lightest_label.Visible = true;
+            algo_3_ck.Visible = true;
+            algo_3_label.Visible = true;
             cie_709_ck.Visible = true;
             cie_709_label.Visible = true;
             round4_label.Visible = true;
@@ -2975,11 +2967,11 @@ namespace plt0_gui
         private void View_ai8()
         {
             cie_601_label.Text = "CIE 601";
-            darkest_lightest_label.Text = "Gamma";
+            algo_3_label.Text = "Gamma";
             if (layout != 1)
                 return;
-            darkest_lightest_ck.Visible = true;
-            darkest_lightest_label.Visible = true;
+            algo_3_ck.Visible = true;
+            algo_3_label.Visible = true;
             cie_709_ck.Visible = true;
             cie_709_label.Visible = true;
             //view_rgba = true;
@@ -3056,8 +3048,8 @@ namespace plt0_gui
                 case 2:
                     cie_709_ck.Visible = false;
                     cie_709_label.Visible = false;
-                    darkest_lightest_ck.Visible = false;
-                    darkest_lightest_label.Visible = false;
+                    algo_3_ck.Visible = false;
+                    algo_3_label.Visible = false;
                     round4_label.Visible = false;
                     round4_txt.Visible = false;
                     break;
@@ -3065,8 +3057,8 @@ namespace plt0_gui
                 case 3:
                     cie_709_ck.Visible = false;
                     cie_709_label.Visible = false;
-                    darkest_lightest_ck.Visible = false;
-                    darkest_lightest_label.Visible = false;
+                    algo_3_ck.Visible = false;
+                    algo_3_label.Visible = false;
                     break;
                 case 4:
                     round5_label.Visible = false;
@@ -3902,31 +3894,23 @@ namespace plt0_gui
                         checked_algorithm(cie_709_ck);
                         algorithm = 1;
                         break;
-                    case "most used/furthest":
+                    case "cluster fit":
                     case "custom rgba":
-                        checked_algorithm(custom_ck);
+                        checked_algorithm(algo_2_ck);
                         algorithm = 2;
                         break;
-                    case "darkest_lightest":
+                    case "cpu":
                     case "gamma":
-                        checked_algorithm(darkest_lightest_ck);
+                        checked_algorithm(algo_3_ck);
                         algorithm = 3;
                         break;
-                    case "no_gradient":
-                        checked_algorithm(no_gradient_ck);
+                    case "custom":
+                        checked_algorithm(algo_4_ck);
                         algorithm = 4;
                         break;
-                    case "weemm":
-                        checked_algorithm(weemm_ck);
+                    case "ci2":
+                        checked_algorithm(algo_5_ck);
                         algorithm = 5;
-                        break;
-                    case "sooperbmd":
-                        checked_algorithm(sooperbmd_ck);
-                        algorithm = 6;
-                        break;
-                    case "min_max":
-                        checked_algorithm(min_max_ck);
-                        algorithm = 7;
                         break;
                 }
                 switch (config[24].ToLower())
@@ -4482,12 +4466,12 @@ namespace plt0_gui
             alpha_ck_array.Add(mix_ck);  // nothing
             algorithm_ck.Add(cie_601_ck);
             algorithm_ck.Add(cie_709_ck);
-            algorithm_ck.Add(custom_ck);
-            algorithm_ck.Add(darkest_lightest_ck);
-            algorithm_ck.Add(no_gradient_ck);
-            algorithm_ck.Add(weemm_ck);
-            algorithm_ck.Add(sooperbmd_ck);
-            algorithm_ck.Add(min_max_ck);
+            algorithm_ck.Add(algo_2_ck);
+            algorithm_ck.Add(algo_3_ck);
+            algorithm_ck.Add(algo_4_ck);
+            algorithm_ck.Add(algo_5_ck);
+            algorithm_ck.Add(pal_cie_ck);
+            algorithm_ck.Add(pal_rgb_ck);
             algorithm_ck.Add(cie_601_ck);  // nothing
             algorithm_ck.Add(cie_601_ck);  // nothing
             palette_ck.Add(palette_ai8_ck);
@@ -4557,12 +4541,12 @@ namespace plt0_gui
             unchecked_alpha(mix_ck);
             unchecked_algorithm(cie_601_ck);
             unchecked_algorithm(cie_709_ck);
-            unchecked_algorithm(custom_ck);
-            unchecked_algorithm(darkest_lightest_ck);
-            unchecked_algorithm(no_gradient_ck);
-            unchecked_algorithm(weemm_ck);
-            unchecked_algorithm(sooperbmd_ck);
-            unchecked_algorithm(min_max_ck);
+            unchecked_algorithm(algo_2_ck);
+            unchecked_algorithm(algo_3_ck);
+            unchecked_algorithm(algo_4_ck);
+            unchecked_algorithm(algo_5_ck);
+            unchecked_algorithm(pal_cie_ck);
+            unchecked_algorithm(pal_rgb_ck);
             unchecked_palette(palette_ai8_ck);
             unchecked_palette(palette_rgb565_ck);
             unchecked_palette(palette_rgb5a3_ck);
@@ -4601,35 +4585,35 @@ namespace plt0_gui
                 (int)((815 * width_ratio)),
                 (int)((96 * height_ratio)));
 
-            no_gradient_ck.Location = new System.Drawing.Point(
+            algo_4_ck.Location = new System.Drawing.Point(
             (int)((500 * width_ratio)),
             (int)((384 * height_ratio)));
 
-            no_gradient_label.Location = new System.Drawing.Point(
+            algo_4_label.Location = new System.Drawing.Point(
             (int)((564 * width_ratio)),
             (int)((384 * height_ratio)));
 
-            weemm_ck.Location = new System.Drawing.Point(
+            algo_5_ck.Location = new System.Drawing.Point(
             (int)((500 * width_ratio)),
             (int)((448 * height_ratio)));
 
-            weemm_label.Location = new System.Drawing.Point(
+            algo_5_label.Location = new System.Drawing.Point(
             (int)((564 * width_ratio)),
             (int)((448 * height_ratio)));
 
-            sooperbmd_ck.Location = new System.Drawing.Point(
+            pal_cie_ck.Location = new System.Drawing.Point(
             (int)((500 * width_ratio)),
             (int)((512 * height_ratio)));
 
-            sooperbmd_label.Location = new System.Drawing.Point(
+            pal_cie_label.Location = new System.Drawing.Point(
             (int)((564 * width_ratio)),
             (int)((512 * height_ratio)));
 
-            min_max_ck.Location = new System.Drawing.Point(
+            pal_rgb_ck.Location = new System.Drawing.Point(
             (int)((500 * width_ratio)),
             (int)((576 * height_ratio)));
 
-            min_max_label.Location = new System.Drawing.Point(
+            pal_rgb_label.Location = new System.Drawing.Point(
             (int)((564 * width_ratio)),
             (int)((576 * height_ratio)));
 
@@ -4743,10 +4727,10 @@ namespace plt0_gui
             this.i4_label = new System.Windows.Forms.Label();
             this.encoding_label = new System.Windows.Forms.Label();
             this.surrounding_ck = new System.Windows.Forms.PictureBox();
-            this.no_gradient_ck = new System.Windows.Forms.PictureBox();
-            this.no_gradient_label = new System.Windows.Forms.Label();
-            this.custom_ck = new System.Windows.Forms.PictureBox();
-            this.custom_label = new System.Windows.Forms.Label();
+            this.algo_4_ck = new System.Windows.Forms.PictureBox();
+            this.algo_4_label = new System.Windows.Forms.Label();
+            this.algo_2_ck = new System.Windows.Forms.PictureBox();
+            this.algo_2_label = new System.Windows.Forms.Label();
             this.cie_709_ck = new System.Windows.Forms.PictureBox();
             this.cie_709_label = new System.Windows.Forms.Label();
             this.cie_601_ck = new System.Windows.Forms.PictureBox();
@@ -4986,14 +4970,14 @@ namespace plt0_gui
             this.banner_18_ck = new System.Windows.Forms.PictureBox();
             this.banner_19_ck = new System.Windows.Forms.PictureBox();
             this.banner_15_ck = new System.Windows.Forms.PictureBox();
-            this.sooperbmd_label = new System.Windows.Forms.Label();
-            this.min_max_label = new System.Windows.Forms.Label();
-            this.weemm_label = new System.Windows.Forms.Label();
-            this.min_max_ck = new System.Windows.Forms.PictureBox();
-            this.sooperbmd_ck = new System.Windows.Forms.PictureBox();
-            this.weemm_ck = new System.Windows.Forms.PictureBox();
-            this.darkest_lightest_label = new System.Windows.Forms.Label();
-            this.darkest_lightest_ck = new System.Windows.Forms.PictureBox();
+            this.pal_cie_label = new System.Windows.Forms.Label();
+            this.pal_rgb_label = new System.Windows.Forms.Label();
+            this.algo_5_label = new System.Windows.Forms.Label();
+            this.pal_rgb_ck = new System.Windows.Forms.PictureBox();
+            this.pal_cie_ck = new System.Windows.Forms.PictureBox();
+            this.algo_5_ck = new System.Windows.Forms.PictureBox();
+            this.algo_3_label = new System.Windows.Forms.Label();
+            this.algo_3_ck = new System.Windows.Forms.PictureBox();
             this.cmpr_palette = new PictureBoxWithInterpolationMode();
             this.cmpr_grid_ck = new PictureBoxWithInterpolationMode();
             this.cmpr_preview_ck = new PictureBoxWithInterpolationMode();
@@ -5031,8 +5015,8 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.i8_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.i4_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.surrounding_ck)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.no_gradient_ck)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.custom_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.algo_4_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.algo_2_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cie_709_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cie_601_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mix_ck)).BeginInit();
@@ -5135,10 +5119,10 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.banner_18_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.banner_19_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.banner_15_ck)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.min_max_ck)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.sooperbmd_ck)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.weemm_ck)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.darkest_lightest_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pal_rgb_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pal_cie_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.algo_5_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.algo_3_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_palette)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_grid_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).BeginInit();
@@ -6317,75 +6301,75 @@ namespace plt0_gui
             this.surrounding_ck.TabIndex = 234;
             this.surrounding_ck.TabStop = false;
             // 
-            // no_gradient_ck
+            // algo_4_ck
             // 
-            this.no_gradient_ck.BackColor = System.Drawing.Color.Transparent;
-            this.no_gradient_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.no_gradient_ck.ErrorImage = null;
-            this.no_gradient_ck.InitialImage = null;
-            this.no_gradient_ck.Location = new System.Drawing.Point(500, 1104);
-            this.no_gradient_ck.Margin = new System.Windows.Forms.Padding(0);
-            this.no_gradient_ck.Name = "no_gradient_ck";
-            this.no_gradient_ck.Size = new System.Drawing.Size(64, 64);
-            this.no_gradient_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.no_gradient_ck.TabIndex = 247;
-            this.no_gradient_ck.TabStop = false;
-            this.no_gradient_ck.Visible = false;
-            this.no_gradient_ck.Click += new System.EventHandler(this.No_gradient_Click);
-            this.no_gradient_ck.MouseEnter += new System.EventHandler(this.No_gradient_MouseEnter);
-            this.no_gradient_ck.MouseLeave += new System.EventHandler(this.No_gradient_MouseLeave);
+            this.algo_4_ck.BackColor = System.Drawing.Color.Transparent;
+            this.algo_4_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.algo_4_ck.ErrorImage = null;
+            this.algo_4_ck.InitialImage = null;
+            this.algo_4_ck.Location = new System.Drawing.Point(500, 1104);
+            this.algo_4_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.algo_4_ck.Name = "algo_4_ck";
+            this.algo_4_ck.Size = new System.Drawing.Size(64, 64);
+            this.algo_4_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.algo_4_ck.TabIndex = 247;
+            this.algo_4_ck.TabStop = false;
+            this.algo_4_ck.Visible = false;
+            this.algo_4_ck.Click += new System.EventHandler(this.Algo_4_Click);
+            this.algo_4_ck.MouseEnter += new System.EventHandler(this.Algo_4_MouseEnter);
+            this.algo_4_ck.MouseLeave += new System.EventHandler(this.Algo_4_MouseLeave);
             // 
-            // no_gradient_label
+            // algo_4_label
             // 
-            this.no_gradient_label.AutoSize = true;
-            this.no_gradient_label.BackColor = System.Drawing.Color.Transparent;
-            this.no_gradient_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.no_gradient_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.no_gradient_label.Location = new System.Drawing.Point(571, 1104);
-            this.no_gradient_label.Margin = new System.Windows.Forms.Padding(0);
-            this.no_gradient_label.Name = "no_gradient_label";
-            this.no_gradient_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.no_gradient_label.Size = new System.Drawing.Size(127, 69);
-            this.no_gradient_label.TabIndex = 245;
-            this.no_gradient_label.Text = "No Gradient";
-            this.no_gradient_label.Visible = false;
-            this.no_gradient_label.Click += new System.EventHandler(this.No_gradient_Click);
-            this.no_gradient_label.MouseEnter += new System.EventHandler(this.No_gradient_MouseEnter);
-            this.no_gradient_label.MouseLeave += new System.EventHandler(this.No_gradient_MouseLeave);
+            this.algo_4_label.AutoSize = true;
+            this.algo_4_label.BackColor = System.Drawing.Color.Transparent;
+            this.algo_4_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.algo_4_label.ForeColor = System.Drawing.SystemColors.Window;
+            this.algo_4_label.Location = new System.Drawing.Point(571, 1104);
+            this.algo_4_label.Margin = new System.Windows.Forms.Padding(0);
+            this.algo_4_label.Name = "algo_4_label";
+            this.algo_4_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.algo_4_label.Size = new System.Drawing.Size(86, 69);
+            this.algo_4_label.TabIndex = 245;
+            this.algo_4_label.Text = "Custom";
+            this.algo_4_label.Visible = false;
+            this.algo_4_label.Click += new System.EventHandler(this.Algo_4_Click);
+            this.algo_4_label.MouseEnter += new System.EventHandler(this.Algo_4_MouseEnter);
+            this.algo_4_label.MouseLeave += new System.EventHandler(this.Algo_4_MouseLeave);
             // 
-            // custom_ck
+            // algo_2_ck
             // 
-            this.custom_ck.BackColor = System.Drawing.Color.Transparent;
-            this.custom_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.custom_ck.ErrorImage = null;
-            this.custom_ck.InitialImage = null;
-            this.custom_ck.Location = new System.Drawing.Point(500, 256);
-            this.custom_ck.Margin = new System.Windows.Forms.Padding(0);
-            this.custom_ck.Name = "custom_ck";
-            this.custom_ck.Size = new System.Drawing.Size(64, 64);
-            this.custom_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.custom_ck.TabIndex = 244;
-            this.custom_ck.TabStop = false;
-            this.custom_ck.Click += new System.EventHandler(this.Custom_Click);
-            this.custom_ck.MouseEnter += new System.EventHandler(this.Custom_MouseEnter);
-            this.custom_ck.MouseLeave += new System.EventHandler(this.Custom_MouseLeave);
+            this.algo_2_ck.BackColor = System.Drawing.Color.Transparent;
+            this.algo_2_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.algo_2_ck.ErrorImage = null;
+            this.algo_2_ck.InitialImage = null;
+            this.algo_2_ck.Location = new System.Drawing.Point(500, 256);
+            this.algo_2_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.algo_2_ck.Name = "algo_2_ck";
+            this.algo_2_ck.Size = new System.Drawing.Size(64, 64);
+            this.algo_2_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.algo_2_ck.TabIndex = 244;
+            this.algo_2_ck.TabStop = false;
+            this.algo_2_ck.Click += new System.EventHandler(this.Algo_2_Click);
+            this.algo_2_ck.MouseEnter += new System.EventHandler(this.Algo_2_MouseEnter);
+            this.algo_2_ck.MouseLeave += new System.EventHandler(this.Algo_2_MouseLeave);
             // 
-            // custom_label
+            // algo_2_label
             // 
-            this.custom_label.AutoSize = true;
-            this.custom_label.BackColor = System.Drawing.Color.Transparent;
-            this.custom_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.custom_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.custom_label.Location = new System.Drawing.Point(564, 256);
-            this.custom_label.Margin = new System.Windows.Forms.Padding(0);
-            this.custom_label.Name = "custom_label";
-            this.custom_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.custom_label.Size = new System.Drawing.Size(151, 69);
-            this.custom_label.TabIndex = 242;
-            this.custom_label.Text = "Custom RGBA";
-            this.custom_label.Click += new System.EventHandler(this.Custom_Click);
-            this.custom_label.MouseEnter += new System.EventHandler(this.Custom_MouseEnter);
-            this.custom_label.MouseLeave += new System.EventHandler(this.Custom_MouseLeave);
+            this.algo_2_label.AutoSize = true;
+            this.algo_2_label.BackColor = System.Drawing.Color.Transparent;
+            this.algo_2_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.algo_2_label.ForeColor = System.Drawing.SystemColors.Window;
+            this.algo_2_label.Location = new System.Drawing.Point(564, 256);
+            this.algo_2_label.Margin = new System.Windows.Forms.Padding(0);
+            this.algo_2_label.Name = "algo_2_label";
+            this.algo_2_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.algo_2_label.Size = new System.Drawing.Size(151, 69);
+            this.algo_2_label.TabIndex = 242;
+            this.algo_2_label.Text = "Custom RGBA";
+            this.algo_2_label.Click += new System.EventHandler(this.Algo_2_Click);
+            this.algo_2_label.MouseEnter += new System.EventHandler(this.Algo_2_MouseEnter);
+            this.algo_2_label.MouseLeave += new System.EventHandler(this.Algo_2_MouseLeave);
             // 
             // cie_709_ck
             // 
@@ -9506,7 +9490,7 @@ namespace plt0_gui
             this.cmpr_c1.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_c1.Name = "cmpr_c1";
             this.cmpr_c1.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
-            this.cmpr_c1.Size = new System.Drawing.Size(64, 64);
+            this.cmpr_c1.Size = new System.Drawing.Size(64, 69);
             this.cmpr_c1.TabIndex = 612;
             this.cmpr_c1.Click += new System.EventHandler(this.cmpr_c1_Click);
             this.cmpr_c1.MouseEnter += new System.EventHandler(this.cmpr_c1_MouseEnter);
@@ -9522,7 +9506,7 @@ namespace plt0_gui
             this.cmpr_c2.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_c2.Name = "cmpr_c2";
             this.cmpr_c2.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
-            this.cmpr_c2.Size = new System.Drawing.Size(64, 64);
+            this.cmpr_c2.Size = new System.Drawing.Size(64, 69);
             this.cmpr_c2.TabIndex = 616;
             this.cmpr_c2.Click += new System.EventHandler(this.cmpr_c2_Click);
             this.cmpr_c2.MouseEnter += new System.EventHandler(this.cmpr_c2_MouseEnter);
@@ -9573,7 +9557,7 @@ namespace plt0_gui
             this.cmpr_c3.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_c3.Name = "cmpr_c3";
             this.cmpr_c3.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
-            this.cmpr_c3.Size = new System.Drawing.Size(64, 64);
+            this.cmpr_c3.Size = new System.Drawing.Size(64, 69);
             this.cmpr_c3.TabIndex = 620;
             this.cmpr_c3.Click += new System.EventHandler(this.cmpr_c3_Click);
             this.cmpr_c3.MouseEnter += new System.EventHandler(this.cmpr_c3_MouseEnter);
@@ -9622,7 +9606,7 @@ namespace plt0_gui
             this.cmpr_c4.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_c4.Name = "cmpr_c4";
             this.cmpr_c4.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
-            this.cmpr_c4.Size = new System.Drawing.Size(64, 64);
+            this.cmpr_c4.Size = new System.Drawing.Size(64, 69);
             this.cmpr_c4.TabIndex = 624;
             this.cmpr_c4.Click += new System.EventHandler(this.cmpr_c4_Click);
             this.cmpr_c4.MouseEnter += new System.EventHandler(this.cmpr_c4_MouseEnter);
@@ -9949,7 +9933,7 @@ namespace plt0_gui
             this.cmpr_sel.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_sel.Name = "cmpr_sel";
             this.cmpr_sel.Padding = new System.Windows.Forms.Padding(64, 22, 0, 22);
-            this.cmpr_sel.Size = new System.Drawing.Size(64, 64);
+            this.cmpr_sel.Size = new System.Drawing.Size(64, 69);
             this.cmpr_sel.TabIndex = 682;
             this.cmpr_sel.MouseEnter += new System.EventHandler(this.cmpr_sel_MouseEnter);
             this.cmpr_sel.MouseLeave += new System.EventHandler(this.cmpr_sel_MouseLeave);
@@ -9981,7 +9965,7 @@ namespace plt0_gui
             this.cmpr_hover_colour.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_hover_colour.Name = "cmpr_hover_colour";
             this.cmpr_hover_colour.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
-            this.cmpr_hover_colour.Size = new System.Drawing.Size(32, 32);
+            this.cmpr_hover_colour.Size = new System.Drawing.Size(32, 37);
             this.cmpr_hover_colour.TabIndex = 686;
             // 
             // cmpr_hover_colour_label
@@ -10024,7 +10008,7 @@ namespace plt0_gui
             this.cmpr_edited_colour.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_edited_colour.Name = "cmpr_edited_colour";
             this.cmpr_edited_colour.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
-            this.cmpr_edited_colour.Size = new System.Drawing.Size(32, 32);
+            this.cmpr_edited_colour.Size = new System.Drawing.Size(32, 37);
             this.cmpr_edited_colour.TabIndex = 689;
             this.cmpr_edited_colour.Visible = false;
             // 
@@ -10380,149 +10364,149 @@ namespace plt0_gui
             this.banner_15_ck.MouseEnter += new System.EventHandler(this.Screen2_Arrow_1080p_MouseEnter);
             this.banner_15_ck.MouseLeave += new System.EventHandler(this.Screen2_Arrow_1080p_MouseLeave);
             // 
-            // sooperbmd_label
+            // pal_cie_label
             // 
-            this.sooperbmd_label.AutoSize = true;
-            this.sooperbmd_label.BackColor = System.Drawing.Color.Transparent;
-            this.sooperbmd_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.sooperbmd_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.sooperbmd_label.Location = new System.Drawing.Point(571, 1232);
-            this.sooperbmd_label.Margin = new System.Windows.Forms.Padding(0);
-            this.sooperbmd_label.Name = "sooperbmd_label";
-            this.sooperbmd_label.Padding = new System.Windows.Forms.Padding(0, 22, 50, 22);
-            this.sooperbmd_label.Size = new System.Drawing.Size(179, 69);
-            this.sooperbmd_label.TabIndex = 714;
-            this.sooperbmd_label.Text = "SooperBMD";
-            this.sooperbmd_label.Visible = false;
-            this.sooperbmd_label.Click += new System.EventHandler(this.SooperBMD_Click);
-            this.sooperbmd_label.MouseEnter += new System.EventHandler(this.SooperBMD_MouseEnter);
-            this.sooperbmd_label.MouseLeave += new System.EventHandler(this.SooperBMD_MouseLeave);
+            this.pal_cie_label.AutoSize = true;
+            this.pal_cie_label.BackColor = System.Drawing.Color.Transparent;
+            this.pal_cie_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.pal_cie_label.ForeColor = System.Drawing.SystemColors.Window;
+            this.pal_cie_label.Location = new System.Drawing.Point(571, 1232);
+            this.pal_cie_label.Margin = new System.Windows.Forms.Padding(0);
+            this.pal_cie_label.Name = "pal_cie_label";
+            this.pal_cie_label.Padding = new System.Windows.Forms.Padding(0, 22, 50, 22);
+            this.pal_cie_label.Size = new System.Drawing.Size(167, 69);
+            this.pal_cie_label.TabIndex = 714;
+            this.pal_cie_label.Text = "Luminance";
+            this.pal_cie_label.Visible = false;
+            this.pal_cie_label.Click += new System.EventHandler(this.Pal_CIE_Click);
+            this.pal_cie_label.MouseEnter += new System.EventHandler(this.Pal_CIE_MouseEnter);
+            this.pal_cie_label.MouseLeave += new System.EventHandler(this.Pal_CIE_MouseLeave);
             // 
-            // min_max_label
+            // pal_rgb_label
             // 
-            this.min_max_label.AutoSize = true;
-            this.min_max_label.BackColor = System.Drawing.Color.Transparent;
-            this.min_max_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.min_max_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.min_max_label.Location = new System.Drawing.Point(571, 1296);
-            this.min_max_label.Margin = new System.Windows.Forms.Padding(0);
-            this.min_max_label.Name = "min_max_label";
-            this.min_max_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.min_max_label.Size = new System.Drawing.Size(95, 69);
-            this.min_max_label.TabIndex = 716;
-            this.min_max_label.Text = "Min/Max";
-            this.min_max_label.Visible = false;
-            this.min_max_label.Click += new System.EventHandler(this.Min_Max_Click);
-            this.min_max_label.MouseEnter += new System.EventHandler(this.Min_Max_MouseEnter);
-            this.min_max_label.MouseLeave += new System.EventHandler(this.Min_Max_MouseLeave);
+            this.pal_rgb_label.AutoSize = true;
+            this.pal_rgb_label.BackColor = System.Drawing.Color.Transparent;
+            this.pal_rgb_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.pal_rgb_label.ForeColor = System.Drawing.SystemColors.Window;
+            this.pal_rgb_label.Location = new System.Drawing.Point(571, 1296);
+            this.pal_rgb_label.Margin = new System.Windows.Forms.Padding(0);
+            this.pal_rgb_label.Name = "pal_rgb_label";
+            this.pal_rgb_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.pal_rgb_label.Size = new System.Drawing.Size(56, 69);
+            this.pal_rgb_label.TabIndex = 716;
+            this.pal_rgb_label.Text = "RGB";
+            this.pal_rgb_label.Visible = false;
+            this.pal_rgb_label.Click += new System.EventHandler(this.Pal_RGB_Click);
+            this.pal_rgb_label.MouseEnter += new System.EventHandler(this.Pal_RGB_MouseEnter);
+            this.pal_rgb_label.MouseLeave += new System.EventHandler(this.Pal_RGB_MouseLeave);
             // 
-            // weemm_label
+            // algo_5_label
             // 
-            this.weemm_label.AutoSize = true;
-            this.weemm_label.BackColor = System.Drawing.Color.Transparent;
-            this.weemm_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.weemm_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.weemm_label.Location = new System.Drawing.Point(571, 1168);
-            this.weemm_label.Margin = new System.Windows.Forms.Padding(0);
-            this.weemm_label.Name = "weemm_label";
-            this.weemm_label.Padding = new System.Windows.Forms.Padding(0, 22, 50, 22);
-            this.weemm_label.Size = new System.Drawing.Size(141, 69);
-            this.weemm_label.TabIndex = 712;
-            this.weemm_label.Text = "Weemm";
-            this.weemm_label.Visible = false;
-            this.weemm_label.Click += new System.EventHandler(this.Weemm_Click);
-            this.weemm_label.MouseEnter += new System.EventHandler(this.Weemm_MouseEnter);
-            this.weemm_label.MouseLeave += new System.EventHandler(this.Weemm_MouseLeave);
+            this.algo_5_label.AutoSize = true;
+            this.algo_5_label.BackColor = System.Drawing.Color.Transparent;
+            this.algo_5_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.algo_5_label.ForeColor = System.Drawing.SystemColors.Window;
+            this.algo_5_label.Location = new System.Drawing.Point(571, 1168);
+            this.algo_5_label.Margin = new System.Windows.Forms.Padding(0);
+            this.algo_5_label.Name = "algo_5_label";
+            this.algo_5_label.Padding = new System.Windows.Forms.Padding(0, 22, 50, 22);
+            this.algo_5_label.Size = new System.Drawing.Size(96, 69);
+            this.algo_5_label.TabIndex = 712;
+            this.algo_5_label.Text = "CI2";
+            this.algo_5_label.Visible = false;
+            this.algo_5_label.Click += new System.EventHandler(this.Algo_5_Click);
+            this.algo_5_label.MouseEnter += new System.EventHandler(this.Algo_5_MouseEnter);
+            this.algo_5_label.MouseLeave += new System.EventHandler(this.Algo_5_MouseLeave);
             // 
-            // min_max_ck
+            // pal_rgb_ck
             // 
-            this.min_max_ck.BackColor = System.Drawing.Color.Transparent;
-            this.min_max_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.min_max_ck.ErrorImage = null;
-            this.min_max_ck.InitialImage = null;
-            this.min_max_ck.Location = new System.Drawing.Point(503, 1296);
-            this.min_max_ck.Margin = new System.Windows.Forms.Padding(0);
-            this.min_max_ck.Name = "min_max_ck";
-            this.min_max_ck.Size = new System.Drawing.Size(64, 64);
-            this.min_max_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.min_max_ck.TabIndex = 717;
-            this.min_max_ck.TabStop = false;
-            this.min_max_ck.Visible = false;
-            this.min_max_ck.Click += new System.EventHandler(this.Min_Max_Click);
-            this.min_max_ck.MouseEnter += new System.EventHandler(this.Min_Max_MouseEnter);
-            this.min_max_ck.MouseLeave += new System.EventHandler(this.Min_Max_MouseLeave);
+            this.pal_rgb_ck.BackColor = System.Drawing.Color.Transparent;
+            this.pal_rgb_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pal_rgb_ck.ErrorImage = null;
+            this.pal_rgb_ck.InitialImage = null;
+            this.pal_rgb_ck.Location = new System.Drawing.Point(503, 1296);
+            this.pal_rgb_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.pal_rgb_ck.Name = "pal_rgb_ck";
+            this.pal_rgb_ck.Size = new System.Drawing.Size(64, 64);
+            this.pal_rgb_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pal_rgb_ck.TabIndex = 717;
+            this.pal_rgb_ck.TabStop = false;
+            this.pal_rgb_ck.Visible = false;
+            this.pal_rgb_ck.Click += new System.EventHandler(this.Pal_RGB_Click);
+            this.pal_rgb_ck.MouseEnter += new System.EventHandler(this.Pal_RGB_MouseEnter);
+            this.pal_rgb_ck.MouseLeave += new System.EventHandler(this.Pal_RGB_MouseLeave);
             // 
-            // sooperbmd_ck
+            // pal_cie_ck
             // 
-            this.sooperbmd_ck.BackColor = System.Drawing.Color.Transparent;
-            this.sooperbmd_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.sooperbmd_ck.ErrorImage = null;
-            this.sooperbmd_ck.InitialImage = null;
-            this.sooperbmd_ck.Location = new System.Drawing.Point(503, 1232);
-            this.sooperbmd_ck.Margin = new System.Windows.Forms.Padding(0);
-            this.sooperbmd_ck.Name = "sooperbmd_ck";
-            this.sooperbmd_ck.Size = new System.Drawing.Size(64, 64);
-            this.sooperbmd_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.sooperbmd_ck.TabIndex = 715;
-            this.sooperbmd_ck.TabStop = false;
-            this.sooperbmd_ck.Visible = false;
-            this.sooperbmd_ck.Click += new System.EventHandler(this.SooperBMD_Click);
-            this.sooperbmd_ck.MouseEnter += new System.EventHandler(this.SooperBMD_MouseEnter);
-            this.sooperbmd_ck.MouseLeave += new System.EventHandler(this.SooperBMD_MouseLeave);
+            this.pal_cie_ck.BackColor = System.Drawing.Color.Transparent;
+            this.pal_cie_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pal_cie_ck.ErrorImage = null;
+            this.pal_cie_ck.InitialImage = null;
+            this.pal_cie_ck.Location = new System.Drawing.Point(503, 1232);
+            this.pal_cie_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.pal_cie_ck.Name = "pal_cie_ck";
+            this.pal_cie_ck.Size = new System.Drawing.Size(64, 64);
+            this.pal_cie_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pal_cie_ck.TabIndex = 715;
+            this.pal_cie_ck.TabStop = false;
+            this.pal_cie_ck.Visible = false;
+            this.pal_cie_ck.Click += new System.EventHandler(this.Pal_CIE_Click);
+            this.pal_cie_ck.MouseEnter += new System.EventHandler(this.Pal_CIE_MouseEnter);
+            this.pal_cie_ck.MouseLeave += new System.EventHandler(this.Pal_CIE_MouseLeave);
             // 
-            // weemm_ck
+            // algo_5_ck
             // 
-            this.weemm_ck.BackColor = System.Drawing.Color.Transparent;
-            this.weemm_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.weemm_ck.ErrorImage = null;
-            this.weemm_ck.InitialImage = null;
-            this.weemm_ck.Location = new System.Drawing.Point(500, 1168);
-            this.weemm_ck.Margin = new System.Windows.Forms.Padding(0);
-            this.weemm_ck.Name = "weemm_ck";
-            this.weemm_ck.Size = new System.Drawing.Size(64, 64);
-            this.weemm_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.weemm_ck.TabIndex = 713;
-            this.weemm_ck.TabStop = false;
-            this.weemm_ck.Visible = false;
-            this.weemm_ck.Click += new System.EventHandler(this.Weemm_Click);
-            this.weemm_ck.MouseEnter += new System.EventHandler(this.Weemm_MouseEnter);
-            this.weemm_ck.MouseLeave += new System.EventHandler(this.Weemm_MouseLeave);
+            this.algo_5_ck.BackColor = System.Drawing.Color.Transparent;
+            this.algo_5_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.algo_5_ck.ErrorImage = null;
+            this.algo_5_ck.InitialImage = null;
+            this.algo_5_ck.Location = new System.Drawing.Point(500, 1168);
+            this.algo_5_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.algo_5_ck.Name = "algo_5_ck";
+            this.algo_5_ck.Size = new System.Drawing.Size(64, 64);
+            this.algo_5_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.algo_5_ck.TabIndex = 713;
+            this.algo_5_ck.TabStop = false;
+            this.algo_5_ck.Visible = false;
+            this.algo_5_ck.Click += new System.EventHandler(this.Algo_5_Click);
+            this.algo_5_ck.MouseEnter += new System.EventHandler(this.Algo_5_MouseEnter);
+            this.algo_5_ck.MouseLeave += new System.EventHandler(this.Algo_5_MouseLeave);
             // 
-            // darkest_lightest_label
+            // algo_3_label
             // 
-            this.darkest_lightest_label.AutoSize = true;
-            this.darkest_lightest_label.BackColor = System.Drawing.Color.Transparent;
-            this.darkest_lightest_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.darkest_lightest_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.darkest_lightest_label.Location = new System.Drawing.Point(564, 320);
-            this.darkest_lightest_label.Margin = new System.Windows.Forms.Padding(0);
-            this.darkest_lightest_label.Name = "darkest_lightest_label";
-            this.darkest_lightest_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
-            this.darkest_lightest_label.Size = new System.Drawing.Size(86, 69);
-            this.darkest_lightest_label.TabIndex = 718;
-            this.darkest_lightest_label.Text = "Gamma";
-            this.darkest_lightest_label.Visible = false;
-            this.darkest_lightest_label.Click += new System.EventHandler(this.Darkest_Lightest_Click);
-            this.darkest_lightest_label.MouseEnter += new System.EventHandler(this.Darkest_Lightest_MouseEnter);
-            this.darkest_lightest_label.MouseLeave += new System.EventHandler(this.Darkest_Lightest_MouseLeave);
+            this.algo_3_label.AutoSize = true;
+            this.algo_3_label.BackColor = System.Drawing.Color.Transparent;
+            this.algo_3_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.algo_3_label.ForeColor = System.Drawing.SystemColors.Window;
+            this.algo_3_label.Location = new System.Drawing.Point(564, 320);
+            this.algo_3_label.Margin = new System.Windows.Forms.Padding(0);
+            this.algo_3_label.Name = "algo_3_label";
+            this.algo_3_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
+            this.algo_3_label.Size = new System.Drawing.Size(86, 69);
+            this.algo_3_label.TabIndex = 718;
+            this.algo_3_label.Text = "Gamma";
+            this.algo_3_label.Visible = false;
+            this.algo_3_label.Click += new System.EventHandler(this.Algo_3_Click);
+            this.algo_3_label.MouseEnter += new System.EventHandler(this.Algo_3_MouseEnter);
+            this.algo_3_label.MouseLeave += new System.EventHandler(this.Algo_3_MouseLeave);
             // 
-            // darkest_lightest_ck
+            // algo_3_ck
             // 
-            this.darkest_lightest_ck.BackColor = System.Drawing.Color.Transparent;
-            this.darkest_lightest_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.darkest_lightest_ck.ErrorImage = null;
-            this.darkest_lightest_ck.InitialImage = null;
-            this.darkest_lightest_ck.Location = new System.Drawing.Point(500, 320);
-            this.darkest_lightest_ck.Margin = new System.Windows.Forms.Padding(0);
-            this.darkest_lightest_ck.Name = "darkest_lightest_ck";
-            this.darkest_lightest_ck.Size = new System.Drawing.Size(64, 64);
-            this.darkest_lightest_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.darkest_lightest_ck.TabIndex = 719;
-            this.darkest_lightest_ck.TabStop = false;
-            this.darkest_lightest_ck.Visible = false;
-            this.darkest_lightest_ck.Click += new System.EventHandler(this.Darkest_Lightest_Click);
-            this.darkest_lightest_ck.MouseEnter += new System.EventHandler(this.Darkest_Lightest_MouseEnter);
-            this.darkest_lightest_ck.MouseLeave += new System.EventHandler(this.Darkest_Lightest_MouseLeave);
+            this.algo_3_ck.BackColor = System.Drawing.Color.Transparent;
+            this.algo_3_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.algo_3_ck.ErrorImage = null;
+            this.algo_3_ck.InitialImage = null;
+            this.algo_3_ck.Location = new System.Drawing.Point(500, 320);
+            this.algo_3_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.algo_3_ck.Name = "algo_3_ck";
+            this.algo_3_ck.Size = new System.Drawing.Size(64, 64);
+            this.algo_3_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.algo_3_ck.TabIndex = 719;
+            this.algo_3_ck.TabStop = false;
+            this.algo_3_ck.Visible = false;
+            this.algo_3_ck.Click += new System.EventHandler(this.Algo_3_Click);
+            this.algo_3_ck.MouseEnter += new System.EventHandler(this.Algo_3_MouseEnter);
+            this.algo_3_ck.MouseLeave += new System.EventHandler(this.Algo_3_MouseLeave);
             // 
             // cmpr_palette
             // 
@@ -10609,7 +10593,7 @@ namespace plt0_gui
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(2987, 845);
+            this.ClientSize = new System.Drawing.Size(2824, 845);
             this.Controls.Add(this.banner_minus_ck);
             this.Controls.Add(this.banner_f11_ck);
             this.Controls.Add(this.banner_x_ck);
@@ -10645,13 +10629,13 @@ namespace plt0_gui
             this.Controls.Add(this.banner_resize);
             this.Controls.Add(this.banner_move);
             this.Controls.Add(this.cli_textbox_label);
-            this.Controls.Add(this.sooperbmd_label);
+            this.Controls.Add(this.pal_cie_label);
             this.Controls.Add(this.palette_label);
-            this.Controls.Add(this.min_max_label);
-            this.Controls.Add(this.weemm_label);
-            this.Controls.Add(this.min_max_ck);
-            this.Controls.Add(this.sooperbmd_ck);
-            this.Controls.Add(this.weemm_ck);
+            this.Controls.Add(this.pal_rgb_label);
+            this.Controls.Add(this.algo_5_label);
+            this.Controls.Add(this.pal_rgb_ck);
+            this.Controls.Add(this.pal_cie_ck);
+            this.Controls.Add(this.algo_5_ck);
             this.Controls.Add(this.cmpr_update_preview_ck);
             this.Controls.Add(this.cmpr_update_preview_label);
             this.Controls.Add(this.cmpr_hover_ck);
@@ -10751,8 +10735,8 @@ namespace plt0_gui
             this.Controls.Add(this.min_linearmipmaplinear_label);
             this.Controls.Add(this.alpha_title);
             this.Controls.Add(this.cie_709_label);
-            this.Controls.Add(this.custom_label);
-            this.Controls.Add(this.no_gradient_label);
+            this.Controls.Add(this.algo_2_label);
+            this.Controls.Add(this.algo_4_label);
             this.Controls.Add(this.no_alpha_label);
             this.Controls.Add(this.mix_label);
             this.Controls.Add(this.palette_ai8_ck);
@@ -10847,13 +10831,13 @@ namespace plt0_gui
             this.Controls.Add(this.Trepeat_ck);
             this.Controls.Add(this.Tclamp_ck);
             this.Controls.Add(this.WrapT_label);
-            this.Controls.Add(this.darkest_lightest_label);
-            this.Controls.Add(this.darkest_lightest_ck);
+            this.Controls.Add(this.algo_3_label);
+            this.Controls.Add(this.algo_3_ck);
             this.Controls.Add(this.mix_ck);
             this.Controls.Add(this.alpha_ck);
             this.Controls.Add(this.no_alpha_ck);
-            this.Controls.Add(this.no_gradient_ck);
-            this.Controls.Add(this.custom_ck);
+            this.Controls.Add(this.algo_4_ck);
+            this.Controls.Add(this.algo_2_ck);
             this.Controls.Add(this.cie_709_ck);
             this.Controls.Add(this.cie_601_ck);
             this.Controls.Add(this.cmpr_ck);
@@ -10985,8 +10969,8 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.i8_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.i4_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.surrounding_ck)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.no_gradient_ck)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.custom_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.algo_4_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.algo_2_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cie_709_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cie_601_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mix_ck)).EndInit();
@@ -11089,10 +11073,10 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.banner_18_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.banner_19_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.banner_15_ck)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.min_max_ck)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.sooperbmd_ck)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.weemm_ck)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.darkest_lightest_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pal_rgb_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pal_cie_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.algo_5_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.algo_3_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_palette)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_grid_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).EndInit();
@@ -13031,17 +13015,17 @@ namespace plt0_gui
             else
                 unchecked_algorithm(cie_709_ck);
         }
-        private void Custom_Click(object sender, EventArgs e)
+        private void Algo_2_Click(object sender, EventArgs e)
         {
             unchecked_algorithm(algorithm_ck[algorithm]);
             Hide_algorithm(algorithm);
-            selected_algorithm(custom_ck);
+            selected_algorithm(algo_2_ck);
             algorithm = 2; // Custom
             Organize_args();
             View_rgba();
             Preview(false);
         }
-        private void Custom_MouseEnter(object sender, EventArgs e)
+        private void Algo_2_MouseEnter(object sender, EventArgs e)
         {
 
             if (encoding == 14)
@@ -13049,28 +13033,28 @@ namespace plt0_gui
             else
                 Parse_Markdown(d[44]);
             if (algorithm == 2)
-                selected_algorithm(custom_ck);
+                selected_algorithm(algo_2_ck);
             else
-                hover_algorithm(custom_ck);
+                hover_algorithm(algo_2_ck);
         }
-        private void Custom_MouseLeave(object sender, EventArgs e)
+        private void Algo_2_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
             if (algorithm == 2)
-                checked_algorithm(custom_ck);
+                checked_algorithm(algo_2_ck);
             else
-                unchecked_algorithm(custom_ck);
+                unchecked_algorithm(algo_2_ck);
         }
-        private void Darkest_Lightest_Click(object sender, EventArgs e)
+        private void Algo_3_Click(object sender, EventArgs e)
         {
             unchecked_algorithm(algorithm_ck[algorithm]);
             Hide_algorithm(algorithm);
-            selected_algorithm(darkest_lightest_ck);
+            selected_algorithm(algo_3_ck);
             algorithm = 3; // Darkest_Lightest
             Organize_args();
             Preview(false);
         }
-        private void Darkest_Lightest_MouseEnter(object sender, EventArgs e)
+        private void Algo_3_MouseEnter(object sender, EventArgs e)
         {
 
             if (encoding == 14)
@@ -13078,118 +13062,118 @@ namespace plt0_gui
             else
                 Parse_Markdown(d[45]);
             if (algorithm == 3)
-                selected_algorithm(darkest_lightest_ck);
+                selected_algorithm(algo_3_ck);
             else
-                hover_algorithm(darkest_lightest_ck);
+                hover_algorithm(algo_3_ck);
         }
-        private void Darkest_Lightest_MouseLeave(object sender, EventArgs e)
+        private void Algo_3_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
             if (algorithm == 3)
-                checked_algorithm(darkest_lightest_ck);
+                checked_algorithm(algo_3_ck);
             else
-                unchecked_algorithm(darkest_lightest_ck);
+                unchecked_algorithm(algo_3_ck);
         }
-        private void No_gradient_Click(object sender, EventArgs e)
+        private void Algo_4_Click(object sender, EventArgs e)
         {
             unchecked_algorithm(algorithm_ck[algorithm]);
             Hide_algorithm(algorithm);
-            selected_algorithm(no_gradient_ck);
+            selected_algorithm(algo_4_ck);
             algorithm = 4; // No_gradient
             Organize_args();
             View_No_Gradient();
             Preview(false);
         }
-        private void No_gradient_MouseEnter(object sender, EventArgs e)
+        private void Algo_4_MouseEnter(object sender, EventArgs e)
         {
             Parse_Markdown(d[46]);
             if (algorithm == 4)
-                selected_algorithm(no_gradient_ck);
+                selected_algorithm(algo_4_ck);
             else
-                hover_algorithm(no_gradient_ck);
+                hover_algorithm(algo_4_ck);
         }
-        private void No_gradient_MouseLeave(object sender, EventArgs e)
+        private void Algo_4_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
             if (algorithm == 4)
-                checked_algorithm(no_gradient_ck);
+                checked_algorithm(algo_4_ck);
             else
-                unchecked_algorithm(no_gradient_ck);
+                unchecked_algorithm(algo_4_ck);
         }
-        private void Weemm_Click(object sender, EventArgs e)
+        private void Algo_5_Click(object sender, EventArgs e)
         {
             unchecked_algorithm(algorithm_ck[algorithm]);
             Hide_algorithm(algorithm);
-            selected_algorithm(weemm_ck);
+            selected_algorithm(algo_5_ck);
             algorithm = 5; // Weemm
             Organize_args();
             Preview(false);
         }
-        private void Weemm_MouseEnter(object sender, EventArgs e)
+        private void Algo_5_MouseEnter(object sender, EventArgs e)
         {
             Parse_Markdown(d[47]);
             if (algorithm == 5)
-                selected_algorithm(weemm_ck);
+                selected_algorithm(algo_5_ck);
             else
-                hover_algorithm(weemm_ck);
+                hover_algorithm(algo_5_ck);
         }
-        private void Weemm_MouseLeave(object sender, EventArgs e)
+        private void Algo_5_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
             if (algorithm == 5)
-                checked_algorithm(weemm_ck);
+                checked_algorithm(algo_5_ck);
             else
-                unchecked_algorithm(weemm_ck);
+                unchecked_algorithm(algo_5_ck);
         }
-        private void SooperBMD_Click(object sender, EventArgs e)
+        private void Pal_CIE_Click(object sender, EventArgs e)
         {
             unchecked_algorithm(algorithm_ck[algorithm]);
             Hide_algorithm(algorithm);
-            selected_algorithm(sooperbmd_ck);
+            selected_algorithm(pal_cie_ck);
             algorithm = 6; // SooperBMD
             Organize_args();
             Preview(false);
         }
-        private void SooperBMD_MouseEnter(object sender, EventArgs e)
+        private void Pal_CIE_MouseEnter(object sender, EventArgs e)
         {
             Parse_Markdown(d[48]);
             if (algorithm == 6)
-                selected_algorithm(sooperbmd_ck);
+                selected_algorithm(pal_cie_ck);
             else
-                hover_algorithm(sooperbmd_ck);
+                hover_algorithm(pal_cie_ck);
         }
-        private void SooperBMD_MouseLeave(object sender, EventArgs e)
+        private void Pal_CIE_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
             if (algorithm == 6)
-                checked_algorithm(sooperbmd_ck);
+                checked_algorithm(pal_cie_ck);
             else
-                unchecked_algorithm(sooperbmd_ck);
+                unchecked_algorithm(pal_cie_ck);
         }
-        private void Min_Max_Click(object sender, EventArgs e)
+        private void Pal_RGB_Click(object sender, EventArgs e)
         {
             unchecked_algorithm(algorithm_ck[algorithm]);
             Hide_algorithm(algorithm);
-            selected_algorithm(min_max_ck);
+            selected_algorithm(pal_rgb_ck);
             algorithm = 7; // Min_Max
             Organize_args();
             Preview(false);
         }
-        private void Min_Max_MouseEnter(object sender, EventArgs e)
+        private void Pal_RGB_MouseEnter(object sender, EventArgs e)
         {
             Parse_Markdown(d[49]);
             if (algorithm == 7)
-                selected_algorithm(min_max_ck);
+                selected_algorithm(pal_rgb_ck);
             else
-                hover_algorithm(min_max_ck);
+                hover_algorithm(pal_rgb_ck);
         }
-        private void Min_Max_MouseLeave(object sender, EventArgs e)
+        private void Pal_RGB_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
             if (algorithm == 7)
-                checked_algorithm(min_max_ck);
+                checked_algorithm(pal_rgb_ck);
             else
-                unchecked_algorithm(min_max_ck);
+                unchecked_algorithm(pal_rgb_ck);
         }
         private void No_alpha_Click(object sender, EventArgs e)
         {

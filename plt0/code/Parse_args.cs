@@ -50,7 +50,7 @@ class Parse_args_class
     byte WrapS = 1; // 0 = Clamp   1 = Repeat   2 = Mirror
     byte WrapT = 1; // 0 = Clamp   1 = Repeat   2 = Mirror
     public byte algorithm = 0;  // 0 = CIE 601    1 = CIE 709     2 = custom RGBA     3 = Gamma sRGB invertion
-    // for cmpr : algorithm   0 = re-encode (CIE 709)   1 = Range Fit   2 = Cluster Fit   3 = Wiimm V2 (improved Wiimm Counterfeit)   4 = Average   5 = No Gradient   6 = SuperBMD (counterfeit)   7 = Min/Max  8 = Most Used/Furthest   9 = Darkest/Lightest   10 = brute force (unused)
+    // for cmpr : algorithm   0 = re-encode (CIE 709)   1 = Range Fit   2 = Cluster Fit   3 = Wiimm V2 (improved Wiimm Counterfeit)   4 = Custom   5 = No Gradient   6 = SuperBMD (counterfeit)   7 = Min/Max  8 = Most Used/Furthest   9 = Darkest/Lightest   10 = brute force (unused)
     public byte alpha = 9;  // 0 = no alpha - 1 = alpha - 2 = mix 
     byte color;
     public byte cmpr_alpha_threshold = 100;
@@ -336,6 +336,13 @@ class Parse_args_class
                 case "RANGE-FIT":
                     algorithm = 1;
                     break;
+                case "CLUSTER":
+                    algorithm = 2;
+                    break;
+                case "CUSTOM":
+                case "AVERAGE":
+                    algorithm = 4;
+                    break;
                 case "GIF":
                     gif = true;
                     break;
@@ -608,6 +615,7 @@ class Parse_args_class
                 case "NO_GRADIENT":
                 case "NO-GRADIENT":
                 case "SIMILAR":
+                case "CI2":
                     algorithm = 5;
                     break;
                 case "NN":
@@ -897,6 +905,7 @@ class Parse_args_class
                 case "WEM":
                 case "WEEM":
                 case "WEMM":
+                case "CPU":
                     algorithm = 3;
                     break;
                 case "WRAP":

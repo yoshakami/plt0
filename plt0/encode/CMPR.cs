@@ -862,7 +862,7 @@ class CMPR_class
                 index_list.AddRange(index_list_6);
                 index_list.AddRange(index_list_7);
                 index_list.AddRange(index_list_8);
-                break; // Wiimm V2
+                break; // CPU / Wiimm V2 Multithread
             case 4: // Custom
                 switch (_plt0.distance)
                 {
