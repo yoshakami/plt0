@@ -329,6 +329,7 @@
         private System.Windows.Forms.PictureBox algo_5_ck;
         private System.Windows.Forms.Label algo_3_label;
         private System.Windows.Forms.PictureBox algo_3_ck;
+        private System.Windows.Forms.Label distance_label;
         /*
 /// <summary>
 /// Required designer variable.

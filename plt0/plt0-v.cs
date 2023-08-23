@@ -196,6 +196,8 @@ namespace plt0_gui
         byte WrapT = 3; // 0 = Clamp   1 = Repeat   2 = Mirror
         byte algorithm = 9;  // 0 = CIE 601    1 = CIE 709     2 = custom RGBA     3 = Most Used Colours (No Gradient)
         // for cmpr : algorithm   0 = smart   1 = Range Fit   2 = Most Used/Furthest   3 = Darkest/Lightest   4 = No Gradient   5 = Wiimm (counterfeit)   6 = SuperBMD (counterfeit)   7 = Min/Max
+        byte distance = 0;  // 0 = Luminance   1 = RGB   2 = Euclidian  3 = Infinite   4 = Delta E
+                            // another way to see this is 0 = Black&White  1 = Manhattan   2 = Norme 2   3 = Tchevichev  4 = CIEDE2000 / CIELAB
         byte alpha = 3;  // 0 = no alpha - 1 = alpha - 2 = mix 
         byte magnification_filter = 6;  // 0 = Nearest Neighbour   1 = Linear
         byte minification_filter = 6;  // 0 = Nearest Neighbour   1 = Linear
@@ -2795,6 +2797,7 @@ namespace plt0_gui
             algo_5_label.Visible = true;
             algo_4_ck.Visible = true;
             algo_4_label.Visible = true;
+            distance_label.Visible = true;
             pal_cie_ck.Visible = true;
             pal_cie_label.Visible = true;
             pal_rgb_ck.Visible = true;
@@ -2832,6 +2835,7 @@ namespace plt0_gui
             algo_4_label.Visible = false;
             pal_cie_ck.Visible = false;
             pal_cie_label.Visible = false;
+            distance_label.Visible = false;
             pal_rgb_ck.Visible = false;
             pal_rgb_label.Visible = false;
             if (just_change_list)
@@ -4470,14 +4474,11 @@ namespace plt0_gui
             algorithm_ck.Add(algo_3_ck);
             algorithm_ck.Add(algo_4_ck);
             algorithm_ck.Add(algo_5_ck);
-            algorithm_ck.Add(pal_cie_ck);
-            algorithm_ck.Add(pal_rgb_ck);
-            algorithm_ck.Add(cie_601_ck);  // nothing
-            algorithm_ck.Add(cie_601_ck);  // nothing
             palette_ck.Add(palette_ai8_ck);
             palette_ck.Add(palette_rgb565_ck);
             palette_ck.Add(palette_rgb5a3_ck);
-            palette_ck.Add(palette_ai8_ck);  // nothing
+            palette_ck.Add(pal_cie_ck);
+            palette_ck.Add(pal_rgb_ck);
             desc.Add(description);
             desc.Add(desc2);
             desc.Add(desc3);
@@ -4601,21 +4602,25 @@ namespace plt0_gui
             (int)((564 * width_ratio)),
             (int)((448 * height_ratio)));
 
-            pal_cie_ck.Location = new System.Drawing.Point(
+            distance_label.Location = new System.Drawing.Point(
             (int)((500 * width_ratio)),
             (int)((512 * height_ratio)));
+
+            pal_cie_ck.Location = new System.Drawing.Point(
+            (int)((500 * width_ratio)),
+            (int)((544 * height_ratio)));
 
             pal_cie_label.Location = new System.Drawing.Point(
             (int)((564 * width_ratio)),
-            (int)((512 * height_ratio)));
+            (int)((544 * height_ratio)));
 
             pal_rgb_ck.Location = new System.Drawing.Point(
             (int)((500 * width_ratio)),
-            (int)((576 * height_ratio)));
+            (int)((608 * height_ratio)));
 
             pal_rgb_label.Location = new System.Drawing.Point(
             (int)((564 * width_ratio)),
-            (int)((576 * height_ratio)));
+            (int)((608 * height_ratio)));
 
             bool delete_preview = true;
             if (Directory.Exists(execPath + "plt0 content/preview"))
@@ -4982,6 +4987,7 @@ namespace plt0_gui
             this.cmpr_grid_ck = new PictureBoxWithInterpolationMode();
             this.cmpr_preview_ck = new PictureBoxWithInterpolationMode();
             this.image_ck = new PictureBoxWithInterpolationMode();
+            this.distance_label = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tpl_ck)).BeginInit();
@@ -10370,7 +10376,7 @@ namespace plt0_gui
             this.pal_cie_label.BackColor = System.Drawing.Color.Transparent;
             this.pal_cie_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.pal_cie_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.pal_cie_label.Location = new System.Drawing.Point(571, 1232);
+            this.pal_cie_label.Location = new System.Drawing.Point(571, 1264);
             this.pal_cie_label.Margin = new System.Windows.Forms.Padding(0);
             this.pal_cie_label.Name = "pal_cie_label";
             this.pal_cie_label.Padding = new System.Windows.Forms.Padding(0, 22, 50, 22);
@@ -10388,7 +10394,7 @@ namespace plt0_gui
             this.pal_rgb_label.BackColor = System.Drawing.Color.Transparent;
             this.pal_rgb_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.pal_rgb_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.pal_rgb_label.Location = new System.Drawing.Point(571, 1296);
+            this.pal_rgb_label.Location = new System.Drawing.Point(571, 1328);
             this.pal_rgb_label.Margin = new System.Windows.Forms.Padding(0);
             this.pal_rgb_label.Name = "pal_rgb_label";
             this.pal_rgb_label.Padding = new System.Windows.Forms.Padding(0, 22, 0, 22);
@@ -10424,7 +10430,7 @@ namespace plt0_gui
             this.pal_rgb_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.pal_rgb_ck.ErrorImage = null;
             this.pal_rgb_ck.InitialImage = null;
-            this.pal_rgb_ck.Location = new System.Drawing.Point(503, 1296);
+            this.pal_rgb_ck.Location = new System.Drawing.Point(503, 1328);
             this.pal_rgb_ck.Margin = new System.Windows.Forms.Padding(0);
             this.pal_rgb_ck.Name = "pal_rgb_ck";
             this.pal_rgb_ck.Size = new System.Drawing.Size(64, 64);
@@ -10442,7 +10448,7 @@ namespace plt0_gui
             this.pal_cie_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.pal_cie_ck.ErrorImage = null;
             this.pal_cie_ck.InitialImage = null;
-            this.pal_cie_ck.Location = new System.Drawing.Point(503, 1232);
+            this.pal_cie_ck.Location = new System.Drawing.Point(503, 1264);
             this.pal_cie_ck.Margin = new System.Windows.Forms.Padding(0);
             this.pal_cie_ck.Name = "pal_cie_ck";
             this.pal_cie_ck.Size = new System.Drawing.Size(64, 64);
@@ -10587,13 +10593,27 @@ namespace plt0_gui
             this.image_ck.TabStop = false;
             this.image_ck.Visible = false;
             // 
+            // distance_label
+            // 
+            this.distance_label.AutoSize = true;
+            this.distance_label.BackColor = System.Drawing.Color.Transparent;
+            this.distance_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.distance_label.ForeColor = System.Drawing.SystemColors.Control;
+            this.distance_label.Location = new System.Drawing.Point(498, 1239);
+            this.distance_label.Margin = new System.Windows.Forms.Padding(0);
+            this.distance_label.Name = "distance_label";
+            this.distance_label.Size = new System.Drawing.Size(174, 25);
+            this.distance_label.TabIndex = 720;
+            this.distance_label.Text = "Distance Method";
+            // 
             // plt0_gui
             // 
             this.AllowDrop = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(2824, 845);
+            this.ClientSize = new System.Drawing.Size(2824, 1346);
+            this.Controls.Add(this.distance_label);
             this.Controls.Add(this.banner_minus_ck);
             this.Controls.Add(this.banner_f11_ck);
             this.Controls.Add(this.banner_x_ck);
@@ -13127,10 +13147,10 @@ namespace plt0_gui
         }
         private void Pal_CIE_Click(object sender, EventArgs e)
         {
-            unchecked_algorithm(algorithm_ck[algorithm]);
-            Hide_algorithm(algorithm);
+            unchecked_algorithm(palette_ck[distance]);
+            Hide_algorithm(distance);
             selected_algorithm(pal_cie_ck);
-            algorithm = 6; // SooperBMD
+            distance = 0; // Luminance
             Organize_args();
             Preview(false);
         }
