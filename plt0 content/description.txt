@@ -37,17 +37,17 @@ palette, 8 bits per pixel (CI8 palette has a capacity of 256 colours)
 palette, 14 bits per pixel (CI14x2\j palette has a capacity of\j 16384 colours)\n\j\j\j\c Red slow to encode, the gui may freeze.
 color, DXT1 BC1 2 RGB565 colours\jper 4x4 block + 2 interpolated colours\j(which results in a "4-bit per pixel")\j\j\c LightGreen - use the Paint layout to edit\j\c LightGreen All CMPR textures -\j\jevery pixel with alpha < CMPR Min alpha will be zero, else it's 255
 Default CMPR Algorithm (best one to re-encode without anymore loss if input image was cmpr encoded or a BC1 dds)\n\nUsing the CIE 709 algorithm to find darkest and lightest pixel
-take the most used channel(s), and pick the two colours matching linear interpolation that are the furthest away\nvariant: calculate colours not in the 4x4 block but still in the linear interpolation that could make better results
-Take the Most used colour and the furthest away from it for each 4x4 block
-Take darkest and lightest colour of each block but ONLY take the second colour if it's used more than CMPR MAX times in the 4x4 block
+take the most used channel(s), and pick the two colours matching linear interpolation that are the furthest away\nAnciant name: Min/Max
+Cluster Fit
+Improved Wiimm Algorithm V2\j\c red Multithreading - CPU Demanding\jProcess all colour couples of the palette and take the one that produces the least "difference" calculated by adding channel differences
 An algorithm to convert 24-bit RGB to 8-bit grey.
 An algorithm to convert 24-bit RGB to 8-bit grey.
 Multiplies each channel by its value in the textbox "Custom RGBA"
 An algorithm to convert 24-bit RGB to 8-bit grey by inverting the sRGB Gamma Function and calculating the Luminance and the Perceptive Brightness
+Custom. Set CMPR Max to any value between 0 and 100\n0 = Deviant average\n1 = Most used colour\n2 = Second Most used colour\n3 = Third....\n6 = Sixth most used colour\n7 = Darkest colour\n8 = Lightest colour\n9 = average colour\nexample: 69 = Sixth most used colour + Average\n100 or above = completely random couple
 Make the encoding of CMPR textures to only care about the two most used colours with diversity and percentage parameters
-Process all colour couples of the palette and take the one that produces the least "difference" calculated by adding channel differences
-a single loop going through colours once and taking the couple that has the most difference with his neighbour
-set cmpr max to -.\j\jtakes the colour composed of the lowest red channel value, lowest blue channel, and lowest green one, no matter if it's not from the same pixel (then take the highest one)
+(Norm 1) Use the CIE 709 Constants to calculate the distance between two Colours
+(Norm 1) Litterally Adds Red + Green + Blue\nthis is also called Manhattan distance\nThis norm is a diamond cube on the 3d space
 States that the picture has No alpha and that every pixel of RGB5A3 must be 1RRR RRGG GGGB BBBB(used in RGB5A3's smart alpha and for choosing palette encoding if none were selected)
 States that the picture has Alpha and that every pixel of RGB5A3 must be 0AAA RRRR GGGG BBBB
 Picture has alpha and RGB5A3 can use any of the two options for each pixel
@@ -175,9 +175,9 @@ save failed\n\n\c Red No output name specified
 \c Green saved \n\o
 save failed\n\n\c Red \o is used by another process
 \c orchid TPL Files are not supported currently
-(1, 3)
-(1, 4)
-(2, 1)
+(Norm 2) Adds Red*Red + Green*Green + Blue*Blue\nthis is norm is a sphere on the 3d space
+(Norm +inf) Keeps the longest out of red, green, or blue\nlitterally Max(red, green, blue)\nAlso called Tchebichev distance\nThis norm is a flat cube on the 3d space
+CIEDE2000, also known as ΔE2000 or Delta E 2000, is a color difference formula that quantifies the perceptual difference between two colors in a more accurate and comprehensive way compared to earlier color difference metrics.
 (2, 2)
 (2, 3)
 (2, 4)

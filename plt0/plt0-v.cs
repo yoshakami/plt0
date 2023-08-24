@@ -194,8 +194,8 @@ namespace plt0_gui
         byte palette_enc = 3;
         byte WrapS = 3; // 0 = Clamp   1 = Repeat   2 = Mirror
         byte WrapT = 3; // 0 = Clamp   1 = Repeat   2 = Mirror
-        byte algorithm = 9;  // 0 = CIE 601    1 = CIE 709     2 = custom RGBA     3 = Most Used Colours (No Gradient)
-        // for cmpr : algorithm   0 = smart   1 = Range Fit   2 = Most Used/Furthest   3 = Darkest/Lightest   4 = No Gradient   5 = Wiimm (counterfeit)   6 = SuperBMD (counterfeit)   7 = Min/Max
+        byte algorithm = 6;  // 0 = CIE 601    1 = CIE 709     2 = custom RGBA     3 = Gamma sRGB invertion
+                             // for cmpr : algorithm   0 = re-encode (CIE 709)   1 = Range Fit   2 = Cluster Fit   3 = Wiimm V2 (improved Wiimm Counterfeit)   4 = Custom   5 = No Gradient   6 = SuperBMD (counterfeit)   7 = Min/Max  8 = Most Used/Furthest   9 = Darkest/Lightest   10 = brute force (unused)
         byte distance = 0;  // 0 = Luminance   1 = RGB   2 = Euclidian  3 = Infinite   4 = Delta E
                             // another way to see this is 0 = Black&White  1 = Manhattan   2 = Norme 2   3 = Tchevichev  4 = CIEDE2000 / CIELAB
         byte alpha = 3;  // 0 = no alpha - 1 = alpha - 2 = mix 
@@ -1284,7 +1284,7 @@ namespace plt0_gui
                 switch (algorithm)
                 {
                     case 1:
-                        args += "Range fit ";
+                        args += "Range fit ";  // the space is there purposefully
                         arg_array.Add("RANGE");
                         break;
                     case 2:
@@ -1296,12 +1296,35 @@ namespace plt0_gui
                         arg_array.Add("CPU");
                         break;
                     case 4:
-                        args += "Custom" + " ";
+                        args += "Custom ";
                         arg_array.Add("CUSTOM");
                         break;
                     case 5:
-                        args += "CI2 " + " ";
+                        args += "CI2 ";
                         arg_array.Add("CI2");
+                        break;
+                }
+                switch (distance)
+                {
+                    case 0:
+                        args += "Luminance ";
+                        arg_array.Add("N0");
+                        break;
+                    case 1:
+                        args += "N1 ";
+                        arg_array.Add("N1");
+                        break;
+                    case 2:
+                        args += "N2 ";
+                        arg_array.Add("N2");
+                        break;
+                    case 3:
+                        args += "Infinite ";
+                        arg_array.Add("N3");
+                        break;
+                    case 4:
+                        args += "Delta ";
+                        arg_array.Add("N4");
                         break;
                 }
             }
@@ -2802,6 +2825,10 @@ namespace plt0_gui
             pal_cie_label.Visible = true;
             pal_rgb_ck.Visible = true;
             pal_rgb_label.Visible = true;
+            palette_label.Visible = false;
+            palette_ai8_label.Text = "Euclidian";
+            palette_rgb565_label.Text = "Infinite";
+            palette_rgb5a3_label.Text = "Delta E";
             //cie_601_label.Text = "Darkest/Lightest";
             //cie_601_label.Text = "No Gradient";
             //cie_601_label.Text = "Default";
@@ -2838,6 +2865,10 @@ namespace plt0_gui
             distance_label.Visible = false;
             pal_rgb_ck.Visible = false;
             pal_rgb_label.Visible = false;
+            palette_label.Visible = true;
+            palette_ai8_label.Text = "AI8";
+            palette_rgb565_label.Text = "RGB565";
+            palette_rgb5a3_label.Text = "RGB5A3";
             if (just_change_list)
                 return;
             if (layout != 1 && !secret_mode)
@@ -4474,6 +4505,7 @@ namespace plt0_gui
             algorithm_ck.Add(algo_3_ck);
             algorithm_ck.Add(algo_4_ck);
             algorithm_ck.Add(algo_5_ck);
+            algorithm_ck.Add(algo_5_ck); // nothing
             palette_ck.Add(palette_ai8_ck);
             palette_ck.Add(palette_rgb565_ck);
             palette_ck.Add(palette_rgb5a3_ck);
@@ -4546,8 +4578,8 @@ namespace plt0_gui
             unchecked_algorithm(algo_3_ck);
             unchecked_algorithm(algo_4_ck);
             unchecked_algorithm(algo_5_ck);
-            unchecked_algorithm(pal_cie_ck);
-            unchecked_algorithm(pal_rgb_ck);
+            unchecked_palette(pal_cie_ck);
+            unchecked_palette(pal_rgb_ck);
             unchecked_palette(palette_ai8_ck);
             unchecked_palette(palette_rgb565_ck);
             unchecked_palette(palette_rgb5a3_ck);
@@ -13145,56 +13177,6 @@ namespace plt0_gui
             else
                 unchecked_algorithm(algo_5_ck);
         }
-        private void Pal_CIE_Click(object sender, EventArgs e)
-        {
-            unchecked_algorithm(palette_ck[distance]);
-            Hide_algorithm(distance);
-            selected_algorithm(pal_cie_ck);
-            distance = 0; // Luminance
-            Organize_args();
-            Preview(false);
-        }
-        private void Pal_CIE_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(d[48]);
-            if (algorithm == 6)
-                selected_algorithm(pal_cie_ck);
-            else
-                hover_algorithm(pal_cie_ck);
-        }
-        private void Pal_CIE_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-            if (algorithm == 6)
-                checked_algorithm(pal_cie_ck);
-            else
-                unchecked_algorithm(pal_cie_ck);
-        }
-        private void Pal_RGB_Click(object sender, EventArgs e)
-        {
-            unchecked_algorithm(algorithm_ck[algorithm]);
-            Hide_algorithm(algorithm);
-            selected_algorithm(pal_rgb_ck);
-            algorithm = 7; // Min_Max
-            Organize_args();
-            Preview(false);
-        }
-        private void Pal_RGB_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(d[49]);
-            if (algorithm == 7)
-                selected_algorithm(pal_rgb_ck);
-            else
-                hover_algorithm(pal_rgb_ck);
-        }
-        private void Pal_RGB_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-            if (algorithm == 7)
-                checked_algorithm(pal_rgb_ck);
-            else
-                unchecked_algorithm(pal_rgb_ck);
-        }
         private void No_alpha_Click(object sender, EventArgs e)
         {
             unchecked_alpha(alpha_ck_array[alpha]);
@@ -15714,83 +15696,276 @@ namespace plt0_gui
             Organize_args();
             Preview(true);
         }
+        private void Pal_CIE_Click(object sender, EventArgs e)
+        {
+            if (distance == 0)
+            {
+                unchecked_palette(palette_ck[3]);
+            }
+            else if (distance == 1)
+            {
+                unchecked_palette(palette_ck[4]);
+            }
+            else
+            {
+                unchecked_palette(palette_ck[distance]);
+            }
+            selected_palette(pal_cie_ck);
+            distance = 0; // Luminance
+            Organize_args();
+            Preview(false);
+        }
+        private void Pal_CIE_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(d[48]);
+            if (distance == 0)
+                selected_palette(pal_cie_ck);
+            else
+                hover_palette(pal_cie_ck);
+        }
+        private void Pal_CIE_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (distance == 0)
+                checked_palette(pal_cie_ck);
+            else
+                unchecked_palette(pal_cie_ck);
+        }
+        private void Pal_RGB_Click(object sender, EventArgs e)
+        {
+            if (distance == 0)
+            {
+                unchecked_palette(palette_ck[3]);
+            }
+            else if (distance == 1)
+            {
+                unchecked_palette(palette_ck[4]);
+            }
+            else
+            {
+                unchecked_palette(palette_ck[distance]);
+            }
+            selected_palette(pal_rgb_ck);
+            distance = 1; // RGB - Manhattan
+            Organize_args();
+            Preview(false);
+        }
+        private void Pal_RGB_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(d[49]);
+            if (distance == 1)
+                selected_palette(pal_rgb_ck);
+            else
+                hover_palette(pal_rgb_ck);
+        }
+        private void Pal_RGB_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (distance == 1)
+                checked_palette(pal_rgb_ck);
+            else
+                unchecked_palette(pal_rgb_ck);
+        }
         private void palette_AI8_Click(object sender, EventArgs e)
         {
-            unchecked_palette(palette_ck[palette_enc]);
-            Hide_encoding((byte)(palette_enc + 3));
+            if (encoding == 14) // CMPR
+            {
+                distance = 2;  // Euclidian
+                if (distance == 0)
+                {
+                    unchecked_palette(palette_ck[3]);
+                }
+                else if (distance == 1)
+                {
+                    unchecked_palette(palette_ck[4]);
+                }
+                else
+                {
+                    unchecked_palette(palette_ck[distance]);
+                }
+            }
+            else
+            {
+                unchecked_palette(palette_ck[palette_enc]);
+                Hide_encoding((byte)(palette_enc + 3));
+                palette_enc = 0;
+                View_ai8();
+            }
             selected_palette(palette_ai8_ck);
-            palette_enc = 0;
-            View_ai8();
             Organize_args();
             Preview(false);
         }
         private void palette_AI8_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(d[122]);
-            if (palette_enc == 0)
-                selected_palette(palette_ai8_ck);
+            if (encoding == 14) // CMPR
+            {
+                Parse_Markdown(d[177]);
+                if (distance == 2)
+                    selected_palette(palette_ai8_ck);
+                else
+                    hover_palette(palette_ai8_ck);
+            }
             else
-                hover_palette(palette_ai8_ck);
+            {
+                Parse_Markdown(d[122]);
+                if (palette_enc == 0)
+                    selected_palette(palette_ai8_ck);
+                else
+                    hover_palette(palette_ai8_ck);
+            }
         }
         private void palette_AI8_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
-            if (palette_enc == 0)
-                checked_palette(palette_ai8_ck);
+            if (encoding == 14) // CMPR
+            {
+                if (distance == 2)
+                    checked_palette(palette_ai8_ck);
+                else
+                    unchecked_palette(palette_ai8_ck);
+            }
             else
-                unchecked_palette(palette_ai8_ck);
+            {
+                if (palette_enc == 0)
+                    checked_palette(palette_ai8_ck);
+                else
+                    unchecked_palette(palette_ai8_ck);
+            }
         }
         private void palette_RGB565_Click(object sender, EventArgs e)
         {
-            unchecked_palette(palette_ck[palette_enc]);
-            Hide_encoding((byte)(palette_enc + 3));
+
+            if (encoding == 14) // CMPR
+            {
+                distance = 3;
+                if (distance == 0)
+                {
+                    unchecked_palette(palette_ck[3]);
+                }
+                else if (distance == 1)
+                {
+                    unchecked_palette(palette_ck[4]);
+                }
+                else
+                {
+                    unchecked_palette(palette_ck[distance]);
+                }
+            }
+            else
+            {
+                unchecked_palette(palette_ck[palette_enc]);
+                Hide_encoding((byte)(palette_enc + 3));
+                palette_enc = 1;
+                View_rgb565();
+            }
             selected_palette(palette_rgb565_ck);
-            palette_enc = 1;
-            View_rgb565();
             Organize_args();
             Preview(false);
         }
         private void palette_RGB565_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(d[123]);
-            if (palette_enc == 1)
-                selected_palette(palette_rgb565_ck);
+            if (encoding == 14) // CMPR
+            {
+                Parse_Markdown(d[178]);
+                if (distance == 3)
+                    selected_palette(palette_rgb565_ck);
+                else
+                    hover_palette(palette_rgb565_ck);
+            }
             else
-                hover_palette(palette_rgb565_ck);
+            {
+                Parse_Markdown(d[123]);
+                if (palette_enc == 1)
+                    selected_palette(palette_rgb565_ck);
+                else
+                    hover_palette(palette_rgb565_ck);
+            }
         }
         private void palette_RGB565_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
-            if (palette_enc == 1)
-                checked_palette(palette_rgb565_ck);
+            if (encoding == 14) // CMPR
+            {
+                if (distance == 3)
+                    checked_palette(palette_rgb565_ck);
+                else
+                    unchecked_palette(palette_rgb565_ck);
+            }
             else
-                unchecked_palette(palette_rgb565_ck);
+            {
+                if (palette_enc == 1)
+                    checked_palette(palette_rgb565_ck);
+                else
+                    unchecked_palette(palette_rgb565_ck);
+            }
         }
         private void palette_RGB5A3_Click(object sender, EventArgs e)
         {
-            unchecked_palette(palette_ck[palette_enc]);
-            Hide_encoding((byte)(palette_enc + 3));
+
+            if (encoding == 14) // CMPR
+            {
+                distance = 4;  // Delta E 
+                if (distance == 0)
+                {
+                    unchecked_palette(palette_ck[3]);
+                }
+                else if (distance == 1)
+                {
+                    unchecked_palette(palette_ck[4]);
+                }
+                else
+                {
+                    unchecked_palette(palette_ck[distance]);
+                }
+            }
+            else
+            {
+                unchecked_palette(palette_ck[palette_enc]);
+                Hide_encoding((byte)(palette_enc + 3));
+                palette_enc = 2;
+                View_rgb5a3();
+            }
             selected_palette(palette_rgb5a3_ck);
-            palette_enc = 2;
-            View_rgb5a3();
             Organize_args();
             Preview(false);
         }
         private void palette_RGB5A3_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(d[124]);
-            if (palette_enc == 2)
-                selected_palette(palette_rgb5a3_ck);
+            if (encoding == 14) // CMPR
+            {
+                Parse_Markdown(d[179]);
+                if (distance == 4)
+                    selected_palette(palette_rgb5a3_ck);
+                else
+                    hover_palette(palette_rgb5a3_ck);
+            }
             else
-                hover_palette(palette_rgb5a3_ck);
+            {
+                Parse_Markdown(d[124]);
+                if (palette_enc == 2)
+                    selected_palette(palette_rgb5a3_ck);
+                else
+                    hover_palette(palette_rgb5a3_ck);
+            }
         }
         private void palette_RGB5A3_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
-            if (palette_enc == 2)
-                checked_palette(palette_rgb5a3_ck);
+            if (encoding == 14) // CMPR
+            {
+                if (distance == 4)
+                    checked_palette(palette_rgb5a3_ck);
+                else
+                    unchecked_palette(palette_rgb5a3_ck);
+            }
             else
-                unchecked_palette(palette_rgb5a3_ck);
+            {
+
+                if (palette_enc == 2)
+                    checked_palette(palette_rgb5a3_ck);
+                else
+                    unchecked_palette(palette_rgb5a3_ck);
+            }
         }
         private void discord_Click(object sender, EventArgs e)
         {

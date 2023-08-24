@@ -394,9 +394,12 @@ class CMPR_class
                                     all_green += assignedColors1[w][1];
                                     all_blue += assignedColors1[w][2];
                                 }
-                                palette_rgba[0] = (byte)(all_red / assignedColors1.Count);  // total sum of red divided by number of pixels
-                                palette_rgba[1] = (byte)(all_green / assignedColors1.Count);  // green sum divided by 16
-                                palette_rgba[2] = (byte)(all_blue / assignedColors1.Count);  // blue channel of the averaged color
+                                if (assignedColors1.Count > 0)
+                                {
+                                    palette_rgba[0] = (byte)(all_red / assignedColors1.Count);  // total sum of red divided by number of pixels
+                                    palette_rgba[1] = (byte)(all_green / assignedColors1.Count);  // green sum divided by 16
+                                    palette_rgba[2] = (byte)(all_blue / assignedColors1.Count);  // blue channel of the averaged color
+                                }
                                 all_red = 0;
                                 all_green = 0;
                                 all_blue = 0;
@@ -406,9 +409,12 @@ class CMPR_class
                                     all_green += assignedColors2[w][1];
                                     all_blue += assignedColors2[w][2];
                                 }
-                                palette_rgba[4] = (byte)(all_red / assignedColors2.Count);
-                                palette_rgba[5] = (byte)(all_green / assignedColors2.Count);
-                                palette_rgba[6] = (byte)(all_blue / assignedColors2.Count);
+                                if (assignedColors2.Count > 0)
+                                {
+                                    palette_rgba[4] = (byte)(all_red / assignedColors2.Count);
+                                    palette_rgba[5] = (byte)(all_green / assignedColors2.Count);
+                                    palette_rgba[6] = (byte)(all_blue / assignedColors2.Count);
+                                }
                             }
                             Organize_Colours_Cluster_Fit();  // quantize colours and build palette
                             Process_Indexes_CIE_709();
@@ -466,9 +472,12 @@ class CMPR_class
                                     all_green += assignedColors1[w][1];
                                     all_blue += assignedColors1[w][2];
                                 }
-                                palette_rgba[0] = (byte)(all_red / assignedColors1.Count);  // total sum of red divided by number of pixels
-                                palette_rgba[1] = (byte)(all_green / assignedColors1.Count);  // green sum divided by 16
-                                palette_rgba[2] = (byte)(all_blue / assignedColors1.Count);  // blue channel of the averaged color
+                                if (assignedColors1.Count > 0)
+                                {
+                                    palette_rgba[0] = (byte)(all_red / assignedColors1.Count);  // total sum of red divided by number of pixels
+                                    palette_rgba[1] = (byte)(all_green / assignedColors1.Count);  // green sum divided by 16
+                                    palette_rgba[2] = (byte)(all_blue / assignedColors1.Count);  // blue channel of the averaged color
+                                }
                                 all_red = 0;
                                 all_green = 0;
                                 all_blue = 0;
@@ -478,9 +487,12 @@ class CMPR_class
                                     all_green += assignedColors2[w][1];
                                     all_blue += assignedColors2[w][2];
                                 }
-                                palette_rgba[4] = (byte)(all_red / assignedColors2.Count);
-                                palette_rgba[5] = (byte)(all_green / assignedColors2.Count);
-                                palette_rgba[6] = (byte)(all_blue / assignedColors2.Count);
+                                if (assignedColors2.Count > 0)
+                                {
+                                    palette_rgba[4] = (byte)(all_red / assignedColors2.Count);
+                                    palette_rgba[5] = (byte)(all_green / assignedColors2.Count);
+                                    palette_rgba[6] = (byte)(all_blue / assignedColors2.Count);
+                                }
                             }
                             Organize_Colours_Cluster_Fit();  // quantize colours and build palette
                             Process_Indexes_RGB();
@@ -538,9 +550,12 @@ class CMPR_class
                                     all_green += assignedColors1[w][1];
                                     all_blue += assignedColors1[w][2];
                                 }
-                                palette_rgba[0] = (byte)(all_red / assignedColors1.Count);  // total sum of red divided by number of pixels
-                                palette_rgba[1] = (byte)(all_green / assignedColors1.Count);  // green sum divided by 16
-                                palette_rgba[2] = (byte)(all_blue / assignedColors1.Count);  // blue channel of the averaged color
+                                if (assignedColors1.Count > 0)
+                                {
+                                    palette_rgba[0] = (byte)(all_red / assignedColors1.Count);  // total sum of red divided by number of pixels
+                                    palette_rgba[1] = (byte)(all_green / assignedColors1.Count);  // green sum divided by 16
+                                    palette_rgba[2] = (byte)(all_blue / assignedColors1.Count);  // blue channel of the averaged color
+                                }
                                 all_red = 0;
                                 all_green = 0;
                                 all_blue = 0;
@@ -550,9 +565,12 @@ class CMPR_class
                                     all_green += assignedColors2[w][1];
                                     all_blue += assignedColors2[w][2];
                                 }
-                                palette_rgba[4] = (byte)(all_red / assignedColors2.Count);
-                                palette_rgba[5] = (byte)(all_green / assignedColors2.Count);
-                                palette_rgba[6] = (byte)(all_blue / assignedColors2.Count);
+                                if (assignedColors2.Count > 0)
+                                {
+                                    palette_rgba[4] = (byte)(all_red / assignedColors2.Count);
+                                    palette_rgba[5] = (byte)(all_green / assignedColors2.Count);
+                                    palette_rgba[6] = (byte)(all_blue / assignedColors2.Count);
+                                }
                             }
                             Organize_Colours_Cluster_Fit();  // quantize colours and build palette
                             Process_Indexes_Euclidian();
@@ -658,9 +676,12 @@ class CMPR_class
                                     all_green += assignedColors1[w][1];
                                     all_blue += assignedColors1[w][2];
                                 }
-                                palette_rgba[0] = (byte)(all_red / assignedColors1.Count);  // total sum of red divided by number of pixels
-                                palette_rgba[1] = (byte)(all_green / assignedColors1.Count);  // green sum divided by 16
-                                palette_rgba[2] = (byte)(all_blue / assignedColors1.Count);  // blue channel of the averaged color
+                                if (assignedColors1.Count > 0)
+                                {
+                                    palette_rgba[0] = (byte)(all_red / assignedColors1.Count);  // total sum of red divided by number of pixels
+                                    palette_rgba[1] = (byte)(all_green / assignedColors1.Count);  // green sum divided by 16
+                                    palette_rgba[2] = (byte)(all_blue / assignedColors1.Count);  // blue channel of the averaged color
+                                }
                                 all_red = 0;
                                 all_green = 0;
                                 all_blue = 0;
@@ -670,9 +691,12 @@ class CMPR_class
                                     all_green += assignedColors2[w][1];
                                     all_blue += assignedColors2[w][2];
                                 }
-                                palette_rgba[4] = (byte)(all_red / assignedColors2.Count);
-                                palette_rgba[5] = (byte)(all_green / assignedColors2.Count);
-                                palette_rgba[6] = (byte)(all_blue / assignedColors2.Count);
+                                if (assignedColors2.Count > 0)
+                                {
+                                    palette_rgba[4] = (byte)(all_red / assignedColors2.Count);
+                                    palette_rgba[5] = (byte)(all_green / assignedColors2.Count);
+                                    palette_rgba[6] = (byte)(all_blue / assignedColors2.Count);
+                                }
                             }
                             Organize_Colours_Cluster_Fit();  // quantize colours and build palette
                             Process_Indexes_Infinite();
@@ -733,9 +757,12 @@ class CMPR_class
                                     all_green += assignedColors1[w][1];
                                     all_blue += assignedColors1[w][2];
                                 }
-                                palette_rgba[0] = (byte)(all_red / assignedColors1.Count);  // total sum of red divided by number of pixels
-                                palette_rgba[1] = (byte)(all_green / assignedColors1.Count);  // green sum divided by 16
-                                palette_rgba[2] = (byte)(all_blue / assignedColors1.Count);  // blue channel of the averaged color
+                                if (assignedColors1.Count > 0)
+                                {
+                                    palette_rgba[0] = (byte)(all_red / assignedColors1.Count);  // total sum of red divided by number of pixels
+                                    palette_rgba[1] = (byte)(all_green / assignedColors1.Count);  // green sum divided by 16
+                                    palette_rgba[2] = (byte)(all_blue / assignedColors1.Count);  // blue channel of the averaged color
+                                }
                                 all_red = 0;
                                 all_green = 0;
                                 all_blue = 0;
@@ -745,9 +772,12 @@ class CMPR_class
                                     all_green += assignedColors2[w][1];
                                     all_blue += assignedColors2[w][2];
                                 }
-                                palette_rgba[4] = (byte)(all_red / assignedColors2.Count);
-                                palette_rgba[5] = (byte)(all_green / assignedColors2.Count);
-                                palette_rgba[6] = (byte)(all_blue / assignedColors2.Count);
+                                if (assignedColors2.Count > 0)
+                                {
+                                    palette_rgba[4] = (byte)(all_red / assignedColors2.Count);
+                                    palette_rgba[5] = (byte)(all_green / assignedColors2.Count);
+                                    palette_rgba[6] = (byte)(all_blue / assignedColors2.Count);
+                                }
                             }
                             Organize_Colours_Cluster_Fit();  // quantize colours and build palette
                             Process_Indexes_Delta_E();

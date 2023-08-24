@@ -298,12 +298,6 @@ class Parse_args_class
                 case "INVERSE_SRGB_GAMMA":
                 case "INVERSE-SRGB-GAMMA":
                 case "GAMMA":
-                case "LUMINANCE":
-                case "PERCEPTUAL":
-                case "BRIGHTNESS":
-                case "PERCEPTUAL BRIGHTNESS":
-                case "PERCEPTUAL-BRIGHTNESS":
-                case "PERCEPTUAL_BRIGHTNESS":
                     algorithm = 9;
                     break;
                 case "EXIT":
@@ -342,6 +336,65 @@ class Parse_args_class
                 case "CUSTOM":
                 case "AVERAGE":
                     algorithm = 4;
+                    break;
+                case "LUMINANCE":
+                case "PERCEPTUAL":
+                case "BRIGHTNESS":
+                case "PERCEPTUAL BRIGHTNESS":
+                case "PERCEPTUAL-BRIGHTNESS":
+                case "PERCEPTUAL_BRIGHTNESS":
+                case "N0":
+                case "NORM0":
+                case "NORME0":
+                    distance = 0;
+                    break;
+                case "RGBD":
+                case "RGBDIST":
+                case "MANHATTAN":
+                case "MANHATAN":
+                case "MANATAN":
+                case "MANATTAN":
+                case "N1":
+                case "NORM1":
+                case "NORME1":
+                case "DIAMOND":
+                    distance = 1;
+                    break;
+                case "EUCLIDIAN":
+                case "ECLIDIAN":
+                case "EUCLIDE":
+                case "SQUARE":
+                case "SQUARED":
+                case "SPHERE":
+                case "N2":
+                case "NORM2":
+                case "NORME2":
+                    distance = 2;
+                    break;
+                case "CUBE":
+                case "INFINITE":
+                case "NAN":
+                case "NINF":
+                case "NORMINF":
+                case "NORMEINF":
+                case "N3":
+                case "NORM3":
+                case "NORME3":
+                    distance = 3;
+                    break;
+                case "DELTA":
+                case "E":
+                case "DELTA E":
+                case "CIEDE2000":
+                case "E 2000":
+                case "E2000":
+                case "N4":
+                case "NE":
+                case "NORME":
+                case "NORMEE":
+                case "CIELAB":
+                case "CMC":
+                    distance = 4;
                     break;
                 case "GIF":
                     gif = true;
