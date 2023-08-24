@@ -33,8 +33,7 @@ add WebP Support <br>
 ## known bugs
 Minimum cmpr image size is 16x16 when encoding <br>
 Bmd output is untested <br>
-No TPL Support for Paint Layout <br>
-Range Fit is unfinished
+No TPL Support for Paint Layout
 
 ## version history
 v0.1: Support for all palette formats
@@ -59,13 +58,18 @@ v1.0: GUI
 
 v1.1: Auto-Scale on Launch and on each F12 press
 
-v1.2: WebP Support, bugfixes, and enhance gui
+v2.0: Revamped CMPR Algorithms
 
-v1.3: Decode Layout, and Palette Layout
+## future versions
+v2.1: WebP Support, bugfixes, save settings, and enhance gui
 
-v1.4: Image Viewer
+v2.2: Decode Layout, and Palette Layout
 
-v1.5: Native French Support
+v2.3: Fullscreen Image Viewer
+
+v2.4: Native French Support
+
+v3.0: Text Editor
 
 ## Flow Chart
 ![Flow Chart for developpers](../../../yoshakami.github.io/blob/main/plt0-chart.png?raw=true)
