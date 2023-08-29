@@ -14,6 +14,7 @@ class Parse_args_class
     bool bmp = false;
     bool bti = false;
     bool exit = false;
+    bool dev = false;
     public bool fill_height = false;
     public bool fill_width = false;
     public bool FORCE_ALPHA = false;
@@ -299,6 +300,9 @@ class Parse_args_class
                 case "INVERSE-SRGB-GAMMA":
                 case "GAMMA":
                     algorithm = 9;
+                    break;
+                case "DEV":
+                    dev = true;
                     break;
                 case "EXIT":
                 case "ASK":
@@ -1558,7 +1562,7 @@ class Parse_args_class
         List<List<byte[]>> index_list = new List<List<byte[]>>();
         object v = _plt0.Create_plt0(bmp_image);
         index_list.Add((List<byte[]>)v);
-        if (warn)
+        if (dev)
         {
             if (!no_warning)
                 Console.WriteLine("v-- bool --v\nbmd=" + bmd + " bmd_file=" + bmd_file + " bmp=" + bmp + " bti=" + bti + " fill_height=" + fill_height + " fill_width=" + fill_width + " gif=" + gif + " grey=" + grey + " ico=" + ico + " jpeg=" + jpeg + " jpg=" + jpg + " png=" + png + " success=" + success + " tif=" + tif + " tiff=" + tiff + " tpl=" + tpl + " user_palette=" + user_palette + " warn=" + warn + "\n\nv-- byte --v\nWrapS=" + WrapS + " WrapT=" + WrapT + " algorithm=" + algorithm + " alpha=" + alpha + " color=" + color + " diversity=" + diversity + " diversity2=" + diversity2 + " magnification_filter=" + magnification_filter + " minificaction_filter=" + minification_filter + " mipmaps_number=" + mipmaps_number + "\n\nv-- byte[] --v\ncolour_palette=" + colour_palette + " palette_format_int32=" + palette_format_int32 + " texture_format_int32=" + texture_format_int32 + "\n\nv-- double --v\nformat_ratio=" + format_ratio + " percentage=" + percentage + " percentage2=" + percentage2 + "\n\nv-- float[] --v\ncustom_rgba=" + custom_rgba + "\n\nv-- int --v\ncolour_number_x2=" + colour_number_x2 + " colour_number_x4=" + colour_number_x4 + " pass=" + pass + " pixel_count=" + pixel_count + "\n\nv-- signed byte --v\nblock_height=" + block_height + " block_width=" + block_width + "\n\nv-- string --v\ninput_file=" + input_file + " input_file2=" + input_file2 + " output_file=" + output_file + " swap=" + swap + "\n\nv-- unsigned short --v\nbitmap_height=" + bitmap_height + " bitmap_width=" + bitmap_width + " colour_number=" + colour_number + " max_colours=" + max_colours + " z=" + z + "\n\nv-- List<byte> --v\nBGRA=" + BGRA);
