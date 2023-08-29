@@ -25,6 +25,7 @@ class Write_bmp_class
         int index;
         byte pixel_color;
         byte pixel_alpha;
+        byte[] header = new byte[22];  // header data
         byte[] data = new byte[54];  // header data
         byte[] pixel = new byte[0];
         string end = ".bmp";
@@ -167,8 +168,8 @@ class Write_bmp_class
             data[23] = (byte)(height >> 8);
             data[24] = 0;
             data[25] = 0; // fourth byte of height
-            data[26] = 1; // always 1
-            data[27] = 0; // always 0
+            data[26] = 1; // always 1    Color planes
+            data[27] = 0; // always 0    Color planes
             if (bmp_32)
             {
                 data[28] = 32;
@@ -1400,11 +1401,66 @@ class Write_bmp_class
             }
             index = 0;
             done = false;
+            if (ico)  // this is in little endian
+            {
+                image_size += 40;  // plus DIB Header Size
+                header[0] = 0;  // ico
+                header[1] = 0;  // ico
+                header[2] = 1;  // 1 = ico   2 = cur
+                header[3] = 0;  // 1 = ico   2 = cur
+                header[4] = 1;  // number of images
+                header[5] = 0;  // number of images
+                header[6] = (byte)(header_width);  // 256 equals zero
+                header[7] = (byte)(height);  // 256 equals zero
+                header[8] = (byte)colour_number; // number of colors in the palette
+                header[9] = 0;  // ico
+                header[10] = 1;  // Color planes
+                header[11] = 0;  // Color planes
+                header[12] = data[28]; // depth
+                header[13] = 0;  // depth
+                header[14] = (byte)(image_size);
+                header[15] = (byte)(image_size >> 8);
+                header[16] = (byte)(image_size >> 16);
+                header[17] = (byte)(image_size >> 24);
+                header[18] = 0x16;  // offset to bmp dib header start
+                header[19] = 0;
+                header[20] = 0;
+                header[21] = 0;
+            }
             while (!done)  // makes sure it writes the file.
             {
                 try
                 {
                     FileMode mode = System.IO.FileMode.CreateNew;
+                    if (ico)
+                    {
+
+                        if (System.IO.File.Exists(output_file + ".ico"))
+                        {
+                            mode = System.IO.FileMode.Truncate;
+                            if (warn)
+                            {
+                                Console.WriteLine("Press enter to overwrite " + output_file + ".ico");
+                                Console.ReadLine();
+                            }
+                        }
+                        using (System.IO.FileStream file = System.IO.File.Open(output_file + ".ico", mode, System.IO.FileAccess.Write))
+                        {
+                            pixel_alpha = data[14];
+                            data[14] = 0x28;
+                            file.Write(header, 0, header.Length);
+                            file.Write(data, 0xE, 40); // DIB Header Size
+                            file.Write(palette, 0, colour_number_x4);
+                            // Console.WriteLine(alpha_header_size + " " + alpha_header.Length);
+                            // file.Write(alpha_header, 0, alpha_header_size);
+                            file.Write(pixel, 0, image_size);
+                            file.Close();
+                            data[14] = pixel_alpha;
+                            if (!stfu)
+                                Console.WriteLine(output_file + ".ico");
+                        }
+                    }
+                    mode = System.IO.FileMode.CreateNew;
                     if (System.IO.File.Exists(output_file + end))
                     {
                         mode = System.IO.FileMode.Truncate;
@@ -1427,7 +1483,7 @@ class Write_bmp_class
                             if (!stfu)
                                 Console.WriteLine(output_file + end);
                         }
-                        if (png || gif || jpeg || jpg || ico || tiff || tif)
+                        if (png || gif || jpeg || jpg || tiff || tif)
                         {
                             // LMAO THE NUMBER OF ARGS, that's how you do dependancy injection without renaming EACH VARIABLE
                             using (Bitmap output_bmp = (Bitmap)Bitmap.FromFile(output_file + end))

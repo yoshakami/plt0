@@ -15,7 +15,7 @@ class Convert_from_bmp_class
         string end;
         using (MemoryStream ms = new MemoryStream())
         {
-            for (byte i = 1; i < 8; i++)  // I'm curious how you would have implemented this without redundency
+            for (byte i = 1; i < 7; i++)  // I'm curious how you would have implemented this without redundency
             {
                 if (png && i == 1)
                 {
@@ -46,20 +46,6 @@ class Convert_from_bmp_class
                 {
                     imageIn.Save(ms, ImageFormat.Gif);
                     end = ".gif";
-                }
-                else if (ico && i == 7)
-                {
-                    if ((canvas_width >> current_mipmap) > 256 || (canvas_height >> current_mipmap) > 256)
-                    {
-                        if (!no_warning)
-                            Console.WriteLine("max dimensions for a .ico file are 256x256");
-                        continue;
-                    }
-                    else
-                    {
-                        imageIn.Save(ms, ImageFormat.Icon);
-                        end = ".ico";
-                    }
                 }
                 else
                 {
