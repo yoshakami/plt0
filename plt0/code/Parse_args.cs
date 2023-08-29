@@ -1167,7 +1167,7 @@ class Parse_args_class
         if (output_file == "")
         {
             overwrite = true;
-            Fill_output_file(input_file);
+            output_file = input_fil;
         }
         byte[] id = new byte[9];
         try
