@@ -1921,6 +1921,7 @@ namespace plt0_gui
             {
                 Hide_cmpr();
                 View_alpha();
+                View_palette();
                 round5_label.Visible = true;
                 round5_txt.Visible = true;
                 round6_label.Visible = true;
@@ -1934,7 +1935,6 @@ namespace plt0_gui
             }
             layout = 1;
             View_algorithm(255);
-            View_palette();
             View_mag();
             View_min();
             View_WrapS();
@@ -2035,6 +2035,7 @@ namespace plt0_gui
             {
                 Hide_cmpr();
                 View_alpha();
+                View_palette();
                 round5_label.Visible = true;
                 round5_txt.Visible = true;
                 round6_label.Visible = true;
@@ -2048,7 +2049,6 @@ namespace plt0_gui
             }
             layout = 1;
             View_algorithm(255);
-            View_palette();
             Hide_mag();
             Hide_min();
             Hide_WrapS();
@@ -2065,6 +2065,8 @@ namespace plt0_gui
                 Disable_All_Layout();
             if (cmpr_layout_is_enabled)
                 Disable_Paint_Layout();
+            num_colours_label.Visible = true;
+            num_colours_txt.Visible = true;
             auto_update_ck.Visible = true;
             auto_update_label.Visible = true;
             upscale_ck.Visible = true;
@@ -2829,6 +2831,7 @@ namespace plt0_gui
             palette_ai8_label.Text = "Euclidian";
             palette_rgb565_label.Text = "Infinite";
             palette_rgb5a3_label.Text = "Delta E";
+            View_palette(true);
             //cie_601_label.Text = "Darkest/Lightest";
             //cie_601_label.Text = "No Gradient";
             //cie_601_label.Text = "Default";
@@ -2850,7 +2853,15 @@ namespace plt0_gui
             cie_709_label.Text = "CIE 709";
             algo_2_label.Text = "Custom RGBA";
             if (layout != 1)
+            {
                 View_alpha(true);
+                View_palette(true);
+                palette_label.Visible = true;
+            }
+            else
+            {
+                Hide_palette();
+            }
             if (secret_mode)
             {
                 cie_709_ck.Visible = false;
@@ -2865,7 +2876,6 @@ namespace plt0_gui
             distance_label.Visible = false;
             pal_rgb_ck.Visible = false;
             pal_rgb_label.Visible = false;
-            palette_label.Visible = true;
             palette_ai8_label.Text = "AI8";
             palette_rgb565_label.Text = "RGB565";
             palette_rgb5a3_label.Text = "RGB5A3";
@@ -2888,21 +2898,24 @@ namespace plt0_gui
             round6_txt.Visible = false;
             view_cmpr = false;
         }
-        private void View_palette(bool secret_mode = false)
+        private void View_palette(bool cmpr = false)
         {
-            if (layout != 1 && !secret_mode)
+            if (layout != 1 && !cmpr)
                 return;
-            View_diversity();
-            palette_label.Visible = true;
+            if (!cmpr)
+            {
+                View_diversity();
+                palette_label.Visible = true;
+                num_colours_label.Visible = true;
+                num_colours_txt.Visible = true;
+                view_palette = true;
+            }
             palette_ai8_label.Visible = true;
             palette_ai8_ck.Visible = true;
             palette_rgb565_ck.Visible = true;
             palette_rgb565_label.Visible = true;
             palette_rgb5a3_ck.Visible = true;
             palette_rgb5a3_label.Visible = true;
-            num_colours_label.Visible = true;
-            num_colours_txt.Visible = true;
-            view_palette = true;
         }
         private void Hide_palette(bool secret_mode = false)
         {
