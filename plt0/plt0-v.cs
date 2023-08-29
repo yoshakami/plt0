@@ -16853,7 +16853,7 @@ namespace plt0_gui
             run_count++;
             Parse_args_class cli = new Parse_args_class();
             cli.Parse_args(vanilla_arg_array);
-            if (layout != 2)
+            if (layout == 2)
             {
                 if (run_count < 2)
                     cli_textbox_label.Text = "Run count: " + run_count.ToString() + " time\n" + cli.Check_exit();
