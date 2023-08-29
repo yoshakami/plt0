@@ -1401,8 +1401,9 @@ class Write_bmp_class
             }
             index = 0;
             done = false;
-            if (ico)  // this is in little endian
-            {
+            if (ico)  // it turned out that ImageFormat.Icon is broken, so I made it by hand
+            {   // this is in little endian
+                // this will always be a BMP container since png containers are not natively supported by linux, and neither by ImageFormat.Icon
                 image_size += 40;  // plus DIB Header Size
                 header[0] = 0;  // ico
                 header[1] = 0;  // ico
@@ -1410,8 +1411,22 @@ class Write_bmp_class
                 header[3] = 0;  // 1 = ico   2 = cur
                 header[4] = 1;  // number of images
                 header[5] = 0;  // number of images
-                header[6] = (byte)(header_width);  // 256 equals zero
-                header[7] = (byte)(height);  // 256 equals zero
+                if (header_width > 255)
+                {
+                    header[6] = 0;  // 256 or more
+                }
+                else
+                {
+                    header[6] = (byte)(header_width);  // 256 equals zero
+                }
+                if (height > 255)
+                {
+                    header[7] = 0;  // 256 or more
+                }
+                else
+                {
+                    header[7] = (byte)(height);  // 256 equals zero
+                }
                 header[8] = (byte)colour_number; // number of colors in the palette
                 header[9] = 0;  // ico
                 header[10] = 1;  // Color planes
@@ -1426,6 +1441,7 @@ class Write_bmp_class
                 header[19] = 0;
                 header[20] = 0;
                 header[21] = 0;
+                image_size -= 40;  // minus DIB Header Size
             }
             while (!done)  // makes sure it writes the file.
             {
@@ -1446,16 +1462,33 @@ class Write_bmp_class
                         }
                         using (System.IO.FileStream file = System.IO.File.Open(output_file + ".ico", mode, System.IO.FileAccess.Write))
                         {
-                            pixel_alpha = data[14];
-                            data[14] = 0x28;
-                            file.Write(header, 0, header.Length);
-                            file.Write(data, 0xE, 40); // DIB Header Size
-                            file.Write(palette, 0, colour_number_x4);
+                            height <<= 1;  // don't ask me why height is doubled, this is a typical microsoft moment
+                            data[22] = (byte)(height);
+                            data[23] = (byte)(height >> 8);
+                            data[24] = (byte)(height >> 16);
+                            if (data[30] == 3)
+                            {
+                                data[30] = 0;
+                                data[14] = 0x28;
+                                file.Write(header, 0, header.Length);
+                                file.Write(data, 0xE, 40); // DIB Header Size
+                                data[14] = 0x6C;
+                                data[30] = 3;
+                            }
+                            else
+                            {
+                                file.Write(header, 0, header.Length);
+                                file.Write(data, 0xE, 40); // DIB Header Size
+                            }
                             // Console.WriteLine(alpha_header_size + " " + alpha_header.Length);
                             // file.Write(alpha_header, 0, alpha_header_size);
+                            height >>= 1;
+                            data[22] = (byte)(height);
+                            data[23] = (byte)(height >> 8);
+                            data[24] = 0;
+                            file.Write(palette, 0, colour_number_x4);
                             file.Write(pixel, 0, image_size);
                             file.Close();
-                            data[14] = pixel_alpha;
                             if (!stfu)
                                 Console.WriteLine(output_file + ".ico");
                         }
@@ -1538,6 +1571,8 @@ class Write_bmp_class
                 }
             }
         }
+        if (ico)
+            return "written " + output_file + ".ico\n";
         return "written " + output_file + end + "\n";
     }
 }
