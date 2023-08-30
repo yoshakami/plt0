@@ -330,6 +330,9 @@
         private System.Windows.Forms.Label algo_3_label;
         private System.Windows.Forms.PictureBox algo_3_ck;
         private System.Windows.Forms.Label distance_label;
+        private System.Windows.Forms.PictureBox decode_ck;
+        private System.Windows.Forms.PictureBox palette_banner_ck;
+        private System.Windows.Forms.PictureBox save_settings_ck;
         /*
 /// <summary>
 /// Required designer variable.

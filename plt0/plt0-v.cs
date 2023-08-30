@@ -48,7 +48,7 @@ namespace plt0_gui
         static byte[] cmpr_rgb = { 0, 0, 0 };
         static string[] config = new string[150];
         static string[] d = new string[255];
-        static string[] layout_name = { "All", "Auto", "Preview", "Paint" };
+        static string[] layout_name = { "All", "Encode", "Preview", "Paint", "Decode", "Palette" };
         static string cmpr_colours_hex;
         byte[] cmpr_file;
         byte[] cmpr_colours_argb = new byte[16];
@@ -367,6 +367,16 @@ namespace plt0_gui
         Image version_hover;
         Image youtube;
         Image youtube_hover;
+        Image save_hover;
+        Image save;
+        Image decode_on;
+        Image decode_off;
+        Image decode_hover;
+        Image decode_selected;
+        Image palette_on;
+        Image palette_off;
+        Image palette_hover;
+        Image palette_selected;
 
         /* == circles == */
         Image pink_circle;
@@ -4706,6 +4716,7 @@ namespace plt0_gui
             github_ck.Image = github;
             youtube_ck.Image = youtube;
             version_ck.Image = version;
+            save_settings_ck.Image = save;
             run_ck.Image = run_off;
             cli_textbox_ck.Image = cli_textbox;
             sync_preview_ck.Image = sync_preview_off;
@@ -5039,11 +5050,14 @@ namespace plt0_gui
             this.algo_5_ck = new System.Windows.Forms.PictureBox();
             this.algo_3_label = new System.Windows.Forms.Label();
             this.algo_3_ck = new System.Windows.Forms.PictureBox();
+            this.distance_label = new System.Windows.Forms.Label();
+            this.decode_ck = new System.Windows.Forms.PictureBox();
+            this.palette_banner_ck = new System.Windows.Forms.PictureBox();
+            this.save_settings_ck = new System.Windows.Forms.PictureBox();
             this.cmpr_palette = new PictureBoxWithInterpolationMode();
             this.cmpr_grid_ck = new PictureBoxWithInterpolationMode();
             this.cmpr_preview_ck = new PictureBoxWithInterpolationMode();
             this.image_ck = new PictureBoxWithInterpolationMode();
-            this.distance_label = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tpl_ck)).BeginInit();
@@ -5185,6 +5199,9 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.pal_cie_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.algo_5_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.algo_3_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.decode_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.palette_banner_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.save_settings_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_palette)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_grid_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).BeginInit();
@@ -7826,7 +7843,7 @@ namespace plt0_gui
             this.preview_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.preview_ck.ErrorImage = null;
             this.preview_ck.InitialImage = null;
-            this.preview_ck.Location = new System.Drawing.Point(176, 0);
+            this.preview_ck.Location = new System.Drawing.Point(208, 0);
             this.preview_ck.Margin = new System.Windows.Forms.Padding(0);
             this.preview_ck.Name = "preview_ck";
             this.preview_ck.Size = new System.Drawing.Size(96, 32);
@@ -7846,7 +7863,7 @@ namespace plt0_gui
             this.auto_ck.Location = new System.Drawing.Point(80, 0);
             this.auto_ck.Margin = new System.Windows.Forms.Padding(0);
             this.auto_ck.Name = "auto_ck";
-            this.auto_ck.Size = new System.Drawing.Size(96, 32);
+            this.auto_ck.Size = new System.Drawing.Size(128, 32);
             this.auto_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.auto_ck.TabIndex = 401;
             this.auto_ck.TabStop = false;
@@ -7860,7 +7877,7 @@ namespace plt0_gui
             this.paint_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.paint_ck.ErrorImage = null;
             this.paint_ck.InitialImage = null;
-            this.paint_ck.Location = new System.Drawing.Point(272, 0);
+            this.paint_ck.Location = new System.Drawing.Point(304, 0);
             this.paint_ck.Margin = new System.Windows.Forms.Padding(0);
             this.paint_ck.Name = "paint_ck";
             this.paint_ck.Size = new System.Drawing.Size(96, 32);
@@ -7928,7 +7945,7 @@ namespace plt0_gui
             this.banner_9_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_9_ck.ErrorImage = null;
             this.banner_9_ck.InitialImage = null;
-            this.banner_9_ck.Location = new System.Drawing.Point(544, 0);
+            this.banner_9_ck.Location = new System.Drawing.Point(845, 0);
             this.banner_9_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_9_ck.Name = "banner_9_ck";
             this.banner_9_ck.Size = new System.Drawing.Size(32, 32);
@@ -7945,7 +7962,7 @@ namespace plt0_gui
             this.banner_8_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_8_ck.ErrorImage = null;
             this.banner_8_ck.InitialImage = null;
-            this.banner_8_ck.Location = new System.Drawing.Point(512, 0);
+            this.banner_8_ck.Location = new System.Drawing.Point(813, 0);
             this.banner_8_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_8_ck.Name = "banner_8_ck";
             this.banner_8_ck.Size = new System.Drawing.Size(32, 32);
@@ -7962,7 +7979,7 @@ namespace plt0_gui
             this.banner_7_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_7_ck.ErrorImage = null;
             this.banner_7_ck.InitialImage = null;
-            this.banner_7_ck.Location = new System.Drawing.Point(480, 0);
+            this.banner_7_ck.Location = new System.Drawing.Point(781, 0);
             this.banner_7_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_7_ck.Name = "banner_7_ck";
             this.banner_7_ck.Size = new System.Drawing.Size(32, 32);
@@ -7979,7 +7996,7 @@ namespace plt0_gui
             this.banner_6_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_6_ck.ErrorImage = null;
             this.banner_6_ck.InitialImage = null;
-            this.banner_6_ck.Location = new System.Drawing.Point(576, 0);
+            this.banner_6_ck.Location = new System.Drawing.Point(877, 0);
             this.banner_6_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_6_ck.Name = "banner_6_ck";
             this.banner_6_ck.Size = new System.Drawing.Size(32, 32);
@@ -7996,7 +8013,7 @@ namespace plt0_gui
             this.banner_4_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_4_ck.ErrorImage = null;
             this.banner_4_ck.InitialImage = null;
-            this.banner_4_ck.Location = new System.Drawing.Point(448, 0);
+            this.banner_4_ck.Location = new System.Drawing.Point(749, 0);
             this.banner_4_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_4_ck.Name = "banner_4_ck";
             this.banner_4_ck.Size = new System.Drawing.Size(32, 32);
@@ -8013,7 +8030,7 @@ namespace plt0_gui
             this.banner_3_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_3_ck.ErrorImage = null;
             this.banner_3_ck.InitialImage = null;
-            this.banner_3_ck.Location = new System.Drawing.Point(608, 0);
+            this.banner_3_ck.Location = new System.Drawing.Point(909, 0);
             this.banner_3_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_3_ck.Name = "banner_3_ck";
             this.banner_3_ck.Size = new System.Drawing.Size(32, 32);
@@ -8030,7 +8047,7 @@ namespace plt0_gui
             this.banner_2_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_2_ck.ErrorImage = null;
             this.banner_2_ck.InitialImage = null;
-            this.banner_2_ck.Location = new System.Drawing.Point(640, 0);
+            this.banner_2_ck.Location = new System.Drawing.Point(941, 0);
             this.banner_2_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_2_ck.Name = "banner_2_ck";
             this.banner_2_ck.Size = new System.Drawing.Size(32, 32);
@@ -8047,7 +8064,7 @@ namespace plt0_gui
             this.banner_1_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_1_ck.ErrorImage = null;
             this.banner_1_ck.InitialImage = null;
-            this.banner_1_ck.Location = new System.Drawing.Point(672, 0);
+            this.banner_1_ck.Location = new System.Drawing.Point(973, 0);
             this.banner_1_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_1_ck.Name = "banner_1_ck";
             this.banner_1_ck.Size = new System.Drawing.Size(32, 32);
@@ -9110,7 +9127,7 @@ namespace plt0_gui
             this.version_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.version_ck.ErrorImage = null;
             this.version_ck.InitialImage = null;
-            this.version_ck.Location = new System.Drawing.Point(1109, 0);
+            this.version_ck.Location = new System.Drawing.Point(1410, 0);
             this.version_ck.Margin = new System.Windows.Forms.Padding(0);
             this.version_ck.Name = "version_ck";
             this.version_ck.Size = new System.Drawing.Size(64, 32);
@@ -9431,7 +9448,7 @@ namespace plt0_gui
             this.banner_move.Cursor = System.Windows.Forms.Cursors.SizeAll;
             this.banner_move.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.banner_move.ForeColor = System.Drawing.SystemColors.Control;
-            this.banner_move.Location = new System.Drawing.Point(723, 0);
+            this.banner_move.Location = new System.Drawing.Point(755, 0);
             this.banner_move.Margin = new System.Windows.Forms.Padding(0);
             this.banner_move.Name = "banner_move";
             this.banner_move.Padding = new System.Windows.Forms.Padding(880, 6, 0, 6);
@@ -10245,7 +10262,7 @@ namespace plt0_gui
             this.banner_global_move_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_global_move_ck.ErrorImage = null;
             this.banner_global_move_ck.InitialImage = null;
-            this.banner_global_move_ck.Location = new System.Drawing.Point(396, 0);
+            this.banner_global_move_ck.Location = new System.Drawing.Point(697, 0);
             this.banner_global_move_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_global_move_ck.Name = "banner_global_move_ck";
             this.banner_global_move_ck.Size = new System.Drawing.Size(32, 32);
@@ -10262,7 +10279,7 @@ namespace plt0_gui
             this.banner_5_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_5_ck.ErrorImage = null;
             this.banner_5_ck.InitialImage = null;
-            this.banner_5_ck.Location = new System.Drawing.Point(704, 0);
+            this.banner_5_ck.Location = new System.Drawing.Point(1005, 0);
             this.banner_5_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_5_ck.Name = "banner_5_ck";
             this.banner_5_ck.Size = new System.Drawing.Size(32, 32);
@@ -10279,7 +10296,7 @@ namespace plt0_gui
             this.banner_11_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_11_ck.ErrorImage = null;
             this.banner_11_ck.InitialImage = null;
-            this.banner_11_ck.Location = new System.Drawing.Point(960, 0);
+            this.banner_11_ck.Location = new System.Drawing.Point(1261, 0);
             this.banner_11_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_11_ck.Name = "banner_11_ck";
             this.banner_11_ck.Size = new System.Drawing.Size(32, 32);
@@ -10296,7 +10313,7 @@ namespace plt0_gui
             this.banner_12_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_12_ck.ErrorImage = null;
             this.banner_12_ck.InitialImage = null;
-            this.banner_12_ck.Location = new System.Drawing.Point(928, 0);
+            this.banner_12_ck.Location = new System.Drawing.Point(1229, 0);
             this.banner_12_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_12_ck.Name = "banner_12_ck";
             this.banner_12_ck.Size = new System.Drawing.Size(32, 32);
@@ -10313,7 +10330,7 @@ namespace plt0_gui
             this.banner_13_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_13_ck.ErrorImage = null;
             this.banner_13_ck.InitialImage = null;
-            this.banner_13_ck.Location = new System.Drawing.Point(896, 0);
+            this.banner_13_ck.Location = new System.Drawing.Point(1197, 0);
             this.banner_13_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_13_ck.Name = "banner_13_ck";
             this.banner_13_ck.Size = new System.Drawing.Size(32, 32);
@@ -10330,7 +10347,7 @@ namespace plt0_gui
             this.banner_14_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_14_ck.ErrorImage = null;
             this.banner_14_ck.InitialImage = null;
-            this.banner_14_ck.Location = new System.Drawing.Point(736, 0);
+            this.banner_14_ck.Location = new System.Drawing.Point(1037, 0);
             this.banner_14_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_14_ck.Name = "banner_14_ck";
             this.banner_14_ck.Size = new System.Drawing.Size(32, 32);
@@ -10347,7 +10364,7 @@ namespace plt0_gui
             this.banner_16_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_16_ck.ErrorImage = null;
             this.banner_16_ck.InitialImage = null;
-            this.banner_16_ck.Location = new System.Drawing.Point(864, 0);
+            this.banner_16_ck.Location = new System.Drawing.Point(1165, 0);
             this.banner_16_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_16_ck.Name = "banner_16_ck";
             this.banner_16_ck.Size = new System.Drawing.Size(32, 32);
@@ -10364,7 +10381,7 @@ namespace plt0_gui
             this.banner_17_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_17_ck.ErrorImage = null;
             this.banner_17_ck.InitialImage = null;
-            this.banner_17_ck.Location = new System.Drawing.Point(768, 0);
+            this.banner_17_ck.Location = new System.Drawing.Point(1069, 0);
             this.banner_17_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_17_ck.Name = "banner_17_ck";
             this.banner_17_ck.Size = new System.Drawing.Size(32, 32);
@@ -10381,7 +10398,7 @@ namespace plt0_gui
             this.banner_18_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_18_ck.ErrorImage = null;
             this.banner_18_ck.InitialImage = null;
-            this.banner_18_ck.Location = new System.Drawing.Point(800, 0);
+            this.banner_18_ck.Location = new System.Drawing.Point(1101, 0);
             this.banner_18_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_18_ck.Name = "banner_18_ck";
             this.banner_18_ck.Size = new System.Drawing.Size(32, 32);
@@ -10398,7 +10415,7 @@ namespace plt0_gui
             this.banner_19_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_19_ck.ErrorImage = null;
             this.banner_19_ck.InitialImage = null;
-            this.banner_19_ck.Location = new System.Drawing.Point(832, 0);
+            this.banner_19_ck.Location = new System.Drawing.Point(1133, 0);
             this.banner_19_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_19_ck.Name = "banner_19_ck";
             this.banner_19_ck.Size = new System.Drawing.Size(32, 32);
@@ -10415,7 +10432,7 @@ namespace plt0_gui
             this.banner_15_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_15_ck.ErrorImage = null;
             this.banner_15_ck.InitialImage = null;
-            this.banner_15_ck.Location = new System.Drawing.Point(992, 0);
+            this.banner_15_ck.Location = new System.Drawing.Point(1293, 0);
             this.banner_15_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_15_ck.Name = "banner_15_ck";
             this.banner_15_ck.Size = new System.Drawing.Size(32, 32);
@@ -10570,6 +10587,70 @@ namespace plt0_gui
             this.algo_3_ck.MouseEnter += new System.EventHandler(this.Algo_3_MouseEnter);
             this.algo_3_ck.MouseLeave += new System.EventHandler(this.Algo_3_MouseLeave);
             // 
+            // distance_label
+            // 
+            this.distance_label.AutoSize = true;
+            this.distance_label.BackColor = System.Drawing.Color.Transparent;
+            this.distance_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.distance_label.ForeColor = System.Drawing.SystemColors.Control;
+            this.distance_label.Location = new System.Drawing.Point(498, 1239);
+            this.distance_label.Margin = new System.Windows.Forms.Padding(0);
+            this.distance_label.Name = "distance_label";
+            this.distance_label.Size = new System.Drawing.Size(174, 25);
+            this.distance_label.TabIndex = 720;
+            this.distance_label.Text = "Distance Method";
+            // 
+            // decode_ck
+            // 
+            this.decode_ck.BackColor = System.Drawing.Color.Transparent;
+            this.decode_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.decode_ck.ErrorImage = null;
+            this.decode_ck.InitialImage = null;
+            this.decode_ck.Location = new System.Drawing.Point(400, 0);
+            this.decode_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.decode_ck.Name = "decode_ck";
+            this.decode_ck.Size = new System.Drawing.Size(96, 32);
+            this.decode_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.decode_ck.TabIndex = 721;
+            this.decode_ck.TabStop = false;
+            this.decode_ck.Click += new System.EventHandler(this.Decode_Click);
+            this.decode_ck.MouseEnter += new System.EventHandler(this.Decode_MouseEnter);
+            this.decode_ck.MouseLeave += new System.EventHandler(this.Decode_MouseLeave);
+            // 
+            // palette_banner_ck
+            // 
+            this.palette_banner_ck.BackColor = System.Drawing.Color.Transparent;
+            this.palette_banner_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.palette_banner_ck.ErrorImage = null;
+            this.palette_banner_ck.InitialImage = null;
+            this.palette_banner_ck.Location = new System.Drawing.Point(508, 0);
+            this.palette_banner_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.palette_banner_ck.Name = "palette_banner_ck";
+            this.palette_banner_ck.Size = new System.Drawing.Size(96, 32);
+            this.palette_banner_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.palette_banner_ck.TabIndex = 722;
+            this.palette_banner_ck.TabStop = false;
+            this.palette_banner_ck.Click += new System.EventHandler(this.Palette_Click);
+            this.palette_banner_ck.MouseEnter += new System.EventHandler(this.Palette_MouseEnter);
+            this.palette_banner_ck.MouseLeave += new System.EventHandler(this.Palette_MouseLeave);
+            // 
+            // save_settings_ck
+            // 
+            this.save_settings_ck.BackColor = System.Drawing.Color.Transparent;
+            this.save_settings_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.save_settings_ck.ErrorImage = null;
+            this.save_settings_ck.InitialImage = null;
+            this.save_settings_ck.Location = new System.Drawing.Point(1616, 0);
+            this.save_settings_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.save_settings_ck.Name = "save_settings_ck";
+            this.save_settings_ck.Size = new System.Drawing.Size(32, 32);
+            this.save_settings_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.save_settings_ck.TabIndex = 723;
+            this.save_settings_ck.TabStop = false;
+            this.save_settings_ck.Click += new System.EventHandler(this.Save_Click);
+            this.save_settings_ck.MouseEnter += new System.EventHandler(this.Save_MouseEnter);
+            this.save_settings_ck.MouseLeave += new System.EventHandler(this.Save_MouseLeave);
+            // 
             // cmpr_palette
             // 
             this.cmpr_palette.BackColor = System.Drawing.Color.Transparent;
@@ -10649,26 +10730,16 @@ namespace plt0_gui
             this.image_ck.TabStop = false;
             this.image_ck.Visible = false;
             // 
-            // distance_label
-            // 
-            this.distance_label.AutoSize = true;
-            this.distance_label.BackColor = System.Drawing.Color.Transparent;
-            this.distance_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.distance_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.distance_label.Location = new System.Drawing.Point(498, 1239);
-            this.distance_label.Margin = new System.Windows.Forms.Padding(0);
-            this.distance_label.Name = "distance_label";
-            this.distance_label.Size = new System.Drawing.Size(174, 25);
-            this.distance_label.TabIndex = 720;
-            this.distance_label.Text = "Distance Method";
-            // 
             // plt0_gui
             // 
             this.AllowDrop = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(2824, 1346);
+            this.ClientSize = new System.Drawing.Size(1924, 1061);
+            this.Controls.Add(this.save_settings_ck);
+            this.Controls.Add(this.palette_banner_ck);
+            this.Controls.Add(this.decode_ck);
             this.Controls.Add(this.distance_label);
             this.Controls.Add(this.banner_minus_ck);
             this.Controls.Add(this.banner_f11_ck);
@@ -11153,6 +11224,9 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.pal_cie_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.algo_5_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.algo_3_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.decode_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.palette_banner_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.save_settings_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_palette)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_grid_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).EndInit();
@@ -11481,21 +11555,21 @@ namespace plt0_gui
             {
                 all_selected = Image.FromFile(execPath + "plt0 content/banner/all_selected.png");
             }
-            if (File.Exists(execPath + "plt0 content/banner/auto_hover.png"))
+            if (File.Exists(execPath + "plt0 content/banner/encode_hover.png"))
             {
-                auto_hover = Image.FromFile(execPath + "plt0 content/banner/auto_hover.png");
+                auto_hover = Image.FromFile(execPath + "plt0 content/banner/encode_hover.png");
             }
-            if (File.Exists(execPath + "plt0 content/banner/auto_off.png"))
+            if (File.Exists(execPath + "plt0 content/banner/encode_off.png"))
             {
-                auto_off = Image.FromFile(execPath + "plt0 content/banner/auto_off.png");
+                auto_off = Image.FromFile(execPath + "plt0 content/banner/encode_off.png");
             }
-            if (File.Exists(execPath + "plt0 content/banner/auto_on.png"))
+            if (File.Exists(execPath + "plt0 content/banner/encode_on.png"))
             {
-                auto_on = Image.FromFile(execPath + "plt0 content/banner/auto_on.png");
+                auto_on = Image.FromFile(execPath + "plt0 content/banner/encode_on.png");
             }
-            if (File.Exists(execPath + "plt0 content/banner/auto_selected.png"))
+            if (File.Exists(execPath + "plt0 content/banner/encode_selected.png"))
             {
-                auto_selected = Image.FromFile(execPath + "plt0 content/banner/auto_selected.png");
+                auto_selected = Image.FromFile(execPath + "plt0 content/banner/encode_selected.png");
             }
             if (File.Exists(execPath + "plt0 content/banner/banner_global_move_hover.png"))
             {
@@ -11608,6 +11682,46 @@ namespace plt0_gui
             if (File.Exists(execPath + "plt0 content/banner/youtube_hover.png"))
             {
                 youtube_hover = Image.FromFile(execPath + "plt0 content/banner/youtube_hover.png");
+            }
+            if (File.Exists(execPath + "plt0 content/banner/save.png"))
+            {
+                save = Image.FromFile(execPath + "plt0 content/banner/save.png");
+            }
+            if (File.Exists(execPath + "plt0 content/banner/save_hover.png"))
+            {
+                save_hover = Image.FromFile(execPath + "plt0 content/banner/save_hover.png");
+            }
+            if (File.Exists(execPath + "plt0 content/banner/decode_hover.png"))
+            {
+                decode_hover = Image.FromFile(execPath + "plt0 content/banner/decode_hover.png");
+            }
+            if (File.Exists(execPath + "plt0 content/banner/decode_selected.png"))
+            {
+                decode_selected = Image.FromFile(execPath + "plt0 content/banner/decode_selected.png");
+            }
+            if (File.Exists(execPath + "plt0 content/banner/decode_off.png"))
+            {
+                decode_off = Image.FromFile(execPath + "plt0 content/banner/decode_off.png");
+            }
+            if (File.Exists(execPath + "plt0 content/banner/decode_on.png"))
+            {
+                decode_on = Image.FromFile(execPath + "plt0 content/banner/decode_on.png");
+            }
+            if (File.Exists(execPath + "plt0 content/banner/palette_off.png"))
+            {
+                palette_off = Image.FromFile(execPath + "plt0 content/banner/palette_off.png");
+            }
+            if (File.Exists(execPath + "plt0 content/banner/palette_on.png"))
+            {
+                palette_on = Image.FromFile(execPath + "plt0 content/banner/palette_on.png");
+            }
+            if (File.Exists(execPath + "plt0 content/banner/palette_hover.png"))
+            {
+                palette_hover = Image.FromFile(execPath + "plt0 content/banner/palette_hover.png");
+            }
+            if (File.Exists(execPath + "plt0 content/banner/palette_selected.png"))
+            {
+                palette_selected = Image.FromFile(execPath + "plt0 content/banner/palette_selected.png");
             }
             if (File.Exists(execPath + "plt0 content/circles/pink_circle.png"))
             {
@@ -14308,6 +14422,12 @@ namespace plt0_gui
                 case 3:
                     unchecked_Paint();
                     break;
+                case 4:
+                    unchecked_Decode();
+                    break;
+                case 5:
+                    unchecked_palette();
+                    break;
             }
             selected_All();
             Layout_All();
@@ -14356,6 +14476,12 @@ namespace plt0_gui
                     break;
                 case 3:
                     unchecked_Paint();
+                    break;
+                case 4:
+                    unchecked_Decode();
+                    break;
+                case 5:
+                    unchecked_palette();
                     break;
             }
             selected_Auto();
@@ -14406,6 +14532,12 @@ namespace plt0_gui
                 case 3:
                     unchecked_Paint();
                     break;
+                case 4:
+                    unchecked_Decode();
+                    break;
+                case 5:
+                    unchecked_palette();
+                    break;
             }
             selected_Preview();
             Layout_Preview();
@@ -14442,6 +14574,125 @@ namespace plt0_gui
         {
             preview_ck.Image = preview_selected;
         }
+        private void checked_Decode()
+        {
+            decode_ck.Image = decode_on;
+        }
+        private void unchecked_Decode()
+        {
+            decode_ck.Image = decode_off;
+        }
+        private void hover_Decode()
+        {
+            decode_ck.Image = decode_hover;
+        }
+        private void selected_Decode()
+        {
+            decode_ck.Image = decode_selected;
+        }
+        private void checked_palette()
+        {
+            palette_banner_ck.Image = palette_on;
+        }
+        private void unchecked_palette()
+        {
+            palette_banner_ck.Image = palette_off;
+        }
+        private void hover_palette()
+        {
+            palette_banner_ck.Image = palette_hover;
+        }
+        private void selected_palette()
+        {
+            palette_banner_ck.Image = palette_selected;
+        }
+
+        private void Decode_Click(object sender, EventArgs e)
+        {
+            switch (layout)
+            {
+                case 0:
+                    unchecked_All();
+                    break;
+                case 1:
+                    unchecked_Auto();
+                    break;
+                case 2:
+                    unchecked_Preview();
+                    break;
+                case 3:
+                    unchecked_Paint();
+                    break;
+                case 5:
+                    unchecked_palette();
+                    break;
+            }
+            layout = 4;
+            selected_Decode();
+            // TODO:
+            // Layout_Decode();
+        }
+
+        private void Decode_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(d[180]);
+            if (layout == 4)
+                selected_Decode();
+            else
+                hover_Decode();
+        }
+
+        private void Decode_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (layout == 4)
+                checked_Decode();
+            else
+                unchecked_Decode();
+        }
+        private void Palette_Click(object sender, EventArgs e)
+        {
+            switch (layout)
+            {
+                case 0:
+                    unchecked_All();
+                    break;
+                case 1:
+                    unchecked_Auto();
+                    break;
+                case 2:
+                    unchecked_Preview();
+                    break;
+                case 3:
+                    unchecked_Paint();
+                    break;
+                case 4:
+                    unchecked_Decode();
+                    break;
+            }
+            layout = 5;
+            selected_palette();
+            // TODO:
+            // Layout_Palette();
+        }
+
+        private void Palette_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(d[181]);
+            if (layout == 5)
+                selected_palette();
+            else
+                hover_palette();
+        }
+
+        private void Palette_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (layout == 5)
+                checked_palette();
+            else
+                unchecked_palette();
+        }
         private void Paint_Click(object sender, EventArgs e)
         {
             switch (layout)
@@ -14454,6 +14705,12 @@ namespace plt0_gui
                     break;
                 case 2:
                     unchecked_Preview();
+                    break;
+                case 4:
+                    unchecked_Decode();
+                    break;
+                case 5:
+                    unchecked_palette();
                     break;
             }
             selected_Paint();
@@ -14503,6 +14760,21 @@ namespace plt0_gui
                 banner_global_move = true;
                 banner_global_move_ck.Image = banner_global_move_selected;
             }
+        }
+        private void Save_Click(object sender, EventArgs e)
+        {
+            // TODO: save settings and change settings
+            // might actually be better to make a layout :wink wink:
+        }
+
+        private void Save_MouseEnter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Save_MouseLeave(object sender, EventArgs e)
+        {
+
         }
         private void Minimized_Click(object sender, EventArgs e)
         {
