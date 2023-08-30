@@ -250,6 +250,7 @@ namespace plt0_gui
         List<PictureBox> WrapT_ck = new List<PictureBox>();
         List<PictureBox> alpha_ck_array = new List<PictureBox>();
         List<PictureBox> algorithm_ck = new List<PictureBox>();
+        List<PictureBox> distance_ck = new List<PictureBox>();
 
         // the most important graphic
         Image background;
@@ -2814,6 +2815,8 @@ namespace plt0_gui
             algo_2_label.Text = "Cluster Fit";
             algo_3_label.Text = "CPU";
             Hide_alpha(true);
+            unchecked_palette(palette_ck[palette_enc]);
+            checked_palette(distance_ck[distance]);
             cie_709_ck.Visible = true;
             cie_709_label.Visible = true;
             algo_3_ck.Visible = true;
@@ -2867,6 +2870,9 @@ namespace plt0_gui
                 cie_709_ck.Visible = false;
                 cie_709_label.Visible = false;
             }
+            unchecked_palette(distance_ck[distance]);
+            if (palette_enc < 3)    
+                checked_palette(palette_ck[palette_enc]);
             algo_5_ck.Visible = false;
             algo_5_label.Visible = false;
             algo_4_ck.Visible = false;
@@ -4519,6 +4525,11 @@ namespace plt0_gui
             algorithm_ck.Add(algo_4_ck);
             algorithm_ck.Add(algo_5_ck);
             algorithm_ck.Add(algo_5_ck); // nothing
+            distance_ck.Add(pal_cie_ck);
+            distance_ck.Add(pal_rgb_ck);
+            distance_ck.Add(palette_ai8_ck);
+            distance_ck.Add(palette_rgb565_ck);
+            distance_ck.Add(palette_rgb5a3_ck);
             palette_ck.Add(palette_ai8_ck);
             palette_ck.Add(palette_rgb565_ck);
             palette_ck.Add(palette_rgb5a3_ck);
@@ -15711,18 +15722,7 @@ namespace plt0_gui
         }
         private void Pal_CIE_Click(object sender, EventArgs e)
         {
-            if (distance == 0)
-            {
-                unchecked_palette(palette_ck[3]);
-            }
-            else if (distance == 1)
-            {
-                unchecked_palette(palette_ck[4]);
-            }
-            else
-            {
-                unchecked_palette(palette_ck[distance]);
-            }
+            unchecked_palette(distance_ck[distance]);
             selected_palette(pal_cie_ck);
             distance = 0; // Luminance
             Organize_args();
@@ -15746,18 +15746,7 @@ namespace plt0_gui
         }
         private void Pal_RGB_Click(object sender, EventArgs e)
         {
-            if (distance == 0)
-            {
-                unchecked_palette(palette_ck[3]);
-            }
-            else if (distance == 1)
-            {
-                unchecked_palette(palette_ck[4]);
-            }
-            else
-            {
-                unchecked_palette(palette_ck[distance]);
-            }
+            unchecked_palette(distance_ck[distance]);
             selected_palette(pal_rgb_ck);
             distance = 1; // RGB - Manhattan
             Organize_args();
@@ -15783,19 +15772,8 @@ namespace plt0_gui
         {
             if (encoding == 14) // CMPR
             {
+                unchecked_palette(distance_ck[distance]);
                 distance = 2;  // Euclidian
-                if (distance == 0)
-                {
-                    unchecked_palette(palette_ck[3]);
-                }
-                else if (distance == 1)
-                {
-                    unchecked_palette(palette_ck[4]);
-                }
-                else
-                {
-                    unchecked_palette(palette_ck[distance]);
-                }
             }
             else
             {
@@ -15850,19 +15828,8 @@ namespace plt0_gui
 
             if (encoding == 14) // CMPR
             {
+                unchecked_palette(distance_ck[distance]);
                 distance = 3;
-                if (distance == 0)
-                {
-                    unchecked_palette(palette_ck[3]);
-                }
-                else if (distance == 1)
-                {
-                    unchecked_palette(palette_ck[4]);
-                }
-                else
-                {
-                    unchecked_palette(palette_ck[distance]);
-                }
             }
             else
             {
@@ -15917,19 +15884,8 @@ namespace plt0_gui
 
             if (encoding == 14) // CMPR
             {
+                unchecked_palette(distance_ck[distance]);
                 distance = 4;  // Delta E 
-                if (distance == 0)
-                {
-                    unchecked_palette(palette_ck[3]);
-                }
-                else if (distance == 1)
-                {
-                    unchecked_palette(palette_ck[4]);
-                }
-                else
-                {
-                    unchecked_palette(palette_ck[distance]);
-                }
             }
             else
             {
