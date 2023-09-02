@@ -656,6 +656,7 @@ namespace plt0_gui
                 cmpr_c4_txt.Location = new Point(cmpr_c4_txt.Location.X, cmpr_c4_txt.Location.Y + 10);
                 cmpr_hover_colour_txt.Location = new Point(cmpr_hover_colour.Location.X, cmpr_hover_colour.Location.Y + 10);
                 grid_ratio = cmpr_grid_ck.Height / 256.0;
+                image_ck.Location = new Point((int)(image_ck.Location.X), (int)(auto_update_ck.Location.Y + auto_update_ck.Height));
             }
         }
 
@@ -4716,7 +4717,6 @@ namespace plt0_gui
             github_ck.Image = github;
             youtube_ck.Image = youtube;
             version_ck.Image = version;
-            save_settings_ck.Image = save;
             run_ck.Image = run_off;
             cli_textbox_ck.Image = cli_textbox;
             sync_preview_ck.Image = sync_preview_off;
@@ -5053,11 +5053,11 @@ namespace plt0_gui
             this.distance_label = new System.Windows.Forms.Label();
             this.decode_ck = new System.Windows.Forms.PictureBox();
             this.palette_banner_ck = new System.Windows.Forms.PictureBox();
-            this.save_settings_ck = new System.Windows.Forms.PictureBox();
             this.cmpr_palette = new PictureBoxWithInterpolationMode();
             this.cmpr_grid_ck = new PictureBoxWithInterpolationMode();
             this.cmpr_preview_ck = new PictureBoxWithInterpolationMode();
             this.image_ck = new PictureBoxWithInterpolationMode();
+            this.settings_banner_ck = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tpl_ck)).BeginInit();
@@ -5201,11 +5201,11 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.algo_3_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.decode_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.palette_banner_ck)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.save_settings_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_palette)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_grid_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.image_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.settings_banner_ck)).BeginInit();
             this.SuspendLayout();
             // 
             // output_file_type_label
@@ -9489,6 +9489,7 @@ namespace plt0_gui
             this.preview4k_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.preview4k_ck.TabIndex = 604;
             this.preview4k_ck.TabStop = false;
+            this.preview4k_ck.Visible = false;
             // 
             // reversex_ck
             // 
@@ -10623,33 +10624,16 @@ namespace plt0_gui
             this.palette_banner_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.palette_banner_ck.ErrorImage = null;
             this.palette_banner_ck.InitialImage = null;
-            this.palette_banner_ck.Location = new System.Drawing.Point(508, 0);
+            this.palette_banner_ck.Location = new System.Drawing.Point(496, 0);
             this.palette_banner_ck.Margin = new System.Windows.Forms.Padding(0);
             this.palette_banner_ck.Name = "palette_banner_ck";
-            this.palette_banner_ck.Size = new System.Drawing.Size(96, 32);
+            this.palette_banner_ck.Size = new System.Drawing.Size(108, 32);
             this.palette_banner_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.palette_banner_ck.TabIndex = 722;
             this.palette_banner_ck.TabStop = false;
             this.palette_banner_ck.Click += new System.EventHandler(this.Palette_Click);
             this.palette_banner_ck.MouseEnter += new System.EventHandler(this.Palette_MouseEnter);
             this.palette_banner_ck.MouseLeave += new System.EventHandler(this.Palette_MouseLeave);
-            // 
-            // save_settings_ck
-            // 
-            this.save_settings_ck.BackColor = System.Drawing.Color.Transparent;
-            this.save_settings_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.save_settings_ck.ErrorImage = null;
-            this.save_settings_ck.InitialImage = null;
-            this.save_settings_ck.Location = new System.Drawing.Point(1616, 0);
-            this.save_settings_ck.Margin = new System.Windows.Forms.Padding(0);
-            this.save_settings_ck.Name = "save_settings_ck";
-            this.save_settings_ck.Size = new System.Drawing.Size(32, 32);
-            this.save_settings_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.save_settings_ck.TabIndex = 723;
-            this.save_settings_ck.TabStop = false;
-            this.save_settings_ck.Click += new System.EventHandler(this.Save_Click);
-            this.save_settings_ck.MouseEnter += new System.EventHandler(this.Save_MouseEnter);
-            this.save_settings_ck.MouseLeave += new System.EventHandler(this.Save_MouseLeave);
             // 
             // cmpr_palette
             // 
@@ -10730,14 +10714,28 @@ namespace plt0_gui
             this.image_ck.TabStop = false;
             this.image_ck.Visible = false;
             // 
+            // settings_banner_ck
+            // 
+            this.settings_banner_ck.BackColor = System.Drawing.Color.Transparent;
+            this.settings_banner_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.settings_banner_ck.ErrorImage = null;
+            this.settings_banner_ck.InitialImage = null;
+            this.settings_banner_ck.Location = new System.Drawing.Point(604, 0);
+            this.settings_banner_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.settings_banner_ck.Name = "settings_banner_ck";
+            this.settings_banner_ck.Size = new System.Drawing.Size(96, 32);
+            this.settings_banner_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.settings_banner_ck.TabIndex = 723;
+            this.settings_banner_ck.TabStop = false;
+            // 
             // plt0_gui
             // 
             this.AllowDrop = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1924, 1061);
-            this.Controls.Add(this.save_settings_ck);
+            this.ClientSize = new System.Drawing.Size(3267, 2005);
+            this.Controls.Add(this.settings_banner_ck);
             this.Controls.Add(this.palette_banner_ck);
             this.Controls.Add(this.decode_ck);
             this.Controls.Add(this.distance_label);
@@ -11226,11 +11224,11 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.algo_3_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.decode_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.palette_banner_ck)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.save_settings_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_palette)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_grid_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.image_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.settings_banner_ck)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -14871,7 +14869,7 @@ namespace plt0_gui
         {
             for (byte i = 0; i < Screen.AllScreens.Length; i++)
             {
-                if (Screen.AllScreens[i].Bounds.X == 0)
+                if (Screen.AllScreens[i].Bounds.X == 0 && Screen.AllScreens[i].Bounds.Y == 0)
                 {
                     this.Size = new Size(Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Height);
                     this.Location = Screen.AllScreens[i].Bounds.Location;
@@ -14917,7 +14915,7 @@ namespace plt0_gui
         {
             for (byte i = 0; i < Screen.AllScreens.Length; i++)
             {
-                if (Screen.AllScreens[i].Bounds.X == 0)
+                if (Screen.AllScreens[i].Bounds.X == 0 && Screen.AllScreens[i].Bounds.Y == 0)
                 {
                     this.Size = new Size(Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Height >> 1);
                     this.Location = Screen.AllScreens[i].Bounds.Location;
@@ -14963,7 +14961,7 @@ namespace plt0_gui
         {
             for (byte i = 0; i < Screen.AllScreens.Length; i++)
             {
-                if (Screen.AllScreens[i].Bounds.X == 0)
+                if (Screen.AllScreens[i].Bounds.X == 0 && Screen.AllScreens[i].Bounds.Y == 0)
                 {
                     this.Size = new Size(Screen.AllScreens[i].Bounds.Width, Screen.AllScreens[i].Bounds.Height >> 1);
                     this.Location = Screen.AllScreens[i].Bounds.Location;
@@ -15009,7 +15007,7 @@ namespace plt0_gui
         {
             for (byte i = 0; i < Screen.AllScreens.Length; i++)
             {
-                if (Screen.AllScreens[i].Bounds.X == 0)
+                if (Screen.AllScreens[i].Bounds.X == 0 && Screen.AllScreens[i].Bounds.Y == 0)
                 {
                     this.Size = new Size(Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Height >> 1);
                     this.Location = new Point(Screen.AllScreens[i].Bounds.X + Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Y);
@@ -15055,7 +15053,7 @@ namespace plt0_gui
         {
             for (byte i = 0; i < Screen.AllScreens.Length; i++)
             {
-                if (Screen.AllScreens[i].Bounds.X == 0)
+                if (Screen.AllScreens[i].Bounds.X == 0 && Screen.AllScreens[i].Bounds.Y == 0)
                 {
                     this.Size = new Size(Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Height);
                     this.Location = new Point(Screen.AllScreens[i].Bounds.X + Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Y);
@@ -15101,7 +15099,7 @@ namespace plt0_gui
         {
             for (byte i = 0; i < Screen.AllScreens.Length; i++)
             {
-                if (Screen.AllScreens[i].Bounds.X == 0)
+                if (Screen.AllScreens[i].Bounds.X == 0 && Screen.AllScreens[i].Bounds.Y == 0)
                 {
                     this.Size = new Size(Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Height >> 1);
                     this.Location = new Point(Screen.AllScreens[i].Bounds.X + Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Y + Screen.AllScreens[i].Bounds.Height >> 1);
@@ -15147,7 +15145,7 @@ namespace plt0_gui
         {
             for (byte i = 0; i < Screen.AllScreens.Length; i++)
             {
-                if (Screen.AllScreens[i].Bounds.X == 0)
+                if (Screen.AllScreens[i].Bounds.X == 0 && Screen.AllScreens[i].Bounds.Y == 0)
                 {
                     this.Size = new Size(Screen.AllScreens[i].Bounds.Width, Screen.AllScreens[i].Bounds.Height >> 1);
                     this.Location = new Point(Screen.AllScreens[i].Bounds.X, Screen.AllScreens[i].Bounds.Y + Screen.AllScreens[i].Bounds.Height >> 1);
@@ -15193,7 +15191,7 @@ namespace plt0_gui
         {
             for (byte i = 0; i < Screen.AllScreens.Length; i++)
             {
-                if (Screen.AllScreens[i].Bounds.X == 0)
+                if (Screen.AllScreens[i].Bounds.X == 0 && Screen.AllScreens[i].Bounds.Y == 0)
                 {
                     this.Size = new Size(Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Height >> 1);
                     this.Location = new Point(Screen.AllScreens[i].Bounds.X, Screen.AllScreens[i].Bounds.Y + Screen.AllScreens[i].Bounds.Height >> 1);
@@ -15239,10 +15237,11 @@ namespace plt0_gui
         {
             for (byte i = 0; i < Screen.AllScreens.Length; i++)
             {
-                if (Screen.AllScreens[i].Bounds.X == 0)
+                if (Screen.AllScreens[i].Bounds.X == 0 && Screen.AllScreens[i].Bounds.Y == 0)
                 {
-                    this.Size = new Size(1920, 1080);
+                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width, Screen.AllScreens[i].Bounds.Height);
                     this.Location = Screen.AllScreens[i].Bounds.Location;
+                    ResizePanels();
                 }
             }
             banner_5_ck.Image = arrow_1080p_selected;
@@ -15285,7 +15284,7 @@ namespace plt0_gui
         {
             for (byte i = 0; i < Screen.AllScreens.Length; i++)
             {
-                if (Screen.AllScreens[i].Bounds.X != 0)
+                if (Screen.AllScreens[i].Bounds.X != 0 || Screen.AllScreens[i].Bounds.Y != 0)
                 {
                     this.Size = new Size(Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Height);
                     this.Location = Screen.AllScreens[i].Bounds.Location;
@@ -15331,7 +15330,7 @@ namespace plt0_gui
         {
             for (byte i = 0; i < Screen.AllScreens.Length; i++)
             {
-                if (Screen.AllScreens[i].Bounds.X != 0)
+                if (Screen.AllScreens[i].Bounds.X != 0 || Screen.AllScreens[i].Bounds.Y != 0)
                 {
                     this.Size = new Size(Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Height >> 1);
                     this.Location = Screen.AllScreens[i].Bounds.Location;
@@ -15377,7 +15376,7 @@ namespace plt0_gui
         {
             for (byte i = 0; i < Screen.AllScreens.Length; i++)
             {
-                if (Screen.AllScreens[i].Bounds.X != 0)
+                if (Screen.AllScreens[i].Bounds.X != 0 || Screen.AllScreens[i].Bounds.Y != 0)
                 {
                     this.Size = new Size(Screen.AllScreens[i].Bounds.Width, Screen.AllScreens[i].Bounds.Height >> 1);
                     this.Location = Screen.AllScreens[i].Bounds.Location;
@@ -15423,7 +15422,7 @@ namespace plt0_gui
         {
             for (byte i = 0; i < Screen.AllScreens.Length; i++)
             {
-                if (Screen.AllScreens[i].Bounds.X != 0)
+                if (Screen.AllScreens[i].Bounds.X != 0 || Screen.AllScreens[i].Bounds.Y != 0)
                 {
                     this.Size = new Size(Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Height >> 1);
                     this.Location = new Point(Screen.AllScreens[i].Bounds.X + Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Y);
@@ -15469,7 +15468,7 @@ namespace plt0_gui
         {
             for (byte i = 0; i < Screen.AllScreens.Length; i++)
             {
-                if (Screen.AllScreens[i].Bounds.X != 0)
+                if (Screen.AllScreens[i].Bounds.X != 0 || Screen.AllScreens[i].Bounds.Y != 0)
                 {
                     this.Size = new Size(Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Height);
                     this.Location = new Point(Screen.AllScreens[i].Bounds.X + Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Y);
@@ -15515,10 +15514,10 @@ namespace plt0_gui
         {
             for (byte i = 0; i < Screen.AllScreens.Length; i++)
             {
-                if (Screen.AllScreens[i].Bounds.X != 0)
+                if (Screen.AllScreens[i].Bounds.X != 0 || Screen.AllScreens[i].Bounds.Y != 0)
                 {
                     this.Size = new Size(Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Height >> 1);
-                    this.Location = new Point(Screen.AllScreens[i].Bounds.X + Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Y + Screen.AllScreens[i].Bounds.Height >> 1);
+                    this.Location = new Point(Screen.AllScreens[i].Bounds.X + (Screen.AllScreens[i].Bounds.Width >> 1), Screen.AllScreens[i].Bounds.Y + (Screen.AllScreens[i].Bounds.Height >> 1));
                 }
             }
             banner_13_ck.Image = screen2_bottom_right_selected;
@@ -15561,10 +15560,10 @@ namespace plt0_gui
         {
             for (byte i = 0; i < Screen.AllScreens.Length; i++)
             {
-                if (Screen.AllScreens[i].Bounds.X != 0)
+                if (Screen.AllScreens[i].Bounds.X != 0 || Screen.AllScreens[i].Bounds.Y != 0)
                 {
                     this.Size = new Size(Screen.AllScreens[i].Bounds.Width, Screen.AllScreens[i].Bounds.Height >> 1);
-                    this.Location = new Point(Screen.AllScreens[i].Bounds.X, Screen.AllScreens[i].Bounds.Y + Screen.AllScreens[i].Bounds.Height >> 1);
+                    this.Location = new Point(Screen.AllScreens[i].Bounds.X, Screen.AllScreens[i].Bounds.Y + (Screen.AllScreens[i].Bounds.Height >> 1));
                 }
             }
             banner_12_ck.Image = screen2_bottom_selected;
@@ -15607,10 +15606,10 @@ namespace plt0_gui
         {
             for (byte i = 0; i < Screen.AllScreens.Length; i++)
             {
-                if (Screen.AllScreens[i].Bounds.X != 0)
+                if (Screen.AllScreens[i].Bounds.X != 0 || Screen.AllScreens[i].Bounds.Y != 0)
                 {
                     this.Size = new Size(Screen.AllScreens[i].Bounds.Width >> 1, Screen.AllScreens[i].Bounds.Height >> 1);
-                    this.Location = new Point(Screen.AllScreens[i].Bounds.X, Screen.AllScreens[i].Bounds.Y + Screen.AllScreens[i].Bounds.Height >> 1);
+                    this.Location = new Point(Screen.AllScreens[i].Bounds.X, Screen.AllScreens[i].Bounds.Y + (Screen.AllScreens[i].Bounds.Height >> 1));
                 }
             }
             banner_11_ck.Image = screen2_bottom_left_selected;
@@ -15653,10 +15652,11 @@ namespace plt0_gui
         {
             for (byte i = 0; i < Screen.AllScreens.Length; i++)
             {
-                if (Screen.AllScreens[i].Bounds.X != 0)
+                if (Screen.AllScreens[i].Bounds.X != 0 || Screen.AllScreens[i].Bounds.Y != 0)
                 {
-                    this.Size = new Size(1920, 1080);
+                    this.Size = new Size(Screen.AllScreens[i].Bounds.Width, Screen.AllScreens[i].Bounds.Height);
                     this.Location = Screen.AllScreens[i].Bounds.Location;
+                    ResizePanels();
                 }
             }
             banner_15_ck.Image = screen2_arrow_1080p_selected;

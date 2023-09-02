@@ -332,7 +332,7 @@
         private System.Windows.Forms.Label distance_label;
         private System.Windows.Forms.PictureBox decode_ck;
         private System.Windows.Forms.PictureBox palette_banner_ck;
-        private System.Windows.Forms.PictureBox save_settings_ck;
+        private System.Windows.Forms.PictureBox settings_banner_ck;
         /*
 /// <summary>
 /// Required designer variable.
