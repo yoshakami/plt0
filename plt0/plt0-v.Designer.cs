@@ -333,6 +333,8 @@
         private System.Windows.Forms.PictureBox decode_ck;
         private System.Windows.Forms.PictureBox palette_banner_ck;
         private System.Windows.Forms.PictureBox settings_banner_ck;
+        private System.Windows.Forms.PictureBox view_cli_param_ck;
+        private System.Windows.Forms.Label view_cli_param_label;
         /*
 /// <summary>
 /// Required designer variable.

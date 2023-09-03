@@ -1715,6 +1715,8 @@ class Parse_args_class
 
     private void Fill_output_file(string arg)
     {
+        if (arg == "")
+            return;
         if (arg.Contains(".") && arg.Length > 1)
         {  // if the name ends with a recognized extension, this application will add it afterwards in the write functions
             bool remove_ext = true;
