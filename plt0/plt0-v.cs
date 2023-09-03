@@ -10734,7 +10734,7 @@ namespace plt0_gui
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(3267, 2005);
+            this.ClientSize = new System.Drawing.Size(3369, 1952);
             this.Controls.Add(this.settings_banner_ck);
             this.Controls.Add(this.palette_banner_ck);
             this.Controls.Add(this.decode_ck);
@@ -17066,8 +17066,8 @@ namespace plt0_gui
         }
         private void cmpr_grid_ck_MouseMove(object sender, MouseEventArgs e)
         {
-            int x = (int)(e.X * grid_ratio);
-            int y = (int)(e.Y * grid_ratio);
+            int x = (int)(e.X / grid_ratio);
+            int y = (int)(e.Y / grid_ratio);
             switch (e.Button)
             {
                 case MouseButtons.Left:
@@ -17203,8 +17203,8 @@ namespace plt0_gui
         {
             if (cmpr_preview == null)
                 return;
-            cmpr_x = (int)((e.X - cmpr_x_offscreen) / mag_ratio * grid_ratio);
-            cmpr_y = (int)((e.Y - cmpr_y_offscreen) / mag_ratio * grid_ratio);
+            cmpr_x = (int)((e.X - cmpr_x_offscreen) / (mag_ratio * grid_ratio));
+            cmpr_y = (int)((e.Y - cmpr_y_offscreen) / (mag_ratio * grid_ratio));
             if (cmpr_x < 0 || cmpr_y < 0)
             {
                 cmpr_preview_ck_MouseLeave(null, null);
@@ -17605,8 +17605,8 @@ namespace plt0_gui
         {
             if (e.X < 0 || e.Y < 0 || e.X >= cmpr_palette.Width || e.Y >= cmpr_palette.Height) // cmpr_palette.Image.width also works, it should be faster to directly enter the max dimensions
                 return;
-            int x = (int)(e.X * grid_ratio);
-            y = (int)(e.Y * grid_ratio);
+            int x = (int)(e.X / grid_ratio);
+            y = (int)(e.Y / grid_ratio);
             // sooo, the clever idea is that I used a 32-bit bmp so I could use the bitshift << 2 for both x and y since all pixel are 4 bytes in size
             // another cool thing is that I purposefully made the bmp dimensions be 1024x64, so one line is 1024x4 pixels which is 1 << 10 << 2 which is 1 << 12
             // bitshifts are faster than multiplications.
