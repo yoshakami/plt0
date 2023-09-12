@@ -2403,6 +2403,7 @@ namespace plt0_gui
                     Disable_All_Layout();
                 if (preview_layout_is_enabled)
                     Disable_Preview_Layout();
+                // TODO: disable decode layout
                 Hide_mag();
                 Hide_min();
                 Hide_cmpr();
@@ -8237,7 +8238,7 @@ namespace plt0_gui
             this.banner_9_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_9_ck.ErrorImage = null;
             this.banner_9_ck.InitialImage = null;
-            this.banner_9_ck.Location = new System.Drawing.Point(847, 0);
+            this.banner_9_ck.Location = new System.Drawing.Point(908, 0);
             this.banner_9_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_9_ck.Name = "banner_9_ck";
             this.banner_9_ck.Size = new System.Drawing.Size(32, 32);
@@ -8254,7 +8255,7 @@ namespace plt0_gui
             this.banner_8_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_8_ck.ErrorImage = null;
             this.banner_8_ck.InitialImage = null;
-            this.banner_8_ck.Location = new System.Drawing.Point(815, 0);
+            this.banner_8_ck.Location = new System.Drawing.Point(876, 0);
             this.banner_8_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_8_ck.Name = "banner_8_ck";
             this.banner_8_ck.Size = new System.Drawing.Size(32, 32);
@@ -8271,7 +8272,7 @@ namespace plt0_gui
             this.banner_7_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_7_ck.ErrorImage = null;
             this.banner_7_ck.InitialImage = null;
-            this.banner_7_ck.Location = new System.Drawing.Point(783, 0);
+            this.banner_7_ck.Location = new System.Drawing.Point(844, 0);
             this.banner_7_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_7_ck.Name = "banner_7_ck";
             this.banner_7_ck.Size = new System.Drawing.Size(32, 32);
@@ -8288,7 +8289,7 @@ namespace plt0_gui
             this.banner_6_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_6_ck.ErrorImage = null;
             this.banner_6_ck.InitialImage = null;
-            this.banner_6_ck.Location = new System.Drawing.Point(879, 0);
+            this.banner_6_ck.Location = new System.Drawing.Point(940, 0);
             this.banner_6_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_6_ck.Name = "banner_6_ck";
             this.banner_6_ck.Size = new System.Drawing.Size(32, 32);
@@ -8305,7 +8306,7 @@ namespace plt0_gui
             this.banner_4_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_4_ck.ErrorImage = null;
             this.banner_4_ck.InitialImage = null;
-            this.banner_4_ck.Location = new System.Drawing.Point(751, 0);
+            this.banner_4_ck.Location = new System.Drawing.Point(812, 0);
             this.banner_4_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_4_ck.Name = "banner_4_ck";
             this.banner_4_ck.Size = new System.Drawing.Size(32, 32);
@@ -8322,7 +8323,7 @@ namespace plt0_gui
             this.banner_3_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_3_ck.ErrorImage = null;
             this.banner_3_ck.InitialImage = null;
-            this.banner_3_ck.Location = new System.Drawing.Point(911, 0);
+            this.banner_3_ck.Location = new System.Drawing.Point(972, 0);
             this.banner_3_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_3_ck.Name = "banner_3_ck";
             this.banner_3_ck.Size = new System.Drawing.Size(32, 32);
@@ -8339,7 +8340,7 @@ namespace plt0_gui
             this.banner_2_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_2_ck.ErrorImage = null;
             this.banner_2_ck.InitialImage = null;
-            this.banner_2_ck.Location = new System.Drawing.Point(943, 0);
+            this.banner_2_ck.Location = new System.Drawing.Point(1004, 0);
             this.banner_2_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_2_ck.Name = "banner_2_ck";
             this.banner_2_ck.Size = new System.Drawing.Size(32, 32);
@@ -8356,7 +8357,7 @@ namespace plt0_gui
             this.banner_1_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_1_ck.ErrorImage = null;
             this.banner_1_ck.InitialImage = null;
-            this.banner_1_ck.Location = new System.Drawing.Point(975, 0);
+            this.banner_1_ck.Location = new System.Drawing.Point(1036, 0);
             this.banner_1_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_1_ck.Name = "banner_1_ck";
             this.banner_1_ck.Size = new System.Drawing.Size(32, 32);
@@ -10553,7 +10554,7 @@ namespace plt0_gui
             this.banner_global_move_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_global_move_ck.ErrorImage = null;
             this.banner_global_move_ck.InitialImage = null;
-            this.banner_global_move_ck.Location = new System.Drawing.Point(706, 0);
+            this.banner_global_move_ck.Location = new System.Drawing.Point(757, 0);
             this.banner_global_move_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_global_move_ck.Name = "banner_global_move_ck";
             this.banner_global_move_ck.Size = new System.Drawing.Size(32, 32);
@@ -10570,7 +10571,7 @@ namespace plt0_gui
             this.banner_5_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_5_ck.ErrorImage = null;
             this.banner_5_ck.InitialImage = null;
-            this.banner_5_ck.Location = new System.Drawing.Point(1007, 0);
+            this.banner_5_ck.Location = new System.Drawing.Point(1068, 0);
             this.banner_5_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_5_ck.Name = "banner_5_ck";
             this.banner_5_ck.Size = new System.Drawing.Size(32, 32);
@@ -10587,7 +10588,7 @@ namespace plt0_gui
             this.banner_11_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_11_ck.ErrorImage = null;
             this.banner_11_ck.InitialImage = null;
-            this.banner_11_ck.Location = new System.Drawing.Point(1263, 0);
+            this.banner_11_ck.Location = new System.Drawing.Point(1324, 0);
             this.banner_11_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_11_ck.Name = "banner_11_ck";
             this.banner_11_ck.Size = new System.Drawing.Size(32, 32);
@@ -10604,7 +10605,7 @@ namespace plt0_gui
             this.banner_12_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_12_ck.ErrorImage = null;
             this.banner_12_ck.InitialImage = null;
-            this.banner_12_ck.Location = new System.Drawing.Point(1231, 0);
+            this.banner_12_ck.Location = new System.Drawing.Point(1292, 0);
             this.banner_12_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_12_ck.Name = "banner_12_ck";
             this.banner_12_ck.Size = new System.Drawing.Size(32, 32);
@@ -10621,7 +10622,7 @@ namespace plt0_gui
             this.banner_13_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_13_ck.ErrorImage = null;
             this.banner_13_ck.InitialImage = null;
-            this.banner_13_ck.Location = new System.Drawing.Point(1199, 0);
+            this.banner_13_ck.Location = new System.Drawing.Point(1260, 0);
             this.banner_13_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_13_ck.Name = "banner_13_ck";
             this.banner_13_ck.Size = new System.Drawing.Size(32, 32);
@@ -10638,7 +10639,7 @@ namespace plt0_gui
             this.banner_14_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_14_ck.ErrorImage = null;
             this.banner_14_ck.InitialImage = null;
-            this.banner_14_ck.Location = new System.Drawing.Point(1039, 0);
+            this.banner_14_ck.Location = new System.Drawing.Point(1100, 0);
             this.banner_14_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_14_ck.Name = "banner_14_ck";
             this.banner_14_ck.Size = new System.Drawing.Size(32, 32);
@@ -10655,7 +10656,7 @@ namespace plt0_gui
             this.banner_16_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_16_ck.ErrorImage = null;
             this.banner_16_ck.InitialImage = null;
-            this.banner_16_ck.Location = new System.Drawing.Point(1167, 0);
+            this.banner_16_ck.Location = new System.Drawing.Point(1228, 0);
             this.banner_16_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_16_ck.Name = "banner_16_ck";
             this.banner_16_ck.Size = new System.Drawing.Size(32, 32);
@@ -10672,7 +10673,7 @@ namespace plt0_gui
             this.banner_17_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_17_ck.ErrorImage = null;
             this.banner_17_ck.InitialImage = null;
-            this.banner_17_ck.Location = new System.Drawing.Point(1071, 0);
+            this.banner_17_ck.Location = new System.Drawing.Point(1132, 0);
             this.banner_17_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_17_ck.Name = "banner_17_ck";
             this.banner_17_ck.Size = new System.Drawing.Size(32, 32);
@@ -10689,7 +10690,7 @@ namespace plt0_gui
             this.banner_18_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_18_ck.ErrorImage = null;
             this.banner_18_ck.InitialImage = null;
-            this.banner_18_ck.Location = new System.Drawing.Point(1103, 0);
+            this.banner_18_ck.Location = new System.Drawing.Point(1164, 0);
             this.banner_18_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_18_ck.Name = "banner_18_ck";
             this.banner_18_ck.Size = new System.Drawing.Size(32, 32);
@@ -10706,7 +10707,7 @@ namespace plt0_gui
             this.banner_19_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_19_ck.ErrorImage = null;
             this.banner_19_ck.InitialImage = null;
-            this.banner_19_ck.Location = new System.Drawing.Point(1135, 0);
+            this.banner_19_ck.Location = new System.Drawing.Point(1196, 0);
             this.banner_19_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_19_ck.Name = "banner_19_ck";
             this.banner_19_ck.Size = new System.Drawing.Size(32, 32);
@@ -10723,7 +10724,7 @@ namespace plt0_gui
             this.banner_15_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_15_ck.ErrorImage = null;
             this.banner_15_ck.InitialImage = null;
-            this.banner_15_ck.Location = new System.Drawing.Point(1295, 0);
+            this.banner_15_ck.Location = new System.Drawing.Point(1356, 0);
             this.banner_15_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_15_ck.Name = "banner_15_ck";
             this.banner_15_ck.Size = new System.Drawing.Size(32, 32);
@@ -11013,7 +11014,7 @@ namespace plt0_gui
             this.settings_banner_ck.Location = new System.Drawing.Point(604, 0);
             this.settings_banner_ck.Margin = new System.Windows.Forms.Padding(0);
             this.settings_banner_ck.Name = "settings_banner_ck";
-            this.settings_banner_ck.Size = new System.Drawing.Size(96, 32);
+            this.settings_banner_ck.Size = new System.Drawing.Size(128, 32);
             this.settings_banner_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.settings_banner_ck.TabIndex = 723;
             this.settings_banner_ck.TabStop = false;
@@ -11058,7 +11059,7 @@ namespace plt0_gui
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(3369, 1952);
+            this.ClientSize = new System.Drawing.Size(1924, 1061);
             this.Controls.Add(this.view_cli_param_ck);
             this.Controls.Add(this.view_cli_param_label);
             this.Controls.Add(this.settings_banner_ck);

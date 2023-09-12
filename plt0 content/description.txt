@@ -100,7 +100,7 @@ Scale the window to the Lower Left\jCorner of your Second Screen\j\j\c GreenYell
 Reset the Window state to 1080p\jand place it on your Secobd Screen\j(1080p = 1920x1080)\j\j\c GreenYellow Shortcut: Alt Gr + 5
 Double Click to open explorer\j\j\c Violet Must be a CMPR texture\n(bti, tex0, or tpl)
 Double Click to open explorer\j\j\c salmon if input file is a texture,\jit will be decoded.\j\jif input file is a picture, it will be encoded
-Double Click to open explorer\j\c coral can be a palette (picture, plt0),\j\c coral a bmd (replace a texture with input file),\j or a tpl (to append the texture to)
+Double Click to open explorer\j\j\c coral can be a palette (picture, plt0),\j\c GreenYellow a bmd (replace a texture with input file),\j\j\c Orange or a tpl (to append the texture to)
 Double Click to open explorer\jName of the output file
 Double Click to open explorer\jName of the output file\j\j(without extension, because you have to check the extension yourself)
 Mipmap Currently Displayed.
