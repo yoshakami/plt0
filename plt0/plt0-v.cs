@@ -5343,13 +5343,13 @@ namespace plt0_gui
             this.distance_label = new System.Windows.Forms.Label();
             this.decode_ck = new System.Windows.Forms.PictureBox();
             this.palette_banner_ck = new System.Windows.Forms.PictureBox();
+            this.settings_banner_ck = new System.Windows.Forms.PictureBox();
+            this.view_cli_param_ck = new System.Windows.Forms.PictureBox();
+            this.view_cli_param_label = new System.Windows.Forms.Label();
             this.cmpr_palette = new PictureBoxWithInterpolationMode();
             this.cmpr_grid_ck = new PictureBoxWithInterpolationMode();
             this.cmpr_preview_ck = new PictureBoxWithInterpolationMode();
             this.image_ck = new PictureBoxWithInterpolationMode();
-            this.settings_banner_ck = new System.Windows.Forms.PictureBox();
-            this.view_cli_param_ck = new System.Windows.Forms.PictureBox();
-            this.view_cli_param_label = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tpl_ck)).BeginInit();
@@ -5493,12 +5493,12 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.algo_3_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.decode_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.palette_banner_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.settings_banner_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.view_cli_param_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_palette)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_grid_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.image_ck)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.settings_banner_ck)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.view_cli_param_ck)).BeginInit();
             this.SuspendLayout();
             // 
             // output_file_type_label
@@ -10926,6 +10926,57 @@ namespace plt0_gui
             this.palette_banner_ck.MouseEnter += new System.EventHandler(this.Palette_MouseEnter);
             this.palette_banner_ck.MouseLeave += new System.EventHandler(this.Palette_MouseLeave);
             // 
+            // settings_banner_ck
+            // 
+            this.settings_banner_ck.BackColor = System.Drawing.Color.Transparent;
+            this.settings_banner_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.settings_banner_ck.ErrorImage = null;
+            this.settings_banner_ck.InitialImage = null;
+            this.settings_banner_ck.Location = new System.Drawing.Point(604, 0);
+            this.settings_banner_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.settings_banner_ck.Name = "settings_banner_ck";
+            this.settings_banner_ck.Size = new System.Drawing.Size(108, 32);
+            this.settings_banner_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.settings_banner_ck.TabIndex = 723;
+            this.settings_banner_ck.TabStop = false;
+            this.settings_banner_ck.Click += new System.EventHandler(this.Settings_Click);
+            this.settings_banner_ck.MouseEnter += new System.EventHandler(this.Settings_MouseEnter);
+            this.settings_banner_ck.MouseLeave += new System.EventHandler(this.Settings_MouseLeave);
+            // 
+            // view_cli_param_ck
+            // 
+            this.view_cli_param_ck.BackColor = System.Drawing.Color.Transparent;
+            this.view_cli_param_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.view_cli_param_ck.ErrorImage = null;
+            this.view_cli_param_ck.InitialImage = null;
+            this.view_cli_param_ck.Location = new System.Drawing.Point(1648, 1204);
+            this.view_cli_param_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.view_cli_param_ck.Name = "view_cli_param_ck";
+            this.view_cli_param_ck.Size = new System.Drawing.Size(64, 64);
+            this.view_cli_param_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.view_cli_param_ck.TabIndex = 725;
+            this.view_cli_param_ck.TabStop = false;
+            this.view_cli_param_ck.Click += new System.EventHandler(this.View_cli_param_Click);
+            this.view_cli_param_ck.MouseEnter += new System.EventHandler(this.View_cli_param_MouseEnter);
+            this.view_cli_param_ck.MouseLeave += new System.EventHandler(this.View_cli_param_MouseLeave);
+            // 
+            // view_cli_param_label
+            // 
+            this.view_cli_param_label.AutoSize = true;
+            this.view_cli_param_label.BackColor = System.Drawing.Color.Transparent;
+            this.view_cli_param_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.view_cli_param_label.ForeColor = System.Drawing.SystemColors.Window;
+            this.view_cli_param_label.Location = new System.Drawing.Point(1716, 1204);
+            this.view_cli_param_label.Margin = new System.Windows.Forms.Padding(0);
+            this.view_cli_param_label.Name = "view_cli_param_label";
+            this.view_cli_param_label.Padding = new System.Windows.Forms.Padding(0, 22, 50, 22);
+            this.view_cli_param_label.Size = new System.Drawing.Size(198, 69);
+            this.view_cli_param_label.TabIndex = 724;
+            this.view_cli_param_label.Text = "view cli param";
+            this.view_cli_param_label.Click += new System.EventHandler(this.View_cli_param_Click);
+            this.view_cli_param_label.MouseEnter += new System.EventHandler(this.View_cli_param_MouseEnter);
+            this.view_cli_param_label.MouseLeave += new System.EventHandler(this.View_cli_param_MouseLeave);
+            // 
             // cmpr_palette
             // 
             this.cmpr_palette.BackColor = System.Drawing.Color.Transparent;
@@ -11004,54 +11055,6 @@ namespace plt0_gui
             this.image_ck.TabIndex = 602;
             this.image_ck.TabStop = false;
             this.image_ck.Visible = false;
-            // 
-            // settings_banner_ck
-            // 
-            this.settings_banner_ck.BackColor = System.Drawing.Color.Transparent;
-            this.settings_banner_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.settings_banner_ck.ErrorImage = null;
-            this.settings_banner_ck.InitialImage = null;
-            this.settings_banner_ck.Location = new System.Drawing.Point(604, 0);
-            this.settings_banner_ck.Margin = new System.Windows.Forms.Padding(0);
-            this.settings_banner_ck.Name = "settings_banner_ck";
-            this.settings_banner_ck.Size = new System.Drawing.Size(128, 32);
-            this.settings_banner_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.settings_banner_ck.TabIndex = 723;
-            this.settings_banner_ck.TabStop = false;
-            // 
-            // view_cli_param_ck
-            // 
-            this.view_cli_param_ck.BackColor = System.Drawing.Color.Transparent;
-            this.view_cli_param_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.view_cli_param_ck.ErrorImage = null;
-            this.view_cli_param_ck.InitialImage = null;
-            this.view_cli_param_ck.Location = new System.Drawing.Point(1648, 1204);
-            this.view_cli_param_ck.Margin = new System.Windows.Forms.Padding(0);
-            this.view_cli_param_ck.Name = "view_cli_param_ck";
-            this.view_cli_param_ck.Size = new System.Drawing.Size(64, 64);
-            this.view_cli_param_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.view_cli_param_ck.TabIndex = 725;
-            this.view_cli_param_ck.TabStop = false;
-            this.view_cli_param_ck.Click += new System.EventHandler(this.View_cli_param_Click);
-            this.view_cli_param_ck.MouseEnter += new System.EventHandler(this.View_cli_param_MouseEnter);
-            this.view_cli_param_ck.MouseLeave += new System.EventHandler(this.View_cli_param_MouseLeave);
-            // 
-            // view_cli_param_label
-            // 
-            this.view_cli_param_label.AutoSize = true;
-            this.view_cli_param_label.BackColor = System.Drawing.Color.Transparent;
-            this.view_cli_param_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.view_cli_param_label.ForeColor = System.Drawing.SystemColors.Window;
-            this.view_cli_param_label.Location = new System.Drawing.Point(1716, 1204);
-            this.view_cli_param_label.Margin = new System.Windows.Forms.Padding(0);
-            this.view_cli_param_label.Name = "view_cli_param_label";
-            this.view_cli_param_label.Padding = new System.Windows.Forms.Padding(0, 22, 50, 22);
-            this.view_cli_param_label.Size = new System.Drawing.Size(198, 69);
-            this.view_cli_param_label.TabIndex = 724;
-            this.view_cli_param_label.Text = "view cli param";
-            this.view_cli_param_label.Click += new System.EventHandler(this.View_cli_param_Click);
-            this.view_cli_param_label.MouseEnter += new System.EventHandler(this.View_cli_param_MouseEnter);
-            this.view_cli_param_label.MouseLeave += new System.EventHandler(this.View_cli_param_MouseLeave);
             // 
             // plt0_gui
             // 
@@ -11551,12 +11554,12 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.algo_3_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.decode_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.palette_banner_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.settings_banner_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.view_cli_param_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_palette)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_grid_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.image_ck)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.settings_banner_ck)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.view_cli_param_ck)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
