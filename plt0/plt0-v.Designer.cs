@@ -216,7 +216,6 @@
         private System.Windows.Forms.Label custom_rgba_label;
         private System.Windows.Forms.Label description_title;
         private System.Windows.Forms.Label description;
-        private System.Windows.Forms.PictureBox description_surrounding;
         private System.Windows.Forms.PictureBox palette_rgb5a3_ck;
         private System.Windows.Forms.Label palette_rgb5a3_label;
         private System.Windows.Forms.PictureBox palette_rgb565_ck;

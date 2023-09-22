@@ -1943,6 +1943,12 @@ namespace plt0_gui
         }
         private void Layout_All()
         {
+            if (preview_layout_is_enabled)
+                Disable_Preview_Layout();
+            if (cmpr_layout_is_enabled)
+                Disable_Paint_Layout();
+            if (decode_layout_is_enabled)
+                Disable_Decode_Layout();
             if (encoding == 14)
                 View_cmpr(true);
             else
@@ -1973,15 +1979,13 @@ namespace plt0_gui
             round3_txt.Visible = true;
             round4_label.Visible = true;
             round4_txt.Visible = true;
-            if (preview_layout_is_enabled)
-                Disable_Preview_Layout();
-            if (cmpr_layout_is_enabled)
-                Disable_Paint_Layout();
             // TODO: disable decode layout
             all_layout_is_enabled = true;
             options_label.Location = new Point((int)(1674 * width_ratio), (int)(40 * height_ratio));
             ask_exit_ck.Visible = true;
             ask_exit_label.Visible = true;
+            num_colours_txt.Visible = true;
+            num_colours_label.Visible = true;
             layout = 0;
 
         }
@@ -2055,6 +2059,8 @@ namespace plt0_gui
                 Disable_All_Layout();
             if (cmpr_layout_is_enabled)
                 Disable_Paint_Layout();
+            if (decode_layout_is_enabled)
+                Disable_Decode_Layout();
             // TODO: disable decode layout
         }
         private void Layout_Preview()
@@ -2095,6 +2101,8 @@ namespace plt0_gui
                 Disable_All_Layout();
             if (cmpr_layout_is_enabled)
                 Disable_Paint_Layout();
+            if (decode_layout_is_enabled)
+                Disable_Decode_Layout();
             num_colours_label.Visible = true;
             num_colours_txt.Visible = true;
             auto_update_ck.Visible = true;
@@ -2111,7 +2119,18 @@ namespace plt0_gui
         {
             output_label.Visible = false;
             description_title.Visible = false;
-            description_surrounding.Visible = false;
+            //description_surrounding.Visible = false;
+
+            image_ck.MinimumSize = new Size((upscale_ck.Width << 3) + (upscale_ck.Width << 2), (upscale_ck.Height << 3) + (upscale_ck.Height << 2)); // 64 * 8 + 64 * 2 = 768
+            image_ck.MaximumSize = new Size((upscale_ck.Width << 3) + (upscale_ck.Width << 2), (upscale_ck.Height << 3) + (upscale_ck.Height << 2)); // 64 * 8 + 64 * 2 = 768
+            image_ck.Location = new Point(banner_4_ck.Location.X, algorithm_label.Location.Y);  // 815, 96
+            textchange_ck.Location = new Point(palette_banner_ck.Location.X, palette_banner_ck.Location.Y + palette_banner_ck.Height);
+            textchange_label.Location = new Point(textchange_ck.Location.X + textchange_ck.Width, all_ck.Location.Y + all_ck.Height);
+            auto_update_ck.Location = new Point(banner_3_ck.Location.X, all_ck.Location.Y + all_ck.Height);
+            auto_update_label.Location = new Point(auto_update_ck.Location.X + auto_update_ck.Width, all_ck.Location.Y + all_ck.Height);
+            upscale_ck.Location = new Point(banner_11_ck.Location.X, all_ck.Location.Y + all_ck.Height);
+            upscale_label.Location = new Point(upscale_ck.Location.X + upscale_ck.Width, all_ck.Location.Y + all_ck.Height);
+
             for (byte i = 0; i < 9; i++)
             {
                 desc[i].Location = new Point(desc[i].Location.X, (int)(desc[i].Location.Y + (600 * height_ratio)));
@@ -2131,7 +2150,7 @@ namespace plt0_gui
 
             output_label.Visible = true;
             description_title.Visible = true;
-            description_surrounding.Visible = true;
+            //description_surrounding.Visible = true;
             for (byte i = 0; i < 9; i++)
             {
                 desc[i].Location = new Point(desc[i].Location.X, (int)(desc[i].Location.Y - (600 * height_ratio)));
@@ -2304,9 +2323,9 @@ namespace plt0_gui
                 (int)(((description_title.Location.X + 300) * width_ratio)),
                 (int)(((description_title.Location.Y - 100) * height_ratio)));
 
-            description_surrounding.Location = new Point(
-                (int)(((description_surrounding.Location.X + 300) * width_ratio)),
-                (int)(((description_surrounding.Location.Y - 100) * height_ratio)));
+            //description_surrounding.Location = new Point(
+               // (int)(((description_surrounding.Location.X + 300) * width_ratio)),
+               // (int)(((description_surrounding.Location.Y - 100) * height_ratio)));
 
             input_file_label.Location = new Point(
                 input_file_label.Location.X,
@@ -2403,6 +2422,8 @@ namespace plt0_gui
                     Disable_All_Layout();
                 if (preview_layout_is_enabled)
                     Disable_Preview_Layout();
+                if (decode_layout_is_enabled)
+                    Disable_Decode_Layout();
                 // TODO: disable decode layout
                 Hide_mag();
                 Hide_min();
@@ -2549,12 +2570,18 @@ namespace plt0_gui
                 tiff_label.Visible = false;
                 tpl_ck.Visible = false;
                 tpl_label.Visible = false;
+                textchange_ck.Visible = false;
+                textchange_label.Visible = false;
+                auto_update_ck.Visible = false;
+                auto_update_label.Visible = false;
+                upscale_ck.Visible = false;
+                upscale_label.Visible = false;
                 for (byte i = 0; i < 9; i++)
                 {
                     desc[i].Location = new Point((int)(desc[i].Location.X - (300 * width_ratio)), (int)(desc[i].Location.Y + (100 * height_ratio)));
                 }
                 description_title.Location = new Point((int)(description_title.Location.X - (300 * width_ratio)), (int)(description_title.Location.Y + (100 * height_ratio)));
-                description_surrounding.Location = new Point((int)(description_surrounding.Location.X - (300 * width_ratio)), (int)(description_surrounding.Location.Y + (100 * height_ratio)));
+                //description_surrounding.Location = new Point((int)(description_surrounding.Location.X - (300 * width_ratio)), (int)//(description_surrounding.Location.Y + (100 * height_ratio)));
                 input_file_label.Location = new Point(input_file_label.Location.X, (int)(input_file_label.Location.Y + (14 * height_ratio)));
                 input_file_txt.Location = new Point(input_file_txt.Location.X, (int)(input_file_txt.Location.Y + (14 * height_ratio)));
                 mipmaps_label.Location = new Point((int)(mipmaps_label.Location.X - (180 * width_ratio)), (int)(mipmaps_label.Location.Y + (14 * height_ratio)));
@@ -2589,6 +2616,7 @@ namespace plt0_gui
             Hide_Colour_Channels();
             view_cli_param_ck.Visible = true;
             view_cli_param_label.Visible = true;
+            cli_textbox_ck.Visible = false;
             view_cli_param = view_cli_param != true; // toogles it before clicking, so it sets the cli_textbox visibility
             View_cli_param_Click(null, null);
             View_cli_param_MouseLeave(null, null);
@@ -2636,9 +2664,38 @@ namespace plt0_gui
             textchange_label.Visible = true;
             auto_update_ck.Visible = true;
             auto_update_label.Visible = true;
-            upscale_ck.Visible= true;
+            upscale_ck.Visible = true;
             upscale_label.Visible = true;
             sync_preview_ck.Visible = true;
+            input_file2_txt.Visible = true;
+            input_file2_label.Visible = true;
+            run_ck.Visible = true;
+            bmp_32_ck.Visible = true;
+            bmp_32_label.Visible = true;
+            funky_ck.Visible = true;
+            funky_label.Visible = true;
+            reversex_ck.Visible = true;
+            reversex_label.Visible = true;
+            reversey_ck.Visible = true;
+            reversey_label.Visible = true;
+            options_label.Visible = true;
+            output_file_type_label.Visible = true;
+            bmp_ck.Visible = true;
+            bmp_label.Visible = true;
+            png_ck.Visible = true;
+            png_label.Visible = true;
+            jpg_ck.Visible = true;
+            jpg_label.Visible = true;
+            jpeg_ck.Visible = true;
+            jpeg_label.Visible = true;
+            gif_ck.Visible = true;
+            gif_label.Visible = true;
+            ico_ck.Visible = true;
+            ico_label.Visible = true;
+            tif_ck.Visible = true;
+            tif_label.Visible = true;
+            tiff_ck.Visible = true;
+            tiff_label.Visible = true;
             image_ck.MinimumSize = new Size(upscale_ck.Width << 4, upscale_ck.Height << 4); // 64 * 16 = 1024
             image_ck.MaximumSize = new Size(upscale_ck.Width << 4, upscale_ck.Height << 4); // 64 * 16 = 1024
             //image_ck.Location = new Point(banner_8_ck.Location.X, algorithm_label.Location.Y);  // 815, 96
@@ -2662,6 +2719,48 @@ namespace plt0_gui
             }
 
             //description_surrounding.Location = new Point( (int)((description_surrounding.Location.X - 650 * width_ratio)), (int)((description_surrounding.Location.Y - 490 * height_ratio)));
+        }
+        private void Disable_Decode_Layout()
+        {
+            image_ck.Visible = false;
+            view_cli_param_ck.Visible = false;
+            view_cli_param_label.Visible = false;
+            sync_preview_ck.Visible = false;
+            cli_textbox_ck.Visible = true;
+            cli_textbox_label.Visible = true;
+            cli_textbox_location = new Point(cli_textbox_location.X, cli_textbox_location.Y - preview_ck.Height);
+            cli_textbox_label.Location = cli_textbox_location;
+            run_ck.Location = new Point(round6_txt.Location.X, cli_textbox_ck.Location.Y);
+            description_title.Location = new Point(banner_7_ck.Location.X, rgba32_ck.Location.Y);
+            y = description_title.Location.Y - description.Location.Y + preview_ck.Height;  // difference of height between the previous layout and this one
+            for (byte i = 0; i < 9; i++)
+            {
+                desc[i].Location = new Point(settings_banner_ck.Location.X + settings_banner_ck.Width, desc[i].Location.Y + y);  // +32 of padding between lines
+            }
+            decode_layout_is_enabled = false;
+            name_string_ck.Visible = true;
+            name_string_label.Visible = true;
+            random_ck.Visible = true;
+            random_label.Visible = true;
+            output_file_type_label.Location = new Point(output_file_type_label.Location.X, encoding_label.Location.Y);
+            View_encoding_settings();
+            tex0_ck.Visible = true;
+            tex0_label.Visible = true;
+            tpl_ck.Visible = true;
+            tpl_label.Visible = true;
+            bti_ck.Visible = true;
+            bti_label.Visible = true;
+            bmd_ck.Visible = true;
+            bmd_label.Visible = true;
+            surrounding_ck.Visible = true;
+            mandatory_settings_label.Visible = true;
+            auto_update_ck.Visible = false;
+            auto_update_label.Visible = false;
+            upscale_ck.Visible = false;
+            upscale_label.Visible = false;
+            textchange_ck.Visible = false;
+            textchange_label.Visible = false;
+            View_Colour_Channels();
         }
         private void Layout_Palette()
         {
@@ -5233,7 +5332,6 @@ namespace plt0_gui
             this.custom_rgba_label = new System.Windows.Forms.Label();
             this.description_title = new System.Windows.Forms.Label();
             this.description = new System.Windows.Forms.Label();
-            this.description_surrounding = new System.Windows.Forms.PictureBox();
             this.palette_rgb5a3_ck = new System.Windows.Forms.PictureBox();
             this.palette_rgb5a3_label = new System.Windows.Forms.Label();
             this.palette_rgb565_ck = new System.Windows.Forms.PictureBox();
@@ -5448,7 +5546,6 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.banner_1_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cli_textbox_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.run_ck)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.description_surrounding)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.palette_rgb5a3_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.palette_rgb565_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.palette_ai8_ck)).BeginInit();
@@ -9093,21 +9190,6 @@ namespace plt0_gui
             this.description.Text = "Point to something with your mouse!";
             this.description.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // description_surrounding
-            // 
-            this.description_surrounding.BackColor = System.Drawing.Color.Transparent;
-            this.description_surrounding.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.description_surrounding.Enabled = false;
-            this.description_surrounding.ErrorImage = null;
-            this.description_surrounding.InitialImage = null;
-            this.description_surrounding.Location = new System.Drawing.Point(681, 546);
-            this.description_surrounding.Margin = new System.Windows.Forms.Padding(0);
-            this.description_surrounding.Name = "description_surrounding";
-            this.description_surrounding.Size = new System.Drawing.Size(512, 320);
-            this.description_surrounding.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.description_surrounding.TabIndex = 472;
-            this.description_surrounding.TabStop = false;
-            // 
             // palette_rgb5a3_ck
             // 
             this.palette_rgb5a3_ck.BackColor = System.Drawing.Color.Transparent;
@@ -11104,7 +11186,6 @@ namespace plt0_gui
             this.Controls.Add(this.banner_resize);
             this.Controls.Add(this.banner_move);
             this.Controls.Add(this.cli_textbox_label);
-            this.Controls.Add(this.pal_cie_label);
             this.Controls.Add(this.palette_label);
             this.Controls.Add(this.pal_rgb_label);
             this.Controls.Add(this.algo_5_label);
@@ -11391,7 +11472,7 @@ namespace plt0_gui
             this.Controls.Add(this.desc3);
             this.Controls.Add(this.desc2);
             this.Controls.Add(this.description);
-            this.Controls.Add(this.description_surrounding);
+            this.Controls.Add(this.pal_cie_label);
             this.Controls.Add(this.surrounding_ck);
             this.Controls.Add(this.output_label);
             this.DoubleBuffered = true;
@@ -11509,7 +11590,6 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.banner_1_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cli_textbox_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.run_ck)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.description_surrounding)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.palette_rgb5a3_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.palette_rgb565_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.palette_ai8_ck)).EndInit();
@@ -12944,14 +13024,14 @@ namespace plt0_gui
             if (view_cli_param)
             {
                 view_cli_param = false;
-                cli_textbox_ck.Visible = false;
+                // cli_textbox_ck.Visible = false;
                 cli_textbox_label.Visible = false;
                 hover_checkbox(view_cli_param_ck);
             }
             else
             {
                 view_cli_param = true;
-                cli_textbox_ck.Visible = true;
+                // cli_textbox_ck.Visible = true;
                 cli_textbox_label.Visible = true;
                 selected_checkbox(view_cli_param_ck);
             }
@@ -12959,7 +13039,7 @@ namespace plt0_gui
 
         private void View_cli_param_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(d[18]);
+            Parse_Markdown(d[185]);
             if (view_cli_param)
                 selected_checkbox(view_cli_param_ck);
             else

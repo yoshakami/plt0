@@ -35,6 +35,15 @@ Minimum cmpr image size is 16x16 when encoding <br>
 Bmd output is untested <br>
 No TPL Support for Paint Layout
 
+big decoding bug (if input image format is an encoded texture)
+ci14x2 reversex
+rgba32 reversex
+rgb5a3 reversex
+rgb565 reversex
+ai8 reversex
+i4 reversex
+cmpr reversex and reversey
+
 ## version history
 v0.1: Support for all palette formats
 
@@ -58,12 +67,12 @@ v1.0: GUI
 
 v1.1: Auto-Scale on Launch and on each F12 press
 
-v2.0: Revamped CMPR Algorithms
+v2.0: Revamped CMPR Algorithms, Decode Layout, and enhance gui
 
 ## future versions
-v2.1: WebP Support, bugfixes, save settings, and enhance gui
+v2.1: WebP Support, 
 
-v2.2: Decode Layout, and Palette Layout
+v2.2: fix known bugs, Palette Layout, Settings Layout
 
 v2.3: Fullscreen Image Viewer
 
