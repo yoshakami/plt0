@@ -868,6 +868,8 @@ namespace plt0_gui
         }
         private void Parse_Markdown(string txt)
         {
+            if (layout == 2)
+                return;
             // these are variables. easy to replace
             txt = txt.Replace("\\a", appdata).Replace("\\e", execName).Replace("\\h", this.Height.ToString()).Replace("\\l", layout_name[layout]).Replace("\\m", mipmaps.ToString()).Replace("\\n", "\n").Replace("\\o", output_name).Replace("\\p", execPath).Replace("\\r", "\r").Replace("\\t", "\t").Replace("\\w", this.Width.ToString()).Replace("\\0", block_width_array[encoding].ToString()).Replace("\\y", block_height_array[encoding].ToString()).Replace("\\z", block_depth_array[encoding].ToString());
             //if (input_file_image != null)
@@ -2065,6 +2067,7 @@ namespace plt0_gui
         }
         private void Layout_Preview()
         {
+            Hide_description();
             if (encoding == 14)
                 View_cmpr(true);
             else
@@ -2130,11 +2133,11 @@ namespace plt0_gui
             auto_update_label.Location = new Point(auto_update_ck.Location.X + auto_update_ck.Width, all_ck.Location.Y + all_ck.Height);
             upscale_ck.Location = new Point(banner_11_ck.Location.X, all_ck.Location.Y + all_ck.Height);
             upscale_label.Location = new Point(upscale_ck.Location.X + upscale_ck.Width, all_ck.Location.Y + all_ck.Height);
-
+            /*
             for (byte i = 0; i < 9; i++)
             {
-                desc[i].Location = new Point(desc[i].Location.X, (int)(desc[i].Location.Y + (600 * height_ratio)));
-            }
+                desc[i].Location = new Point(desc[i].Location.X, (int)(desc[i].Location.Y + image_ck.Height << 1));
+            } */
             preview_layout_is_enabled = true;
         }
         private void Disable_Preview_Layout()
@@ -2151,10 +2154,11 @@ namespace plt0_gui
             output_label.Visible = true;
             description_title.Visible = true;
             //description_surrounding.Visible = true;
+            /*
             for (byte i = 0; i < 9; i++)
             {
-                desc[i].Location = new Point(desc[i].Location.X, (int)(desc[i].Location.Y - (600 * height_ratio)));
-            }
+                desc[i].Location = new Point(desc[i].Location.X, (int)(desc[i].Location.Y - image_ck.Height << 1));
+            } */
             preview_layout_is_enabled = false;
         }
         private void Disable_All_Layout()
@@ -2576,12 +2580,19 @@ namespace plt0_gui
                 auto_update_label.Visible = false;
                 upscale_ck.Visible = false;
                 upscale_label.Visible = false;
+                description_title.Location = new Point(settings_banner_ck.Location.X - all_ck.Width, cmpr_selected_block_label.Location.Y);
+                y = description_title.Location.Y - description.Location.Y + preview_ck.Height;  // difference of height between the previous layout and this one
+                for (byte i = 0; i < 9; i++)
+                {
+                    desc[i].Location = new Point(decode_ck.Location.X, desc[i].Location.Y + y);  // +32 of padding between lines
+                }
+                /*
                 for (byte i = 0; i < 9; i++)
                 {
                     desc[i].Location = new Point((int)(desc[i].Location.X - (300 * width_ratio)), (int)(desc[i].Location.Y + (100 * height_ratio)));
                 }
                 description_title.Location = new Point((int)(description_title.Location.X - (300 * width_ratio)), (int)(description_title.Location.Y + (100 * height_ratio)));
-                //description_surrounding.Location = new Point((int)(description_surrounding.Location.X - (300 * width_ratio)), (int)//(description_surrounding.Location.Y + (100 * height_ratio)));
+                //description_surrounding.Location = new Point((int)(description_surrounding.Location.X - (300 * width_ratio)), (int)//(description_surrounding.Location.Y + (100 * height_ratio))); */
                 input_file_label.Location = new Point(input_file_label.Location.X, (int)(input_file_label.Location.Y + (14 * height_ratio)));
                 input_file_txt.Location = new Point(input_file_txt.Location.X, (int)(input_file_txt.Location.Y + (14 * height_ratio)));
                 mipmaps_label.Location = new Point((int)(mipmaps_label.Location.X - (180 * width_ratio)), (int)(mipmaps_label.Location.Y + (14 * height_ratio)));
@@ -2731,7 +2742,7 @@ namespace plt0_gui
             cli_textbox_location = new Point(cli_textbox_location.X, cli_textbox_location.Y - preview_ck.Height);
             cli_textbox_label.Location = cli_textbox_location;
             run_ck.Location = new Point(round6_txt.Location.X, cli_textbox_ck.Location.Y);
-            description_title.Location = new Point(banner_7_ck.Location.X, rgba32_ck.Location.Y);
+            description_title.Location = new Point(banner_8_ck.Location.X, rgba32_ck.Location.Y);
             y = description_title.Location.Y - description.Location.Y + preview_ck.Height;  // difference of height between the previous layout and this one
             for (byte i = 0; i < 9; i++)
             {
