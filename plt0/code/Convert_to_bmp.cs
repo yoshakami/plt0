@@ -11,7 +11,7 @@ class Convert_to_bmp_class
     {
         _plt0 = Parse_args_class;
     }
-    public byte[] Convert_to_bmp(System.Drawing.Bitmap imageIn)
+    public byte[] Convert_to_bmp(System.Drawing.Bitmap imageIn, bool linux=false)
     {
         if (_plt0.warn)
             Console.WriteLine(imageIn.PixelFormat.ToString());
@@ -36,12 +36,27 @@ class Convert_to_bmp_class
         _plt0.pixel_count = _plt0.bitmap_width * _plt0.bitmap_height;
         _plt0.canvas_width = (ushort)(_plt0.bitmap_width + ((_plt0.block_width - (_plt0.bitmap_width % _plt0.block_width)) % _plt0.block_width));
         _plt0.canvas_height = (ushort)(_plt0.bitmap_height + ((_plt0.block_height - (_plt0.bitmap_height % _plt0.block_height)) % _plt0.block_height));
-        var bmp = new Bitmap(_plt0.canvas_width, _plt0.canvas_height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);  // makes it 32 bit in depth
-        using (var gr = Graphics.FromImage(bmp))
-            gr.DrawImage(imageIn, new Rectangle(0, 0, _plt0.canvas_width, _plt0.canvas_height));
+        if (linux)
+        {
+            return ImageToByteArray(imageIn);
+        }
+        else
+        {
+            var bmp = new Bitmap(_plt0.canvas_width, _plt0.canvas_height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);  // makes it 32 bit in depth
+            using (var gr = Graphics.FromImage(bmp))
+                gr.DrawImage(imageIn, new Rectangle(0, 0, _plt0.canvas_width, _plt0.canvas_height));
+            using (var ms = new MemoryStream())
+            {
+                bmp.Save(ms, ImageFormat.Bmp);
+                return ms.ToArray();
+            }
+        }
+    }
+    public byte[] ImageToByteArray(System.Drawing.Image imageIn)
+    {
         using (var ms = new MemoryStream())
         {
-            bmp.Save(ms, ImageFormat.Bmp);
+            imageIn.Save(ms, imageIn.RawFormat);
             return ms.ToArray();
         }
     }

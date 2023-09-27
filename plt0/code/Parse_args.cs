@@ -35,6 +35,7 @@ class Parse_args_class
     bool tpl = false;
     bool tex0 = false;
     bool webp = false;
+    bool linux = false;
     bool overwrite = false;
     bool file2_conflict = false;
     bool help = false;
@@ -471,6 +472,9 @@ class Parse_args_class
                     break;
                 case "JPG":
                     jpg = true;
+                    break;
+                case "LINUX":
+                    linux = true;
                     break;
                 case "LINEAR":
                     minification_filter = 1;
@@ -1354,7 +1358,7 @@ class Parse_args_class
         {
             using (Bitmap input_file_image = (Bitmap)Bitmap.FromFile(input_file))
             {
-                bmp_image = _bmp.Convert_to_bmp(input_file_image);
+                bmp_image = _bmp.Convert_to_bmp(input_file_image, linux);
             }
         }
         catch (Exception ex)
@@ -1505,7 +1509,7 @@ class Parse_args_class
                     byte[] bmp_palette;
                     using (Bitmap input_file2_image = (Bitmap)Bitmap.FromFile(input_file2))
                     {
-                        bmp_palette = _bmp.Convert_to_bmp(input_file2_image); // will fail if this isn't a supported image
+                        bmp_palette = _bmp.Convert_to_bmp(input_file2_image, linux); // will fail if this isn't a supported image
                     }
                     user_palette = true;
                     int array_size = bmp_palette[2] | bmp_palette[3] << 8 | bmp_palette[4] << 16 | bmp_palette[5] << 24;
@@ -1579,7 +1583,7 @@ class Parse_args_class
                 byte[] bmp_mipmap = { };
                 using (Bitmap input_file_image = (Bitmap)Bitmap.FromFile(input_fil + ".mm" + z + input_ext))
                 {
-                    bmp_mipmap = _bmp.Convert_to_bmp(input_file_image);
+                    bmp_mipmap = _bmp.Convert_to_bmp(input_file_image, linux);
                 }
                 if (bmp_mipmap[0x15] != 0 || bmp_mipmap[0x14] != 0 || bmp_mipmap[0x19] != 0 || bmp_mipmap[0x18] != 0)
                 {
@@ -1615,7 +1619,7 @@ class Parse_args_class
                 byte[] bmp_mipmap = { };
                 using (Bitmap input_file_image = (Bitmap)Bitmap.FromFile(input_file))
                 {
-                    bmp_mipmap = _bmp.Convert_to_bmp(ResizeImage_class.ResizeImage(input_file_image, bitmap_width, bitmap_height));
+                    bmp_mipmap = _bmp.Convert_to_bmp(ResizeImage_class.ResizeImage(input_file_image, bitmap_width, bitmap_height), linux);
                 }
                 if (bmp_mipmap[0x15] != 0 || bmp_mipmap[0x14] != 0 || bmp_mipmap[0x19] != 0 || bmp_mipmap[0x18] != 0)
                 {
