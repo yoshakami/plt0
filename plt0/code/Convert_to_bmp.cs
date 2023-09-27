@@ -11,7 +11,7 @@ class Convert_to_bmp_class
     {
         _plt0 = Parse_args_class;
     }
-    public byte[] Convert_to_bmp(System.Drawing.Bitmap imageIn, bool linux=false)
+    public byte[] Convert_to_bmp(System.Drawing.Bitmap imageIn, bool linux = false)
     {
         if (_plt0.warn)
             Console.WriteLine(imageIn.PixelFormat.ToString());
@@ -38,7 +38,30 @@ class Convert_to_bmp_class
         _plt0.canvas_height = (ushort)(_plt0.bitmap_height + ((_plt0.block_height - (_plt0.bitmap_height % _plt0.block_height)) % _plt0.block_height));
         if (linux)
         {
-            return ImageToByteArray(imageIn);
+            Console.WriteLine(imageIn.Width + "x" + imageIn.Height + "\ncanvas: " + _plt0.canvas_width + "x" + _plt0.canvas_height);
+
+            var bmp = new Bitmap(_plt0.canvas_width, _plt0.canvas_height);  // makes it 32 bit in depth
+            using (var gr = Graphics.FromImage(bmp))
+                gr.DrawImage(imageIn, new Rectangle(0, 0, _plt0.canvas_width, _plt0.canvas_height));
+            using (var ms = new MemoryStream())
+            {
+                bmp.Save(ms, ImageFormat.Bmp);
+                FileMode mode = System.IO.FileMode.CreateNew;
+                if (System.IO.File.Exists("new.bmp"))
+                {
+                    mode = System.IO.FileMode.Truncate;
+                    Console.WriteLine("Press enter to overwrite " + "new.bmp");
+                    Console.ReadLine();
+
+                }
+                using (System.IO.FileStream file = System.IO.File.Open("new.bmp", mode, System.IO.FileAccess.Write))
+                {
+                    file.Write(ms.ToArray(), 0, (int)ms.Length);
+                    file.Close();
+                    Console.WriteLine("new.bmp");
+                }
+                return ms.ToArray();
+            }
         }
         else
         {

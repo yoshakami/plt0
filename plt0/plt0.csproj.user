@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'plt0|x64'">
-    <StartArguments>
-    </StartArguments>
+    <StartArguments>"X:\Hatsune-Miku\py projects\Aurora\test34.bmp" linux dev w cmpr</StartArguments>
     <StartWorkingDirectory>
     </StartWorkingDirectory>
   </PropertyGroup>
