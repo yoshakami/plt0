@@ -9,8 +9,6 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Bianca|Any CPU = Bianca|Any CPU
 		Bianca|x64 = Bianca|x64
-		Debug|Any CPU = Debug|Any CPU
-		Debug|x64 = Debug|x64
 		mp9|Any CPU = mp9|Any CPU
 		mp9|x64 = mp9|x64
 		plt0|Any CPU = plt0|Any CPU
@@ -19,21 +17,20 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D51E5403-2EAE-43EF-8B0D-D8CECFCE9154}.Bianca|Any CPU.ActiveCfg = Bianca|Any CPU
-		{D51E5403-2EAE-43EF-8B0D-D8CECFCE9154}.Bianca|Any CPU.Build.0 = Bianca|Any CPU
-		{D51E5403-2EAE-43EF-8B0D-D8CECFCE9154}.Bianca|x64.ActiveCfg = mp9|x64
-		{D51E5403-2EAE-43EF-8B0D-D8CECFCE9154}.Bianca|x64.Build.0 = mp9|x64
-		{D51E5403-2EAE-43EF-8B0D-D8CECFCE9154}.Debug|Any CPU.ActiveCfg = plt0|Any CPU
-		{D51E5403-2EAE-43EF-8B0D-D8CECFCE9154}.Debug|x64.ActiveCfg = plt0|x64
-		{D51E5403-2EAE-43EF-8B0D-D8CECFCE9154}.mp9|Any CPU.ActiveCfg = mp9|Any CPU
-		{D51E5403-2EAE-43EF-8B0D-D8CECFCE9154}.mp9|Any CPU.Build.0 = mp9|Any CPU
+		{D51E5403-2EAE-43EF-8B0D-D8CECFCE9154}.Bianca|Any CPU.ActiveCfg = Bianca|x64
+		{D51E5403-2EAE-43EF-8B0D-D8CECFCE9154}.Bianca|Any CPU.Build.0 = Bianca|x64
+		{D51E5403-2EAE-43EF-8B0D-D8CECFCE9154}.Bianca|x64.ActiveCfg = Bianca|x64
+		{D51E5403-2EAE-43EF-8B0D-D8CECFCE9154}.Bianca|x64.Build.0 = Bianca|x64
+		{D51E5403-2EAE-43EF-8B0D-D8CECFCE9154}.mp9|Any CPU.ActiveCfg = mp9|x64
+		{D51E5403-2EAE-43EF-8B0D-D8CECFCE9154}.mp9|Any CPU.Build.0 = mp9|x64
 		{D51E5403-2EAE-43EF-8B0D-D8CECFCE9154}.mp9|x64.ActiveCfg = mp9|x64
 		{D51E5403-2EAE-43EF-8B0D-D8CECFCE9154}.mp9|x64.Build.0 = mp9|x64
-		{D51E5403-2EAE-43EF-8B0D-D8CECFCE9154}.plt0|Any CPU.ActiveCfg = plt0|Any CPU
-		{D51E5403-2EAE-43EF-8B0D-D8CECFCE9154}.plt0|Any CPU.Build.0 = plt0|Any CPU
+		{D51E5403-2EAE-43EF-8B0D-D8CECFCE9154}.plt0|Any CPU.ActiveCfg = plt0|x64
+		{D51E5403-2EAE-43EF-8B0D-D8CECFCE9154}.plt0|Any CPU.Build.0 = plt0|x64
 		{D51E5403-2EAE-43EF-8B0D-D8CECFCE9154}.plt0|x64.ActiveCfg = plt0|x64
 		{D51E5403-2EAE-43EF-8B0D-D8CECFCE9154}.plt0|x64.Build.0 = plt0|x64
 		{D51E5403-2EAE-43EF-8B0D-D8CECFCE9154}.Release|Any CPU.ActiveCfg = plt0|Any CPU
+		{D51E5403-2EAE-43EF-8B0D-D8CECFCE9154}.Release|Any CPU.Build.0 = plt0|Any CPU
 		{D51E5403-2EAE-43EF-8B0D-D8CECFCE9154}.Release|x64.ActiveCfg = plt0|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
