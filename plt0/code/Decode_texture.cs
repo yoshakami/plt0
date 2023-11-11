@@ -137,6 +137,8 @@ class Decode_texture_class
             if (mipmaps_number > data[0x18] - 1)
             {
                 mipmaps_number = (byte)(data[0x18] - 1);
+                if (mipmaps_number == 255)
+                    mipmaps_number = 0;
                 if (!no_warning)
                     Console.WriteLine("number of images set as input are higher than in the file to decode.\nThis program will output the maximum number of mipmaps possible.");
             }
