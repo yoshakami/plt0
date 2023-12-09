@@ -16290,7 +16290,10 @@ namespace plt0_gui
             input_file2 = input_file2_txt.Text;
             Check_run();
             Organize_args();
-            Preview(true);
+            if (File.Exists(input_file2_txt.Text))
+            {
+                Preview(true);
+            }
         }
         private void output_name_Click(object sender, EventArgs e)
         {
@@ -16321,7 +16324,6 @@ namespace plt0_gui
             output_name = output_name_txt.Text;
             Check_run();
             Organize_args();
-            Preview(true);
         }
         private void mipmaps_MouseEnter(object sender, EventArgs e)
         {
@@ -16338,7 +16340,6 @@ namespace plt0_gui
         {
             Parse_byte_text(mipmaps_txt, out mipmaps, 255);
             Organize_args();
-            Preview(true);
             Change_mipmap();
         }
         private void cmpr_max_MouseEnter(object sender, EventArgs e)
