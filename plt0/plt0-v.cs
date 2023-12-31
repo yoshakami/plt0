@@ -2607,6 +2607,7 @@ namespace plt0_gui
         private void Layout_Decode()
         {
             layout = 4;
+            RGBA32_Click(null, null); // lossless decode
             if (all_layout_is_enabled)
                 Disable_All_Layout();
             if (cmpr_layout_is_enabled)
@@ -5638,13 +5639,13 @@ namespace plt0_gui
             // 
             this.bmd_label.AutoSize = true;
             this.bmd_label.BackColor = System.Drawing.Color.Transparent;
-            this.bmd_label.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.bmd_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.bmd_label.ForeColor = System.Drawing.SystemColors.Window;
             this.bmd_label.Location = new System.Drawing.Point(104, 128);
             this.bmd_label.Margin = new System.Windows.Forms.Padding(0);
             this.bmd_label.Name = "bmd_label";
             this.bmd_label.Padding = new System.Windows.Forms.Padding(0, 22, 20, 22);
-            this.bmd_label.Size = new System.Drawing.Size(77, 64);
+            this.bmd_label.Size = new System.Drawing.Size(73, 69);
             this.bmd_label.TabIndex = 124;
             this.bmd_label.Text = "bmd";
             this.bmd_label.Click += new System.EventHandler(this.bmd_Click);
@@ -9686,13 +9687,13 @@ namespace plt0_gui
             this.banner_resize.AutoSize = true;
             this.banner_resize.BackColor = System.Drawing.Color.Transparent;
             this.banner_resize.Cursor = System.Windows.Forms.Cursors.SizeNWSE;
-            this.banner_resize.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.banner_resize.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.banner_resize.ForeColor = System.Drawing.SystemColors.Control;
             this.banner_resize.Location = new System.Drawing.Point(-5, -5);
             this.banner_resize.Margin = new System.Windows.Forms.Padding(0);
             this.banner_resize.Name = "banner_resize";
             this.banner_resize.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
-            this.banner_resize.Size = new System.Drawing.Size(32, 32);
+            this.banner_resize.Size = new System.Drawing.Size(32, 41);
             this.banner_resize.TabIndex = 588;
             this.banner_resize.MouseDown += new System.Windows.Forms.MouseEventHandler(this.banner_resize_MouseDown);
             this.banner_resize.MouseEnter += new System.EventHandler(this.banner_resize_MouseEnter);
@@ -9830,13 +9831,13 @@ namespace plt0_gui
             this.banner_move.AutoSize = true;
             this.banner_move.BackColor = System.Drawing.Color.Transparent;
             this.banner_move.Cursor = System.Windows.Forms.Cursors.SizeAll;
-            this.banner_move.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
+            this.banner_move.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.banner_move.ForeColor = System.Drawing.SystemColors.Control;
             this.banner_move.Location = new System.Drawing.Point(755, 0);
             this.banner_move.Margin = new System.Windows.Forms.Padding(0);
             this.banner_move.Name = "banner_move";
-            this.banner_move.Padding = new System.Windows.Forms.Padding(880, 6, 0, 6);
-            this.banner_move.Size = new System.Drawing.Size(880, 32);
+            this.banner_move.Padding = new System.Windows.Forms.Padding(880, 0, 0, 0);
+            this.banner_move.Size = new System.Drawing.Size(880, 29);
             this.banner_move.TabIndex = 601;
             this.banner_move.MouseDown += new System.Windows.Forms.MouseEventHandler(this.banner_move_MouseDown);
             this.banner_move.MouseEnter += new System.EventHandler(this.banner_move_MouseEnter);
@@ -11155,7 +11156,7 @@ namespace plt0_gui
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1924, 1061);
+            this.ClientSize = new System.Drawing.Size(1924, 1055);
             this.Controls.Add(this.view_cli_param_ck);
             this.Controls.Add(this.view_cli_param_label);
             this.Controls.Add(this.settings_banner_ck);

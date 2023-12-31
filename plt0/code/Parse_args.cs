@@ -1177,14 +1177,12 @@ class Parse_args_class
             overwrite = true;
             output_file = input_fil;
         }
-        byte[] id = new byte[9];
+        byte[] id = new byte[128];
         try
         {
             using (System.IO.FileStream file = System.IO.File.Open(input_file, System.IO.FileMode.Open, System.IO.FileAccess.Read))
             {
-                file.Read(id, 0, 8);
-                file.Position = 0x23;
-                file.Read(id, 8, 1);
+                file.Read(id, 0, 128);
             }
         }
         catch (Exception ex)
@@ -1201,11 +1199,17 @@ class Parse_args_class
         //case "bres":
         //case .arc file from wii games
         //case bmd
-        //case bti ??? how do I write that lol
-
-        if (id[0] == 84 && id[1] == 69 && id[2] == 88 && id[3] == 48) // TEX0
+        if (id[0] == 0 && id[1] == 0 && id[2] == 1 && id[3] == 0) // ico
         {
-            if (id[8] == 8 || id[8] == 9 || id[8] == 10)  // CI4, CI8, CI14x2
+            int ico_offset = id[18] + (id[19] << 8) + (id[20] << 16) + (id[21] << 24);
+            if (id[ico_offset] == 0x28 || id[ico_offset] == 0x89) // bmp dib header or png
+            {
+                // valid ico file
+            }
+        }
+        else if (id[0] == 84 && id[1] == 69 && id[2] == 88 && id[3] == 48) // TEX0
+        {
+            if (id[23] == 8 || id[23] == 9 || id[23] == 10)  // CI4, CI8, CI14x2
             {
                 if (input_file2 == "")
                 {
