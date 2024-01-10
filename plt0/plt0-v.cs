@@ -154,6 +154,8 @@ namespace plt0_gui
         bool cmpr_layout_is_in_place = false;
         bool cmpr_layout_is_enabled = false;
         bool decode_layout_is_enabled = false;
+        bool palette_layout_is_enabled = false;
+        bool settings_layout_is_enabled = false;
         // banner_move
         int mouse_x;
         int mouse_y;
@@ -1195,7 +1197,9 @@ namespace plt0_gui
         private void Preview(bool called_from_text, bool called_from_sync = false)
         {
             if (layout != 2 && layout != 4)
+            {
                 return;
+            }
             preview_changed = true;
             if (!sync_preview_is_on)
             {
@@ -2776,7 +2780,11 @@ namespace plt0_gui
         }
         private void Layout_Palette()
         {
-            // TODO
+            Layout_Paint();
+            palette_layout_is_enabled = true;
+            cmpr_picture_tooltip_label.Visible = false;
+            
+            layout = 5;
         }
         private void Layout_Settings()
         {
@@ -9693,7 +9701,7 @@ namespace plt0_gui
             this.banner_resize.Margin = new System.Windows.Forms.Padding(0);
             this.banner_resize.Name = "banner_resize";
             this.banner_resize.Padding = new System.Windows.Forms.Padding(32, 6, 0, 6);
-            this.banner_resize.Size = new System.Drawing.Size(32, 41);
+            this.banner_resize.Size = new System.Drawing.Size(32, 37);
             this.banner_resize.TabIndex = 588;
             this.banner_resize.MouseDown += new System.Windows.Forms.MouseEventHandler(this.banner_resize_MouseDown);
             this.banner_resize.MouseEnter += new System.EventHandler(this.banner_resize_MouseEnter);
@@ -9837,7 +9845,7 @@ namespace plt0_gui
             this.banner_move.Margin = new System.Windows.Forms.Padding(0);
             this.banner_move.Name = "banner_move";
             this.banner_move.Padding = new System.Windows.Forms.Padding(880, 0, 0, 0);
-            this.banner_move.Size = new System.Drawing.Size(880, 29);
+            this.banner_move.Size = new System.Drawing.Size(880, 25);
             this.banner_move.TabIndex = 601;
             this.banner_move.MouseDown += new System.Windows.Forms.MouseEventHandler(this.banner_move_MouseDown);
             this.banner_move.MouseEnter += new System.EventHandler(this.banner_move_MouseEnter);
@@ -11156,7 +11164,7 @@ namespace plt0_gui
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1924, 1055);
+            this.ClientSize = new System.Drawing.Size(3092, 1472);
             this.Controls.Add(this.view_cli_param_ck);
             this.Controls.Add(this.view_cli_param_label);
             this.Controls.Add(this.settings_banner_ck);
