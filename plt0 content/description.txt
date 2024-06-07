@@ -180,6 +180,7 @@ save failed\n\n\c Red \o is used by another process
 CIEDE2000, also known as ΔE2000 or Delta E 2000, is a color difference formula that quantifies the perceptual difference between two colors in a more accurate and comprehensive way compared to earlier color difference metrics.
 Layout specially made to decode bti, tpl, and tex0 files
 Build your own palette of 16 colours!
+Edit opening.bnr for a\jcustom game icon, title, and\jdescription in Dolphin!
 Save Settings to config.txt and change output format quality there
 View cli parameters (over decoded image)
 (3, 2)
@@ -193,7 +194,6 @@ note: line 164 to line 176 are LABELS, not descriptions, so they can't take \j a
 color, 16 bits per pixel - no alpha \j\c coral 5 bits red\j\c SpringGreen 6 bits green\j\c DeepSkyBlue 5 bits blue\j\c Violet  test\j\c pink test2\j\c orange text\j\c purple purple\j\c chartreuse chartreuse\c yellow yellow
 Hello \u ! you found an easter egg lol \n\ndid you know most apps have a folder in \a ?\j\j\j\n\n\c Red this one doesn't though. I prefer using local files.
 this is padding data to alignment. (meme)
-this is padding data to alignment.
 this is padding data to alignment.
 this is padding data to alignment.
 this is padding data to alignment.
