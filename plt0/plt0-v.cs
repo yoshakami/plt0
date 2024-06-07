@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
+using System.Collections;
+using System.Text;
 /* note: pasting C# Guy.py code adds automatically new usings, messing up the whole code
 * here's the official list of usings. it should be the same as what's above. else copy and paste
 using System;
@@ -46,11 +47,16 @@ namespace plt0_gui
         // the 4x4 grid for the Paint Layout is a 4x4 bmp file
         static byte[] cmpr_4x4 = { 66, 77, 186, 0, 0, 0, 121, 111, 115, 104, 122, 0, 0, 0, 108, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0, 1, 0, 32, 0, 3, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 0, 0, 255, 0, 0, 255, 0, 0, 0, 0, 0, 0, 255, 32, 110, 105, 87, 0, 104, 116, 116, 112, 115, 58, 47, 47, 100, 105, 115, 99, 111, 114, 100, 46, 103, 103, 47, 118, 57, 86, 112, 68, 90, 57, 0, 116, 104, 105, 115, 32, 105, 115, 32, 112, 97, 100, 100, 105, 110, 103, 32, 100, 97, 116, 97, 0, 0, 240, 255, 72, 242, 64, 255, 72, 66, 240, 255, 0, 255, 0, 255, 200, 254, 200, 255, 32, 57, 240, 255, 32, 249, 56, 255, 200, 206, 240, 255, 16, 16, 240, 255, 32, 241, 56, 255, 48, 49, 255, 255, 72, 250, 64, 255, 16, 255, 16, 255, 32, 57, 255, 255, 48, 241, 48, 255, 72, 66, 240, 255 };
         static string[] cmpr_args = { "gui", "i", "i", execPath + "plt0 content/preview/1" };
+        static string[] opening_args = { "gui", "i", "i", "j", "j", "out" };
         static byte[] cmpr_rgb = { 0, 0, 0 };
         static string[] config = new string[150];
         static string[] d = new string[255];
-        static string[] layout_name = { "All", "Encode", "Preview", "Paint", "Decode", "Palette" };
+        static string[] layout_name = { "All", "Encode", "Preview", "Paint", "Decode", "Palette", "Opening", "Settings" };
         static string cmpr_colours_hex;
+        byte[] bnr_file = new byte[4];
+        byte[] byte32 = new byte[32];
+        byte[] byte80 = new byte[0x80];
+        byte[] byteXX;
         byte[] cmpr_file;
         byte[] cmpr_colours_argb = new byte[16];
         byte[] cmpr_colour = new byte[4];
@@ -155,6 +161,7 @@ namespace plt0_gui
         bool cmpr_layout_is_enabled = false;
         bool decode_layout_is_enabled = false;
         bool palette_layout_is_enabled = false;
+        bool opening_layout_is_enabled = false;
         bool settings_layout_is_enabled = false;
         // banner_move
         int mouse_x;
@@ -260,6 +267,7 @@ namespace plt0_gui
         List<PictureBox> alpha_ck_array = new List<PictureBox>();
         List<PictureBox> algorithm_ck = new List<PictureBox>();
         List<PictureBox> distance_ck = new List<PictureBox>();
+        List<TextBox> opening_textbox = new List<TextBox>();
 
         // the most important graphic
         Image background;
@@ -390,6 +398,10 @@ namespace plt0_gui
         Image settings_off;
         Image settings_hover;
         Image settings_selected;
+        Image opening_on;
+        Image opening_off;
+        Image opening_hover;
+        Image opening_selected;
 
         /* == circles == */
         Image pink_circle;
@@ -1614,7 +1626,7 @@ namespace plt0_gui
                 if (!isFolder)  // that means it's a file.
                 {
                     //byte len = (byte)file[0].Split('\\').Length;
-                    if (file[0].Split('.').Last().ToUpper() == "PLT0")
+                    if (file[0].Split('.').Last().ToUpper() == "PLT0" || file[0].Split('.').Last().ToUpper() == "BNR")
                     {
                         input_file2 = file[0].Replace("\\", "/");
                         input_file2_txt.Text = input_file2;
@@ -1985,7 +1997,7 @@ namespace plt0_gui
             round3_txt.Visible = true;
             round4_label.Visible = true;
             round4_txt.Visible = true;
-            // TODO: disable decode layout
+            // TODO: disable new layout (this is all)
             all_layout_is_enabled = true;
             options_label.Location = new Point((int)(1674 * width_ratio), (int)(40 * height_ratio));
             ask_exit_ck.Visible = true;
@@ -2067,7 +2079,7 @@ namespace plt0_gui
                 Disable_Paint_Layout();
             if (decode_layout_is_enabled)
                 Disable_Decode_Layout();
-            // TODO: disable decode layout
+            // TODO: disable new layout (this is Auto)
         }
         private void Layout_Preview()
         {
@@ -2130,12 +2142,12 @@ namespace plt0_gui
 
             image_ck.MinimumSize = new Size((upscale_ck.Width << 3) + (upscale_ck.Width << 2), (upscale_ck.Height << 3) + (upscale_ck.Height << 2)); // 64 * 8 + 64 * 2 = 768
             image_ck.MaximumSize = new Size((upscale_ck.Width << 3) + (upscale_ck.Width << 2), (upscale_ck.Height << 3) + (upscale_ck.Height << 2)); // 64 * 8 + 64 * 2 = 768
-            image_ck.Location = new Point(banner_4_ck.Location.X, algorithm_label.Location.Y);  // 815, 96
+            image_ck.Location = new Point(settings_banner_ck.Location.X + settings_banner_ck.Width, algorithm_label.Location.Y);  // 815, 96
             textchange_ck.Location = new Point(palette_banner_ck.Location.X, palette_banner_ck.Location.Y + palette_banner_ck.Height);
             textchange_label.Location = new Point(textchange_ck.Location.X + textchange_ck.Width, all_ck.Location.Y + all_ck.Height);
-            auto_update_ck.Location = new Point(banner_3_ck.Location.X, all_ck.Location.Y + all_ck.Height);
+            auto_update_ck.Location = new Point(banner_8_ck.Location.X, all_ck.Location.Y + all_ck.Height);  // 972, 32
             auto_update_label.Location = new Point(auto_update_ck.Location.X + auto_update_ck.Width, all_ck.Location.Y + all_ck.Height);
-            upscale_ck.Location = new Point(banner_11_ck.Location.X, all_ck.Location.Y + all_ck.Height);
+            upscale_ck.Location = new Point(banner_16_ck.Location.X, all_ck.Location.Y + all_ck.Height);  // 1324, 32
             upscale_label.Location = new Point(upscale_ck.Location.X + upscale_ck.Width, all_ck.Location.Y + all_ck.Height);
             /*
             for (byte i = 0; i < 9; i++)
@@ -2332,8 +2344,8 @@ namespace plt0_gui
                 (int)(((description_title.Location.Y - 100) * height_ratio)));
 
             //description_surrounding.Location = new Point(
-               // (int)(((description_surrounding.Location.X + 300) * width_ratio)),
-               // (int)(((description_surrounding.Location.Y - 100) * height_ratio)));
+            // (int)(((description_surrounding.Location.X + 300) * width_ratio)),
+            // (int)(((description_surrounding.Location.Y - 100) * height_ratio)));
 
             input_file_label.Location = new Point(
                 input_file_label.Location.X,
@@ -2432,7 +2444,7 @@ namespace plt0_gui
                     Disable_Preview_Layout();
                 if (decode_layout_is_enabled)
                     Disable_Decode_Layout();
-                // TODO: disable decode layout
+                // TODO: disable new layout (this is paint)
                 Hide_mag();
                 Hide_min();
                 Hide_cmpr();
@@ -2584,7 +2596,7 @@ namespace plt0_gui
                 auto_update_label.Visible = false;
                 upscale_ck.Visible = false;
                 upscale_label.Visible = false;
-                description_title.Location = new Point(settings_banner_ck.Location.X - all_ck.Width, cmpr_selected_block_label.Location.Y);
+                description_title.Location = new Point(opening_banner_ck.Location.X - all_ck.Width, cmpr_selected_block_label.Location.Y);
                 y = description_title.Location.Y - description.Location.Y + preview_ck.Height;  // difference of height between the previous layout and this one
                 for (byte i = 0; i < 9; i++)
                 {
@@ -2715,7 +2727,7 @@ namespace plt0_gui
             image_ck.MinimumSize = new Size(upscale_ck.Width << 4, upscale_ck.Height << 4); // 64 * 16 = 1024
             image_ck.MaximumSize = new Size(upscale_ck.Width << 4, upscale_ck.Height << 4); // 64 * 16 = 1024
             //image_ck.Location = new Point(banner_8_ck.Location.X, algorithm_label.Location.Y);  // 815, 96
-            image_ck.Location = new Point(settings_banner_ck.Location.X, settings_banner_ck.Location.Y);
+            image_ck.Location = new Point(opening_banner_ck.Location.X, opening_banner_ck.Location.Y);
             image_ck.Visible = true;
             cli_textbox_location = new Point(cli_textbox_location.X, cli_textbox_location.Y + preview_ck.Height);
             cli_textbox_label.Location = cli_textbox_location;
@@ -2751,7 +2763,7 @@ namespace plt0_gui
             y = description_title.Location.Y - description.Location.Y + preview_ck.Height;  // difference of height between the previous layout and this one
             for (byte i = 0; i < 9; i++)
             {
-                desc[i].Location = new Point(settings_banner_ck.Location.X + settings_banner_ck.Width, desc[i].Location.Y + y);  // +32 of padding between lines
+                desc[i].Location = new Point(opening_banner_ck.Location.X + settings_banner_ck.Width, desc[i].Location.Y + y);  // +32 of padding between lines
             }
             decode_layout_is_enabled = false;
             name_string_ck.Visible = true;
@@ -2783,12 +2795,658 @@ namespace plt0_gui
             Layout_Paint();
             palette_layout_is_enabled = true;
             cmpr_picture_tooltip_label.Visible = false;
-            
+
             layout = 5;
         }
+        private void Layout_Opening()
+        {
+            Layout_Paint();
+            Hide_Paint_Stuff();
+            cmpr_preview_ck.Visible = true;
+            cmpr_warning.Visible = true;
+            cmpr_sel_label.Visible = true;
+            cmpr_save_ck.Visible = true;
+            cmpr_save_as_ck.Visible = true;
+            mipmaps_label.Visible = false;
+            mipmaps_txt.Visible = false;
+            input_file2_label.Visible = true;
+            input_file2_txt.Visible = true;
+            input_file2_label.Location = new Point(input_file2_label.Location.X, input_file2_label.Location.Y + (int)(banner_11_ck.Height * 0.4));
+            input_file2_txt.Location = new Point(input_file2_txt.Location.X, input_file2_txt.Location.Y + (int)(banner_11_ck.Height * 0.4));
+            output_name_label.Location = new Point(output_name_label.Location.X, output_name_label.Location.Y + (int)(banner_11_ck.Height << 1));
+            output_name_txt.Location = new Point(output_name_txt.Location.X, output_name_txt.Location.Y + (int)(banner_11_ck.Height << 1));
+            Parse_Markdown(d[185], cmpr_sel_label);
+            textBox1.Location = new Point(all_ck.Location.X - (int)(banner_11_ck.Width * 0.6), all_ck.Location.Y + (int)(banner_11_ck.Height * 1.5));
+            textBox1.Visible = true;
+            textBox1.Size = new Size(banner_11_ck.Width * 26, banner_11_ck.Height);
+            for (int i = 1; i < opening_textbox.Count; i++)
+            {
+                opening_textbox[i].Location = new Point(textBox1.Location.X, opening_textbox[i - 1].Location.Y + (int)(textBox1.Height * 1.3));
+                opening_textbox[i].Size = new Size(banner_11_ck.Width * 26, banner_11_ck.Height);
+                opening_textbox[i].Visible = true;
+                opening_textbox[i].MaxLength = 80;
+            }
+
+            for (byte i = 0; i < 9; i++)
+            {
+                desc[i].Location = new Point((int)((desc[i].Location.X + 900) * width_ratio), (int)((desc[i].Location.Y + 100) * height_ratio));
+            }
+            description_title.Location = new Point(
+                (int)(((description_title.Location.X + 900) * width_ratio)),
+                (int)(((description_title.Location.Y + 100) * height_ratio)));
+
+            cmpr_sel_label.Location = new Point(cmpr_save_as_ck.Location.X + cmpr_save_as_ck.Width * 2, cmpr_save_as_ck.Location.Y);
+
+            this.cmpr_preview_ck.MaximumSize = new System.Drawing.Size(this.cmpr_preview_ck.MaximumSize.Width, this.cmpr_preview_ck.MaximumSize.Height >> 1);
+            this.cmpr_preview_ck.MinimumSize = this.cmpr_preview_ck.MaximumSize;
+            this.cmpr_preview_ck.Size = this.cmpr_preview_ck.MaximumSize;
+
+            opening_layout_is_enabled = true;
+
+            layout = 6;
+        }
+        private void Check_Opening()
+        {
+            if (layout != 6 || input_file2 == null)
+                return;
+            bool launch = false;
+            if (File.Exists(input_file2))
+            {
+                Parse_Markdown(d[187], cmpr_warning);
+                return;
+            }
+            using (FileStream fs2 = File.OpenRead(input_file2))
+            {
+                fs2.Read(bnr_file, 0, 4);
+                if (bnr_file[0] != 0x42 || bnr_file[1] != 0x4E || bnr_file[2] != 0x52)
+                {
+                    Parse_Markdown(d[188], cmpr_warning);
+                    return;  // input file 2 isn't a GameCube opening.bnr
+                }
+                Array.Resize(ref bnr_file, (int)fs2.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
+                fs2.Read(bnr_file, 4, (int)fs2.Length - 4);
+            }
+            using (MemoryStream fs2 = new MemoryStream(bnr_file))  // load textboxes
+            {
+                if (bnr_file[3] == 0x31) // BNR1 - Gamecube Format
+                {
+                    // TODO
+                }
+                else if (bnr_file[3] == 0x32)  // BNR2 - Gamecube Format with 96x32 RGB5A3 picture at offset 0x20
+                {
+                    fs2.Seek(0x1820, SeekOrigin.Begin);
+                    fs2.Read(byte32, 0, 32);  // game title 1
+                    textBox1.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+
+                    fs2.Seek(0x1840, SeekOrigin.Begin);
+                    fs2.Read(byte32, 0, 32); // game compagny 1
+                    textBox2.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+
+                    fs2.Seek(0x1860, SeekOrigin.Begin);
+                    fs2.Read(byte32, 0, 32);  // game title 2
+                    textBox3.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+
+                    fs2.Seek(0x18A0, SeekOrigin.Begin);
+                    fs2.Read(byte32, 0, 32); // game compagny 2
+                    textBox4.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+
+                    fs2.Seek(0x18E0, SeekOrigin.Begin);
+                    fs2.Read(byte80, 0, 0x80); // game description English
+                    textBox5.Text = Encoding.Default.GetString(byte80).Replace("\n", "\\n");
+
+                    fs2.Seek(0x1960, SeekOrigin.Begin);
+                    fs2.Read(byte32, 0, 32);  // game title 3
+                    textBox6.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+
+                    fs2.Seek(0x1980, SeekOrigin.Begin);
+                    fs2.Read(byte32, 0, 32); // game compagny 3
+                    textBox7.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+
+                    fs2.Seek(0x19A0, SeekOrigin.Begin);
+                    fs2.Read(byte32, 0, 32);  // game title 4
+                    textBox8.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+
+                    fs2.Seek(0x19E0, SeekOrigin.Begin);
+                    fs2.Read(byte32, 0, 32); // game compagny 4
+                    textBox9.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+
+                    fs2.Seek(0x1A20, SeekOrigin.Begin);
+                    fs2.Read(byte80, 0, 0x80); // game description German
+                    textBox10.Text = Encoding.Default.GetString(byte80).Replace("\n", "\\n");
+
+                    fs2.Seek(0x1AA0, SeekOrigin.Begin);
+                    fs2.Read(byte32, 0, 32);  // game title 5
+                    textBox11.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+
+                    fs2.Seek(0x1AC0, SeekOrigin.Begin);
+                    fs2.Read(byte32, 0, 32); // game compagny 5
+                    textBox12.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+
+                    fs2.Seek(0x1AE0, SeekOrigin.Begin);
+                    fs2.Read(byte32, 0, 32);  // game title 6
+                    textBox13.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+
+                    fs2.Seek(0x1B20, SeekOrigin.Begin);
+                    fs2.Read(byte32, 0, 32); // game compagny 6
+                    textBox14.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+
+                    fs2.Seek(0x1B60, SeekOrigin.Begin);
+                    fs2.Read(byte80, 0, 0x80); // game description French
+                    textBox15.Text = Encoding.Default.GetString(byte80).Replace("\n", "\\n");
+
+                    fs2.Seek(0x1BE0, SeekOrigin.Begin);
+                    fs2.Read(byte32, 0, 32);  // game title 7
+                    textBox16.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+
+                    fs2.Seek(0x1C00, SeekOrigin.Begin);
+                    fs2.Read(byte32, 0, 32); // game compagny 7
+                    textBox17.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+
+                    fs2.Seek(0x1C20, SeekOrigin.Begin);
+                    fs2.Read(byte32, 0, 32);  // game title 8
+                    textBox18.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+
+                    fs2.Seek(0x1C60, SeekOrigin.Begin);
+                    fs2.Read(byte32, 0, 32); // game compagny 8
+                    textBox19.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+
+                    fs2.Seek(0x1CA0, SeekOrigin.Begin);
+                    fs2.Read(byte80, 0, 0x80); // game description Spanish
+                    textBox20.Text = Encoding.Default.GetString(byte80).Replace("\n", "\\n");
+
+                    fs2.Seek(0x1D20, SeekOrigin.Begin);
+                    fs2.Read(byte32, 0, 32);  // game title 9
+                    textBox21.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+
+                    fs2.Seek(0x1D40, SeekOrigin.Begin);
+                    fs2.Read(byte32, 0, 32); // game compagny 9
+                    textBox22.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+
+                    fs2.Seek(0x1D60, SeekOrigin.Begin);
+                    fs2.Read(byte32, 0, 32);  // game title 10
+                    textBox23.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+
+                    fs2.Seek(0x1DA0, SeekOrigin.Begin);
+                    fs2.Read(byte32, 0, 32); // game compagny 10
+                    textBox24.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+
+                    fs2.Seek(0x1DE0, SeekOrigin.Begin);
+                    fs2.Read(byte80, 0, 0x80); // game description Italian
+                    textBox25.Text = Encoding.Default.GetString(byte80).Replace("\n", "\\n");
+
+                    fs2.Seek(0x1E60, SeekOrigin.Begin);
+                    fs2.Read(byte32, 0, 32);  // game title 11
+                    textBox26.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+
+                    fs2.Seek(0x1E80, SeekOrigin.Begin);
+                    fs2.Read(byte32, 0, 32); // game compagny 11
+                    textBox27.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+
+                    fs2.Seek(0x1EA0, SeekOrigin.Begin);
+                    fs2.Read(byte32, 0, 32);  // game title 12
+                    textBox28.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+
+                    fs2.Seek(0x1EE0, SeekOrigin.Begin);
+                    fs2.Read(byte32, 0, 32); // game compagny 12
+                    textBox29.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+
+                    fs2.Seek(0x1F20, SeekOrigin.Begin);
+                    fs2.Read(byte80, 0, 0x80); // game description English
+                    textBox30.Text = Encoding.Default.GetString(byte80).Replace("\n", "\\n");
+                }
+            }
+            if (!File.Exists(input_file))
+            {
+                Parse_Markdown(d[187], cmpr_warning);
+                return;
+            }
+            using (FileStream fs = File.OpenRead(input_file))
+            {
+                Array.Resize(ref cmpr_file, (int)fs.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
+                if (fs.Length < 48)
+                {
+                    Parse_Markdown(d[169], cmpr_warning);
+                    return;
+                }
+                fs.Read(cmpr_file, 0, 48); // read small amount of data before reading the whole file to avoid reading much for nothing*
+                if (bnr_file[3] == 0x31) // BNR1 - Gamecube Format
+                {
+                    // TODO
+                }
+                else if (bnr_file[3] == 0x32)  // BNR2 - Gamecube Format with 96x32 RGB5A3 picture at offset 0x20
+                {
+                    if (cmpr_file[0] == 0 && cmpr_file[1] == 32 && cmpr_file[2] == 0xaf && cmpr_file[3] == 48)
+                    {
+                        Parse_Markdown(d[176], cmpr_warning);
+                        return; // TPL not implemented yet.
+                    }
+                    else if (cmpr_file[0] == 84 && cmpr_file[1] == 69 && cmpr_file[2] == 88 && cmpr_file[3] == 48 && cmpr_file[0x23] == 0x5)  // TEX0 file in RGB5A3 format
+                    {
+                        if (cmpr_file[0x1C] == 0 && cmpr_file[0x1D] == 96 && cmpr_file[0x1E] == 0 && cmpr_file[0x1F] == 32)
+                        {
+                            // TODO: Launch the cli with the bnr and image
+                            launch = true;
+                            cmpr_data_start_offset = 0x40;
+                        }
+                        else
+                        {
+                            Parse_Markdown(d[186], cmpr_warning);
+                            return;  // texture dimensions must be 96x32
+                        }
+                    }
+                    else if (cmpr_file[0] == 0x5 && cmpr_file[6] < 3 && cmpr_file[7] < 3)  // BTI file in RGB5A3 format
+                    {
+
+                        if (cmpr_file[2] == 0 && cmpr_file[3] == 96 && cmpr_file[4] == 0 && cmpr_file[5] == 32)
+                        {
+                            // TODO: Launch the cli with the bnr and image
+                            launch = true;
+                            cmpr_data_start_offset = (cmpr_file[0x1C] << 24) | (cmpr_file[0x1D] << 16) | (cmpr_file[0x1E] << 8) | cmpr_file[0x1F];  // usually 0x20
+                        }
+                        else
+                        {
+                            Parse_Markdown(d[186], cmpr_warning);
+                            return;  // texture dimensions must be 96x32
+                        }
+                    }
+                    else
+                    {
+                        Parse_Markdown(d[187], cmpr_warning);
+                        return;  // texture isn't in RGB5A3
+                    }
+                }
+                else
+                {
+                    Parse_Markdown(d[188], cmpr_warning);
+                    return;  // unrecognized GameCube bnr format
+                }
+                fs.Read(cmpr_file, 48, (int)fs.Length - 48); // this means that the whole file is stored in ram.
+
+            }
+            if (launch)
+            {
+
+                int num = 1;
+                while (File.Exists(execPath + "plt0 content/preview/" + num + ".bmp"))
+                {
+                    num++;
+                }
+                opening_args[2] = input_file;
+                opening_args[4] = input_file2;
+                opening_args[5] = (execPath + "plt0 content/preview/" + num + ".bmp");  // even if there's an output file in the args, the last one is the output file :) that's how I made it
+                Parse_args_class cli = new Parse_args_class();
+                cli.Parse_args(opening_args);
+                if (File.Exists(execPath + "plt0 content/preview/" + num + ".bmp"))
+                {
+                    previous_block = -1;
+                    loaded_block = -1;
+                    using (FileStream fs = File.OpenRead(execPath + "plt0 content/preview/" + num + ".bmp"))
+                    {
+                        Array.Resize(ref cmpr_preview, (int)fs.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
+                        fs.Read(cmpr_preview, 0, (int)fs.Length);
+                    }
+                    cmpr_preview_ck.Image = GetImageFromByteArray(cmpr_preview);
+                    cmpr_warning.Text = "";
+                }
+                else
+                {
+                    cmpr_warning.Text = cli.Check_exit();
+                }
+            }
+        }
+
+        private void Save_Opening_Bnr(string bnr_filename)
+        {
+
+            if (bnr_filename == "")
+            {
+                Parse_Markdown(d[173], description);
+                return;
+            }
+            invisible_description();
+            using (MemoryStream fs2 = new MemoryStream(bnr_file))
+            {
+                if (bnr_file[3] == 0x31) // BNR1 - Gamecube Format
+                {
+                    // TODO
+                }
+                else if (bnr_file[3] == 0x32)  // BNR2 - Gamecube Format with 96x32 RGB5A3 picture at offset 0x20
+                {
+
+                    // writes the image if it is the exact format
+                    if (cmpr_file[0] == 0 && cmpr_file[1] == 32 && cmpr_file[2] == 0xaf && cmpr_file[3] == 48)
+                    {
+                        Parse_Markdown(d[176], cmpr_warning);
+                        return; // TPL not implemented yet.
+                    }
+                    else if (cmpr_file[0] == 84 && cmpr_file[1] == 69 && cmpr_file[2] == 88 && cmpr_file[3] == 48 && cmpr_file[0x23] == 0x5)  // TEX0 file in RGB5A3 format
+                    {
+                        if (cmpr_file[0x1C] == 0 && cmpr_file[0x1D] == 96 && cmpr_file[0x1E] == 0 && cmpr_file[0x1F] == 32)
+                        {
+
+                            fs2.Seek(0x20, SeekOrigin.Begin);
+                            fs2.Write(cmpr_file, 0x40, 0x1800); // write preview
+                        }
+                        else
+                        {
+                            Parse_Markdown(d[186], cmpr_warning);
+                            return;  // texture dimensions must be 96x32
+                        }
+                    }
+                    else if (cmpr_file[0] == 0x5 && cmpr_file[6] < 3 && cmpr_file[7] < 3)  // BTI file in RGB5A3 format
+                    {
+
+                        if (cmpr_file[2] == 0 && cmpr_file[3] == 96 && cmpr_file[4] == 0 && cmpr_file[5] == 32)
+                        {
+                            cmpr_data_start_offset = (cmpr_file[0x1C] << 24) | (cmpr_file[0x1D] << 16) | (cmpr_file[0x1E] << 8) | cmpr_file[0x1F];  // usually 0x20
+                            fs2.Seek(0x20, SeekOrigin.Begin);
+                            fs2.Write(cmpr_file, cmpr_data_start_offset, 0x1800); // write preview
+                        }
+                        else
+                        {
+                            Parse_Markdown(d[186], cmpr_warning);
+                            return;  // texture dimensions must be 96x32
+                        }
+                    }
+
+                    fs2.Seek(0x1820, SeekOrigin.Begin);
+                    byteXX = Encoding.Default.GetBytes(textBox1.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 32)
+                    {
+                        Parse_Markdown(d[190], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);  // game title 1
+
+                    fs2.Seek(0x1840, SeekOrigin.Begin);
+                    byteXX = Encoding.Default.GetBytes(textBox2.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 32)
+                    {
+                        Parse_Markdown(d[191], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);  // game Compagny 1
+
+                    fs2.Seek(0x1860, SeekOrigin.Begin);
+                    byteXX = Encoding.Default.GetBytes(textBox3.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 32)
+                    {
+                        Parse_Markdown(d[190], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);  // game title 2
+
+                    fs2.Seek(0x18A0, SeekOrigin.Begin);
+                    byteXX = Encoding.Default.GetBytes(textBox4.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 32)
+                    {
+                        Parse_Markdown(d[191], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);  // game Compagny 2
+
+                    fs2.Seek(0x18E0, SeekOrigin.Begin);
+                    byteXX = Encoding.Default.GetBytes(textBox5.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 128)
+                    {
+                        Parse_Markdown(d[192], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);  // game Description English
+
+                    fs2.Seek(0x1960, SeekOrigin.Begin);
+                    byteXX = Encoding.Default.GetBytes(textBox6.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 32)
+                    {
+                        Parse_Markdown(d[190], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);  // game title 3
+
+                    fs2.Seek(0x1980, SeekOrigin.Begin);
+                    byteXX = Encoding.Default.GetBytes(textBox7.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 32)
+                    {
+                        Parse_Markdown(d[191], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);  // game compagny 3
+
+                    fs2.Seek(0x19A0, SeekOrigin.Begin);
+                    byteXX = Encoding.Default.GetBytes(textBox8.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 32)
+                    {
+                        Parse_Markdown(d[190], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);  // game title 4
+
+                    fs2.Seek(0x19E0, SeekOrigin.Begin);
+                    byteXX = Encoding.Default.GetBytes(textBox9.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 32)
+                    {
+                        Parse_Markdown(d[191], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);  // game compagny 4
+
+                    fs2.Seek(0x1A20, SeekOrigin.Begin);
+                    byteXX = Encoding.Default.GetBytes(textBox10.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 128)
+                    {
+                        Parse_Markdown(d[192], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);  // game description German
+
+                    fs2.Seek(0x1AA0, SeekOrigin.Begin);
+                    byteXX = Encoding.Default.GetBytes(textBox11.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 32)
+                    {
+                        Parse_Markdown(d[190], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);  // game title 5
+
+                    fs2.Seek(0x1AC0, SeekOrigin.Begin);
+                    byteXX = Encoding.Default.GetBytes(textBox12.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 32)
+                    {
+                        Parse_Markdown(d[191], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);  // game Compagny 5
+
+                    fs2.Seek(0x1AE0, SeekOrigin.Begin);
+                    byteXX = Encoding.Default.GetBytes(textBox13.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 32)
+                    {
+                        Parse_Markdown(d[190], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);  // game title 6
+
+                    fs2.Seek(0x1B20, SeekOrigin.Begin);
+                    byteXX = Encoding.Default.GetBytes(textBox14.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 32)
+                    {
+                        Parse_Markdown(d[191], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);  // game compagny 6
+
+                    fs2.Seek(0x1B60, SeekOrigin.Begin);
+                    byteXX = Encoding.Default.GetBytes(textBox15.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 128)
+                    {
+                        Parse_Markdown(d[192], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);  // game description French
+
+                    fs2.Seek(0x1BE0, SeekOrigin.Begin);
+                    byteXX = Encoding.Default.GetBytes(textBox16.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 32)
+                    {
+                        Parse_Markdown(d[190], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);  // game title 7
+
+                    fs2.Seek(0x1C00, SeekOrigin.Begin);
+                    byteXX = Encoding.Default.GetBytes(textBox17.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 32)
+                    {
+                        Parse_Markdown(d[191], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);  // game Compagny 7
+
+                    fs2.Seek(0x1C20, SeekOrigin.Begin);
+                    byteXX = Encoding.Default.GetBytes(textBox18.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 32)
+                    {
+                        Parse_Markdown(d[190], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);  // game title 8
+
+                    fs2.Seek(0x1C60, SeekOrigin.Begin);
+                    byteXX = Encoding.Default.GetBytes(textBox19.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 32)
+                    {
+                        Parse_Markdown(d[191], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);  // game compagny 8
+
+                    fs2.Seek(0x1CA0, SeekOrigin.Begin);
+                    byteXX = Encoding.Default.GetBytes(textBox20.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 128)
+                    {
+                        Parse_Markdown(d[192], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);  // game description Spanish
+
+                    fs2.Seek(0x1D20, SeekOrigin.Begin);
+                    byteXX = Encoding.Default.GetBytes(textBox21.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 32)
+                    {
+                        Parse_Markdown(d[190], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);  // game title 9
+
+                    fs2.Seek(0x1D40, SeekOrigin.Begin);
+                    byteXX = Encoding.Default.GetBytes(textBox22.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 32)
+                    {
+                        Parse_Markdown(d[191], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);  // game compagny 9
+
+                    fs2.Seek(0x1D60, SeekOrigin.Begin);
+                    byteXX = Encoding.Default.GetBytes(textBox23.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 32)
+                    {
+                        Parse_Markdown(d[190], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);  // game title 10
+
+                    fs2.Seek(0x1DA0, SeekOrigin.Begin);
+                    byteXX = Encoding.Default.GetBytes(textBox24.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 32)
+                    {
+                        Parse_Markdown(d[191], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);  // game compagny 10
+
+                    fs2.Seek(0x1DE0, SeekOrigin.Begin);
+                    byteXX = Encoding.Default.GetBytes(textBox25.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 128)
+                    {
+                        Parse_Markdown(d[192], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);  // game description Italian
+
+                    fs2.Seek(0x1E60, SeekOrigin.Begin);
+                    byteXX = Encoding.Default.GetBytes(textBox26.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 32)
+                    {
+                        Parse_Markdown(d[190], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);  // game title 11
+
+                    fs2.Seek(0x1E80, SeekOrigin.Begin);
+                    byteXX = Encoding.Default.GetBytes(textBox27.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 32)
+                    {
+                        Parse_Markdown(d[191], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);  // game compagny 11
+
+                    fs2.Seek(0x1EA0, SeekOrigin.Begin);
+                    byteXX = Encoding.Default.GetBytes(textBox28.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 32)
+                    {
+                        Parse_Markdown(d[190], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);  // game title 12
+
+                    fs2.Seek(0x1EE0, SeekOrigin.Begin);
+                    byteXX = Encoding.Default.GetBytes(textBox29.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 32)
+                    {
+                        Parse_Markdown(d[191], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);  // game compagny 12
+
+                    fs2.Seek(0x1F20, SeekOrigin.Begin);
+                    byteXX = Encoding.Default.GetBytes(textBox30.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 128)
+                    {
+                        Parse_Markdown(d[192], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);  // game description English
+                }
+            }
+
+            try
+            {
+                using (FileStream fs = new FileStream(bnr_filename, FileMode.Create))
+                {
+                    fs.Write(bnr_file, 0, bnr_file.Length);
+                }
+                Parse_Markdown(d[174], description);
+            }
+            catch (Exception ex)
+            {
+                description.Text = ex.Message;
+                if (ex.Message.Length < 30)
+                {
+                    return;
+                }
+                if (ex.Message.Substring(0, 34) == "The process cannot access the file")  // because it is being used by another process
+                {
+                    Parse_Markdown(d[175], description);
+                }
+            }
+        }
+
         private void Layout_Settings()
         {
             // TODO
+            layout = 7;
         }
         private void Hide_encoding_settings()
         {
@@ -4164,6 +4822,7 @@ namespace plt0_gui
                         unchecked_Paint();
                         unchecked_Decode();
                         unchecked_palette();
+                        unchecked_Opening();
                         unchecked_Settings();
                         Layout_All();
                         break;
@@ -4174,6 +4833,7 @@ namespace plt0_gui
                         unchecked_Paint();
                         unchecked_Decode();
                         unchecked_palette();
+                        unchecked_Opening();
                         unchecked_Settings();
                         Layout_Auto();
                         break;
@@ -4184,6 +4844,7 @@ namespace plt0_gui
                         unchecked_Paint();
                         unchecked_Decode();
                         unchecked_palette();
+                        unchecked_Opening();
                         unchecked_Settings();
                         Layout_Preview();
                         break;
@@ -4194,6 +4855,7 @@ namespace plt0_gui
                         checked_Paint();
                         unchecked_Decode();
                         unchecked_palette();
+                        unchecked_Opening();
                         unchecked_Settings();
                         Layout_Paint();
                         break;
@@ -4204,6 +4866,7 @@ namespace plt0_gui
                         unchecked_Paint();
                         checked_Decode();
                         unchecked_palette();
+                        unchecked_Opening();
                         unchecked_Settings();
                         Layout_Decode();
                         break;
@@ -4214,8 +4877,20 @@ namespace plt0_gui
                         unchecked_Paint();
                         unchecked_Decode();
                         checked_palette();
+                        unchecked_Opening();
                         unchecked_Settings();
                         Layout_Palette();
+                        break;
+                    case "OPENING":
+                        unchecked_All();
+                        unchecked_Auto();
+                        unchecked_Preview();
+                        unchecked_Paint();
+                        unchecked_Decode();
+                        unchecked_palette();
+                        checked_Opening();
+                        unchecked_Settings();
+                        Layout_Opening();
                         break;
                     case "SETTINGS":
                         unchecked_All();
@@ -4224,6 +4899,7 @@ namespace plt0_gui
                         unchecked_Paint();
                         unchecked_Decode();
                         unchecked_palette();
+                        unchecked_Opening();
                         checked_Settings();
                         Layout_Settings();
                         break;
@@ -4954,6 +5630,36 @@ namespace plt0_gui
             desc.Add(desc7);
             desc.Add(desc8);
             desc.Add(desc9);
+            opening_textbox.Add(textBox1);
+            opening_textbox.Add(textBox2);
+            opening_textbox.Add(textBox3);
+            opening_textbox.Add(textBox4);
+            opening_textbox.Add(textBox5);
+            opening_textbox.Add(textBox6);
+            opening_textbox.Add(textBox7);
+            opening_textbox.Add(textBox8);
+            opening_textbox.Add(textBox9);
+            opening_textbox.Add(textBox10);
+            opening_textbox.Add(textBox11);
+            opening_textbox.Add(textBox12);
+            opening_textbox.Add(textBox13);
+            opening_textbox.Add(textBox14);
+            opening_textbox.Add(textBox15);
+            opening_textbox.Add(textBox16);
+            opening_textbox.Add(textBox17);
+            opening_textbox.Add(textBox18);
+            opening_textbox.Add(textBox19);
+            opening_textbox.Add(textBox20);
+            opening_textbox.Add(textBox21);
+            opening_textbox.Add(textBox22);
+            opening_textbox.Add(textBox23);
+            opening_textbox.Add(textBox24);
+            opening_textbox.Add(textBox25);
+            opening_textbox.Add(textBox26);
+            opening_textbox.Add(textBox27);
+            opening_textbox.Add(textBox28);
+            opening_textbox.Add(textBox29);
+            opening_textbox.Add(textBox30);
         }
         private void Apply_Graphics()
         {
@@ -5464,10 +6170,41 @@ namespace plt0_gui
             this.settings_banner_ck = new System.Windows.Forms.PictureBox();
             this.view_cli_param_ck = new System.Windows.Forms.PictureBox();
             this.view_cli_param_label = new System.Windows.Forms.Label();
+            this.opening_banner_ck = new System.Windows.Forms.PictureBox();
             this.cmpr_palette = new PictureBoxWithInterpolationMode();
             this.cmpr_grid_ck = new PictureBoxWithInterpolationMode();
             this.cmpr_preview_ck = new PictureBoxWithInterpolationMode();
             this.image_ck = new PictureBoxWithInterpolationMode();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.textBox9 = new System.Windows.Forms.TextBox();
+            this.textBox10 = new System.Windows.Forms.TextBox();
+            this.textBox11 = new System.Windows.Forms.TextBox();
+            this.textBox12 = new System.Windows.Forms.TextBox();
+            this.textBox13 = new System.Windows.Forms.TextBox();
+            this.textBox14 = new System.Windows.Forms.TextBox();
+            this.textBox15 = new System.Windows.Forms.TextBox();
+            this.textBox16 = new System.Windows.Forms.TextBox();
+            this.textBox17 = new System.Windows.Forms.TextBox();
+            this.textBox18 = new System.Windows.Forms.TextBox();
+            this.textBox19 = new System.Windows.Forms.TextBox();
+            this.textBox20 = new System.Windows.Forms.TextBox();
+            this.textBox21 = new System.Windows.Forms.TextBox();
+            this.textBox22 = new System.Windows.Forms.TextBox();
+            this.textBox23 = new System.Windows.Forms.TextBox();
+            this.textBox24 = new System.Windows.Forms.TextBox();
+            this.textBox25 = new System.Windows.Forms.TextBox();
+            this.textBox26 = new System.Windows.Forms.TextBox();
+            this.textBox27 = new System.Windows.Forms.TextBox();
+            this.textBox28 = new System.Windows.Forms.TextBox();
+            this.textBox29 = new System.Windows.Forms.TextBox();
+            this.textBox30 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tpl_ck)).BeginInit();
@@ -5612,6 +6349,7 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.palette_banner_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.settings_banner_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.view_cli_param_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.opening_banner_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_palette)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_grid_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).BeginInit();
@@ -8355,7 +9093,7 @@ namespace plt0_gui
             this.banner_9_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_9_ck.ErrorImage = null;
             this.banner_9_ck.InitialImage = null;
-            this.banner_9_ck.Location = new System.Drawing.Point(908, 0);
+            this.banner_9_ck.Location = new System.Drawing.Point(998, 0);
             this.banner_9_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_9_ck.Name = "banner_9_ck";
             this.banner_9_ck.Size = new System.Drawing.Size(32, 32);
@@ -8372,7 +9110,7 @@ namespace plt0_gui
             this.banner_8_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_8_ck.ErrorImage = null;
             this.banner_8_ck.InitialImage = null;
-            this.banner_8_ck.Location = new System.Drawing.Point(876, 0);
+            this.banner_8_ck.Location = new System.Drawing.Point(966, 0);
             this.banner_8_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_8_ck.Name = "banner_8_ck";
             this.banner_8_ck.Size = new System.Drawing.Size(32, 32);
@@ -8389,7 +9127,7 @@ namespace plt0_gui
             this.banner_7_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_7_ck.ErrorImage = null;
             this.banner_7_ck.InitialImage = null;
-            this.banner_7_ck.Location = new System.Drawing.Point(844, 0);
+            this.banner_7_ck.Location = new System.Drawing.Point(934, 0);
             this.banner_7_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_7_ck.Name = "banner_7_ck";
             this.banner_7_ck.Size = new System.Drawing.Size(32, 32);
@@ -8406,7 +9144,7 @@ namespace plt0_gui
             this.banner_6_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_6_ck.ErrorImage = null;
             this.banner_6_ck.InitialImage = null;
-            this.banner_6_ck.Location = new System.Drawing.Point(940, 0);
+            this.banner_6_ck.Location = new System.Drawing.Point(1030, 0);
             this.banner_6_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_6_ck.Name = "banner_6_ck";
             this.banner_6_ck.Size = new System.Drawing.Size(32, 32);
@@ -8423,7 +9161,7 @@ namespace plt0_gui
             this.banner_4_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_4_ck.ErrorImage = null;
             this.banner_4_ck.InitialImage = null;
-            this.banner_4_ck.Location = new System.Drawing.Point(812, 0);
+            this.banner_4_ck.Location = new System.Drawing.Point(902, 0);
             this.banner_4_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_4_ck.Name = "banner_4_ck";
             this.banner_4_ck.Size = new System.Drawing.Size(32, 32);
@@ -8440,7 +9178,7 @@ namespace plt0_gui
             this.banner_3_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_3_ck.ErrorImage = null;
             this.banner_3_ck.InitialImage = null;
-            this.banner_3_ck.Location = new System.Drawing.Point(972, 0);
+            this.banner_3_ck.Location = new System.Drawing.Point(1062, 0);
             this.banner_3_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_3_ck.Name = "banner_3_ck";
             this.banner_3_ck.Size = new System.Drawing.Size(32, 32);
@@ -8457,7 +9195,7 @@ namespace plt0_gui
             this.banner_2_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_2_ck.ErrorImage = null;
             this.banner_2_ck.InitialImage = null;
-            this.banner_2_ck.Location = new System.Drawing.Point(1004, 0);
+            this.banner_2_ck.Location = new System.Drawing.Point(1094, 0);
             this.banner_2_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_2_ck.Name = "banner_2_ck";
             this.banner_2_ck.Size = new System.Drawing.Size(32, 32);
@@ -8474,7 +9212,7 @@ namespace plt0_gui
             this.banner_1_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_1_ck.ErrorImage = null;
             this.banner_1_ck.InitialImage = null;
-            this.banner_1_ck.Location = new System.Drawing.Point(1036, 0);
+            this.banner_1_ck.Location = new System.Drawing.Point(1126, 0);
             this.banner_1_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_1_ck.Name = "banner_1_ck";
             this.banner_1_ck.Size = new System.Drawing.Size(32, 32);
@@ -9520,7 +10258,7 @@ namespace plt0_gui
             this.version_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.version_ck.ErrorImage = null;
             this.version_ck.InitialImage = null;
-            this.version_ck.Location = new System.Drawing.Point(1410, 0);
+            this.version_ck.Location = new System.Drawing.Point(1500, 0);
             this.version_ck.Margin = new System.Windows.Forms.Padding(0);
             this.version_ck.Name = "version_ck";
             this.version_ck.Size = new System.Drawing.Size(64, 32);
@@ -9841,11 +10579,11 @@ namespace plt0_gui
             this.banner_move.Cursor = System.Windows.Forms.Cursors.SizeAll;
             this.banner_move.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)), true);
             this.banner_move.ForeColor = System.Drawing.SystemColors.Control;
-            this.banner_move.Location = new System.Drawing.Point(755, 0);
+            this.banner_move.Location = new System.Drawing.Point(820, -1);
             this.banner_move.Margin = new System.Windows.Forms.Padding(0);
             this.banner_move.Name = "banner_move";
-            this.banner_move.Padding = new System.Windows.Forms.Padding(880, 0, 0, 0);
-            this.banner_move.Size = new System.Drawing.Size(880, 25);
+            this.banner_move.Padding = new System.Windows.Forms.Padding(1100, 0, 0, 0);
+            this.banner_move.Size = new System.Drawing.Size(1100, 25);
             this.banner_move.TabIndex = 601;
             this.banner_move.MouseDown += new System.Windows.Forms.MouseEventHandler(this.banner_move_MouseDown);
             this.banner_move.MouseEnter += new System.EventHandler(this.banner_move_MouseEnter);
@@ -10656,7 +11394,7 @@ namespace plt0_gui
             this.banner_global_move_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_global_move_ck.ErrorImage = null;
             this.banner_global_move_ck.InitialImage = null;
-            this.banner_global_move_ck.Location = new System.Drawing.Point(757, 0);
+            this.banner_global_move_ck.Location = new System.Drawing.Point(847, 0);
             this.banner_global_move_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_global_move_ck.Name = "banner_global_move_ck";
             this.banner_global_move_ck.Size = new System.Drawing.Size(32, 32);
@@ -10673,7 +11411,7 @@ namespace plt0_gui
             this.banner_5_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_5_ck.ErrorImage = null;
             this.banner_5_ck.InitialImage = null;
-            this.banner_5_ck.Location = new System.Drawing.Point(1068, 0);
+            this.banner_5_ck.Location = new System.Drawing.Point(1158, 0);
             this.banner_5_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_5_ck.Name = "banner_5_ck";
             this.banner_5_ck.Size = new System.Drawing.Size(32, 32);
@@ -10690,7 +11428,7 @@ namespace plt0_gui
             this.banner_11_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_11_ck.ErrorImage = null;
             this.banner_11_ck.InitialImage = null;
-            this.banner_11_ck.Location = new System.Drawing.Point(1324, 0);
+            this.banner_11_ck.Location = new System.Drawing.Point(1414, 0);
             this.banner_11_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_11_ck.Name = "banner_11_ck";
             this.banner_11_ck.Size = new System.Drawing.Size(32, 32);
@@ -10707,7 +11445,7 @@ namespace plt0_gui
             this.banner_12_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_12_ck.ErrorImage = null;
             this.banner_12_ck.InitialImage = null;
-            this.banner_12_ck.Location = new System.Drawing.Point(1292, 0);
+            this.banner_12_ck.Location = new System.Drawing.Point(1382, 0);
             this.banner_12_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_12_ck.Name = "banner_12_ck";
             this.banner_12_ck.Size = new System.Drawing.Size(32, 32);
@@ -10724,7 +11462,7 @@ namespace plt0_gui
             this.banner_13_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_13_ck.ErrorImage = null;
             this.banner_13_ck.InitialImage = null;
-            this.banner_13_ck.Location = new System.Drawing.Point(1260, 0);
+            this.banner_13_ck.Location = new System.Drawing.Point(1350, 0);
             this.banner_13_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_13_ck.Name = "banner_13_ck";
             this.banner_13_ck.Size = new System.Drawing.Size(32, 32);
@@ -10741,7 +11479,7 @@ namespace plt0_gui
             this.banner_14_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_14_ck.ErrorImage = null;
             this.banner_14_ck.InitialImage = null;
-            this.banner_14_ck.Location = new System.Drawing.Point(1100, 0);
+            this.banner_14_ck.Location = new System.Drawing.Point(1190, 0);
             this.banner_14_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_14_ck.Name = "banner_14_ck";
             this.banner_14_ck.Size = new System.Drawing.Size(32, 32);
@@ -10758,7 +11496,7 @@ namespace plt0_gui
             this.banner_16_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_16_ck.ErrorImage = null;
             this.banner_16_ck.InitialImage = null;
-            this.banner_16_ck.Location = new System.Drawing.Point(1228, 0);
+            this.banner_16_ck.Location = new System.Drawing.Point(1318, 0);
             this.banner_16_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_16_ck.Name = "banner_16_ck";
             this.banner_16_ck.Size = new System.Drawing.Size(32, 32);
@@ -10775,7 +11513,7 @@ namespace plt0_gui
             this.banner_17_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_17_ck.ErrorImage = null;
             this.banner_17_ck.InitialImage = null;
-            this.banner_17_ck.Location = new System.Drawing.Point(1132, 0);
+            this.banner_17_ck.Location = new System.Drawing.Point(1222, 0);
             this.banner_17_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_17_ck.Name = "banner_17_ck";
             this.banner_17_ck.Size = new System.Drawing.Size(32, 32);
@@ -10792,7 +11530,7 @@ namespace plt0_gui
             this.banner_18_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_18_ck.ErrorImage = null;
             this.banner_18_ck.InitialImage = null;
-            this.banner_18_ck.Location = new System.Drawing.Point(1164, 0);
+            this.banner_18_ck.Location = new System.Drawing.Point(1254, 0);
             this.banner_18_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_18_ck.Name = "banner_18_ck";
             this.banner_18_ck.Size = new System.Drawing.Size(32, 32);
@@ -10809,7 +11547,7 @@ namespace plt0_gui
             this.banner_19_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_19_ck.ErrorImage = null;
             this.banner_19_ck.InitialImage = null;
-            this.banner_19_ck.Location = new System.Drawing.Point(1196, 0);
+            this.banner_19_ck.Location = new System.Drawing.Point(1286, 0);
             this.banner_19_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_19_ck.Name = "banner_19_ck";
             this.banner_19_ck.Size = new System.Drawing.Size(32, 32);
@@ -10826,7 +11564,7 @@ namespace plt0_gui
             this.banner_15_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.banner_15_ck.ErrorImage = null;
             this.banner_15_ck.InitialImage = null;
-            this.banner_15_ck.Location = new System.Drawing.Point(1356, 0);
+            this.banner_15_ck.Location = new System.Drawing.Point(1446, 0);
             this.banner_15_ck.Margin = new System.Windows.Forms.Padding(0);
             this.banner_15_ck.Name = "banner_15_ck";
             this.banner_15_ck.Size = new System.Drawing.Size(32, 32);
@@ -11034,7 +11772,7 @@ namespace plt0_gui
             this.settings_banner_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.settings_banner_ck.ErrorImage = null;
             this.settings_banner_ck.InitialImage = null;
-            this.settings_banner_ck.Location = new System.Drawing.Point(604, 0);
+            this.settings_banner_ck.Location = new System.Drawing.Point(712, 0);
             this.settings_banner_ck.Margin = new System.Windows.Forms.Padding(0);
             this.settings_banner_ck.Name = "settings_banner_ck";
             this.settings_banner_ck.Size = new System.Drawing.Size(108, 32);
@@ -11078,6 +11816,23 @@ namespace plt0_gui
             this.view_cli_param_label.Click += new System.EventHandler(this.View_cli_param_Click);
             this.view_cli_param_label.MouseEnter += new System.EventHandler(this.View_cli_param_MouseEnter);
             this.view_cli_param_label.MouseLeave += new System.EventHandler(this.View_cli_param_MouseLeave);
+            // 
+            // opening_banner_ck
+            // 
+            this.opening_banner_ck.BackColor = System.Drawing.Color.Transparent;
+            this.opening_banner_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.opening_banner_ck.ErrorImage = null;
+            this.opening_banner_ck.InitialImage = null;
+            this.opening_banner_ck.Location = new System.Drawing.Point(604, 0);
+            this.opening_banner_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.opening_banner_ck.Name = "opening_banner_ck";
+            this.opening_banner_ck.Size = new System.Drawing.Size(108, 32);
+            this.opening_banner_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.opening_banner_ck.TabIndex = 726;
+            this.opening_banner_ck.TabStop = false;
+            this.opening_banner_ck.Click += new System.EventHandler(this.Opening_Click);
+            this.opening_banner_ck.MouseEnter += new System.EventHandler(this.opening_banner_ck_MouseEnter);
+            this.opening_banner_ck.MouseLeave += new System.EventHandler(this.opening_banner_ck_MouseLeave);
             // 
             // cmpr_palette
             // 
@@ -11158,13 +11913,464 @@ namespace plt0_gui
             this.image_ck.TabStop = false;
             this.image_ck.Visible = false;
             // 
+            // textBox3
+            // 
+            this.textBox3.BackColor = System.Drawing.Color.Black;
+            this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.textBox3.ForeColor = System.Drawing.SystemColors.Window;
+            this.textBox3.Location = new System.Drawing.Point(1930, 1079);
+            this.textBox3.Margin = new System.Windows.Forms.Padding(0);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(141, 23);
+            this.textBox3.TabIndex = 730;
+            this.textBox3.Text = "#000000";
+            this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox1
+            // 
+            this.textBox1.BackColor = System.Drawing.Color.Black;
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.textBox1.ForeColor = System.Drawing.SystemColors.Window;
+            this.textBox1.Location = new System.Drawing.Point(1938, 1087);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(0);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(141, 23);
+            this.textBox1.TabIndex = 731;
+            this.textBox1.Text = "#000000";
+            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox2
+            // 
+            this.textBox2.BackColor = System.Drawing.Color.Black;
+            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.textBox2.ForeColor = System.Drawing.SystemColors.Window;
+            this.textBox2.Location = new System.Drawing.Point(1946, 1095);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(0);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(141, 23);
+            this.textBox2.TabIndex = 732;
+            this.textBox2.Text = "#000000";
+            this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox4
+            // 
+            this.textBox4.BackColor = System.Drawing.Color.Black;
+            this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.textBox4.ForeColor = System.Drawing.SystemColors.Window;
+            this.textBox4.Location = new System.Drawing.Point(1954, 1103);
+            this.textBox4.Margin = new System.Windows.Forms.Padding(0);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(141, 23);
+            this.textBox4.TabIndex = 733;
+            this.textBox4.Text = "#000000";
+            this.textBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox5
+            // 
+            this.textBox5.BackColor = System.Drawing.Color.Black;
+            this.textBox5.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.textBox5.ForeColor = System.Drawing.SystemColors.Window;
+            this.textBox5.Location = new System.Drawing.Point(1962, 1111);
+            this.textBox5.Margin = new System.Windows.Forms.Padding(0);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(141, 23);
+            this.textBox5.TabIndex = 734;
+            this.textBox5.Text = "#000000";
+            this.textBox5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox6
+            // 
+            this.textBox6.BackColor = System.Drawing.Color.Black;
+            this.textBox6.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox6.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.textBox6.ForeColor = System.Drawing.SystemColors.Window;
+            this.textBox6.Location = new System.Drawing.Point(1970, 1119);
+            this.textBox6.Margin = new System.Windows.Forms.Padding(0);
+            this.textBox6.Name = "textBox6";
+            this.textBox6.Size = new System.Drawing.Size(141, 23);
+            this.textBox6.TabIndex = 735;
+            this.textBox6.Text = "#000000";
+            this.textBox6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox7
+            // 
+            this.textBox7.BackColor = System.Drawing.Color.Black;
+            this.textBox7.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox7.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.textBox7.ForeColor = System.Drawing.SystemColors.Window;
+            this.textBox7.Location = new System.Drawing.Point(1978, 1127);
+            this.textBox7.Margin = new System.Windows.Forms.Padding(0);
+            this.textBox7.Name = "textBox7";
+            this.textBox7.Size = new System.Drawing.Size(141, 23);
+            this.textBox7.TabIndex = 736;
+            this.textBox7.Text = "#000000";
+            this.textBox7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox8
+            // 
+            this.textBox8.BackColor = System.Drawing.Color.Black;
+            this.textBox8.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox8.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.textBox8.ForeColor = System.Drawing.SystemColors.Window;
+            this.textBox8.Location = new System.Drawing.Point(1986, 1135);
+            this.textBox8.Margin = new System.Windows.Forms.Padding(0);
+            this.textBox8.Name = "textBox8";
+            this.textBox8.Size = new System.Drawing.Size(141, 23);
+            this.textBox8.TabIndex = 737;
+            this.textBox8.Text = "#000000";
+            this.textBox8.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox9
+            // 
+            this.textBox9.BackColor = System.Drawing.Color.Black;
+            this.textBox9.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox9.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.textBox9.ForeColor = System.Drawing.SystemColors.Window;
+            this.textBox9.Location = new System.Drawing.Point(1994, 1143);
+            this.textBox9.Margin = new System.Windows.Forms.Padding(0);
+            this.textBox9.Name = "textBox9";
+            this.textBox9.Size = new System.Drawing.Size(141, 23);
+            this.textBox9.TabIndex = 738;
+            this.textBox9.Text = "#000000";
+            this.textBox9.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox10
+            // 
+            this.textBox10.BackColor = System.Drawing.Color.Black;
+            this.textBox10.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox10.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.textBox10.ForeColor = System.Drawing.SystemColors.Window;
+            this.textBox10.Location = new System.Drawing.Point(2002, 1151);
+            this.textBox10.Margin = new System.Windows.Forms.Padding(0);
+            this.textBox10.Name = "textBox10";
+            this.textBox10.Size = new System.Drawing.Size(141, 23);
+            this.textBox10.TabIndex = 739;
+            this.textBox10.Text = "#000000";
+            this.textBox10.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox11
+            // 
+            this.textBox11.BackColor = System.Drawing.Color.Black;
+            this.textBox11.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox11.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.textBox11.ForeColor = System.Drawing.SystemColors.Window;
+            this.textBox11.Location = new System.Drawing.Point(2010, 1159);
+            this.textBox11.Margin = new System.Windows.Forms.Padding(0);
+            this.textBox11.Name = "textBox11";
+            this.textBox11.Size = new System.Drawing.Size(141, 23);
+            this.textBox11.TabIndex = 740;
+            this.textBox11.Text = "#000000";
+            this.textBox11.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox12
+            // 
+            this.textBox12.BackColor = System.Drawing.Color.Black;
+            this.textBox12.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox12.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.textBox12.ForeColor = System.Drawing.SystemColors.Window;
+            this.textBox12.Location = new System.Drawing.Point(2018, 1167);
+            this.textBox12.Margin = new System.Windows.Forms.Padding(0);
+            this.textBox12.Name = "textBox12";
+            this.textBox12.Size = new System.Drawing.Size(141, 23);
+            this.textBox12.TabIndex = 741;
+            this.textBox12.Text = "#000000";
+            this.textBox12.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox13
+            // 
+            this.textBox13.BackColor = System.Drawing.Color.Black;
+            this.textBox13.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox13.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.textBox13.ForeColor = System.Drawing.SystemColors.Window;
+            this.textBox13.Location = new System.Drawing.Point(2026, 1175);
+            this.textBox13.Margin = new System.Windows.Forms.Padding(0);
+            this.textBox13.Name = "textBox13";
+            this.textBox13.Size = new System.Drawing.Size(141, 23);
+            this.textBox13.TabIndex = 742;
+            this.textBox13.Text = "#000000";
+            this.textBox13.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox14
+            // 
+            this.textBox14.BackColor = System.Drawing.Color.Black;
+            this.textBox14.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox14.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.textBox14.ForeColor = System.Drawing.SystemColors.Window;
+            this.textBox14.Location = new System.Drawing.Point(2034, 1183);
+            this.textBox14.Margin = new System.Windows.Forms.Padding(0);
+            this.textBox14.Name = "textBox14";
+            this.textBox14.Size = new System.Drawing.Size(141, 23);
+            this.textBox14.TabIndex = 743;
+            this.textBox14.Text = "#000000";
+            this.textBox14.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox15
+            // 
+            this.textBox15.BackColor = System.Drawing.Color.Black;
+            this.textBox15.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox15.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.textBox15.ForeColor = System.Drawing.SystemColors.Window;
+            this.textBox15.Location = new System.Drawing.Point(2042, 1191);
+            this.textBox15.Margin = new System.Windows.Forms.Padding(0);
+            this.textBox15.Name = "textBox15";
+            this.textBox15.Size = new System.Drawing.Size(141, 23);
+            this.textBox15.TabIndex = 744;
+            this.textBox15.Text = "#000000";
+            this.textBox15.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox16
+            // 
+            this.textBox16.BackColor = System.Drawing.Color.Black;
+            this.textBox16.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox16.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.textBox16.ForeColor = System.Drawing.SystemColors.Window;
+            this.textBox16.Location = new System.Drawing.Point(2050, 1199);
+            this.textBox16.Margin = new System.Windows.Forms.Padding(0);
+            this.textBox16.Name = "textBox16";
+            this.textBox16.Size = new System.Drawing.Size(141, 23);
+            this.textBox16.TabIndex = 745;
+            this.textBox16.Text = "#000000";
+            this.textBox16.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox17
+            // 
+            this.textBox17.BackColor = System.Drawing.Color.Black;
+            this.textBox17.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox17.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.textBox17.ForeColor = System.Drawing.SystemColors.Window;
+            this.textBox17.Location = new System.Drawing.Point(2058, 1207);
+            this.textBox17.Margin = new System.Windows.Forms.Padding(0);
+            this.textBox17.Name = "textBox17";
+            this.textBox17.Size = new System.Drawing.Size(141, 23);
+            this.textBox17.TabIndex = 746;
+            this.textBox17.Text = "#000000";
+            this.textBox17.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox18
+            // 
+            this.textBox18.BackColor = System.Drawing.Color.Black;
+            this.textBox18.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox18.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.textBox18.ForeColor = System.Drawing.SystemColors.Window;
+            this.textBox18.Location = new System.Drawing.Point(2066, 1215);
+            this.textBox18.Margin = new System.Windows.Forms.Padding(0);
+            this.textBox18.Name = "textBox18";
+            this.textBox18.Size = new System.Drawing.Size(141, 23);
+            this.textBox18.TabIndex = 747;
+            this.textBox18.Text = "#000000";
+            this.textBox18.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox19
+            // 
+            this.textBox19.BackColor = System.Drawing.Color.Black;
+            this.textBox19.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox19.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.textBox19.ForeColor = System.Drawing.SystemColors.Window;
+            this.textBox19.Location = new System.Drawing.Point(2074, 1223);
+            this.textBox19.Margin = new System.Windows.Forms.Padding(0);
+            this.textBox19.Name = "textBox19";
+            this.textBox19.Size = new System.Drawing.Size(141, 23);
+            this.textBox19.TabIndex = 748;
+            this.textBox19.Text = "#000000";
+            this.textBox19.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox20
+            // 
+            this.textBox20.BackColor = System.Drawing.Color.Black;
+            this.textBox20.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox20.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.textBox20.ForeColor = System.Drawing.SystemColors.Window;
+            this.textBox20.Location = new System.Drawing.Point(2082, 1231);
+            this.textBox20.Margin = new System.Windows.Forms.Padding(0);
+            this.textBox20.Name = "textBox20";
+            this.textBox20.Size = new System.Drawing.Size(141, 23);
+            this.textBox20.TabIndex = 749;
+            this.textBox20.Text = "#000000";
+            this.textBox20.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox21
+            // 
+            this.textBox21.BackColor = System.Drawing.Color.Black;
+            this.textBox21.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox21.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.textBox21.ForeColor = System.Drawing.SystemColors.Window;
+            this.textBox21.Location = new System.Drawing.Point(2090, 1239);
+            this.textBox21.Margin = new System.Windows.Forms.Padding(0);
+            this.textBox21.Name = "textBox21";
+            this.textBox21.Size = new System.Drawing.Size(141, 23);
+            this.textBox21.TabIndex = 750;
+            this.textBox21.Text = "#000000";
+            this.textBox21.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox22
+            // 
+            this.textBox22.BackColor = System.Drawing.Color.Black;
+            this.textBox22.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox22.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.textBox22.ForeColor = System.Drawing.SystemColors.Window;
+            this.textBox22.Location = new System.Drawing.Point(2098, 1247);
+            this.textBox22.Margin = new System.Windows.Forms.Padding(0);
+            this.textBox22.Name = "textBox22";
+            this.textBox22.Size = new System.Drawing.Size(141, 23);
+            this.textBox22.TabIndex = 751;
+            this.textBox22.Text = "#000000";
+            this.textBox22.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox23
+            // 
+            this.textBox23.BackColor = System.Drawing.Color.Black;
+            this.textBox23.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox23.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.textBox23.ForeColor = System.Drawing.SystemColors.Window;
+            this.textBox23.Location = new System.Drawing.Point(2106, 1255);
+            this.textBox23.Margin = new System.Windows.Forms.Padding(0);
+            this.textBox23.Name = "textBox23";
+            this.textBox23.Size = new System.Drawing.Size(141, 23);
+            this.textBox23.TabIndex = 752;
+            this.textBox23.Text = "#000000";
+            this.textBox23.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox24
+            // 
+            this.textBox24.BackColor = System.Drawing.Color.Black;
+            this.textBox24.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox24.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.textBox24.ForeColor = System.Drawing.SystemColors.Window;
+            this.textBox24.Location = new System.Drawing.Point(2114, 1263);
+            this.textBox24.Margin = new System.Windows.Forms.Padding(0);
+            this.textBox24.Name = "textBox24";
+            this.textBox24.Size = new System.Drawing.Size(141, 23);
+            this.textBox24.TabIndex = 753;
+            this.textBox24.Text = "#000000";
+            this.textBox24.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox25
+            // 
+            this.textBox25.BackColor = System.Drawing.Color.Black;
+            this.textBox25.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox25.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.textBox25.ForeColor = System.Drawing.SystemColors.Window;
+            this.textBox25.Location = new System.Drawing.Point(2122, 1271);
+            this.textBox25.Margin = new System.Windows.Forms.Padding(0);
+            this.textBox25.Name = "textBox25";
+            this.textBox25.Size = new System.Drawing.Size(141, 23);
+            this.textBox25.TabIndex = 754;
+            this.textBox25.Text = "#000000";
+            this.textBox25.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox26
+            // 
+            this.textBox26.BackColor = System.Drawing.Color.Black;
+            this.textBox26.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox26.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.textBox26.ForeColor = System.Drawing.SystemColors.Window;
+            this.textBox26.Location = new System.Drawing.Point(2130, 1279);
+            this.textBox26.Margin = new System.Windows.Forms.Padding(0);
+            this.textBox26.Name = "textBox26";
+            this.textBox26.Size = new System.Drawing.Size(141, 23);
+            this.textBox26.TabIndex = 755;
+            this.textBox26.Text = "#000000";
+            this.textBox26.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox27
+            // 
+            this.textBox27.BackColor = System.Drawing.Color.Black;
+            this.textBox27.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox27.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.textBox27.ForeColor = System.Drawing.SystemColors.Window;
+            this.textBox27.Location = new System.Drawing.Point(2138, 1287);
+            this.textBox27.Margin = new System.Windows.Forms.Padding(0);
+            this.textBox27.Name = "textBox27";
+            this.textBox27.Size = new System.Drawing.Size(141, 23);
+            this.textBox27.TabIndex = 756;
+            this.textBox27.Text = "#000000";
+            this.textBox27.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox28
+            // 
+            this.textBox28.BackColor = System.Drawing.Color.Black;
+            this.textBox28.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox28.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.textBox28.ForeColor = System.Drawing.SystemColors.Window;
+            this.textBox28.Location = new System.Drawing.Point(2146, 1295);
+            this.textBox28.Margin = new System.Windows.Forms.Padding(0);
+            this.textBox28.Name = "textBox28";
+            this.textBox28.Size = new System.Drawing.Size(141, 23);
+            this.textBox28.TabIndex = 757;
+            this.textBox28.Text = "#000000";
+            this.textBox28.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox29
+            // 
+            this.textBox29.BackColor = System.Drawing.Color.Black;
+            this.textBox29.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox29.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.textBox29.ForeColor = System.Drawing.SystemColors.Window;
+            this.textBox29.Location = new System.Drawing.Point(2154, 1303);
+            this.textBox29.Margin = new System.Windows.Forms.Padding(0);
+            this.textBox29.Name = "textBox29";
+            this.textBox29.Size = new System.Drawing.Size(141, 23);
+            this.textBox29.TabIndex = 758;
+            this.textBox29.Text = "#000000";
+            this.textBox29.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox30
+            // 
+            this.textBox30.BackColor = System.Drawing.Color.Black;
+            this.textBox30.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox30.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.textBox30.ForeColor = System.Drawing.SystemColors.Window;
+            this.textBox30.Location = new System.Drawing.Point(2162, 1311);
+            this.textBox30.Margin = new System.Windows.Forms.Padding(0);
+            this.textBox30.Name = "textBox30";
+            this.textBox30.Size = new System.Drawing.Size(141, 23);
+            this.textBox30.TabIndex = 759;
+            this.textBox30.Text = "#000000";
+            this.textBox30.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // plt0_gui
             // 
             this.AllowDrop = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(3092, 1472);
+            this.ClientSize = new System.Drawing.Size(4000, 2180);
+            this.Controls.Add(this.textBox30);
+            this.Controls.Add(this.textBox29);
+            this.Controls.Add(this.textBox28);
+            this.Controls.Add(this.textBox27);
+            this.Controls.Add(this.textBox26);
+            this.Controls.Add(this.textBox25);
+            this.Controls.Add(this.textBox24);
+            this.Controls.Add(this.textBox23);
+            this.Controls.Add(this.textBox22);
+            this.Controls.Add(this.textBox21);
+            this.Controls.Add(this.textBox20);
+            this.Controls.Add(this.textBox19);
+            this.Controls.Add(this.textBox18);
+            this.Controls.Add(this.textBox17);
+            this.Controls.Add(this.textBox16);
+            this.Controls.Add(this.textBox15);
+            this.Controls.Add(this.textBox14);
+            this.Controls.Add(this.textBox13);
+            this.Controls.Add(this.textBox12);
+            this.Controls.Add(this.textBox11);
+            this.Controls.Add(this.textBox10);
+            this.Controls.Add(this.textBox9);
+            this.Controls.Add(this.textBox8);
+            this.Controls.Add(this.textBox7);
+            this.Controls.Add(this.textBox6);
+            this.Controls.Add(this.textBox5);
+            this.Controls.Add(this.textBox4);
+            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.opening_banner_ck);
             this.Controls.Add(this.view_cli_param_ck);
             this.Controls.Add(this.view_cli_param_label);
             this.Controls.Add(this.settings_banner_ck);
@@ -11240,7 +12446,6 @@ namespace plt0_gui
             this.Controls.Add(this.cmpr_save_ck);
             this.Controls.Add(this.cmpr_selected_block_label);
             this.Controls.Add(this.cmpr_picture_tooltip_label);
-            this.Controls.Add(this.cmpr_preview_ck);
             this.Controls.Add(this.cmpr_block_paint_ck);
             this.Controls.Add(this.cmpr_block_paint_label);
             this.Controls.Add(this.cmpr_block_selection_ck);
@@ -11492,6 +12697,7 @@ namespace plt0_gui
             this.Controls.Add(this.desc3);
             this.Controls.Add(this.desc2);
             this.Controls.Add(this.description);
+            this.Controls.Add(this.cmpr_preview_ck);
             this.Controls.Add(this.pal_cie_label);
             this.Controls.Add(this.surrounding_ck);
             this.Controls.Add(this.output_label);
@@ -11656,6 +12862,7 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.palette_banner_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.settings_banner_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.view_cli_param_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.opening_banner_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_palette)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_grid_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).EndInit();
@@ -11664,12 +12871,12 @@ namespace plt0_gui
             this.PerformLayout();
 
         }
-        // all the lines below 'till the end are the output of python scripts I made
+        // all the lines below 'till the end were the output of python scripts I made
         // I had to name all labels and pictureboxes through the [Design] tab manually though.
         // I also had to redirect the labels to each function below, which again, isn't pretty fast
 
         // generated checkbox behaviour code by the python script in the py folder
-
+        // v2.0 edit: now nothing is python-generated. too much nitpick edits.
         private void Load_Images()
         {
             if (File.Exists(execPath + "plt0 content/background.png"))
@@ -12167,6 +13374,22 @@ namespace plt0_gui
             if (File.Exists(execPath + "plt0 content/banner/settings_selected.png"))
             {
                 settings_selected = Image.FromFile(execPath + "plt0 content/banner/settings_selected.png");
+            }
+            if (File.Exists(execPath + "plt0 content/banner/opening_off.png"))
+            {
+                opening_off = Image.FromFile(execPath + "plt0 content/banner/opening_off.png");
+            }
+            if (File.Exists(execPath + "plt0 content/banner/opening_on.png"))
+            {
+                opening_on = Image.FromFile(execPath + "plt0 content/banner/opening_on.png");
+            }
+            if (File.Exists(execPath + "plt0 content/banner/opening_hover.png"))
+            {
+                opening_hover = Image.FromFile(execPath + "plt0 content/banner/opening_hover.png");
+            }
+            if (File.Exists(execPath + "plt0 content/banner/opening_selected.png"))
+            {
+                opening_selected = Image.FromFile(execPath + "plt0 content/banner/opening_selected.png");
             }
             if (File.Exists(execPath + "plt0 content/circles/pink_circle.png"))
             {
@@ -14909,6 +16132,9 @@ namespace plt0_gui
                     unchecked_palette();
                     break;
                 case 6:
+                    unchecked_Opening();
+                    break;
+                case 7:
                     unchecked_Settings();
                     break;
             }
@@ -14968,6 +16194,9 @@ namespace plt0_gui
                     unchecked_palette();
                     break;
                 case 6:
+                    unchecked_Opening();
+                    break;
+                case 7:
                     unchecked_Settings();
                     break;
             }
@@ -15027,6 +16256,9 @@ namespace plt0_gui
                     unchecked_palette();
                     break;
                 case 6:
+                    unchecked_Opening();
+                    break;
+                case 7:
                     unchecked_Settings();
                     break;
             }
@@ -15114,6 +16346,22 @@ namespace plt0_gui
         {
             settings_banner_ck.Image = settings_selected;
         }
+        private void checked_Opening()
+        {
+            opening_banner_ck.Image = opening_on;
+        }
+        private void unchecked_Opening()
+        {
+            opening_banner_ck.Image = opening_off;
+        }
+        private void hover_Opening()
+        {
+            opening_banner_ck.Image = opening_hover;
+        }
+        private void selected_Opening()
+        {
+            opening_banner_ck.Image = opening_selected;
+        }
 
         private void Decode_Click(object sender, EventArgs e)
         {
@@ -15135,6 +16383,9 @@ namespace plt0_gui
                     unchecked_palette();
                     break;
                 case 6:
+                    unchecked_Opening();
+                    break;
+                case 7:
                     unchecked_Settings();
                     break;
             }
@@ -15180,6 +16431,9 @@ namespace plt0_gui
                     unchecked_Decode();
                     break;
                 case 6:
+                    unchecked_Opening();
+                    break;
+                case 7:
                     unchecked_Settings();
                     break;
             }
@@ -15206,6 +16460,54 @@ namespace plt0_gui
             else
                 unchecked_palette();
         }
+
+        private void opening_banner_ck_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(d[182]);
+            if (layout == 6)
+                selected_Opening();
+            else
+                hover_Opening();
+        }
+
+        private void opening_banner_ck_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            if (layout == 6)
+                checked_Opening();
+            else
+                unchecked_Opening();
+        }
+        private void Opening_Click(object sender, EventArgs e)
+        {
+            switch (layout)
+            {
+                case 0:
+                    unchecked_All();
+                    break;
+                case 1:
+                    unchecked_Auto();
+                    break;
+                case 2:
+                    unchecked_Preview();
+                    break;
+                case 3:
+                    unchecked_Paint();
+                    break;
+                case 4:
+                    unchecked_Decode();
+                    break;
+                case 5:
+                    unchecked_palette();
+                    break;
+                case 7:
+                    unchecked_Settings();
+                    break;
+            }
+            selected_Opening();
+            if (layout != 6)
+                Layout_Opening();
+        }
         private void Settings_Click(object sender, EventArgs e)
         {
             switch (layout)
@@ -15228,16 +16530,19 @@ namespace plt0_gui
                 case 5:
                     unchecked_palette();
                     break;
+                case 6:
+                    unchecked_Opening();
+                    break;
             }
             selected_Settings();
-            if (layout != 6)
+            if (layout != 7)
                 Layout_Settings();
         }
 
         private void Settings_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(d[182]);
-            if (layout == 6)
+            Parse_Markdown(d[183]);
+            if (layout == 7)
                 selected_Settings();
             else
                 hover_Settings();
@@ -15246,7 +16551,7 @@ namespace plt0_gui
         private void Settings_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
-            if (layout == 6)
+            if (layout == 7)
                 checked_Settings();
             else
                 unchecked_Settings();
@@ -15271,6 +16576,9 @@ namespace plt0_gui
                     unchecked_palette();
                     break;
                 case 6:
+                    unchecked_Opening();
+                    break;
+                case 7:
                     unchecked_Settings();
                     break;
             }
@@ -16269,6 +17577,7 @@ namespace plt0_gui
             Organize_args();
             Preview(true);
             Check_Paint();
+            Check_Opening();
         }
         private void input_file2_Click(object sender, EventArgs e)
         {
@@ -16302,6 +17611,7 @@ namespace plt0_gui
             if (File.Exists(input_file2_txt.Text))
             {
                 Preview(true);
+                Check_Opening();
             }
         }
         private void output_name_Click(object sender, EventArgs e)
@@ -17202,7 +18512,10 @@ namespace plt0_gui
         }
         private void cmpr_save_MouseEnter(object sender, EventArgs e)
         {
-            Parse_Markdown(d[146]);
+            if (layout == 6)
+                Parse_Markdown(d[189]);  // Opening layout
+            else
+                Parse_Markdown(d[146]);  // Paint layout
             cmpr_save_ck.Image = cmpr_save_hover;
         }
         private void cmpr_save_MouseLeave(object sender, EventArgs e)
@@ -17996,6 +19309,11 @@ namespace plt0_gui
         }
         private void Save_CMPR_Texture(string cmpr_filename)
         {
+            if (layout == 6)
+            {
+                Save_Opening_Bnr(cmpr_filename);
+                return;
+            }
             invisible_description();
             if (cmpr_file == null)
             {
@@ -18058,10 +19376,14 @@ namespace plt0_gui
                 Preview_Click(null, null);
             else if (e.KeyCode == Keys.F4)
                 Paint_Click(null, null);
-            else if (e.KeyCode == Keys.F7)  // the dev key to reload settings.txt
-                Load_settings();
-            else if (e.KeyCode == Keys.F8)  // the dev key to reload all graphics
-                InitializeForm(false, false);
+            else if (e.KeyCode == Keys.F5)
+                Decode_Click(null, null);
+            else if (e.KeyCode == Keys.F6)
+                Palette_Click(null, null);
+            else if (e.KeyCode == Keys.F7)
+                Opening_Click(null, null);
+            else if (e.KeyCode == Keys.F8)
+                Settings_Click(null, null);
             else if (e.KeyCode == Keys.F9)  // the dev key to reload settings.txt and all graphics
                 InitializeForm(true, false);
             else if (e.KeyCode == Keys.F10)
