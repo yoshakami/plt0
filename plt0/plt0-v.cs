@@ -2850,7 +2850,7 @@ namespace plt0_gui
             if (layout != 6 || input_file2 == null)
                 return;
             bool launch = false;
-            if (File.Exists(input_file2))
+            if (!File.Exists(input_file2))
             {
                 Parse_Markdown(d[187], cmpr_warning);
                 return;
