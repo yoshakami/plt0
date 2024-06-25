@@ -365,6 +365,7 @@
         private System.Windows.Forms.TextBox textBox28;
         private System.Windows.Forms.TextBox textBox29;
         private System.Windows.Forms.TextBox textBox30;
+        private PictureBoxWithInterpolationMode opening_ck;
         /*
 /// <summary>
 /// Required designer variable.

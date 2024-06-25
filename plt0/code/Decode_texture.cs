@@ -4,7 +4,7 @@ using System.Collections.Generic;
 class Decode_texture_class
 {
     public List<ushort[]> canvas_dim = new List<ushort[]>();
-    public string Decode_texture(string input_file, string palette_file, string output_file, byte[] real_block_width_array, byte[] block_width_array, byte[] block_height_array, bool tex0, bool tpl, byte[] colour_palette, byte palette_format3, bool bmp_32, bool funky, bool reverse_x, bool reverse_y, bool warn, bool stfu, bool no_warning, bool safe_mode, bool bmp, bool png, bool gif, bool jpeg, bool jpg, bool ico, bool tiff, bool tif, byte mipmaps_number)
+    public string Decode_texture(string input_file, string palette_file, string output_file, byte[] real_block_width_array, byte[] block_width_array, byte[] block_height_array, bool tex0, bool tpl, byte[] colour_palette, byte palette_format3, bool bmp_32, bool funky, bool reverse_x, bool reverse_y, bool warn, bool stfu, bool no_warning, bool safe_mode, bool bmp, bool png, bool gif, bool jpeg, bool jpg, bool ico, bool tiff, bool tif, byte mipmaps_number, byte[] data=null)
     {
         ushort colour_number = 0;
         int colour_number_x2 = 0;
@@ -13,7 +13,6 @@ class Decode_texture_class
         ushort[] canvas = { 0, 0, 0, 0 };
         byte[] texture_format_int32 = { 0, 0, 0, 7 };
         byte[] palette_format_int32 = { 0, 0, 0, 0 };
-        byte[] data = new byte[0];
         bool has_palette = false;
         byte alpha = 1;
         int data_start_offset = 0;
@@ -50,10 +49,13 @@ class Decode_texture_class
             colour_number_x4 = colour_palette.Length << 1;
             palette_format_int32[3] = palette_format3;
         }
-        using (System.IO.FileStream file = System.IO.File.Open(input_file, System.IO.FileMode.Open, System.IO.FileAccess.Read))
+        if (data == null)
         {
-            Array.Resize(ref data, (int)file.Length);
-            file.Read(data, 0, (int)file.Length);
+            using (System.IO.FileStream file = System.IO.File.Open(input_file, System.IO.FileMode.Open, System.IO.FileAccess.Read))
+            {
+                data = new byte[file.Length];
+                file.Read(data, 0, (int)file.Length);
+            }
         }
         if (tex0)
         {

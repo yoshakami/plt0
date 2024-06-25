@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Collections;
 using System.Text;
+using System.Threading.Tasks;
 /* note: pasting C# Guy.py code adds automatically new usings, messing up the whole code
 * here's the official list of usings. it should be the same as what's above. else copy and paste
 using System;
@@ -50,14 +51,16 @@ namespace plt0_gui
         static string[] opening_args = { "gui", "i", "i", "j", "j", "out" };
         static byte[] cmpr_rgb = { 0, 0, 0 };
         static string[] config = new string[150];
-        static string[] d = new string[255];
+        static string[] d = new string[256];
         static string[] layout_name = { "All", "Encode", "Preview", "Paint", "Decode", "Palette", "Opening", "Settings" };
         static string cmpr_colours_hex;
+        byte[] banner_rgb5a3_file = new byte[0x1820];
         byte[] bnr_file = new byte[4];
         byte[] byte32 = new byte[32];
         byte[] byte80 = new byte[0x80];
+        byte[] rgb5a3_file;
         byte[] byteXX;
-        byte[] cmpr_file;
+        byte[] cmpr_file = new byte[32];
         byte[] cmpr_colours_argb = new byte[16];
         byte[] cmpr_colour = new byte[4];
         byte[] cmpr_index = new byte[16];
@@ -92,6 +95,7 @@ namespace plt0_gui
         byte green2;
         byte blue2;
         byte alpha2;
+        static bool prevent_execution = false;
         bool banner_global_move = false;
         bool cmpr_update_preview = false;
         bool sync_preview_is_on = false;
@@ -2192,6 +2196,7 @@ namespace plt0_gui
         }
         private void Hide_Paint_Stuff()
         {
+            opening_ck.Visible = false;
             cmpr_block_paint_ck.Visible = false;
             cmpr_block_paint_label.Visible = false;
             cmpr_block_selection_ck.Visible = false;
@@ -2381,6 +2386,7 @@ namespace plt0_gui
         }
         private void Move_cmpr_location()
         {
+            opening_ck.Location = new Point(opening_ck.Location.X - 1920, opening_ck.Location.Y);
             cmpr_c1.Location = new Point(cmpr_c1.Location.X - 1920, cmpr_c1.Location.Y);
             cmpr_c1_txt.Location = new Point(cmpr_c1_txt.Location.X - 1920, cmpr_c1_txt.Location.Y);
             cmpr_c1_label.Location = new Point(cmpr_c1_label.Location.X - 1920, cmpr_c1_label.Location.Y);
@@ -2464,6 +2470,7 @@ namespace plt0_gui
                 Hide_encoding(1);
                 Hide_encoding(5);
                 Hide_encoding(8);
+                opening_ck.Visible = false;
                 view_algorithm = false;
                 a_a_ck.Visible = false;
                 a_b_ck.Visible = false;
@@ -2627,7 +2634,7 @@ namespace plt0_gui
 
                 layout = 3;
             }
-            Check_Paint();
+            Check_Paint(true);
         }
         private void Layout_Decode()
         {
@@ -2805,6 +2812,7 @@ namespace plt0_gui
         private void Disable_Opening_Layout()
         {
             Disable_Paint_Layout();
+            opening_ck.Visible = false;
             cmpr_preview_ck.Visible = false;
             cmpr_warning.Visible = false;
             cmpr_sel_label.Visible = false;
@@ -2816,24 +2824,27 @@ namespace plt0_gui
             input_file2_txt.Location = new Point(input_file2_txt.Location.X, input_file2_txt.Location.Y - (int)(banner_11_ck.Height * 0.4));
             output_name_label.Location = new Point(output_name_label.Location.X, output_name_label.Location.Y - (int)(banner_11_ck.Height << 1));
             output_name_txt.Location = new Point(output_name_txt.Location.X, output_name_txt.Location.Y - (int)(banner_11_ck.Height << 1));
-            Parse_Markdown(d[185], cmpr_sel_label);  // TODO: change
+            this.cmpr_preview_ck.MaximumSize = new System.Drawing.Size(this.cmpr_preview_ck.MaximumSize.Width, this.cmpr_preview_ck.MaximumSize.Height << 1);
+            this.cmpr_preview_ck.MinimumSize = this.cmpr_preview_ck.MaximumSize;
+            this.cmpr_preview_ck.Size = this.cmpr_preview_ck.MaximumSize;
             for (int i = 0; i < opening_textbox.Count; i++)
             {
                 opening_textbox[i].Visible = false;
             }
             for (byte i = 0; i < 9; i++)
             {
-                desc[i].Location = new Point((int)((desc[i].Location.X - 900) * width_ratio), (int)((desc[i].Location.Y - 100) * height_ratio));
+                desc[i].Location = new Point((int)((desc[i].Location.X - 900) * width_ratio), (int)((desc[i].Location.Y - 200) * height_ratio));
             }
             description_title.Location = new Point(
                 (int)(((description_title.Location.X - 900) * width_ratio)),
-                (int)(((description_title.Location.Y - 100) * height_ratio)));
+                (int)(((description_title.Location.Y - 200) * height_ratio)));
+
+            cmpr_preview_ck.Location = new Point(
+                (int)(((cmpr_preview_ck.Location.X - 00) * width_ratio)),
+                (int)(((cmpr_preview_ck.Location.Y + 70) * height_ratio)));
 
             //cmpr_sel_label.Location = new Point(cmpr_save_as_ck.Location.X - cmpr_save_as_ck.Width * 2, cmpr_save_as_ck.Location.Y);
 
-            this.cmpr_preview_ck.MaximumSize = new System.Drawing.Size(this.cmpr_preview_ck.MaximumSize.Width, this.cmpr_preview_ck.MaximumSize.Height << 1);
-            this.cmpr_preview_ck.MinimumSize = this.cmpr_preview_ck.MaximumSize;
-            this.cmpr_preview_ck.Size = this.cmpr_preview_ck.MaximumSize;
             opening_layout_is_enabled = false;
         }
         private void Layout_Palette()
@@ -2848,9 +2859,42 @@ namespace plt0_gui
         {
             Layout_Paint();
             Hide_Paint_Stuff();
+            banner_rgb5a3_file[0] = 5;
+            banner_rgb5a3_file[1] = 2;
+            banner_rgb5a3_file[2] = 0;
+            banner_rgb5a3_file[3] = 0x60;
+            banner_rgb5a3_file[4] = 0;
+            banner_rgb5a3_file[5] = 0x20;
+            banner_rgb5a3_file[6] = 1;
+            banner_rgb5a3_file[7] = 1;
+            banner_rgb5a3_file[8] = 0;
+            banner_rgb5a3_file[9] = 0;
+            banner_rgb5a3_file[10] = 0;
+            banner_rgb5a3_file[11] = 0;
+            banner_rgb5a3_file[12] = 0;
+            banner_rgb5a3_file[13] = 0;
+            banner_rgb5a3_file[14] = 0;
+            banner_rgb5a3_file[15] = 0;
+            banner_rgb5a3_file[16] = 0;
+            banner_rgb5a3_file[17] = 0;
+            banner_rgb5a3_file[18] = 0;
+            banner_rgb5a3_file[19] = 0;
+            banner_rgb5a3_file[20] = 1;
+            banner_rgb5a3_file[21] = 1;
+            banner_rgb5a3_file[22] = 0;
+            banner_rgb5a3_file[23] = 0;
+            banner_rgb5a3_file[24] = 1;
+            banner_rgb5a3_file[25] = 0x69; // my signature XDDD
+            banner_rgb5a3_file[26] = 0;
+            banner_rgb5a3_file[27] = 0;
+            banner_rgb5a3_file[28] = 0;
+            banner_rgb5a3_file[29] = 0;
+            banner_rgb5a3_file[30] = 0;
+            banner_rgb5a3_file[31] = 0x20;
+            opening_ck.Visible = true;
             cmpr_preview_ck.Visible = true;
             cmpr_warning.Visible = true;
-            cmpr_sel_label.Visible = true;
+            // cmpr_sel_label.Visible = true;
             cmpr_save_ck.Visible = true;
             cmpr_save_as_ck.Visible = true;
             mipmaps_label.Visible = false;
@@ -2861,7 +2905,11 @@ namespace plt0_gui
             input_file2_txt.Location = new Point(input_file2_txt.Location.X, input_file2_txt.Location.Y + (int)(banner_11_ck.Height * 0.4));
             output_name_label.Location = new Point(output_name_label.Location.X, output_name_label.Location.Y + (int)(banner_11_ck.Height << 1));
             output_name_txt.Location = new Point(output_name_txt.Location.X, output_name_txt.Location.Y + (int)(banner_11_ck.Height << 1));
-            Parse_Markdown(d[185], cmpr_sel_label);
+            Parse_Markdown(d[185], cmpr_warning);
+            this.cmpr_preview_ck.MaximumSize = new System.Drawing.Size(this.cmpr_preview_ck.MaximumSize.Width, this.cmpr_preview_ck.MaximumSize.Height >> 1);
+            this.cmpr_preview_ck.MinimumSize = this.cmpr_preview_ck.MaximumSize;
+            this.cmpr_preview_ck.Size = this.cmpr_preview_ck.MaximumSize;
+            //this.cmpr_preview_ck.Location = new Point((int)((this.cmpr_preview_ck.Location.X + 00) * width_ratio), (int)((this.cmpr_preview_ck.Location.Y + 50) * height_ratio));
             textBox1.Location = new Point(all_ck.Location.X - (int)(banner_11_ck.Width * 0.6), all_ck.Location.Y + (int)(banner_11_ck.Height * 1.5));
             textBox1.Visible = true;
             textBox1.Size = new Size(banner_11_ck.Width * 26, banner_11_ck.Height);
@@ -2875,17 +2923,18 @@ namespace plt0_gui
 
             for (byte i = 0; i < 9; i++)
             {
-                desc[i].Location = new Point((int)((desc[i].Location.X + 900) * width_ratio), (int)((desc[i].Location.Y + 100) * height_ratio));
+                desc[i].Location = new Point((int)((desc[i].Location.X + 900) * width_ratio), (int)((desc[i].Location.Y + 200) * height_ratio));
             }
             description_title.Location = new Point(
                 (int)(((description_title.Location.X + 900) * width_ratio)),
-                (int)(((description_title.Location.Y + 100) * height_ratio)));
+                (int)(((description_title.Location.Y + 200) * height_ratio)));
 
-            cmpr_sel_label.Location = new Point(cmpr_save_as_ck.Location.X + cmpr_save_as_ck.Width * 2, cmpr_save_as_ck.Location.Y);
+            cmpr_preview_ck.Location = new Point(
+                (int)(((cmpr_preview_ck.Location.X - 00) * width_ratio)),
+                (int)(((cmpr_preview_ck.Location.Y - 70) * height_ratio)));
 
-            this.cmpr_preview_ck.MaximumSize = new System.Drawing.Size(this.cmpr_preview_ck.MaximumSize.Width, this.cmpr_preview_ck.MaximumSize.Height >> 1);
-            this.cmpr_preview_ck.MinimumSize = this.cmpr_preview_ck.MaximumSize;
-            this.cmpr_preview_ck.Size = this.cmpr_preview_ck.MaximumSize;
+            //  cmpr_sel_label.Location = new Point(cmpr_save_as_ck.Location.X + cmpr_save_as_ck.Width * 2, cmpr_save_as_ck.Location.Y);
+
 
             opening_layout_is_enabled = true;
 
@@ -2904,7 +2953,7 @@ namespace plt0_gui
             using (FileStream fs2 = File.OpenRead(input_file2))
             {
                 fs2.Read(bnr_file, 0, 4);
-                if (bnr_file[0] != 0x42 || bnr_file[1] != 0x4E || bnr_file[2] != 0x52)
+                if (bnr_file[0] != 0x42 || bnr_file[1] != 0x4E || bnr_file[2] != 0x52 || fs2.Length < 0x1FA0)
                 {
                     Parse_Markdown(d[188], cmpr_warning);
                     return;  // input file 2 isn't a GameCube opening.bnr
@@ -2920,6 +2969,36 @@ namespace plt0_gui
                 }
                 else if (bnr_file[3] == 0x32)  // BNR2 - Gamecube Format with 96x32 RGB5A3 picture at offset 0x20
                 {
+
+                    Array.Copy(bnr_file, 0x20, banner_rgb5a3_file, 0x20, 0x1800);
+                    int num = 1;
+                    while (File.Exists(execPath + "plt0 content/preview/" + num + ".bmp"))
+                    {
+                        num++;
+                    }
+                    opening_args[2] = "";
+                    opening_args[4] = input_file2;
+                    opening_args[5] = (execPath + "plt0 content/preview/" + num + ".bmp");  // even if there's an output file in the args, the last one is the output file :) that's how I made it
+                    Parse_args_class cli = new Parse_args_class();
+                    cli.Parse_args(opening_args, banner_rgb5a3_file);
+                    if (File.Exists(execPath + "plt0 content/preview/" + num + ".bmp"))
+                    {
+                        previous_block = -1;
+                        loaded_block = -1;
+                        using (FileStream fs = File.OpenRead(execPath + "plt0 content/preview/" + num + ".bmp"))
+                        {
+                            Array.Resize(ref rgb5a3_file, (int)fs.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
+                            fs.Read(rgb5a3_file, 0, (int)fs.Length);
+                        }
+                        opening_ck.Image = GetImageFromByteArray(rgb5a3_file);
+                        cmpr_warning.Text = "";
+                    }
+                    else
+                    {
+                        cmpr_warning.Text = cli.Check_exit();
+                    }
+                    opening_ck.Image = GetImageFromByteArray(rgb5a3_file);
+
                     fs2.Seek(0x1820, SeekOrigin.Begin);
                     fs2.Read(byte32, 0, 32);  // game title 1
                     textBox1.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
@@ -3146,10 +3225,9 @@ namespace plt0_gui
 
             if (bnr_filename == "")
             {
-                Parse_Markdown(d[173], description);
+                Parse_Markdown(d[173], cmpr_warning);
                 return;
             }
-            invisible_description();
             using (MemoryStream fs2 = new MemoryStream(bnr_file))
             {
                 if (bnr_file[3] == 0x31) // BNR1 - Gamecube Format
@@ -3473,7 +3551,7 @@ namespace plt0_gui
                 {
                     fs.Write(bnr_file, 0, bnr_file.Length);
                 }
-                Parse_Markdown(d[174], description);
+                Parse_Markdown(d[174], cmpr_warning);
             }
             catch (Exception ex)
             {
@@ -3484,7 +3562,7 @@ namespace plt0_gui
                 }
                 if (ex.Message.Substring(0, 34) == "The process cannot access the file")  // because it is being used by another process
                 {
-                    Parse_Markdown(d[175], description);
+                    Parse_Markdown(d[175], cmpr_warning);
                 }
             }
         }
@@ -6217,10 +6295,6 @@ namespace plt0_gui
             this.view_cli_param_ck = new System.Windows.Forms.PictureBox();
             this.view_cli_param_label = new System.Windows.Forms.Label();
             this.opening_banner_ck = new System.Windows.Forms.PictureBox();
-            this.cmpr_palette = new PictureBoxWithInterpolationMode();
-            this.cmpr_grid_ck = new PictureBoxWithInterpolationMode();
-            this.cmpr_preview_ck = new PictureBoxWithInterpolationMode();
-            this.image_ck = new PictureBoxWithInterpolationMode();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
@@ -6251,6 +6325,11 @@ namespace plt0_gui
             this.textBox28 = new System.Windows.Forms.TextBox();
             this.textBox29 = new System.Windows.Forms.TextBox();
             this.textBox30 = new System.Windows.Forms.TextBox();
+            this.opening_ck = new PictureBoxWithInterpolationMode();
+            this.cmpr_palette = new PictureBoxWithInterpolationMode();
+            this.cmpr_grid_ck = new PictureBoxWithInterpolationMode();
+            this.image_ck = new PictureBoxWithInterpolationMode();
+            this.cmpr_preview_ck = new PictureBoxWithInterpolationMode();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tpl_ck)).BeginInit();
@@ -6396,10 +6475,11 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.settings_banner_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.view_cli_param_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.opening_banner_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.opening_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_palette)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_grid_ck)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.image_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).BeginInit();
             this.SuspendLayout();
             // 
             // output_file_type_label
@@ -11092,12 +11172,10 @@ namespace plt0_gui
             this.cmpr_warning.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_warning.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_warning.ForeColor = System.Drawing.Color.Red;
-            this.cmpr_warning.Location = new System.Drawing.Point(2999, 32);
+            this.cmpr_warning.Location = new System.Drawing.Point(2999, 29);
             this.cmpr_warning.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_warning.MaximumSize = new System.Drawing.Size(0, 20);
-            this.cmpr_warning.MinimumSize = new System.Drawing.Size(0, 20);
             this.cmpr_warning.Name = "cmpr_warning";
-            this.cmpr_warning.Size = new System.Drawing.Size(295, 20);
+            this.cmpr_warning.Size = new System.Drawing.Size(295, 25);
             this.cmpr_warning.TabIndex = 673;
             this.cmpr_warning.Text = "Input file is not a cmpr texture";
             this.cmpr_warning.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -11898,85 +11976,6 @@ namespace plt0_gui
             this.opening_banner_ck.MouseEnter += new System.EventHandler(this.opening_banner_ck_MouseEnter);
             this.opening_banner_ck.MouseLeave += new System.EventHandler(this.opening_banner_ck_MouseLeave);
             // 
-            // cmpr_palette
-            // 
-            this.cmpr_palette.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_palette.ErrorImage = null;
-            this.cmpr_palette.InitialImage = null;
-            this.cmpr_palette.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-            this.cmpr_palette.Location = new System.Drawing.Point(1920, 1016);
-            this.cmpr_palette.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_palette.Name = "cmpr_palette";
-            this.cmpr_palette.Size = new System.Drawing.Size(896, 64);
-            this.cmpr_palette.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.cmpr_palette.TabIndex = 694;
-            this.cmpr_palette.TabStop = false;
-            this.cmpr_palette.Visible = false;
-            this.cmpr_palette.MouseDown += new System.Windows.Forms.MouseEventHandler(this.cmpr_palette_MouseDown);
-            this.cmpr_palette.MouseEnter += new System.EventHandler(this.cmpr_palette_MouseEnter);
-            this.cmpr_palette.MouseLeave += new System.EventHandler(this.cmpr_palette_MouseLeave);
-            this.cmpr_palette.MouseMove += new System.Windows.Forms.MouseEventHandler(this.cmpr_palette_MouseMove);
-            // 
-            // cmpr_grid_ck
-            // 
-            this.cmpr_grid_ck.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_grid_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.cmpr_grid_ck.ErrorImage = null;
-            this.cmpr_grid_ck.InitialImage = null;
-            this.cmpr_grid_ck.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-            this.cmpr_grid_ck.Location = new System.Drawing.Point(1986, 661);
-            this.cmpr_grid_ck.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_grid_ck.MaximumSize = new System.Drawing.Size(256, 256);
-            this.cmpr_grid_ck.MinimumSize = new System.Drawing.Size(256, 256);
-            this.cmpr_grid_ck.Name = "cmpr_grid_ck";
-            this.cmpr_grid_ck.Size = new System.Drawing.Size(256, 256);
-            this.cmpr_grid_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.cmpr_grid_ck.TabIndex = 683;
-            this.cmpr_grid_ck.TabStop = false;
-            this.cmpr_grid_ck.Visible = false;
-            this.cmpr_grid_ck.MouseDown += new System.Windows.Forms.MouseEventHandler(this.cmpr_grid_ck_MouseMove);
-            this.cmpr_grid_ck.MouseMove += new System.Windows.Forms.MouseEventHandler(this.cmpr_grid_ck_MouseMove);
-            // 
-            // cmpr_preview_ck
-            // 
-            this.cmpr_preview_ck.BackColor = System.Drawing.Color.Transparent;
-            this.cmpr_preview_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.cmpr_preview_ck.ErrorImage = null;
-            this.cmpr_preview_ck.InitialImage = null;
-            this.cmpr_preview_ck.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-            this.cmpr_preview_ck.Location = new System.Drawing.Point(2816, 56);
-            this.cmpr_preview_ck.Margin = new System.Windows.Forms.Padding(0);
-            this.cmpr_preview_ck.MaximumSize = new System.Drawing.Size(1024, 1024);
-            this.cmpr_preview_ck.MinimumSize = new System.Drawing.Size(1024, 1024);
-            this.cmpr_preview_ck.Name = "cmpr_preview_ck";
-            this.cmpr_preview_ck.Size = new System.Drawing.Size(1024, 1024);
-            this.cmpr_preview_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.cmpr_preview_ck.TabIndex = 666;
-            this.cmpr_preview_ck.TabStop = false;
-            this.cmpr_preview_ck.Visible = false;
-            this.cmpr_preview_ck.MouseDown += new System.Windows.Forms.MouseEventHandler(this.cmpr_preview_ck_MouseDown);
-            this.cmpr_preview_ck.MouseLeave += new System.EventHandler(this.cmpr_preview_ck_MouseLeave);
-            this.cmpr_preview_ck.MouseMove += new System.Windows.Forms.MouseEventHandler(this.cmpr_preview_ck_MouseMove);
-            // 
-            // image_ck
-            // 
-            this.image_ck.BackColor = System.Drawing.Color.Transparent;
-            this.image_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.image_ck.Enabled = false;
-            this.image_ck.ErrorImage = null;
-            this.image_ck.InitialImage = null;
-            this.image_ck.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-            this.image_ck.Location = new System.Drawing.Point(40, 1508);
-            this.image_ck.Margin = new System.Windows.Forms.Padding(0);
-            this.image_ck.MaximumSize = new System.Drawing.Size(768, 768);
-            this.image_ck.MinimumSize = new System.Drawing.Size(768, 768);
-            this.image_ck.Name = "image_ck";
-            this.image_ck.Size = new System.Drawing.Size(768, 768);
-            this.image_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.image_ck.TabIndex = 602;
-            this.image_ck.TabStop = false;
-            this.image_ck.Visible = false;
-            // 
             // textBox3
             // 
             this.textBox3.BackColor = System.Drawing.Color.Black;
@@ -12397,13 +12396,114 @@ namespace plt0_gui
             this.textBox30.Text = "#000000";
             this.textBox30.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // opening_ck
+            // 
+            this.opening_ck.BackColor = System.Drawing.Color.Transparent;
+            this.opening_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.opening_ck.ErrorImage = null;
+            this.opening_ck.InitialImage = null;
+            this.opening_ck.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+            this.opening_ck.Location = new System.Drawing.Point(2816, 433);
+            this.opening_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.opening_ck.MaximumSize = new System.Drawing.Size(1024, 341);
+            this.opening_ck.MinimumSize = new System.Drawing.Size(1024, 341);
+            this.opening_ck.Name = "opening_ck";
+            this.opening_ck.Size = new System.Drawing.Size(1024, 341);
+            this.opening_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.opening_ck.TabIndex = 760;
+            this.opening_ck.TabStop = false;
+            this.opening_ck.Visible = false;
+            this.opening_ck.MouseEnter += new System.EventHandler(this.opening_ck_MouseEnter);
+            this.opening_ck.MouseLeave += new System.EventHandler(this.opening_ck_MouseLeave);
+            // 
+            // cmpr_palette
+            // 
+            this.cmpr_palette.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_palette.ErrorImage = null;
+            this.cmpr_palette.InitialImage = null;
+            this.cmpr_palette.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+            this.cmpr_palette.Location = new System.Drawing.Point(1920, 1016);
+            this.cmpr_palette.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_palette.Name = "cmpr_palette";
+            this.cmpr_palette.Size = new System.Drawing.Size(896, 64);
+            this.cmpr_palette.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.cmpr_palette.TabIndex = 694;
+            this.cmpr_palette.TabStop = false;
+            this.cmpr_palette.Visible = false;
+            this.cmpr_palette.MouseDown += new System.Windows.Forms.MouseEventHandler(this.cmpr_palette_MouseDown);
+            this.cmpr_palette.MouseEnter += new System.EventHandler(this.cmpr_palette_MouseEnter);
+            this.cmpr_palette.MouseLeave += new System.EventHandler(this.cmpr_palette_MouseLeave);
+            this.cmpr_palette.MouseMove += new System.Windows.Forms.MouseEventHandler(this.cmpr_palette_MouseMove);
+            // 
+            // cmpr_grid_ck
+            // 
+            this.cmpr_grid_ck.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_grid_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.cmpr_grid_ck.ErrorImage = null;
+            this.cmpr_grid_ck.InitialImage = null;
+            this.cmpr_grid_ck.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+            this.cmpr_grid_ck.Location = new System.Drawing.Point(1986, 661);
+            this.cmpr_grid_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_grid_ck.MaximumSize = new System.Drawing.Size(256, 256);
+            this.cmpr_grid_ck.MinimumSize = new System.Drawing.Size(256, 256);
+            this.cmpr_grid_ck.Name = "cmpr_grid_ck";
+            this.cmpr_grid_ck.Size = new System.Drawing.Size(256, 256);
+            this.cmpr_grid_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.cmpr_grid_ck.TabIndex = 683;
+            this.cmpr_grid_ck.TabStop = false;
+            this.cmpr_grid_ck.Visible = false;
+            this.cmpr_grid_ck.MouseDown += new System.Windows.Forms.MouseEventHandler(this.cmpr_grid_ck_MouseMove);
+            this.cmpr_grid_ck.MouseMove += new System.Windows.Forms.MouseEventHandler(this.cmpr_grid_ck_MouseMove);
+            // 
+            // image_ck
+            // 
+            this.image_ck.BackColor = System.Drawing.Color.Transparent;
+            this.image_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.image_ck.Enabled = false;
+            this.image_ck.ErrorImage = null;
+            this.image_ck.InitialImage = null;
+            this.image_ck.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+            this.image_ck.Location = new System.Drawing.Point(40, 1508);
+            this.image_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.image_ck.MaximumSize = new System.Drawing.Size(768, 768);
+            this.image_ck.MinimumSize = new System.Drawing.Size(768, 768);
+            this.image_ck.Name = "image_ck";
+            this.image_ck.Size = new System.Drawing.Size(768, 768);
+            this.image_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.image_ck.TabIndex = 602;
+            this.image_ck.TabStop = false;
+            this.image_ck.Visible = false;
+            // 
+            // cmpr_preview_ck
+            // 
+            this.cmpr_preview_ck.BackColor = System.Drawing.Color.Transparent;
+            this.cmpr_preview_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.cmpr_preview_ck.ErrorImage = null;
+            this.cmpr_preview_ck.InitialImage = null;
+            this.cmpr_preview_ck.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+            this.cmpr_preview_ck.Location = new System.Drawing.Point(2816, 56);
+            this.cmpr_preview_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.cmpr_preview_ck.MaximumSize = new System.Drawing.Size(1024, 1024);
+            this.cmpr_preview_ck.MinimumSize = new System.Drawing.Size(1024, 1024);
+            this.cmpr_preview_ck.Name = "cmpr_preview_ck";
+            this.cmpr_preview_ck.Size = new System.Drawing.Size(1024, 1024);
+            this.cmpr_preview_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.cmpr_preview_ck.TabIndex = 666;
+            this.cmpr_preview_ck.TabStop = false;
+            this.cmpr_preview_ck.Visible = false;
+            this.cmpr_preview_ck.MouseDown += new System.Windows.Forms.MouseEventHandler(this.cmpr_preview_ck_MouseDown);
+            this.cmpr_preview_ck.MouseEnter += new System.EventHandler(this.cmpr_preview_ck_MouseEnter);
+            this.cmpr_preview_ck.MouseLeave += new System.EventHandler(this.cmpr_preview_ck_MouseLeave);
+            this.cmpr_preview_ck.MouseMove += new System.Windows.Forms.MouseEventHandler(this.cmpr_preview_ck_MouseMove);
+            // 
             // plt0_gui
             // 
             this.AllowDrop = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(3524, 1061);
+            this.ClientSize = new System.Drawing.Size(3370, 1061);
+            this.Controls.Add(this.opening_ck);
             this.Controls.Add(this.textBox30);
             this.Controls.Add(this.textBox29);
             this.Controls.Add(this.textBox28);
@@ -12927,10 +13027,11 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.settings_banner_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.view_cli_param_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.opening_banner_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.opening_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_palette)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_grid_ck)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.image_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -18908,7 +19009,7 @@ namespace plt0_gui
             checked_tooltip(cmpr_block_selection_ck);
             unchecked_tooltip(cmpr_block_paint_ck);
         }
-        private void Check_Paint()
+        private void Check_Paint(bool start=false)
         {
             if (layout != 3)
                 return;
@@ -18916,6 +19017,12 @@ namespace plt0_gui
             {
                 using (FileStream fs = File.OpenRead(input_file))
                 {
+                    if (start && (cmpr_file.Length == (int)fs.Length))
+                    {
+                        if (cmpr_preview_vanilla != null && !cmpr_hover)
+                            cmpr_preview_ck.Image = GetImageFromByteArray(cmpr_preview_vanilla);
+                        return;
+                    }
                     Array.Resize(ref cmpr_file, (int)fs.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
                     if (fs.Length < 48)
                     {
@@ -19147,7 +19254,7 @@ namespace plt0_gui
         }
         private void cmpr_preview_ck_MouseMove(object sender, MouseEventArgs e)
         {
-            if (cmpr_preview == null)
+            if (cmpr_preview == null || layout != 3)
                 return;
             cmpr_x = (int)((e.X - cmpr_x_offscreen) / (mag_ratio * grid_ratio));
             cmpr_y = (int)((e.Y - cmpr_y_offscreen) / (mag_ratio * grid_ratio));
@@ -19332,6 +19439,7 @@ namespace plt0_gui
 
         private void cmpr_preview_ck_MouseLeave(object sender, EventArgs e)
         {
+            Hide_description();
             if (cmpr_preview_vanilla != null && !cmpr_hover)
                 cmpr_preview_ck.Image = GetImageFromByteArray(cmpr_preview_vanilla);
             previous_block = -1;
@@ -19373,38 +19481,48 @@ namespace plt0_gui
         }
         private void Save_CMPR_Texture(string cmpr_filename)
         {
+            if (prevent_execution)
+            {
+                Parse_Markdown(d[193], cmpr_warning);
+                return;
+            }
+            prevent_execution = true;
             if (layout == 6)
             {
                 Save_Opening_Bnr(cmpr_filename);
-                return;
             }
-            invisible_description();
-            if (cmpr_file == null)
+            else if (cmpr_file == null)
             {
-                Parse_Markdown(d[172], description);
-                return;
+                Parse_Markdown(d[172], cmpr_warning);
             }
-            if (cmpr_filename == "")
+            else if (cmpr_filename == "")
             {
-                Parse_Markdown(d[173], description);
-                return;
+                Parse_Markdown(d[173], cmpr_warning);
             }
-            try
+            else
             {
-                using (FileStream fs = new FileStream(cmpr_filename, FileMode.Create))
+                try
                 {
-                    fs.Write(cmpr_file, 0, cmpr_file.Length);
+                    using (FileStream fs = new FileStream(cmpr_filename, FileMode.Create))
+                    {
+                        fs.Write(cmpr_file, 0, cmpr_file.Length);
+                    }
+                    Parse_Markdown(d[174], cmpr_warning);
                 }
-                Parse_Markdown(d[174], description);
-            }
-            catch (Exception ex)
-            {
-                description.Text = ex.Message;
-                if (ex.Message.Substring(0, 34) == "The process cannot access the file")  // because it is being used by another process
+                catch (Exception ex)
                 {
-                    Parse_Markdown(d[175], description);
+                    description.Text = ex.Message;
+                    if (ex.Message.Substring(0, 34) == "The process cannot access the file")  // because it is being used by another process
+                    {
+                        Parse_Markdown(d[175], cmpr_warning);
+                    }
                 }
             }
+            Task.Delay(5000).ContinueWith(t => endthis());
+        }
+        public void endthis()
+        {
+            prevent_execution = false;
         }
         private void cmpr_save_ck_Click(object sender, EventArgs e)
         {
@@ -19618,6 +19736,32 @@ namespace plt0_gui
         {
             //base.OnResizeEnd(e);
 
+        }
+
+        private void cmpr_preview_ck_MouseEnter(object sender, EventArgs e)
+        {
+            switch (layout)
+            {
+                case 3:
+                    Parse_Markdown(d[194]);
+                    break;
+                case 5:
+                    Parse_Markdown(d[195]);
+                    break;
+                case 6:
+                    Parse_Markdown(d[196]);
+                    break;
+            }
+        }
+
+        private void opening_ck_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(d[197]);
+        }
+
+        private void opening_ck_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
         }
     }
 }

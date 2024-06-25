@@ -170,10 +170,10 @@ will pick a colour\jwhen you click on a pixel\jof the preview picture\j\j\c Gree
 \c red Input file is not a CMPR texture
 \c yellow no. I told you already. You can't directly change Colour 3 or 4 
 \c white Sir, have you every wondered why there's no "A" in "RGB565" ?
-save failed\n\n\c Red No cmpr texture loaded
-save failed\n\n\c Red No output name specified
-\c Green saved \n\o
-save failed\n\n\c Red \o is used by another process
+save failed, \c Red no cmpr texture loaded
+save failed, \c Red no output name specified
+\c Green saved \o
+save failed, \c Red \o is used by another process
 \c orchid TPL Files are not supported currently
 (Norm 2) Adds Red*Red + Green*Green + Blue*Blue\nthis is norm is a sphere on the 3d space
 (Norm +inf) Keeps the longest out of red, green, or blue\nlitterally Max(red, green, blue)\nAlso called Tchebichev distance\nThis norm is a flat cube on the 3d space
@@ -191,10 +191,66 @@ Save the banner to what\jyou've written in output name\jalso changes the text\j\
 \c red Game title is 32 characters at most
 \c red Game compagny is 32 characters at most
 \c red Game description is 128 characters at most
+\c yellow save failed. You're saving too fast.
+accurate preview of your CMPR texture.\j\c coral You can select a block and paint on it\j\c coral with mouse clicks! 
+preview of your texture with\nall 16 colours used as a palette
+input file: the future banner\n bti or tex0 in RGB5A3 with a size of 96x32 
+input file2: the current banner\n raw image content in RGB5A3 with a size of 96x32
 this is the first line \j\c coral second line\j\c SpringGreen third line\j\c DeepSkyBlue fourth line\j\c Violet fith line is here\j\c pink can we see the sixth one\j\c orange on my way to show the seventh one\j\c purple the purple eigth one\j\c chartreuse and this is the ninth one\c yellow this is the tenth one
 note: line 164 to line 176 are LABELS, not descriptions, so they can't take \j as argument, which results in only 1 colour, and only 1 font type for each.
 color, 16 bits per pixel - no alpha \j\c coral 5 bits red\j\c SpringGreen 6 bits green\j\c DeepSkyBlue 5 bits blue\j\c Violet  test\j\c pink test2\j\c orange text\j\c purple purple\j\c chartreuse chartreuse\c yellow yellow
 Hello \u ! you found an easter egg lol \n\ndid you know most apps have a folder in \a ?\j\j\j\n\n\c Red this one doesn't though. I prefer using local files.
 this is padding data to alignment. (meme)
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
+this is padding data to alignment.
 this is padding data to alignment.
 this is padding data to alignment.
