@@ -1918,7 +1918,7 @@ class CMPR_class
                 }
                 break; // old: Most Used/Furthest
             case 9: // hidden: darkest/lightest
-                // this algorithm has been fused in "Average"
+                // this algorithm has been fused in "Default"
                 for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
                 {
                     if (!Load_Block_RGB())
@@ -1949,7 +1949,7 @@ class CMPR_class
             case 10: // hidden: Brute Force
                      // test litteraly every couple of ushort rgb565 colours. thus making 65536² combinations (equals the int max size, more than 4 billion combinations)
                      // test which combination is the best one by iterating over all couples
-                     // there is no way to use it unless you modify this project and optimize this algorithm
+                     // there is no way to use it unless you modify this project and optimize this algorithm because it is too long to complete
                      // it rather is a code easter egg left for comparison purpose
                 for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
                 {
@@ -2761,7 +2761,7 @@ class CMPR_class
         diff = (ushort)(((Colours[h][0] >> 3) << 11) + ((Colours[h][1] >> 2) << 5) + (Colours[h][2] >> 3)); // the RGB565 colour
         if (alpha_bitfield != 0)  // put the biggest ushort in second place in order to have transparency
         {
-            if (pixel > diff)  // put pixel at the second spot
+            if (pixel > diff)  // there is transparency
             {
                 index[0] = (byte)(diff >> 8);
                 index[1] = (byte)(diff);

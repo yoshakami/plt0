@@ -17735,7 +17735,7 @@ namespace plt0_gui
         }
         private void cmpr_max_TextChanged(object sender, EventArgs e)
         {
-            Parse_byte_text(cmpr_max_txt, out cmpr_max, 16);
+            Parse_byte_text(cmpr_max_txt, out cmpr_max, 100);
             Organize_args();
             Preview(true);
         }
