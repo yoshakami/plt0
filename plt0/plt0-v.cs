@@ -1961,12 +1961,14 @@ namespace plt0_gui
         }
         private void Layout_All()
         {
+            if (opening_layout_is_enabled)
+                Disable_Opening_Layout();
+            if (decode_layout_is_enabled)
+                Disable_Decode_Layout();
             if (preview_layout_is_enabled)
                 Disable_Preview_Layout();
             if (cmpr_layout_is_enabled)
                 Disable_Paint_Layout();
-            if (decode_layout_is_enabled)
-                Disable_Decode_Layout();
             if (encoding == 14)
                 View_cmpr(true);
             else
@@ -2071,14 +2073,16 @@ namespace plt0_gui
             else
                 Hide_algorithm(2);
             View_algorithm(algorithm);
+            if (opening_layout_is_enabled)
+                Disable_Opening_Layout();
+            if (decode_layout_is_enabled)
+                Disable_Decode_Layout();
             if (preview_layout_is_enabled)
                 Disable_Preview_Layout();
             if (all_layout_is_enabled)
                 Disable_All_Layout();
             if (cmpr_layout_is_enabled)
                 Disable_Paint_Layout();
-            if (decode_layout_is_enabled)
-                Disable_Decode_Layout();
             // TODO: disable new layout (this is Auto)
         }
         private void Layout_Preview()
@@ -2114,14 +2118,16 @@ namespace plt0_gui
             round3_txt.Visible = true;
             round4_label.Visible = true;
             round4_txt.Visible = true;
+            if (opening_layout_is_enabled)
+                Disable_Opening_Layout();
+            if (decode_layout_is_enabled)
+                Disable_Decode_Layout();
             if (!preview_layout_is_enabled)
                 Enable_Preview_Layout();
             if (all_layout_is_enabled)
                 Disable_All_Layout();
             if (cmpr_layout_is_enabled)
                 Disable_Paint_Layout();
-            if (decode_layout_is_enabled)
-                Disable_Decode_Layout();
             num_colours_label.Visible = true;
             num_colours_txt.Visible = true;
             auto_update_ck.Visible = true;
@@ -2232,6 +2238,7 @@ namespace plt0_gui
         }
         private void Disable_Paint_Layout(bool enable_all = true)
         {
+            View_diversity();
             Hide_Paint_Stuff();
             if (enable_all)
             {
@@ -2438,12 +2445,14 @@ namespace plt0_gui
             if (!cmpr_layout_is_enabled)
             {
                 layout = 1;
+                if (opening_layout_is_enabled)
+                    Disable_Opening_Layout();
+                if (decode_layout_is_enabled)
+                    Disable_Decode_Layout();
                 if (all_layout_is_enabled)
                     Disable_All_Layout();
                 if (preview_layout_is_enabled)
                     Disable_Preview_Layout();
-                if (decode_layout_is_enabled)
-                    Disable_Decode_Layout();
                 // TODO: disable new layout (this is paint)
                 Hide_mag();
                 Hide_min();
@@ -2630,6 +2639,8 @@ namespace plt0_gui
                 Disable_Paint_Layout(false);
             if (preview_layout_is_enabled)
                 Disable_Preview_Layout();
+            if (opening_layout_is_enabled)
+                Disable_Opening_Layout();
             decode_layout_is_enabled = true;
             Hide_algorithm(255, true);
             Hide_alpha(true);
@@ -2750,6 +2761,7 @@ namespace plt0_gui
         }
         private void Disable_Decode_Layout()
         {
+            View_diversity();
             image_ck.Visible = false;
             view_cli_param_ck.Visible = false;
             view_cli_param_label.Visible = false;
@@ -2789,6 +2801,40 @@ namespace plt0_gui
             textchange_ck.Visible = false;
             textchange_label.Visible = false;
             View_Colour_Channels();
+        }
+        private void Disable_Opening_Layout()
+        {
+            Disable_Paint_Layout();
+            cmpr_preview_ck.Visible = false;
+            cmpr_warning.Visible = false;
+            cmpr_sel_label.Visible = false;
+            cmpr_save_ck.Visible = false;
+            cmpr_save_as_ck.Visible = false;
+            mipmaps_label.Visible = true;
+            mipmaps_txt.Visible = true;
+            input_file2_label.Location = new Point(input_file2_label.Location.X, input_file2_label.Location.Y - (int)(banner_11_ck.Height * 0.4));
+            input_file2_txt.Location = new Point(input_file2_txt.Location.X, input_file2_txt.Location.Y - (int)(banner_11_ck.Height * 0.4));
+            output_name_label.Location = new Point(output_name_label.Location.X, output_name_label.Location.Y - (int)(banner_11_ck.Height << 1));
+            output_name_txt.Location = new Point(output_name_txt.Location.X, output_name_txt.Location.Y - (int)(banner_11_ck.Height << 1));
+            Parse_Markdown(d[185], cmpr_sel_label);  // TODO: change
+            for (int i = 0; i < opening_textbox.Count; i++)
+            {
+                opening_textbox[i].Visible = false;
+            }
+            for (byte i = 0; i < 9; i++)
+            {
+                desc[i].Location = new Point((int)((desc[i].Location.X - 900) * width_ratio), (int)((desc[i].Location.Y - 100) * height_ratio));
+            }
+            description_title.Location = new Point(
+                (int)(((description_title.Location.X - 900) * width_ratio)),
+                (int)(((description_title.Location.Y - 100) * height_ratio)));
+
+            //cmpr_sel_label.Location = new Point(cmpr_save_as_ck.Location.X - cmpr_save_as_ck.Width * 2, cmpr_save_as_ck.Location.Y);
+
+            this.cmpr_preview_ck.MaximumSize = new System.Drawing.Size(this.cmpr_preview_ck.MaximumSize.Width, this.cmpr_preview_ck.MaximumSize.Height << 1);
+            this.cmpr_preview_ck.MinimumSize = this.cmpr_preview_ck.MaximumSize;
+            this.cmpr_preview_ck.Size = this.cmpr_preview_ck.MaximumSize;
+            opening_layout_is_enabled = false;
         }
         private void Layout_Palette()
         {
@@ -9282,11 +9328,11 @@ namespace plt0_gui
             this.input_file_label.BackColor = System.Drawing.Color.Transparent;
             this.input_file_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.input_file_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.input_file_label.Location = new System.Drawing.Point(21, 929);
+            this.input_file_label.Location = new System.Drawing.Point(21, 937);
             this.input_file_label.Margin = new System.Windows.Forms.Padding(0);
             this.input_file_label.Name = "input_file_label";
-            this.input_file_label.Padding = new System.Windows.Forms.Padding(0, 10, 0, 10);
-            this.input_file_label.Size = new System.Drawing.Size(94, 45);
+            this.input_file_label.Padding = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.input_file_label.Size = new System.Drawing.Size(106, 35);
             this.input_file_label.TabIndex = 432;
             this.input_file_label.Text = "Input file";
             this.input_file_label.DoubleClick += new System.EventHandler(this.input_file_Click);
@@ -9299,10 +9345,11 @@ namespace plt0_gui
             this.input_file2_label.BackColor = System.Drawing.Color.Transparent;
             this.input_file2_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.input_file2_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.input_file2_label.Location = new System.Drawing.Point(150, 941);
+            this.input_file2_label.Location = new System.Drawing.Point(162, 942);
             this.input_file2_label.Margin = new System.Windows.Forms.Padding(0);
             this.input_file2_label.Name = "input_file2_label";
-            this.input_file2_label.Size = new System.Drawing.Size(112, 25);
+            this.input_file2_label.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
+            this.input_file2_label.Size = new System.Drawing.Size(112, 30);
             this.input_file2_label.TabIndex = 434;
             this.input_file2_label.Text = "Input file 2";
             this.input_file2_label.DoubleClick += new System.EventHandler(this.input_file2_Click);
@@ -9333,10 +9380,11 @@ namespace plt0_gui
             this.mipmaps_label.BackColor = System.Drawing.Color.Transparent;
             this.mipmaps_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.mipmaps_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.mipmaps_label.Location = new System.Drawing.Point(499, 941);
+            this.mipmaps_label.Location = new System.Drawing.Point(503, 943);
             this.mipmaps_label.Margin = new System.Windows.Forms.Padding(0);
             this.mipmaps_label.Name = "mipmaps_label";
-            this.mipmaps_label.Size = new System.Drawing.Size(98, 25);
+            this.mipmaps_label.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
+            this.mipmaps_label.Size = new System.Drawing.Size(98, 30);
             this.mipmaps_label.TabIndex = 436;
             this.mipmaps_label.Text = "mipmaps";
             this.mipmaps_label.MouseEnter += new System.EventHandler(this.mipmaps_MouseEnter);
@@ -9367,10 +9415,11 @@ namespace plt0_gui
             this.diversity_label.BackColor = System.Drawing.Color.Transparent;
             this.diversity_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.diversity_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.diversity_label.Location = new System.Drawing.Point(498, 877);
+            this.diversity_label.Location = new System.Drawing.Point(506, 878);
             this.diversity_label.Margin = new System.Windows.Forms.Padding(0);
             this.diversity_label.Name = "diversity_label";
-            this.diversity_label.Size = new System.Drawing.Size(92, 25);
+            this.diversity_label.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
+            this.diversity_label.Size = new System.Drawing.Size(92, 30);
             this.diversity_label.TabIndex = 438;
             this.diversity_label.Text = "diversity";
             this.diversity_label.MouseEnter += new System.EventHandler(this.diversity_MouseEnter);
@@ -9401,10 +9450,11 @@ namespace plt0_gui
             this.diversity2_label.BackColor = System.Drawing.Color.Transparent;
             this.diversity2_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.diversity2_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.diversity2_label.Location = new System.Drawing.Point(620, 877);
+            this.diversity2_label.Location = new System.Drawing.Point(628, 878);
             this.diversity2_label.Margin = new System.Windows.Forms.Padding(0);
             this.diversity2_label.Name = "diversity2_label";
-            this.diversity2_label.Size = new System.Drawing.Size(104, 25);
+            this.diversity2_label.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
+            this.diversity2_label.Size = new System.Drawing.Size(104, 30);
             this.diversity2_label.TabIndex = 440;
             this.diversity2_label.Text = "diversity2";
             this.diversity2_label.MouseEnter += new System.EventHandler(this.diversity2_MouseEnter);
@@ -9435,10 +9485,11 @@ namespace plt0_gui
             this.percentage_label.BackColor = System.Drawing.Color.Transparent;
             this.percentage_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.percentage_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.percentage_label.Location = new System.Drawing.Point(753, 877);
+            this.percentage_label.Location = new System.Drawing.Point(761, 878);
             this.percentage_label.Margin = new System.Windows.Forms.Padding(0);
             this.percentage_label.Name = "percentage_label";
-            this.percentage_label.Size = new System.Drawing.Size(120, 25);
+            this.percentage_label.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
+            this.percentage_label.Size = new System.Drawing.Size(120, 30);
             this.percentage_label.TabIndex = 442;
             this.percentage_label.Text = "percentage";
             this.percentage_label.MouseEnter += new System.EventHandler(this.percentage_MouseEnter);
@@ -9469,10 +9520,11 @@ namespace plt0_gui
             this.percentage2_label.BackColor = System.Drawing.Color.Transparent;
             this.percentage2_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.percentage2_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.percentage2_label.Location = new System.Drawing.Point(900, 877);
+            this.percentage2_label.Location = new System.Drawing.Point(908, 878);
             this.percentage2_label.Margin = new System.Windows.Forms.Padding(0);
             this.percentage2_label.Name = "percentage2_label";
-            this.percentage2_label.Size = new System.Drawing.Size(132, 25);
+            this.percentage2_label.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
+            this.percentage2_label.Size = new System.Drawing.Size(132, 30);
             this.percentage2_label.TabIndex = 444;
             this.percentage2_label.Text = "percentage2";
             this.percentage2_label.MouseEnter += new System.EventHandler(this.percentage2_MouseEnter);
@@ -9503,10 +9555,11 @@ namespace plt0_gui
             this.cmpr_max_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_max_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_max_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_max_label.Location = new System.Drawing.Point(617, 941);
+            this.cmpr_max_label.Location = new System.Drawing.Point(624, 943);
             this.cmpr_max_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_max_label.Name = "cmpr_max_label";
-            this.cmpr_max_label.Size = new System.Drawing.Size(121, 25);
+            this.cmpr_max_label.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
+            this.cmpr_max_label.Size = new System.Drawing.Size(121, 30);
             this.cmpr_max_label.TabIndex = 446;
             this.cmpr_max_label.Text = "CMPR Max";
             this.cmpr_max_label.MouseEnter += new System.EventHandler(this.cmpr_max_MouseEnter);
@@ -9537,10 +9590,11 @@ namespace plt0_gui
             this.output_name_label.BackColor = System.Drawing.Color.Transparent;
             this.output_name_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.output_name_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.output_name_label.Location = new System.Drawing.Point(308, 941);
+            this.output_name_label.Location = new System.Drawing.Point(318, 942);
             this.output_name_label.Margin = new System.Windows.Forms.Padding(0);
             this.output_name_label.Name = "output_name_label";
-            this.output_name_label.Size = new System.Drawing.Size(136, 25);
+            this.output_name_label.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
+            this.output_name_label.Size = new System.Drawing.Size(136, 30);
             this.output_name_label.TabIndex = 448;
             this.output_name_label.Text = "Output name";
             this.output_name_label.DoubleClick += new System.EventHandler(this.output_name_Click);
@@ -9571,10 +9625,11 @@ namespace plt0_gui
             this.cmpr_min_alpha_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_min_alpha_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_min_alpha_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_min_alpha_label.Location = new System.Drawing.Point(762, 941);
+            this.cmpr_min_alpha_label.Location = new System.Drawing.Point(774, 942);
             this.cmpr_min_alpha_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_min_alpha_label.Name = "cmpr_min_alpha_label";
-            this.cmpr_min_alpha_label.Size = new System.Drawing.Size(174, 25);
+            this.cmpr_min_alpha_label.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
+            this.cmpr_min_alpha_label.Size = new System.Drawing.Size(174, 30);
             this.cmpr_min_alpha_label.TabIndex = 450;
             this.cmpr_min_alpha_label.Text = "CMPR Min alpha";
             this.cmpr_min_alpha_label.MouseEnter += new System.EventHandler(this.cmpr_min_alpha_MouseEnter);
@@ -9605,10 +9660,11 @@ namespace plt0_gui
             this.num_colours_label.BackColor = System.Drawing.Color.Transparent;
             this.num_colours_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.num_colours_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.num_colours_label.Location = new System.Drawing.Point(975, 941);
+            this.num_colours_label.Location = new System.Drawing.Point(985, 942);
             this.num_colours_label.Margin = new System.Windows.Forms.Padding(0);
             this.num_colours_label.Name = "num_colours_label";
-            this.num_colours_label.Size = new System.Drawing.Size(129, 25);
+            this.num_colours_label.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
+            this.num_colours_label.Size = new System.Drawing.Size(129, 30);
             this.num_colours_label.TabIndex = 452;
             this.num_colours_label.Text = "num colours";
             this.num_colours_label.MouseEnter += new System.EventHandler(this.num_colours_MouseEnter);
@@ -9638,10 +9694,11 @@ namespace plt0_gui
             this.round3_label.BackColor = System.Drawing.Color.Transparent;
             this.round3_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.round3_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.round3_label.Location = new System.Drawing.Point(1157, 941);
+            this.round3_label.Location = new System.Drawing.Point(1165, 942);
             this.round3_label.Margin = new System.Windows.Forms.Padding(0);
             this.round3_label.Name = "round3_label";
-            this.round3_label.Size = new System.Drawing.Size(79, 25);
+            this.round3_label.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
+            this.round3_label.Size = new System.Drawing.Size(79, 30);
             this.round3_label.TabIndex = 454;
             this.round3_label.Text = "round3";
             this.round3_label.MouseEnter += new System.EventHandler(this.round3_MouseEnter);
@@ -9672,10 +9729,11 @@ namespace plt0_gui
             this.round4_label.BackColor = System.Drawing.Color.Transparent;
             this.round4_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.round4_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.round4_label.Location = new System.Drawing.Point(1277, 941);
+            this.round4_label.Location = new System.Drawing.Point(1285, 942);
             this.round4_label.Margin = new System.Windows.Forms.Padding(0);
             this.round4_label.Name = "round4_label";
-            this.round4_label.Size = new System.Drawing.Size(79, 25);
+            this.round4_label.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
+            this.round4_label.Size = new System.Drawing.Size(79, 30);
             this.round4_label.TabIndex = 456;
             this.round4_label.Text = "round4";
             this.round4_label.MouseEnter += new System.EventHandler(this.round4_MouseEnter);
@@ -9706,10 +9764,11 @@ namespace plt0_gui
             this.round5_label.BackColor = System.Drawing.Color.Transparent;
             this.round5_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.round5_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.round5_label.Location = new System.Drawing.Point(1395, 941);
+            this.round5_label.Location = new System.Drawing.Point(1403, 942);
             this.round5_label.Margin = new System.Windows.Forms.Padding(0);
             this.round5_label.Name = "round5_label";
-            this.round5_label.Size = new System.Drawing.Size(79, 25);
+            this.round5_label.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
+            this.round5_label.Size = new System.Drawing.Size(79, 30);
             this.round5_label.TabIndex = 458;
             this.round5_label.Text = "round5";
             this.round5_label.MouseEnter += new System.EventHandler(this.round5_MouseEnter);
@@ -9740,10 +9799,11 @@ namespace plt0_gui
             this.round6_label.BackColor = System.Drawing.Color.Transparent;
             this.round6_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.round6_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.round6_label.Location = new System.Drawing.Point(1504, 941);
+            this.round6_label.Location = new System.Drawing.Point(1512, 942);
             this.round6_label.Margin = new System.Windows.Forms.Padding(0);
             this.round6_label.Name = "round6_label";
-            this.round6_label.Size = new System.Drawing.Size(79, 25);
+            this.round6_label.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
+            this.round6_label.Size = new System.Drawing.Size(79, 30);
             this.round6_label.TabIndex = 460;
             this.round6_label.Text = "round6";
             this.round6_label.MouseEnter += new System.EventHandler(this.round6_MouseEnter);
@@ -9774,10 +9834,11 @@ namespace plt0_gui
             this.custom_a_label.BackColor = System.Drawing.Color.Transparent;
             this.custom_a_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.custom_a_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.custom_a_label.Location = new System.Drawing.Point(1557, 877);
+            this.custom_a_label.Location = new System.Drawing.Point(1557, 878);
             this.custom_a_label.Margin = new System.Windows.Forms.Padding(0);
             this.custom_a_label.Name = "custom_a_label";
-            this.custom_a_label.Size = new System.Drawing.Size(27, 25);
+            this.custom_a_label.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
+            this.custom_a_label.Size = new System.Drawing.Size(27, 30);
             this.custom_a_label.TabIndex = 468;
             this.custom_a_label.Text = "A";
             this.custom_a_label.MouseEnter += new System.EventHandler(this.custom_a_MouseEnter);
@@ -9808,10 +9869,11 @@ namespace plt0_gui
             this.custom_b_label.BackColor = System.Drawing.Color.Transparent;
             this.custom_b_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.custom_b_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.custom_b_label.Location = new System.Drawing.Point(1479, 877);
+            this.custom_b_label.Location = new System.Drawing.Point(1479, 878);
             this.custom_b_label.Margin = new System.Windows.Forms.Padding(0);
             this.custom_b_label.Name = "custom_b_label";
-            this.custom_b_label.Size = new System.Drawing.Size(26, 25);
+            this.custom_b_label.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
+            this.custom_b_label.Size = new System.Drawing.Size(26, 30);
             this.custom_b_label.TabIndex = 466;
             this.custom_b_label.Text = "B";
             this.custom_b_label.MouseEnter += new System.EventHandler(this.custom_b_MouseEnter);
@@ -9842,10 +9904,11 @@ namespace plt0_gui
             this.custom_g_label.BackColor = System.Drawing.Color.Transparent;
             this.custom_g_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.custom_g_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.custom_g_label.Location = new System.Drawing.Point(1394, 877);
+            this.custom_g_label.Location = new System.Drawing.Point(1394, 878);
             this.custom_g_label.Margin = new System.Windows.Forms.Padding(0);
             this.custom_g_label.Name = "custom_g_label";
-            this.custom_g_label.Size = new System.Drawing.Size(28, 25);
+            this.custom_g_label.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
+            this.custom_g_label.Size = new System.Drawing.Size(28, 30);
             this.custom_g_label.TabIndex = 464;
             this.custom_g_label.Text = "G";
             this.custom_g_label.MouseEnter += new System.EventHandler(this.custom_g_MouseEnter);
@@ -9876,10 +9939,11 @@ namespace plt0_gui
             this.custom_r_label.BackColor = System.Drawing.Color.Transparent;
             this.custom_r_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.custom_r_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.custom_r_label.Location = new System.Drawing.Point(1312, 877);
+            this.custom_r_label.Location = new System.Drawing.Point(1312, 878);
             this.custom_r_label.Margin = new System.Windows.Forms.Padding(0);
             this.custom_r_label.Name = "custom_r_label";
-            this.custom_r_label.Size = new System.Drawing.Size(26, 25);
+            this.custom_r_label.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
+            this.custom_r_label.Size = new System.Drawing.Size(26, 30);
             this.custom_r_label.TabIndex = 462;
             this.custom_r_label.Text = "R";
             this.custom_r_label.MouseEnter += new System.EventHandler(this.custom_r_MouseEnter);
@@ -10662,11 +10726,11 @@ namespace plt0_gui
             this.cmpr_c1_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_c1_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_c1_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_c1_label.Location = new System.Drawing.Point(2060, 29);
+            this.cmpr_c1_label.Location = new System.Drawing.Point(2060, 23);
             this.cmpr_c1_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_c1_label.Name = "cmpr_c1_label";
-            this.cmpr_c1_label.Padding = new System.Windows.Forms.Padding(15, 15, 15, 10);
-            this.cmpr_c1_label.Size = new System.Drawing.Size(124, 50);
+            this.cmpr_c1_label.Padding = new System.Windows.Forms.Padding(22, 20, 20, 5);
+            this.cmpr_c1_label.Size = new System.Drawing.Size(136, 50);
             this.cmpr_c1_label.TabIndex = 610;
             this.cmpr_c1_label.Text = "Colour 1";
             this.cmpr_c1_label.MouseEnter += new System.EventHandler(this.cmpr_c1_MouseEnter);
@@ -10729,11 +10793,11 @@ namespace plt0_gui
             this.cmpr_c2_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_c2_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_c2_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_c2_label.Location = new System.Drawing.Point(2060, 124);
+            this.cmpr_c2_label.Location = new System.Drawing.Point(2060, 118);
             this.cmpr_c2_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_c2_label.Name = "cmpr_c2_label";
-            this.cmpr_c2_label.Padding = new System.Windows.Forms.Padding(15, 15, 15, 10);
-            this.cmpr_c2_label.Size = new System.Drawing.Size(124, 50);
+            this.cmpr_c2_label.Padding = new System.Windows.Forms.Padding(22, 20, 20, 5);
+            this.cmpr_c2_label.Size = new System.Drawing.Size(136, 50);
             this.cmpr_c2_label.TabIndex = 614;
             this.cmpr_c2_label.Text = "Colour 2";
             this.cmpr_c2_label.MouseEnter += new System.EventHandler(this.cmpr_c2_MouseEnter);
@@ -10780,11 +10844,11 @@ namespace plt0_gui
             this.cmpr_c3_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_c3_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_c3_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_c3_label.Location = new System.Drawing.Point(2060, 222);
+            this.cmpr_c3_label.Location = new System.Drawing.Point(2060, 214);
             this.cmpr_c3_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_c3_label.Name = "cmpr_c3_label";
-            this.cmpr_c3_label.Padding = new System.Windows.Forms.Padding(15, 15, 15, 10);
-            this.cmpr_c3_label.Size = new System.Drawing.Size(124, 50);
+            this.cmpr_c3_label.Padding = new System.Windows.Forms.Padding(22, 20, 20, 8);
+            this.cmpr_c3_label.Size = new System.Drawing.Size(136, 53);
             this.cmpr_c3_label.TabIndex = 618;
             this.cmpr_c3_label.Text = "Colour 3";
             this.cmpr_c3_label.MouseEnter += new System.EventHandler(this.cmpr_c3_MouseEnter);
@@ -10829,11 +10893,11 @@ namespace plt0_gui
             this.cmpr_c4_label.BackColor = System.Drawing.Color.Transparent;
             this.cmpr_c4_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cmpr_c4_label.ForeColor = System.Drawing.SystemColors.Control;
-            this.cmpr_c4_label.Location = new System.Drawing.Point(2060, 319);
+            this.cmpr_c4_label.Location = new System.Drawing.Point(2060, 314);
             this.cmpr_c4_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_c4_label.Name = "cmpr_c4_label";
-            this.cmpr_c4_label.Padding = new System.Windows.Forms.Padding(15, 15, 15, 10);
-            this.cmpr_c4_label.Size = new System.Drawing.Size(124, 50);
+            this.cmpr_c4_label.Padding = new System.Windows.Forms.Padding(22, 20, 20, 5);
+            this.cmpr_c4_label.Size = new System.Drawing.Size(136, 50);
             this.cmpr_c4_label.TabIndex = 622;
             this.cmpr_c4_label.Text = "Colour 4";
             this.cmpr_c4_label.MouseEnter += new System.EventHandler(this.cmpr_c4_MouseEnter);
@@ -11188,8 +11252,8 @@ namespace plt0_gui
             this.cmpr_hover_colour_label.Location = new System.Drawing.Point(2596, 320);
             this.cmpr_hover_colour_label.Margin = new System.Windows.Forms.Padding(0);
             this.cmpr_hover_colour_label.Name = "cmpr_hover_colour_label";
-            this.cmpr_hover_colour_label.Padding = new System.Windows.Forms.Padding(0, 15, 0, 10);
-            this.cmpr_hover_colour_label.Size = new System.Drawing.Size(139, 50);
+            this.cmpr_hover_colour_label.Padding = new System.Windows.Forms.Padding(0, 15, 0, 5);
+            this.cmpr_hover_colour_label.Size = new System.Drawing.Size(139, 45);
             this.cmpr_hover_colour_label.TabIndex = 685;
             this.cmpr_hover_colour_label.Text = "Hover Colour";
             // 
@@ -12339,7 +12403,7 @@ namespace plt0_gui
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(4000, 2180);
+            this.ClientSize = new System.Drawing.Size(3524, 1061);
             this.Controls.Add(this.textBox30);
             this.Controls.Add(this.textBox29);
             this.Controls.Add(this.textBox28);
@@ -12454,15 +12518,15 @@ namespace plt0_gui
             this.Controls.Add(this.cmpr_swap_label);
             this.Controls.Add(this.cmpr_c4);
             this.Controls.Add(this.cmpr_c4_txt);
-            this.Controls.Add(this.cmpr_c4_label);
             this.Controls.Add(this.cmpr_c3);
             this.Controls.Add(this.cmpr_c3_txt);
-            this.Controls.Add(this.cmpr_c3_label);
             this.Controls.Add(this.cmpr_c2);
             this.Controls.Add(this.cmpr_c2_txt);
-            this.Controls.Add(this.cmpr_c2_label);
             this.Controls.Add(this.cmpr_c1);
             this.Controls.Add(this.cmpr_c1_txt);
+            this.Controls.Add(this.cmpr_c4_label);
+            this.Controls.Add(this.cmpr_c3_label);
+            this.Controls.Add(this.cmpr_c2_label);
             this.Controls.Add(this.cmpr_c1_label);
             this.Controls.Add(this.colour_channels_label);
             this.Controls.Add(this.reversex_ck);

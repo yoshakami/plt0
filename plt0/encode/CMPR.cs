@@ -910,7 +910,7 @@ class CMPR_class
                     // 7 = Darkest colour
                     // 8 = Lightest colour
                     // 9 = average colour
-                    // deviant average is the average of the 8 colours the most far from the average
+                    // deviant average is the average of the 8 colours the furthest from the average
 
                     default:  // Luminance
                         for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
@@ -953,7 +953,7 @@ class CMPR_class
                             Colours.Add(rgb.ToArray());  // brightest colour
                             if (c == 16)
                             {
-                                rgb[0] = (byte)(all_red >> 4);
+                                rgb[0] = (byte)(all_red >> 4);  // total sum of red divided by number of pixels (which is exactly 16 here)
                                 rgb[1] = (byte)(all_green >> 4);
                                 rgb[2] = (byte)(all_blue >> 4);
                             }
@@ -1043,22 +1043,23 @@ class CMPR_class
                             else
                             {
                                 w = (sbyte)(_plt0.cmpr_max % 10);
-                                h = (sbyte)(_plt0.cmpr_max % 100);
+                                h = (sbyte)(_plt0.cmpr_max / 10);
 
-                                w -= 3;
-                                if (w == -3)
-                                    w = 7;
-                                if (w == -2)
-                                    w = 8;
-                                if (w == -1)
-                                    w = 9;
-                                h -= 3;
-                                if (h == -3)
-                                    h = 7;
-                                if (h == -2)
-                                    h = 8;
-                                if (h == -1)
-                                    h = 9;
+
+                                w += 3;
+                                if (w == 10)
+                                    w = 0;
+                                if (w == 11)
+                                    w = 1;
+                                if (w == 12)
+                                    w = 2;
+                                h += 3;
+                                if (h == 10)
+                                    h = 0;
+                                if (h == 11)
+                                    h = 1;
+                                if (h == 12)
+                                    h = 2;
                             }
                             Organize_Colours_Average();
                             Process_Indexes_CIE_709();
@@ -1197,22 +1198,22 @@ class CMPR_class
                             else
                             {
                                 w = (sbyte)(_plt0.cmpr_max % 10);
-                                h = (sbyte)(_plt0.cmpr_max % 100);
+                                h = (sbyte)(_plt0.cmpr_max / 10);
 
-                                w -= 3;
-                                if (w == -3)
-                                    w = 7;
-                                if (w == -2)
-                                    w = 8;
-                                if (w == -1)
-                                    w = 9;
-                                h -= 3;
-                                if (h == -3)
-                                    h = 7;
-                                if (h == -2)
-                                    h = 8;
-                                if (h == -1)
-                                    h = 9;
+                                w += 3;
+                                if (w == 10)
+                                    w = 0;
+                                if (w == 11)
+                                    w = 1;
+                                if (w == 12)
+                                    w = 2;
+                                h += 3;
+                                if (h == 10)
+                                    h = 0;
+                                if (h == 11)
+                                    h = 1;
+                                if (h == 12)
+                                    h = 2;
                             }
                             Organize_Colours_Average();
                             Process_Indexes_RGB();
@@ -1351,22 +1352,22 @@ class CMPR_class
                             else
                             {
                                 w = (sbyte)(_plt0.cmpr_max % 10);
-                                h = (sbyte)(_plt0.cmpr_max % 100);
+                                h = (sbyte)(_plt0.cmpr_max / 10);
 
-                                w -= 3;
-                                if (w == -3)
-                                    w = 7;
-                                if (w == -2)
-                                    w = 8;
-                                if (w == -1)
-                                    w = 9;
-                                h -= 3;
-                                if (h == -3)
-                                    h = 7;
-                                if (h == -2)
-                                    h = 8;
-                                if (h == -1)
-                                    h = 9;
+                                w += 3;
+                                if (w == 10)
+                                    w = 0;
+                                if (w == 11)
+                                    w = 1;
+                                if (w == 12)
+                                    w = 2;
+                                h += 3;
+                                if (h == 10)
+                                    h = 0;
+                                if (h == 11)
+                                    h = 1;
+                                if (h == 12)
+                                    h = 2;
                             }
                             Organize_Colours_Average();
                             Process_Indexes_Euclidian();
@@ -1529,22 +1530,22 @@ class CMPR_class
                             else
                             {
                                 w = (sbyte)(_plt0.cmpr_max % 10);
-                                h = (sbyte)(_plt0.cmpr_max % 100);
+                                h = (sbyte)(_plt0.cmpr_max / 10);
 
-                                w -= 3;
-                                if (w == -3)
-                                    w = 7;
-                                if (w == -2)
-                                    w = 8;
-                                if (w == -1)
-                                    w = 9;
-                                h -= 3;
-                                if (h == -3)
-                                    h = 7;
-                                if (h == -2)
-                                    h = 8;
-                                if (h == -1)
-                                    h = 9;
+                                w += 3;
+                                if (w == 10)
+                                    w = 0;
+                                if (w == 11)
+                                    w = 1;
+                                if (w == 12)
+                                    w = 2;
+                                h += 3;
+                                if (h == 10)
+                                    h = 0;
+                                if (h == 11)
+                                    h = 1;
+                                if (h == 12)
+                                    h = 2;
                             }
                             Organize_Colours_Average();
                             Process_Indexes_Infinite();
@@ -1686,22 +1687,22 @@ class CMPR_class
                             else
                             {
                                 w = (sbyte)(_plt0.cmpr_max % 10);
-                                h = (sbyte)(_plt0.cmpr_max % 100);
+                                h = (sbyte)(_plt0.cmpr_max / 10);
 
-                                w -= 3;
-                                if (w == -3)
-                                    w = 7;
-                                if (w == -2)
-                                    w = 8;
-                                if (w == -1)
-                                    w = 9;
-                                h -= 3;
-                                if (h == -3)
-                                    h = 7;
-                                if (h == -2)
-                                    h = 8;
-                                if (h == -1)
-                                    h = 9;
+                                w += 3;
+                                if (w == 10)
+                                    w = 0;
+                                if (w == 11)
+                                    w = 1;
+                                if (w == 12)
+                                    w = 2;
+                                h += 3;
+                                if (h == 10)
+                                    h = 0;
+                                if (h == 11)
+                                    h = 1;
+                                if (h == 12)
+                                    h = 2;
                             }
                             Organize_Colours_Average();
                             Process_Indexes_Delta_E();
@@ -2755,34 +2756,36 @@ class CMPR_class
     }
     private void Organize_Colours_Average()  // TODO
     {
-        if (alpha_bitfield != 0)  // put the biggest ushort in second place
+
+        pixel = (ushort)(((Colours[w][0] >> 3) << 11) + ((Colours[w][1] >> 2) << 5) + (Colours[w][2] >> 3)); // the RGB565 colour
+        diff = (ushort)(((Colours[h][0] >> 3) << 11) + ((Colours[h][1] >> 2) << 5) + (Colours[h][2] >> 3)); // the RGB565 colour
+        if (alpha_bitfield != 0)  // put the biggest ushort in second place in order to have transparency
         {
-            if (Colour_list[diff_min_index][1] > Colour_list[diff_max_index][1])  // put diff_min at the second spot
+            if (pixel > diff)  // put pixel at the second spot
             {
-                pixel = (ushort)(((red_min >> 3) << 11) + ((green_min >> 2) << 5) + (blue_min >> 3)); // the RGB565 colour
-                index[0] = (byte)(Colour_list[diff_max_index][1] >> 8);
-                index[1] = (byte)(Colour_list[diff_max_index][1]);
-                index[2] = (byte)(Colour_list[diff_min_index][1] >> 8);
-                index[3] = (byte)(Colour_list[diff_min_index][1]);
-                palette_rgba[0] = rgb565[Colour_list[diff_max_index][0]]; // red
-                palette_rgba[1] = rgb565[Colour_list[diff_max_index][0] + 1]; // green
-                palette_rgba[2] = rgb565[Colour_list[diff_max_index][0] + 2]; // blue
-                palette_rgba[4] = rgb565[Colour_list[diff_min_index][0]]; // red2
-                palette_rgba[5] = rgb565[Colour_list[diff_min_index][0] + 1]; // green2
-                palette_rgba[6] = rgb565[Colour_list[diff_min_index][0] + 2]; // blue2
+                index[0] = (byte)(diff >> 8);
+                index[1] = (byte)(diff);
+                index[2] = (byte)(pixel >> 8);
+                index[3] = (byte)(pixel);
+                palette_rgba[0] = Colours[h][0]; // red
+                palette_rgba[1] = Colours[h][1]; // green
+                palette_rgba[2] = Colours[h][2]; // blue
+                palette_rgba[4] = Colours[w][0]; // red2
+                palette_rgba[5] = Colours[w][1]; // green2
+                palette_rgba[6] = Colours[w][2]; // blue2
             }
             else
             {
-                index[0] = (byte)(Colour_list[diff_min_index][1] >> 8);
-                index[1] = (byte)(Colour_list[diff_min_index][1]);
-                index[2] = (byte)(Colour_list[diff_max_index][1] >> 8);
-                index[3] = (byte)(Colour_list[diff_max_index][1]);
-                palette_rgba[0] = rgb565[Colour_list[diff_min_index][0]]; // red
-                palette_rgba[1] = rgb565[Colour_list[diff_min_index][0] + 1]; // green
-                palette_rgba[2] = rgb565[Colour_list[diff_min_index][0] + 2]; // blue
-                palette_rgba[4] = rgb565[Colour_list[diff_max_index][0]]; // red2
-                palette_rgba[5] = rgb565[Colour_list[diff_max_index][0] + 1]; // green2
-                palette_rgba[6] = rgb565[Colour_list[diff_max_index][0] + 2]; // blue2
+                index[0] = (byte)(pixel >> 8);
+                index[1] = (byte)(pixel);
+                index[2] = (byte)(diff >> 8);
+                index[3] = (byte)(diff);
+                palette_rgba[0] = Colours[w][0]; // red2
+                palette_rgba[1] = Colours[w][1]; // green2
+                palette_rgba[2] = Colours[w][2]; // blue2
+                palette_rgba[4] = Colours[h][0]; // red
+                palette_rgba[5] = Colours[h][1]; // green
+                palette_rgba[6] = Colours[h][2]; // blue
             }
             palette_rgba[8] = (byte)((palette_rgba[0] + palette_rgba[4]) >> 1);
             palette_rgba[9] = (byte)((palette_rgba[1] + palette_rgba[5]) >> 1);
@@ -2793,34 +2796,35 @@ class CMPR_class
 
 
         }
-        else  // put biggest ushort in first place
+        else  // put biggest ushort in first place in order to avoid transparency
         {
             // of course, that's the exact opposite!
-            if (Colour_list[diff_min_index][1] > Colour_list[diff_max_index][1])  // put diff_min at the first spot
+
+            if (pixel > diff)  // put pixel at the first spot
             {
-                index[0] = (byte)(Colour_list[diff_min_index][1] >> 8);
-                index[1] = (byte)(Colour_list[diff_min_index][1]);
-                index[2] = (byte)(Colour_list[diff_max_index][1] >> 8);
-                index[3] = (byte)(Colour_list[diff_max_index][1]);
-                palette_rgba[0] = rgb565[Colour_list[diff_min_index][0]]; // red
-                palette_rgba[1] = rgb565[Colour_list[diff_min_index][0] + 1]; // green
-                palette_rgba[2] = rgb565[Colour_list[diff_min_index][0] + 2]; // blue
-                palette_rgba[4] = rgb565[Colour_list[diff_max_index][0]]; // red2
-                palette_rgba[5] = rgb565[Colour_list[diff_max_index][0] + 1]; // green2
-                palette_rgba[6] = rgb565[Colour_list[diff_max_index][0] + 2]; // blue2
+                index[0] = (byte)(pixel >> 8);
+                index[1] = (byte)(pixel);
+                index[2] = (byte)(diff >> 8);
+                index[3] = (byte)(diff);
+                palette_rgba[0] = Colours[w][0]; // red2
+                palette_rgba[1] = Colours[w][1]; // green2
+                palette_rgba[2] = Colours[w][2]; // blue2
+                palette_rgba[4] = Colours[h][0]; // red
+                palette_rgba[5] = Colours[h][1]; // green
+                palette_rgba[6] = Colours[h][2]; // blue
             }
             else
             {
-                index[0] = (byte)(Colour_list[diff_max_index][1] >> 8);
-                index[1] = (byte)(Colour_list[diff_max_index][1]);
-                index[2] = (byte)(Colour_list[diff_min_index][1] >> 8);
-                index[3] = (byte)(Colour_list[diff_min_index][1]);
-                palette_rgba[0] = rgb565[Colour_list[diff_max_index][0]]; // red
-                palette_rgba[1] = rgb565[Colour_list[diff_max_index][0] + 1]; // green
-                palette_rgba[2] = rgb565[Colour_list[diff_max_index][0] + 2]; // blue
-                palette_rgba[4] = rgb565[Colour_list[diff_min_index][0]]; // red2
-                palette_rgba[5] = rgb565[Colour_list[diff_min_index][0] + 1]; // green2
-                palette_rgba[6] = rgb565[Colour_list[diff_min_index][0] + 2]; // blue2
+                index[0] = (byte)(diff >> 8);
+                index[1] = (byte)(diff);
+                index[2] = (byte)(pixel >> 8);
+                index[3] = (byte)(pixel);
+                palette_rgba[0] = Colours[h][0]; // red
+                palette_rgba[1] = Colours[h][1]; // green
+                palette_rgba[2] = Colours[h][2]; // blue
+                palette_rgba[4] = Colours[w][0]; // red2
+                palette_rgba[5] = Colours[w][1]; // green2
+                palette_rgba[6] = Colours[w][2]; // blue2
             }
 
             palette_rgba[8] = (byte)(((palette_rgba[0] << 1) / 3) + (palette_rgba[4] / 3));
