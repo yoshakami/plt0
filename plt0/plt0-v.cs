@@ -58,6 +58,7 @@ namespace plt0_gui
         byte[] bnr_file = new byte[4];
         byte[] byte32 = new byte[32];
         byte[] byte80 = new byte[0x80];
+        byte[] byte84 = new byte[84];
         byte[] rgb5a3_file;
         byte[] byteXX;
         byte[] cmpr_file = new byte[32];
@@ -77,6 +78,7 @@ namespace plt0_gui
         string output_name = "";
         string input_file2;
         static char separator;
+        static string language = "";
         static string config_version = "";
         static string font_name = "";
         static string font_colour = "";
@@ -828,7 +830,7 @@ namespace plt0_gui
                 txt = txt.Substring(0, y) + System.Text.Encoding.Unicode.GetString(new[] { byte_text }) + txt.Substring(y + 4);
                 y = txt.IndexOf("\\x");
             }
-            txt = txt.Replace("\\a", appdata).Replace("\\b", "").Replace("\\e", execName).Replace("\\h", this.Height.ToString()).Replace("\\i", "").Replace("\\k", "").Replace("\\l", layout_name[layout]).Replace("\\m", mipmaps.ToString()).Replace("\\n", "\n").Replace("\\o", output_name).Replace("\\p", execPath).Replace("\\r", "\r").Replace("\\t", "\t").Replace("\\u", "").Replace("\\v", "").Replace("\\w", this.Width.ToString()).Replace("\\0", block_width_array[encoding].ToString()).Replace("\\y", block_height_array[encoding].ToString()).Replace("\\z", block_depth_array[encoding].ToString());
+            txt = txt.Replace("\\a", appdata).Replace("\\b", "").Replace("\\e", execName).Replace("\\h", this.Height.ToString()).Replace("\\i", "").Replace("\\k", "").Replace("\\l", language).Replace("\\m", mipmaps.ToString()).Replace("\\n", "\n").Replace("\\o", output_name).Replace("\\p", execPath).Replace("\\r", "\r").Replace("\\t", "\t").Replace("\\u", "").Replace("\\v", "").Replace("\\w", this.Width.ToString()).Replace("\\0", block_width_array[encoding].ToString()).Replace("\\y", block_height_array[encoding].ToString()).Replace("\\z", block_depth_array[encoding].ToString());
             // lab.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, ((System.Drawing.FontStyle)((((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic) | System.Drawing.FontStyle.Underline) | System.Drawing.FontStyle.Strikeout))), System.Drawing.GraphicsUnit.World, ((byte)(0)), true);
             switch (font_style)
             {
@@ -2953,11 +2955,117 @@ namespace plt0_gui
             using (FileStream fs2 = File.OpenRead(input_file2))
             {
                 fs2.Read(bnr_file, 0, 4);
-                if (bnr_file[0] != 0x42 || bnr_file[1] != 0x4E || bnr_file[2] != 0x52 || fs2.Length < 0x1FA0)
+                if (bnr_file[0] != 0x42 || bnr_file[1] != 0x4E || bnr_file[2] != 0x52 || fs2.Length < 0x1FA0)  // BNR + length < 8kb   <---- GameCube opening.bnr
                 {
-                    Parse_Markdown(d[188], cmpr_warning);
-                    return;  // input file 2 isn't a GameCube opening.bnr
+                    y = 40;
+                    fs2.Seek(y, SeekOrigin.Begin);
+                    fs2.Read(bnr_file, 0, 4);
+                    if (bnr_file[0] != 0x49 || bnr_file[1] != 0x4D || bnr_file[2] != 0x45 || bnr_file[3] != 0x54)  // IMET       <------ Wii opening.bnr
+                    {
+                        Parse_Markdown(d[188], cmpr_warning);
+                        return;  // input file 2 isn't a recognized opening.bnr, please send it to yosh
+                    }
+                    /*
+                      https://wiibrew.org/wiki/Opening.bnr 
+                     
+                        typedef struct {
+                            u8 zeroes[64]; // padding
+                            u32 imet; // "IMET"
+                            u32 hashsize; // Hash length
+                            u32 unk;  // The version of the IMET. Always '3'.
+                            u32 sizes[3]; // icon.bin, banner.bin, sound.bin
+                            u32 flag1; // unknown
+                            u8 names[10][84]; // Japanese, English, German, French, Spanish, Italian, Dutch, Simplified Chinese, Traditional Chinese, Korean
+                            u8 zeroes_2[588]; // padding
+                            u8 crypto[16]; // MD5 of 0 to 'hashsize' in header. crypto should be all 0's when calculating final MD5
+                        } IMET;
+                         */
+                    cmpr_preview_ck.Image = null;  // no preview for wii since it's a whole archive. use ShowMiiWads instead
+                    opening_ck.Image = null;  // no preview for wii since it's a whole archive. use ShowMiiWads instead
+
+                    Parse_Markdown(d[198], cmpr_warning);
+                    fs2.Seek(0, SeekOrigin.Begin);
+                    Array.Resize(ref bnr_file, (int)fs2.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
+                    fs2.Read(bnr_file, 0, (int)fs2.Length);
+
+                    textBox1.Text = "v--- Japanese [日本語] ---v";
+                    y += 0x1C;  // 0x5C
+                    fs2.Seek(y, SeekOrigin.Begin);
+                    fs2.Read(byte84, 0, 84); // game title Japanese
+                    textBox2.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+
+                    textBox3.Text = "v--- English ---v";
+                    y += 84;  // 0xB0
+                    fs2.Seek(y, SeekOrigin.Begin);
+                    fs2.Read(byte84, 0, 84); // game title English
+                    textBox4.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+
+                    textBox5.Text = "v--- German [Deutsch] ---v";
+                    y += 84;  // 0x104
+                    fs2.Seek(y, SeekOrigin.Begin);
+                    fs2.Read(byte84, 0, 84); // game title German
+                    textBox6.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+
+                    textBox7.Text = "v--- French [Français] ---v";
+                    y += 84;  // 0x158
+                    fs2.Seek(y, SeekOrigin.Begin);
+                    fs2.Read(byte84, 0, 84); // game title French
+                    textBox8.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+
+                    textBox9.Text = "v--- Spanish [Français] ---v";
+                    y += 84;  // 0x1AC
+                    fs2.Seek(y, SeekOrigin.Begin);
+                    fs2.Read(byte84, 0, 84); // game title Spanish
+                    textBox10.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+
+                    textBox11.Text = "v--- Italian [Français] ---v";
+                    y += 84;  // 0x200
+                    fs2.Seek(y, SeekOrigin.Begin);
+                    fs2.Read(byte84, 0, 84); // game title Italian
+                    textBox12.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+
+                    textBox13.Text = "v--- Dutch [Français] ---v";
+                    y += 84;  // 0x254
+                    fs2.Seek(y, SeekOrigin.Begin);
+                    fs2.Read(byte84, 0, 84); // game title French
+                    textBox14.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+
+                    textBox15.Text = "v--- Simplified Chinese [Français] ---v";
+                    y += 84;  // 0x2A8
+                    fs2.Seek(y, SeekOrigin.Begin);
+                    fs2.Read(byte84, 0, 84); // game title Simplified Chinese
+                    textBox16.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+
+                    textBox17.Text = "v--- Traditional Chinese [Français] ---v";
+                    y += 84;  // 0x2FC
+                    fs2.Seek(y, SeekOrigin.Begin);
+                    fs2.Read(byte84, 0, 84); // game title Traditional Chinese
+                    textBox18.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+
+                    textBox19.Text = "v--- Korean [Français] ---v";
+                    y += 84;  // 0x350
+                    fs2.Seek(y, SeekOrigin.Begin);
+                    fs2.Read(byte84, 0, 84); // game title Korean
+                    textBox20.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+
+                    // from 0x3A4 to 0x5F0 there are 588 zeroes
+                    // then the md5 of 16 bytes from 0x5F0 to 0x600
+
+                    textBox21.Text = "";
+                    textBox22.Text = "";
+                    textBox23.Text = "";
+                    textBox24.Text = "";
+                    textBox25.Text = "";
+                    textBox26.Text = "";
+                    textBox27.Text = "";
+                    textBox28.Text = "";
+                    textBox29.Text = "";
+                    textBox30.Text = "";
+
+
+                    return; // end of wii bnr
                 }
+                // start of GameCube bnr
                 Array.Resize(ref bnr_file, (int)fs2.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
                 fs2.Read(bnr_file, 4, (int)fs2.Length - 4);
             }
@@ -3230,7 +3338,109 @@ namespace plt0_gui
             }
             using (MemoryStream fs2 = new MemoryStream(bnr_file))
             {
-                if (bnr_file[3] == 0x31) // BNR1 - Gamecube Format
+                if (bnr_file[0x40] == 0x49)  // IMET - Wii Format
+                {
+                    /*
+                      https://wiibrew.org/wiki/Opening.bnr 
+
+                        typedef struct {
+                            u8 zeroes[64]; // padding
+                            u32 imet; // "IMET"
+                            u32 hashsize; // Hash length
+                            u32 unk;  // The version of the IMET. Always '3'.
+                            u32 sizes[3]; // icon.bin, banner.bin, sound.bin
+                            u32 flag1; // unknown
+                            u8 names[10][84]; // Japanese, English, German, French, Spanish, Italian, Dutch, Simplified Chinese, Traditional Chinese, Korean
+                            u8 zeroes_2[588]; // padding
+                            u8 crypto[16]; // MD5 of 0 to 'hashsize' in header. crypto should be all 0's when calculating final MD5
+                        } IMET;
+                         */
+                    cmpr_preview_ck.Image = null;  // no preview for wii since it's a whole archive. use ShowMiiWads instead
+                    opening_ck.Image = null;  // no preview for wii since it's a whole archive. use ShowMiiWads instead
+
+                    Parse_Markdown(d[198], cmpr_warning);
+                    fs2.Seek(0, SeekOrigin.Begin);
+                    Array.Resize(ref bnr_file, (int)fs2.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
+                    fs2.Read(bnr_file, 0, (int)fs2.Length);
+
+                    textBox1.Text = "v--- Japanese [日本語] ---v";
+                    y += 0x1C;  // 0x5C
+                    fs2.Seek(y, SeekOrigin.Begin);
+                    fs2.Read(byte84, 0, 84); // game title Japanese
+                    textBox2.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+
+                    textBox3.Text = "v--- English ---v";
+                    y += 84;  // 0xB0
+                    fs2.Seek(y, SeekOrigin.Begin);
+                    fs2.Read(byte84, 0, 84); // game title English
+                    textBox4.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+
+                    textBox5.Text = "v--- German [Deutsch] ---v";
+                    y += 84;  // 0x104
+                    fs2.Seek(y, SeekOrigin.Begin);
+                    fs2.Read(byte84, 0, 84); // game title German
+                    textBox6.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+
+                    textBox7.Text = "v--- French [Français] ---v";
+                    y += 84;  // 0x158
+                    fs2.Seek(y, SeekOrigin.Begin);
+                    fs2.Read(byte84, 0, 84); // game title French
+                    textBox8.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+
+                    textBox9.Text = "v--- Spanish [Français] ---v";
+                    y += 84;  // 0x1AC
+                    fs2.Seek(y, SeekOrigin.Begin);
+                    fs2.Read(byte84, 0, 84); // game title Spanish
+                    textBox10.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+
+                    textBox11.Text = "v--- Italian [Français] ---v";
+                    y += 84;  // 0x200
+                    fs2.Seek(y, SeekOrigin.Begin);
+                    fs2.Read(byte84, 0, 84); // game title Italian
+                    textBox12.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+
+                    textBox13.Text = "v--- Dutch [Français] ---v";
+                    y += 84;  // 0x254
+                    fs2.Seek(y, SeekOrigin.Begin);
+                    fs2.Read(byte84, 0, 84); // game title French
+                    textBox14.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+
+                    textBox15.Text = "v--- Simplified Chinese [Français] ---v";
+                    y += 84;  // 0x2A8
+                    fs2.Seek(y, SeekOrigin.Begin);
+                    fs2.Read(byte84, 0, 84); // game title Simplified Chinese
+                    textBox16.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+
+                    textBox17.Text = "v--- Traditional Chinese [Français] ---v";
+                    y += 84;  // 0x2FC
+                    fs2.Seek(y, SeekOrigin.Begin);
+                    fs2.Read(byte84, 0, 84); // game title Traditional Chinese
+                    textBox18.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+
+                    textBox19.Text = "v--- Korean [Français] ---v";
+                    y += 84;  // 0x350
+                    fs2.Seek(y, SeekOrigin.Begin);
+                    fs2.Read(byte84, 0, 84); // game title Korean
+                    textBox20.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+
+                    // from 0x3A4 to 0x5F0 there are 588 zeroes
+                    // then the md5 of 16 bytes from 0x5F0 to 0x600
+
+                    textBox21.Text = "";
+                    textBox22.Text = "";
+                    textBox23.Text = "";
+                    textBox24.Text = "";
+                    textBox25.Text = "";
+                    textBox26.Text = "";
+                    textBox27.Text = "";
+                    textBox28.Text = "";
+                    textBox29.Text = "";
+                    textBox30.Text = "";
+
+
+                    // end of wii bnr
+                }
+                else if (bnr_file[3] == 0x31) // BNR1 - Gamecube Format
                 {
                     // TODO
                 }
@@ -3277,6 +3487,7 @@ namespace plt0_gui
                     byteXX = Encoding.Default.GetBytes(textBox1.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 32)
                     {
+                        language = "textbox 1";
                         Parse_Markdown(d[190], cmpr_warning);
                         return;
                     }
@@ -3286,6 +3497,7 @@ namespace plt0_gui
                     byteXX = Encoding.Default.GetBytes(textBox2.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 32)
                     {
+                        language = "textbox 2";
                         Parse_Markdown(d[191], cmpr_warning);
                         return;
                     }
@@ -3295,6 +3507,7 @@ namespace plt0_gui
                     byteXX = Encoding.Default.GetBytes(textBox3.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 32)
                     {
+                        language = "textbox 3";
                         Parse_Markdown(d[190], cmpr_warning);
                         return;
                     }
@@ -3304,6 +3517,7 @@ namespace plt0_gui
                     byteXX = Encoding.Default.GetBytes(textBox4.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 32)
                     {
+                        language = "textbox 4";
                         Parse_Markdown(d[191], cmpr_warning);
                         return;
                     }
@@ -3313,6 +3527,7 @@ namespace plt0_gui
                     byteXX = Encoding.Default.GetBytes(textBox5.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 128)
                     {
+                        language = "textbox 5";
                         Parse_Markdown(d[192], cmpr_warning);
                         return;
                     }
@@ -3322,6 +3537,7 @@ namespace plt0_gui
                     byteXX = Encoding.Default.GetBytes(textBox6.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 32)
                     {
+                        language = "textbox 6";
                         Parse_Markdown(d[190], cmpr_warning);
                         return;
                     }
@@ -3331,6 +3547,7 @@ namespace plt0_gui
                     byteXX = Encoding.Default.GetBytes(textBox7.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 32)
                     {
+                        language = "textbox 7";
                         Parse_Markdown(d[191], cmpr_warning);
                         return;
                     }
@@ -3340,6 +3557,7 @@ namespace plt0_gui
                     byteXX = Encoding.Default.GetBytes(textBox8.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 32)
                     {
+                        language = "textbox 8";
                         Parse_Markdown(d[190], cmpr_warning);
                         return;
                     }
@@ -3349,6 +3567,7 @@ namespace plt0_gui
                     byteXX = Encoding.Default.GetBytes(textBox9.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 32)
                     {
+                        language = "textbox 9";
                         Parse_Markdown(d[191], cmpr_warning);
                         return;
                     }
@@ -3358,6 +3577,7 @@ namespace plt0_gui
                     byteXX = Encoding.Default.GetBytes(textBox10.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 128)
                     {
+                        language = "textbox 10 (German)";
                         Parse_Markdown(d[192], cmpr_warning);
                         return;
                     }
@@ -19009,7 +19229,7 @@ namespace plt0_gui
             checked_tooltip(cmpr_block_selection_ck);
             unchecked_tooltip(cmpr_block_paint_ck);
         }
-        private void Check_Paint(bool start=false)
+        private void Check_Paint(bool start = false)
         {
             if (layout != 3)
                 return;
