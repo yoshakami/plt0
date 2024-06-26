@@ -7,6 +7,7 @@ using System.Linq;
 using System.Collections;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
 /* note: pasting C# Guy.py code adds automatically new usings, messing up the whole code
 * here's the official list of usings. it should be the same as what's above. else copy and paste
 using System;
@@ -56,6 +57,7 @@ namespace plt0_gui
         static string cmpr_colours_hex;
         byte[] banner_rgb5a3_file = new byte[0x1820];
         byte[] bnr_file = new byte[4];
+        byte[] byte16 = new byte[16];
         byte[] byte32 = new byte[32];
         byte[] byte80 = new byte[0x80];
         byte[] byte84 = new byte[84];
@@ -251,6 +253,7 @@ namespace plt0_gui
         byte arrow;
         int number;
         int len;
+        int start_offset;
         double percentage = 0;
         double percentage2 = 0;
         double custom_r = 1.0;
@@ -3012,37 +3015,37 @@ namespace plt0_gui
                     fs2.Read(byte84, 0, 84); // game title French
                     textBox8.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
 
-                    textBox9.Text = "v--- Spanish [Français] ---v";
+                    textBox9.Text = "v--- Spanish [español] ---v";
                     y += 84;  // 0x1AC
                     fs2.Seek(y, SeekOrigin.Begin);
                     fs2.Read(byte84, 0, 84); // game title Spanish
                     textBox10.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
 
-                    textBox11.Text = "v--- Italian [Français] ---v";
+                    textBox11.Text = "v--- Italian [italiano] ---v";
                     y += 84;  // 0x200
                     fs2.Seek(y, SeekOrigin.Begin);
                     fs2.Read(byte84, 0, 84); // game title Italian
                     textBox12.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
 
-                    textBox13.Text = "v--- Dutch [Français] ---v";
+                    textBox13.Text = "v--- Dutch [Nederlands] ---v";
                     y += 84;  // 0x254
                     fs2.Seek(y, SeekOrigin.Begin);
                     fs2.Read(byte84, 0, 84); // game title French
                     textBox14.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
 
-                    textBox15.Text = "v--- Simplified Chinese [Français] ---v";
+                    textBox15.Text = "v--- Simplified Chinese [简化字] ---v";
                     y += 84;  // 0x2A8
                     fs2.Seek(y, SeekOrigin.Begin);
                     fs2.Read(byte84, 0, 84); // game title Simplified Chinese
                     textBox16.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
 
-                    textBox17.Text = "v--- Traditional Chinese [Français] ---v";
+                    textBox17.Text = "v--- Traditional Chinese [簡化字] ---v";
                     y += 84;  // 0x2FC
                     fs2.Seek(y, SeekOrigin.Begin);
                     fs2.Read(byte84, 0, 84); // game title Traditional Chinese
                     textBox18.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
 
-                    textBox19.Text = "v--- Korean [Français] ---v";
+                    textBox19.Text = "v--- Korean [한국어] ---v";
                     y += 84;  // 0x350
                     fs2.Seek(y, SeekOrigin.Begin);
                     fs2.Read(byte84, 0, 84); // game title Korean
@@ -3358,71 +3361,149 @@ namespace plt0_gui
                     cmpr_preview_ck.Image = null;  // no preview for wii since it's a whole archive. use ShowMiiWads instead
                     opening_ck.Image = null;  // no preview for wii since it's a whole archive. use ShowMiiWads instead
 
-                    Parse_Markdown(d[198], cmpr_warning);
-                    fs2.Seek(0, SeekOrigin.Begin);
-                    Array.Resize(ref bnr_file, (int)fs2.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
-                    fs2.Read(bnr_file, 0, (int)fs2.Length);
 
+                    Parse_Markdown(d[198], cmpr_warning);  // about WhowMiiWads
                     textBox1.Text = "v--- Japanese [日本語] ---v";
-                    y += 0x1C;  // 0x5C
+                    y = 0x5C;
                     fs2.Seek(y, SeekOrigin.Begin);
-                    fs2.Read(byte84, 0, 84); // game title Japanese
-                    textBox2.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+                    byteXX = Encoding.BigEndianUnicode.GetBytes(textBox2.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 84)
+                    {
+                        language = "Japanese";
+                        Parse_Markdown(d[199], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);  // no byte84 because GetBytes won't always return 84 but rather all chars until the first zero
+                    textBox2.Text = Encoding.BigEndianUnicode.GetString(byteXX).Replace("\n", "\\n");
+                    y += 84;
 
                     textBox3.Text = "v--- English ---v";
-                    y += 84;  // 0xB0
                     fs2.Seek(y, SeekOrigin.Begin);
-                    fs2.Read(byte84, 0, 84); // game title English
-                    textBox4.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+                    byteXX = Encoding.BigEndianUnicode.GetBytes(textBox4.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 84)
+                    {
+                        language = "English";
+                        Parse_Markdown(d[199], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);
+                    textBox4.Text = Encoding.BigEndianUnicode.GetString(byteXX).Replace("\n", "\\n");
+                    y += 84;
 
                     textBox5.Text = "v--- German [Deutsch] ---v";
-                    y += 84;  // 0x104
                     fs2.Seek(y, SeekOrigin.Begin);
-                    fs2.Read(byte84, 0, 84); // game title German
-                    textBox6.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+                    byteXX = Encoding.BigEndianUnicode.GetBytes(textBox6.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 84)
+                    {
+                        language = "German";
+                        Parse_Markdown(d[199], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);
+                    textBox6.Text = Encoding.BigEndianUnicode.GetString(byteXX).Replace("\n", "\\n");
+                    y += 84;
 
                     textBox7.Text = "v--- French [Français] ---v";
-                    y += 84;  // 0x158
                     fs2.Seek(y, SeekOrigin.Begin);
-                    fs2.Read(byte84, 0, 84); // game title French
-                    textBox8.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+                    byteXX = Encoding.BigEndianUnicode.GetBytes(textBox8.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 84)
+                    {
+                        language = "French";
+                        Parse_Markdown(d[199], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);  // game title 4
+                    textBox8.Text = Encoding.BigEndianUnicode.GetString(byteXX).Replace("\n", "\\n");
+                    y += 84;
 
-                    textBox9.Text = "v--- Spanish [Français] ---v";
-                    y += 84;  // 0x1AC
+                    textBox9.Text = "v--- Spanish [español] ---v";
                     fs2.Seek(y, SeekOrigin.Begin);
-                    fs2.Read(byte84, 0, 84); // game title Spanish
-                    textBox10.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+                    byteXX = Encoding.BigEndianUnicode.GetBytes(textBox10.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 84)
+                    {
+                        language = "Spanish";
+                        Parse_Markdown(d[199], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);
+                    textBox10.Text = Encoding.BigEndianUnicode.GetString(byteXX).Replace("\n", "\\n");
+                    y += 84;
 
-                    textBox11.Text = "v--- Italian [Français] ---v";
-                    y += 84;  // 0x200
+                    textBox11.Text = "v--- Italian [italiano] ---v";
                     fs2.Seek(y, SeekOrigin.Begin);
-                    fs2.Read(byte84, 0, 84); // game title Italian
-                    textBox12.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+                    byteXX = Encoding.BigEndianUnicode.GetBytes(textBox12.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 84)
+                    {
+                        language = "Italian";
+                        Parse_Markdown(d[199], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);
+                    textBox12.Text = Encoding.BigEndianUnicode.GetString(byteXX).Replace("\n", "\\n");
+                    y += 84;
 
-                    textBox13.Text = "v--- Dutch [Français] ---v";
-                    y += 84;  // 0x254
+                    textBox13.Text = "v--- Dutch [Nederlands] ---v";
                     fs2.Seek(y, SeekOrigin.Begin);
-                    fs2.Read(byte84, 0, 84); // game title French
-                    textBox14.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+                    byteXX = Encoding.BigEndianUnicode.GetBytes(textBox14.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 84)
+                    {
+                        language = "Dutch";
+                        Parse_Markdown(d[199], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);
+                    textBox14.Text = Encoding.BigEndianUnicode.GetString(byteXX).Replace("\n", "\\n");
+                    y += 84;
 
-                    textBox15.Text = "v--- Simplified Chinese [Français] ---v";
-                    y += 84;  // 0x2A8
+                    textBox15.Text = "v--- Simplified Chinese [简化字] ---v";
                     fs2.Seek(y, SeekOrigin.Begin);
-                    fs2.Read(byte84, 0, 84); // game title Simplified Chinese
-                    textBox16.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+                    byteXX = Encoding.BigEndianUnicode.GetBytes(textBox16.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 84)
+                    {
+                        language = "Simplified Chinese";
+                        Parse_Markdown(d[199], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);
+                    textBox16.Text = Encoding.BigEndianUnicode.GetString(byteXX).Replace("\n", "\\n");
+                    y += 84;
 
-                    textBox17.Text = "v--- Traditional Chinese [Français] ---v";
-                    y += 84;  // 0x2FC
+                    textBox17.Text = "v--- Traditional Chinese [簡化字] ---v";
                     fs2.Seek(y, SeekOrigin.Begin);
-                    fs2.Read(byte84, 0, 84); // game title Traditional Chinese
-                    textBox18.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+                    byteXX = Encoding.BigEndianUnicode.GetBytes(textBox18.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 84)
+                    {
+                        language = "Traditional Chinese";
+                        Parse_Markdown(d[199], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);
+                    textBox18.Text = Encoding.BigEndianUnicode.GetString(byteXX).Replace("\n", "\\n");
+                    y += 84;
 
-                    textBox19.Text = "v--- Korean [Français] ---v";
-                    y += 84;  // 0x350
+                    textBox19.Text = "v--- Korean [한국어] ---v";
                     fs2.Seek(y, SeekOrigin.Begin);
-                    fs2.Read(byte84, 0, 84); // game title Korean
-                    textBox20.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+                    byteXX = Encoding.BigEndianUnicode.GetBytes(textBox20.Text.Replace("\\n", "\n"));
+                    if (byteXX.Length > 84)
+                    {
+                        language = "Korean";
+                        Parse_Markdown(d[199], cmpr_warning);
+                        return;
+                    }
+                    fs2.Write(byteXX, 0, byteXX.Length);  // game description Spanish
+                    textBox20.Text = Encoding.BigEndianUnicode.GetString(byteXX).Replace("\n", "\\n");
 
+                    // now compute that damn md5 hash
+                    byte i;
+                    len = (bnr_file[0x44] << 24) + (bnr_file[0x45] << 16) + (bnr_file[0x46] << 8) + (bnr_file[0x47]) + 0x40;
+                    for (i = 1; i < 17; i++)
+                    {
+                        bnr_file[len - i] = 0;  // reset that idiot md5 hash
+                    }
+                    using (var md5 = MD5.Create())
+                    {
+                        byte16 = md5.ComputeHash(bnr_file, 0, len);
+                    }
                     // from 0x3A4 to 0x5F0 there are 588 zeroes
                     // then the md5 of 16 bytes from 0x5F0 to 0x600
 
@@ -3507,7 +3588,7 @@ namespace plt0_gui
                     byteXX = Encoding.Default.GetBytes(textBox3.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 32)
                     {
-                        language = "textbox 3";
+                        language = "textbox 3 (English)";
                         Parse_Markdown(d[190], cmpr_warning);
                         return;
                     }
@@ -3517,7 +3598,7 @@ namespace plt0_gui
                     byteXX = Encoding.Default.GetBytes(textBox4.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 32)
                     {
-                        language = "textbox 4";
+                        language = "textbox 4 (English)";
                         Parse_Markdown(d[191], cmpr_warning);
                         return;
                     }
@@ -3527,7 +3608,7 @@ namespace plt0_gui
                     byteXX = Encoding.Default.GetBytes(textBox5.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 128)
                     {
-                        language = "textbox 5";
+                        language = "textbox 5 (English)";
                         Parse_Markdown(d[192], cmpr_warning);
                         return;
                     }
@@ -3557,7 +3638,7 @@ namespace plt0_gui
                     byteXX = Encoding.Default.GetBytes(textBox8.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 32)
                     {
-                        language = "textbox 8";
+                        language = "textbox 8 (German)";
                         Parse_Markdown(d[190], cmpr_warning);
                         return;
                     }
@@ -3567,7 +3648,7 @@ namespace plt0_gui
                     byteXX = Encoding.Default.GetBytes(textBox9.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 32)
                     {
-                        language = "textbox 9";
+                        language = "textbox 9 (German)";
                         Parse_Markdown(d[191], cmpr_warning);
                         return;
                     }
@@ -3587,6 +3668,7 @@ namespace plt0_gui
                     byteXX = Encoding.Default.GetBytes(textBox11.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 32)
                     {
+                        language = "textbox 11";
                         Parse_Markdown(d[190], cmpr_warning);
                         return;
                     }
@@ -3596,6 +3678,7 @@ namespace plt0_gui
                     byteXX = Encoding.Default.GetBytes(textBox12.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 32)
                     {
+                        language = "textbox 12";
                         Parse_Markdown(d[191], cmpr_warning);
                         return;
                     }
@@ -3605,6 +3688,7 @@ namespace plt0_gui
                     byteXX = Encoding.Default.GetBytes(textBox13.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 32)
                     {
+                        language = "textbox 13 (French)";
                         Parse_Markdown(d[190], cmpr_warning);
                         return;
                     }
@@ -3614,6 +3698,7 @@ namespace plt0_gui
                     byteXX = Encoding.Default.GetBytes(textBox14.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 32)
                     {
+                        language = "textbox 14 (French)";
                         Parse_Markdown(d[191], cmpr_warning);
                         return;
                     }
@@ -3623,6 +3708,7 @@ namespace plt0_gui
                     byteXX = Encoding.Default.GetBytes(textBox15.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 128)
                     {
+                        language = "textbox 15 (French)";
                         Parse_Markdown(d[192], cmpr_warning);
                         return;
                     }
@@ -3632,6 +3718,7 @@ namespace plt0_gui
                     byteXX = Encoding.Default.GetBytes(textBox16.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 32)
                     {
+                        language = "textbox 16";
                         Parse_Markdown(d[190], cmpr_warning);
                         return;
                     }
@@ -3641,6 +3728,7 @@ namespace plt0_gui
                     byteXX = Encoding.Default.GetBytes(textBox17.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 32)
                     {
+                        language = "textbox 17";
                         Parse_Markdown(d[191], cmpr_warning);
                         return;
                     }
@@ -3650,6 +3738,7 @@ namespace plt0_gui
                     byteXX = Encoding.Default.GetBytes(textBox18.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 32)
                     {
+                        language = "textbox 18 (Spanish)";
                         Parse_Markdown(d[190], cmpr_warning);
                         return;
                     }
@@ -3659,6 +3748,7 @@ namespace plt0_gui
                     byteXX = Encoding.Default.GetBytes(textBox19.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 32)
                     {
+                        language = "textbox 19 (Spanish)";
                         Parse_Markdown(d[191], cmpr_warning);
                         return;
                     }
@@ -3668,6 +3758,7 @@ namespace plt0_gui
                     byteXX = Encoding.Default.GetBytes(textBox20.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 128)
                     {
+                        language = "textbox 20 (Spanish)";
                         Parse_Markdown(d[192], cmpr_warning);
                         return;
                     }
@@ -3677,6 +3768,7 @@ namespace plt0_gui
                     byteXX = Encoding.Default.GetBytes(textBox21.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 32)
                     {
+                        language = "textbox 21";
                         Parse_Markdown(d[190], cmpr_warning);
                         return;
                     }
@@ -3686,6 +3778,7 @@ namespace plt0_gui
                     byteXX = Encoding.Default.GetBytes(textBox22.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 32)
                     {
+                        language = "textbox 22";
                         Parse_Markdown(d[191], cmpr_warning);
                         return;
                     }
@@ -3695,6 +3788,7 @@ namespace plt0_gui
                     byteXX = Encoding.Default.GetBytes(textBox23.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 32)
                     {
+                        language = "textbox 23 (Italian)";
                         Parse_Markdown(d[190], cmpr_warning);
                         return;
                     }
@@ -3704,6 +3798,7 @@ namespace plt0_gui
                     byteXX = Encoding.Default.GetBytes(textBox24.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 32)
                     {
+                        language = "textbox 24 (Italian)";
                         Parse_Markdown(d[191], cmpr_warning);
                         return;
                     }
@@ -3713,6 +3808,7 @@ namespace plt0_gui
                     byteXX = Encoding.Default.GetBytes(textBox25.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 128)
                     {
+                        language = "textbox 25 (Italian)";
                         Parse_Markdown(d[192], cmpr_warning);
                         return;
                     }
@@ -3722,6 +3818,7 @@ namespace plt0_gui
                     byteXX = Encoding.Default.GetBytes(textBox26.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 32)
                     {
+                        language = "textbox 26";
                         Parse_Markdown(d[190], cmpr_warning);
                         return;
                     }
@@ -3731,6 +3828,7 @@ namespace plt0_gui
                     byteXX = Encoding.Default.GetBytes(textBox27.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 32)
                     {
+                        language = "textbox 27";
                         Parse_Markdown(d[191], cmpr_warning);
                         return;
                     }
@@ -3740,6 +3838,7 @@ namespace plt0_gui
                     byteXX = Encoding.Default.GetBytes(textBox28.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 32)
                     {
+                        language = "textbox 28 (Dutch)";
                         Parse_Markdown(d[190], cmpr_warning);
                         return;
                     }
@@ -3749,6 +3848,7 @@ namespace plt0_gui
                     byteXX = Encoding.Default.GetBytes(textBox29.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 32)
                     {
+                        language = "textbox 29 (Dutch)";
                         Parse_Markdown(d[191], cmpr_warning);
                         return;
                     }
@@ -3758,6 +3858,7 @@ namespace plt0_gui
                     byteXX = Encoding.Default.GetBytes(textBox30.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 128)
                     {
+                        language = "textbox 30 (Dutch)";
                         Parse_Markdown(d[192], cmpr_warning);
                         return;
                     }
