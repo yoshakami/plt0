@@ -7,11 +7,17 @@ you can then view the corresponding cli arguments of your command in the gui its
 ![The app in the "All" Layout](../../../yoshakami.github.io/blob/main/plt0-all.png?raw=true)
 ![The app in the "Paint" Layout](../../../yoshakami.github.io/blob/main/plt0-paint.png?raw=true)
 
-The app has 4 Layouts:
+The app has 6 finished Layouts:
 ### All: used to display everything even if it has no impact when encoding
-### Auto: only displays the options affecting the selected choices when encoding
+### Encode: only displays the options affecting the selected choices when encoding
 ### Preview: Previews Decoded textures or the encoded one with parameters set in the GUI
 ### Paint: CMPR Texture Editor
+### Decode: only displays the options affecting the selected choices when decoding
+### Palette: (unfinished) CI4 Palette editor, edit the 16 colours manually
+### Opening: opening.bnr editor, custom dolphin banners, titles, and descriptions in all languages
+### Settings: (unfinished) interface to edit "plt0 content/config.txt"
+
+## about paint
 It's a special Paint application implementation where you have first to load a texture (tex0 or bti) that was encoded with CMPR, then Select a 4x4 block on the image, then painting on the 4x4 block on the left with all gaming mouse buttons. This process can be repeated by selecting another block
 A colour can be picked on the image by holding Ctrl.
 
@@ -69,14 +75,19 @@ v1.1: Auto-Scale on Launch and on each F12 press
 
 v2.0: Revamped CMPR Algorithms, Decode Layout, and enhance gui
 
+v2.1: Opening layout, Custom algorithm cmpr, wine support for 32 bits images
+
 ## future versions
-v2.1: WebP Support, 
 
-v2.2: fix known bugs, Palette Layout, Settings Layout
+v2.2: wine support for 24 bits images
 
-v2.3: Fullscreen Image Viewer
+v2.3: WebP Support
 
-v2.4: Native French Support
+v2.4: fix known bugs, Palette Layout, Settings Layout
+
+v2.5: Fullscreen Image Viewer
+
+v2.6: Native French Support
 
 v3.0: Text Editor
 
