@@ -2960,7 +2960,7 @@ namespace plt0_gui
                 fs2.Read(bnr_file, 0, 4);
                 if (bnr_file[0] != 0x42 || bnr_file[1] != 0x4E || bnr_file[2] != 0x52 || fs2.Length < 0x1FA0)  // BNR + length < 8kb   <---- GameCube opening.bnr
                 {
-                    y = 40;
+                    int y = 0x40;
                     fs2.Seek(y, SeekOrigin.Begin);
                     fs2.Read(bnr_file, 0, 4);
                     if (bnr_file[0] != 0x49 || bnr_file[1] != 0x4D || bnr_file[2] != 0x45 || bnr_file[3] != 0x54)  // IMET       <------ Wii opening.bnr
@@ -3333,7 +3333,7 @@ namespace plt0_gui
 
         private void Save_Opening_Bnr(string bnr_filename)
         {
-
+            byte i;
             if (bnr_filename == "")
             {
                 Parse_Markdown(d[173], cmpr_warning);
@@ -3364,7 +3364,7 @@ namespace plt0_gui
 
                     Parse_Markdown(d[198], cmpr_warning);  // about WhowMiiWads
                     textBox1.Text = "v--- Japanese [日本語] ---v";
-                    y = 0x5C;
+                    int y = 0x5C;
                     fs2.Seek(y, SeekOrigin.Begin);
                     byteXX = Encoding.BigEndianUnicode.GetBytes(textBox2.Text.Replace("\\n", "\n"));
                     if (byteXX.Length > 84)
@@ -3494,16 +3494,19 @@ namespace plt0_gui
                     textBox20.Text = Encoding.BigEndianUnicode.GetString(byteXX).Replace("\n", "\\n");
 
                     // now compute that damn md5 hash
-                    byte i;
-                    len = (bnr_file[0x44] << 24) + (bnr_file[0x45] << 16) + (bnr_file[0x46] << 8) + (bnr_file[0x47]) + 0x40;
+                    len = (bnr_file[0x44] << 24) + (bnr_file[0x45] << 16) + (bnr_file[0x46] << 8) + (bnr_file[0x47]);
                     for (i = 1; i < 17; i++)
                     {
                         bnr_file[len - i] = 0;  // reset that idiot md5 hash
                     }
+
                     using (var md5 = MD5.Create())
                     {
                         byte16 = md5.ComputeHash(bnr_file, 0, len);
+                        fs2.Seek(len - 16, SeekOrigin.Begin);
+                        fs2.Write(byte16, 0, byte16.Length); // write baka md5 hash
                     }
+
                     // from 0x3A4 to 0x5F0 there are 588 zeroes
                     // then the md5 of 16 bytes from 0x5F0 to 0x600
 
@@ -3517,8 +3520,6 @@ namespace plt0_gui
                     textBox28.Text = "";
                     textBox29.Text = "";
                     textBox30.Text = "";
-
-
                     // end of wii bnr
                 }
                 else if (bnr_file[3] == 0x31) // BNR1 - Gamecube Format
@@ -3863,9 +3864,8 @@ namespace plt0_gui
                         return;
                     }
                     fs2.Write(byteXX, 0, byteXX.Length);  // game description English
-                }
+                }  // BNR2
             }
-
             try
             {
                 using (FileStream fs = new FileStream(bnr_filename, FileMode.Create))
