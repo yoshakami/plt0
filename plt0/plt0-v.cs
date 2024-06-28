@@ -40,6 +40,8 @@ namespace plt0_gui
         static readonly string execPath = AppDomain.CurrentDomain.BaseDirectory.Replace("\\", "/");
         static readonly string execName = System.AppDomain.CurrentDomain.FriendlyName.Replace("\\", "/");
         static readonly string appdata = Environment.GetEnvironmentVariable("appdata").Replace("\\", "/");
+        static readonly string userprofile = Environment.GetEnvironmentVariable("userprofile").Replace("\\", "/");
+        static readonly string gamelist_cache_file = userprofile + "/Documents/Dolphin Emulator/Cache/gamelist.cache";
         static string args;
         static string[] vanilla_arg_array;
         byte[] cmpr_preview;
@@ -468,6 +470,8 @@ namespace plt0_gui
         Image sync_preview_off;
         Image sync_preview_on;
         Image sync_preview_selected;
+        Image gamelist;
+        Image gamelist_hover;
 
         /* == rgba == */
         Image a_on;
@@ -833,7 +837,7 @@ namespace plt0_gui
                 txt = txt.Substring(0, y) + System.Text.Encoding.Unicode.GetString(new[] { byte_text }) + txt.Substring(y + 4);
                 y = txt.IndexOf("\\x");
             }
-            txt = txt.Replace("\\a", appdata).Replace("\\b", "").Replace("\\e", execName).Replace("\\h", this.Height.ToString()).Replace("\\i", "").Replace("\\k", "").Replace("\\l", language).Replace("\\m", mipmaps.ToString()).Replace("\\n", "\n").Replace("\\o", output_name).Replace("\\p", execPath).Replace("\\r", "\r").Replace("\\t", "\t").Replace("\\u", "").Replace("\\v", "").Replace("\\w", this.Width.ToString()).Replace("\\0", block_width_array[encoding].ToString()).Replace("\\y", block_height_array[encoding].ToString()).Replace("\\z", block_depth_array[encoding].ToString());
+            txt = txt.Replace("\\a", appdata).Replace("\\b", "").Replace("\\e", execName).Replace("\\h", this.Height.ToString()).Replace("\\i", "").Replace("\\k", "").Replace("\\l", language).Replace("\\m", mipmaps.ToString()).Replace("\\n", "\n").Replace("\\o", output_name).Replace("\\p", execPath).Replace("\\r", "\r").Replace("\\t", "\t").Replace("\\u", "").Replace("\\v", "").Replace("\\w", this.Width.ToString()).Replace("\\y", block_height_array[encoding].ToString()).Replace("\\z", block_depth_array[encoding].ToString()).Replace("\\0", block_width_array[encoding].ToString()).Replace("\\1", gamelist_cache_file);
             // lab.Font = new System.Drawing.Font("NintendoP-NewRodin DB", 15F, ((System.Drawing.FontStyle)((((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic) | System.Drawing.FontStyle.Underline) | System.Drawing.FontStyle.Strikeout))), System.Drawing.GraphicsUnit.World, ((byte)(0)), true);
             switch (font_style)
             {
@@ -894,7 +898,7 @@ namespace plt0_gui
             if (layout == 2)
                 return;
             // these are variables. easy to replace
-            txt = txt.Replace("\\a", appdata).Replace("\\e", execName).Replace("\\h", this.Height.ToString()).Replace("\\l", layout_name[layout]).Replace("\\m", mipmaps.ToString()).Replace("\\n", "\n").Replace("\\o", output_name).Replace("\\p", execPath).Replace("\\r", "\r").Replace("\\t", "\t").Replace("\\w", this.Width.ToString()).Replace("\\0", block_width_array[encoding].ToString()).Replace("\\y", block_height_array[encoding].ToString()).Replace("\\z", block_depth_array[encoding].ToString());
+            txt = txt.Replace("\\a", appdata).Replace("\\e", execName).Replace("\\h", this.Height.ToString()).Replace("\\l", language).Replace("\\m", mipmaps.ToString()).Replace("\\n", "\n").Replace("\\o", output_name).Replace("\\p", execPath).Replace("\\r", "\r").Replace("\\t", "\t").Replace("\\w", this.Width.ToString()).Replace("\\y", block_height_array[encoding].ToString()).Replace("\\z", block_depth_array[encoding].ToString()).Replace("\\0", block_width_array[encoding].ToString()).Replace("\\1", gamelist_cache_file);
             //if (input_file_image != null)
             //    txt = txt.Replace("\\d", input_file_image.PixelFormat.ToString());
             //else
@@ -2392,6 +2396,7 @@ namespace plt0_gui
         private void Move_cmpr_location()
         {
             opening_ck.Location = new Point(opening_ck.Location.X - 1920, opening_ck.Location.Y);
+            opening_clear_gamelist_ck.Location = new Point(opening_clear_gamelist_ck.Location.X - 1920, opening_clear_gamelist_ck.Location.Y);
             cmpr_c1.Location = new Point(cmpr_c1.Location.X - 1920, cmpr_c1.Location.Y);
             cmpr_c1_txt.Location = new Point(cmpr_c1_txt.Location.X - 1920, cmpr_c1_txt.Location.Y);
             cmpr_c1_label.Location = new Point(cmpr_c1_label.Location.X - 1920, cmpr_c1_label.Location.Y);
@@ -2448,6 +2453,7 @@ namespace plt0_gui
                 }
                 cmpr_swap_ck.Image = cmpr_swap;
                 cmpr_swap2_ck.Image = cmpr_swap2;
+                opening_clear_gamelist_ck.Image = gamelist;
                 cmpr_save_ck.Image = cmpr_save;
                 cmpr_save_as_ck.Image = cmpr_save_as;
                 cmpr_layout_is_in_place = true;
@@ -2825,6 +2831,7 @@ namespace plt0_gui
             cmpr_save_as_ck.Visible = false;
             mipmaps_label.Visible = true;
             mipmaps_txt.Visible = true;
+            opening_clear_gamelist_ck.Visible = false;
             input_file2_label.Location = new Point(input_file2_label.Location.X, input_file2_label.Location.Y - (int)(banner_11_ck.Height * 0.4));
             input_file2_txt.Location = new Point(input_file2_txt.Location.X, input_file2_txt.Location.Y - (int)(banner_11_ck.Height * 0.4));
             output_name_label.Location = new Point(output_name_label.Location.X, output_name_label.Location.Y - (int)(banner_11_ck.Height << 1));
@@ -2900,6 +2907,7 @@ namespace plt0_gui
             cmpr_preview_ck.Visible = true;
             cmpr_warning.Visible = true;
             // cmpr_sel_label.Visible = true;
+            opening_clear_gamelist_ck.Visible = true;
             cmpr_save_ck.Visible = true;
             cmpr_save_as_ck.Visible = true;
             mipmaps_label.Visible = false;
@@ -2986,7 +2994,7 @@ namespace plt0_gui
                     cmpr_preview_ck.Image = null;  // no preview for wii since it's a whole archive. use ShowMiiWads instead
                     opening_ck.Image = null;  // no preview for wii since it's a whole archive. use ShowMiiWads instead
 
-                    Parse_Markdown(d[198], cmpr_warning);
+                    Parse_Markdown(d[199], cmpr_warning); // Showmiiwads
                     fs2.Seek(0, SeekOrigin.Begin);
                     Array.Resize(ref bnr_file, (int)fs2.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
                     fs2.Read(bnr_file, 0, (int)fs2.Length);
@@ -3074,13 +3082,8 @@ namespace plt0_gui
             }
             using (MemoryStream fs2 = new MemoryStream(bnr_file))  // load textboxes
             {
-                if (bnr_file[3] == 0x31) // BNR1 - Gamecube Format
+                if (bnr_file[3] == 0x31) // BNR 1+2 - Gamecube Format
                 {
-                    // TODO
-                }
-                else if (bnr_file[3] == 0x32)  // BNR2 - Gamecube Format with 96x32 RGB5A3 picture at offset 0x20
-                {
-
                     Array.Copy(bnr_file, 0x20, banner_rgb5a3_file, 0x20, 0x1800);
                     int num = 1;
                     while (File.Exists(execPath + "plt0 content/preview/" + num + ".bmp"))
@@ -3130,105 +3133,109 @@ namespace plt0_gui
                     fs2.Read(byte80, 0, 0x80); // game description English
                     textBox5.Text = Encoding.Default.GetString(byte80).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1960, SeekOrigin.Begin);
-                    fs2.Read(byte32, 0, 32);  // game title 3
-                    textBox6.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+                    // end of BNR1
+                    if (bnr_file[3] == 0x32)  // BNR2 - Gamecube Format with 96x32 RGB5A3 picture at offset 0x20
+                    {
+                        fs2.Seek(0x1960, SeekOrigin.Begin);
+                        fs2.Read(byte32, 0, 32);  // game title 3
+                        textBox6.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1980, SeekOrigin.Begin);
-                    fs2.Read(byte32, 0, 32); // game compagny 3
-                    textBox7.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+                        fs2.Seek(0x1980, SeekOrigin.Begin);
+                        fs2.Read(byte32, 0, 32); // game compagny 3
+                        textBox7.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
 
-                    fs2.Seek(0x19A0, SeekOrigin.Begin);
-                    fs2.Read(byte32, 0, 32);  // game title 4
-                    textBox8.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+                        fs2.Seek(0x19A0, SeekOrigin.Begin);
+                        fs2.Read(byte32, 0, 32);  // game title 4
+                        textBox8.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
 
-                    fs2.Seek(0x19E0, SeekOrigin.Begin);
-                    fs2.Read(byte32, 0, 32); // game compagny 4
-                    textBox9.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+                        fs2.Seek(0x19E0, SeekOrigin.Begin);
+                        fs2.Read(byte32, 0, 32); // game compagny 4
+                        textBox9.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1A20, SeekOrigin.Begin);
-                    fs2.Read(byte80, 0, 0x80); // game description German
-                    textBox10.Text = Encoding.Default.GetString(byte80).Replace("\n", "\\n");
+                        fs2.Seek(0x1A20, SeekOrigin.Begin);
+                        fs2.Read(byte80, 0, 0x80); // game description German
+                        textBox10.Text = Encoding.Default.GetString(byte80).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1AA0, SeekOrigin.Begin);
-                    fs2.Read(byte32, 0, 32);  // game title 5
-                    textBox11.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+                        fs2.Seek(0x1AA0, SeekOrigin.Begin);
+                        fs2.Read(byte32, 0, 32);  // game title 5
+                        textBox11.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1AC0, SeekOrigin.Begin);
-                    fs2.Read(byte32, 0, 32); // game compagny 5
-                    textBox12.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+                        fs2.Seek(0x1AC0, SeekOrigin.Begin);
+                        fs2.Read(byte32, 0, 32); // game compagny 5
+                        textBox12.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1AE0, SeekOrigin.Begin);
-                    fs2.Read(byte32, 0, 32);  // game title 6
-                    textBox13.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+                        fs2.Seek(0x1AE0, SeekOrigin.Begin);
+                        fs2.Read(byte32, 0, 32);  // game title 6
+                        textBox13.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1B20, SeekOrigin.Begin);
-                    fs2.Read(byte32, 0, 32); // game compagny 6
-                    textBox14.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+                        fs2.Seek(0x1B20, SeekOrigin.Begin);
+                        fs2.Read(byte32, 0, 32); // game compagny 6
+                        textBox14.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1B60, SeekOrigin.Begin);
-                    fs2.Read(byte80, 0, 0x80); // game description French
-                    textBox15.Text = Encoding.Default.GetString(byte80).Replace("\n", "\\n");
+                        fs2.Seek(0x1B60, SeekOrigin.Begin);
+                        fs2.Read(byte80, 0, 0x80); // game description French
+                        textBox15.Text = Encoding.Default.GetString(byte80).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1BE0, SeekOrigin.Begin);
-                    fs2.Read(byte32, 0, 32);  // game title 7
-                    textBox16.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+                        fs2.Seek(0x1BE0, SeekOrigin.Begin);
+                        fs2.Read(byte32, 0, 32);  // game title 7
+                        textBox16.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1C00, SeekOrigin.Begin);
-                    fs2.Read(byte32, 0, 32); // game compagny 7
-                    textBox17.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+                        fs2.Seek(0x1C00, SeekOrigin.Begin);
+                        fs2.Read(byte32, 0, 32); // game compagny 7
+                        textBox17.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1C20, SeekOrigin.Begin);
-                    fs2.Read(byte32, 0, 32);  // game title 8
-                    textBox18.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+                        fs2.Seek(0x1C20, SeekOrigin.Begin);
+                        fs2.Read(byte32, 0, 32);  // game title 8
+                        textBox18.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1C60, SeekOrigin.Begin);
-                    fs2.Read(byte32, 0, 32); // game compagny 8
-                    textBox19.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+                        fs2.Seek(0x1C60, SeekOrigin.Begin);
+                        fs2.Read(byte32, 0, 32); // game compagny 8
+                        textBox19.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1CA0, SeekOrigin.Begin);
-                    fs2.Read(byte80, 0, 0x80); // game description Spanish
-                    textBox20.Text = Encoding.Default.GetString(byte80).Replace("\n", "\\n");
+                        fs2.Seek(0x1CA0, SeekOrigin.Begin);
+                        fs2.Read(byte80, 0, 0x80); // game description Spanish
+                        textBox20.Text = Encoding.Default.GetString(byte80).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1D20, SeekOrigin.Begin);
-                    fs2.Read(byte32, 0, 32);  // game title 9
-                    textBox21.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+                        fs2.Seek(0x1D20, SeekOrigin.Begin);
+                        fs2.Read(byte32, 0, 32);  // game title 9
+                        textBox21.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1D40, SeekOrigin.Begin);
-                    fs2.Read(byte32, 0, 32); // game compagny 9
-                    textBox22.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+                        fs2.Seek(0x1D40, SeekOrigin.Begin);
+                        fs2.Read(byte32, 0, 32); // game compagny 9
+                        textBox22.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1D60, SeekOrigin.Begin);
-                    fs2.Read(byte32, 0, 32);  // game title 10
-                    textBox23.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+                        fs2.Seek(0x1D60, SeekOrigin.Begin);
+                        fs2.Read(byte32, 0, 32);  // game title 10
+                        textBox23.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1DA0, SeekOrigin.Begin);
-                    fs2.Read(byte32, 0, 32); // game compagny 10
-                    textBox24.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+                        fs2.Seek(0x1DA0, SeekOrigin.Begin);
+                        fs2.Read(byte32, 0, 32); // game compagny 10
+                        textBox24.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1DE0, SeekOrigin.Begin);
-                    fs2.Read(byte80, 0, 0x80); // game description Italian
-                    textBox25.Text = Encoding.Default.GetString(byte80).Replace("\n", "\\n");
+                        fs2.Seek(0x1DE0, SeekOrigin.Begin);
+                        fs2.Read(byte80, 0, 0x80); // game description Italian
+                        textBox25.Text = Encoding.Default.GetString(byte80).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1E60, SeekOrigin.Begin);
-                    fs2.Read(byte32, 0, 32);  // game title 11
-                    textBox26.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+                        fs2.Seek(0x1E60, SeekOrigin.Begin);
+                        fs2.Read(byte32, 0, 32);  // game title 11
+                        textBox26.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1E80, SeekOrigin.Begin);
-                    fs2.Read(byte32, 0, 32); // game compagny 11
-                    textBox27.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+                        fs2.Seek(0x1E80, SeekOrigin.Begin);
+                        fs2.Read(byte32, 0, 32); // game compagny 11
+                        textBox27.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1EA0, SeekOrigin.Begin);
-                    fs2.Read(byte32, 0, 32);  // game title 12
-                    textBox28.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+                        fs2.Seek(0x1EA0, SeekOrigin.Begin);
+                        fs2.Read(byte32, 0, 32);  // game title 12
+                        textBox28.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1EE0, SeekOrigin.Begin);
-                    fs2.Read(byte32, 0, 32); // game compagny 12
-                    textBox29.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
+                        fs2.Seek(0x1EE0, SeekOrigin.Begin);
+                        fs2.Read(byte32, 0, 32); // game compagny 12
+                        textBox29.Text = Encoding.Default.GetString(byte32).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1F20, SeekOrigin.Begin);
-                    fs2.Read(byte80, 0, 0x80); // game description English
-                    textBox30.Text = Encoding.Default.GetString(byte80).Replace("\n", "\\n");
+                        fs2.Seek(0x1F20, SeekOrigin.Begin);
+                        fs2.Read(byte80, 0, 0x80); // game description English
+                        textBox30.Text = Encoding.Default.GetString(byte80).Replace("\n", "\\n");
+                    }
                 }
             }
             if (!File.Exists(input_file))
@@ -3245,12 +3252,9 @@ namespace plt0_gui
                     return;
                 }
                 fs.Read(cmpr_file, 0, 48); // read small amount of data before reading the whole file to avoid reading much for nothing*
-                if (bnr_file[3] == 0x31) // BNR1 - Gamecube Format
+                if (bnr_file[3] == 0x31 || bnr_file[3] == 0x32) // BNR1 and BNR2 - Gamecube Format
                 {
-                    // TODO
-                }
-                else if (bnr_file[3] == 0x32)  // BNR2 - Gamecube Format with 96x32 RGB5A3 picture at offset 0x20
-                {
+                    // BNR 1+2 - Gamecube Format with 96x32 RGB5A3 picture at offset 0x20
                     if (cmpr_file[0] == 0 && cmpr_file[1] == 32 && cmpr_file[2] == 0xaf && cmpr_file[3] == 48)
                     {
                         Parse_Markdown(d[176], cmpr_warning);
@@ -3260,7 +3264,7 @@ namespace plt0_gui
                     {
                         if (cmpr_file[0x1C] == 0 && cmpr_file[0x1D] == 96 && cmpr_file[0x1E] == 0 && cmpr_file[0x1F] == 32)
                         {
-                            // TODO: Launch the cli with the bnr and image
+                            // Launch the cli with the bnr and image
                             launch = true;
                             cmpr_data_start_offset = 0x40;
                         }
@@ -3275,7 +3279,7 @@ namespace plt0_gui
 
                         if (cmpr_file[2] == 0 && cmpr_file[3] == 96 && cmpr_file[4] == 0 && cmpr_file[5] == 32)
                         {
-                            // TODO: Launch the cli with the bnr and image
+                            // Launch the cli with the bnr and image
                             launch = true;
                             cmpr_data_start_offset = (cmpr_file[0x1C] << 24) | (cmpr_file[0x1D] << 16) | (cmpr_file[0x1E] << 8) | cmpr_file[0x1F];  // usually 0x20
                         }
@@ -3362,7 +3366,7 @@ namespace plt0_gui
                     opening_ck.Image = null;  // no preview for wii since it's a whole archive. use ShowMiiWads instead
 
 
-                    Parse_Markdown(d[198], cmpr_warning);  // about WhowMiiWads
+                    Parse_Markdown(d[199], cmpr_warning);  // about WhowMiiWads
                     textBox1.Text = "v--- Japanese [日本語] ---v";
                     int y = 0x5C;
                     fs2.Seek(y, SeekOrigin.Begin);
@@ -3370,7 +3374,7 @@ namespace plt0_gui
                     if (byteXX.Length > 84)
                     {
                         language = "Japanese";
-                        Parse_Markdown(d[199], cmpr_warning);
+                        Parse_Markdown(d[200], cmpr_warning);
                         return;
                     }
                     fs2.Write(byteXX, 0, byteXX.Length);  // no byte84 because GetBytes won't always return 84 but rather all chars until the first zero
@@ -3383,7 +3387,7 @@ namespace plt0_gui
                     if (byteXX.Length > 84)
                     {
                         language = "English";
-                        Parse_Markdown(d[199], cmpr_warning);
+                        Parse_Markdown(d[200], cmpr_warning);
                         return;
                     }
                     fs2.Write(byteXX, 0, byteXX.Length);
@@ -3396,7 +3400,7 @@ namespace plt0_gui
                     if (byteXX.Length > 84)
                     {
                         language = "German";
-                        Parse_Markdown(d[199], cmpr_warning);
+                        Parse_Markdown(d[200], cmpr_warning);
                         return;
                     }
                     fs2.Write(byteXX, 0, byteXX.Length);
@@ -3409,7 +3413,7 @@ namespace plt0_gui
                     if (byteXX.Length > 84)
                     {
                         language = "French";
-                        Parse_Markdown(d[199], cmpr_warning);
+                        Parse_Markdown(d[200], cmpr_warning);
                         return;
                     }
                     fs2.Write(byteXX, 0, byteXX.Length);  // game title 4
@@ -3422,7 +3426,7 @@ namespace plt0_gui
                     if (byteXX.Length > 84)
                     {
                         language = "Spanish";
-                        Parse_Markdown(d[199], cmpr_warning);
+                        Parse_Markdown(d[200], cmpr_warning);
                         return;
                     }
                     fs2.Write(byteXX, 0, byteXX.Length);
@@ -3435,7 +3439,7 @@ namespace plt0_gui
                     if (byteXX.Length > 84)
                     {
                         language = "Italian";
-                        Parse_Markdown(d[199], cmpr_warning);
+                        Parse_Markdown(d[200], cmpr_warning);
                         return;
                     }
                     fs2.Write(byteXX, 0, byteXX.Length);
@@ -3448,7 +3452,7 @@ namespace plt0_gui
                     if (byteXX.Length > 84)
                     {
                         language = "Dutch";
-                        Parse_Markdown(d[199], cmpr_warning);
+                        Parse_Markdown(d[200], cmpr_warning);
                         return;
                     }
                     fs2.Write(byteXX, 0, byteXX.Length);
@@ -3461,7 +3465,7 @@ namespace plt0_gui
                     if (byteXX.Length > 84)
                     {
                         language = "Simplified Chinese";
-                        Parse_Markdown(d[199], cmpr_warning);
+                        Parse_Markdown(d[200], cmpr_warning);
                         return;
                     }
                     fs2.Write(byteXX, 0, byteXX.Length);
@@ -3474,7 +3478,7 @@ namespace plt0_gui
                     if (byteXX.Length > 84)
                     {
                         language = "Traditional Chinese";
-                        Parse_Markdown(d[199], cmpr_warning);
+                        Parse_Markdown(d[200], cmpr_warning);
                         return;
                     }
                     fs2.Write(byteXX, 0, byteXX.Length);
@@ -3487,7 +3491,7 @@ namespace plt0_gui
                     if (byteXX.Length > 84)
                     {
                         language = "Korean";
-                        Parse_Markdown(d[199], cmpr_warning);
+                        Parse_Markdown(d[200], cmpr_warning);
                         return;
                     }
                     fs2.Write(byteXX, 0, byteXX.Length);  // game description Spanish
@@ -3521,15 +3525,11 @@ namespace plt0_gui
                     textBox29.Text = "";
                     textBox30.Text = "";
                     // end of wii bnr
-                }
-                else if (bnr_file[3] == 0x31) // BNR1 - Gamecube Format
+                }  // Wii banner
+                else if (bnr_file[3] == 0x31 || bnr_file[3] == 0x32) // BNR1 and BNR2 - Gamecube Format
                 {
-                    // TODO
-                }
-                else if (bnr_file[3] == 0x32)  // BNR2 - Gamecube Format with 96x32 RGB5A3 picture at offset 0x20
-                {
-
                     // writes the image if it is the exact format
+                    // Gamecube Format with 96x32 RGB5A3 picture at offset 0x20
                     if (cmpr_file[0] == 0 && cmpr_file[1] == 32 && cmpr_file[2] == 0xaf && cmpr_file[3] == 48)
                     {
                         Parse_Markdown(d[176], cmpr_warning);
@@ -3574,6 +3574,7 @@ namespace plt0_gui
                         return;
                     }
                     fs2.Write(byteXX, 0, byteXX.Length);  // game title 1
+                    textBox1.Text = Encoding.Default.GetString(byteXX).Replace("\n", "\\n");
 
                     fs2.Seek(0x1840, SeekOrigin.Begin);
                     byteXX = Encoding.Default.GetBytes(textBox2.Text.Replace("\\n", "\n"));
@@ -3584,6 +3585,7 @@ namespace plt0_gui
                         return;
                     }
                     fs2.Write(byteXX, 0, byteXX.Length);  // game Compagny 1
+                    textBox2.Text = Encoding.Default.GetString(byteXX).Replace("\n", "\\n");
 
                     fs2.Seek(0x1860, SeekOrigin.Begin);
                     byteXX = Encoding.Default.GetBytes(textBox3.Text.Replace("\\n", "\n"));
@@ -3594,6 +3596,7 @@ namespace plt0_gui
                         return;
                     }
                     fs2.Write(byteXX, 0, byteXX.Length);  // game title 2
+                    textBox3.Text = Encoding.Default.GetString(byteXX).Replace("\n", "\\n");
 
                     fs2.Seek(0x18A0, SeekOrigin.Begin);
                     byteXX = Encoding.Default.GetBytes(textBox4.Text.Replace("\\n", "\n"));
@@ -3604,6 +3607,7 @@ namespace plt0_gui
                         return;
                     }
                     fs2.Write(byteXX, 0, byteXX.Length);  // game Compagny 2
+                    textBox4.Text = Encoding.Default.GetString(byteXX).Replace("\n", "\\n");
 
                     fs2.Seek(0x18E0, SeekOrigin.Begin);
                     byteXX = Encoding.Default.GetBytes(textBox5.Text.Replace("\\n", "\n"));
@@ -3614,257 +3618,286 @@ namespace plt0_gui
                         return;
                     }
                     fs2.Write(byteXX, 0, byteXX.Length);  // game Description English
+                    textBox5.Text = Encoding.Default.GetString(byteXX).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1960, SeekOrigin.Begin);
-                    byteXX = Encoding.Default.GetBytes(textBox6.Text.Replace("\\n", "\n"));
-                    if (byteXX.Length > 32)
+                    if (bnr_file[3] == 0x32)  // BNR2
                     {
-                        language = "textbox 6";
-                        Parse_Markdown(d[190], cmpr_warning);
-                        return;
-                    }
-                    fs2.Write(byteXX, 0, byteXX.Length);  // game title 3
+                        fs2.Seek(0x1960, SeekOrigin.Begin);
+                        byteXX = Encoding.Default.GetBytes(textBox6.Text.Replace("\\n", "\n"));
+                        if (byteXX.Length > 32)
+                        {
+                            language = "textbox 6";
+                            Parse_Markdown(d[190], cmpr_warning);
+                            return;
+                        }
+                        fs2.Write(byteXX, 0, byteXX.Length);  // game title 3
+                        textBox6.Text = Encoding.Default.GetString(byteXX).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1980, SeekOrigin.Begin);
-                    byteXX = Encoding.Default.GetBytes(textBox7.Text.Replace("\\n", "\n"));
-                    if (byteXX.Length > 32)
-                    {
-                        language = "textbox 7";
-                        Parse_Markdown(d[191], cmpr_warning);
-                        return;
-                    }
-                    fs2.Write(byteXX, 0, byteXX.Length);  // game compagny 3
+                        fs2.Seek(0x1980, SeekOrigin.Begin);
+                        byteXX = Encoding.Default.GetBytes(textBox7.Text.Replace("\\n", "\n"));
+                        if (byteXX.Length > 32)
+                        {
+                            language = "textbox 7";
+                            Parse_Markdown(d[191], cmpr_warning);
+                            return;
+                        }
+                        fs2.Write(byteXX, 0, byteXX.Length);  // game compagny 3
+                        textBox7.Text = Encoding.Default.GetString(byteXX).Replace("\n", "\\n");
 
-                    fs2.Seek(0x19A0, SeekOrigin.Begin);
-                    byteXX = Encoding.Default.GetBytes(textBox8.Text.Replace("\\n", "\n"));
-                    if (byteXX.Length > 32)
-                    {
-                        language = "textbox 8 (German)";
-                        Parse_Markdown(d[190], cmpr_warning);
-                        return;
-                    }
-                    fs2.Write(byteXX, 0, byteXX.Length);  // game title 4
+                        fs2.Seek(0x19A0, SeekOrigin.Begin);
+                        byteXX = Encoding.Default.GetBytes(textBox8.Text.Replace("\\n", "\n"));
+                        if (byteXX.Length > 32)
+                        {
+                            language = "textbox 8 (German)";
+                            Parse_Markdown(d[190], cmpr_warning);
+                            return;
+                        }
+                        fs2.Write(byteXX, 0, byteXX.Length);  // game title 4
+                        textBox8.Text = Encoding.Default.GetString(byteXX).Replace("\n", "\\n");
 
-                    fs2.Seek(0x19E0, SeekOrigin.Begin);
-                    byteXX = Encoding.Default.GetBytes(textBox9.Text.Replace("\\n", "\n"));
-                    if (byteXX.Length > 32)
-                    {
-                        language = "textbox 9 (German)";
-                        Parse_Markdown(d[191], cmpr_warning);
-                        return;
-                    }
-                    fs2.Write(byteXX, 0, byteXX.Length);  // game compagny 4
+                        fs2.Seek(0x19E0, SeekOrigin.Begin);
+                        byteXX = Encoding.Default.GetBytes(textBox9.Text.Replace("\\n", "\n"));
+                        if (byteXX.Length > 32)
+                        {
+                            language = "textbox 9 (German)";
+                            Parse_Markdown(d[191], cmpr_warning);
+                            return;
+                        }
+                        fs2.Write(byteXX, 0, byteXX.Length);  // game compagny 4
+                        textBox9.Text = Encoding.Default.GetString(byteXX).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1A20, SeekOrigin.Begin);
-                    byteXX = Encoding.Default.GetBytes(textBox10.Text.Replace("\\n", "\n"));
-                    if (byteXX.Length > 128)
-                    {
-                        language = "textbox 10 (German)";
-                        Parse_Markdown(d[192], cmpr_warning);
-                        return;
-                    }
-                    fs2.Write(byteXX, 0, byteXX.Length);  // game description German
+                        fs2.Seek(0x1A20, SeekOrigin.Begin);
+                        byteXX = Encoding.Default.GetBytes(textBox10.Text.Replace("\\n", "\n"));
+                        if (byteXX.Length > 128)
+                        {
+                            language = "textbox 10 (German)";
+                            Parse_Markdown(d[192], cmpr_warning);
+                            return;
+                        }
+                        fs2.Write(byteXX, 0, byteXX.Length);  // game description German
+                        textBox10.Text = Encoding.Default.GetString(byteXX).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1AA0, SeekOrigin.Begin);
-                    byteXX = Encoding.Default.GetBytes(textBox11.Text.Replace("\\n", "\n"));
-                    if (byteXX.Length > 32)
-                    {
-                        language = "textbox 11";
-                        Parse_Markdown(d[190], cmpr_warning);
-                        return;
-                    }
-                    fs2.Write(byteXX, 0, byteXX.Length);  // game title 5
+                        fs2.Seek(0x1AA0, SeekOrigin.Begin);
+                        byteXX = Encoding.Default.GetBytes(textBox11.Text.Replace("\\n", "\n"));
+                        if (byteXX.Length > 32)
+                        {
+                            language = "textbox 11";
+                            Parse_Markdown(d[190], cmpr_warning);
+                            return;
+                        }
+                        fs2.Write(byteXX, 0, byteXX.Length);  // game title 5
+                        textBox11.Text = Encoding.Default.GetString(byteXX).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1AC0, SeekOrigin.Begin);
-                    byteXX = Encoding.Default.GetBytes(textBox12.Text.Replace("\\n", "\n"));
-                    if (byteXX.Length > 32)
-                    {
-                        language = "textbox 12";
-                        Parse_Markdown(d[191], cmpr_warning);
-                        return;
-                    }
-                    fs2.Write(byteXX, 0, byteXX.Length);  // game Compagny 5
+                        fs2.Seek(0x1AC0, SeekOrigin.Begin);
+                        byteXX = Encoding.Default.GetBytes(textBox12.Text.Replace("\\n", "\n"));
+                        if (byteXX.Length > 32)
+                        {
+                            language = "textbox 12";
+                            Parse_Markdown(d[191], cmpr_warning);
+                            return;
+                        }
+                        fs2.Write(byteXX, 0, byteXX.Length);  // game Compagny 5
+                        textBox12.Text = Encoding.Default.GetString(byteXX).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1AE0, SeekOrigin.Begin);
-                    byteXX = Encoding.Default.GetBytes(textBox13.Text.Replace("\\n", "\n"));
-                    if (byteXX.Length > 32)
-                    {
-                        language = "textbox 13 (French)";
-                        Parse_Markdown(d[190], cmpr_warning);
-                        return;
-                    }
-                    fs2.Write(byteXX, 0, byteXX.Length);  // game title 6
+                        fs2.Seek(0x1AE0, SeekOrigin.Begin);
+                        byteXX = Encoding.Default.GetBytes(textBox13.Text.Replace("\\n", "\n"));
+                        if (byteXX.Length > 32)
+                        {
+                            language = "textbox 13 (French)";
+                            Parse_Markdown(d[190], cmpr_warning);
+                            return;
+                        }
+                        fs2.Write(byteXX, 0, byteXX.Length);  // game title 6
+                        textBox13.Text = Encoding.Default.GetString(byteXX).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1B20, SeekOrigin.Begin);
-                    byteXX = Encoding.Default.GetBytes(textBox14.Text.Replace("\\n", "\n"));
-                    if (byteXX.Length > 32)
-                    {
-                        language = "textbox 14 (French)";
-                        Parse_Markdown(d[191], cmpr_warning);
-                        return;
-                    }
-                    fs2.Write(byteXX, 0, byteXX.Length);  // game compagny 6
+                        fs2.Seek(0x1B20, SeekOrigin.Begin);
+                        byteXX = Encoding.Default.GetBytes(textBox14.Text.Replace("\\n", "\n"));
+                        if (byteXX.Length > 32)
+                        {
+                            language = "textbox 14 (French)";
+                            Parse_Markdown(d[191], cmpr_warning);
+                            return;
+                        }
+                        fs2.Write(byteXX, 0, byteXX.Length);  // game compagny 6
+                        textBox14.Text = Encoding.Default.GetString(byteXX).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1B60, SeekOrigin.Begin);
-                    byteXX = Encoding.Default.GetBytes(textBox15.Text.Replace("\\n", "\n"));
-                    if (byteXX.Length > 128)
-                    {
-                        language = "textbox 15 (French)";
-                        Parse_Markdown(d[192], cmpr_warning);
-                        return;
-                    }
-                    fs2.Write(byteXX, 0, byteXX.Length);  // game description French
+                        fs2.Seek(0x1B60, SeekOrigin.Begin);
+                        byteXX = Encoding.Default.GetBytes(textBox15.Text.Replace("\\n", "\n"));
+                        if (byteXX.Length > 128)
+                        {
+                            language = "textbox 15 (French)";
+                            Parse_Markdown(d[192], cmpr_warning);
+                            return;
+                        }
+                        fs2.Write(byteXX, 0, byteXX.Length);  // game description French
+                        textBox15.Text = Encoding.Default.GetString(byteXX).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1BE0, SeekOrigin.Begin);
-                    byteXX = Encoding.Default.GetBytes(textBox16.Text.Replace("\\n", "\n"));
-                    if (byteXX.Length > 32)
-                    {
-                        language = "textbox 16";
-                        Parse_Markdown(d[190], cmpr_warning);
-                        return;
-                    }
-                    fs2.Write(byteXX, 0, byteXX.Length);  // game title 7
+                        fs2.Seek(0x1BE0, SeekOrigin.Begin);
+                        byteXX = Encoding.Default.GetBytes(textBox16.Text.Replace("\\n", "\n"));
+                        if (byteXX.Length > 32)
+                        {
+                            language = "textbox 16";
+                            Parse_Markdown(d[190], cmpr_warning);
+                            return;
+                        }
+                        fs2.Write(byteXX, 0, byteXX.Length);  // game title 7
+                        textBox16.Text = Encoding.Default.GetString(byteXX).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1C00, SeekOrigin.Begin);
-                    byteXX = Encoding.Default.GetBytes(textBox17.Text.Replace("\\n", "\n"));
-                    if (byteXX.Length > 32)
-                    {
-                        language = "textbox 17";
-                        Parse_Markdown(d[191], cmpr_warning);
-                        return;
-                    }
-                    fs2.Write(byteXX, 0, byteXX.Length);  // game Compagny 7
+                        fs2.Seek(0x1C00, SeekOrigin.Begin);
+                        byteXX = Encoding.Default.GetBytes(textBox17.Text.Replace("\\n", "\n"));
+                        if (byteXX.Length > 32)
+                        {
+                            language = "textbox 17";
+                            Parse_Markdown(d[191], cmpr_warning);
+                            return;
+                        }
+                        fs2.Write(byteXX, 0, byteXX.Length);  // game Compagny 7
+                        textBox17.Text = Encoding.Default.GetString(byteXX).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1C20, SeekOrigin.Begin);
-                    byteXX = Encoding.Default.GetBytes(textBox18.Text.Replace("\\n", "\n"));
-                    if (byteXX.Length > 32)
-                    {
-                        language = "textbox 18 (Spanish)";
-                        Parse_Markdown(d[190], cmpr_warning);
-                        return;
-                    }
-                    fs2.Write(byteXX, 0, byteXX.Length);  // game title 8
+                        fs2.Seek(0x1C20, SeekOrigin.Begin);
+                        byteXX = Encoding.Default.GetBytes(textBox18.Text.Replace("\\n", "\n"));
+                        if (byteXX.Length > 32)
+                        {
+                            language = "textbox 18 (Spanish)";
+                            Parse_Markdown(d[190], cmpr_warning);
+                            return;
+                        }
+                        fs2.Write(byteXX, 0, byteXX.Length);  // game title 8
+                        textBox18.Text = Encoding.Default.GetString(byteXX).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1C60, SeekOrigin.Begin);
-                    byteXX = Encoding.Default.GetBytes(textBox19.Text.Replace("\\n", "\n"));
-                    if (byteXX.Length > 32)
-                    {
-                        language = "textbox 19 (Spanish)";
-                        Parse_Markdown(d[191], cmpr_warning);
-                        return;
-                    }
-                    fs2.Write(byteXX, 0, byteXX.Length);  // game compagny 8
+                        fs2.Seek(0x1C60, SeekOrigin.Begin);
+                        byteXX = Encoding.Default.GetBytes(textBox19.Text.Replace("\\n", "\n"));
+                        if (byteXX.Length > 32)
+                        {
+                            language = "textbox 19 (Spanish)";
+                            Parse_Markdown(d[191], cmpr_warning);
+                            return;
+                        }
+                        fs2.Write(byteXX, 0, byteXX.Length);  // game compagny 8
+                        textBox19.Text = Encoding.Default.GetString(byteXX).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1CA0, SeekOrigin.Begin);
-                    byteXX = Encoding.Default.GetBytes(textBox20.Text.Replace("\\n", "\n"));
-                    if (byteXX.Length > 128)
-                    {
-                        language = "textbox 20 (Spanish)";
-                        Parse_Markdown(d[192], cmpr_warning);
-                        return;
-                    }
-                    fs2.Write(byteXX, 0, byteXX.Length);  // game description Spanish
+                        fs2.Seek(0x1CA0, SeekOrigin.Begin);
+                        byteXX = Encoding.Default.GetBytes(textBox20.Text.Replace("\\n", "\n"));
+                        if (byteXX.Length > 128)
+                        {
+                            language = "textbox 20 (Spanish)";
+                            Parse_Markdown(d[192], cmpr_warning);
+                            return;
+                        }
+                        fs2.Write(byteXX, 0, byteXX.Length);  // game description Spanish
+                        textBox20.Text = Encoding.Default.GetString(byteXX).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1D20, SeekOrigin.Begin);
-                    byteXX = Encoding.Default.GetBytes(textBox21.Text.Replace("\\n", "\n"));
-                    if (byteXX.Length > 32)
-                    {
-                        language = "textbox 21";
-                        Parse_Markdown(d[190], cmpr_warning);
-                        return;
-                    }
-                    fs2.Write(byteXX, 0, byteXX.Length);  // game title 9
+                        fs2.Seek(0x1D20, SeekOrigin.Begin);
+                        byteXX = Encoding.Default.GetBytes(textBox21.Text.Replace("\\n", "\n"));
+                        if (byteXX.Length > 32)
+                        {
+                            language = "textbox 21";
+                            Parse_Markdown(d[190], cmpr_warning);
+                            return;
+                        }
+                        fs2.Write(byteXX, 0, byteXX.Length);  // game title 9
+                        textBox21.Text = Encoding.Default.GetString(byteXX).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1D40, SeekOrigin.Begin);
-                    byteXX = Encoding.Default.GetBytes(textBox22.Text.Replace("\\n", "\n"));
-                    if (byteXX.Length > 32)
-                    {
-                        language = "textbox 22";
-                        Parse_Markdown(d[191], cmpr_warning);
-                        return;
-                    }
-                    fs2.Write(byteXX, 0, byteXX.Length);  // game compagny 9
+                        fs2.Seek(0x1D40, SeekOrigin.Begin);
+                        byteXX = Encoding.Default.GetBytes(textBox22.Text.Replace("\\n", "\n"));
+                        if (byteXX.Length > 32)
+                        {
+                            language = "textbox 22";
+                            Parse_Markdown(d[191], cmpr_warning);
+                            return;
+                        }
+                        fs2.Write(byteXX, 0, byteXX.Length);  // game compagny 9
+                        textBox22.Text = Encoding.Default.GetString(byteXX).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1D60, SeekOrigin.Begin);
-                    byteXX = Encoding.Default.GetBytes(textBox23.Text.Replace("\\n", "\n"));
-                    if (byteXX.Length > 32)
-                    {
-                        language = "textbox 23 (Italian)";
-                        Parse_Markdown(d[190], cmpr_warning);
-                        return;
-                    }
-                    fs2.Write(byteXX, 0, byteXX.Length);  // game title 10
+                        fs2.Seek(0x1D60, SeekOrigin.Begin);
+                        byteXX = Encoding.Default.GetBytes(textBox23.Text.Replace("\\n", "\n"));
+                        if (byteXX.Length > 32)
+                        {
+                            language = "textbox 23 (Italian)";
+                            Parse_Markdown(d[190], cmpr_warning);
+                            return;
+                        }
+                        fs2.Write(byteXX, 0, byteXX.Length);  // game title 10
+                        textBox23.Text = Encoding.Default.GetString(byteXX).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1DA0, SeekOrigin.Begin);
-                    byteXX = Encoding.Default.GetBytes(textBox24.Text.Replace("\\n", "\n"));
-                    if (byteXX.Length > 32)
-                    {
-                        language = "textbox 24 (Italian)";
-                        Parse_Markdown(d[191], cmpr_warning);
-                        return;
-                    }
-                    fs2.Write(byteXX, 0, byteXX.Length);  // game compagny 10
+                        fs2.Seek(0x1DA0, SeekOrigin.Begin);
+                        byteXX = Encoding.Default.GetBytes(textBox24.Text.Replace("\\n", "\n"));
+                        if (byteXX.Length > 32)
+                        {
+                            language = "textbox 24 (Italian)";
+                            Parse_Markdown(d[191], cmpr_warning);
+                            return;
+                        }
+                        fs2.Write(byteXX, 0, byteXX.Length);  // game compagny 10
+                        textBox24.Text = Encoding.Default.GetString(byteXX).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1DE0, SeekOrigin.Begin);
-                    byteXX = Encoding.Default.GetBytes(textBox25.Text.Replace("\\n", "\n"));
-                    if (byteXX.Length > 128)
-                    {
-                        language = "textbox 25 (Italian)";
-                        Parse_Markdown(d[192], cmpr_warning);
-                        return;
-                    }
-                    fs2.Write(byteXX, 0, byteXX.Length);  // game description Italian
+                        fs2.Seek(0x1DE0, SeekOrigin.Begin);
+                        byteXX = Encoding.Default.GetBytes(textBox25.Text.Replace("\\n", "\n"));
+                        if (byteXX.Length > 128)
+                        {
+                            language = "textbox 25 (Italian)";
+                            Parse_Markdown(d[192], cmpr_warning);
+                            return;
+                        }
+                        fs2.Write(byteXX, 0, byteXX.Length);  // game description Italian
+                        textBox25.Text = Encoding.Default.GetString(byteXX).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1E60, SeekOrigin.Begin);
-                    byteXX = Encoding.Default.GetBytes(textBox26.Text.Replace("\\n", "\n"));
-                    if (byteXX.Length > 32)
-                    {
-                        language = "textbox 26";
-                        Parse_Markdown(d[190], cmpr_warning);
-                        return;
-                    }
-                    fs2.Write(byteXX, 0, byteXX.Length);  // game title 11
+                        fs2.Seek(0x1E60, SeekOrigin.Begin);
+                        byteXX = Encoding.Default.GetBytes(textBox26.Text.Replace("\\n", "\n"));
+                        if (byteXX.Length > 32)
+                        {
+                            language = "textbox 26";
+                            Parse_Markdown(d[190], cmpr_warning);
+                            return;
+                        }
+                        fs2.Write(byteXX, 0, byteXX.Length);  // game title 11
+                        textBox26.Text = Encoding.Default.GetString(byteXX).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1E80, SeekOrigin.Begin);
-                    byteXX = Encoding.Default.GetBytes(textBox27.Text.Replace("\\n", "\n"));
-                    if (byteXX.Length > 32)
-                    {
-                        language = "textbox 27";
-                        Parse_Markdown(d[191], cmpr_warning);
-                        return;
-                    }
-                    fs2.Write(byteXX, 0, byteXX.Length);  // game compagny 11
+                        fs2.Seek(0x1E80, SeekOrigin.Begin);
+                        byteXX = Encoding.Default.GetBytes(textBox27.Text.Replace("\\n", "\n"));
+                        if (byteXX.Length > 32)
+                        {
+                            language = "textbox 27";
+                            Parse_Markdown(d[191], cmpr_warning);
+                            return;
+                        }
+                        fs2.Write(byteXX, 0, byteXX.Length);  // game compagny 11
+                        textBox27.Text = Encoding.Default.GetString(byteXX).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1EA0, SeekOrigin.Begin);
-                    byteXX = Encoding.Default.GetBytes(textBox28.Text.Replace("\\n", "\n"));
-                    if (byteXX.Length > 32)
-                    {
-                        language = "textbox 28 (Dutch)";
-                        Parse_Markdown(d[190], cmpr_warning);
-                        return;
-                    }
-                    fs2.Write(byteXX, 0, byteXX.Length);  // game title 12
+                        fs2.Seek(0x1EA0, SeekOrigin.Begin);
+                        byteXX = Encoding.Default.GetBytes(textBox28.Text.Replace("\\n", "\n"));
+                        if (byteXX.Length > 32)
+                        {
+                            language = "textbox 28 (Dutch)";
+                            Parse_Markdown(d[190], cmpr_warning);
+                            return;
+                        }
+                        fs2.Write(byteXX, 0, byteXX.Length);  // game title 12
+                        textBox28.Text = Encoding.Default.GetString(byteXX).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1EE0, SeekOrigin.Begin);
-                    byteXX = Encoding.Default.GetBytes(textBox29.Text.Replace("\\n", "\n"));
-                    if (byteXX.Length > 32)
-                    {
-                        language = "textbox 29 (Dutch)";
-                        Parse_Markdown(d[191], cmpr_warning);
-                        return;
-                    }
-                    fs2.Write(byteXX, 0, byteXX.Length);  // game compagny 12
+                        fs2.Seek(0x1EE0, SeekOrigin.Begin);
+                        byteXX = Encoding.Default.GetBytes(textBox29.Text.Replace("\\n", "\n"));
+                        if (byteXX.Length > 32)
+                        {
+                            language = "textbox 29 (Dutch)";
+                            Parse_Markdown(d[191], cmpr_warning);
+                            return;
+                        }
+                        fs2.Write(byteXX, 0, byteXX.Length);  // game compagny 12
+                        textBox29.Text = Encoding.Default.GetString(byteXX).Replace("\n", "\\n");
 
-                    fs2.Seek(0x1F20, SeekOrigin.Begin);
-                    byteXX = Encoding.Default.GetBytes(textBox30.Text.Replace("\\n", "\n"));
-                    if (byteXX.Length > 128)
-                    {
-                        language = "textbox 30 (Dutch)";
-                        Parse_Markdown(d[192], cmpr_warning);
-                        return;
-                    }
-                    fs2.Write(byteXX, 0, byteXX.Length);  // game description English
-                }  // BNR2
+                        fs2.Seek(0x1F20, SeekOrigin.Begin);
+                        byteXX = Encoding.Default.GetBytes(textBox30.Text.Replace("\\n", "\n"));
+                        if (byteXX.Length > 128)
+                        {
+                            language = "textbox 30 (Dutch)";
+                            Parse_Markdown(d[192], cmpr_warning);
+                            return;
+                        }
+                        fs2.Write(byteXX, 0, byteXX.Length);  // game description English
+                        textBox30.Text = Encoding.Default.GetString(byteXX).Replace("\n", "\\n");
+                    }  // BNR2
+                }  // GameCube banner
             }
             try
             {
@@ -6651,6 +6684,7 @@ namespace plt0_gui
             this.cmpr_grid_ck = new PictureBoxWithInterpolationMode();
             this.image_ck = new PictureBoxWithInterpolationMode();
             this.cmpr_preview_ck = new PictureBoxWithInterpolationMode();
+            this.opening_clear_gamelist_ck = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.bti_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tex0_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tpl_ck)).BeginInit();
@@ -6801,6 +6835,7 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_grid_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.image_ck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.opening_clear_gamelist_ck)).BeginInit();
             this.SuspendLayout();
             // 
             // output_file_type_label
@@ -12817,13 +12852,31 @@ namespace plt0_gui
             this.cmpr_preview_ck.MouseLeave += new System.EventHandler(this.cmpr_preview_ck_MouseLeave);
             this.cmpr_preview_ck.MouseMove += new System.Windows.Forms.MouseEventHandler(this.cmpr_preview_ck_MouseMove);
             // 
+            // opening_clear_gamelist_ck
+            // 
+            this.opening_clear_gamelist_ck.BackColor = System.Drawing.Color.Transparent;
+            this.opening_clear_gamelist_ck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.opening_clear_gamelist_ck.ErrorImage = null;
+            this.opening_clear_gamelist_ck.InitialImage = null;
+            this.opening_clear_gamelist_ck.Location = new System.Drawing.Point(2351, 1016);
+            this.opening_clear_gamelist_ck.Margin = new System.Windows.Forms.Padding(0);
+            this.opening_clear_gamelist_ck.Name = "opening_clear_gamelist_ck";
+            this.opening_clear_gamelist_ck.Size = new System.Drawing.Size(465, 64);
+            this.opening_clear_gamelist_ck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.opening_clear_gamelist_ck.TabIndex = 761;
+            this.opening_clear_gamelist_ck.TabStop = false;
+            this.opening_clear_gamelist_ck.Click += new System.EventHandler(this.opening_clear_gamelist_ck_Click);
+            this.opening_clear_gamelist_ck.MouseEnter += new System.EventHandler(this.opening_clear_gamelist_ck_MouseEnter);
+            this.opening_clear_gamelist_ck.MouseLeave += new System.EventHandler(this.opening_clear_gamelist_ck_MouseLeave);
+            // 
             // plt0_gui
             // 
             this.AllowDrop = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(72)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(3370, 1061);
+            this.ClientSize = new System.Drawing.Size(3325, 1061);
+            this.Controls.Add(this.opening_clear_gamelist_ck);
             this.Controls.Add(this.opening_ck);
             this.Controls.Add(this.textBox30);
             this.Controls.Add(this.textBox29);
@@ -13353,6 +13406,7 @@ namespace plt0_gui
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_grid_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.image_ck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmpr_preview_ck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.opening_clear_gamelist_ck)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -14052,6 +14106,14 @@ namespace plt0_gui
             if (File.Exists(execPath + "plt0 content/graphics/cmpr_swap2_hover.png"))
             {
                 cmpr_swap2_hover = Image.FromFile(execPath + "plt0 content/graphics/cmpr_swap2_hover.png");
+            }
+            if (File.Exists(execPath + "plt0 content/graphics/gamelist.png"))
+            {
+                gamelist = Image.FromFile(execPath + "plt0 content/graphics/gamelist.png");
+            }
+            if (File.Exists(execPath + "plt0 content/graphics/gamelist_hover.png"))
+            {
+                gamelist_hover = Image.FromFile(execPath + "plt0 content/graphics/gamelist_hover.png");
             }
             if (File.Exists(execPath + "plt0 content/graphics/cmpr_swap.png"))
             {
@@ -20083,6 +20145,29 @@ namespace plt0_gui
         private void opening_ck_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
+        }
+
+        private void opening_clear_gamelist_ck_Click(object sender, EventArgs e)
+        {
+            if (File.Exists(gamelist_cache_file))
+            {
+                File.Delete(gamelist_cache_file);
+                Parse_Markdown(d[201], cmpr_warning);  // deleted gamelist.cache
+                return;
+            }
+            Parse_Markdown(d[202], cmpr_warning); //cannot find gamelist.cache
+        }
+
+        private void opening_clear_gamelist_ck_MouseEnter(object sender, EventArgs e)
+        {
+            Parse_Markdown(d[198]);
+            opening_clear_gamelist_ck.Image = gamelist_hover;
+        }
+
+        private void opening_clear_gamelist_ck_MouseLeave(object sender, EventArgs e)
+        {
+            Hide_description();
+            opening_clear_gamelist_ck.Image = gamelist;
         }
     }
 }

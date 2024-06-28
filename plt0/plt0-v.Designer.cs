@@ -366,6 +366,7 @@
         private System.Windows.Forms.TextBox textBox29;
         private System.Windows.Forms.TextBox textBox30;
         private PictureBoxWithInterpolationMode opening_ck;
+        private System.Windows.Forms.PictureBox opening_clear_gamelist_ck;
         /*
 /// <summary>
 /// Required designer variable.
