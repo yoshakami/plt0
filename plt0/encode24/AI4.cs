@@ -31,7 +31,7 @@ class AI4_class24  // 24 edit
                         }
                         index[j] = (byte)((a & 0xf0) + (grey >> 4));
                         j++;
-                        if (j == _plt0.bitmap_width)
+                        if (j == _plt0.bitmap_width)  // 24 edit
                         {
                             i += _plt0.bitmap_width % 4;  // 24 edit
                             j = 0;
@@ -56,7 +56,7 @@ class AI4_class24  // 24 edit
                         }
                         index[j] = (byte)((a & 0xf0) + (grey >> 4));
                         j++;
-                        if (j == _plt0.bitmap_width)
+                        if (j == _plt0.bitmap_width)  // 24 edit
                         {
                             i += _plt0.bitmap_width % 4;  // 24 edit
                             j = 0;
@@ -81,7 +81,7 @@ class AI4_class24  // 24 edit
                         }
                         index[j] = (byte)((a & 0xf0) + (grey >> 4));
                         j++;
-                        if (j == _plt0.bitmap_width)
+                        if (j == _plt0.bitmap_width)  // 24 edit
                         {
                             i += _plt0.bitmap_width % 4;  // 24 edit
                             j = 0;
@@ -106,7 +106,7 @@ class AI4_class24  // 24 edit
                     }
                     index[j] = (byte)((a & 0xf0) + (grey >> 4));
                     j++;
-                    if (j == _plt0.bitmap_width)
+                    if (j == _plt0.bitmap_width)  // 24 edit
                     {
                         i += _plt0.bitmap_width % 4;  // 24 edit
                         j = 0;
