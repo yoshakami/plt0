@@ -26,29 +26,31 @@ class I4_class24  // 24 edit
                         {
                             a += 16;
                         }
+                        wi++;  // 24 edit
                         if (wi == _plt0.bitmap_width)  // v---- 24 edit ----v
                         {
-                            index[j] = (byte)(a & 0xf0);
+                            index[j] = (byte)(a & 0xf0);  // 24 edit
                             j = 0;
                             wi = 0;
-                            i += _plt0.bitmap_width % 4;
+                            i += (_plt0.bitmap_width % 4) - 3;
                             index_list.Add(index.ToArray());
                             continue;
                         }  // ^^^^^^ 24 edit ^^^^^^
-                        grey = (byte)(bmp_image[i + 4 + _plt0.rgba_channel[2]] * 0.114 + bmp_image[i + 4 + _plt0.rgba_channel[1]] * 0.587 + bmp_image[i + 4 + _plt0.rgba_channel[0]] * 0.299);
+                        grey = (byte)(bmp_image[i + 3 + _plt0.rgba_channel[2]] * 0.114 + bmp_image[i + 3 + _plt0.rgba_channel[1]] * 0.587 + bmp_image[i + 3 + _plt0.rgba_channel[0]] * 0.299);  // 24 edit
                         if ((grey & 0xf) > _plt0.round4 && grey < 240)
                         {
                             grey += 16;
                         }
                         index[j] = (byte)((a & 0xf0) + (grey >> 4));
                         j++;
-                        wi += 2;  // 24 edit
-                        if (j == index.Length)
+                        wi++;  // 24 edit
+                        if (wi == _plt0.bitmap_width)  // v---- 24 edit ----v
                         {
                             j = 0;
-                            i += _plt0.bitmap_width % 4;  // 24 edit
+                            wi = 0;
+                            i += (_plt0.bitmap_width % 4);
                             index_list.Add(index.ToArray());
-                        }
+                        }  // ^^^^^^ 24 edit ^^^^^^
                     }
                     break;
                 }
@@ -61,29 +63,31 @@ class I4_class24  // 24 edit
                         {
                             a += 16;
                         }
+                        wi++;  // 24 edit
                         if (wi == _plt0.bitmap_width)  // v---- 24 edit ----v
                         {
-                            index[j] = (byte)(a & 0xf0);
+                            index[j] = (byte)(a & 0xf0);  // 24 edit
                             j = 0;
                             wi = 0;
-                            i += _plt0.bitmap_width % 4;
+                            i += (_plt0.bitmap_width % 4) - 3;
                             index_list.Add(index.ToArray());
                             continue;
                         }  // ^^^^^^ 24 edit ^^^^^^
-                        grey = (byte)(bmp_image[i + 4 + _plt0.rgba_channel[2]] * 0.0721 + bmp_image[i + 4 + _plt0.rgba_channel[1]] * 0.7154 + bmp_image[i + 4 + _plt0.rgba_channel[0]] * 0.2125);
+                        grey = (byte)(bmp_image[i + 3 + _plt0.rgba_channel[2]] * 0.0721 + bmp_image[i + 3 + _plt0.rgba_channel[1]] * 0.7154 + bmp_image[i + 3 + _plt0.rgba_channel[0]] * 0.2125);  // 24 edit
                         if ((grey & 0xf) > _plt0.round4 && grey < 240)
                         {
                             grey += 16;
                         }
                         index[j] = (byte)((a & 0xf0) + (grey >> 4));
                         j++;
-                        wi += 2;  // 24 edit
-                        if (j == index.Length)
+                        wi++;  // 24 edit
+                        if (wi == _plt0.bitmap_width)  // v---- 24 edit ----v
                         {
                             j = 0;
-                            i += _plt0.bitmap_width % 4;  // 24 edit
+                            wi = 0;
+                            i += (_plt0.bitmap_width % 4);
                             index_list.Add(index.ToArray());
-                        }
+                        }  // ^^^^^^ 24 edit ^^^^^^
                     }
                     break;
                 }
@@ -96,29 +100,31 @@ class I4_class24  // 24 edit
                         {
                             a += 16;
                         }
+                        wi++;  // 24 edit
                         if (wi == _plt0.bitmap_width)  // v---- 24 edit ----v
                         {
-                            index[j] = (byte)(a & 0xf0);
+                            index[j] = (byte)(a & 0xf0);  // 24 edit
                             j = 0;
                             wi = 0;
-                            i += _plt0.bitmap_width % 4;
+                            i += (_plt0.bitmap_width % 4) - 3;
                             index_list.Add(index.ToArray());
                             continue;
                         }  // ^^^^^^ 24 edit ^^^^^^
-                        grey = (byte)(bmp_image[i + 4 + _plt0.rgba_channel[2]] * _plt0.custom_rgba[2] + bmp_image[i + 4 + _plt0.rgba_channel[1]] * _plt0.custom_rgba[1] + bmp_image[i + 4 + _plt0.rgba_channel[0]] * _plt0.custom_rgba[0]);
+                        grey = (byte)(bmp_image[i + 3 + _plt0.rgba_channel[2]] * _plt0.custom_rgba[2] + bmp_image[i + 3 + _plt0.rgba_channel[1]] * _plt0.custom_rgba[1] + bmp_image[i + 3 + _plt0.rgba_channel[0]] * _plt0.custom_rgba[0]);  // 24 edit
                         if ((grey & 0xf) > _plt0.round4 && grey < 240)
                         {
                             grey += 16;
                         }
                         index[j] = (byte)((a & 0xf0) + (grey >> 4));
                         j++;
-                        wi += 2;  // 24 edit
-                        if (j == index.Length)
+                        wi++;  // 24 edit
+                        if (wi == _plt0.bitmap_width)  // v---- 24 edit ----v
                         {
                             j = 0;
-                            i += _plt0.bitmap_width % 4;  // 24 edit
+                            wi = 0;
+                            i += (_plt0.bitmap_width % 4);
                             index_list.Add(index.ToArray());
-                        }
+                        }  // ^^^^^^ 24 edit ^^^^^^
                     }
                     break;
                 }
@@ -131,29 +137,31 @@ class I4_class24  // 24 edit
                     {
                         a += 16;
                     }
+                    wi++;  // 24 edit
                     if (wi == _plt0.bitmap_width)  // v---- 24 edit ----v
                     {
-                        index[j] = (byte)(a & 0xf0);
+                        index[j] = (byte)(a & 0xf0);  // 24 edit
                         j = 0;
                         wi = 0;
-                        i += _plt0.bitmap_width % 4;
+                        i += (_plt0.bitmap_width % 4) - 3;
                         index_list.Add(index.ToArray());
                         continue;
                     }  // ^^^^^^ 24 edit ^^^^^^
-                    grey = (byte)(gray_class.Preceptual_Brightness(bmp_image[i + 4 + _plt0.rgba_channel[0]], bmp_image[i + 4 + _plt0.rgba_channel[1]], bmp_image[i + 4 + _plt0.rgba_channel[2]]));
+                    grey = (byte)(gray_class.Preceptual_Brightness(bmp_image[i + 3 + _plt0.rgba_channel[0]], bmp_image[i + 3 + _plt0.rgba_channel[1]], bmp_image[i + 3 + _plt0.rgba_channel[2]]));  // 24 edit
                     if ((grey & 0xf) > _plt0.round4 && grey < 240)
                     {
                         grey += 16;
                     }
                     index[j] = (byte)((a & 0xf0) + (grey >> 4));
                     j++;
-                    wi += 2;  // 24 edit
-                    if (j == index.Length)
+                    wi++;  // 24 edit
+                    if (wi == _plt0.bitmap_width)  // v---- 24 edit ----v
                     {
                         j = 0;
-                        i += _plt0.bitmap_width % 4;  // 24 edit
+                        wi = 0;
+                        i += (_plt0.bitmap_width % 4) - 3;
                         index_list.Add(index.ToArray());
-                    }
+                    }  // ^^^^^^ 24 edit ^^^^^^
                 }
                 break;
         }
