@@ -4,7 +4,7 @@ using System.Collections.Generic;
 class Decode_texture_class
 {
     public List<ushort[]> canvas_dim = new List<ushort[]>();
-    public string Decode_texture(string input_file, string palette_file, string output_file, byte[] real_block_width_array, byte[] block_width_array, byte[] block_height_array, bool tex0, bool tpl, byte[] colour_palette, byte palette_format3, bool bmp_32, bool funky, bool reverse_x, bool reverse_y, bool warn, bool stfu, bool no_warning, bool safe_mode, bool bmp, bool png, bool gif, bool jpeg, bool jpg, bool ico, bool tiff, bool tif, byte mipmaps_number, byte[] data=null)
+    public string Decode_texture(string input_file, string palette_file, string output_file, byte[] real_block_width_array, byte[] block_width_array, byte[] block_height_array, bool tex0, bool tpl, byte[] colour_palette, byte palette_format3, bool bmp_32, bool funky, bool reverse_x, bool reverse_y, bool warn, bool stfu, bool no_warning, bool safe_mode, bool bmp, bool png, bool gif, bool jpeg, bool jpg, bool ico, bool tiff, bool tif, byte mipmaps_number, byte[] data = null)
     {
         ushort colour_number = 0;
         int colour_number_x2 = 0;
@@ -111,12 +111,12 @@ class Decode_texture_class
                     Array.Resize(ref colour_palette, colour_number_x2);
                     Array.Copy(data, palette_start_offset, colour_palette, 0, colour_number_x2);
                 }
-                 /*if (mipmaps_number > data[image_headers_offset[b] + 0x22] || b != 0)
-                {
-                    mipmaps_number = (byte)(data[image_headers_offset[b] + 0x22]);
-                    if (!no_warning)
-                        Console.WriteLine("number of images set as input are higher than in the file to decode.\nThis program will output the maximum number of mipmaps possible.");
-                }*/
+                /*if (mipmaps_number > data[image_headers_offset[b] + 0x22] || b != 0)
+               {
+                   mipmaps_number = (byte)(data[image_headers_offset[b] + 0x22]);
+                   if (!no_warning)
+                       Console.WriteLine("number of images set as input are higher than in the file to decode.\nThis program will output the maximum number of mipmaps possible.");
+               }*/
                 texture_format_int32[3] = data[image_headers_offset[b] + 7];
                 data_start_offset = (data[image_headers_offset[b] + 8] << 24) | (data[image_headers_offset[b] + 9] << 16) | (data[image_headers_offset[b] + 10] << 8) | data[image_headers_offset[b] + 11];
 

@@ -7,13 +7,13 @@ class Reverse_x_class
     {
         List<byte[]> index_reversed = new List<byte[]>();
         byte[] index = new byte[index_list[0].Length];
-        switch(encoding)
+        switch (encoding)
         {
             case 0: // I4
             case 8: // CI4
                 for (int i = 0; i < index_list.Count; i++)
                 {
-                    for (int j = index_list[i].Length - 1, k=0; j >= 0 ; j--, k++)
+                    for (int j = index_list[i].Length - 1, k = 0; j >= 0; j--, k++)
                     {
                         index[k] = (byte)(((index_list[i][j] & 15) << 4) + (index_list[i][j] >> 4));
                     }
@@ -29,12 +29,12 @@ class Reverse_x_class
                 }
                 break;
             case 3:  // AI8
-                case 4:  // RGB565
-                case 5:  // RGB5A3
-                case 10:  // CI14x2
+            case 4:  // RGB565
+            case 5:  // RGB5A3
+            case 10:  // CI14x2
                 for (int i = 0; i < index_list.Count; i++)
                 {
-                    for (int j = index_list[i].Length - 1, k = 0; j >= 0; j-=2, k+=2)
+                    for (int j = index_list[i].Length - 1, k = 0; j >= 0; j -= 2, k += 2)
                     {
                         index[k] = index_list[i][j - 1];
                         index[k + 1] = index_list[i][j];

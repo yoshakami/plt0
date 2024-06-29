@@ -150,12 +150,12 @@ class Create_plt0_class
                     RGB5A3_class rgb5a3_class = new RGB5A3_class(_plt0);
                     rgb5a3_class.RGB5A3(index_list, bmp_image, index);
                     break;
-                    
+
                 case 6: // RGBA32
                     RGBA32_class rgba32_class = new RGBA32_class(_plt0);
                     rgba32_class.RGBA32(index_list, bmp_image, index);
                     break;
-                    
+
                 case 0xE: // CMPR
                     CMPR_class cmpr_class = new CMPR_class(_plt0);
                     cmpr_class.CMPR(index_list, bmp_image);

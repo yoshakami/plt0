@@ -112,7 +112,7 @@ class Parse_args_class
     static readonly string execPath = AppDomain.CurrentDomain.BaseDirectory.Replace("\\", "/");
     List<byte> BGRA = new List<byte>();
     List<ushort[]> canvas_dim = new List<ushort[]>();
-    public void Parse_args(string[] args, byte[] banner=null)
+    public void Parse_args(string[] args, byte[] banner = null)
     {
         if (args.Length > 0)
             if (args[0] == "gui")
@@ -1201,7 +1201,7 @@ class Parse_args_class
             }
             return;
         }
-        
+
         // msm tools handles these. the user can also make scripts to launch the program for every file he wants.
         //case "bres":
         //case .arc file from wii games

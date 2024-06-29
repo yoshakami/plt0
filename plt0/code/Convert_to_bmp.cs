@@ -11,7 +11,7 @@ class Convert_to_bmp_class
     {
         _plt0 = Parse_args_class;
     }
-    public byte[] Convert_to_bmp(System.Drawing.Bitmap imageIn, bool linux=false)
+    public byte[] Convert_to_bmp(System.Drawing.Bitmap imageIn, bool linux = false)
     {
         if (_plt0.warn)
             Console.WriteLine(imageIn.PixelFormat.ToString());
