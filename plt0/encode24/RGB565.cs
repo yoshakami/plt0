@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 
-class RGB565_class24
+class RGB565_class24  // 24 edit
 {
     Parse_args_class _plt0;
-    public RGB565_class24(Parse_args_class Parse_args_class)
+    public RGB565_class24(Parse_args_class Parse_args_class)  // 24 edit
     {
         _plt0 = Parse_args_class;
     }
@@ -41,6 +41,7 @@ class RGB565_class24
                         if (j == _plt0.canvas_width << 1)
                         {
                             j = 0;
+                            i += _plt0.canvas_width % 4;  // 24 edit
                             index_list.Add(index.ToArray());
                         }
                     }
@@ -72,6 +73,7 @@ class RGB565_class24
                         if (j == _plt0.canvas_width << 1)
                         {
                             j = 0;
+                            i += _plt0.canvas_width % 4;  // 24 edit
                             index_list.Add(index.ToArray());
                         }
                     }

@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
-
-class AI4_class24
+// 24 edit - dev note here: every line that differs from the "encode" folder will have the "24 edit" comment. I won't merge these files for better performance, less instructions to process.
+class AI4_class24  // 24 edit
 {
     Parse_args_class _plt0;
-    public AI4_class24(Parse_args_class Parse_args_class)
+    public AI4_class24(Parse_args_class Parse_args_class)  // 24 edit
     {
         _plt0 = Parse_args_class;
     }
@@ -17,7 +17,7 @@ class AI4_class24
         {
             default: // cie_601
                 {
-                    for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 4)  // process every pixel to fit the AAAA CCCC profile
+                    for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 3)  // process every pixel to fit the AAAA CCCC profile
                     {
                         a = (bmp_image[i + _plt0.rgba_channel[3]]);  // _plt0.alpha value
                         if ((a & 0xf) > _plt0.round4 && a < 240)
@@ -33,6 +33,7 @@ class AI4_class24
                         j++;
                         if (j == _plt0.canvas_width)
                         {
+                            i += j % 4;  // 24 edit
                             j = 0;
                             index_list.Add(index.ToArray());
                         }
@@ -57,6 +58,7 @@ class AI4_class24
                         j++;
                         if (j == _plt0.canvas_width)
                         {
+                            i += j % 4;  // 24 edit
                             j = 0;
                             index_list.Add(index.ToArray());
                         }
@@ -81,6 +83,7 @@ class AI4_class24
                         j++;
                         if (j == _plt0.canvas_width)
                         {
+                            i += j % 4;  // 24 edit
                             j = 0;
                             index_list.Add(index.ToArray());
                         }
@@ -105,6 +108,7 @@ class AI4_class24
                     j++;
                     if (j == _plt0.canvas_width)
                     {
+                        i += j % 4;  // 24 edit
                         j = 0;
                         index_list.Add(index.ToArray());
                     }

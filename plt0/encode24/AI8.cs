@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 
-class AI8_class24
+class AI8_class24  // 24 edit
 {
     Parse_args_class _plt0;
-    public AI8_class24(Parse_args_class Parse_args_class)
+    public AI8_class24(Parse_args_class Parse_args_class)  // 24 edit
     {
         _plt0 = Parse_args_class;
     }
@@ -22,6 +22,7 @@ class AI8_class24
                         j += 2;
                         if (j == _plt0.canvas_width << 1)
                         {
+                            i += _plt0.canvas_width % 4;  // 24 edit
                             j = 0;
                             index_list.Add(index.ToArray());
                         }
@@ -37,6 +38,7 @@ class AI8_class24
                         j += 2;
                         if (j == _plt0.canvas_width << 1)
                         {
+                            i += _plt0.canvas_width % 4;  // 24 edit
                             j = 0;
                             index_list.Add(index.ToArray());
                         }
@@ -52,6 +54,7 @@ class AI8_class24
                         j += 2;
                         if (j == _plt0.canvas_width << 1)
                         {
+                            i += _plt0.canvas_width % 4;  // 24 edit
                             j = 0;
                             index_list.Add(index.ToArray());
                         }
@@ -67,6 +70,7 @@ class AI8_class24
                     j += 2;
                     if (j == _plt0.canvas_width << 1)
                     {
+                        i += _plt0.canvas_width % 4;  // 24 edit
                         j = 0;
                         index_list.Add(index.ToArray());
                     }

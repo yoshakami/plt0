@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-class Palette_RGB5A3_class24
+class Palette_RGB5A3_class24  // 24 edit
 {
     Parse_args_class _plt0;
-    public Palette_RGB5A3_class24(Parse_args_class Parse_args_class)
+    public Palette_RGB5A3_class24(Parse_args_class Parse_args_class)  // 24 edit
     {
         _plt0 = Parse_args_class;
     }
@@ -24,6 +24,7 @@ class Palette_RGB5A3_class24
         byte green;
         byte blue;
         byte a;
+        int wi = 0;  // 24 edit
         switch (_plt0.algorithm)
         {
             case 2:  // custom
@@ -55,6 +56,12 @@ class Palette_RGB5A3_class24
                             pixel = (ushort)(((a >> 5) << 12) + ((red >> 4) << 8) + ((green >> 4) << 4) + (blue >> 4));
                             Colours.Add(pixel);
                             Colour_Table[pixel][0] += 1;
+                            wi++;  // 24 edit
+                            if (wi == _plt0.canvas_width)  // 24 edit
+                            {  // 24 edit
+                                wi = 0;  // 24 edit
+                                i += _plt0.canvas_width % 4;  // 24 edit
+                            }  // 24 edit
                         }
                     }
                     else if (_plt0.alpha == 0)  // 1RRR RRGG GGGB BBBB
@@ -79,6 +86,12 @@ class Palette_RGB5A3_class24
                             pixel = (ushort)((1 << 15) + ((red >> 3) << 10) + ((green >> 3) << 5) + (blue >> 3));
                             Colours.Add(pixel);
                             Colour_Table[pixel][0] += 1;
+                            wi++;  // 24 edit
+                            if (wi == _plt0.canvas_width)  // 24 edit
+                            {  // 24 edit
+                                wi = 0;  // 24 edit
+                                i += _plt0.canvas_width % 4;  // 24 edit
+                            }  // 24 edit
                         }
                     }
                     else  // check for each colour if _plt0.alpha trimmed to 3 bits is 255
@@ -115,6 +128,12 @@ class Palette_RGB5A3_class24
                             }
                             Colours.Add(pixel);
                             Colour_Table[pixel][0] += 1;
+                            wi++;  // 24 edit
+                            if (wi == _plt0.canvas_width)  // 24 edit
+                            {  // 24 edit
+                                wi = 0;  // 24 edit
+                                i += _plt0.canvas_width % 4;  // 24 edit
+                            }  // 24 edit
                         }
                     }
                     break;
@@ -148,6 +167,12 @@ class Palette_RGB5A3_class24
                             pixel = (ushort)(((a >> 5) << 12) + ((red >> 4) << 8) + ((green >> 4) << 4) + (blue >> 4));
                             Colours.Add(pixel);
                             Colour_Table[pixel][0] += 1;
+                            wi++;  // 24 edit
+                            if (wi == _plt0.canvas_width)  // 24 edit
+                            {  // 24 edit
+                                wi = 0;  // 24 edit
+                                i += _plt0.canvas_width % 4;  // 24 edit
+                            }  // 24 edit
                         }
                     }
                     else if (_plt0.alpha == 0)  // 1RRR RRGG GGGB BBBB
@@ -172,6 +197,12 @@ class Palette_RGB5A3_class24
                             pixel = (ushort)((1 << 15) + ((red >> 3) << 10) + ((green >> 3) << 5) + (blue >> 3));
                             Colours.Add(pixel);
                             Colour_Table[pixel][0] += 1;
+                            wi++;  // 24 edit
+                            if (wi == _plt0.canvas_width)  // 24 edit
+                            {  // 24 edit
+                                wi = 0;  // 24 edit
+                                i += _plt0.canvas_width % 4;  // 24 edit
+                            }  // 24 edit
                         }
                     }
                     else  // mix up _plt0.alpha and no _plt0.alpha
@@ -208,6 +239,12 @@ class Palette_RGB5A3_class24
                             }
                             Colours.Add(pixel);
                             Colour_Table[pixel][0] += 1;
+                            wi++;  // 24 edit
+                            if (wi == _plt0.canvas_width)  // 24 edit
+                            {  // 24 edit
+                                wi = 0;  // 24 edit
+                                i += _plt0.canvas_width % 4;  // 24 edit
+                            }  // 24 edit
                         }
                     }
                     break;

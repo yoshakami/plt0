@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-class Palette_AI8_class24
+class Palette_AI8_class24  // 24 edit
 {
     Parse_args_class _plt0;
-    public Palette_AI8_class24(Parse_args_class Parse_args_class)
+    public Palette_AI8_class24(Parse_args_class Parse_args_class)  // 24 edit
     {
         _plt0 = Parse_args_class;
     }
@@ -20,7 +20,7 @@ class Palette_AI8_class24
         byte diff_min_index = 0;
         ushort diff_min_ind14x2 = 0;
         ushort pixel;
-
+        int wi = 0;  // 24 edit
         switch (_plt0.algorithm)
         {
             default: // cie_601
@@ -32,6 +32,12 @@ class Palette_AI8_class24
                         {
                             pixel += (ushort)((byte)(bmp_image[i + _plt0.rgba_channel[0]] * 0.299) + bmp_image[i + _plt0.rgba_channel[1]] * 0.587 + bmp_image[i + _plt0.rgba_channel[2]] * 0.114);
                         }
+                        wi++;  // 24 edit
+                        if (wi == _plt0.canvas_width)  // 24 edit
+                        {  // 24 edit
+                            wi = 0;  // 24 edit
+                            i += _plt0.canvas_width % 4;  // 24 edit
+                        }  // 24 edit
                         Colours.Add(pixel);
                         Colour_Table[pixel][0] += 1;
                     }
@@ -46,6 +52,12 @@ class Palette_AI8_class24
                         {
                             pixel += (ushort)((byte)(bmp_image[i + _plt0.rgba_channel[2]] * 0.0721 + bmp_image[i + _plt0.rgba_channel[1]] * 0.7154 + bmp_image[i + _plt0.rgba_channel[0]] * 0.2125));
                         }
+                        wi++;  // 24 edit
+                        if (wi == _plt0.canvas_width)  // 24 edit
+                        {  // 24 edit
+                            wi = 0;  // 24 edit
+                            i += _plt0.canvas_width % 4;  // 24 edit
+                        }  // 24 edit
                         Colours.Add(pixel);
                         Colour_Table[pixel][0] += 1;
                     }
@@ -60,6 +72,12 @@ class Palette_AI8_class24
                         {
                             pixel += (ushort)(byte)(bmp_image[i + _plt0.rgba_channel[2]] * _plt0.custom_rgba[2] + bmp_image[i + _plt0.rgba_channel[1]] * _plt0.custom_rgba[1] + bmp_image[i + _plt0.rgba_channel[0]] * _plt0.custom_rgba[0]);
                         }
+                        wi++;  // 24 edit
+                        if (wi == _plt0.canvas_width)  // 24 edit
+                        {  // 24 edit
+                            wi = 0;  // 24 edit
+                            i += _plt0.canvas_width % 4;  // 24 edit
+                        }  // 24 edit
                         Colours.Add(pixel);
                         Colour_Table[pixel][0] += 1;
                     }
@@ -74,6 +92,12 @@ class Palette_AI8_class24
                     {
                         pixel += (byte)gray_class.Preceptual_Brightness(bmp_image[i + _plt0.rgba_channel[0]], bmp_image[i + _plt0.rgba_channel[1]], bmp_image[i + _plt0.rgba_channel[2]]);  // Grey Value
                     }
+                    wi++;  // 24 edit
+                    if (wi == _plt0.canvas_width)  // 24 edit
+                    {  // 24 edit
+                        wi = 0;  // 24 edit
+                        i += _plt0.canvas_width % 4;  // 24 edit
+                    }  // 24 edit
                     Colours.Add(pixel);
                     Colour_Table[pixel][0] += 1;
                 }

@@ -49,6 +49,7 @@ class RGB5A3_class24
                             if (j == _plt0.canvas_width << 1)
                             {
                                 j = 0;
+                                i += _plt0.canvas_width % 4;  // 24 edit
                                 index_list.Add(index.ToArray());
                             }
                         }
@@ -78,6 +79,7 @@ class RGB5A3_class24
                             if (j == _plt0.canvas_width << 1)
                             {
                                 j = 0;
+                                i += _plt0.canvas_width % 4;  // 24 edit
                                 index_list.Add(index.ToArray());
                             }
                         }
@@ -123,6 +125,7 @@ class RGB5A3_class24
                             if (j == _plt0.canvas_width << 1)
                             {
                                 j = 0;
+                                i += _plt0.canvas_width % 4;  // 24 edit
                                 index_list.Add(index.ToArray());
                             }
                         }
@@ -161,6 +164,7 @@ class RGB5A3_class24
                             if (j == _plt0.canvas_width << 1)
                             {
                                 j = 0;
+                                i += _plt0.canvas_width % 4;  // 24 edit
                                 index_list.Add(index.ToArray());
                             }
                         }
@@ -190,6 +194,7 @@ class RGB5A3_class24
                             if (j == _plt0.canvas_width << 1)
                             {
                                 j = 0;
+                                i += _plt0.canvas_width % 4;  // 24 edit
                                 index_list.Add(index.ToArray());
                             }
                         }
@@ -232,6 +237,7 @@ class RGB5A3_class24
                             if (j == _plt0.canvas_width << 1)
                             {
                                 j = 0;
+                                i += _plt0.canvas_width % 4;  // 24 edit
                                 index_list.Add(index.ToArray());
                             }
                         }

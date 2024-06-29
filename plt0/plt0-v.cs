@@ -1608,8 +1608,8 @@ namespace plt0_gui
             }
             if (stfu)
             {
-                args += "stfu ";
-                arg_array.Add("stfu");
+                args += "linux ";
+                arg_array.Add("linux");
             }
             if (warn)
             {
@@ -2205,6 +2205,7 @@ namespace plt0_gui
         private void Hide_Paint_Stuff()
         {
             opening_ck.Visible = false;
+            opening_clear_gamelist_ck.Visible = false;
             cmpr_block_paint_ck.Visible = false;
             cmpr_block_paint_label.Visible = false;
             cmpr_block_selection_ck.Visible = false;
@@ -2481,6 +2482,7 @@ namespace plt0_gui
                 Hide_encoding(5);
                 Hide_encoding(8);
                 opening_ck.Visible = false;
+                opening_clear_gamelist_ck.Visible = false;
                 view_algorithm = false;
                 a_a_ck.Visible = false;
                 a_b_ck.Visible = false;
@@ -2823,6 +2825,7 @@ namespace plt0_gui
         {
             Disable_Paint_Layout();
             opening_ck.Visible = false;
+            opening_clear_gamelist_ck.Visible = false;
             cmpr_preview_ck.Visible = false;
             cmpr_warning.Visible = false;
             cmpr_sel_label.Visible = false;
@@ -2830,7 +2833,6 @@ namespace plt0_gui
             cmpr_save_as_ck.Visible = false;
             mipmaps_label.Visible = true;
             mipmaps_txt.Visible = true;
-            opening_clear_gamelist_ck.Visible = false;
             input_file2_label.Location = new Point(input_file2_label.Location.X, input_file2_label.Location.Y - (int)(banner_11_ck.Height * 0.4));
             input_file2_txt.Location = new Point(input_file2_txt.Location.X, input_file2_txt.Location.Y - (int)(banner_11_ck.Height * 0.4));
             output_name_label.Location = new Point(output_name_label.Location.X, output_name_label.Location.Y - (int)(banner_11_ck.Height << 1));
@@ -2903,10 +2905,10 @@ namespace plt0_gui
             banner_rgb5a3_file[30] = 0;
             banner_rgb5a3_file[31] = 0x20;
             opening_ck.Visible = true;
+            opening_clear_gamelist_ck.Visible = true;
             cmpr_preview_ck.Visible = true;
             cmpr_warning.Visible = true;
             // cmpr_sel_label.Visible = true;
-            opening_clear_gamelist_ck.Visible = true;
             cmpr_save_ck.Visible = true;
             cmpr_save_as_ck.Visible = true;
             mipmaps_label.Visible = false;
@@ -7328,9 +7330,9 @@ namespace plt0_gui
             this.stfu_label.Margin = new System.Windows.Forms.Padding(0);
             this.stfu_label.Name = "stfu_label";
             this.stfu_label.Padding = new System.Windows.Forms.Padding(0, 22, 130, 22);
-            this.stfu_label.Size = new System.Drawing.Size(177, 69);
+            this.stfu_label.Size = new System.Drawing.Size(187, 69);
             this.stfu_label.TabIndex = 185;
-            this.stfu_label.Text = "stfu";
+            this.stfu_label.Text = "linux";
             this.stfu_label.Click += new System.EventHandler(this.stfu_Click);
             this.stfu_label.MouseEnter += new System.EventHandler(this.stfu_MouseEnter);
             this.stfu_label.MouseLeave += new System.EventHandler(this.stfu_MouseLeave);

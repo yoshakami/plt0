@@ -5,21 +5,6 @@ VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "plt0", "plt0\plt0.csproj", "{D51E5403-2EAE-43EF-8B0D-D8CECFCE9154}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "encode24", "encode24", "{151781A7-7F22-4AED-B450-8C5D6EACC225}"
-	ProjectSection(SolutionItems) = preProject
-		plt0\encode24\AI4.cs = plt0\encode24\AI4.cs
-		plt0\encode24\AI8.cs = plt0\encode24\AI8.cs
-		plt0\encode24\CMPR.cs = plt0\encode24\CMPR.cs
-		plt0\encode24\I4.cs = plt0\encode24\I4.cs
-		plt0\encode24\I8.cs = plt0\encode24\I8.cs
-		plt0\encode24\Palette_AI8.cs = plt0\encode24\Palette_AI8.cs
-		plt0\encode24\Palette_RGB565.cs = plt0\encode24\Palette_RGB565.cs
-		plt0\encode24\Palette_RGB5A3.cs = plt0\encode24\Palette_RGB5A3.cs
-		plt0\encode24\RGB565.cs = plt0\encode24\RGB565.cs
-		plt0\encode24\RGB5A3.cs = plt0\encode24\RGB5A3.cs
-		plt0\encode24\RGBA32.cs = plt0\encode24\RGBA32.cs
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

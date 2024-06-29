@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-class Palette_RGB565_class24
+class Palette_RGB565_class24  // 24 edit
 {
     Parse_args_class _plt0;
-    public Palette_RGB565_class24(Parse_args_class Parse_args_class)
+    public Palette_RGB565_class24(Parse_args_class Parse_args_class)  // 24 edit
     {
         _plt0 = Parse_args_class;
     }
@@ -23,6 +23,7 @@ class Palette_RGB565_class24
         byte diff_min_index = 0;
         ushort diff_min_ind14x2 = 0;
         ushort pixel;
+        int wi = 0;   // 24 edit
         switch (_plt0.algorithm)
         {
             case 2:  // custom  RRRR RGGG GGGB BBBB
@@ -47,6 +48,12 @@ class Palette_RGB565_class24
                         pixel = (ushort)((((byte)(red) >> 3) << 11) + (((byte)(green) >> 2) << 5) + (byte)(blue) >> 3);
                         Colours.Add(pixel);
                         Colour_Table[pixel][0] += 1;
+                        wi++;  // 24 edit
+                        if (wi == _plt0.canvas_width)  // 24 edit
+                        {  // 24 edit
+                            wi = 0;  // 24 edit
+                            i += _plt0.canvas_width % 4;  // 24 edit
+                        }  // 24 edit
                     }
                     break;
                 }
@@ -72,6 +79,12 @@ class Palette_RGB565_class24
                         pixel = (ushort)(((red >> 3) << 11) + ((green >> 2) << 5) + (blue >> 3));
                         Colours.Add(pixel);
                         Colour_Table[pixel][0] += 1;
+                        wi++;  // 24 edit
+                        if (wi == _plt0.canvas_width)  // 24 edit
+                        {  // 24 edit
+                            wi = 0;  // 24 edit
+                            i += _plt0.canvas_width % 4;  // 24 edit
+                        }  // 24 edit
                     }
                     break;
                 }

@@ -109,6 +109,17 @@
     <Compile Include="code\Parse_args.cs" />
     <Compile Include="code\Reverse_x.cs" />
     <Compile Include="code\Write_into_tpl.cs" />
+    <Compile Include="encode24\AI4.cs" />
+    <Compile Include="encode24\AI8.cs" />
+    <Compile Include="encode24\CMPR.cs" />
+    <Compile Include="encode24\I4.cs" />
+    <Compile Include="encode24\I8.cs" />
+    <Compile Include="encode24\Palette_AI8.cs" />
+    <Compile Include="encode24\Palette_RGB565.cs" />
+    <Compile Include="encode24\Palette_RGB5A3.cs" />
+    <Compile Include="encode24\RGB565.cs" />
+    <Compile Include="encode24\RGB5A3.cs" />
+    <Compile Include="encode24\RGBA32.cs" />
     <Compile Include="encode\AI4.cs" />
     <Compile Include="encode\AI8.cs" />
     <Compile Include="encode\CMPR.cs" />
