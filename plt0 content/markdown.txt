@@ -11,7 +11,7 @@ yeah, I decided to implement my own markdown again.
 "\i" = set current label's text to italic
 "\j" = jump to the next label - can't be the same line as the one you're on (else an override occurs and previous text can't be seen)
 "\k" = knit a strikeout text style
-"\l" = Layout name that you're browsing
+"\l" = Language name that you're editing
 "\m" = mipmaps number
 "\n" = new line
 "\o" = output file name
@@ -27,7 +27,7 @@ yeah, I decided to implement my own markdown again.
 "\y" = y-axis block height of selected encoding
 "\z" = z-axis block depth of selected encoding
 "\0" = 0utputs the x-axis block width of selected encoding
-
+"\1" = 1t is supposed to be the default path for dolphin gamelist.cache
 
 notes: 
 colour names are all the ones allowed in System.Drawing.Color

@@ -1638,7 +1638,7 @@ namespace plt0_gui
                 if (!isFolder)  // that means it's a file.
                 {
                     //byte len = (byte)file[0].Split('\\').Length;
-                    if (file[0].Split('.').Last().ToUpper() == "PLT0" || file[0].Split('.').Last().ToUpper() == "BNR")
+                    if (file[0].Split('.').Last().ToUpper() == "PLT0" || file[0].Split('.').Last().ToUpper() == "BNR" || file[0].Split('.').Last().ToUpper() == "BMD")
                     {
                         input_file2 = file[0].Replace("\\", "/");
                         input_file2_txt.Text = input_file2;
@@ -2962,14 +2962,14 @@ namespace plt0_gui
                 Parse_Markdown(d[187], cmpr_warning);
                 return;
             }
-            using (FileStream fs2 = File.OpenRead(input_file2))
+            using (FileStream fs1 = File.OpenRead(input_file2))
             {
-                fs2.Read(bnr_file, 0, 4);
-                if (bnr_file[0] != 0x42 || bnr_file[1] != 0x4E || bnr_file[2] != 0x52 || fs2.Length < 0x1FA0)  // BNR + length < 8kb   <---- GameCube opening.bnr
+                fs1.Read(bnr_file, 0, 4);
+                if (bnr_file[0] != 0x42 || bnr_file[1] != 0x4E || bnr_file[2] != 0x52 || fs1.Length < 0x1960)  // BNR + length < 8kb   <---- GameCube opening.bnr
                 {
                     int y = 0x40;
-                    fs2.Seek(y, SeekOrigin.Begin);
-                    fs2.Read(bnr_file, 0, 4);
+                    fs1.Seek(y, SeekOrigin.Begin);
+                    fs1.Read(bnr_file, 0, 4);
                     if (bnr_file[0] != 0x49 || bnr_file[1] != 0x4D || bnr_file[2] != 0x45 || bnr_file[3] != 0x54)  // IMET       <------ Wii opening.bnr
                     {
                         Parse_Markdown(d[188], cmpr_warning);
@@ -2994,94 +2994,95 @@ namespace plt0_gui
                     opening_ck.Image = null;  // no preview for wii since it's a whole archive. use ShowMiiWads instead
 
                     Parse_Markdown(d[199], cmpr_warning); // Showmiiwads
-                    fs2.Seek(0, SeekOrigin.Begin);
-                    Array.Resize(ref bnr_file, (int)fs2.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
-                    fs2.Read(bnr_file, 0, (int)fs2.Length);
+                    fs1.Seek(0, SeekOrigin.Begin);
+                    Array.Resize(ref bnr_file, (int)fs1.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
+                    fs1.Read(bnr_file, 0, (int)fs1.Length);  // store in bnr_file
+                    using (MemoryStream fs2 = new MemoryStream(bnr_file))  // load textboxes
+                    {
+                        textBox1.Text = "v--- Japanese [日本語] ---v";
+                        y += 0x1C;  // 0x5C
+                        fs2.Seek(y, SeekOrigin.Begin);
+                        fs2.Read(byte84, 0, 84); // game title Japanese
+                        textBox2.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
 
-                    textBox1.Text = "v--- Japanese [日本語] ---v";
-                    y += 0x1C;  // 0x5C
-                    fs2.Seek(y, SeekOrigin.Begin);
-                    fs2.Read(byte84, 0, 84); // game title Japanese
-                    textBox2.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+                        textBox3.Text = "v--- English ---v";
+                        y += 84;  // 0xB0
+                        fs2.Seek(y, SeekOrigin.Begin);
+                        fs2.Read(byte84, 0, 84); // game title English
+                        textBox4.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
 
-                    textBox3.Text = "v--- English ---v";
-                    y += 84;  // 0xB0
-                    fs2.Seek(y, SeekOrigin.Begin);
-                    fs2.Read(byte84, 0, 84); // game title English
-                    textBox4.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+                        textBox5.Text = "v--- German [Deutsch] ---v";
+                        y += 84;  // 0x104
+                        fs2.Seek(y, SeekOrigin.Begin);
+                        fs2.Read(byte84, 0, 84); // game title German
+                        textBox6.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
 
-                    textBox5.Text = "v--- German [Deutsch] ---v";
-                    y += 84;  // 0x104
-                    fs2.Seek(y, SeekOrigin.Begin);
-                    fs2.Read(byte84, 0, 84); // game title German
-                    textBox6.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+                        textBox7.Text = "v--- French [Français] ---v";
+                        y += 84;  // 0x158
+                        fs2.Seek(y, SeekOrigin.Begin);
+                        fs2.Read(byte84, 0, 84); // game title French
+                        textBox8.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
 
-                    textBox7.Text = "v--- French [Français] ---v";
-                    y += 84;  // 0x158
-                    fs2.Seek(y, SeekOrigin.Begin);
-                    fs2.Read(byte84, 0, 84); // game title French
-                    textBox8.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+                        textBox9.Text = "v--- Spanish [español] ---v";
+                        y += 84;  // 0x1AC
+                        fs2.Seek(y, SeekOrigin.Begin);
+                        fs2.Read(byte84, 0, 84); // game title Spanish
+                        textBox10.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
 
-                    textBox9.Text = "v--- Spanish [español] ---v";
-                    y += 84;  // 0x1AC
-                    fs2.Seek(y, SeekOrigin.Begin);
-                    fs2.Read(byte84, 0, 84); // game title Spanish
-                    textBox10.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+                        textBox11.Text = "v--- Italian [italiano] ---v";
+                        y += 84;  // 0x200
+                        fs2.Seek(y, SeekOrigin.Begin);
+                        fs2.Read(byte84, 0, 84); // game title Italian
+                        textBox12.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
 
-                    textBox11.Text = "v--- Italian [italiano] ---v";
-                    y += 84;  // 0x200
-                    fs2.Seek(y, SeekOrigin.Begin);
-                    fs2.Read(byte84, 0, 84); // game title Italian
-                    textBox12.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+                        textBox13.Text = "v--- Dutch [Nederlands] ---v";
+                        y += 84;  // 0x254
+                        fs2.Seek(y, SeekOrigin.Begin);
+                        fs2.Read(byte84, 0, 84); // game title French
+                        textBox14.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
 
-                    textBox13.Text = "v--- Dutch [Nederlands] ---v";
-                    y += 84;  // 0x254
-                    fs2.Seek(y, SeekOrigin.Begin);
-                    fs2.Read(byte84, 0, 84); // game title French
-                    textBox14.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+                        textBox15.Text = "v--- Simplified Chinese [简化字] ---v";
+                        y += 84;  // 0x2A8
+                        fs2.Seek(y, SeekOrigin.Begin);
+                        fs2.Read(byte84, 0, 84); // game title Simplified Chinese
+                        textBox16.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
 
-                    textBox15.Text = "v--- Simplified Chinese [简化字] ---v";
-                    y += 84;  // 0x2A8
-                    fs2.Seek(y, SeekOrigin.Begin);
-                    fs2.Read(byte84, 0, 84); // game title Simplified Chinese
-                    textBox16.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+                        textBox17.Text = "v--- Traditional Chinese [簡化字] ---v";
+                        y += 84;  // 0x2FC
+                        fs2.Seek(y, SeekOrigin.Begin);
+                        fs2.Read(byte84, 0, 84); // game title Traditional Chinese
+                        textBox18.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
 
-                    textBox17.Text = "v--- Traditional Chinese [簡化字] ---v";
-                    y += 84;  // 0x2FC
-                    fs2.Seek(y, SeekOrigin.Begin);
-                    fs2.Read(byte84, 0, 84); // game title Traditional Chinese
-                    textBox18.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+                        textBox19.Text = "v--- Korean [한국어] ---v";
+                        y += 84;  // 0x350
+                        fs2.Seek(y, SeekOrigin.Begin);
+                        fs2.Read(byte84, 0, 84); // game title Korean
+                        textBox20.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
 
-                    textBox19.Text = "v--- Korean [한국어] ---v";
-                    y += 84;  // 0x350
-                    fs2.Seek(y, SeekOrigin.Begin);
-                    fs2.Read(byte84, 0, 84); // game title Korean
-                    textBox20.Text = Encoding.BigEndianUnicode.GetString(byte84).Replace("\n", "\\n");
+                        // from 0x3A4 to 0x5F0 there are 588 zeroes
+                        // then the md5 of 16 bytes from 0x5F0 to 0x600
 
-                    // from 0x3A4 to 0x5F0 there are 588 zeroes
-                    // then the md5 of 16 bytes from 0x5F0 to 0x600
+                        textBox21.Text = "";
+                        textBox22.Text = "";
+                        textBox23.Text = "";
+                        textBox24.Text = "";
+                        textBox25.Text = "";
+                        textBox26.Text = "";
+                        textBox27.Text = "";
+                        textBox28.Text = "";
+                        textBox29.Text = "";
+                        textBox30.Text = "";
 
-                    textBox21.Text = "";
-                    textBox22.Text = "";
-                    textBox23.Text = "";
-                    textBox24.Text = "";
-                    textBox25.Text = "";
-                    textBox26.Text = "";
-                    textBox27.Text = "";
-                    textBox28.Text = "";
-                    textBox29.Text = "";
-                    textBox30.Text = "";
-
-
+                    }
                     return; // end of wii bnr
                 }
                 // start of GameCube bnr
-                Array.Resize(ref bnr_file, (int)fs2.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
-                fs2.Read(bnr_file, 4, (int)fs2.Length - 4);
+                Array.Resize(ref bnr_file, (int)fs1.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
+                fs1.Read(bnr_file, 4, (int)fs1.Length - 4);
             }
             using (MemoryStream fs2 = new MemoryStream(bnr_file))  // load textboxes
             {
-                if (bnr_file[3] == 0x31) // BNR 1+2 - Gamecube Format
+                if (bnr_file[3] == 0x31 || bnr_file[3] == 0x32) // BNR 1+2 - Gamecube Format
                 {
                     Array.Copy(bnr_file, 0x20, banner_rgb5a3_file, 0x20, 0x1800);
                     int num = 1;
@@ -18092,7 +18093,7 @@ namespace plt0_gui
                 dialog.Title = "Select a CMPR texture";
                 dialog.Filter = "Texture|*.bti;*.tex0;*.tpl|All files (*.*)|*.*";
             }
-            if (layout == 4)
+            if (layout == 4 || layout == 5 || layout == 6)
             {
                 dialog.Title = "Select a texture";
                 dialog.Filter = "Texture|*.bti;*.tex0;*.tpl|All files (*.*)|*.*";
@@ -18101,9 +18102,6 @@ namespace plt0_gui
             {
                 input_file_txt.Text = dialog.FileName.Replace("\\", "/");
                 input_file = dialog.FileName.Replace("\\", "/");
-                Check_run();
-                Check_Paint();
-                Organize_args();
             }
         }
         private void input_file_MouseEnter(object sender, EventArgs e)
@@ -18119,27 +18117,67 @@ namespace plt0_gui
         }
         private void input_file_TextChanged(object sender, EventArgs e)
         {
-            input_file = input_file_txt.Text;
-            Check_run();
-            Organize_args();
-            Preview(true);
-            Check_Paint();
-            Check_Opening();
+            if (File.Exists(input_file_txt.Text))
+            {
+                using (FileStream fs1 = File.OpenRead(input_file_txt.Text))
+                {
+                    fs1.Read(byte16, 0, 4);
+                    if (byte16[0] != 0x4A || byte16[1] != 0x33 || byte16[2] != 0x44 || byte16[3] != 0x32)  // J3D2
+                    {
+                        // not a bmd nor bdl file
+                        if (byte16[0] != 0x42 || byte16[1] != 0x4E || byte16[2] != 0x52 || fs1.Length < 0x1960)  // not BNR + length < 8kb   <---- GameCube opening.bnr
+                        {
+                            // not a gamecube bnr nor a bmd nor bdl
+                            int y = 0x40;
+                            fs1.Seek(y, SeekOrigin.Begin);
+                            fs1.Read(byte16, 0, 4);
+                            if (byte16[0] != 0x49 || byte16[1] != 0x4D || byte16[2] != 0x45 || byte16[3] != 0x54)  // not IMET       <------ Wii opening.bnr
+                            {
+                                // not a wii bnr and neither a GameCube bnr nor a bmd nor a bdl
+                                // my comments always state the condition after it's true.
+                                // so this is what happens for files that aren't wii banners
+                                // just an input file 1, user didn't mess up
+                                input_file = input_file_txt.Text;
+                                Check_run();
+                                Organize_args();
+                                Preview(true);
+                                Check_Paint();
+                                Check_Opening();
+                                return;
+                            }
+                            // it's a wii bnr here
+                        }
+                        // it's either a wii bnr or a GameCube bnr here
+                    }
+                    // it's one of the 3
+                }
+                // it's still one of the 3, but user did mess up!
+                // these types of files must be on input_file2.
+                input_file2_txt.Text = input_file_txt.Text;
+                input_file_txt.Text = "";
+            }
+            else
+            {
+                input_file = input_file_txt.Text;
+                Check_run();
+                Organize_args();
+                Preview(true);
+                Check_Paint();
+                Check_Opening();
+            }
         }
         private void input_file2_Click(object sender, EventArgs e)
         {
             FileDialog dialog = new OpenFileDialog
             {
                 Title = "Select a palette, a bmd file, or a tpl file",
-                Filter = "Palette|*.plt0;*.bmp|bmd or tpl|*.bmd;*tpl|All files (*.*)|*.*",
+                Filter = "Palette|*.plt0;*.bmp|Container|*.bmd;*.tpl;*.bnr|All files (*.*)|*.*",
                 RestoreDirectory = true
             };
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 input_file2_txt.Text = dialog.FileName.Replace("\\", "/");
-                input_file2 = dialog.FileName.Replace("\\", "/"); ;
-                Check_run();
-                Organize_args();
+                input_file2 = dialog.FileName.Replace("\\", "/");
             }
         }
         private void input_file2_MouseEnter(object sender, EventArgs e)
