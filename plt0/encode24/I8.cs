@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 
-class I8_class
+class I8_class24
 {
     Parse_args_class _plt0;
-    public I8_class(Parse_args_class Parse_args_class)
+    public I8_class24(Parse_args_class Parse_args_class)
     {
         _plt0 = Parse_args_class;
     }

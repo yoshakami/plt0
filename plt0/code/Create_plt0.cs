@@ -101,15 +101,15 @@ class Create_plt0_class
                     switch (_plt0.palette_format_int32[3])
                     {
                         case 0:  // AI8
-                            Palette_AI8_class palette_ai8 = new Palette_AI8_class(_plt0);
+                            Palette_AI8_class24 palette_ai8 = new Palette_AI8_class24(_plt0);
                             palette_ai8.Palette_AI8(index_list, Colour_Table, bmp_image, index);
                             break;
                         case 1:  // RGB565
-                            Palette_RGB565_class palette_rgb565 = new Palette_RGB565_class(_plt0);
+                            Palette_RGB565_class24 palette_rgb565 = new Palette_RGB565_class24(_plt0);
                             palette_rgb565.Palette_RGB565(index_list, Colour_Table, bmp_image, index);
                             break;
                         case 2:  // RGB5A3
-                            Palette_RGB5A3_class palette_rgb5a3 = new Palette_RGB5A3_class(_plt0);
+                            Palette_RGB5A3_class24 palette_rgb5a3 = new Palette_RGB5A3_class24(_plt0);
                             palette_rgb5a3.Palette_RGB5A3(index_list, Colour_Table, bmp_image, index);
                             break;
                             // end of case 2 palette RGB5A3
@@ -117,45 +117,45 @@ class Create_plt0_class
                 }  // end of if (has palette)
                 else  // image doesn't have a palette
                 {
-                    switch (_plt0.texture_format_int32[3])  // splitted into different files in the encode folder, because I'm going to add so many algorithms for CMPR
+                    switch (_plt0.texture_format_int32[3])  // splitted into different files in the encode24 folder, because I'm going to add so many algorithms for CMPR
                     {
                         case 0: // I4
-                            I4_class i4_class = new I4_class(_plt0);
+                            I4_class24 i4_class = new I4_class24(_plt0);
                             i4_class.I4(index_list, bmp_image, index);
                             break;
 
                         case 1: // I8
-                            I8_class i8_class = new I8_class(_plt0);
+                            I8_class24 i8_class = new I8_class24(_plt0);
                             i8_class.I8(index_list, bmp_image, index);
                             break;
 
                         case 2: // IA4
-                            AI4_class ai4_class = new AI4_class(_plt0);
+                            AI4_class24 ai4_class = new AI4_class24(_plt0);
                             ai4_class.AI4(index_list, bmp_image, index);
                             break;
 
                         case 3:  // AI8
-                            AI8_class ai8_class = new AI8_class(_plt0);
+                            AI8_class24 ai8_class = new AI8_class24(_plt0);
                             ai8_class.AI8(index_list, bmp_image, index);
                             break;
 
                         case 4:  // RGB565
-                            RGB565_class rgb565_class = new RGB565_class(_plt0);
+                            RGB565_class24 rgb565_class = new RGB565_class24(_plt0);
                             rgb565_class.RGB565(index_list, bmp_image, index);
                             break;
 
                         case 5:  // RGB5A3
-                            RGB5A3_class rgb5a3_class = new RGB5A3_class(_plt0);
+                            RGB5A3_class24 rgb5a3_class = new RGB5A3_class24(_plt0);
                             rgb5a3_class.RGB5A3(index_list, bmp_image, index);
                             break;
 
                         case 6: // RGBA32
-                            RGBA32_class rgba32_class = new RGBA32_class(_plt0);
+                            RGBA32_class24 rgba32_class = new RGBA32_class24(_plt0);
                             rgba32_class.RGBA32(index_list, bmp_image, index);
                             break;
 
                         case 0xE: // CMPR
-                            CMPR_class cmpr_class = new CMPR_class(_plt0);
+                            CMPR_class24 cmpr_class = new CMPR_class24(_plt0);
                             cmpr_class.CMPR(index_list, bmp_image);
                             break;
                     }

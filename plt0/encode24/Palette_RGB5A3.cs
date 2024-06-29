@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-class Palette_RGB5A3_class
+class Palette_RGB5A3_class24
 {
     Parse_args_class _plt0;
-    public Palette_RGB5A3_class(Parse_args_class Parse_args_class)
+    public Palette_RGB5A3_class24(Parse_args_class Parse_args_class)
     {
         _plt0 = Parse_args_class;
     }

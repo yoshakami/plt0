@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 
-class RGB5A3_class
+class RGB5A3_class24
 {
     Parse_args_class _plt0;
-    public RGB5A3_class(Parse_args_class Parse_args_class)
+    public RGB5A3_class24(Parse_args_class Parse_args_class)
     {
         _plt0 = Parse_args_class;
     }
