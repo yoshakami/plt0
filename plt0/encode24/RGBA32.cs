@@ -51,7 +51,7 @@ class RGBA32_class24  // 24 edit
                         if (j == index.Length)
                         {
                             j = 0;
-                            i += _plt0.canvas_width % 4;  // 24 edit
+                            i += _plt0.bitmap_width % 4;  // 24 edit
                             index_list.Add(index.ToArray());
                         }
 

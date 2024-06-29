@@ -17,9 +17,9 @@ class AI4_class24  // 24 edit
         {
             default: // cie_601
                 {
-                    for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 3)  // process every pixel to fit the AAAA CCCC profile
+                    for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 3)  // process every pixel to fit the AAAA CCCC profile  // 24 edit
                     {
-                        a = (bmp_image[i + _plt0.rgba_channel[3]]);  // _plt0.alpha value
+                        a = (255);  // 24 edit - alpha
                         if ((a & 0xf) > _plt0.round4 && a < 240)
                         {
                             a += 16;
@@ -31,9 +31,9 @@ class AI4_class24  // 24 edit
                         }
                         index[j] = (byte)((a & 0xf0) + (grey >> 4));
                         j++;
-                        if (j == _plt0.canvas_width)
+                        if (j == _plt0.bitmap_width)
                         {
-                            i += j % 4;  // 24 edit
+                            i += _plt0.bitmap_width % 4;  // 24 edit
                             j = 0;
                             index_list.Add(index.ToArray());
                         }
@@ -42,9 +42,9 @@ class AI4_class24  // 24 edit
                 }
             case 1: // cie_709
                 {
-                    for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 4)
+                    for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 3)  // 24 edit
                     {
-                        a = (bmp_image[i + _plt0.rgba_channel[3]]);  // _plt0.alpha value
+                        a = (255);  // 24 edit - alpha 
                         if ((a & 0xf) > _plt0.round4 && a < 240)
                         {
                             a += 16;
@@ -56,9 +56,9 @@ class AI4_class24  // 24 edit
                         }
                         index[j] = (byte)((a & 0xf0) + (grey >> 4));
                         j++;
-                        if (j == _plt0.canvas_width)
+                        if (j == _plt0.bitmap_width)
                         {
-                            i += j % 4;  // 24 edit
+                            i += _plt0.bitmap_width % 4;  // 24 edit
                             j = 0;
                             index_list.Add(index.ToArray());
                         }
@@ -67,9 +67,9 @@ class AI4_class24  // 24 edit
                 }
             case 2:  // custom
                 {
-                    for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 4)
+                    for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 3)  // 24 edit
                     {
-                        a = (byte)(bmp_image[i + _plt0.rgba_channel[3]] * _plt0.custom_rgba[3]);  // _plt0.alpha value
+                        a = (byte)(255 * _plt0.custom_rgba[3]);  // _plt0.alpha value   // 24 edit
                         if ((a & 0xf) > _plt0.round4 && a < 240)
                         {
                             a += 16;
@@ -81,9 +81,9 @@ class AI4_class24  // 24 edit
                         }
                         index[j] = (byte)((a & 0xf0) + (grey >> 4));
                         j++;
-                        if (j == _plt0.canvas_width)
+                        if (j == _plt0.bitmap_width)
                         {
-                            i += j % 4;  // 24 edit
+                            i += _plt0.bitmap_width % 4;  // 24 edit
                             j = 0;
                             index_list.Add(index.ToArray());
                         }
@@ -92,9 +92,9 @@ class AI4_class24  // 24 edit
                 }
             case 3:  // inverse of the gamma function
                 Preceptual_Brightness_class gray_class = new Preceptual_Brightness_class();
-                for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 4)
+                for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 3)  // 24 edit
                 {
-                    a = (byte)(bmp_image[i + _plt0.rgba_channel[3]]);  // _plt0.alpha value
+                    a = 255;  // _plt0.alpha value   // 24 edit
                     if ((a & 0xf) > _plt0.round4 && a < 240)
                     {
                         a += 16;
@@ -106,9 +106,9 @@ class AI4_class24  // 24 edit
                     }
                     index[j] = (byte)((a & 0xf0) + (grey >> 4));
                     j++;
-                    if (j == _plt0.canvas_width)
+                    if (j == _plt0.bitmap_width)
                     {
-                        i += j % 4;  // 24 edit
+                        i += _plt0.bitmap_width % 4;  // 24 edit
                         j = 0;
                         index_list.Add(index.ToArray());
                     }

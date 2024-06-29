@@ -15,14 +15,14 @@ class I8_class24  // 24 edit
         {
             default: // cie_601
                 {
-                    for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 4)  // process every pixel to fit the CCCC CCCC profile
+                    for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 3)  // process every pixel to fit the CCCC CCCC profile
                     {
                         index[j] = (byte)(bmp_image[i + _plt0.rgba_channel[2]] * 0.114 + bmp_image[i + _plt0.rgba_channel[1]] * 0.587 + bmp_image[i + _plt0.rgba_channel[0]] * 0.299);
                         j++;
                         if (j == _plt0.canvas_width)
                         {
                             j = 0;
-                            i += _plt0.canvas_width % 4;  // 24 edit
+                            i += _plt0.bitmap_width % 4;  // 24 edit
                             index_list.Add(index.ToArray());
                         }
                     }
@@ -30,7 +30,7 @@ class I8_class24  // 24 edit
                 }
             case 1: // cie_709
                 {
-                    for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 4)
+                    for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 3)
                     {
                         index[j] = (byte)(bmp_image[i + _plt0.rgba_channel[2]] * 0.0721 + bmp_image[i + _plt0.rgba_channel[1]] * 0.7154 + bmp_image[i + _plt0.rgba_channel[0]] * 0.2125);
                         j++;
@@ -45,14 +45,14 @@ class I8_class24  // 24 edit
                 }
             case 2:  // custom
                 {
-                    for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 4)
+                    for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 3)
                     {
                         index[j] = (byte)(bmp_image[i + _plt0.rgba_channel[2]] * _plt0.custom_rgba[2] + bmp_image[i + _plt0.rgba_channel[1]] * _plt0.custom_rgba[1] + bmp_image[i + _plt0.rgba_channel[0]] * _plt0.custom_rgba[0]);
                         j++;
                         if (j == _plt0.canvas_width)
                         {
                             j = 0;
-                            i += _plt0.canvas_width % 4;  // 24 edit
+                            i += _plt0.bitmap_width % 4;  // 24 edit
                             index_list.Add(index.ToArray());
                         }
                     }
@@ -60,14 +60,14 @@ class I8_class24  // 24 edit
                 }
             case 3:  // inverse of the gamma function
                 Preceptual_Brightness_class gray_class = new Preceptual_Brightness_class();
-                for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 4)
+                for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 3)
                 {
                     index[j] = (byte)gray_class.Preceptual_Brightness(bmp_image[i + _plt0.rgba_channel[0]], bmp_image[i + _plt0.rgba_channel[1]], bmp_image[i + _plt0.rgba_channel[2]]);
                     j++;
                     if (j == _plt0.canvas_width)
                     {
                         j = 0;
-                        i += _plt0.canvas_width % 4;  // 24 edit
+                        i += _plt0.bitmap_width % 4;  // 24 edit
                         index_list.Add(index.ToArray());
                     }
                 }
