@@ -27,11 +27,8 @@ class Palette_AI8_class24  // 24 edit
                 {
                     for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 3)  // process every pixel to fit the AAAA AAAA  CCCC CCCC  profile  // 24 edit
                     {
-                        pixel = (ushort)(bmp_image[i + _plt0.rgba_channel[3]] << 8);  // _plt0.alpha value
-                        if (bmp_image[i + _plt0.rgba_channel[3]] != 0)
-                        {
-                            pixel += (ushort)((byte)(bmp_image[i + _plt0.rgba_channel[0]] * 0.299) + bmp_image[i + _plt0.rgba_channel[1]] * 0.587 + bmp_image[i + _plt0.rgba_channel[2]] * 0.114);
-                        }
+                        pixel = 0xff00;  // _plt0.alpha value  // 24 edit
+                        pixel += (ushort)((byte)(bmp_image[i + _plt0.rgba_channel[0]] * 0.299) + bmp_image[i + _plt0.rgba_channel[1]] * 0.587 + bmp_image[i + _plt0.rgba_channel[2]] * 0.114);
                         wi++;  // 24 edit
                         if (wi == _plt0.bitmap_width)  // 24 edit
                         {  // 24 edit
@@ -47,11 +44,9 @@ class Palette_AI8_class24  // 24 edit
                 {
                     for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 3)  // 24 edit
                     {
-                        pixel = (ushort)(bmp_image[i + _plt0.rgba_channel[3]] << 8);  // _plt0.alpha value
-                        if (bmp_image[i + _plt0.rgba_channel[3]] != 0)
-                        {
-                            pixel += (ushort)((byte)(bmp_image[i + _plt0.rgba_channel[2]] * 0.0721 + bmp_image[i + _plt0.rgba_channel[1]] * 0.7154 + bmp_image[i + _plt0.rgba_channel[0]] * 0.2125));
-                        }
+                        pixel = 0xff00;  // _plt0.alpha value  // 24 edit
+                        pixel += (ushort)((byte)(bmp_image[i + _plt0.rgba_channel[2]] * 0.0721 + bmp_image[i + _plt0.rgba_channel[1]] * 0.7154 + bmp_image[i + _plt0.rgba_channel[0]] * 0.2125));
+                        
                         wi++;  // 24 edit
                         if (wi == _plt0.bitmap_width)  // 24 edit
                         {  // 24 edit
@@ -67,7 +62,7 @@ class Palette_AI8_class24  // 24 edit
                 {
                     for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 3)  // 24 edit
                     {
-                        pixel = (ushort)((byte)(bmp_image[i + _plt0.rgba_channel[3]] * _plt0.custom_rgba[3]) << 8);  // _plt0.alpha value
+                        pixel = (ushort)((byte)(255 * _plt0.custom_rgba[3]) << 8);  // _plt0.alpha value  // 24 edit
                         if (pixel != 0)
                         {
                             pixel += (ushort)(byte)(bmp_image[i + _plt0.rgba_channel[2]] * _plt0.custom_rgba[2] + bmp_image[i + _plt0.rgba_channel[1]] * _plt0.custom_rgba[1] + bmp_image[i + _plt0.rgba_channel[0]] * _plt0.custom_rgba[0]);
@@ -87,7 +82,7 @@ class Palette_AI8_class24  // 24 edit
                 Preceptual_Brightness_class gray_class = new Preceptual_Brightness_class();
                 for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 3)  // 24 edit
                 {
-                    pixel = (ushort)(bmp_image[i + _plt0.rgba_channel[3]] << 8);  // _plt0.alpha value
+                    pixel = 0xff00;  // _plt0.alpha value  // 24 edit
                     if (pixel != 0)
                     {
                         pixel += (byte)gray_class.Preceptual_Brightness(bmp_image[i + _plt0.rgba_channel[0]], bmp_image[i + _plt0.rgba_channel[1]], bmp_image[i + _plt0.rgba_channel[2]]);  // Grey Value

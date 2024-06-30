@@ -33,7 +33,7 @@ class Palette_RGB5A3_class24  // 24 edit
                     {
                         for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 3)  // 24 edit
                         {
-                            a = (byte)(bmp_image[i + _plt0.rgba_channel[3]] * _plt0.custom_rgba[3]);
+                            a = (byte)(255 * _plt0.custom_rgba[3]);  // 24 edit
                             red = (byte)(bmp_image[i + _plt0.rgba_channel[0]] * _plt0.custom_rgba[0]);
                             green = (byte)(bmp_image[i + _plt0.rgba_channel[1]] * _plt0.custom_rgba[1]);
                             blue = (byte)(bmp_image[i + _plt0.rgba_channel[2]] * _plt0.custom_rgba[2]);
@@ -98,7 +98,7 @@ class Palette_RGB5A3_class24  // 24 edit
                     {
                         for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 3)  // 24 edit
                         {
-                            a = (byte)(bmp_image[i + _plt0.rgba_channel[3]] * _plt0.custom_rgba[3]);
+                            a = (byte)(255 * _plt0.custom_rgba[3]);  // 24 edit
                             red = (byte)(bmp_image[i + _plt0.rgba_channel[0]] * _plt0.custom_rgba[0]);
                             green = (byte)(bmp_image[i + _plt0.rgba_channel[1]] * _plt0.custom_rgba[1]);
                             blue = (byte)(bmp_image[i + _plt0.rgba_channel[2]] * _plt0.custom_rgba[2]);
@@ -144,7 +144,7 @@ class Palette_RGB5A3_class24  // 24 edit
                     {
                         for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 3)  // 24 edit
                         {
-                            a = bmp_image[i + _plt0.rgba_channel[3]];
+                            a = 255;  // 24 edit
                             red = bmp_image[i + _plt0.rgba_channel[0]];
                             green = bmp_image[i + _plt0.rgba_channel[1]];
                             blue = bmp_image[i + _plt0.rgba_channel[2]];
@@ -209,7 +209,7 @@ class Palette_RGB5A3_class24  // 24 edit
                     {
                         for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 3)  // 24 edit
                         {
-                            a = bmp_image[i + _plt0.rgba_channel[3]];
+                            a = 255;  // 24 edit
                             red = bmp_image[i + _plt0.rgba_channel[0]];
                             green = bmp_image[i + _plt0.rgba_channel[1]];
                             blue = bmp_image[i + _plt0.rgba_channel[2]];
