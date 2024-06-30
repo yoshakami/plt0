@@ -18,7 +18,7 @@ class RGB565_class24  // 24 edit
         {
             case 2:  // custom  RRRR RGGG GGGB BBBB
                 {
-                    for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 4)
+                    for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 3)  // 24 edit
                     {
                         red = (byte)(bmp_image[i + _plt0.rgba_channel[0]] * _plt0.custom_rgba[0]);
                         green = (byte)(bmp_image[i + _plt0.rgba_channel[1]] * _plt0.custom_rgba[1]);
@@ -38,10 +38,10 @@ class RGB565_class24  // 24 edit
                         index[j] = (byte)((red & 0xf8) + (green >> 5));
                         index[j + 1] = (byte)(((green << 3) & 224) + (blue >> 3));
                         j += 2;
-                        if (j == _plt0.canvas_width << 1)
+                        if (j == _plt0.bitmap_width << 1)  // 24 edit
                         {
                             j = 0;
-                            i += _plt0.canvas_width % 4;  // 24 edit
+                            i += _plt0.bitmap_width % 4;  // 24 edit
                             index_list.Add(index.ToArray());
                         }
                     }
@@ -50,7 +50,7 @@ class RGB565_class24  // 24 edit
                 }
             default: // RRRR RGGG GGGB BBBB
                 {
-                    for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 4)
+                    for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 3)  // 24 edit
                     {
                         red = bmp_image[i + _plt0.rgba_channel[0]];
                         green = bmp_image[i + _plt0.rgba_channel[1]];
@@ -70,10 +70,10 @@ class RGB565_class24  // 24 edit
                         index[j] = (byte)((red & 0xf8) + (green >> 5));
                         index[j + 1] = (byte)(((green << 3) & 224) + (blue >> 3));
                         j += 2;
-                        if (j == _plt0.canvas_width << 1)
+                        if (j == _plt0.bitmap_width << 1)  // 24 edit
                         {
                             j = 0;
-                            i += _plt0.canvas_width % 4;  // 24 edit
+                            i += _plt0.bitmap_width % 4;  // 24 edit
                             index_list.Add(index.ToArray());
                         }
                     }
