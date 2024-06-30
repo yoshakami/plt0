@@ -21,7 +21,7 @@ class RGB5A3_class24
                 {
                     if (_plt0.alpha == 1)  // 0AAA RRRR GGGG BBBB
                     {
-                        for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 4)
+                        for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 3)   // 24 edit
                         {
                             a = (byte)(bmp_image[i + _plt0.rgba_channel[3]] * _plt0.custom_rgba[3]);
                             red = (byte)(bmp_image[i + _plt0.rgba_channel[0]] * _plt0.custom_rgba[0]);
@@ -46,17 +46,17 @@ class RGB5A3_class24
                             index[j] = (byte)(((a >> 1) & 0x70) + (red >> 4));
                             index[j + 1] = (byte)((green & 0xf0) + (blue >> 4));
                             j += 2;
-                            if (j == _plt0.canvas_width << 1)
+                            if (j == _plt0.bitmap_width << 1)  // 24 edit
                             {
                                 j = 0;
-                                i += _plt0.canvas_width % 4;  // 24 edit
+                                i += _plt0.bitmap_width % 4;  // 24 edit
                                 index_list.Add(index.ToArray());
                             }
                         }
                     }
                     else if (_plt0.alpha == 0)  // 1RRR RRGG GGGB BBBB
                     {
-                        for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 4)
+                        for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 3)  // 24 edit
                         {
                             red = (byte)(bmp_image[i + _plt0.rgba_channel[0]] * _plt0.custom_rgba[0]);
                             green = (byte)(bmp_image[i + _plt0.rgba_channel[1]] * _plt0.custom_rgba[1]);
@@ -76,17 +76,17 @@ class RGB5A3_class24
                             index[j] = (byte)(0x80 + ((red >> 1) & 0x7c) + (green >> 6));
                             index[j + 1] = (byte)(((green << 2) & 0xe0) + (blue >> 3));
                             j += 2;
-                            if (j == _plt0.canvas_width << 1)
+                            if (j == _plt0.bitmap_width << 1)  // 24 edit
                             {
                                 j = 0;
-                                i += _plt0.canvas_width % 4;  // 24 edit
+                                i += _plt0.bitmap_width % 4;  // 24 edit
                                 index_list.Add(index.ToArray());
                             }
                         }
                     }
                     else  // check for each colour if _plt0.alpha trimmed to 3 bits is 255
                     {
-                        for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 4)
+                        for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 3)  // 24 edit
                         {
                             a = (byte)(bmp_image[i + _plt0.rgba_channel[3]] * _plt0.custom_rgba[3]);
                             red = (byte)(bmp_image[i + _plt0.rgba_channel[0]] * _plt0.custom_rgba[0]);
@@ -122,10 +122,10 @@ class RGB5A3_class24
 
                             }
                             j += 2;
-                            if (j == _plt0.canvas_width << 1)
+                            if (j == _plt0.bitmap_width << 1)  // 24 edit
                             {
                                 j = 0;
-                                i += _plt0.canvas_width % 4;  // 24 edit
+                                i += _plt0.bitmap_width % 4;  // 24 edit
                                 index_list.Add(index.ToArray());
                             }
                         }
@@ -136,7 +136,7 @@ class RGB5A3_class24
                 {
                     if (_plt0.alpha == 1)  // 0AAA RRRR GGGG BBBB
                     {
-                        for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 4)
+                        for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 3)
                         {
                             a = bmp_image[i + _plt0.rgba_channel[3]];
                             red = bmp_image[i + _plt0.rgba_channel[0]];
@@ -161,17 +161,17 @@ class RGB5A3_class24
                             index[j] = (byte)(((a >> 1) & 0x70) + (red >> 4));
                             index[j + 1] = (byte)((green & 0xf0) + (blue >> 4));
                             j += 2;
-                            if (j == _plt0.canvas_width << 1)
+                            if (j == _plt0.bitmap_width << 1)  // 24 edit
                             {
                                 j = 0;
-                                i += _plt0.canvas_width % 4;  // 24 edit
+                                i += _plt0.bitmap_width % 4;  // 24 edit
                                 index_list.Add(index.ToArray());
                             }
                         }
                     }
                     else if (_plt0.alpha == 0)  // 1RRR RRGG GGGB BBBB
                     {
-                        for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 4)
+                        for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 3)  // 24 edit
                         {
                             red = bmp_image[i + _plt0.rgba_channel[0]];
                             green = bmp_image[i + _plt0.rgba_channel[1]];
@@ -191,17 +191,17 @@ class RGB5A3_class24
                             index[j] = (byte)(0x80 + ((red >> 1) & 0x7c) + (green >> 6));
                             index[j + 1] = (byte)(((green << 2) & 0xe0) + (blue >> 3));
                             j += 2;
-                            if (j == _plt0.canvas_width << 1)
+                            if (j == _plt0.bitmap_width << 1)  // 24 edit
                             {
                                 j = 0;
-                                i += _plt0.canvas_width % 4;  // 24 edit
+                                i += _plt0.bitmap_width % 4;  // 24 edit
                                 index_list.Add(index.ToArray());
                             }
                         }
                     }
                     else  // mix up _plt0.alpha and no _plt0.alpha
                     {
-                        for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 4)
+                        for (int i = _plt0.pixel_data_start_offset; i < _plt0.bmp_filesize; i += 3)  // 24 edit
                         {
                             a = bmp_image[i + _plt0.rgba_channel[3]];
                             red = bmp_image[i + _plt0.rgba_channel[0]];
@@ -234,10 +234,10 @@ class RGB5A3_class24
                                 index[j + 1] = (byte)((green & 0xf0) + (blue >> 4));
                             }
                             j += 2;
-                            if (j == _plt0.canvas_width << 1)
+                            if (j == _plt0.bitmap_width << 1)  // 24 edit
                             {
                                 j = 0;
-                                i += _plt0.canvas_width % 4;  // 24 edit
+                                i += _plt0.bitmap_width % 4;  // 24 edit
                                 index_list.Add(index.ToArray());
                             }
                         }
