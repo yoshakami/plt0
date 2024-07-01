@@ -104,14 +104,34 @@ class CMPR_class24  // 24 edit
     HashSet<Tuple<byte, byte>> encounteredPairs = new HashSet<Tuple<byte, byte>>();
     public void CMPR(List<byte[]> index_list, byte[] bmp_image_ref)
     {
-        bmp_image = bmp_image_ref; // this should reference bmp_image to bmp_image_ref, not copy it.
+        /* vvvvvvvvv----- start of 24 edit  - 24 bits version -----vvvvvvvvv */
+        // bmp_image = bmp_image_ref; // this should reference bmp_image to bmp_image_ref, not copy it.
+        /* yeah, I made too much shennanigans here, so I'll just convert my 24-bits image to 32-bits. */
+        bmp_image = new byte[((_plt0.canvas_width * _plt0.canvas_height) << 2) + _plt0.pixel_data_start_offset];
+        int diff_width = (_plt0.canvas_width - _plt0.bitmap_width) << 2;
+        for (j = x = _plt0.pixel_data_start_offset; x < bmp_image_ref.Length; j += 4, x += 3)
+        {
+            bmp_image[j] = bmp_image_ref[x]; // blue
+            bmp_image[j+1] = bmp_image_ref[x+1];  // green
+            bmp_image[j+2] = bmp_image_ref[x+2];  // red
+            bmp_image[j+3] = 255;  // alpha
+            y++;
+            if (y == _plt0.bitmap_width)
+            {
+                y = 0;  // y is the current pixel in the line
+                j += diff_width;  // j is the current position of the 32-bit image
+                x += _plt0.bitmap_width % 4;  // 24-bit padding
+            }
+        }
+        j = x = y = 0;
+        /* ^^^^^^^^^----- end of 24 edit  - 24 bits version -----^^^^^^^^^ */
         switch (_plt0.algorithm)
         {
             default: // default: used to re-encode - Darkest/Lightest
                 switch (_plt0.distance)
                 {
                     default:  // Luminance
-                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < bmp_image.Length; y += 4)
                         {
                             if (!Load_Block_CIE_709())
                                 continue;
@@ -139,7 +159,7 @@ class CMPR_class24  // 24 edit
                         }
                         break;
                     case 1:  // RGB - Manhattan
-                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < bmp_image.Length; y += 4)
                         {
                             if (!Load_Block_RGB())
                                 continue;
@@ -167,7 +187,7 @@ class CMPR_class24  // 24 edit
                         }
                         break;
                     case 2:  // Euclidian - 2-way Quadratic
-                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < bmp_image.Length; y += 4)
                         {
                             if (!Load_Block_Euclidian())
                                 continue;
@@ -195,7 +215,7 @@ class CMPR_class24  // 24 edit
                         }
                         break;
                     case 3:  // Infinite - Tchebichev
-                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < bmp_image.Length; y += 4)
                         {
                             if (!Load_Block_RGB())  // this block needs something on colour_list[i][2]
                                 continue;
@@ -223,7 +243,7 @@ class CMPR_class24  // 24 edit
                         }
                         break;
                     case 4:  // Delta E (CIEDE2000) - Lab Colour Space
-                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < bmp_image.Length; y += 4)
                         {
                             if (!Load_Block_RGB())
                                 continue;
@@ -256,7 +276,7 @@ class CMPR_class24  // 24 edit
                 switch (_plt0.distance)
                 {
                     default:  // Luminance
-                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < bmp_image.Length; y += 4)
                         {
                             if (!Load_Block_Range_Fit())
                                 continue;
@@ -272,7 +292,7 @@ class CMPR_class24  // 24 edit
                         }
                         break;
                     case 1:  // RGB - Manhattan
-                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < bmp_image.Length; y += 4)
                         {
                             if (!Load_Block_Range_Fit())
                                 continue;
@@ -288,7 +308,7 @@ class CMPR_class24  // 24 edit
                         }
                         break;
                     case 2:  // Euclidian - 2-way Quadratic
-                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < bmp_image.Length; y += 4)
                         {
                             if (!Load_Block_Range_Fit())
                                 continue;
@@ -304,7 +324,7 @@ class CMPR_class24  // 24 edit
                         }
                         break;
                     case 3:  // Infinite - Tchebichev
-                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < bmp_image.Length; y += 4)
                         {
                             if (!Load_Block_Range_Fit())
                                 continue;
@@ -320,7 +340,7 @@ class CMPR_class24  // 24 edit
                         }
                         break;
                     case 4:  // Delta E (CIEDE2000) - Lab Colour Space
-                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < bmp_image.Length; y += 4)
                         {
                             if (!Load_Block_Range_Fit())
                                 continue;
@@ -346,7 +366,7 @@ class CMPR_class24  // 24 edit
                 switch (_plt0.distance)
                 {
                     default:  // Luminance
-                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < bmp_image.Length; y += 4)
                         {
                             if (!Load_Block_Cluster_Fit())
                                 continue;
@@ -424,7 +444,7 @@ class CMPR_class24  // 24 edit
                         }
                         break;
                     case 1:  // RGB - Manhattan
-                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < bmp_image.Length; y += 4)
                         {
                             if (!Load_Block_Cluster_Fit())
                                 continue;
@@ -502,7 +522,7 @@ class CMPR_class24  // 24 edit
                         }
                         break;
                     case 2:  // Euclidian - 2-way Quadratic
-                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < bmp_image.Length; y += 4)
                         {
                             if (!Load_Block_Cluster_Fit())
                                 continue;
@@ -580,7 +600,7 @@ class CMPR_class24  // 24 edit
                         }
                         break;
                     case 3:  // Infinite - Tchebichev
-                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < bmp_image.Length; y += 4)
                         {
                             if (!Load_Block_Cluster_Fit())
                                 continue;
@@ -706,7 +726,7 @@ class CMPR_class24  // 24 edit
                         }
                         break;
                     case 4:  // Delta E (CIEDE2000) - Lab Colour Space
-                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < bmp_image.Length; y += 4)
                         {
                             if (!Load_Block_Cluster_Fit())
                                 continue;
@@ -792,7 +812,7 @@ class CMPR_class24  // 24 edit
                     // he's storing every colour of the block in a byte[4] inside a sum_t structure named sum
                     // then he's making the interpolated colours for each colour of the 4x4 block and test
                     // which combination is the best one by iterating over the 16 pixels and using calc_distance
-                    //Wiimm_Algorithm(_plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16, _plt0.bmp_filesize, index_list); 
+                    //Wiimm_Algorithm(_plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16, bmp_image.Length, index_list); 
 
                 List<byte[]> index_list_2 = new List<byte[]>();
                 List<byte[]> index_list_3 = new List<byte[]>();
@@ -811,7 +831,7 @@ class CMPR_class24  // 24 edit
                 /*Wiimm_Algorithm(_plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16, (uint)split1, index_list);
                 Wiimm_Algorithm(split1, (uint)split2, index_list_2);
                 Wiimm_Algorithm(split2, (uint)split3, index_list_3);
-                Wiimm_Algorithm(split3, _plt0.bmp_filesize, index_list_4);*/
+                Wiimm_Algorithm(split3, bmp_image.Length, index_list_4);*/
                 List<Task> tasks;
                 switch (_plt0.distance)
                 {
@@ -825,7 +845,7 @@ class CMPR_class24  // 24 edit
                             Task.Run(() => Wiimm_Algorithm_CIE_709(split4, (uint)split5, index_list_5)),
                             Task.Run(() => Wiimm_Algorithm_CIE_709(split5, (uint)split6, index_list_6)),
                             Task.Run(() => Wiimm_Algorithm_CIE_709(split6, (uint)split7, index_list_7)),
-                            Task.Run(() => Wiimm_Algorithm_CIE_709(split7, _plt0.bmp_filesize, index_list_8))
+                            Task.Run(() => Wiimm_Algorithm_CIE_709(split7, (uint)bmp_image.Length, index_list_8))
                         };
                         break;
                     case 1:  // RGB - Manhattan
@@ -838,7 +858,7 @@ class CMPR_class24  // 24 edit
                             Task.Run(() => Wiimm_Algorithm_RGB(split4, (uint)split5, index_list_5)),
                             Task.Run(() => Wiimm_Algorithm_RGB(split5, (uint)split6, index_list_6)),
                             Task.Run(() => Wiimm_Algorithm_RGB(split6, (uint)split7, index_list_7)),
-                            Task.Run(() => Wiimm_Algorithm_RGB(split7, _plt0.bmp_filesize, index_list_8))
+                            Task.Run(() => Wiimm_Algorithm_RGB(split7, (uint)bmp_image.Length, index_list_8))
                         };
                         break;
                     case 2:  // Euclidian - 2-way Quadratic
@@ -851,7 +871,7 @@ class CMPR_class24  // 24 edit
                             Task.Run(() => Wiimm_Algorithm_Euclidian(split4, (uint)split5, index_list_5)),
                             Task.Run(() => Wiimm_Algorithm_Euclidian(split5, (uint)split6, index_list_6)),
                             Task.Run(() => Wiimm_Algorithm_Euclidian(split6, (uint)split7, index_list_7)),
-                            Task.Run(() => Wiimm_Algorithm_Euclidian(split7, _plt0.bmp_filesize, index_list_8))
+                            Task.Run(() => Wiimm_Algorithm_Euclidian(split7, (uint)bmp_image.Length, index_list_8))
                         };
                         break;
                     case 3:  // Infinite - Tchebichev
@@ -864,7 +884,7 @@ class CMPR_class24  // 24 edit
                             Task.Run(() => Wiimm_Algorithm_Infinite(split4, (uint)split5, index_list_5)),
                             Task.Run(() => Wiimm_Algorithm_Infinite(split5, (uint)split6, index_list_6)),
                             Task.Run(() => Wiimm_Algorithm_Infinite(split6, (uint)split7, index_list_7)),
-                            Task.Run(() => Wiimm_Algorithm_Infinite(split7, _plt0.bmp_filesize, index_list_8))
+                            Task.Run(() => Wiimm_Algorithm_Infinite(split7, (uint)bmp_image.Length, index_list_8))
                         };
                         break;
                     case 4:  // Delta E (CIEDE2000) - Lab Colour Space
@@ -877,7 +897,7 @@ class CMPR_class24  // 24 edit
                             Task.Run(() => Wiimm_Algorithm_Delta_E(split4, (uint)split5, index_list_5)),
                             Task.Run(() => Wiimm_Algorithm_Delta_E(split5, (uint)split6, index_list_6)),
                             Task.Run(() => Wiimm_Algorithm_Delta_E(split6, (uint)split7, index_list_7)),
-                            Task.Run(() => Wiimm_Algorithm_Delta_E(split7, _plt0.bmp_filesize, index_list_8))
+                            Task.Run(() => Wiimm_Algorithm_Delta_E(split7, (uint)bmp_image.Length, index_list_8))
                         };
                         break;
                 }
@@ -911,7 +931,7 @@ class CMPR_class24  // 24 edit
                     // deviant average is the average of the 8 colours the furthest from the average
 
                     default:  // Luminance
-                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < bmp_image.Length; y += 4)
                         {
                             if (!Load_Block_CIE_709())
                                 continue;
@@ -1066,7 +1086,7 @@ class CMPR_class24  // 24 edit
                         }
                         break;
                     case 1:  // RGB - Manhattan
-                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < bmp_image.Length; y += 4)
                         {
                             if (!Load_Block_RGB())
                                 continue;
@@ -1220,7 +1240,7 @@ class CMPR_class24  // 24 edit
                         }
                         break;
                     case 2:  // Euclidian - 2-way Quadratic
-                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < bmp_image.Length; y += 4)
                         {
                             if (!Load_Block_Euclidian())
                                 continue;
@@ -1374,7 +1394,7 @@ class CMPR_class24  // 24 edit
                         }
                         break;
                     case 3:  // Infinite - Tchebichev
-                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < bmp_image.Length; y += 4)
                         {
                             if (!Load_Block_RGB())
                                 continue;
@@ -1552,7 +1572,7 @@ class CMPR_class24  // 24 edit
                         }
                         break;
                     case 4:  // Delta E (CIEDE2000) - Lab Colour Space
-                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                        for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < bmp_image.Length; y += 4)
                         {
                             if (!Load_Block_RGB())
                                 continue;
@@ -1712,7 +1732,7 @@ class CMPR_class24  // 24 edit
                 break; // Custom
             case 5:  // CI2 - most used colours with _plt0.diversity - no gradient - similar - looks pixelated
                 {
-                    for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                    for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < bmp_image.Length; y += 4)
                     {
                         if (!Load_Block())
                             continue;
@@ -1776,7 +1796,7 @@ class CMPR_class24  // 24 edit
                 break; // CI2
             case 6: // hidden: SuperBMD
                     // SuperBMD is calculating the distance between a pixel and his next neighbour in the 4x4 block, and the couple with the max distance is chosen as the two colours
-                for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < bmp_image.Length; y += 4)
                 {
                     if (!Load_Block_RGB())
                         continue;
@@ -1803,7 +1823,7 @@ class CMPR_class24  // 24 edit
             case 7:  // hidden: Min/Max
                      // this algorithm is the same as Range Fit, so it has been merged
                      // take the colour composed of the darkest R, G and B, and the other composed of the highest R, G, and B
-                for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < bmp_image.Length; y += 4)
                 {
                     if (!Load_Block())
                         continue;
@@ -1851,7 +1871,7 @@ class CMPR_class24  // 24 edit
                 break; // old: Min/Max
             case 8: // hidden: Most Used/Furthest
                 // this algorithm has been fused in "Average"
-                for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < bmp_image.Length; y += 4)
                 {
                     if (!Load_Block())
                         continue;
@@ -1917,7 +1937,7 @@ class CMPR_class24  // 24 edit
                 break; // old: Most Used/Furthest
             case 9: // hidden: darkest/lightest
                 // this algorithm has been fused in "Default"
-                for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < bmp_image.Length; y += 4)
                 {
                     if (!Load_Block_RGB())
                         continue;
@@ -1949,7 +1969,7 @@ class CMPR_class24  // 24 edit
                      // test which combination is the best one by iterating over all couples
                      // there is no way to use it unless you modify this project and optimize this algorithm because it is too long to complete
                      // it rather is a code easter egg left for comparison purpose
-                for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < _plt0.bmp_filesize; y += 4)
+                for (y = _plt0.pixel_data_start_offset + (_plt0.canvas_width << 2) - 16; y < bmp_image.Length; y += 4)
                 {
                     if (_plt0.alpha > 0 && bmp_image[y + _plt0.rgba_channel[3]] < _plt0.cmpr_alpha_threshold)  // no colour
                     {
