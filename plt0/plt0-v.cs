@@ -70,6 +70,7 @@ namespace plt0_gui
         byte[] cmpr_colours_argb = new byte[16];
         byte[] cmpr_colour = new byte[4];
         byte[] cmpr_index = new byte[16];
+        bool user_did_messup;
         static byte[] block_width_array = { 8, 8, 8, 4, 4, 4, 4, 255, 8, 8, 4, 255, 255, 255, 8 }; // real one to calculate canvas size.
         //byte[] block_width_array = { 4, 8, 8, 8, 8, 8, 16, 255, 4, 8, 8, 255, 255, 255, 4 }; // altered to match bit-per pixel size.
         static byte[] block_height_array = { 8, 4, 4, 4, 4, 4, 4, 255, 8, 4, 4, 255, 255, 255, 8 }; // 255 = unused image format
@@ -1641,26 +1642,29 @@ namespace plt0_gui
             string[] file = (string[])e.Data.GetData(DataFormats.FileDrop);  // gets all the files or folders name that were dragged in an array, but I'll only use the first
             if (file != null) // prevent crashes if it's for example a google chrome favourite that was dragged
             {
-                bool isFolder = System.IO.File.GetAttributes(file[0]).HasFlag(System.IO.FileAttributes.Directory);
-                if (!isFolder)  // that means it's a file.
+                for (int i = 0; i < file.Length; i++)
                 {
-                    //byte len = (byte)file[0].Split('\\').Length;
-                    if (file[0].Split('.').Last().ToUpper() == "PLT0" || file[0].Split('.').Last().ToUpper() == "BNR" || file[0].Split('.').Last().ToUpper() == "BMD")
+                    bool isFolder = System.IO.File.GetAttributes(file[i]).HasFlag(System.IO.FileAttributes.Directory);
+                    if (!isFolder)  // that means it's a file.
                     {
-                        input_file2 = file[0].Replace("\\", "/");
-                        input_file2_txt.Text = input_file2;
+                        //byte len = (byte)file[0].Split('\\').Length;
+                        if (file[i].Split('.').Last().ToUpper() == "PLT0" || file[i].Split('.').Last().ToUpper() == "BNR" || file[i].Split('.').Last().ToUpper() == "BMD")
+                        {
+                            input_file2 = file[i].Replace("\\", "/");
+                            input_file2_txt.Text = input_file2;
+                        }
+                        else
+                        {
+                            input_file = file[i].Replace("\\", "/");
+                            input_file_txt.Text = input_file; //.Split('\\')[len - 1];// file is actually a full path starting from a drive, but I won't clutter the display
+                                                              // edit : I did clutter the display
+                        }
                     }
                     else
                     {
-                        input_file = file[0].Replace("\\", "/");
-                        input_file_txt.Text = input_file; //.Split('\\')[len - 1];// file is actually a full path starting from a drive, but I won't clutter the display
-                        // edit : I did clutter the display
+                        output_label.Text = "only files are accepted\n";
+                        return;
                     }
-                }
-                else
-                {
-                    output_label.Text = "only files are accepted\n";
-                    return;
                 }
             }
             else
@@ -18128,6 +18132,7 @@ namespace plt0_gui
         {
             if (File.Exists(input_file_txt.Text))
             {
+                user_did_messup = true;
                 using (FileStream fs1 = File.OpenRead(input_file_txt.Text))
                 {
                     fs1.Read(byte16, 0, 4);
@@ -18146,12 +18151,7 @@ namespace plt0_gui
                                 // my comments always state the condition after it's true.
                                 // so this is what happens for files that aren't wii banners
                                 // just an input file 1, user didn't mess up
-                                input_file = input_file_txt.Text;
-                                Check_run();
-                                Organize_args();
-                                Preview(true);
-                                Check_Paint();
-                                Check_Opening();
+                                user_did_messup = false;
                                 return;
                             }
                             // it's a wii bnr here
@@ -18160,10 +18160,22 @@ namespace plt0_gui
                     }
                     // it's one of the 3
                 }
-                // it's still one of the 3, but user did mess up!
-                // these types of files must be on input_file2.
-                input_file2_txt.Text = input_file_txt.Text;
-                input_file_txt.Text = "";
+                if (user_did_messup)
+                {
+                    // it's still one of the 3, but user did mess up!
+                    // these types of files must be on input_file2.
+                    input_file2_txt.Text = input_file_txt.Text;
+                    input_file_txt.Text = "";
+                }
+                else
+                {
+                    input_file = input_file_txt.Text;
+                    Check_run();
+                    Organize_args();
+                    Preview(true);
+                    Check_Paint();
+                    Check_Opening();
+                }
             }
             else
             {
