@@ -18152,7 +18152,6 @@ namespace plt0_gui
                                 // so this is what happens for files that aren't wii banners
                                 // just an input file 1, user didn't mess up
                                 user_did_messup = false;
-                                return;
                             }
                             // it's a wii bnr here
                         }
