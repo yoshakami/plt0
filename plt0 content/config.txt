@@ -4,7 +4,7 @@ Preview
 Window Location ("Normal", "Maximized", "Bottom_left", "Left", "Top_left", "Top", "Top_right", "Right", "Bottom_right", "Bottom", "Fullscreen1", "Screen2_Bottom_left", "Screen2_Left", "Screen2_Top_left", "Screen2_Top", "Screen2_Top_right", "Screen2_Right", "Screen2_Bottom_right", "Screen2_Bottom", "Fullscreen2")
 Maximized
 Font name (it must be installed on your system)
-NintendoP-NewRodin DB
+
 Encoding number (internally named GdiCharSet, see https://docs.microsoft.com/en-us/dotnet/api/system.drawing.font.gdicharset?view=dotnet-plat-ext-6.0)
 128
 Labels Colour (the colour of all text)

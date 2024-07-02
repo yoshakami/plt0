@@ -56,6 +56,8 @@ namespace plt0_gui
         static string[] d = new string[256];
         static string[] layout_name = { "All", "Encode", "Preview", "Paint", "Decode", "Palette", "Opening", "Settings" };
         static string cmpr_colours_hex;
+        byte[] image_ck_preview;
+        byte[] opening_ck_preview;
         byte[] banner_rgb5a3_file = new byte[0x1820];
         byte[] bnr_file = new byte[4];
         byte[] byte16 = new byte[16];
@@ -1238,7 +1240,7 @@ namespace plt0_gui
             {
                 vanilla_arg_array = arg_array.ToArray();
                 int num = 1;
-                while (File.Exists(execPath + "plt0 content/preview/" + num + ".bmp"))
+                while (File.Exists(execPath + "plt0 content/preview/" + num + ".png"))
                 {
                     num++;
                 }
@@ -1264,8 +1266,8 @@ namespace plt0_gui
                             break;
                     }
                 }
-                arg_array.Add("bmp");
-                arg_array.Add(execPath + "plt0 content/preview/" + num + ".bmp");  // even if there's an output file in the args, the last one is the output file :) that's how I made it
+                arg_array.Add("png");
+                arg_array.Add(execPath + "plt0 content/preview/" + num + ".png");  // even if there's an output file in the args, the last one is the output file :) that's how I made it
                 Parse_args_class cli = new Parse_args_class();
                 cli.Parse_args(arg_array.ToArray());
                 seal = cli.Check_exit();
@@ -1281,9 +1283,14 @@ namespace plt0_gui
                 //image_ck.InterpolationMode = InterpolationMode.NearestNeighbor;
                 //if (image_ck.Image != null)
                 //    image_ck.Image.Dispose();
-                if (File.Exists(execPath + "plt0 content/preview/" + num + ".bmp"))
+                if (File.Exists(execPath + "plt0 content/preview/" + num + ".png"))
                 {
-                    image_ck.Image = Image.FromFile(execPath + "plt0 content/preview/" + num + ".bmp");
+                    using (FileStream fs = File.OpenRead(execPath + "plt0 content/preview/" + num + ".png"))
+                    {
+                        Array.Resize(ref image_ck_preview, (int)fs.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
+                        fs.Read(image_ck_preview, 0, (int)fs.Length);
+                    }
+                    image_ck.Image = GetImageFromByteArray(image_ck_preview);
                     preview_changed = false;
                     sync_preview_ck.Image = sync_preview_off;
                     sync_preview_is_on = false;
@@ -3088,20 +3095,20 @@ namespace plt0_gui
                 {
                     Array.Copy(bnr_file, 0x20, banner_rgb5a3_file, 0x20, 0x1800);
                     int num = 1;
-                    while (File.Exists(execPath + "plt0 content/preview/" + num + ".bmp"))
+                    while (File.Exists(execPath + "plt0 content/preview/" + num + ".png"))
                     {
                         num++;
                     }
                     opening_args[2] = "";
                     opening_args[4] = input_file2;
-                    opening_args[5] = (execPath + "plt0 content/preview/" + num + ".bmp");  // even if there's an output file in the args, the last one is the output file :) that's how I made it
+                    opening_args[5] = (execPath + "plt0 content/preview/" + num + ".png");  // even if there's an output file in the args, the last one is the output file :) that's how I made it
                     Parse_args_class cli = new Parse_args_class();
                     cli.Parse_args(opening_args, banner_rgb5a3_file);
-                    if (File.Exists(execPath + "plt0 content/preview/" + num + ".bmp"))
+                    if (File.Exists(execPath + "plt0 content/preview/" + num + ".png"))
                     {
                         previous_block = -1;
                         loaded_block = -1;
-                        using (FileStream fs = File.OpenRead(execPath + "plt0 content/preview/" + num + ".bmp"))
+                        using (FileStream fs = File.OpenRead(execPath + "plt0 content/preview/" + num + ".png"))
                         {
                             Array.Resize(ref rgb5a3_file, (int)fs.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
                             fs.Read(rgb5a3_file, 0, (int)fs.Length);
@@ -3309,20 +3316,20 @@ namespace plt0_gui
             {
 
                 int num = 1;
-                while (File.Exists(execPath + "plt0 content/preview/" + num + ".bmp"))
+                while (File.Exists(execPath + "plt0 content/preview/" + num + ".png"))
                 {
                     num++;
                 }
                 opening_args[2] = input_file;
                 opening_args[4] = input_file2;
-                opening_args[5] = (execPath + "plt0 content/preview/" + num + ".bmp");  // even if there's an output file in the args, the last one is the output file :) that's how I made it
+                opening_args[5] = (execPath + "plt0 content/preview/" + num + ".png");  // even if there's an output file in the args, the last one is the output file :) that's how I made it
                 Parse_args_class cli = new Parse_args_class();
                 cli.Parse_args(opening_args);
-                if (File.Exists(execPath + "plt0 content/preview/" + num + ".bmp"))
+                if (File.Exists(execPath + "plt0 content/preview/" + num + ".png"))
                 {
                     previous_block = -1;
                     loaded_block = -1;
-                    using (FileStream fs = File.OpenRead(execPath + "plt0 content/preview/" + num + ".bmp"))
+                    using (FileStream fs = File.OpenRead(execPath + "plt0 content/preview/" + num + ".png"))
                     {
                         Array.Resize(ref cmpr_preview, (int)fs.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
                         fs.Read(cmpr_preview, 0, (int)fs.Length);
@@ -19469,19 +19476,19 @@ namespace plt0_gui
                     fs.Read(cmpr_file, 48, (int)fs.Length - 48); // this means that the whole file is stored in ram.
                 }
                 int num = 1;
-                while (File.Exists(execPath + "plt0 content/preview/" + num + ".bmp"))
+                while (File.Exists(execPath + "plt0 content/preview/" + num + ".png"))
                 {
                     num++;
                 }
                 cmpr_args[2] = input_file;
-                cmpr_args[3] = (execPath + "plt0 content/preview/" + num + ".bmp");  // even if there's an output file in the args, the last one is the output file :) that's how I made it
+                cmpr_args[3] = (execPath + "plt0 content/preview/" + num + ".png");  // even if there's an output file in the args, the last one is the output file :) that's how I made it
                 Parse_args_class cli = new Parse_args_class();
                 cli.Parse_args(cmpr_args);
-                if (File.Exists(execPath + "plt0 content/preview/" + num + ".bmp"))
+                if (File.Exists(execPath + "plt0 content/preview/" + num + ".png"))
                 {
                     previous_block = -1;
                     loaded_block = -1;
-                    using (FileStream fs = File.OpenRead(execPath + "plt0 content/preview/" + num + ".bmp"))
+                    using (FileStream fs = File.OpenRead(execPath + "plt0 content/preview/" + num + ".png"))
                     {
                         Array.Resize(ref cmpr_preview, (int)fs.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
                         fs.Read(cmpr_preview, 0, (int)fs.Length);
