@@ -142,7 +142,7 @@ namespace plt0_gui
         System.Drawing.Point upscale_location = new System.Drawing.Point(1320, 32);
         System.Drawing.Point auto_update_location = new System.Drawing.Point(968, 32);
         System.Drawing.Point textchange_location = new System.Drawing.Point(500, 32);
-
+        int x;
         int y;
         int cmpr_data_start_offset;
         int current_block;
@@ -19487,19 +19487,19 @@ namespace plt0_gui
                     fs.Read(cmpr_file, 48, (int)fs.Length - 48); // this means that the whole file is stored in ram.
                 }
                 int num = 1;
-                while (File.Exists(execPath + "plt0 content/preview/" + num + ".png"))
+                while (File.Exists(execPath + "plt0 content/preview/" + num + ".bmp"))  // NOTE: THIS MUST BE IN BMP
                 {
                     num++;
                 }
                 cmpr_args[2] = input_file;
-                cmpr_args[3] = (execPath + "plt0 content/preview/" + num + ".png");  // even if there's an output file in the args, the last one is the output file :) that's how I made it
+                cmpr_args[3] = (execPath + "plt0 content/preview/" + num + ".bmp");  // even if there's an output file in the args, the last one is the output file :) that's how I made it
                 Parse_args_class cli = new Parse_args_class();
                 cli.Parse_args(cmpr_args);
-                if (File.Exists(execPath + "plt0 content/preview/" + num + ".png"))
+                if (File.Exists(execPath + "plt0 content/preview/" + num + ".bmp"))
                 {
                     previous_block = -1;
                     loaded_block = -1;
-                    using (FileStream fs = File.OpenRead(execPath + "plt0 content/preview/" + num + ".png"))
+                    using (FileStream fs = File.OpenRead(execPath + "plt0 content/preview/" + num + ".bmp"))
                     {
                         Array.Resize(ref cmpr_preview, (int)fs.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
                         fs.Read(cmpr_preview, 0, (int)fs.Length);
@@ -20118,7 +20118,7 @@ namespace plt0_gui
         {
             if (e.X < 0 || e.Y < 0 || e.X >= cmpr_palette.Width || e.Y >= cmpr_palette.Height) // cmpr_palette.Image.width also works, it should be faster to directly enter the max dimensions
                 return;
-            int x = (int)(e.X / grid_ratio);
+            x = (int)(e.X / grid_ratio);
             y = (int)(e.Y / grid_ratio);
             // sooo, the clever idea is that I used a 32-bit bmp so I could use the bitshift << 2 for both x and y since all pixel are 4 bytes in size
             // another cool thing is that I purposefully made the bmp dimensions be 1024x64, so one line is 1024x4 pixels which is 1 << 10 << 2 which is 1 << 12
