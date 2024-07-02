@@ -21,7 +21,7 @@ fill the colour palette with random values for CI4, CI8, and CI14x2 formats
 output will be horizontally reversed
 reverse output vertically
 makes the program to never throw any exception (useful when using subprocess.checkoutput in python)
-silent mode (with a cool small internal name)
+[dev only]\nMake the tool process raw input file.Thus, it must be a bmp with 32 or 24 bits in depth
 verbose mode (prints the internal variables content and some other text in the console)
 activate a block colour when you\jmove your mouse onto the preview.\j\j\c GreenYellow Shortcut: Enter\n\n\n\n\n\n\n\n\n\n\n\n (convert the 2D vector of mouse cursor position into a byte array of a bmp file in the background)
 Update the Preview whenever\jthe 4x4 block is edited.\j\jalso update as soon as\jthis option is checked.\j\j\c GreenYellow Shortcut: Ctrl + U

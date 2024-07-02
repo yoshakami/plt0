@@ -1393,7 +1393,13 @@ class Parse_args_class
         Console.WriteLine("CI14x2 can only supports up to 16385 colours as each pixel index is stored on 14 bits");
         stay = false;
     }*/
-
+        if (bmp_image[0] != 0x42 || bmp_image[1] != 0x4D)
+        {
+            gui_message += "input file is not in bmp format. This tool only parses 32-bits and 24-bits bmp pictures\n";
+            if (!no_warning)
+                Console.WriteLine(gui_message);
+            return;
+        }
         if (bmp_image[0x15] != 0 || bmp_image[0x14] != 0 || bmp_image[0x19] != 0 || bmp_image[0x18] != 0)
         {
             gui_message += "Textures Dimensions are too high for a TEX0. Maximum dimensions are the values of a 2 bytes integer (65535 x 65535)\n";

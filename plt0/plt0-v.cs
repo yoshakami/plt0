@@ -82,6 +82,7 @@ namespace plt0_gui
         static readonly private protected string[] rgba_array = { "R", "G", "B", "A" }; // imagine knowing what the keywords do
         string input_file;
         string output_name = "";
+        string last_working_input_file;
         string input_file2;
         static char separator;
         static string language = "";
@@ -19457,12 +19458,13 @@ namespace plt0_gui
             {
                 using (FileStream fs = File.OpenRead(input_file))
                 {
-                    if (start && (cmpr_file.Length == (int)fs.Length))
+                    if (((input_file == last_working_input_file) || (start)) && (cmpr_file.Length == (int)fs.Length))
                     {
                         if (cmpr_preview_vanilla != null && !cmpr_hover)
                             cmpr_preview_ck.Image = GetImageFromByteArray(cmpr_preview_vanilla);
                         return;
                     }
+                    last_working_input_file = input_file;
                     Array.Resize(ref cmpr_file, (int)fs.Length);  // with this, 2GB is the max size for a texture. if it was an unsigned int, the limit would be 4GB
                     if (fs.Length < 48)
                     {
@@ -19971,19 +19973,39 @@ namespace plt0_gui
 
         private void cmpr_save_as_ck_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog
+            if (layout == 3)
             {
-                Title = "Save CMPR Texture",
-                Filter = "All files (*.*)|*.*|Texture|*.bti;*.tex0;*.tpl",
-                RestoreDirectory = true,
-                //OverwritePrompt = true,
-                //DereferenceLinks = true,
-                //ValidateNames = true
-            };
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                SaveFileDialog saveFileDialog = new SaveFileDialog
+                {
+                    Title = "Save CMPR Texture",
+                    Filter = "All files (*.*)|*.*|GameCube Texture|*.bti|Wii Texture|*.tex0|Wii Container|*.tpl",
+                    RestoreDirectory = true,
+                    //OverwritePrompt = true,
+                    //DereferenceLinks = true,
+                    //ValidateNames = true
+                };
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    output_name = saveFileDialog.FileName;
+                    Save_CMPR_Texture(saveFileDialog.FileName);
+                }
+            }
+            else
             {
-                output_name = saveFileDialog.FileName;
-                Save_CMPR_Texture(saveFileDialog.FileName);
+                SaveFileDialog saveFileDialog = new SaveFileDialog
+                {
+                    Title = "Save Banner As",
+                    Filter = "All files (*.*)|*.*|Banner|*.bnr",
+                    RestoreDirectory = true,
+                    //OverwritePrompt = true,
+                    //DereferenceLinks = true,
+                    //ValidateNames = true
+                };
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    output_name = saveFileDialog.FileName;
+                    Save_CMPR_Texture(saveFileDialog.FileName);
+                }
             }
         }
         private void cmpr_KeyDown(object sender, KeyEventArgs e)

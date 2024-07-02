@@ -75,19 +75,25 @@ v1.1: Auto-Scale on Launch and on each F12 press
 
 v2.0: Revamped CMPR Algorithms, Decode Layout, and enhance gui
 
-v2.1: Opening layout, Custom algorithm cmpr, wine support for 32 bits images
+v2.1: Opening layout, Custom algorithm cmpr, wine support for 24 bits images
 
 ## future versions
 
-v2.2: wine support for 24 bits images
+v2.2: WebP Support
 
-v2.3: WebP Support
+v2.3: Palette Layout
 
-v2.4: fix known bugs, Palette Layout, Settings Layout
+v2.4: Settings Layout
 
-v2.5: Fullscreen Image Viewer
+v2.5: Native French Support
 
-v2.6: Native French Support
+v2.6: Fix decoding with reverse
+
+v2.7: Fully working bmd
+
+v2.8: Fully working tpl
+
+v2.9: Fullscreen Image Viewer
 
 v3.0: Text Editor
 
