@@ -39,7 +39,8 @@ add WebP Support <br>
 ## known bugs
 Minimum cmpr image size is 16x16 when encoding <br>
 Bmd output is untested <br>
-No TPL Support for Paint Layout
+No TPL Support for Paint and Opening Layout <br>
+cmpr encoding won't work on wine if the image dimensions are not a multiple of 8 (because in such case, empty data needs to fill this void. It works fine on windows)
 
 big decoding bug (if input image format is an encoded texture)
 ci14x2 reversex
