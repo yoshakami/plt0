@@ -2899,8 +2899,8 @@ namespace plt0_gui
                 desc[i].Location = new Point((int)((desc[i].Location.X - 1) * width_ratio), (int)((desc[i].Location.Y + 500) * height_ratio));
             }
             description_title.Location = new Point(
-                (int)(((description_title.Location.X - 1) * width_ratio)),
-                (int)(((description_title.Location.Y + 500) * height_ratio)));
+                (int)(description_title.Location.X - (1 * width_ratio)),
+                (int)(description_title.Location.Y + (500 * height_ratio)));
 
             textchange_ck.Location = new Point(
                 (int)(((textchange_ck.Location.X + 30) * width_ratio)),
@@ -2932,6 +2932,89 @@ namespace plt0_gui
             cmpr_mouse_sel_label.Location = new Point(
                 (int)(((cmpr_mouse_sel_label.Location.X - 00) * width_ratio)),
                 (int)(((cmpr_mouse_sel_label.Location.Y + 400) * height_ratio)));
+
+
+            algorithm_label.Location = new Point(
+                (int)(algorithm_label.Location.X + (1160 * width_ratio)),
+                (int)(((algorithm_label.Location.Y + 0) * height_ratio)));
+            palette_ai8_ck.Location = new Point(
+                (int)(palette_ai8_ck.Location.X + (1160 * width_ratio)),
+                (int)(((palette_ai8_ck.Location.Y + 0) * height_ratio)));
+            palette_ai8_label.Location = new Point(
+                (int)(palette_ai8_label.Location.X + (1160 * width_ratio)),
+                (int)(((palette_ai8_label.Location.Y + 0) * height_ratio)));
+            palette_rgb565_ck.Location = new Point(
+                (int)(palette_rgb565_ck.Location.X + (1160 * width_ratio)),
+                (int)(((palette_rgb565_ck.Location.Y + 0) * height_ratio)));
+            palette_rgb565_label.Location = new Point(
+                (int)(palette_rgb565_label.Location.X + (1160 * width_ratio)),
+                (int)(((palette_rgb565_label.Location.Y + 0) * height_ratio)));
+            palette_rgb5a3_ck.Location = new Point(
+                (int)(palette_rgb5a3_ck.Location.X + (1160 * width_ratio)),
+                (int)(((palette_rgb5a3_ck.Location.Y + 0) * height_ratio)));
+            palette_rgb5a3_label.Location = new Point(
+                (int)(palette_rgb5a3_label.Location.X + (1160 * width_ratio)),
+                (int)(((palette_rgb5a3_label.Location.Y + 0) * height_ratio)));
+            palette_label.Location = new Point(
+                (int)(palette_label.Location.X + (1160 * width_ratio)),
+                (int)(((palette_label.Location.Y + 0) * height_ratio)));
+            algo_4_ck.Location = new Point(
+                (int)(algo_4_ck.Location.X + (1160 * width_ratio)),
+                (int)(((algo_4_ck.Location.Y + 0) * height_ratio)));
+            algo_4_label.Location = new Point(
+                (int)(algo_4_label.Location.X + (1160 * width_ratio)),
+                (int)(((algo_4_label.Location.Y + 0) * height_ratio)));
+            pal_cie_ck.Location = new Point(
+                (int)(pal_cie_ck.Location.X + (1160 * width_ratio)),
+                (int)(((pal_cie_ck.Location.Y + 0) * height_ratio)));
+            pal_cie_label.Location = new Point(
+                (int)(pal_cie_label.Location.X + (1160 * width_ratio)),
+                (int)(((pal_cie_label.Location.Y + 0) * height_ratio)));
+            algo_3_ck.Location = new Point(
+                (int)(algo_3_ck.Location.X + (1160 * width_ratio)),
+                (int)(((algo_3_ck.Location.Y + 0) * height_ratio)));
+            algo_3_label.Location = new Point(
+                (int)(algo_3_label.Location.X + (1160 * width_ratio)),
+                (int)(((algo_3_label.Location.Y + 0) * height_ratio)));
+            cie_709_ck.Location = new Point(
+                (int)(cie_709_ck.Location.X + (1160 * width_ratio)),
+                (int)(((cie_709_ck.Location.Y + 0) * height_ratio)));
+            cie_709_label.Location = new Point(
+                (int)(cie_709_label.Location.X + (1160 * width_ratio)),
+                (int)(((cie_709_label.Location.Y + 0) * height_ratio)));
+            cie_601_label.Location = new Point(
+                (int)(cie_601_label.Location.X + (1160 * width_ratio)),
+                (int)(((cie_601_label.Location.Y + 0) * height_ratio)));
+            cie_601_ck.Location = new Point(
+                (int)(cie_601_ck.Location.X + (1160 * width_ratio)),
+                (int)(((cie_601_ck.Location.Y + 0) * height_ratio)));
+            algo_2_ck.Location = new Point(
+                (int)(algo_2_ck.Location.X + (1160 * width_ratio)),
+                (int)(((algo_2_ck.Location.Y + 0) * height_ratio)));
+            algo_2_label.Location = new Point(
+                (int)(algo_2_label.Location.X + (1160 * width_ratio)),
+                (int)(((algo_2_label.Location.Y + 0) * height_ratio)));
+            alpha_title.Location = new Point(
+                (int)(alpha_title.Location.X + (1160 * width_ratio)),
+                (int)(((alpha_title.Location.Y + 0) * height_ratio)));
+            alpha_ck.Location = new Point(
+                (int)(alpha_ck.Location.X + (1160 * width_ratio)),
+                (int)(((alpha_ck.Location.Y + 0) * height_ratio)));
+            alpha_label.Location = new Point(
+                (int)(alpha_label.Location.X + (1160 * width_ratio)),
+                (int)(((alpha_label.Location.Y + 0) * height_ratio)));
+            no_alpha_ck.Location = new Point(
+                (int)(no_alpha_ck.Location.X + (1160 * width_ratio)),
+                (int)(((no_alpha_ck.Location.Y + 0) * height_ratio)));
+            no_alpha_label.Location = new Point(
+                (int)(no_alpha_label.Location.X + (1160 * width_ratio)),
+                (int)(((no_alpha_label.Location.Y + 0) * height_ratio)));
+            mix_ck.Location = new Point(
+                (int)(mix_ck.Location.X + (1160 * width_ratio)),
+                (int)(((mix_ck.Location.Y + 0) * height_ratio)));
+            mix_label.Location = new Point(
+                (int)(mix_label.Location.X + (1160 * width_ratio)),
+                (int)(((mix_label.Location.Y + 0) * height_ratio)));
 
             palette_layout_is_enabled = true;
 
