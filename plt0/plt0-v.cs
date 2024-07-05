@@ -693,11 +693,12 @@ namespace plt0_gui
                 cli_textbox_ck.Size = new Size((int)(cli_textbox_ck.Width * width_ratio), (int)(cli_textbox_ck.Height * height_ratio));
                 cmpr_grid_ck.Size = new Size((int)(cmpr_grid_ck.Width * width_ratio), (int)(cmpr_grid_ck.Height * height_ratio));
                 cmpr_preview_ck.Size = new Size((int)(cmpr_preview_ck.Width * width_ratio), (int)(cmpr_preview_ck.Height * height_ratio));
+                /*
                 cmpr_c1_txt.Location = new Point(cmpr_c1_txt.Location.X, cmpr_c1_txt.Location.Y + 10);
                 cmpr_c2_txt.Location = new Point(cmpr_c2_txt.Location.X, cmpr_c2_txt.Location.Y + 10);
                 cmpr_c3_txt.Location = new Point(cmpr_c3_txt.Location.X, cmpr_c3_txt.Location.Y + 10);
                 cmpr_c4_txt.Location = new Point(cmpr_c4_txt.Location.X, cmpr_c4_txt.Location.Y + 10);
-                cmpr_hover_colour_txt.Location = new Point(cmpr_hover_colour.Location.X, cmpr_hover_colour.Location.Y + 10);
+                cmpr_hover_colour_txt.Location = new Point(cmpr_hover_colour.Location.X, cmpr_hover_colour.Location.Y + 10);*/
                 grid_ratio = cmpr_grid_ck.Height / 256.0;
                 image_ck.Location = new Point((int)(image_ck.Location.X), (int)(auto_update_ck.Location.Y + auto_update_ck.Height));
                 image_ck.Size = new Size((int)(image_ck.Width * width_ratio), (int)(image_ck.Height * height_ratio));
@@ -2029,7 +2030,8 @@ namespace plt0_gui
             round4_txt.Visible = true;
             // TODO: disable new layout (this is all)
             all_layout_is_enabled = true;
-            options_label.Location = new Point((int)(1674 * width_ratio), (int)(40 * height_ratio));
+            //options_label.Location = new Point((int)(1674 * width_ratio), (int)(40 * height_ratio));
+            options_label.Location = new Point(discord_ck.Location.X, sync_preview_ck.Location.Y);
             ask_exit_ck.Visible = true;
             ask_exit_label.Visible = true;
             num_colours_txt.Visible = true;
@@ -2215,7 +2217,9 @@ namespace plt0_gui
         {
             ask_exit_ck.Visible = false;
             ask_exit_label.Visible = false;
-            options_label.Location = new Point((int)(1674 * width_ratio), (int)(96 * height_ratio));
+            //options_label.Location = new Point((int)(1674 * width_ratio), (int)(96 * height_ratio));
+            options_label.Location = new Point(discord_ck.Location.X, magnification_label.Location.Y);
+
             all_layout_is_enabled = false;
         }
         private void Hide_Paint_Stuff()
@@ -2366,7 +2370,7 @@ namespace plt0_gui
             }
             for (byte i = 0; i < 9; i++)
             {
-                desc[i].Location = new Point((int)((desc[i].Location.X + 300) * width_ratio), (int)((desc[i].Location.Y - 100) * height_ratio));
+                desc[i].Location = new Point((int)(desc[i].Location.X + (300 * width_ratio)), (int)(desc[i].Location.Y - (100 * height_ratio)));
             }
             /* description_title.Location = new Point((int)((description_title.Location.X + 300) * width_ratio), (int)((description_title.Location.Y - 100) * height_ratio));
             description_surrounding.Location = new Point((int)((description_surrounding.Location.X + 300) * width_ratio), (int)((description_surrounding.Location.Y - 100) * height_ratio));
@@ -2377,8 +2381,9 @@ namespace plt0_gui
             output_name_label.Location = new Point(output_name_label.Location.X + 165, output_name_label.Location.Y - 14);
             output_name_txt.Location = new Point(output_name_txt.Location.X + 165, output_name_txt.Location.Y - 14); */
             description_title.Location = new Point(
-                (int)(((description_title.Location.X + 300) * width_ratio)),
-                (int)(((description_title.Location.Y - 100) * height_ratio)));
+            (int)(description_title.Location.X + (300 * width_ratio)),
+(int)(description_title.Location.Y - (100 * height_ratio)));
+
 
             //description_surrounding.Location = new Point(
             // (int)(((description_surrounding.Location.X + 300) * width_ratio)),
@@ -2387,6 +2392,7 @@ namespace plt0_gui
             input_file_label.Location = new Point(
                 input_file_label.Location.X,
                 (int)(input_file_label.Location.Y - (14 * height_ratio)));
+
 
             input_file_txt.Location = new Point(
                 input_file_txt.Location.X,
@@ -2876,15 +2882,16 @@ namespace plt0_gui
             }
             for (byte i = 0; i < 9; i++)
             {
-                desc[i].Location = new Point((int)((desc[i].Location.X - 900) * width_ratio), (int)((desc[i].Location.Y - 200) * height_ratio));
+                desc[i].Location = new Point((int)(desc[i].Location.X - (900 * width_ratio)), (int)(desc[i].Location.Y - (200 * height_ratio)));
             }
             description_title.Location = new Point(
-                (int)(((description_title.Location.X - 900) * width_ratio)),
-                (int)(((description_title.Location.Y - 200) * height_ratio)));
+                (int)(description_title.Location.X - (900 * width_ratio)),
+                (int)(description_title.Location.Y - (200 * height_ratio)));
 
             cmpr_preview_ck.Location = new Point(
-                (int)(((cmpr_preview_ck.Location.X - 00) * width_ratio)),
-                (int)(((cmpr_preview_ck.Location.Y + 70) * height_ratio)));
+                (int)(cmpr_preview_ck.Location.X - (00 * width_ratio)),
+                (int)(cmpr_preview_ck.Location.Y + (70 * height_ratio)));
+
 
             //cmpr_sel_label.Location = new Point(cmpr_save_as_ck.Location.X - cmpr_save_as_ck.Width * 2, cmpr_save_as_ck.Location.Y);
 
@@ -2896,125 +2903,126 @@ namespace plt0_gui
             layout = 5;
             for (byte i = 0; i < 9; i++)
             {
-                desc[i].Location = new Point((int)((desc[i].Location.X - 1) * width_ratio), (int)((desc[i].Location.Y + 500) * height_ratio));
+                desc[i].Location = new Point((int)(desc[i].Location.X - (1 * width_ratio)), (int)(desc[i].Location.Y + (500 * height_ratio)));
             }
             description_title.Location = new Point(
                 (int)(description_title.Location.X - (1 * width_ratio)),
                 (int)(description_title.Location.Y + (500 * height_ratio)));
 
             textchange_ck.Location = new Point(
-                (int)(((textchange_ck.Location.X + 30) * width_ratio)),
-                (int)(((textchange_ck.Location.Y + 0) * height_ratio)));
+                (int)(textchange_ck.Location.X + (30 * width_ratio)),
+                (int)(textchange_ck.Location.Y + (0 * height_ratio)));
             textchange_label.Location = new Point(
-                (int)(((textchange_label.Location.X + 30) * width_ratio)),
-                (int)(((textchange_label.Location.Y + 0) * height_ratio)));
+                (int)(textchange_label.Location.X + (30 * width_ratio)),
+                (int)(textchange_label.Location.Y + (0 * height_ratio)));
 
             input_file2_label.Location = new Point(
-                (int)(((input_file2_label.Location.X + 280) * width_ratio)),
-                (int)(((input_file2_label.Location.Y + 14) * height_ratio)));
+                (int)(input_file2_label.Location.X + (280 * width_ratio)),
+                (int)(input_file2_label.Location.Y + (14 * height_ratio)));
             input_file2_txt.Location = new Point(
-                (int)(((input_file2_txt.Location.X + 280) * width_ratio)),
-                (int)(((input_file2_txt.Location.Y + 14) * height_ratio)));
+                (int)(input_file2_txt.Location.X + (280 * width_ratio)),
+                (int)(input_file2_txt.Location.Y + (14 * height_ratio)));
 
             FORCE_ALPHA_ck.Location = new Point(
-                (int)(((FORCE_ALPHA_ck.Location.X - 740) * width_ratio)),
-                (int)(((FORCE_ALPHA_ck.Location.Y + 820) * height_ratio)));
+                (int)(FORCE_ALPHA_ck.Location.X - (740 * width_ratio)),
+                (int)(FORCE_ALPHA_ck.Location.Y + (820 * height_ratio)));
             FORCE_ALPHA_label.Location = new Point(
-                (int)(((FORCE_ALPHA_label.Location.X - 740) * width_ratio)),
-                (int)(((FORCE_ALPHA_label.Location.Y + 820) * height_ratio)));
+                (int)(FORCE_ALPHA_label.Location.X - (740 * width_ratio)),
+                (int)(FORCE_ALPHA_label.Location.Y + (820 * height_ratio)));
 
             cmpr_sel.Location = new Point(
-                (int)(((cmpr_sel.Location.X - 00) * width_ratio)),
-                (int)(((cmpr_sel.Location.Y + 400) * height_ratio)));
+                (int)(cmpr_sel.Location.X - (00 * width_ratio)),
+                (int)(cmpr_sel.Location.Y + (400 * height_ratio)));
             cmpr_sel_label.Location = new Point(
-                (int)(((cmpr_sel_label.Location.X - 00) * width_ratio)),
-                (int)(((cmpr_sel_label.Location.Y + 400) * height_ratio)));
+                (int)(cmpr_sel_label.Location.X - (00 * width_ratio)),
+                (int)(cmpr_sel_label.Location.Y + (400 * height_ratio)));
             cmpr_mouse_sel_label.Location = new Point(
-                (int)(((cmpr_mouse_sel_label.Location.X - 00) * width_ratio)),
-                (int)(((cmpr_mouse_sel_label.Location.Y + 400) * height_ratio)));
+                (int)(cmpr_mouse_sel_label.Location.X - (00 * width_ratio)),
+                (int)(cmpr_mouse_sel_label.Location.Y + (400 * height_ratio)));
 
 
             algorithm_label.Location = new Point(
                 (int)(algorithm_label.Location.X + (1160 * width_ratio)),
-                (int)(((algorithm_label.Location.Y + 0) * height_ratio)));
+                (int)(algorithm_label.Location.Y + (0 * height_ratio)));
             palette_ai8_ck.Location = new Point(
                 (int)(palette_ai8_ck.Location.X + (1160 * width_ratio)),
-                (int)(((palette_ai8_ck.Location.Y + 0) * height_ratio)));
+                (int)(palette_ai8_ck.Location.Y + (0 * height_ratio)));
             palette_ai8_label.Location = new Point(
                 (int)(palette_ai8_label.Location.X + (1160 * width_ratio)),
-                (int)(((palette_ai8_label.Location.Y + 0) * height_ratio)));
+                (int)(palette_ai8_label.Location.Y + (0 * height_ratio)));
             palette_rgb565_ck.Location = new Point(
                 (int)(palette_rgb565_ck.Location.X + (1160 * width_ratio)),
-                (int)(((palette_rgb565_ck.Location.Y + 0) * height_ratio)));
+                (int)(palette_rgb565_ck.Location.Y + (0 * height_ratio)));
             palette_rgb565_label.Location = new Point(
                 (int)(palette_rgb565_label.Location.X + (1160 * width_ratio)),
-                (int)(((palette_rgb565_label.Location.Y + 0) * height_ratio)));
+                (int)(palette_rgb565_label.Location.Y + (0 * height_ratio)));
             palette_rgb5a3_ck.Location = new Point(
                 (int)(palette_rgb5a3_ck.Location.X + (1160 * width_ratio)),
-                (int)(((palette_rgb5a3_ck.Location.Y + 0) * height_ratio)));
+                (int)(palette_rgb5a3_ck.Location.Y + (0 * height_ratio)));
             palette_rgb5a3_label.Location = new Point(
                 (int)(palette_rgb5a3_label.Location.X + (1160 * width_ratio)),
-                (int)(((palette_rgb5a3_label.Location.Y + 0) * height_ratio)));
+                (int)(palette_rgb5a3_label.Location.Y + (0 * height_ratio)));
             palette_label.Location = new Point(
                 (int)(palette_label.Location.X + (1160 * width_ratio)),
-                (int)(((palette_label.Location.Y + 0) * height_ratio)));
+                (int)(palette_label.Location.Y + (0 * height_ratio)));
             algo_4_ck.Location = new Point(
                 (int)(algo_4_ck.Location.X + (1160 * width_ratio)),
-                (int)(((algo_4_ck.Location.Y + 0) * height_ratio)));
+                (int)(algo_4_ck.Location.Y + (0 * height_ratio)));
             algo_4_label.Location = new Point(
                 (int)(algo_4_label.Location.X + (1160 * width_ratio)),
-                (int)(((algo_4_label.Location.Y + 0) * height_ratio)));
+                (int)(algo_4_label.Location.Y + (0 * height_ratio)));
             pal_cie_ck.Location = new Point(
                 (int)(pal_cie_ck.Location.X + (1160 * width_ratio)),
-                (int)(((pal_cie_ck.Location.Y + 0) * height_ratio)));
+                (int)(pal_cie_ck.Location.Y + (0 * height_ratio)));
             pal_cie_label.Location = new Point(
                 (int)(pal_cie_label.Location.X + (1160 * width_ratio)),
-                (int)(((pal_cie_label.Location.Y + 0) * height_ratio)));
+                (int)(pal_cie_label.Location.Y + (0 * height_ratio)));
             algo_3_ck.Location = new Point(
                 (int)(algo_3_ck.Location.X + (1160 * width_ratio)),
-                (int)(((algo_3_ck.Location.Y + 0) * height_ratio)));
+                (int)(algo_3_ck.Location.Y + (0 * height_ratio)));
             algo_3_label.Location = new Point(
                 (int)(algo_3_label.Location.X + (1160 * width_ratio)),
-                (int)(((algo_3_label.Location.Y + 0) * height_ratio)));
+                (int)(algo_3_label.Location.Y + (0 * height_ratio)));
             cie_709_ck.Location = new Point(
                 (int)(cie_709_ck.Location.X + (1160 * width_ratio)),
-                (int)(((cie_709_ck.Location.Y + 0) * height_ratio)));
+                (int)(cie_709_ck.Location.Y + (0 * height_ratio)));
             cie_709_label.Location = new Point(
                 (int)(cie_709_label.Location.X + (1160 * width_ratio)),
-                (int)(((cie_709_label.Location.Y + 0) * height_ratio)));
+                (int)(cie_709_label.Location.Y + (0 * height_ratio)));
             cie_601_label.Location = new Point(
                 (int)(cie_601_label.Location.X + (1160 * width_ratio)),
-                (int)(((cie_601_label.Location.Y + 0) * height_ratio)));
+                (int)(cie_601_label.Location.Y + (0 * height_ratio)));
             cie_601_ck.Location = new Point(
                 (int)(cie_601_ck.Location.X + (1160 * width_ratio)),
-                (int)(((cie_601_ck.Location.Y + 0) * height_ratio)));
+                (int)(cie_601_ck.Location.Y + (0 * height_ratio)));
             algo_2_ck.Location = new Point(
                 (int)(algo_2_ck.Location.X + (1160 * width_ratio)),
-                (int)(((algo_2_ck.Location.Y + 0) * height_ratio)));
+                (int)(algo_2_ck.Location.Y + (0 * height_ratio)));
             algo_2_label.Location = new Point(
                 (int)(algo_2_label.Location.X + (1160 * width_ratio)),
-                (int)(((algo_2_label.Location.Y + 0) * height_ratio)));
+                (int)(algo_2_label.Location.Y + (0 * height_ratio)));
             alpha_title.Location = new Point(
                 (int)(alpha_title.Location.X + (1160 * width_ratio)),
-                (int)(((alpha_title.Location.Y + 0) * height_ratio)));
+                (int)(alpha_title.Location.Y + (0 * height_ratio)));
             alpha_ck.Location = new Point(
                 (int)(alpha_ck.Location.X + (1160 * width_ratio)),
-                (int)(((alpha_ck.Location.Y + 0) * height_ratio)));
+                (int)(alpha_ck.Location.Y + (0 * height_ratio)));
             alpha_label.Location = new Point(
                 (int)(alpha_label.Location.X + (1160 * width_ratio)),
-                (int)(((alpha_label.Location.Y + 0) * height_ratio)));
+                (int)(alpha_label.Location.Y + (0 * height_ratio)));
             no_alpha_ck.Location = new Point(
                 (int)(no_alpha_ck.Location.X + (1160 * width_ratio)),
-                (int)(((no_alpha_ck.Location.Y + 0) * height_ratio)));
+                (int)(no_alpha_ck.Location.Y + (0 * height_ratio)));
             no_alpha_label.Location = new Point(
                 (int)(no_alpha_label.Location.X + (1160 * width_ratio)),
-                (int)(((no_alpha_label.Location.Y + 0) * height_ratio)));
+                (int)(no_alpha_label.Location.Y + (0 * height_ratio)));
             mix_ck.Location = new Point(
                 (int)(mix_ck.Location.X + (1160 * width_ratio)),
-                (int)(((mix_ck.Location.Y + 0) * height_ratio)));
+                (int)(mix_ck.Location.Y + (0 * height_ratio)));
             mix_label.Location = new Point(
                 (int)(mix_label.Location.X + (1160 * width_ratio)),
-                (int)(((mix_label.Location.Y + 0) * height_ratio)));
+                (int)(mix_label.Location.Y + (0 * height_ratio)));
+
 
             palette_layout_is_enabled = true;
 
@@ -3078,7 +3086,7 @@ namespace plt0_gui
             palette_layout_is_enabled = false;
             cmpr_picture_tooltip_label.Visible = true;
             cmpr_swap2_ck.Visible = true;
-            cmpr_swap_ck.Visible =  true;
+            cmpr_swap_ck.Visible = true;
             cmpr_swap_label.Visible = true;
             cmpr_swap2_label.Visible = true;
             cmpr_picture_tooltip_label.Visible = true;
@@ -3171,15 +3179,16 @@ namespace plt0_gui
 
             for (byte i = 0; i < 9; i++)
             {
-                desc[i].Location = new Point((int)((desc[i].Location.X + 900) * width_ratio), (int)((desc[i].Location.Y + 200) * height_ratio));
+                desc[i].Location = new Point((int)(desc[i].Location.X + (900 * width_ratio)), (int)(desc[i].Location.Y + (200 * height_ratio)));
             }
             description_title.Location = new Point(
-                (int)(((description_title.Location.X + 900) * width_ratio)),
-                (int)(((description_title.Location.Y + 200) * height_ratio)));
+                (int)(description_title.Location.X + (900 * width_ratio)),
+                (int)(description_title.Location.Y + (200 * height_ratio)));
 
             cmpr_preview_ck.Location = new Point(
-                (int)(((cmpr_preview_ck.Location.X - 00) * width_ratio)),
-                (int)(((cmpr_preview_ck.Location.Y - 70) * height_ratio)));
+                (int)(cmpr_preview_ck.Location.X - (00 * width_ratio)),
+                (int)(cmpr_preview_ck.Location.Y - (70 * height_ratio)));
+
 
             //  cmpr_sel_label.Location = new Point(cmpr_save_as_ck.Location.X + cmpr_save_as_ck.Width * 2, cmpr_save_as_ck.Location.Y);
 
@@ -5400,33 +5409,15 @@ namespace plt0_gui
             if (System.IO.File.Exists(execPath + "plt0 content/description.txt"))
             {
                 d = System.IO.File.ReadAllLines(execPath + "plt0 content/description.txt");
-                if (d.Length > 0)
+                if (d.Length < 200)  // incorrect description file
                 {
-                    config_version = d[0].Substring(12);
+                    //  System.Diagnostics.Debug.WriteLine("some tetttttttttt23423423423423423ttttttttttttttttttttttt");
+                    Console.WriteLine("plt0 v2.0 description file should have more than 200 lines");
+                    Console.ReadLine();
+                    Environment.Exit(1);
                 }
-                else
-                {
-                    Application.Exit(); // the user is missing essential files
-                }
-                switch (config_version)
-                {
-                    case "v1.0":
-                    case "v2.0":
-                        if (d.Length < 200)  // incorrect description file
-                        {
-                            //  System.Diagnostics.Debug.WriteLine("some tetttttttttt23423423423423423ttttttttttttttttttttttt");
-                            Console.WriteLine("plt0 v2.0 description file should have EXACTLY 200 lines");
-                            Console.ReadLine();
-                            Environment.Exit(1);
-                        }
-                        break; // in case it needs to get out of this switch
-                               // sarcarm++;
-                    default:
-                        Console.WriteLine("incorrect config version. " + execPath + "plt0 content/description.txt's First line isn't recognized by this tool");
-                        Console.ReadLine();
-                        Environment.Exit(2);
-                        break; // idk what happens if you don't put a break on a case, but it won't compile otherwise
-                }
+                // in case it needs to get out of this switch
+                // sarcarm++;
             }
             else
             {
@@ -5435,28 +5426,12 @@ namespace plt0_gui
             if (System.IO.File.Exists(execPath + "plt0 content/config.txt"))
             {
                 config = System.IO.File.ReadAllLines(execPath + "plt0 content/config.txt");
-                if (config.Length > 0)
+                if (config.Length < 129)  // incorrect config file
                 {
-                    config_version = config[0].Substring(12);
-                }
-                switch (config_version)
-                {
-                    case "v1.0":
-                    case "v2.0":
-                        if (config.Length < 129)  // incorrect config file
-                        {
-                            //  System.Diagnostics.Debug.WriteLine("some tetttttttttt23423423423423423ttttttttttttttttttttttt");
-                            Console.WriteLine("plt0 v2.0 config file should have EXACTLY 129 lines");
-                            Console.ReadLine();
-                            Environment.Exit(1);
-                        }
-                        break; // in case it needs to get out of this switch
-                               // sarcarm++;
-                    default:
-                        Console.WriteLine("incorrect config version. " + execPath + "plt0 content/config.txt's First line isn't recognized by this tool");
-                        Console.ReadLine();
-                        Environment.Exit(2);
-                        break; // idk what happens if you don't put a break on a case, but it won't compile otherwise
+                    //  System.Diagnostics.Debug.WriteLine("some tetttttttttt23423423423423423ttttttttttttttttttttttt");
+                    Console.WriteLine("plt0 v2.0 config file should have more than 129 lines");
+                    Console.ReadLine();
+                    Environment.Exit(1);
                 }
                 SetAllControlsFont((ControlCollection)this.Controls);
                 switch (config[4].ToUpper())

@@ -1,7 +1,7 @@
 plt0 config v1.0
 yeah, I decided to implement my own markdown again.
 "\a" = %appdata%
-"\b" = sets the current label's text to bold
+"\b" = set the current label's text to bold
 "\c Cyan " makes the text of the current label be Cyan. - put "quotes" around the colour name if it has spaces
 "\d" = depth of input_file
 "\e" = executable name
