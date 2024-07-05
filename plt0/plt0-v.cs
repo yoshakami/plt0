@@ -67,7 +67,7 @@ namespace plt0_gui
         byte[] rgb5a3_file;
         byte[] byteXX;
         byte[] cmpr_file = new byte[32];
-        byte[] cmpr_colours_argb = new byte[16];
+        byte[] cmpr_colours_argb = new byte[16 * 4];
         byte[] cmpr_colour = new byte[4];
         byte[] cmpr_index = new byte[16];
         bool user_did_messup;
@@ -220,7 +220,7 @@ namespace plt0_gui
         bool view_options = true;
         // radiobuttons
         byte encoding = 7;
-        byte palette_enc = 3;
+        byte palette_enc = 3;  // 0 = AI8    1 = RGB565    2 = RGB5A3
         byte WrapS = 3; // 0 = Clamp   1 = Repeat   2 = Mirror
         byte WrapT = 3; // 0 = Clamp   1 = Repeat   2 = Mirror
         byte algorithm = 6;  // 0 = CIE 601    1 = CIE 709     2 = custom RGBA     3 = Gamma sRGB invertion
@@ -4987,6 +4987,11 @@ namespace plt0_gui
                     break;
             }
         }
+        private void parse_ai8(Label lab, TextBox txt, byte j, out ushort out_colour, ushort default_colour)
+        {
+            out_colour = default_colour;
+        }
+
         private void parse_rgb565(Label lab, TextBox txt, byte j, out ushort out_colour, ushort default_colour)
         {
             success = false;
@@ -5105,6 +5110,10 @@ namespace plt0_gui
             else
                 out_colour = default_colour;
 
+        }
+        private void parse_rgb5a3(Label lab, TextBox txt, byte j, out ushort out_colour, ushort default_colour)
+        {
+            out_colour = default_colour;
         }
         private void parse_rgba_hover(Label lab, TextBox txt)
         {
@@ -5231,6 +5240,8 @@ namespace plt0_gui
         }
         private void Update_Colours(bool user_changed_the_colour_pusposefully = false)
         {
+            if (layout == 5)
+                return;
             if (loaded_block != -1 && user_changed_the_colour_pusposefully)
             {
                 cmpr_file[cmpr_data_start_offset + (loaded_block << 3)] = (byte)(colour1 >> 8);
@@ -21396,122 +21407,122 @@ namespace plt0_gui
 
         private void cmpr_c5_MouseEnter(object sender, EventArgs e)
         {
-
+            Parse_Markdown(d[215]);
         }
 
         private void cmpr_c5_MouseLeave(object sender, EventArgs e)
         {
-
+            Hide_description();
         }
 
         private void cmpr_c6_MouseEnter(object sender, EventArgs e)
         {
-
+            Parse_Markdown(d[216]);
         }
 
         private void cmpr_c6_MouseLeave(object sender, EventArgs e)
         {
-
+            Hide_description();
         }
 
         private void cmpr_c7_MouseEnter(object sender, EventArgs e)
         {
-
+            Parse_Markdown(d[217]);
         }
 
         private void cmpr_c7_MouseLeave(object sender, EventArgs e)
         {
-
+            Hide_description();
         }
 
         private void cmpr_c8_MouseEnter(object sender, EventArgs e)
         {
-
+            Parse_Markdown(d[218]);
         }
 
         private void cmpr_c8_MouseLeave(object sender, EventArgs e)
         {
-
+            Hide_description();
         }
 
         private void cmpr_c9_MouseEnter(object sender, EventArgs e)
         {
-
+            Parse_Markdown(d[219]);
         }
 
         private void cmpr_c9_MouseLeave(object sender, EventArgs e)
         {
-
+            Hide_description();
         }
 
         private void cmpr_c10_MouseEnter(object sender, EventArgs e)
         {
-
+            Parse_Markdown(d[220]);
         }
 
         private void cmpr_c10_MouseLeave(object sender, EventArgs e)
         {
-
+            Hide_description();
         }
 
         private void cmpr_c11_MouseEnter(object sender, EventArgs e)
         {
-
+            Parse_Markdown(d[221]);
         }
 
         private void cmpr_c11_MouseLeave(object sender, EventArgs e)
         {
-
+            Hide_description();
         }
 
         private void cmpr_c12_MouseEnter(object sender, EventArgs e)
         {
-
+            Parse_Markdown(d[222]);
         }
 
         private void cmpr_c12_MouseLeave(object sender, EventArgs e)
         {
-
+            Hide_description();
         }
 
         private void cmpr_c13_MouseEnter(object sender, EventArgs e)
         {
-
+            Parse_Markdown(d[223]);
         }
 
         private void cmpr_c13_MouseLeave(object sender, EventArgs e)
         {
-
+            Hide_description();
         }
 
         private void cmpr_c14_MouseEnter(object sender, EventArgs e)
         {
-
+            Parse_Markdown(d[224]);
         }
 
         private void cmpr_c14_MouseLeave(object sender, EventArgs e)
         {
-
+            Hide_description();
         }
 
         private void cmpr_c15_MouseEnter(object sender, EventArgs e)
         {
-
+            Parse_Markdown(d[225]);
         }
 
         private void cmpr_c15_MouseLeave(object sender, EventArgs e)
         {
-
+            Hide_description();
         }
 
         private void cmpr_c16_MouseEnter(object sender, EventArgs e)
         {
-
+            Parse_Markdown(d[226]);
         }
 
         private void cmpr_c16_MouseLeave(object sender, EventArgs e)
         {
-
+            Hide_description();
         }
 
         private void cmpr_mouse1_MouseEnter(object sender, EventArgs e)
@@ -21548,282 +21559,500 @@ namespace plt0_gui
         }
         private void cmpr_mouse5_MouseEnter(object sender, EventArgs e)
         {
-
+            Parse_Markdown(d[203]);
         }
 
         private void cmpr_mouse5_MouseLeave(object sender, EventArgs e)
         {
-
+            Hide_description();
         }
 
         private void cmpr_mouse6_MouseEnter(object sender, EventArgs e)
         {
-
+            Parse_Markdown(d[204]);
         }
 
         private void cmpr_mouse6_MouseLeave(object sender, EventArgs e)
         {
-
+            Hide_description();
         }
 
         private void cmpr_mouse7_MouseEnter(object sender, EventArgs e)
         {
-
+            Parse_Markdown(d[205]);
         }
 
         private void cmpr_mouse7_MouseLeave(object sender, EventArgs e)
         {
-
+            Hide_description();
         }
 
         private void cmpr_mouse8_MouseEnter(object sender, EventArgs e)
         {
-
+            Parse_Markdown(d[206]);
         }
 
         private void cmpr_mouse8_MouseLeave(object sender, EventArgs e)
         {
-
+            Hide_description();
         }
 
         private void cmpr_mouse9_MouseEnter(object sender, EventArgs e)
         {
-
+            Parse_Markdown(d[207]);
         }
 
         private void cmpr_mouse9_MouseLeave(object sender, EventArgs e)
         {
-
+            Hide_description();
         }
 
         private void cmpr_mouse10_MouseEnter(object sender, EventArgs e)
         {
-
+            Parse_Markdown(d[208]);
         }
 
         private void cmpr_mouse10_MouseLeave(object sender, EventArgs e)
         {
-
+            Hide_description();
         }
 
         private void cmpr_mouse11_MouseEnter(object sender, EventArgs e)
         {
-
+            Parse_Markdown(d[209]);
         }
 
         private void cmpr_mouse11_MouseLeave(object sender, EventArgs e)
         {
-
+            Hide_description();
         }
 
         private void cmpr_mouse12_MouseEnter(object sender, EventArgs e)
         {
-
+            Parse_Markdown(d[210]);
         }
 
         private void cmpr_mouse12_MouseLeave(object sender, EventArgs e)
         {
-
+            Hide_description();
         }
 
         private void cmpr_mouse13_MouseEnter(object sender, EventArgs e)
         {
-
+            Parse_Markdown(d[211]);
         }
 
         private void cmpr_mouse13_MouseLeave(object sender, EventArgs e)
         {
-
+            Hide_description();
         }
 
         private void cmpr_mouse14_MouseEnter(object sender, EventArgs e)
         {
-
+            Parse_Markdown(d[212]);
         }
 
         private void cmpr_mouse14_MouseLeave(object sender, EventArgs e)
         {
-
+            Hide_description();
         }
 
         private void cmpr_mouse15_MouseEnter(object sender, EventArgs e)
         {
-
+            Parse_Markdown(d[213]);
         }
 
         private void cmpr_mouse15_MouseLeave(object sender, EventArgs e)
         {
-
+            Hide_description();
         }
 
         private void cmpr_mouse16_MouseEnter(object sender, EventArgs e)
         {
-
+            Parse_Markdown(d[214]);
         }
 
         private void cmpr_mouse16_MouseLeave(object sender, EventArgs e)
         {
-
+            Hide_description();
         }
         // other cmpr stuff around line 20300
         private void cmpr_c1_Click(object sender, EventArgs e)
         {
             cmpr_selected_colour = 1;
-            cmpr_sel.BackColor = System.Drawing.Color.FromArgb(cmpr_colours_argb[0], cmpr_colours_argb[1], cmpr_colours_argb[2], cmpr_colours_argb[3]);
+            cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
         }
         private void cmpr_c2_Click(object sender, EventArgs e)
         {
             cmpr_selected_colour = 2;
-            cmpr_sel.BackColor = System.Drawing.Color.FromArgb(cmpr_colours_argb[4], cmpr_colours_argb[5], cmpr_colours_argb[6], cmpr_colours_argb[7]);
+            cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
         }
         private void cmpr_c3_Click(object sender, EventArgs e)
         {
             cmpr_selected_colour = 3;
-            cmpr_sel.BackColor = System.Drawing.Color.FromArgb(cmpr_colours_argb[8], cmpr_colours_argb[9], cmpr_colours_argb[10], cmpr_colours_argb[11]);
+            cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
         }
         private void cmpr_c4_Click(object sender, EventArgs e)
         {
             cmpr_selected_colour = 4;
-            cmpr_sel.BackColor = System.Drawing.Color.FromArgb(cmpr_colours_argb[12], cmpr_colours_argb[13], cmpr_colours_argb[14], cmpr_colours_argb[15]);
+            cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
         }
 
         private void cmpr_c5_Click(object sender, EventArgs e)
         {
-
+            cmpr_selected_colour = 5;
+            cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
         }
 
         private void cmpr_c6_Click(object sender, EventArgs e)
         {
-
+            cmpr_selected_colour = 6;
+            cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
         }
 
         private void cmpr_c7_Click(object sender, EventArgs e)
         {
-
+            cmpr_selected_colour = 7;
+            cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
         }
 
         private void cmpr_c8_Click(object sender, EventArgs e)
         {
-
+            cmpr_selected_colour = 8;
+            cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
         }
 
         private void cmpr_c9_Click(object sender, EventArgs e)
         {
-
+            cmpr_selected_colour = 9;
+            cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
         }
 
         private void cmpr_c10_Click(object sender, EventArgs e)
         {
-
+            cmpr_selected_colour = 10;
+            cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
         }
 
         private void cmpr_c11_Click(object sender, EventArgs e)
         {
-
+            cmpr_selected_colour = 11;
+            cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
         }
 
         private void cmpr_c12_Click(object sender, EventArgs e)
         {
-
+            cmpr_selected_colour = 12;
+            cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
         }
 
         private void cmpr_c13_Click(object sender, EventArgs e)
         {
-
+            cmpr_selected_colour = 13;
+            cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
         }
 
         private void cmpr_c14_Click(object sender, EventArgs e)
         {
-
+            cmpr_selected_colour = 14;
+            cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
         }
 
         private void cmpr_c15_Click(object sender, EventArgs e)
         {
-
+            cmpr_selected_colour = 15;
+            cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
         }
 
         private void cmpr_c16_Click(object sender, EventArgs e)
         {
-
+            cmpr_selected_colour = 16;
+            cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
         }
         // other cmpr stuff around line 20300
         private void cmpr_c1_TextChanged(object sender, EventArgs e)
         {
-            parse_rgb565(cmpr_c1, cmpr_c1_txt, 0, out colour1, colour1);
+            if (layout != 5)
+            {
+                parse_rgb565(cmpr_c1, cmpr_c1_txt, 0, out colour1, colour1);
+            }
+            else
+            {
+                switch (palette_enc)
+                {
+                    case 0: // AI8
+                        parse_ai8(cmpr_c1, cmpr_c1_txt, 0, out colour1, colour1);
+                        break;
+                    case 1: // RGB565
+                        parse_rgb565(cmpr_c1, cmpr_c1_txt, 0, out colour1, colour1);
+                        break;
+                    case 2: // RGB5A3
+                        parse_rgb5a3(cmpr_c1, cmpr_c1_txt, 0, out colour1, colour1);
+                        break;
+                }
+            }
         }
         private void cmpr_c2_TextChanged(object sender, EventArgs e)
         {
-            parse_rgb565(cmpr_c2, cmpr_c2_txt, 2, out colour2, colour2);
+            if (layout != 5)
+            {
+                parse_rgb565(cmpr_c2, cmpr_c2_txt, 2, out colour2, colour2);
+            }
+            switch (palette_enc)
+            {
+                case 0: // AI8
+                    parse_ai8(cmpr_c2, cmpr_c2_txt, 0, out colour1, colour1);
+                    break;
+                case 1: // RGB565
+                    parse_rgb565(cmpr_c2, cmpr_c2_txt, 0, out colour1, colour1);
+                    break;
+                case 2: // RGB5A3
+                    parse_rgb5a3(cmpr_c2, cmpr_c2_txt, 0, out colour1, colour1);
+                    break;
+            }
         }
 
         private void cmpr_c3_txt_TextChanged(object sender, EventArgs e)
         {
-
+            if (layout == 5)
+            {
+                switch (palette_enc)
+                {
+                    case 0: // AI8
+                        parse_ai8(cmpr_c3, cmpr_c3_txt, 0, out colour1, colour1);
+                        break;
+                    case 1: // RGB565
+                        parse_rgb565(cmpr_c3, cmpr_c3_txt, 0, out colour1, colour1);
+                        break;
+                    case 2: // RGB5A3
+                        parse_rgb5a3(cmpr_c3, cmpr_c3_txt, 0, out colour1, colour1);
+                        break;
+                }
+            }
         }
-
         private void cmpr_c4_txt_TextChanged(object sender, EventArgs e)
         {
 
+            if (layout == 5)
+            {
+                switch (palette_enc)
+                {
+                    case 0: // AI8
+                        parse_ai8(cmpr_c4, cmpr_c4_txt, 0, out colour1, colour1);
+                        break;
+                    case 1: // RGB565
+                        parse_rgb565(cmpr_c4, cmpr_c4_txt, 0, out colour1, colour1);
+                        break;
+                    case 2: // RGB5A3
+                        parse_rgb5a3(cmpr_c4, cmpr_c4_txt, 0, out colour1, colour1);
+                        break;
+                }
+            }
         }
 
         private void cmpr_c5_txt_TextChanged(object sender, EventArgs e)
         {
 
+            switch (palette_enc)
+            {
+                case 0: // AI8
+                    parse_ai8(cmpr_c5, cmpr_c5_txt, 0, out colour1, colour1);
+                    break;
+                case 1: // RGB565
+                    parse_rgb565(cmpr_c5, cmpr_c5_txt, 0, out colour1, colour1);
+                    break;
+                case 2: // RGB5A3
+                    parse_rgb5a3(cmpr_c5, cmpr_c5_txt, 0, out colour1, colour1);
+                    break;
+            }
         }
 
         private void cmpr_c6_txt_TextChanged(object sender, EventArgs e)
         {
 
+            switch (palette_enc)
+            {
+                case 0: // AI8
+                    parse_ai8(cmpr_c6, cmpr_c6_txt, 0, out colour1, colour1);
+                    parse_ai8(cmpr_c6, cmpr_c6_txt, 0, out colour1, colour1);
+                    break;
+                case 1: // RGB565
+                    parse_rgb565(cmpr_c6, cmpr_c6_txt, 0, out colour1, colour1);
+                    break;
+                case 2: // RGB5A3
+                    parse_rgb5a3(cmpr_c6, cmpr_c6_txt, 0, out colour1, colour1);
+                    break;
+            }
         }
 
         private void cmpr_c7_txt_TextChanged(object sender, EventArgs e)
         {
 
+            switch (palette_enc)
+            {
+                case 0: // AI8
+                    parse_ai8(cmpr_c7, cmpr_c7_txt, 0, out colour1, colour1);
+                    break;
+                case 1: // RGB565
+                    parse_rgb565(cmpr_c7, cmpr_c7_txt, 0, out colour1, colour1);
+                    break;
+                case 2: // RGB5A3
+                    parse_rgb5a3(cmpr_c7, cmpr_c7_txt, 0, out colour1, colour1);
+                    break;
+            }
         }
 
         private void cmpr_c8_txt_TextChanged(object sender, EventArgs e)
         {
 
+            switch (palette_enc)
+            {
+                case 0: // AI8
+                    parse_ai8(cmpr_c8, cmpr_c8_txt, 0, out colour1, colour1);
+                    break;
+                case 1: // RGB565
+                    parse_rgb565(cmpr_c8, cmpr_c8_txt, 0, out colour1, colour1);
+                    break;
+                case 2: // RGB5A3
+                    parse_rgb5a3(cmpr_c8, cmpr_c8_txt, 0, out colour1, colour1);
+                    break;
+            }
         }
 
         private void cmpr_c9_txt_TextChanged(object sender, EventArgs e)
         {
 
+            switch (palette_enc)
+            {
+                case 0: // AI8
+                    parse_ai8(cmpr_c9, cmpr_c9_txt, 0, out colour1, colour1);
+                    break;
+                case 1: // RGB565
+                    parse_rgb565(cmpr_c9, cmpr_c9_txt, 0, out colour1, colour1);
+                    break;
+                case 2: // RGB5A3
+                    parse_rgb5a3(cmpr_c9, cmpr_c9_txt, 0, out colour1, colour1);
+                    break;
+            }
         }
 
         private void cmpr_c10_txt_TextChanged(object sender, EventArgs e)
         {
 
+            switch (palette_enc)
+            {
+                case 0: // AI8
+                    parse_ai8(cmpr_c10, cmpr_c10_txt, 0, out colour1, colour1);
+                    break;
+                case 1: // RGB565
+                    parse_rgb565(cmpr_c10, cmpr_c10_txt, 0, out colour1, colour1);
+                    break;
+                case 2: // RGB5A3
+                    parse_rgb5a3(cmpr_c10, cmpr_c10_txt, 0, out colour1, colour1);
+                    break;
+            }
         }
 
         private void cmpr_c11_txt_TextChanged(object sender, EventArgs e)
         {
 
+            switch (palette_enc)
+            {
+                case 0: // AI8
+                    parse_ai8(cmpr_c11, cmpr_c11_txt, 0, out colour1, colour1);
+                    break;
+                case 1: // RGB565
+                    parse_rgb565(cmpr_c11, cmpr_c11_txt, 0, out colour1, colour1);
+                    break;
+                case 2: // RGB5A3
+                    parse_rgb5a3(cmpr_c11, cmpr_c11_txt, 0, out colour1, colour1);
+                    break;
+            }
         }
 
         private void cmpr_c12_txt_TextChanged(object sender, EventArgs e)
         {
 
+            switch (palette_enc)
+            {
+                case 0: // AI8
+                    parse_ai8(cmpr_c12, cmpr_c12_txt, 0, out colour1, colour1);
+                    break;
+                case 1: // RGB565
+                    parse_rgb565(cmpr_c12, cmpr_c12_txt, 0, out colour1, colour1);
+                    break;
+                case 2: // RGB5A3
+                    parse_rgb5a3(cmpr_c12, cmpr_c12_txt, 0, out colour1, colour1);
+                    break;
+            }
         }
 
         private void cmpr_c13_txt_TextChanged(object sender, EventArgs e)
         {
 
+            switch (palette_enc)
+            {
+                case 0: // AI8
+                    parse_ai8(cmpr_c13, cmpr_c13_txt, 0, out colour1, colour1);
+                    break;
+                case 1: // RGB565
+                    parse_rgb565(cmpr_c13, cmpr_c13_txt, 0, out colour1, colour1);
+                    break;
+                case 2: // RGB5A3
+                    parse_rgb5a3(cmpr_c13, cmpr_c13_txt, 0, out colour1, colour1);
+                    break;
+            }
         }
 
         private void cmpr_c14_txt_TextChanged(object sender, EventArgs e)
         {
 
+            switch (palette_enc)
+            {
+                case 0: // AI8
+                    parse_ai8(cmpr_c14, cmpr_c14_txt, 0, out colour1, colour1);
+                    break;
+                case 1: // RGB565
+                    parse_rgb565(cmpr_c14, cmpr_c14_txt, 0, out colour1, colour1);
+                    break;
+                case 2: // RGB5A3
+                    parse_rgb5a3(cmpr_c14, cmpr_c14_txt, 0, out colour1, colour1);
+                    break;
+            }
         }
 
         private void cmpr_c15_txt_TextChanged(object sender, EventArgs e)
         {
 
+            switch (palette_enc)
+            {
+                case 0: // AI8
+                    parse_ai8(cmpr_c15, cmpr_c15_txt, 0, out colour1, colour1);
+                    break;
+                case 1: // RGB565
+                    parse_rgb565(cmpr_c15, cmpr_c15_txt, 0, out colour1, colour1);
+                    break;
+                case 2: // RGB5A3
+                    parse_rgb5a3(cmpr_c15, cmpr_c15_txt, 0, out colour1, colour1);
+                    break;
+            }
         }
 
         private void cmpr_c16_txt_TextChanged(object sender, EventArgs e)
         {
 
+            switch (palette_enc)
+            {
+                case 0: // AI8
+                    parse_ai8(cmpr_c16, cmpr_c16_txt, 0, out colour1, colour1);
+                    break;
+                case 1: // RGB565
+                    parse_rgb565(cmpr_c16, cmpr_c16_txt, 0, out colour1, colour1);
+                    break;
+                case 2: // RGB5A3
+                    parse_rgb5a3(cmpr_c16, cmpr_c16_txt, 0, out colour1, colour1);
+                    break;
+            }
         }
     }
 }
