@@ -488,6 +488,91 @@ namespace plt0_gui
         Image gamelist;
         Image gamelist_hover;
 
+        /* == mouse == */
+        Image mouse1_hover;
+        Image mouse1_on;
+        Image mouse1_off;
+        Image mouse1_selected;
+
+        Image mouse2_hover;
+        Image mouse2_on;
+        Image mouse2_off;
+        Image mouse2_selected;
+
+        Image mouse3_hover;
+        Image mouse3_on;
+        Image mouse3_off;
+        Image mouse3_selected;
+
+        Image mouse4_hover;
+        Image mouse4_on;
+        Image mouse4_off;
+        Image mouse4_selected;
+
+        Image mouse5_hover;
+        Image mouse5_on;
+        Image mouse5_off;
+        Image mouse5_selected;
+
+        Image mouse6_hover;
+        Image mouse6_on;
+        Image mouse6_off;
+        Image mouse6_selected;
+
+        Image mouse7_hover;
+        Image mouse7_on;
+        Image mouse7_off;
+        Image mouse7_selected;
+
+        Image mouse8_hover;
+        Image mouse8_on;
+        Image mouse8_off;
+        Image mouse8_selected;
+
+        Image mouse9_hover;
+        Image mouse9_on;
+        Image mouse9_off;
+        Image mouse9_selected;
+
+        Image mouse10_hover;
+        Image mouse10_on;
+        Image mouse10_off;
+        Image mouse10_selected;
+
+        Image mouse11_hover;
+        Image mouse11_on;
+        Image mouse11_off;
+        Image mouse11_selected;
+
+        Image mouse12_on;
+        Image mouse12_off;
+        Image mouse12_selected;
+
+        Image mouse13_hover;
+        Image mouse13_on;
+        Image mouse13_off;
+        Image mouse13_selected;
+
+        Image mouse14_hover;
+        Image mouse14_on;
+        Image mouse14_off;
+        Image mouse14_selected;
+
+        Image mouse15_hover;
+        Image mouse15_on;
+        Image mouse15_off;
+        Image mouse15_selected;
+
+        Image mouse16_hover;
+        Image mouse16_on;
+        Image mouse16_off;
+        Image mouse16_selected;
+
+        Image mouse17_hover;
+        Image mouse17_on;
+        Image mouse17_off;
+        Image mouse17_selected;
+
         /* == rgba == */
         Image a_on;
         Image a_off;
