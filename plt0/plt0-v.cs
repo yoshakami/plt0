@@ -22272,14 +22272,24 @@ namespace plt0_gui
                         cmpr_c7_Click(null, null);
                     else if (e.Shift && (e.KeyCode == Keys.D4 || e.KeyCode == Keys.NumPad4))
                         cmpr_c8_Click(null, null);
-                    else if (e.Control && (e.KeyCode == Keys.D5 || e.KeyCode == Keys.NumPad5))
+                    else if (e.Shift && (e.KeyCode == Keys.D5 || e.KeyCode == Keys.NumPad5))
                         cmpr_c9_Click(null, null);
-                    else if (e.Control && (e.KeyCode == Keys.D6 || e.KeyCode == Keys.NumPad6))
+                    else if (e.Shift && (e.KeyCode == Keys.D6 || e.KeyCode == Keys.NumPad6))
                         cmpr_c10_Click(null, null);
-                    else if (e.Control && (e.KeyCode == Keys.D7 || e.KeyCode == Keys.NumPad7))
+                    else if (e.Shift && (e.KeyCode == Keys.D7 || e.KeyCode == Keys.NumPad7))
                         cmpr_c11_Click(null, null);
-                    else if (e.Control && (e.KeyCode == Keys.D8 || e.KeyCode == Keys.NumPad8))
+                    else if (e.Shift && (e.KeyCode == Keys.D8 || e.KeyCode == Keys.NumPad8))
                         cmpr_c12_Click(null, null);
+                    else if (e.Control && (e.KeyCode == Keys.D5 || e.KeyCode == Keys.NumPad5))
+                        cmpr_c13_Click(null, null);
+                    else if (e.Control && (e.KeyCode == Keys.D6 || e.KeyCode == Keys.NumPad6))
+                        cmpr_c14_Click(null, null);
+                    else if (e.Control && (e.KeyCode == Keys.D7 || e.KeyCode == Keys.NumPad7))
+                        cmpr_c15_Click(null, null);
+                    else if (e.Control && (e.KeyCode == Keys.D8 || e.KeyCode == Keys.NumPad8))
+                        cmpr_c16_Click(null, null);
+                    else if (e.Control && (e.KeyCode == Keys.D9 || e.KeyCode == Keys.NumPad9))
+                        cmpr_hue_Click(null, null);
                 }
             }
             if (layout != 3) // not paint
@@ -22460,14 +22470,6 @@ namespace plt0_gui
             opening_clear_gamelist_ck.Image = gamelist;
         }
         // other cmpr stuff around line 20300
-        private void cmpr_mouse_sel_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(d[155]);
-        }
-        private void cmpr_mouse_sel_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-        }
         private void cmpr_sel_MouseEnter(object sender, EventArgs e)
         {
             Parse_Markdown(d[156]);
@@ -22475,6 +22477,10 @@ namespace plt0_gui
         private void cmpr_sel_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
+            if (cmpr_selected_colour == 16)
+                cmpr_mouse16_ck.Image = mouse16_on;
+            else
+                cmpr_mouse16_ck.Image = mouse16_off;
         }
         private void cmpr_c1_MouseEnter(object sender, EventArgs e)
         {
@@ -22483,6 +22489,10 @@ namespace plt0_gui
         private void cmpr_c1_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
+            if (cmpr_selected_colour == 16)
+                cmpr_mouse16_ck.Image = mouse16_on;
+            else
+                cmpr_mouse16_ck.Image = mouse16_off;
         }
         private void cmpr_c2_MouseEnter(object sender, EventArgs e)
         {
@@ -22491,6 +22501,10 @@ namespace plt0_gui
         private void cmpr_c2_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
+            if (cmpr_selected_colour == 16)
+                cmpr_mouse16_ck.Image = mouse16_on;
+            else
+                cmpr_mouse16_ck.Image = mouse16_off;
         }
         private void cmpr_c3_MouseEnter(object sender, EventArgs e)
         {
@@ -22499,6 +22513,10 @@ namespace plt0_gui
         private void cmpr_c3_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
+            if (cmpr_selected_colour == 16)
+                cmpr_mouse16_ck.Image = mouse16_on;
+            else
+                cmpr_mouse16_ck.Image = mouse16_off;
         }
         private void cmpr_c4_MouseEnter(object sender, EventArgs e)
         {
@@ -22507,6 +22525,10 @@ namespace plt0_gui
         private void cmpr_c4_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
+            if (cmpr_selected_colour == 16)
+                cmpr_mouse16_ck.Image = mouse16_on;
+            else
+                cmpr_mouse16_ck.Image = mouse16_off;
         }
 
         private void cmpr_c5_MouseEnter(object sender, EventArgs e)
@@ -22517,6 +22539,10 @@ namespace plt0_gui
         private void cmpr_c5_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
+            if (cmpr_selected_colour == 16)
+                cmpr_mouse16_ck.Image = mouse16_on;
+            else
+                cmpr_mouse16_ck.Image = mouse16_off;
         }
 
         private void cmpr_c6_MouseEnter(object sender, EventArgs e)
@@ -22527,6 +22553,10 @@ namespace plt0_gui
         private void cmpr_c6_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
+            if (cmpr_selected_colour == 16)
+                cmpr_mouse16_ck.Image = mouse16_on;
+            else
+                cmpr_mouse16_ck.Image = mouse16_off;
         }
 
         private void cmpr_c7_MouseEnter(object sender, EventArgs e)
@@ -22537,6 +22567,10 @@ namespace plt0_gui
         private void cmpr_c7_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
+            if (cmpr_selected_colour == 16)
+                cmpr_mouse16_ck.Image = mouse16_on;
+            else
+                cmpr_mouse16_ck.Image = mouse16_off;
         }
 
         private void cmpr_c8_MouseEnter(object sender, EventArgs e)
@@ -22547,6 +22581,10 @@ namespace plt0_gui
         private void cmpr_c8_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
+            if (cmpr_selected_colour == 16)
+                cmpr_mouse16_ck.Image = mouse16_on;
+            else
+                cmpr_mouse16_ck.Image = mouse16_off;
         }
 
         private void cmpr_c9_MouseEnter(object sender, EventArgs e)
@@ -22557,6 +22595,10 @@ namespace plt0_gui
         private void cmpr_c9_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
+            if (cmpr_selected_colour == 16)
+                cmpr_mouse16_ck.Image = mouse16_on;
+            else
+                cmpr_mouse16_ck.Image = mouse16_off;
         }
 
         private void cmpr_c10_MouseEnter(object sender, EventArgs e)
@@ -22567,6 +22609,10 @@ namespace plt0_gui
         private void cmpr_c10_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
+            if (cmpr_selected_colour == 16)
+                cmpr_mouse16_ck.Image = mouse16_on;
+            else
+                cmpr_mouse16_ck.Image = mouse16_off;
         }
 
         private void cmpr_c11_MouseEnter(object sender, EventArgs e)
@@ -22577,6 +22623,10 @@ namespace plt0_gui
         private void cmpr_c11_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
+            if (cmpr_selected_colour == 16)
+                cmpr_mouse16_ck.Image = mouse16_on;
+            else
+                cmpr_mouse16_ck.Image = mouse16_off;
         }
 
         private void cmpr_c12_MouseEnter(object sender, EventArgs e)
@@ -22587,6 +22637,10 @@ namespace plt0_gui
         private void cmpr_c12_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
+            if (cmpr_selected_colour == 16)
+                cmpr_mouse16_ck.Image = mouse16_on;
+            else
+                cmpr_mouse16_ck.Image = mouse16_off;
         }
 
         private void cmpr_c13_MouseEnter(object sender, EventArgs e)
@@ -22597,6 +22651,10 @@ namespace plt0_gui
         private void cmpr_c13_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
+            if (cmpr_selected_colour == 16)
+                cmpr_mouse16_ck.Image = mouse16_on;
+            else
+                cmpr_mouse16_ck.Image = mouse16_off;
         }
 
         private void cmpr_c14_MouseEnter(object sender, EventArgs e)
@@ -22607,6 +22665,10 @@ namespace plt0_gui
         private void cmpr_c14_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
+            if (cmpr_selected_colour == 16)
+                cmpr_mouse16_ck.Image = mouse16_on;
+            else
+                cmpr_mouse16_ck.Image = mouse16_off;
         }
 
         private void cmpr_c15_MouseEnter(object sender, EventArgs e)
@@ -22617,6 +22679,10 @@ namespace plt0_gui
         private void cmpr_c15_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
+            if (cmpr_selected_colour == 16)
+                cmpr_mouse16_ck.Image = mouse16_on;
+            else
+                cmpr_mouse16_ck.Image = mouse16_off;
         }
 
         private void cmpr_c16_MouseEnter(object sender, EventArgs e)
@@ -22627,256 +22693,125 @@ namespace plt0_gui
         private void cmpr_c16_MouseLeave(object sender, EventArgs e)
         {
             Hide_description();
-        }
-
-        private void cmpr_mouse1_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(d[151]);
-        }
-        private void cmpr_mouse1_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-        }
-        private void cmpr_mouse2_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(d[152]);
-        }
-        private void cmpr_mouse2_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-        }
-        private void cmpr_mouse3_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(d[153]);
-        }
-        private void cmpr_mouse3_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-        }
-        private void cmpr_mouse4_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(d[154]);
-        }
-        private void cmpr_mouse4_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-        }
-        private void cmpr_mouse5_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(d[203]);
-        }
-
-        private void cmpr_mouse5_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-        }
-
-        private void cmpr_mouse6_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(d[204]);
-        }
-
-        private void cmpr_mouse6_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-        }
-
-        private void cmpr_mouse7_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(d[205]);
-        }
-
-        private void cmpr_mouse7_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-        }
-
-        private void cmpr_mouse8_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(d[206]);
-        }
-
-        private void cmpr_mouse8_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-        }
-
-        private void cmpr_mouse9_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(d[207]);
-        }
-
-        private void cmpr_mouse9_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-        }
-
-        private void cmpr_mouse10_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(d[208]);
-        }
-
-        private void cmpr_mouse10_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-        }
-
-        private void cmpr_mouse11_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(d[209]);
-        }
-
-        private void cmpr_mouse11_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-        }
-
-        private void cmpr_mouse12_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(d[210]);
-        }
-
-        private void cmpr_mouse12_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-        }
-
-        private void cmpr_mouse13_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(d[211]);
-        }
-
-        private void cmpr_mouse13_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-        }
-
-        private void cmpr_mouse14_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(d[212]);
-        }
-
-        private void cmpr_mouse14_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-        }
-
-        private void cmpr_mouse15_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(d[213]);
-        }
-
-        private void cmpr_mouse15_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
-        }
-
-        private void cmpr_mouse16_MouseEnter(object sender, EventArgs e)
-        {
-            Parse_Markdown(d[214]);
-        }
-
-        private void cmpr_mouse16_MouseLeave(object sender, EventArgs e)
-        {
-            Hide_description();
+            if (cmpr_selected_colour == 16)
+                cmpr_mouse16_ck.Image = mouse16_on;
+            else
+                cmpr_mouse16_ck.Image = mouse16_off;
         }
         // other cmpr stuff around line 20300
         private void cmpr_c1_Click(object sender, EventArgs e)
         {
             cmpr_selected_colour = 1;
             cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
+            cmpr_mouse1_ck.Image = mouse1_selected;
         }
         private void cmpr_c2_Click(object sender, EventArgs e)
         {
             cmpr_selected_colour = 2;
             cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
+            cmpr_mouse2_ck.Image = mouse2_selected;
         }
         private void cmpr_c3_Click(object sender, EventArgs e)
         {
             cmpr_selected_colour = 3;
             cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
+            cmpr_mouse3_ck.Image = mouse3_selected;
         }
         private void cmpr_c4_Click(object sender, EventArgs e)
         {
             cmpr_selected_colour = 4;
             cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
+            cmpr_mouse4_ck.Image = mouse4_selected;
         }
 
         private void cmpr_c5_Click(object sender, EventArgs e)
         {
             cmpr_selected_colour = 5;
             cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
+            cmpr_mouse5_ck.Image = mouse5_selected;
         }
 
         private void cmpr_c6_Click(object sender, EventArgs e)
         {
             cmpr_selected_colour = 6;
             cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
+            cmpr_mouse6_ck.Image = mouse6_selected;
         }
 
         private void cmpr_c7_Click(object sender, EventArgs e)
         {
             cmpr_selected_colour = 7;
             cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
+            cmpr_mouse7_ck.Image = mouse7_selected;
         }
 
         private void cmpr_c8_Click(object sender, EventArgs e)
         {
             cmpr_selected_colour = 8;
             cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
+            cmpr_mouse8_ck.Image = mouse8_selected;
         }
 
         private void cmpr_c9_Click(object sender, EventArgs e)
         {
             cmpr_selected_colour = 9;
             cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
+            cmpr_mouse9_ck.Image = mouse9_selected;
         }
 
         private void cmpr_c10_Click(object sender, EventArgs e)
         {
             cmpr_selected_colour = 10;
             cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
+            cmpr_mouse10_ck.Image = mouse10_selected;
         }
 
         private void cmpr_c11_Click(object sender, EventArgs e)
         {
             cmpr_selected_colour = 11;
             cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
+            cmpr_mouse11_ck.Image = mouse11_selected;
         }
 
         private void cmpr_c12_Click(object sender, EventArgs e)
         {
             cmpr_selected_colour = 12;
             cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
+            cmpr_mouse12_ck.Image = mouse12_selected;
         }
 
         private void cmpr_c13_Click(object sender, EventArgs e)
         {
             cmpr_selected_colour = 13;
             cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
+            cmpr_mouse13_ck.Image = mouse13_selected;
         }
 
         private void cmpr_c14_Click(object sender, EventArgs e)
         {
             cmpr_selected_colour = 14;
             cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
+            cmpr_mouse14_ck.Image = mouse14_selected;
         }
 
         private void cmpr_c15_Click(object sender, EventArgs e)
         {
             cmpr_selected_colour = 15;
             cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
+            cmpr_mouse15_ck.Image = mouse15_selected;
         }
 
         private void cmpr_c16_Click(object sender, EventArgs e)
         {
             cmpr_selected_colour = 16;
             cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
+            cmpr_mouse16_ck.Image = mouse16_selected;
         }
         private void cmpr_hue_Click(object sender, EventArgs e)
         {
             cmpr_selected_colour = 17;
             cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
+            cmpr_mouse_hue_ck.Image = mouse17_selected;
         }
         // other cmpr stuff around line 20300
         private void cmpr_c1_TextChanged(object sender, EventArgs e)
