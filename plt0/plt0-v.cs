@@ -32,6 +32,9 @@ using System.ComponentModel;
 using static System.Net.WebRequestMethods;
 using System.Drawing.Text;
 using System.Security.AccessControl;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
+using System.Reflection;
  */
 
 namespace plt0_gui
@@ -378,10 +381,10 @@ namespace plt0_gui
         Image all_off;
         Image all_on;
         Image all_selected;
-        Image auto_hover;
-        Image auto_off;
-        Image auto_on;
-        Image auto_selected;
+        Image encode_hover;
+        Image encode_off;
+        Image encode_on;
+        Image encode_selected;
         Image banner_global_move_hover;
         Image banner_global_move_off;
         Image banner_global_move_on;
@@ -410,8 +413,6 @@ namespace plt0_gui
         Image version_hover;
         Image youtube;
         Image youtube_hover;
-        Image save_hover;
-        Image save;
         Image decode_on;
         Image decode_off;
         Image decode_hover;
@@ -5157,7 +5158,7 @@ namespace plt0_gui
 
             }
             if (len == 0)
-                    return;
+                return;
             if (txt.Text[0] == '#')
             {
                 if (len == 2)
@@ -15169,6 +15170,7 @@ namespace plt0_gui
 
         // generated checkbox behaviour code by the python script in the py folder
         // v2.0 edit: now nothing is python-generated. too much nitpick edits.
+
         private void Load_Images()
         {
             if (File.Exists(execPath + "plt0 content/background.png"))
@@ -15485,19 +15487,19 @@ namespace plt0_gui
             }
             if (File.Exists(execPath + "plt0 content/banner/encode_hover.png"))
             {
-                auto_hover = Image.FromFile(execPath + "plt0 content/banner/encode_hover.png");
+                encode_hover = Image.FromFile(execPath + "plt0 content/banner/encode_hover.png");
             }
             if (File.Exists(execPath + "plt0 content/banner/encode_off.png"))
             {
-                auto_off = Image.FromFile(execPath + "plt0 content/banner/encode_off.png");
+                encode_off = Image.FromFile(execPath + "plt0 content/banner/encode_off.png");
             }
             if (File.Exists(execPath + "plt0 content/banner/encode_on.png"))
             {
-                auto_on = Image.FromFile(execPath + "plt0 content/banner/encode_on.png");
+                encode_on = Image.FromFile(execPath + "plt0 content/banner/encode_on.png");
             }
             if (File.Exists(execPath + "plt0 content/banner/encode_selected.png"))
             {
-                auto_selected = Image.FromFile(execPath + "plt0 content/banner/encode_selected.png");
+                encode_selected = Image.FromFile(execPath + "plt0 content/banner/encode_selected.png");
             }
             if (File.Exists(execPath + "plt0 content/banner/banner_global_move_hover.png"))
             {
@@ -15611,13 +15613,13 @@ namespace plt0_gui
             {
                 youtube_hover = Image.FromFile(execPath + "plt0 content/banner/youtube_hover.png");
             }
-            if (File.Exists(execPath + "plt0 content/banner/save.png"))
+            if (File.Exists(execPath + "plt0 content/banner/decode_on.png"))
             {
-                save = Image.FromFile(execPath + "plt0 content/banner/save.png");
+                decode_on = Image.FromFile(execPath + "plt0 content/banner/decode_on.png");
             }
-            if (File.Exists(execPath + "plt0 content/banner/save_hover.png"))
+            if (File.Exists(execPath + "plt0 content/banner/decode_off.png"))
             {
-                save_hover = Image.FromFile(execPath + "plt0 content/banner/save_hover.png");
+                decode_off = Image.FromFile(execPath + "plt0 content/banner/decode_off.png");
             }
             if (File.Exists(execPath + "plt0 content/banner/decode_hover.png"))
             {
@@ -15627,21 +15629,13 @@ namespace plt0_gui
             {
                 decode_selected = Image.FromFile(execPath + "plt0 content/banner/decode_selected.png");
             }
-            if (File.Exists(execPath + "plt0 content/banner/decode_off.png"))
+            if (File.Exists(execPath + "plt0 content/banner/palette_on.png"))
             {
-                decode_off = Image.FromFile(execPath + "plt0 content/banner/decode_off.png");
-            }
-            if (File.Exists(execPath + "plt0 content/banner/decode_on.png"))
-            {
-                decode_on = Image.FromFile(execPath + "plt0 content/banner/decode_on.png");
+                palette_on = Image.FromFile(execPath + "plt0 content/banner/palette_on.png");
             }
             if (File.Exists(execPath + "plt0 content/banner/palette_off.png"))
             {
                 palette_off = Image.FromFile(execPath + "plt0 content/banner/palette_off.png");
-            }
-            if (File.Exists(execPath + "plt0 content/banner/palette_on.png"))
-            {
-                palette_on = Image.FromFile(execPath + "plt0 content/banner/palette_on.png");
             }
             if (File.Exists(execPath + "plt0 content/banner/palette_hover.png"))
             {
@@ -15651,13 +15645,13 @@ namespace plt0_gui
             {
                 palette_selected = Image.FromFile(execPath + "plt0 content/banner/palette_selected.png");
             }
-            if (File.Exists(execPath + "plt0 content/banner/settings_off.png"))
-            {
-                settings_off = Image.FromFile(execPath + "plt0 content/banner/settings_off.png");
-            }
             if (File.Exists(execPath + "plt0 content/banner/settings_on.png"))
             {
                 settings_on = Image.FromFile(execPath + "plt0 content/banner/settings_on.png");
+            }
+            if (File.Exists(execPath + "plt0 content/banner/settings_off.png"))
+            {
+                settings_off = Image.FromFile(execPath + "plt0 content/banner/settings_off.png");
             }
             if (File.Exists(execPath + "plt0 content/banner/settings_hover.png"))
             {
@@ -15667,13 +15661,13 @@ namespace plt0_gui
             {
                 settings_selected = Image.FromFile(execPath + "plt0 content/banner/settings_selected.png");
             }
-            if (File.Exists(execPath + "plt0 content/banner/opening_off.png"))
-            {
-                opening_off = Image.FromFile(execPath + "plt0 content/banner/opening_off.png");
-            }
             if (File.Exists(execPath + "plt0 content/banner/opening_on.png"))
             {
                 opening_on = Image.FromFile(execPath + "plt0 content/banner/opening_on.png");
+            }
+            if (File.Exists(execPath + "plt0 content/banner/opening_off.png"))
+            {
+                opening_off = Image.FromFile(execPath + "plt0 content/banner/opening_off.png");
             }
             if (File.Exists(execPath + "plt0 content/banner/opening_hover.png"))
             {
@@ -15859,14 +15853,6 @@ namespace plt0_gui
             {
                 cmpr_swap2_hover = Image.FromFile(execPath + "plt0 content/graphics/cmpr_swap2_hover.png");
             }
-            if (File.Exists(execPath + "plt0 content/graphics/gamelist.png"))
-            {
-                gamelist = Image.FromFile(execPath + "plt0 content/graphics/gamelist.png");
-            }
-            if (File.Exists(execPath + "plt0 content/graphics/gamelist_hover.png"))
-            {
-                gamelist_hover = Image.FromFile(execPath + "plt0 content/graphics/gamelist_hover.png");
-            }
             if (File.Exists(execPath + "plt0 content/graphics/cmpr_swap.png"))
             {
                 cmpr_swap = Image.FromFile(execPath + "plt0 content/graphics/cmpr_swap.png");
@@ -15902,6 +15888,278 @@ namespace plt0_gui
             if (File.Exists(execPath + "plt0 content/graphics/sync_preview_selected.png"))
             {
                 sync_preview_selected = Image.FromFile(execPath + "plt0 content/graphics/sync_preview_selected.png");
+            }
+            if (File.Exists(execPath + "plt0 content/graphics/gamelist.png"))
+            {
+                gamelist = Image.FromFile(execPath + "plt0 content/graphics/gamelist.png");
+            }
+            if (File.Exists(execPath + "plt0 content/graphics/gamelist_hover.png"))
+            {
+                gamelist_hover = Image.FromFile(execPath + "plt0 content/graphics/gamelist_hover.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse1_hover.png"))
+            {
+                mouse1_hover = Image.FromFile(execPath + "plt0 content/mouse/mouse1_hover.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse1_on.png"))
+            {
+                mouse1_on = Image.FromFile(execPath + "plt0 content/mouse/mouse1_on.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse1_off.png"))
+            {
+                mouse1_off = Image.FromFile(execPath + "plt0 content/mouse/mouse1_off.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse1_selected.png"))
+            {
+                mouse1_selected = Image.FromFile(execPath + "plt0 content/mouse/mouse1_selected.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse2_hover.png"))
+            {
+                mouse2_hover = Image.FromFile(execPath + "plt0 content/mouse/mouse2_hover.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse2_on.png"))
+            {
+                mouse2_on = Image.FromFile(execPath + "plt0 content/mouse/mouse2_on.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse2_off.png"))
+            {
+                mouse2_off = Image.FromFile(execPath + "plt0 content/mouse/mouse2_off.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse2_selected.png"))
+            {
+                mouse2_selected = Image.FromFile(execPath + "plt0 content/mouse/mouse2_selected.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse3_hover.png"))
+            {
+                mouse3_hover = Image.FromFile(execPath + "plt0 content/mouse/mouse3_hover.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse3_on.png"))
+            {
+                mouse3_on = Image.FromFile(execPath + "plt0 content/mouse/mouse3_on.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse3_off.png"))
+            {
+                mouse3_off = Image.FromFile(execPath + "plt0 content/mouse/mouse3_off.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse3_selected.png"))
+            {
+                mouse3_selected = Image.FromFile(execPath + "plt0 content/mouse/mouse3_selected.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse4_hover.png"))
+            {
+                mouse4_hover = Image.FromFile(execPath + "plt0 content/mouse/mouse4_hover.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse4_on.png"))
+            {
+                mouse4_on = Image.FromFile(execPath + "plt0 content/mouse/mouse4_on.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse4_off.png"))
+            {
+                mouse4_off = Image.FromFile(execPath + "plt0 content/mouse/mouse4_off.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse4_selected.png"))
+            {
+                mouse4_selected = Image.FromFile(execPath + "plt0 content/mouse/mouse4_selected.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse5_hover.png"))
+            {
+                mouse5_hover = Image.FromFile(execPath + "plt0 content/mouse/mouse5_hover.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse5_on.png"))
+            {
+                mouse5_on = Image.FromFile(execPath + "plt0 content/mouse/mouse5_on.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse5_off.png"))
+            {
+                mouse5_off = Image.FromFile(execPath + "plt0 content/mouse/mouse5_off.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse5_selected.png"))
+            {
+                mouse5_selected = Image.FromFile(execPath + "plt0 content/mouse/mouse5_selected.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse6_hover.png"))
+            {
+                mouse6_hover = Image.FromFile(execPath + "plt0 content/mouse/mouse6_hover.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse6_on.png"))
+            {
+                mouse6_on = Image.FromFile(execPath + "plt0 content/mouse/mouse6_on.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse6_off.png"))
+            {
+                mouse6_off = Image.FromFile(execPath + "plt0 content/mouse/mouse6_off.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse6_selected.png"))
+            {
+                mouse6_selected = Image.FromFile(execPath + "plt0 content/mouse/mouse6_selected.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse7_hover.png"))
+            {
+                mouse7_hover = Image.FromFile(execPath + "plt0 content/mouse/mouse7_hover.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse7_on.png"))
+            {
+                mouse7_on = Image.FromFile(execPath + "plt0 content/mouse/mouse7_on.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse7_off.png"))
+            {
+                mouse7_off = Image.FromFile(execPath + "plt0 content/mouse/mouse7_off.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse7_selected.png"))
+            {
+                mouse7_selected = Image.FromFile(execPath + "plt0 content/mouse/mouse7_selected.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse8_hover.png"))
+            {
+                mouse8_hover = Image.FromFile(execPath + "plt0 content/mouse/mouse8_hover.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse8_on.png"))
+            {
+                mouse8_on = Image.FromFile(execPath + "plt0 content/mouse/mouse8_on.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse8_off.png"))
+            {
+                mouse8_off = Image.FromFile(execPath + "plt0 content/mouse/mouse8_off.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse8_selected.png"))
+            {
+                mouse8_selected = Image.FromFile(execPath + "plt0 content/mouse/mouse8_selected.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse9_hover.png"))
+            {
+                mouse9_hover = Image.FromFile(execPath + "plt0 content/mouse/mouse9_hover.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse9_on.png"))
+            {
+                mouse9_on = Image.FromFile(execPath + "plt0 content/mouse/mouse9_on.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse9_off.png"))
+            {
+                mouse9_off = Image.FromFile(execPath + "plt0 content/mouse/mouse9_off.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse9_selected.png"))
+            {
+                mouse9_selected = Image.FromFile(execPath + "plt0 content/mouse/mouse9_selected.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse10_hover.png"))
+            {
+                mouse10_hover = Image.FromFile(execPath + "plt0 content/mouse/mouse10_hover.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse10_on.png"))
+            {
+                mouse10_on = Image.FromFile(execPath + "plt0 content/mouse/mouse10_on.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse10_off.png"))
+            {
+                mouse10_off = Image.FromFile(execPath + "plt0 content/mouse/mouse10_off.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse10_selected.png"))
+            {
+                mouse10_selected = Image.FromFile(execPath + "plt0 content/mouse/mouse10_selected.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse11_hover.png"))
+            {
+                mouse11_hover = Image.FromFile(execPath + "plt0 content/mouse/mouse11_hover.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse11_on.png"))
+            {
+                mouse11_on = Image.FromFile(execPath + "plt0 content/mouse/mouse11_on.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse11_off.png"))
+            {
+                mouse11_off = Image.FromFile(execPath + "plt0 content/mouse/mouse11_off.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse11_selected.png"))
+            {
+                mouse11_selected = Image.FromFile(execPath + "plt0 content/mouse/mouse11_selected.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse12_on.png"))
+            {
+                mouse12_on = Image.FromFile(execPath + "plt0 content/mouse/mouse12_on.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse12_off.png"))
+            {
+                mouse12_off = Image.FromFile(execPath + "plt0 content/mouse/mouse12_off.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse12_selected.png"))
+            {
+                mouse12_selected = Image.FromFile(execPath + "plt0 content/mouse/mouse12_selected.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse13_hover.png"))
+            {
+                mouse13_hover = Image.FromFile(execPath + "plt0 content/mouse/mouse13_hover.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse13_on.png"))
+            {
+                mouse13_on = Image.FromFile(execPath + "plt0 content/mouse/mouse13_on.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse13_off.png"))
+            {
+                mouse13_off = Image.FromFile(execPath + "plt0 content/mouse/mouse13_off.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse13_selected.png"))
+            {
+                mouse13_selected = Image.FromFile(execPath + "plt0 content/mouse/mouse13_selected.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse14_hover.png"))
+            {
+                mouse14_hover = Image.FromFile(execPath + "plt0 content/mouse/mouse14_hover.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse14_on.png"))
+            {
+                mouse14_on = Image.FromFile(execPath + "plt0 content/mouse/mouse14_on.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse14_off.png"))
+            {
+                mouse14_off = Image.FromFile(execPath + "plt0 content/mouse/mouse14_off.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse14_selected.png"))
+            {
+                mouse14_selected = Image.FromFile(execPath + "plt0 content/mouse/mouse14_selected.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse15_hover.png"))
+            {
+                mouse15_hover = Image.FromFile(execPath + "plt0 content/mouse/mouse15_hover.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse15_on.png"))
+            {
+                mouse15_on = Image.FromFile(execPath + "plt0 content/mouse/mouse15_on.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse15_off.png"))
+            {
+                mouse15_off = Image.FromFile(execPath + "plt0 content/mouse/mouse15_off.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse15_selected.png"))
+            {
+                mouse15_selected = Image.FromFile(execPath + "plt0 content/mouse/mouse15_selected.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse16_hover.png"))
+            {
+                mouse16_hover = Image.FromFile(execPath + "plt0 content/mouse/mouse16_hover.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse16_on.png"))
+            {
+                mouse16_on = Image.FromFile(execPath + "plt0 content/mouse/mouse16_on.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse16_off.png"))
+            {
+                mouse16_off = Image.FromFile(execPath + "plt0 content/mouse/mouse16_off.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse16_selected.png"))
+            {
+                mouse16_selected = Image.FromFile(execPath + "plt0 content/mouse/mouse16_selected.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse17_on.png"))
+            {
+                mouse17_on = Image.FromFile(execPath + "plt0 content/mouse/mouse17_on.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse17_off.png"))
+            {
+                mouse17_off = Image.FromFile(execPath + "plt0 content/mouse/mouse17_off.png");
+            }
+            if (File.Exists(execPath + "plt0 content/mouse/mouse17_selected.png"))
+            {
+                mouse17_selected = Image.FromFile(execPath + "plt0 content/mouse/mouse17_selected.png");
             }
             if (File.Exists(execPath + "plt0 content/rgba/a_on.png"))
             {
@@ -18522,19 +18780,19 @@ namespace plt0_gui
         }
         private void checked_Auto()
         {
-            auto_ck.Image = auto_on;
+            auto_ck.Image = encode_on;
         }
         private void unchecked_Auto()
         {
-            auto_ck.Image = auto_off;
+            auto_ck.Image = encode_off;
         }
         private void hover_Auto()
         {
-            auto_ck.Image = auto_hover;
+            auto_ck.Image = encode_hover;
         }
         private void selected_Auto()
         {
-            auto_ck.Image = auto_selected;
+            auto_ck.Image = encode_selected;
         }
         private void Preview_Click(object sender, EventArgs e)
         {
@@ -22650,10 +22908,10 @@ namespace plt0_gui
             for (y = 0; y < cmpr_colours_argb.Length - 4; y += 4)
             {
                 // Extract ARGB values
-                 alpha2 = cmpr_colours_argb[y];
-                 red = cmpr_colours_argb[y + 1];
-                 green = cmpr_colours_argb[y + 2];
-                 blue = cmpr_colours_argb[y + 3];
+                alpha2 = cmpr_colours_argb[y];
+                red = cmpr_colours_argb[y + 1];
+                green = cmpr_colours_argb[y + 2];
+                blue = cmpr_colours_argb[y + 3];
 
                 // Convert ARGB to HSL
                 RgbToHsl(red, green, blue, out h, out s, out l);
