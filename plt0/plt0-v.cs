@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -2109,6 +2110,8 @@ namespace plt0_gui
                 Disable_Decode_Layout();
             if (preview_layout_is_enabled)
                 Disable_Preview_Layout();
+            if (palette_layout_is_enabled)
+                Disable_Palette_Layout();
             if (all_layout_is_enabled)
                 Disable_All_Layout();
             if (cmpr_layout_is_enabled)
@@ -2148,12 +2151,15 @@ namespace plt0_gui
             round3_txt.Visible = true;
             round4_label.Visible = true;
             round4_txt.Visible = true;
+            if (!preview_layout_is_enabled)
+                Enable_Preview_Layout();
+            // warning! this is preview layout
             if (opening_layout_is_enabled)
                 Disable_Opening_Layout();
             if (decode_layout_is_enabled)
                 Disable_Decode_Layout();
-            if (!preview_layout_is_enabled)
-                Enable_Preview_Layout();
+            if (palette_layout_is_enabled)
+                Disable_Palette_Layout();
             if (all_layout_is_enabled)
                 Disable_All_Layout();
             if (cmpr_layout_is_enabled)
@@ -2478,6 +2484,16 @@ namespace plt0_gui
         }
         private void Layout_Paint()
         {
+            if (opening_layout_is_enabled)
+                Disable_Opening_Layout();
+            if (decode_layout_is_enabled)
+                Disable_Decode_Layout();
+            if (preview_layout_is_enabled)
+                Disable_Preview_Layout();
+            if (palette_layout_is_enabled)
+                Disable_Palette_Layout();
+            if (all_layout_is_enabled)
+                Disable_All_Layout();
             if (!cmpr_layout_is_in_place)
             {
                 Put_that_damn_cmpr_layout_in_place();
@@ -2498,14 +2514,6 @@ namespace plt0_gui
             if (!cmpr_layout_is_enabled)
             {
                 layout = 1;
-                if (opening_layout_is_enabled)
-                    Disable_Opening_Layout();
-                if (decode_layout_is_enabled)
-                    Disable_Decode_Layout();
-                if (all_layout_is_enabled)
-                    Disable_All_Layout();
-                if (preview_layout_is_enabled)
-                    Disable_Preview_Layout();
                 // TODO: disable new layout (this is paint)
                 Hide_mag();
                 Hide_min();
@@ -2688,14 +2696,18 @@ namespace plt0_gui
         {
             layout = 4;
             RGBA32_Click(null, null); // lossless decode
-            if (all_layout_is_enabled)
-                Disable_All_Layout();
-            if (cmpr_layout_is_enabled)
-                Disable_Paint_Layout(false);
-            if (preview_layout_is_enabled)
-                Disable_Preview_Layout();
             if (opening_layout_is_enabled)
                 Disable_Opening_Layout();
+            if (decode_layout_is_enabled)
+                Disable_Decode_Layout();
+            if (preview_layout_is_enabled)
+                Disable_Preview_Layout();
+            if (palette_layout_is_enabled)
+                Disable_Palette_Layout();
+            if (cmpr_layout_is_enabled)
+                Disable_Paint_Layout(false);
+            if (all_layout_is_enabled)
+                Disable_All_Layout();
             decode_layout_is_enabled = true;
             Hide_algorithm(255, true);
             Hide_alpha(true);
@@ -2899,6 +2911,16 @@ namespace plt0_gui
         }
         private void Layout_Palette()
         {
+            if (opening_layout_is_enabled)
+                Disable_Opening_Layout();
+            if (decode_layout_is_enabled)
+                Disable_Decode_Layout();
+            if (preview_layout_is_enabled)
+                Disable_Preview_Layout();
+            if (palette_layout_is_enabled)
+                Disable_Palette_Layout();
+            if (all_layout_is_enabled)
+                Disable_All_Layout();
             Layout_Paint();
             layout = 5;
             for (byte i = 0; i < 9; i++)
@@ -2945,26 +2967,29 @@ namespace plt0_gui
                 (int)(algorithm_label.Location.X + (1160 * width_ratio)),
                 (int)(algorithm_label.Location.Y + (0 * height_ratio)));
             palette_ai8_ck.Location = new Point(
-                (int)(palette_ai8_ck.Location.X + (1160 * width_ratio)),
-                (int)(palette_ai8_ck.Location.Y + (0 * height_ratio)));
+                (int)(palette_ai8_ck.Location.X + (60 * width_ratio)),
+                (int)(palette_ai8_ck.Location.Y + (290 * height_ratio)));
             palette_ai8_label.Location = new Point(
-                (int)(palette_ai8_label.Location.X + (1160 * width_ratio)),
-                (int)(palette_ai8_label.Location.Y + (0 * height_ratio)));
+                (int)(palette_ai8_label.Location.X + (60 * width_ratio)),
+                (int)(palette_ai8_label.Location.Y + (290 * height_ratio)));
             palette_rgb565_ck.Location = new Point(
-                (int)(palette_rgb565_ck.Location.X + (1160 * width_ratio)),
-                (int)(palette_rgb565_ck.Location.Y + (0 * height_ratio)));
+                (int)(palette_rgb565_ck.Location.X + (216 * width_ratio)),
+                (int)(palette_rgb565_ck.Location.Y + (226 * height_ratio)));
             palette_rgb565_label.Location = new Point(
-                (int)(palette_rgb565_label.Location.X + (1160 * width_ratio)),
-                (int)(palette_rgb565_label.Location.Y + (0 * height_ratio)));
+                (int)(palette_rgb565_label.Location.X + (216 * width_ratio)),
+                (int)(palette_rgb565_label.Location.Y + (226 * height_ratio)));
             palette_rgb5a3_ck.Location = new Point(
-                (int)(palette_rgb5a3_ck.Location.X + (1160 * width_ratio)),
-                (int)(palette_rgb5a3_ck.Location.Y + (0 * height_ratio)));
+                (int)(palette_rgb5a3_ck.Location.X + (408 * width_ratio)),
+                (int)(palette_rgb5a3_ck.Location.Y + (162 * height_ratio)));
             palette_rgb5a3_label.Location = new Point(
-                (int)(palette_rgb5a3_label.Location.X + (1160 * width_ratio)),
-                (int)(palette_rgb5a3_label.Location.Y + (0 * height_ratio)));
+                (int)(palette_rgb5a3_label.Location.X + (408 * width_ratio)),
+                (int)(palette_rgb5a3_label.Location.Y + (162 * height_ratio)));
             palette_label.Location = new Point(
-                (int)(palette_label.Location.X + (1160 * width_ratio)),
-                (int)(palette_label.Location.Y + (0 * height_ratio)));
+                (int)(palette_label.Location.X + (222 * width_ratio)),
+                (int)(palette_label.Location.Y + (300 * height_ratio)));
+            cmpr_warning.Location = new Point(
+                (int)(input_file_label.Location.X + (00 * width_ratio)),
+                (int)(input_file_label.Location.Y - (32 * height_ratio)));
             algo_4_ck.Location = new Point(
                 (int)(algo_4_ck.Location.X + (1160 * width_ratio)),
                 (int)(algo_4_ck.Location.Y + (0 * height_ratio)));
@@ -3022,6 +3047,24 @@ namespace plt0_gui
             mix_label.Location = new Point(
                 (int)(mix_label.Location.X + (1160 * width_ratio)),
                 (int)(mix_label.Location.Y + (0 * height_ratio)));
+            textchange_ck.Location = new Point(
+                (int)(textchange_ck.Location.X + (960 * width_ratio)),
+                (int)(textchange_ck.Location.Y + (0 * height_ratio)));
+            textchange_label.Location = new Point(
+                (int)(textchange_label.Location.X + (960 * width_ratio)),
+                (int)(textchange_label.Location.Y + (0 * height_ratio)));
+            auto_update_ck.Location = new Point(
+                (int)(auto_update_ck.Location.X - (140 * width_ratio)),
+                (int)(auto_update_ck.Location.Y + (0 * height_ratio)));
+            auto_update_label.Location = new Point(
+                (int)(auto_update_label.Location.X - (140 * width_ratio)),
+                (int)(auto_update_label.Location.Y + (0 * height_ratio)));
+            upscale_ck.Location = new Point(
+                (int)(upscale_ck.Location.X - (160 * width_ratio)),
+                (int)(upscale_ck.Location.Y + (0 * height_ratio)));
+            upscale_label.Location = new Point(
+                (int)(upscale_label.Location.X - (160 * width_ratio)),
+                (int)(upscale_label.Location.Y + (0 * height_ratio)));
 
 
             palette_layout_is_enabled = true;
@@ -3046,7 +3089,7 @@ namespace plt0_gui
             cmpr_preview_ck.Visible = false;
             cmpr_update_preview_ck.Visible = false;
             cmpr_update_preview_label.Visible = false;
-            cmpr_warning.Visible = false;
+            //cmpr_warning.Visible = false;
             cmpr_save_ck.Visible = false;
             cmpr_save_as_ck.Visible = false;
             foreach (Label lab in layout_palette_label)
@@ -3071,6 +3114,10 @@ namespace plt0_gui
             input_file2_txt.Visible = true;
             palette_label.Visible = true;
             CI4_Click(null, null);
+            if (palette_enc == 3)
+            {
+                palette_RGB565_Click(null, null);
+            }
             View_palette(true);
             View_alpha(true);
             View_Colour_Channels();
@@ -3114,6 +3161,7 @@ namespace plt0_gui
         {
             Layout_Paint();
             Hide_Paint_Stuff();
+            cmpr_layout_is_enabled = true;
             banner_rgb5a3_file[0] = 5;
             banner_rgb5a3_file[1] = 2;
             banner_rgb5a3_file[2] = 0;
@@ -4987,11 +5035,97 @@ namespace plt0_gui
                     break;
             }
         }
-        private void parse_ai8(Label lab, TextBox txt, byte j, out ushort out_colour, ushort default_colour)
+        /// <summary>
+        /// trim a colour value to the colour space of ai8
+        /// </summary>
+        /// <param name="lab">the colour box</param>
+        /// <param name="txt">the colour textbox</param>
+        /// <param name="j">internal number next to the name of the box and textbox</param>
+        private void parse_ai8(Label lab, TextBox txt, byte j)
         {
-            out_colour = default_colour;
-        }
+            success = false;
+            len = txt.Text.Length;
+            for (byte i = 1; i < len; i++)
+            {
+                if (!ishex(txt.Text[i]))
+                    txt.Text = txt.Text.Substring(0, i);
+            }
+            if (len > 0)
+                if (!ishex(txt.Text[0]) && txt.Text[0] != '#')
+                    txt.Text = "";
+            if (len > 4)
+            {
+                if (txt.Text[0] != '#')
+                    txt.Text = txt.Text.Substring(0, 4);
+                else if (len > 5)
+                    txt.Text = txt.Text.Substring(0, 5);
 
+            }
+            if (len == 0)
+                    return;
+            if (txt.Text[0] == '#')
+            {
+                if (len == 2)
+                {
+                    alpha2 = 255;
+                    byte.TryParse(txt.Text.Substring(1, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);  // it's grey actually
+                    red <<= 4;
+                    success = true;
+                }
+                else if (len == 3)
+                {
+                    alpha2 = 255;
+                    byte.TryParse(txt.Text.Substring(1, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red); // grey
+                    success = true;
+                }
+                else if (len == 5)
+                {
+                    byte.TryParse(txt.Text.Substring(1, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red); // grey
+                    byte.TryParse(txt.Text.Substring(3, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out alpha2);
+                    success = true;
+                }
+            }
+            else
+            {
+                if (len == 1)
+                {
+                    alpha2 = 255;
+                    byte.TryParse(txt.Text.Substring(0, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red); // grey
+                    red <<= 4;
+                    success = true;
+                }
+                if (len == 2)
+                {
+                    alpha2 = 255;
+                    byte.TryParse(txt.Text.Substring(0, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red); // grey
+                    success = true;
+                }
+                else if (len == 4)
+                {
+                    byte.TryParse(txt.Text.Substring(0, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);  // grey
+                    byte.TryParse(txt.Text.Substring(2, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out alpha2);
+                    success = true;
+                }
+            }
+            if (success)
+            {
+                lab.BackColor = Color.FromArgb(alpha2, red, red, red);
+                cmpr_colours_argb[(j << 2) - 4] = alpha2;
+                cmpr_colours_argb[(j << 2) - 3] = red;
+                cmpr_colours_argb[(j << 2) - 2] = red;
+                cmpr_colours_argb[(j << 2) - 1] = red;
+                cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
+                // don't convert to hex string
+            }
+        }
+        /// <summary>
+        /// trim a colour value to the colour space of rgb565
+        /// </summary>
+        /// <param name="lab">the colour box</param>
+        /// <param name="txt">the colour textbox</param>
+        /// <param name="j">internal number next to the name of the box and textbox</param>
+        /// <param name="out_colour">rgb565 ushort used in update_colour</param>
+        /// <param name="default_colour">rgb565 ushort used in update_colour</param>
         private void parse_rgb565(Label lab, TextBox txt, byte j, out ushort out_colour, ushort default_colour)
         {
             success = false;
@@ -5089,19 +5223,25 @@ namespace plt0_gui
             }
             if (success)
             {
-                cmpr_colour[j] = (byte)((red & 0xf8) + (green >> 5));
-                cmpr_colour[j + 1] = (byte)(((green << 3) & 224) + (blue >> 3));
                 lab.BackColor = Color.FromArgb(255, red, green, blue);
-                cmpr_colours_argb[(j << 1)] = 255;
-                cmpr_colours_argb[(j << 1) + 1] = red;
-                cmpr_colours_argb[(j << 1) + 2] = green;
-                cmpr_colours_argb[(j << 1) + 3] = blue;
+                cmpr_colours_argb[(j << 2) - 4] = 255;
+                cmpr_colours_argb[(j << 2) - 3] = red;
+                cmpr_colours_argb[(j << 2) - 2] = green;
+                cmpr_colours_argb[(j << 2) - 1] = blue;
                 if (len > 5)
                 {
                     cmpr_colours_hex = BitConverter.ToString(cmpr_colours_argb).Replace("-", string.Empty);
-                    txt.Text = cmpr_colours_hex.Substring((j << 2) + 2, 6);
+                    txt.Text = cmpr_colours_hex.Substring((j << 3) - 6, 6);
                 }
-                out_colour = (ushort)((cmpr_colour[j] << 8) | (cmpr_colour[j + 1]));
+                if (layout == 5)
+                {
+                    out_colour = default_colour;
+                    cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
+                    return;
+                }
+                cmpr_colour[(j << 1)] = (byte)((red & 0xf8) + (green >> 5));
+                cmpr_colour[(j << 1) + 1] = (byte)(((green << 3) & 224) + (blue >> 3));
+                out_colour = (ushort)((cmpr_colour[(j << 1)] << 8) | (cmpr_colour[(j << 1) + 1]));
                 if (the_program_is_loading_a_cmpr_block)
                     Update_Colours(false);
                 else
@@ -5109,11 +5249,204 @@ namespace plt0_gui
             }
             else
                 out_colour = default_colour;
-
         }
-        private void parse_rgb5a3(Label lab, TextBox txt, byte j, out ushort out_colour, ushort default_colour)
+        /// <summary>
+        /// trim a colour value to the space of rgb5a3
+        /// </summary>
+        /// <param name="lab">the colour box</param>
+        /// <param name="txt">the colour textbox</param>
+        /// <param name="j">internal number next to the name of the box and textbox</param>
+        private void parse_rgb5a3(Label lab, TextBox txt, byte j)
         {
-            out_colour = default_colour;
+            success = false;
+            len = txt.Text.Length;
+            for (byte i = 1; i < len; i++)
+            {
+                if (!ishex(txt.Text[i]))
+                    txt.Text = txt.Text.Substring(0, i);
+            }
+            if (len > 0)
+                if (!ishex(txt.Text[0]) && txt.Text[0] != '#')
+                    txt.Text = "";
+            if (len > 8)
+            {
+                if (txt.Text[0] != '#')
+                    txt.Text = txt.Text.Substring(0, 8);
+                else if (len > 9)
+                    txt.Text = txt.Text.Substring(0, 9);
+            }
+            if (len < 3)
+            {
+                return;
+            }
+            if (txt.Text[0] == '#')
+            {
+                if (len == 4) // #RGB in hex
+                {
+                    alpha2 = 255;
+                    byte.TryParse(txt.Text.Substring(1, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
+                    byte.TryParse(txt.Text.Substring(2, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
+                    byte.TryParse(txt.Text.Substring(3, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
+                    red <<= 4;
+                    green <<= 4;
+                    blue <<= 4;
+                    success = true;
+                }
+                if (len == 5) // #RGBA
+                {
+                    byte.TryParse(txt.Text.Substring(1, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
+                    byte.TryParse(txt.Text.Substring(2, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
+                    byte.TryParse(txt.Text.Substring(3, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
+                    byte.TryParse(txt.Text.Substring(4, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out alpha2);
+                    red <<= 4;
+                    green <<= 4;
+                    blue <<= 4;
+                    alpha2 <<= 4;
+                    success = true;
+                }
+                else if (len == 7) // #RRGGBB
+                {
+                    alpha2 = 255;
+                    byte.TryParse(txt.Text.Substring(1, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
+                    byte.TryParse(txt.Text.Substring(3, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
+                    byte.TryParse(txt.Text.Substring(5, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
+                    if ((red & 7) != 0)
+                    {
+                        red &= 0xf8;
+                        Warn_rgb5a3_colour_trim();
+                    }
+                    if ((green & 7) != 0)
+                    {
+                        green &= 0xf8;
+                        Warn_rgb5a3_colour_trim();
+                    }
+                    if ((blue & 7) != 0)
+                    {
+                        blue &= 0xf8;
+                        Warn_rgb5a3_colour_trim();
+                    }
+                    success = true;
+                }
+                else if (len == 9) // #RRGGBBAA
+                {
+                    byte.TryParse(txt.Text.Substring(1, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
+                    byte.TryParse(txt.Text.Substring(3, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
+                    byte.TryParse(txt.Text.Substring(5, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
+                    byte.TryParse(txt.Text.Substring(7, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out alpha2);
+                    if ((red & 15) != 0)
+                    {
+                        red &= 0xf0;
+                        Warn_rgb5a3_colour_trim();
+                    }
+                    if ((green & 15) != 0)
+                    {
+                        green &= 0xf0;
+                        Warn_rgb5a3_colour_trim();
+                    }
+                    if ((blue & 15) != 0)
+                    {
+                        blue &= 0xf0;
+                        Warn_rgb5a3_colour_trim();
+                    }
+                    if ((alpha2 & 0x1f) != 0)
+                    {
+                        alpha2 &= 0xe0;
+                        Warn_rgb5a3_colour_trim();
+                    }
+                    success = true;
+                }
+            }
+            else
+            {
+                if (len == 3) // RGB in hex
+                {
+                    alpha2 = 255;
+                    byte.TryParse(txt.Text.Substring(0, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
+                    byte.TryParse(txt.Text.Substring(1, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
+                    byte.TryParse(txt.Text.Substring(2, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
+                    red <<= 4;
+                    green <<= 4;
+                    blue <<= 4;
+                    success = true;
+                }
+                if (len == 4) // RGBA
+                {
+                    byte.TryParse(txt.Text.Substring(0, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
+                    byte.TryParse(txt.Text.Substring(1, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
+                    byte.TryParse(txt.Text.Substring(2, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
+                    byte.TryParse(txt.Text.Substring(3, 1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out alpha2);
+                    red <<= 4;
+                    green <<= 4;
+                    blue <<= 4;
+                    alpha2 <<= 4;
+                    success = true;
+                }
+                else if (len == 6) // RRGGBB
+                {
+                    alpha2 = 255;
+                    byte.TryParse(txt.Text.Substring(0, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
+                    byte.TryParse(txt.Text.Substring(2, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
+                    byte.TryParse(txt.Text.Substring(4, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
+                    if ((red & 7) != 0)
+                    {
+                        red &= 0xf8;
+                        Warn_rgb5a3_colour_trim();
+                    }
+                    if ((green & 7) != 0)
+                    {
+                        green &= 0xf8;
+                        Warn_rgb5a3_colour_trim();
+                    }
+                    if ((blue & 7) != 0)
+                    {
+                        blue &= 0xf8;
+                        Warn_rgb5a3_colour_trim();
+                    }
+                    success = true;
+                }
+                else if (len == 8) // RRGGBBAA
+                {
+                    byte.TryParse(txt.Text.Substring(0, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out red);
+                    byte.TryParse(txt.Text.Substring(2, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out green);
+                    byte.TryParse(txt.Text.Substring(4, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out blue);
+                    byte.TryParse(txt.Text.Substring(6, 2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out alpha2);
+                    if ((red & 15) != 0)
+                    {
+                        red &= 0xf0;
+                        Warn_rgb5a3_colour_trim();
+                    }
+                    if ((green & 15) != 0)
+                    {
+                        green &= 0xf0;
+                        Warn_rgb5a3_colour_trim();
+                    }
+                    if ((blue & 15) != 0)
+                    {
+                        blue &= 0xf0;
+                        Warn_rgb5a3_colour_trim();
+                    }
+                    if ((alpha2 & 0x1f) != 0)
+                    {
+                        alpha2 &= 0xe0;
+                        Warn_rgb5a3_colour_trim();
+                    }
+                    success = true;
+                }
+            }
+            if (success)
+            {
+                lab.BackColor = Color.FromArgb(alpha2, red, green, blue);
+                cmpr_colours_argb[(j << 2) - 4] = alpha2;
+                cmpr_colours_argb[(j << 2) - 3] = red;
+                cmpr_colours_argb[(j << 2) - 2] = green;
+                cmpr_colours_argb[(j << 2) - 1] = blue;
+                if (len > 5)
+                {
+                    cmpr_colours_hex = BitConverter.ToString(cmpr_colours_argb).Replace("-", string.Empty);
+                    txt.Text = cmpr_colours_hex.Substring((j << 3) - 6, 6);
+                }
+                cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
+            }
         }
         private void parse_rgba_hover(Label lab, TextBox txt)
         {
@@ -20555,6 +20888,10 @@ namespace plt0_gui
         {
             Parse_Markdown(d[163], cmpr_warning);
         }
+        private void Warn_rgb5a3_colour_trim()
+        {
+            Parse_Markdown(d[226], cmpr_warning);
+        }
         private void Put_that_damn_cmpr_layout_in_place()
         {
             Check_Paint();
@@ -21254,6 +21591,7 @@ namespace plt0_gui
             // bitshifts are faster than multiplications.
             // the only downside to this is that it's taking a few more kb in the ram, though it greatly improves performance
             // 258170 = 1024*63*4 + 0x7a.    0x7a is the header length, also known as "pixel data start offset"
+            // 258170 is the offset of the first pixel if the topmost line.
             cmpr_rgb[0] = cmpr_gradient[258172 + (x << 2) - (y << 12)];  // red
             cmpr_rgb[1] = cmpr_gradient[258171 + (x << 2) - (y << 12)];  // green
             cmpr_rgb[2] = cmpr_gradient[258170 + (x << 2) - (y << 12)];  // blue
@@ -21265,8 +21603,39 @@ namespace plt0_gui
                         cmpr_c1_txt.Text = cmpr_colours_hex.Substring(0, 6);
                     else if (cmpr_selected_colour == 2)
                         cmpr_c2_txt.Text = cmpr_colours_hex.Substring(0, 6);
-                    else // (cmpr_selected_colour > 2)
+                    else if (layout != 5) // (cmpr_selected_colour > 2)
+                    {
                         Warn_wrong_colour();
+                        break;
+                    }
+                    else if (cmpr_selected_colour == 3)
+                        cmpr_c3_txt.Text = cmpr_colours_hex.Substring(0, 6);
+                    else if (cmpr_selected_colour == 4)
+                        cmpr_c4_txt.Text = cmpr_colours_hex.Substring(0, 6);
+                    else if (cmpr_selected_colour == 5)
+                        cmpr_c5_txt.Text = cmpr_colours_hex.Substring(0, 6);
+                    else if (cmpr_selected_colour == 6)
+                        cmpr_c6_txt.Text = cmpr_colours_hex.Substring(0, 6);
+                    else if (cmpr_selected_colour == 7)
+                        cmpr_c7_txt.Text = cmpr_colours_hex.Substring(0, 6);
+                    else if (cmpr_selected_colour == 8)
+                        cmpr_c8_txt.Text = cmpr_colours_hex.Substring(0, 6);
+                    else if (cmpr_selected_colour == 9)
+                        cmpr_c9_txt.Text = cmpr_colours_hex.Substring(0, 6);
+                    else if (cmpr_selected_colour == 10)
+                        cmpr_c10_txt.Text = cmpr_colours_hex.Substring(0, 6);
+                    else if (cmpr_selected_colour == 11)
+                        cmpr_c11_txt.Text = cmpr_colours_hex.Substring(0, 6);
+                    else if (cmpr_selected_colour == 12)
+                        cmpr_c12_txt.Text = cmpr_colours_hex.Substring(0, 6);
+                    else if (cmpr_selected_colour == 13)
+                        cmpr_c13_txt.Text = cmpr_colours_hex.Substring(0, 6);
+                    else if (cmpr_selected_colour == 14)
+                        cmpr_c14_txt.Text = cmpr_colours_hex.Substring(0, 6);
+                    else if (cmpr_selected_colour == 15)
+                        cmpr_c15_txt.Text = cmpr_colours_hex.Substring(0, 6);
+                    else if (cmpr_selected_colour == 16)
+                        cmpr_c16_txt.Text = cmpr_colours_hex.Substring(0, 6);
                     break;
                 case MouseButtons.Middle:
                     cmpr_c1_txt.Text = cmpr_colours_hex.Substring(0, 6);
@@ -21274,11 +21643,21 @@ namespace plt0_gui
                 case MouseButtons.Right:
                     cmpr_c2_txt.Text = cmpr_colours_hex.Substring(0, 6);
                     break;
-                case MouseButtons.XButton2:
-                    Warn_wrong_colour();
+                case MouseButtons.XButton2:  // yeah, cf line 20900 in the function called cmpr_grid_ck_MouseMove, forward button is colour 3, and called XButton2
+                    if (layout != 5)
+                    {
+                        Warn_wrong_colour();
+                        break;
+                    }
+                    cmpr_c3_txt.Text = cmpr_colours_hex.Substring(0, 6);
                     break;
                 case MouseButtons.XButton1:
-                    Warn_wrong_colour();
+                    if (layout != 5)
+                    {
+                        Warn_wrong_colour();
+                        break;
+                    }
+                    cmpr_c4_txt.Text = cmpr_colours_hex.Substring(0, 6);
                     break;
             }
         }
@@ -21774,20 +22153,20 @@ namespace plt0_gui
         {
             if (layout != 5)
             {
-                parse_rgb565(cmpr_c1, cmpr_c1_txt, 0, out colour1, colour1);
+                parse_rgb565(cmpr_c1, cmpr_c1_txt, 1, out colour1, colour1);
             }
             else
             {
                 switch (palette_enc)
                 {
                     case 0: // AI8
-                        parse_ai8(cmpr_c1, cmpr_c1_txt, 0, out colour1, colour1);
+                        parse_ai8(cmpr_c1, cmpr_c1_txt, 1);
                         break;
                     case 1: // RGB565
-                        parse_rgb565(cmpr_c1, cmpr_c1_txt, 0, out colour1, colour1);
+                        parse_rgb565(cmpr_c1, cmpr_c1_txt, 1, out colour1, colour1);
                         break;
                     case 2: // RGB5A3
-                        parse_rgb5a3(cmpr_c1, cmpr_c1_txt, 0, out colour1, colour1);
+                        parse_rgb5a3(cmpr_c1, cmpr_c1_txt, 1);
                         break;
                 }
             }
@@ -21801,13 +22180,13 @@ namespace plt0_gui
             switch (palette_enc)
             {
                 case 0: // AI8
-                    parse_ai8(cmpr_c2, cmpr_c2_txt, 0, out colour1, colour1);
+                    parse_ai8(cmpr_c2, cmpr_c2_txt, 2);
                     break;
                 case 1: // RGB565
-                    parse_rgb565(cmpr_c2, cmpr_c2_txt, 0, out colour1, colour1);
+                    parse_rgb565(cmpr_c2, cmpr_c2_txt, 2, out colour1, colour1);
                     break;
                 case 2: // RGB5A3
-                    parse_rgb5a3(cmpr_c2, cmpr_c2_txt, 0, out colour1, colour1);
+                    parse_rgb5a3(cmpr_c2, cmpr_c2_txt, 2);
                     break;
             }
         }
@@ -21819,13 +22198,13 @@ namespace plt0_gui
                 switch (palette_enc)
                 {
                     case 0: // AI8
-                        parse_ai8(cmpr_c3, cmpr_c3_txt, 0, out colour1, colour1);
+                        parse_ai8(cmpr_c3, cmpr_c3_txt, 3);
                         break;
                     case 1: // RGB565
-                        parse_rgb565(cmpr_c3, cmpr_c3_txt, 0, out colour1, colour1);
+                        parse_rgb565(cmpr_c3, cmpr_c3_txt, 3, out colour1, colour1);
                         break;
                     case 2: // RGB5A3
-                        parse_rgb5a3(cmpr_c3, cmpr_c3_txt, 0, out colour1, colour1);
+                        parse_rgb5a3(cmpr_c3, cmpr_c3_txt, 3);
                         break;
                 }
             }
@@ -21838,13 +22217,13 @@ namespace plt0_gui
                 switch (palette_enc)
                 {
                     case 0: // AI8
-                        parse_ai8(cmpr_c4, cmpr_c4_txt, 0, out colour1, colour1);
+                        parse_ai8(cmpr_c4, cmpr_c4_txt, 4);
                         break;
                     case 1: // RGB565
-                        parse_rgb565(cmpr_c4, cmpr_c4_txt, 0, out colour1, colour1);
+                        parse_rgb565(cmpr_c4, cmpr_c4_txt, 4, out colour1, colour1);
                         break;
                     case 2: // RGB5A3
-                        parse_rgb5a3(cmpr_c4, cmpr_c4_txt, 0, out colour1, colour1);
+                        parse_rgb5a3(cmpr_c4, cmpr_c4_txt, 4);
                         break;
                 }
             }
@@ -21852,205 +22231,192 @@ namespace plt0_gui
 
         private void cmpr_c5_txt_TextChanged(object sender, EventArgs e)
         {
-
             switch (palette_enc)
             {
                 case 0: // AI8
-                    parse_ai8(cmpr_c5, cmpr_c5_txt, 0, out colour1, colour1);
+                    parse_ai8(cmpr_c5, cmpr_c5_txt, 5);
                     break;
                 case 1: // RGB565
-                    parse_rgb565(cmpr_c5, cmpr_c5_txt, 0, out colour1, colour1);
+                    parse_rgb565(cmpr_c5, cmpr_c5_txt, 5, out colour1, colour1);
                     break;
                 case 2: // RGB5A3
-                    parse_rgb5a3(cmpr_c5, cmpr_c5_txt, 0, out colour1, colour1);
+                    parse_rgb5a3(cmpr_c5, cmpr_c5_txt, 5);
                     break;
             }
         }
 
         private void cmpr_c6_txt_TextChanged(object sender, EventArgs e)
         {
-
             switch (palette_enc)
             {
                 case 0: // AI8
-                    parse_ai8(cmpr_c6, cmpr_c6_txt, 0, out colour1, colour1);
-                    parse_ai8(cmpr_c6, cmpr_c6_txt, 0, out colour1, colour1);
+                    parse_ai8(cmpr_c6, cmpr_c6_txt, 6);
                     break;
                 case 1: // RGB565
-                    parse_rgb565(cmpr_c6, cmpr_c6_txt, 0, out colour1, colour1);
+                    parse_rgb565(cmpr_c6, cmpr_c6_txt, 6, out colour1, colour1);
                     break;
                 case 2: // RGB5A3
-                    parse_rgb5a3(cmpr_c6, cmpr_c6_txt, 0, out colour1, colour1);
+                    parse_rgb5a3(cmpr_c6, cmpr_c6_txt, 6);
                     break;
             }
         }
 
         private void cmpr_c7_txt_TextChanged(object sender, EventArgs e)
         {
-
             switch (palette_enc)
             {
                 case 0: // AI8
-                    parse_ai8(cmpr_c7, cmpr_c7_txt, 0, out colour1, colour1);
+                    parse_ai8(cmpr_c7, cmpr_c7_txt, 7);
                     break;
                 case 1: // RGB565
-                    parse_rgb565(cmpr_c7, cmpr_c7_txt, 0, out colour1, colour1);
+                    parse_rgb565(cmpr_c7, cmpr_c7_txt, 7, out colour1, colour1);
                     break;
                 case 2: // RGB5A3
-                    parse_rgb5a3(cmpr_c7, cmpr_c7_txt, 0, out colour1, colour1);
+                    parse_rgb5a3(cmpr_c7, cmpr_c7_txt, 7);
                     break;
             }
         }
 
         private void cmpr_c8_txt_TextChanged(object sender, EventArgs e)
         {
-
             switch (palette_enc)
             {
                 case 0: // AI8
-                    parse_ai8(cmpr_c8, cmpr_c8_txt, 0, out colour1, colour1);
+                    parse_ai8(cmpr_c8, cmpr_c8_txt, 8);
                     break;
                 case 1: // RGB565
-                    parse_rgb565(cmpr_c8, cmpr_c8_txt, 0, out colour1, colour1);
+                    parse_rgb565(cmpr_c8, cmpr_c8_txt, 8, out colour1, colour1);
                     break;
                 case 2: // RGB5A3
-                    parse_rgb5a3(cmpr_c8, cmpr_c8_txt, 0, out colour1, colour1);
+                    parse_rgb5a3(cmpr_c8, cmpr_c8_txt, 8);
                     break;
             }
         }
 
         private void cmpr_c9_txt_TextChanged(object sender, EventArgs e)
         {
-
             switch (palette_enc)
             {
                 case 0: // AI8
-                    parse_ai8(cmpr_c9, cmpr_c9_txt, 0, out colour1, colour1);
+                    parse_ai8(cmpr_c9, cmpr_c9_txt, 9);
                     break;
                 case 1: // RGB565
-                    parse_rgb565(cmpr_c9, cmpr_c9_txt, 0, out colour1, colour1);
+                    parse_rgb565(cmpr_c9, cmpr_c9_txt, 9, out colour1, colour1);
                     break;
                 case 2: // RGB5A3
-                    parse_rgb5a3(cmpr_c9, cmpr_c9_txt, 0, out colour1, colour1);
+                    parse_rgb5a3(cmpr_c9, cmpr_c9_txt, 9);
                     break;
             }
         }
 
         private void cmpr_c10_txt_TextChanged(object sender, EventArgs e)
         {
-
             switch (palette_enc)
             {
                 case 0: // AI8
-                    parse_ai8(cmpr_c10, cmpr_c10_txt, 0, out colour1, colour1);
+                    parse_ai8(cmpr_c10, cmpr_c10_txt, 10);
                     break;
                 case 1: // RGB565
-                    parse_rgb565(cmpr_c10, cmpr_c10_txt, 0, out colour1, colour1);
+                    parse_rgb565(cmpr_c10, cmpr_c10_txt, 10, out colour1, colour1);
                     break;
                 case 2: // RGB5A3
-                    parse_rgb5a3(cmpr_c10, cmpr_c10_txt, 0, out colour1, colour1);
+                    parse_rgb5a3(cmpr_c10, cmpr_c10_txt, 10);
                     break;
             }
         }
 
         private void cmpr_c11_txt_TextChanged(object sender, EventArgs e)
         {
-
             switch (palette_enc)
             {
                 case 0: // AI8
-                    parse_ai8(cmpr_c11, cmpr_c11_txt, 0, out colour1, colour1);
+                    parse_ai8(cmpr_c11, cmpr_c11_txt, 11);
                     break;
                 case 1: // RGB565
-                    parse_rgb565(cmpr_c11, cmpr_c11_txt, 0, out colour1, colour1);
+                    parse_rgb565(cmpr_c11, cmpr_c11_txt, 11, out colour1, colour1);
                     break;
                 case 2: // RGB5A3
-                    parse_rgb5a3(cmpr_c11, cmpr_c11_txt, 0, out colour1, colour1);
+                    parse_rgb5a3(cmpr_c11, cmpr_c11_txt, 11);
                     break;
             }
         }
 
         private void cmpr_c12_txt_TextChanged(object sender, EventArgs e)
         {
-
             switch (palette_enc)
             {
                 case 0: // AI8
-                    parse_ai8(cmpr_c12, cmpr_c12_txt, 0, out colour1, colour1);
+                    parse_ai8(cmpr_c12, cmpr_c12_txt, 12);
                     break;
                 case 1: // RGB565
-                    parse_rgb565(cmpr_c12, cmpr_c12_txt, 0, out colour1, colour1);
+                    parse_rgb565(cmpr_c12, cmpr_c12_txt, 12, out colour1, colour1);
                     break;
                 case 2: // RGB5A3
-                    parse_rgb5a3(cmpr_c12, cmpr_c12_txt, 0, out colour1, colour1);
+                    parse_rgb5a3(cmpr_c12, cmpr_c12_txt, 12);
                     break;
             }
         }
 
         private void cmpr_c13_txt_TextChanged(object sender, EventArgs e)
         {
-
             switch (palette_enc)
             {
                 case 0: // AI8
-                    parse_ai8(cmpr_c13, cmpr_c13_txt, 0, out colour1, colour1);
+                    parse_ai8(cmpr_c13, cmpr_c13_txt, 13);
                     break;
                 case 1: // RGB565
-                    parse_rgb565(cmpr_c13, cmpr_c13_txt, 0, out colour1, colour1);
+                    parse_rgb565(cmpr_c13, cmpr_c13_txt, 13, out colour1, colour1);
                     break;
                 case 2: // RGB5A3
-                    parse_rgb5a3(cmpr_c13, cmpr_c13_txt, 0, out colour1, colour1);
+                    parse_rgb5a3(cmpr_c13, cmpr_c13_txt, 13);
                     break;
             }
         }
 
         private void cmpr_c14_txt_TextChanged(object sender, EventArgs e)
         {
-
             switch (palette_enc)
             {
                 case 0: // AI8
-                    parse_ai8(cmpr_c14, cmpr_c14_txt, 0, out colour1, colour1);
+                    parse_ai8(cmpr_c14, cmpr_c14_txt, 14);
                     break;
                 case 1: // RGB565
-                    parse_rgb565(cmpr_c14, cmpr_c14_txt, 0, out colour1, colour1);
+                    parse_rgb565(cmpr_c14, cmpr_c14_txt, 14, out colour1, colour1);
                     break;
                 case 2: // RGB5A3
-                    parse_rgb5a3(cmpr_c14, cmpr_c14_txt, 0, out colour1, colour1);
+                    parse_rgb5a3(cmpr_c14, cmpr_c14_txt, 14);
                     break;
             }
         }
 
         private void cmpr_c15_txt_TextChanged(object sender, EventArgs e)
         {
-
             switch (palette_enc)
             {
                 case 0: // AI8
-                    parse_ai8(cmpr_c15, cmpr_c15_txt, 0, out colour1, colour1);
+                    parse_ai8(cmpr_c15, cmpr_c15_txt, 15);
                     break;
                 case 1: // RGB565
-                    parse_rgb565(cmpr_c15, cmpr_c15_txt, 0, out colour1, colour1);
+                    parse_rgb565(cmpr_c15, cmpr_c15_txt, 15, out colour1, colour1);
                     break;
                 case 2: // RGB5A3
-                    parse_rgb5a3(cmpr_c15, cmpr_c15_txt, 0, out colour1, colour1);
+                    parse_rgb5a3(cmpr_c15, cmpr_c15_txt, 15);
                     break;
             }
         }
 
         private void cmpr_c16_txt_TextChanged(object sender, EventArgs e)
         {
-
             switch (palette_enc)
             {
                 case 0: // AI8
-                    parse_ai8(cmpr_c16, cmpr_c16_txt, 0, out colour1, colour1);
+                    parse_ai8(cmpr_c16, cmpr_c16_txt, 16);
                     break;
                 case 1: // RGB565
-                    parse_rgb565(cmpr_c16, cmpr_c16_txt, 0, out colour1, colour1);
+                    parse_rgb565(cmpr_c16, cmpr_c16_txt, 16, out colour1, colour1);
                     break;
                 case 2: // RGB5A3
-                    parse_rgb5a3(cmpr_c16, cmpr_c16_txt, 0, out colour1, colour1);
+                    parse_rgb5a3(cmpr_c16, cmpr_c16_txt, 16);
                     break;
             }
         }
