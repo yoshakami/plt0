@@ -286,11 +286,6 @@
         private System.Windows.Forms.PictureBox cmpr_save_as_ck;
         private System.Windows.Forms.Label cmpr_warning;
         private System.Windows.Forms.Label cmpr_sel_label;
-        private System.Windows.Forms.Label cmpr_mouse1_label;
-        private System.Windows.Forms.Label cmpr_mouse2_label;
-        private System.Windows.Forms.Label cmpr_mouse4_label;
-        private System.Windows.Forms.Label cmpr_mouse3_label;
-        private System.Windows.Forms.Label cmpr_mouse_sel_label;
         private System.Windows.Forms.Label cmpr_sel;
         private System.Windows.Forms.PictureBox bmd_ck;
         private PictureBoxWithInterpolationMode cmpr_grid_ck;
@@ -367,10 +362,6 @@
         private System.Windows.Forms.TextBox textBox30;
         private PictureBoxWithInterpolationMode opening_ck;
         private System.Windows.Forms.PictureBox opening_clear_gamelist_ck;
-        private System.Windows.Forms.Label cmpr_mouse12_label;
-        private System.Windows.Forms.Label cmpr_mouse11_label;
-        private System.Windows.Forms.Label cmpr_mouse10_label;
-        private System.Windows.Forms.Label cmpr_mouse9_label;
         private System.Windows.Forms.Label cmpr_c12;
         private System.Windows.Forms.TextBox cmpr_c12_txt;
         private System.Windows.Forms.Label cmpr_c11;
@@ -383,10 +374,6 @@
         private System.Windows.Forms.Label cmpr_c11_label;
         private System.Windows.Forms.Label cmpr_c10_label;
         private System.Windows.Forms.Label cmpr_c9_label;
-        private System.Windows.Forms.Label cmpr_mouse16_label;
-        private System.Windows.Forms.Label cmpr_mouse15_label;
-        private System.Windows.Forms.Label cmpr_mouse14_label;
-        private System.Windows.Forms.Label cmpr_mouse13_label;
         private System.Windows.Forms.Label cmpr_c16;
         private System.Windows.Forms.TextBox cmpr_c16_txt;
         private System.Windows.Forms.Label cmpr_c15;
@@ -399,10 +386,6 @@
         private System.Windows.Forms.Label cmpr_c15_label;
         private System.Windows.Forms.Label cmpr_c14_label;
         private System.Windows.Forms.Label cmpr_c13_label;
-        private System.Windows.Forms.Label cmpr_mouse8_label;
-        private System.Windows.Forms.Label cmpr_mouse7_label;
-        private System.Windows.Forms.Label cmpr_mouse6_label;
-        private System.Windows.Forms.Label cmpr_mouse5_label;
         private System.Windows.Forms.Label cmpr_c8;
         private System.Windows.Forms.TextBox cmpr_c8_txt;
         private System.Windows.Forms.Label cmpr_c7;
@@ -415,10 +398,27 @@
         private System.Windows.Forms.Label cmpr_c7_label;
         private System.Windows.Forms.Label cmpr_c6_label;
         private System.Windows.Forms.Label cmpr_c5_label;
-        private System.Windows.Forms.Label cmpr_mouse_hue_label;
         private System.Windows.Forms.Label cmpr_hue;
         private System.Windows.Forms.TextBox cmpr_hue_txt;
         private System.Windows.Forms.Label cmpr_hue_label;
+        private System.Windows.Forms.PictureBox cmpr_mouse1_ck;
+        private System.Windows.Forms.PictureBox cmpr_mouse2_ck;
+        private System.Windows.Forms.PictureBox cmpr_mouse3_ck;
+        private System.Windows.Forms.PictureBox cmpr_mouse4_ck;
+        private System.Windows.Forms.PictureBox cmpr_mouse5_ck;
+        private System.Windows.Forms.PictureBox cmpr_mouse6_ck;
+        private System.Windows.Forms.PictureBox cmpr_mouse7_ck;
+        private System.Windows.Forms.PictureBox cmpr_mouse8_ck;
+        private System.Windows.Forms.PictureBox cmpr_mouse9_ck;
+        private System.Windows.Forms.PictureBox cmpr_mouse10_ck;
+        private System.Windows.Forms.PictureBox cmpr_mouse11_ck;
+        private System.Windows.Forms.PictureBox cmpr_mouse12_ck;
+        private System.Windows.Forms.PictureBox cmpr_mouse13_ck;
+        private System.Windows.Forms.PictureBox cmpr_mouse14_ck;
+        private System.Windows.Forms.PictureBox cmpr_mouse15_ck;
+        private System.Windows.Forms.PictureBox cmpr_mouse16_ck;
+        private System.Windows.Forms.PictureBox cmpr_mouse_hue_ck;
+        private System.Windows.Forms.PictureBox cmpr_mouse_sel_ck;
         /*
 /// <summary>
 /// Required designer variable.

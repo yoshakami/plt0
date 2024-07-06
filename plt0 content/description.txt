@@ -13,7 +13,7 @@ writes the texture in a tif image
 writes the texture in a tiff image
 option asking you to press enter before the console window disappears in cli mode
 when decoding, the program will write a 32-bit bmp in any case \n\n(else I've optimized bit depth to make file size smaller depending while keeping all image data intact)
-force your alpha value to be applied\jeven if the input image isn't\ja 32-bit RGBA image\j\j\c Red (will output a fully transparent image in most cases)
+force your alpha value to be applied\jeven if the input image isn't\ja 32-bit RGBA image\j\j\c Red (will output a fully transparent\j\c Red image in most cases)
 when decoding, will write raw/random data, making a funky result
 adds the texture name\jat the end of the file\j\c Red (only use this for importing it into BrawlCrate!)
 won't inform the user that he made mistakes
@@ -40,10 +40,10 @@ Default CMPR Algorithm (best one to re-encode without anymore loss if input imag
 take the most used channel(s), and pick the two colours matching linear interpolation that are the furthest away\nAnciant name: Min/Max
 Cluster Fit
 Improved Wiimm Algorithm V2\j\c red Multithreading - CPU Demanding\jProcess all colour couples of the palette and take the one that produces the least "difference" calculated by adding channel differences
-An algorithm to convert 24-bit RGB to 8-bit grey.
-An algorithm to convert 24-bit RGB to 8-bit grey.
-Multiplies each channel by its value in the textbox "Custom RGBA"
-An algorithm to convert 24-bit RGB to 8-bit grey by inverting the sRGB Gamma Function and calculating the Luminance and the Perceptive Brightness
+An algorithm to convert\n24-bit RGB to 8-bit grey.
+An algorithm to convert\n24-bit RGB to 8-bit grey.
+Multiplies each channel by its value\nin the textbox "Custom RGBA"
+An algorithm to convert\n24-bit RGB to 8-bit grey by inverting\nthe sRGB Gamma Function and calculating\nthe Luminance and the Perceptive Brightness
 Custom. Set CMPR Max to any value between 0 and 100\n0 = Deviant average\n1 = Most used colour\n2 = Second Most used colour\n3 = Third....\n6 = Sixth most used colour\n7 = Darkest colour\n8 = Lightest colour\n9 = average colour\nexample: 69 = Sixth most used colour + Average\n100 or above = completely random couple
 Make the encoding of CMPR textures to only care about the two most used colours with diversity and percentage parameters
 (Norm 1) Use the CIE 709 Constants to calculate the distance between two Colours
@@ -69,10 +69,10 @@ algorithm for rescaling the texture when you're approaching it in-game
 algorithm for rescaling the texture when you're approaching it in-game
 algorithm for rescaling the texture when you're approaching it in-game
 algorithm for rescaling the texture when you're approaching it in-game
-Swap the Red channel with one of your choice
-Swap the Green channel with one of your choice
-Swap the Blue channel with one of your choice
-Swap the Alpha channel with one of your choice
+Swap the Red channel with\none of your choice
+Swap the Green channel with\none of your choice
+Swap the Blue channel with\none of your choice
+Swap the Alpha channel with\none of your choice
 Layout - show everything\jeven if it has no inpact when running\j\j\c GreenYellow Shortcut: F1
 Layout - will only display options\jmatching what's selected\j\j\c GreenYellow Shortcut: F2
 Layout - Preview the encoded\jor decoded texture\j\j\c GreenYellow Shortcut: F3
@@ -102,27 +102,27 @@ Double Click to open explorer\j\j\c Violet Must be a CMPR texture\n(bti, tex0, o
 Double Click to open explorer\j\j\c salmon if input file is a texture,\jit will be decoded.\j\jif input file is a picture, it will be encoded
 Double Click to open explorer\j\j\c coral can be a palette (picture, plt0),\j\c GreenYellow a bmd (replace a texture with input file),\j\j\c Orange or a tpl (to append the texture to)
 Double Click to open explorer\jName of the output file
-Double Click to open explorer\jName of the output file\j\j(without extension, because you have to check the extension yourself)
+Double Click to open explorer\jName of the output file\j\j(without extension, because you have to\ncheck the extension yourself)
 Mipmap Currently Displayed.
-Number of mipmaps\n\n(these are 'thumbnails' of the texture, with half the witdh and half the height. this is why "dimensions should be power of 2" is a thing)
+Number of mipmaps\n\n(these are 'thumbnails' of the texture,\nwith half the witdh and half the height.\nthis is why\n"dimensions should be power of 2"\nis a thing)
 Number of most used colours the tool should take of in each 4x4 block
 Threshold. every pixel with an alpha value below it are set to zero -> transparent (strict inferior), otherwise alpha is set to 255\n\n
 Number of colours in the palette \n\n(if you want to use less than the max capacity)
-for every byte trimmed to 3-bit \nif the trimmed bits are greater than this value, the third bit is rounded up
-for every byte trimmed to 4-bit \nif the trimmed bits are greater than this value, the fourth bit is rounded up
-for every byte trimmed to 5-bit \nif the trimmed bits are greater than this value, the fifth bit is rounded up
-for every byte trimmed to 6-bit \nif the trimmed bits are greater than this value, the sixth bit is rounded up
+for every byte trimmed to 3-bit \nif the trimmed bits are greater than\nthis value, the third bit is rounded up
+for every byte trimmed to 4-bit \nif the trimmed bits are greater than\this value, the fourth bit is rounded up
+for every byte trimmed to 5-bit \nif the trimmed bits are greater than\nthis value, the fifth bit is rounded up
+for every byte trimmed to 6-bit \nif the trimmed bits are greater than\nthis value, the sixth bit is rounded up
 the minimum amount of difference that at least one colour channel must have (compared to all colours of the colour palette)
 the minimum amount of difference that at least one colour channel must have on the second loop of colour indexing (compared to all colours of the colour palette)\n\nthe second loop is triggered when the colour palette is not full after the first loop
 when the next most used colour has a percentage of occurence less than this value, trigger the second loop.
 when the next most used colour has a percentage of occurence less than this value, trigger the last loop which will fill the palette with most used colours without duplicates.
-the red channel of each pixel will be multiplied by this value
-the green channel of each pixel will be multiplied by this value
-the blue channel of each pixel will be multiplied by this value
-the alpha channel of each pixel will be multiplied by this value
-Black and white palette format with 1 byte of alpha and 1 byte of grey per colour
-Coloured palette with 16 bits per colour - no alpha
-Coloured palette with smart alpha, 16 bits per colour
+the red channel of each pixel\nwill be multiplied by this value
+the green channel of each pixel\nwill be multiplied by this value
+the blue channel of each pixel\nwill be multiplied by this value
+the alpha channel of each pixel\nwill be multiplied by this value
+Black and white palette format with\n1 byte of alpha and 1 byte of grey per colour
+Coloured palette with\n16 bits per colour - no alpha
+Coloured palette with\nsmart alpha, 16 bits per colour
 Mario Sports Mix Community\n discord server
 Github Releases Tab
 Yosh's Youtube Channel
@@ -140,7 +140,7 @@ The version of this tool
 full command if you wanted to run the app with the current parameters from a command line
 Launch the application\j\j\c GreenYellow Shortcut: Ctrl + R
 The output text after you click on >Run
-Allow the app to be moved by dragging the background\j\j\c GreenYellow Press F12 to resize the window
+Allow the app to be moved by\jdragging the background\j\j\c GreenYellow Press F12 to resize the window
 Move this window
 Resize this window
 Refresh the preview\j(you can't see this text though)\j\j\c GreenYellow Unless you have a 4k screeeeeen :D\jWelcome to the creew !!!\jnow you can develop with windows.forms
@@ -148,13 +148,13 @@ Save the texture to what\jyou've written in output name\j\j\c GreenYellow Shortc
 Open a save prompt\j(with the file explorer)\j\j\c GreenYellow Shortcut: Ctrl + Shift + S
 Swap Colour1 and Colour2 \j\c MediumVioletRed (toogle transparency)
 Swap Colour1 and Colour2 \jbut doesn't swap the indexes\jin the 4x4 block\j\c MediumVioletRed (toogle transparency)
-This is a palette.\n\nClick to change one of the 4 colours
+This is a palette.\n\nClick to change one of the colours
 hold Mouse wheel down on any pixel of the Selected Block to assign it to Colour 1
 hold Right Click down on any pixel of the Selected Block to assign it to Colour 2
 hold Forward Button \j\c DarkTurquoise (located on the side of gaming mouses)\j\c Coral down on any pixel of the Selected Block to assign it to Colour 3
 hold Backward Button \j\c DarkTurquoise (located on the side of gaming mouses)\j\c MediumAquamarine down on any pixel of the Selected Block to assign it to Colour 4
 hold Left Click down on any pixel of\jthe Selected Block to assign it to the\jcolour you see \j\j\c Orange (the one you've selected)
-Click on any of the 4 colours to Select it.\n\n(this will bind left click to this colour when you click on any pixel of the Selected Block)
+Click on any of the colours to Select it.\n\n(this will bind left click to this colour\nwhen you click on any pixel\nof the Selected Block)
 the first rgb565 colour\jof the selected 4x4 block\j\j\c GreenYellow Shortcut to select it: Ctrl + 1
 the second rgb565 colour\jof the selected 4x4 block\j\j\c GreenYellow Shortcut to select it: Ctrl + 2
 third colour \j\j\c red it is interpolated,\j\c red you can't edit it directly\j\j\c GreenYellow Shortcut to select it: Ctrl + 3
@@ -178,10 +178,10 @@ save failed, \c Red \o is used by another process
 (Norm 2) Adds Red*Red + Green*Green + Blue*Blue\nthis is norm is a sphere on the 3d space
 (Norm +inf) Keeps the longest out of red, green, or blue\nlitterally Max(red, green, blue)\nAlso called Tchebichev distance\nThis norm is a flat cube on the 3d space
 CIEDE2000, also known as ΔE2000 or Delta E 2000, is a color difference formula that quantifies the perceptual difference between two colors in a more accurate and comprehensive way compared to earlier color difference metrics.
-Layout specially made to decode bti, tpl, and tex0 files
+Layout specially made to decode\nbti, tpl, and tex0 files
 Build your own palette of 16 colours!
 Edit opening.bnr for a\jcustom game icon, title, and\jdescription in Dolphin!
-Save Settings to config.txt and change output format quality there
+Save Settings to config.txt\nand change output format quality there
 View cli parameters (over decoded image)
 Drag and Drop any opening.bnr file
 \c red the texture dimensions must be 96x32
