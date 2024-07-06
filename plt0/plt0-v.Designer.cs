@@ -415,6 +415,10 @@
         private System.Windows.Forms.Label cmpr_c7_label;
         private System.Windows.Forms.Label cmpr_c6_label;
         private System.Windows.Forms.Label cmpr_c5_label;
+        private System.Windows.Forms.Label cmpr_mouse_hue_label;
+        private System.Windows.Forms.Label cmpr_hue;
+        private System.Windows.Forms.TextBox cmpr_hue_txt;
+        private System.Windows.Forms.Label cmpr_hue_label;
         /*
 /// <summary>
 /// Required designer variable.

@@ -225,6 +225,8 @@ c13
 C14
 c15
 \c orange colour trimmed to RGB5A3
+Shift all palette colours\nif you change the hue
+mouse_hue
 this is the first line \j\c coral second line\j\c SpringGreen third line\j\c DeepSkyBlue fourth line\j\c Violet fith line is here\j\c pink can we see the sixth one\j\c orange on my way to show the seventh one\j\c purple the purple eigth one\j\c chartreuse and this is the ninth one\c yellow this is the tenth one
 note: line 164 to line 176 are LABELS, not descriptions, so they can't take \j as argument, which results in only 1 colour, and only 1 font type for each.
 color, 16 bits per pixel - no alpha \j\c coral 5 bits red\j\c SpringGreen 6 bits green\j\c DeepSkyBlue 5 bits blue\j\c Violet  test\j\c pink test2\j\c orange text\j\c purple purple\j\c chartreuse chartreuse\c yellow yellow
