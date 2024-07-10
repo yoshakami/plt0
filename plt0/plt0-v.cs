@@ -60,7 +60,6 @@ namespace plt0_gui
         static byte[] cmpr_rgb = { 0, 0, 0 };
         static string[] config = new string[150];
         static string[] d = new string[256];
-        static string[] layout_name = { "All", "Encode", "Preview", "Paint", "Decode", "Palette", "Opening", "Settings" };
         static string cmpr_colours_hex;
         byte[] image_ck_preview;
         byte[] opening_ck_preview;
@@ -120,6 +119,7 @@ namespace plt0_gui
         bool cmpr_update_preview = false;
         bool sync_preview_is_on = false;
         bool the_program_is_loading_a_cmpr_block = false;
+        static bool the_program_is_loading_the_palette = false;
         bool cmpr_swap2_enabled = false;
         bool cmpr_hover = false;
         byte cmpr_index_i = 0;
@@ -265,7 +265,9 @@ namespace plt0_gui
         ushort old_width = 1920; // every element is made for 1920 x 1080 at first
         ushort old_height = 1080; // for reference before being resized.
         byte tooltip = 0;
-        byte layout;
+        byte layout;  // 0 = All, 1 = Encode      2 = Prewiew          3          4        5         6           7
+        static string[] layout_name = { "All", "Encode", "Preview", "Paint", "Decode", "Palette", "Opening", "Settings" };
+        byte[] colour_palette;
         byte arrow;
         int number;
         int len;
@@ -1325,7 +1327,7 @@ namespace plt0_gui
         }
         private void Preview(bool called_from_text, bool called_from_sync = false)
         {
-            if (layout != 2 && layout != 4 && layout != 5)
+            if (layout != 2 && layout != 4 && layout != 5)  // not Preview, Decode, or Palette
             {
                 return;
             }
@@ -1374,6 +1376,12 @@ namespace plt0_gui
                 Parse_args_class cli = new Parse_args_class();
                 cli.Parse_args(arg_array.ToArray());
                 seal = cli.Check_exit();
+                if (layout == 5)  // layout palette
+                {
+                    colour_palette = cli.CI4_colour_palette();
+                    the_program_is_loading_the_palette = true;
+                    Load_Palette();
+                }
                 if (!seal.StartsWith("the process executed successfully") && !seal.StartsWith("written "))
                     cli_textbox_label.Text = seal;
                 // PictureBoxWithInterpolationMode preview_ck2 = new PictureBoxWithInterpolationMode();
@@ -3422,6 +3430,130 @@ namespace plt0_gui
             image_ck.Visible = false;
             Disable_Paint_Layout();
         }
+        /// <summary>
+        /// changes the content of colour_palette and all blocks colours
+        /// </summary>
+        private void Load_Palette()
+        {
+            if (colour_palette != null)
+            {
+                switch (palette_enc)
+                {
+                    case 0:  // AI8  - extract from write_bmp.cs @ line 262
+
+                        for (x = 0, y = 0; x < 32; x += 2, y += 4)
+                        {
+                            cmpr_colours_argb[y] = colour_palette[x + 1];    // this is the formula for black and white lol
+                            cmpr_colours_argb[y + 1] = colour_palette[x + 1];
+                            cmpr_colours_argb[y + 2] = colour_palette[x + 1];
+                            cmpr_colours_argb[y + 3] = colour_palette[x];  // Alpha
+                        }
+                        cmpr_colours_hex = BitConverter.ToString(cmpr_colours_argb).Replace("-", string.Empty);
+                        cmpr_c1_txt.Text = cmpr_colours_hex.Substring(8 - 6, 2) + cmpr_colours_hex.Substring(0, 2);  // GA
+                        cmpr_c2_txt.Text = cmpr_colours_hex.Substring(16 - 6, 2) + cmpr_colours_hex.Substring(8, 2);  // GA
+                        cmpr_c3_txt.Text = cmpr_colours_hex.Substring(24 - 6, 2) + cmpr_colours_hex.Substring(16, 2);  // GA
+                        cmpr_c4_txt.Text = cmpr_colours_hex.Substring(32 - 6, 2) + cmpr_colours_hex.Substring(24, 2);  // GA
+                        cmpr_c5_txt.Text = cmpr_colours_hex.Substring(40 - 6, 2) + cmpr_colours_hex.Substring(32, 2);  // GA
+                        cmpr_c6_txt.Text = cmpr_colours_hex.Substring(48 - 6, 2) + cmpr_colours_hex.Substring(40, 2);  // GA
+                        cmpr_c7_txt.Text = cmpr_colours_hex.Substring(56 - 6, 2) + cmpr_colours_hex.Substring(48, 2);  // GA
+                        cmpr_c8_txt.Text = cmpr_colours_hex.Substring(64 - 6, 2) + cmpr_colours_hex.Substring(56, 2);  // GA
+                        cmpr_c9_txt.Text = cmpr_colours_hex.Substring(72 - 6, 2) + cmpr_colours_hex.Substring(64, 2);  // GA
+                        cmpr_c10_txt.Text = cmpr_colours_hex.Substring(80 - 6, 2) + cmpr_colours_hex.Substring(72, 2);  // GA
+                        cmpr_c11_txt.Text = cmpr_colours_hex.Substring(88 - 6, 2) + cmpr_colours_hex.Substring(80, 2);  // GA
+                        cmpr_c12_txt.Text = cmpr_colours_hex.Substring(96 - 6, 2) + cmpr_colours_hex.Substring(88, 2);  // GA
+                        cmpr_c13_txt.Text = cmpr_colours_hex.Substring(104 - 6, 2) + cmpr_colours_hex.Substring(960, 2);  // GA
+                        cmpr_c14_txt.Text = cmpr_colours_hex.Substring(112 - 6, 2) + cmpr_colours_hex.Substring(104, 2);  // GA
+                        cmpr_c15_txt.Text = cmpr_colours_hex.Substring(120 - 6, 2) + cmpr_colours_hex.Substring(112, 2);  // GA
+                        cmpr_c16_txt.Text = cmpr_colours_hex.Substring(128 - 6, 2) + cmpr_colours_hex.Substring(128, 2);  // GA
+                        break;
+                    case 1:  // RGB565  - extract from write_bmp.cs @ line 348
+                        for (x = 0, y = 0; x < 32; x += 2, y += 4)
+                        {
+                            cmpr_colours_argb[y] = (byte)(colour_palette[x + 1] << 3);  // Blue
+                            if (cmpr_colours_argb[y] == 248)
+                            {
+                                cmpr_colours_argb[y] = 255;
+                            }
+                            cmpr_colours_argb[y + 1] = (byte)(((colour_palette[x] << 5) | (colour_palette[x + 1] >> 3)) & 0xfc);  // Green
+                            if (cmpr_colours_argb[y + 1] == 252)
+                            {
+                                cmpr_colours_argb[y + 1] = 255;
+                            }
+                            cmpr_colours_argb[y + 2] = (byte)(colour_palette[x] & 0xf8);  // Red
+                            if (cmpr_colours_argb[y + 2] == 248)
+                            {
+                                cmpr_colours_argb[y + 2] = 255;
+                            }
+                            cmpr_colours_argb[y + 3] = 0xff;  // No Alpha
+                        }
+                        cmpr_colours_hex = BitConverter.ToString(cmpr_colours_argb).Replace("-", string.Empty);
+                        cmpr_c1_txt.Text = cmpr_colours_hex.Substring(8 - 6, 6);
+                        cmpr_c2_txt.Text = cmpr_colours_hex.Substring(16 - 6, 6);
+                        cmpr_c3_txt.Text = cmpr_colours_hex.Substring(24 - 6, 6);
+                        cmpr_c4_txt.Text = cmpr_colours_hex.Substring(32 - 6, 6);
+                        cmpr_c5_txt.Text = cmpr_colours_hex.Substring(40 - 6, 6);
+                        cmpr_c6_txt.Text = cmpr_colours_hex.Substring(48 - 6, 6);
+                        cmpr_c7_txt.Text = cmpr_colours_hex.Substring(56 - 6, 6);
+                        cmpr_c8_txt.Text = cmpr_colours_hex.Substring(64 - 6, 6);
+                        cmpr_c9_txt.Text = cmpr_colours_hex.Substring(72 - 6, 6);
+                        cmpr_c10_txt.Text = cmpr_colours_hex.Substring(80 - 6, 6);
+                        cmpr_c11_txt.Text = cmpr_colours_hex.Substring(88 - 6, 6);
+                        cmpr_c12_txt.Text = cmpr_colours_hex.Substring(96 - 6, 6);
+                        cmpr_c13_txt.Text = cmpr_colours_hex.Substring(104 - 6, 6);
+                        cmpr_c14_txt.Text = cmpr_colours_hex.Substring(112 - 6, 6);
+                        cmpr_c15_txt.Text = cmpr_colours_hex.Substring(120 - 6, 6);
+                        cmpr_c16_txt.Text = cmpr_colours_hex.Substring(128 - 6, 6);
+                        break;
+                    case 2:  // RGB5A3  - extract from write_bmp.cs @ line 680
+                        for (x = 0, y = 0; x < 32; x++, x += 2, y += 4)
+                        {
+                            if (colour_palette[x] >> 7 == 0)  // alpha - 0AAA RRRR GGGG BBBB
+                            {
+                                alpha2 = (byte)((colour_palette[x] << 1) & 0xe0);
+                                if (alpha2 == 0xe0)
+                                {
+                                    alpha2 = 0xff;
+                                }
+                                cmpr_colours_argb[y + 2] = (byte)((colour_palette[x] & 0x0f) << 4);  // red
+                                cmpr_colours_argb[y + 1] = (byte)(colour_palette[x + 1] & 0xf0);  // green
+                                cmpr_colours_argb[y] = (byte)((colour_palette[x + 1] & 0x0f) << 4);  // blue
+                                cmpr_colours_argb[y + 3] = alpha2;
+
+                            }
+                            else  // reads 1RRR RRGG GGGB BBBB
+                            {
+                                cmpr_colours_argb[y + 2] = (byte)((colour_palette[x] << 1) & 248);  // red
+                                cmpr_colours_argb[y + 1] = (byte)((colour_palette[x] << 6) + (colour_palette[x + 1] >> 2));  // green
+                                cmpr_colours_argb[y] = (byte)(colour_palette[x + 1] << 3);  // blue
+                                cmpr_colours_argb[y + 3] = 0xff; // no alpha
+                            }
+                        }
+                        cmpr_colours_hex = BitConverter.ToString(cmpr_colours_argb).Replace("-", string.Empty);
+                        cmpr_c1_txt.Text = cmpr_colours_hex.Substring(8 - 6, 6) + cmpr_colours_hex.Substring(0, 2);  // RGBA
+                        cmpr_c2_txt.Text = cmpr_colours_hex.Substring(16 - 6, 6) + cmpr_colours_hex.Substring(8, 2);  // RGBA
+                        cmpr_c3_txt.Text = cmpr_colours_hex.Substring(24 - 6, 6) + cmpr_colours_hex.Substring(16, 2);  // RGBA
+                        cmpr_c4_txt.Text = cmpr_colours_hex.Substring(32 - 6, 6) + cmpr_colours_hex.Substring(24, 2);  // RGBA
+                        cmpr_c5_txt.Text = cmpr_colours_hex.Substring(40 - 6, 6) + cmpr_colours_hex.Substring(32, 2);  // RGBA
+                        cmpr_c6_txt.Text = cmpr_colours_hex.Substring(48 - 6, 6) + cmpr_colours_hex.Substring(40, 2);  // RGBA
+                        cmpr_c7_txt.Text = cmpr_colours_hex.Substring(56 - 6, 6) + cmpr_colours_hex.Substring(48, 2);  // RGBA
+                        cmpr_c8_txt.Text = cmpr_colours_hex.Substring(64 - 6, 6) + cmpr_colours_hex.Substring(56, 2);  // RGBA
+                        cmpr_c9_txt.Text = cmpr_colours_hex.Substring(72 - 6, 6) + cmpr_colours_hex.Substring(64, 2);  // RGBA
+                        cmpr_c10_txt.Text = cmpr_colours_hex.Substring(80 - 6, 6) + cmpr_colours_hex.Substring(72, 2);  // RGBA
+                        cmpr_c11_txt.Text = cmpr_colours_hex.Substring(88 - 6, 6) + cmpr_colours_hex.Substring(80, 2);  // RGBA
+                        cmpr_c12_txt.Text = cmpr_colours_hex.Substring(96 - 6, 6) + cmpr_colours_hex.Substring(88, 2);  // RGBA
+                        cmpr_c13_txt.Text = cmpr_colours_hex.Substring(104 - 6, 6) + cmpr_colours_hex.Substring(960, 2);  // RGBA
+                        cmpr_c14_txt.Text = cmpr_colours_hex.Substring(112 - 6, 6) + cmpr_colours_hex.Substring(104, 2);  // RGBA
+                        cmpr_c15_txt.Text = cmpr_colours_hex.Substring(120 - 6, 6) + cmpr_colours_hex.Substring(112, 2);  // RGBA
+                        cmpr_c16_txt.Text = cmpr_colours_hex.Substring(128 - 6, 6) + cmpr_colours_hex.Substring(128, 2);  // RGBA
+                        break;
+                    default:
+                        the_program_is_loading_the_palette = false;
+                        return;
+                }
+
+            }
+            the_program_is_loading_the_palette = false;
+        }
         private void Layout_Opening()
         {
             Layout_Paint();
@@ -5380,6 +5512,8 @@ namespace plt0_gui
                 cmpr_colours_argb[(j << 2) - 2] = red;
                 cmpr_colours_argb[(j << 2) - 1] = red;
                 cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
+                if (!the_program_is_loading_the_palette)
+                    Preview(true);
                 // don't convert to hex string
             }
         }
@@ -5502,6 +5636,8 @@ namespace plt0_gui
                 {
                     out_colour = default_colour;
                     cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
+                    if (!the_program_is_loading_the_palette)
+                        Preview(true);
                     return;
                 }
                 cmpr_colour[(j << 1) - 2] = (byte)((red & 0xf8) + (green >> 5));
@@ -5711,6 +5847,8 @@ namespace plt0_gui
                     txt.Text = cmpr_colours_hex.Substring((j << 3) - 6, 6);
                 }
                 cmpr_sel.BackColor = Color.FromArgb(cmpr_colours_argb[(cmpr_selected_colour << 2) - 4], cmpr_colours_argb[(cmpr_selected_colour << 2) - 3], cmpr_colours_argb[(cmpr_selected_colour << 2) - 2], cmpr_colours_argb[(cmpr_selected_colour << 2) - 1]);
+                if (!the_program_is_loading_the_palette)
+                    Preview(true);
             }
         }
         private void parse_rgba_hover(Label lab, TextBox txt)
@@ -22520,9 +22658,9 @@ namespace plt0_gui
         private void cmpr_c1_MouseEnter(object sender, EventArgs e)
         {
             if (layout == 3)
-            Parse_Markdown(d[157]);
+                Parse_Markdown(d[157]);
             else
-            Parse_Markdown(d[211]);
+                Parse_Markdown(d[211]);
             if (cmpr_selected_colour == 1)
                 cmpr_mouse1_ck.Image = mouse1_selected;
             else

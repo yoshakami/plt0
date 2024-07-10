@@ -43,14 +43,14 @@ Improved Wiimm Algorithm V2\j\c red Multithreading - CPU Demanding\jProcess all 
 An algorithm to convert\n24-bit RGB to 8-bit grey.
 An algorithm to convert\n24-bit RGB to 8-bit grey.
 Multiplies each channel by its value\nin the textbox "Custom RGBA"
-An algorithm to convert\n24-bit RGB to 8-bit grey by inverting\nthe sRGB Gamma Function and calculating\nthe Luminance and the Perceptive Brightness
+An algorithm to convert\n24-bit RGB to 8-bit grey by inverting\nthe sRGB Gamma Function,\ncalculating the Luminance and\nthe Perceptive Brightness
 Custom. Set CMPR Max to any value between 0 and 100\n0 = Deviant average\n1 = Most used colour\n2 = Second Most used colour\n3 = Third....\n6 = Sixth most used colour\n7 = Darkest colour\n8 = Lightest colour\n9 = average colour\nexample: 69 = Sixth most used colour + Average\n100 or above = completely random couple
 Make the encoding of CMPR textures to only care about the two most used colours with diversity and percentage parameters
 (Norm 1) Use the CIE 709 Constants to calculate the distance between two Colours
 (Norm 1) Litterally Adds Red + Green + Blue\nthis is also called Manhattan distance\nThis norm is a diamond cube on the 3d space
-States that the picture has No alpha and that every pixel of RGB5A3 must be 1RRR RRGG GGGB BBBB(used in RGB5A3's smart alpha and for choosing palette encoding if none were selected)
-States that the picture has Alpha and that every pixel of RGB5A3 must be 0AAA RRRR GGGG BBBB
-Picture has alpha and RGB5A3 can use any of the two options for each pixel
+States that the picture has No alpha\nand that every pixel of RGB5A3 must be\n1RRR RRGG GGGB BBBB(used in RGB5A3's smart alpha and for choosing palette encoding if none were selected)
+States that the picture has Alpha\nand that every pixel of RGB5A3 must be\n0AAA RRRR GGGG BBBB
+Picture has alpha and RGB5A3 can use\nany of the two options for each pixel
 repeats the last pixel horizontally indefinitely when looking out of the texture canvas
 paste the whole texture horizontally when looking out of the texture canvas
 reverse horizontally each occurence of the texture (used to make textures with twice the width stored in half the size)
