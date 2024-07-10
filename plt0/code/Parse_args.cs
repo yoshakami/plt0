@@ -1547,6 +1547,7 @@ class Parse_args_class
                         return;
                     }
                     Fill_palette_class.Fill_palette(bmp_palette, pixel_start_offset, array_size, colour_palette, rgba_channel, custom_rgba, palette_format_int32, algorithm, alpha, round3, round4, round5, round6);
+                    // TODO: check missing assignment to output from the function above ??^^^^^  try to add a bmp of 16 pixels in input file 2.
                 }
 
             }

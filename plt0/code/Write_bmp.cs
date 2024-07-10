@@ -199,7 +199,7 @@ class Write_bmp_class
 
                     case 4:  // RGB565
                         {
-                            data[28] = 24; // converted to 24bpp to prevent loss
+                            data[28] = 24; // converted to 24bpp to prevent loss - but I added alpha anyways
                             break;
                         }
                     case 2: // AI4
@@ -727,7 +727,7 @@ class Write_bmp_class
                                                             pixel[index + 4] = 0xff;
                                                         }
                                                     }
-                                                    else  // reads 0RRR RRGG GGGB BBBB
+                                                    else  // reads 1RRR RRGG GGGB BBBB
                                                     {
                                                         pixel[index + 2] = (byte)((colour_palette[(index_list[z][j][k] >> 4) << 1] << 1) & 248);  // red
                                                         if (pixel[index + 2] == 248)
@@ -803,7 +803,7 @@ class Write_bmp_class
                                                             pixel[index] = 0xff;
                                                         }
                                                     }
-                                                    else  // reads 0RRR RRGG GGGB BBBB
+                                                    else  // reads 1RRR RRGG GGGB BBBB
                                                     {
                                                         pixel[index + 2] = (byte)((colour_palette[index_list[z][j][k] << 1] << 1) & 248);  // red
                                                         if (pixel[index + 2] == 248)
@@ -862,7 +862,7 @@ class Write_bmp_class
                                                             pixel[index] = 0xff;
                                                         }
                                                     }
-                                                    else  // reads 0RRR RRGG GGGB BBBB
+                                                    else  // reads 1RRR RRGG GGGB BBBB
                                                     {
                                                         pixel[index + 2] = (byte)((colour_palette[(index_list[z][j][k] << 9) + (index_list[z][j][k + 1] << 1)] << 1) & 248);  // red
                                                         if (pixel[index + 2] == 248)
