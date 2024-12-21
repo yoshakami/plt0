@@ -1572,8 +1572,22 @@ class Write_bmp_class
             }
         }
         if (ico)
-            return "written " + output_file + ".ico\n";
-        return "written " + output_file + end + "\n";
+            end = ".ico";
+        else if (png)
+            end = ".png";
+        else if (tif)
+            end = ".tif";
+        else if (tiff)
+            end = ".tiff";
+        else if (jpg)
+            end = ".jpg";
+        else if (jpeg)
+            end = ".jpeg";
+        else if (gif)
+            end = ".gif";
+        else if (!bmp)
+            return "please specify output file type";
+        return $"written {Environment.CurrentDirectory.Replace("\\", "/")}/{output_file}{end}\n";
     }
 }
 // satisfying end
