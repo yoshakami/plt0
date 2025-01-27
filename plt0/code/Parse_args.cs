@@ -118,6 +118,18 @@ class Parse_args_class
                 no_gui = true;
         for (ushort i = 1; i < args.Length; i++)
         {
+            // wimgt magic tricks here
+            if (args[i].ToUpper() == "-X")
+                continue;
+            if (args[i].ToUpper() == "-O")
+            {
+                overwrite = true;
+                continue;
+            }
+            if (args[i].ToUpper() == "-D")
+                args[i] = "O";
+            if (args[i].ToUpper() == "-Y")
+                args[i] = "W";
             if (pass > 0)
             {
                 pass--;
@@ -187,6 +199,36 @@ class Parse_args_class
                         }
                     }
                     break;
+                case "BTI.C4":
+                case "BTI.CI4":
+                    bti = true;
+                    max_colours = 16;
+                    block_width = 8;
+                    block_height = 8;
+                    format_ratio = 2;
+                    texture_format_int32[3] = 8;
+                    has_palette = true;
+                    break;
+                case "TPL.C4":
+                case "TPL.CI4":
+                    tpl = true;
+                    max_colours = 16;
+                    block_width = 8;
+                    block_height = 8;
+                    format_ratio = 2;
+                    texture_format_int32[3] = 8;
+                    has_palette = true;
+                    break;
+                case "TEX.C4":
+                case "TEX.CI4":
+                    tex0 = true;
+                    max_colours = 16;
+                    block_width = 8;
+                    block_height = 8;
+                    format_ratio = 2;
+                    texture_format_int32[3] = 8;
+                    has_palette = true;
+                    break;
                 case "C4":
                 case "CI4":
                     max_colours = 16;
@@ -219,6 +261,39 @@ class Parse_args_class
                         }
                     }
                     break;
+                case "BTI.CI14X2":
+                case "BTI.C14X2":
+                    bti = true;
+                    max_colours = 16385;  // the user can still bypass this number by manually specifiying the number of colours
+                                          // max_colours = 65535;
+                    block_width = 4;
+                    block_height = 4;
+                    texture_format_int32[3] = 10;
+                    format_ratio = 0.5;
+                    has_palette = true;
+                    break;
+                case "TPL.CI14X2":
+                case "TPL.C14X2":
+                    tpl = true;
+                    max_colours = 16385;  // the user can still bypass this number by manually specifiying the number of colours
+                                          // max_colours = 65535;
+                    block_width = 4;
+                    block_height = 4;
+                    texture_format_int32[3] = 10;
+                    format_ratio = 0.5;
+                    has_palette = true;
+                    break;
+                case "TEX.CI14X2":
+                case "TEX.C14X2":
+                    tex0 = true;
+                    max_colours = 16385;  // the user can still bypass this number by manually specifiying the number of colours
+                                          // max_colours = 65535;
+                    block_width = 4;
+                    block_height = 4;
+                    texture_format_int32[3] = 10;
+                    format_ratio = 0.5;
+                    has_palette = true;
+                    break;
                 case "CI14X2":
                 case "C14X2":
                     max_colours = 16385;  // the user can still bypass this number by manually specifiying the number of colours
@@ -228,6 +303,30 @@ class Parse_args_class
                     texture_format_int32[3] = 10;
                     format_ratio = 0.5;
                     has_palette = true;
+                    break;
+                case "BTI.CMPR":
+                    bti = true;
+                    texture_format_int32[3] = 0xE;
+                    block_width = 8;
+                    block_height = 8;
+                    format_ratio = 2;
+                    has_palette = false;
+                    break;
+                case "TPL.CMPR":
+                    tpl = true;
+                    texture_format_int32[3] = 0xE;
+                    block_width = 8;
+                    block_height = 8;
+                    format_ratio = 2;
+                    has_palette = false;
+                    break;
+                case "TEX.CMPR":
+                    tex0 = true;
+                    texture_format_int32[3] = 0xE;
+                    block_width = 8;
+                    block_height = 8;
+                    format_ratio = 2;
+                    has_palette = false;
                     break;
                 case "CMPR":
                     texture_format_int32[3] = 0xE;
@@ -437,6 +536,30 @@ class Parse_args_class
                         }
                     }
                     break;
+                case "BTI.I4":
+                    bti = true;
+                    texture_format_int32[3] = 0;
+                    block_width = 8;
+                    block_height = 8;
+                    format_ratio = 2;
+                    has_palette = false;
+                    break;
+                case "TPL.I4":
+                    tpl = true;
+                    texture_format_int32[3] = 0;
+                    block_width = 8;
+                    block_height = 8;
+                    format_ratio = 2;
+                    has_palette = false;
+                    break;
+                case "TEX.I4":
+                    tex0 = true;
+                    texture_format_int32[3] = 0;
+                    block_width = 8;
+                    block_height = 8;
+                    format_ratio = 2;
+                    has_palette = false;
+                    break;
                 case "I4":
                     texture_format_int32[3] = 0;
                     block_width = 8;
@@ -444,8 +567,59 @@ class Parse_args_class
                     format_ratio = 2;
                     has_palette = false;
                     break;
+                case "BTI.I8":
+                    bti = true;
+                    texture_format_int32[3] = 1;
+                    block_width = 8;
+                    block_height = 4;
+                    format_ratio = 1;
+                    has_palette = false;
+                    break;
+                case "TPL.I8":
+                    tpl = true;
+                    texture_format_int32[3] = 1;
+                    block_width = 8;
+                    block_height = 4;
+                    format_ratio = 1;
+                    has_palette = false;
+                    break;
+                case "TEX.I8":
+                    tex0 = true;
+                    texture_format_int32[3] = 1;
+                    block_width = 8;
+                    block_height = 4;
+                    format_ratio = 1;
+                    has_palette = false;
+                    break;
                 case "I8":
                     texture_format_int32[3] = 1;
+                    block_width = 8;
+                    block_height = 4;
+                    format_ratio = 1;
+                    has_palette = false;
+                    break;
+                case "BTI.IA4":
+                case "BTI.AI4":
+                    bti = true;
+                    texture_format_int32[3] = 2;
+                    block_width = 8;
+                    block_height = 4;
+                    format_ratio = 1;
+                    has_palette = false;
+                    break;
+                case "TPL.IA4":
+                case "TPL.AI4":
+                    tpl = true;
+                    texture_format_int32[3] = 2;
+                    block_width = 8;
+                    block_height = 4;
+                    format_ratio = 1;
+                    has_palette = false;
+                    break;
+                case "TEX.IA4":
+                case "TEX.AI4":
+                    tex0 = true;
+                    texture_format_int32[3] = 2;
                     block_width = 8;
                     block_height = 4;
                     format_ratio = 1;
@@ -458,6 +632,21 @@ class Parse_args_class
                     block_height = 4;
                     format_ratio = 1;
                     has_palette = false;
+                    break;
+                case "BTI.IA8":
+                case "BTI.AI8":
+                    bti = true;
+                    palette_format_int32[3] = 0;  // will be set to texture format if texture format is unset
+                    break;
+                case "TPL.IA8":
+                case "TPL.AI8":
+                    tpl = true;
+                    palette_format_int32[3] = 0;  // will be set to texture format if texture format is unset
+                    break;
+                case "TEX.IA8":
+                case "TEX.AI8":
+                    tex0 = true;
+                    palette_format_int32[3] = 0;  // will be set to texture format if texture format is unset
                     break;
                 case "IA8":
                 case "AI8":
@@ -848,13 +1037,73 @@ class Parse_args_class
                         pass = 1;
                     }
                     break;
+                case "BTI.RGB565":
+                case "BTI.RGB":
+                    bti = true;
+                    palette_format_int32[3] = 1;
+                    break;
+                case "TPL.RGB565":
+                case "TPL.RGB":
+                    tpl = true;
+                    palette_format_int32[3] = 1;
+                    break;
+                case "TEX.RGB565":
+                case "TEX.RGB":
+                    tex0 = true;
+                    palette_format_int32[3] = 1;
+                    break;
                 case "RGB565":
                 case "RGB":
                     palette_format_int32[3] = 1;
                     break;
+                case "BTI.RGB5A3":
+                case "BTI.RGBA":
+                    bti = true;
+                    palette_format_int32[3] = 2;
+                    break;
+                case "TPL.RGB5A3":
+                case "TPL.RGBA":
+                    tpl = true;
+                    palette_format_int32[3] = 2;
+                    break;
+                case "TEX.RGB5A3":
+                case "TEX.RGBA":
+                    tex0 = true;
+                    palette_format_int32[3] = 2;
+                    break;
                 case "RGB5A3":
                 case "RGBA":
                     palette_format_int32[3] = 2;
+                    break;
+                case "BTI.RGBA32":
+                case "BTI.RGBA8":
+                case "BTI.RGBA64":
+                    bti = true;
+                    texture_format_int32[3] = 6;
+                    block_width = 4;
+                    block_height = 4;
+                    format_ratio = 0.25;
+                    has_palette = false;
+                    break;
+                case "TPL.RGBA32":
+                case "TPL.RGBA8":
+                case "TPL.RGBA64":
+                    tpl = true;
+                    texture_format_int32[3] = 6;
+                    block_width = 4;
+                    block_height = 4;
+                    format_ratio = 0.25;
+                    has_palette = false;
+                    break;
+                case "TEX.RGBA32":
+                case "TEX.RGBA8":
+                case "TEX.RGBA64":
+                    tex0 = true;
+                    texture_format_int32[3] = 6;
+                    block_width = 4;
+                    block_height = 4;
+                    format_ratio = 0.25;
+                    has_palette = false;
                     break;
                 case "RGBA32":
                 case "RGBA8":
@@ -934,6 +1183,8 @@ class Parse_args_class
                     break;
                 case "STFU":
                 case "SHUT":
+                case "Q": // wimgt name
+                case "QUIET": // wimgt name
                     stfu = true;
                     break;
                 case "TEX0":
@@ -1806,7 +2057,8 @@ class Parse_args_class
             output_file = arg;
         }
     }
-    public byte[] CI4_colour_palette() {
+    public byte[] CI4_colour_palette()
+    {
         if (texture_format_int32[3] == 8)  // CI4 : 16 colours
         {
             return colour_palette;

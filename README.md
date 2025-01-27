@@ -76,27 +76,29 @@ v1.1: Auto-Scale on Launch and on each F12 press
 
 v2.0: Revamped CMPR Algorithms, Decode Layout, and enhance gui
 
-v2.1: Opening layout, Custom algorithm cmpr, wine support for 24 bits images
+v2.1: Opening layout, Custom algorithm cmpr, Gamecube banner support
+
+v2.2: Palette layout (not finished), Wii banner support, wine support for 24 bits images, improved wimgt-stylized prompts compatibility
 
 ## future versions
 
-v2.2: WebP Support
+v2.3: WebP Support
 
-v2.3: Palette Layout
+v2.4: working Palette Layout
 
-v2.4: Settings Layout
+v2.5: Settings Layout
 
-v2.5: Native French Support
+v2.6: Native French Support
 
-v2.6: Fix decoding with reverse
+v2.7: Fix decoding with reverse
 
-v2.7: Fully working bmd
+v2.8: Fully working bmd
 
-v2.8: Fully working tpl
+v2.9: Fully working tpl
 
-v2.9: Fullscreen Image Viewer
+v3.0: Fullscreen Image Viewer
 
-v3.0: Text Editor
+v3.1: Text Editor
 
 ## Flow Chart
 ![Flow Chart for developpers](../../../yoshakami.github.io/blob/main/plt0-chart.png?raw=true)
